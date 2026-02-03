@@ -1,270 +1,163 @@
-import Link from 'next/link';
 import { Metadata } from 'next';
-import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
+import Hero from './components/landing/Hero';
+import Features from './components/landing/Features';
+import ServiceCategories from './components/landing/ServiceCategories';
+import Stats from './components/landing/Stats';
+import CoverageAreas from './components/landing/CoverageAreas';
+import FAQ from './components/landing/FAQ';
+import FinalCTA from './components/landing/FinalCTA';
 
 export const metadata: Metadata = {
-  title: 'TendorAI | AI-Powered Procurement for UK Businesses',
-  description:
-    'TendorAI connects UK businesses with trusted office equipment suppliers. Compare 70+ verified vendors across Wales and South West England. Get instant quotes for copiers, telecoms, CCTV, IT, and security systems.',
+  title: 'Compare Office Equipment Quotes | Local Suppliers in Wales & South West England | TendorAI',
+  description: 'Compare photocopier, telecoms, CCTV and IT equipment quotes from 70+ local suppliers across Wales, Bristol and South West England. Free comparison service for UK businesses.',
+  keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
+  openGraph: {
+    type: 'website',
+    url: 'https://www.tendorai.com/',
+    title: 'Compare Office Equipment Quotes from Local Suppliers | TendorAI',
+    description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers in Wales, Bristol and South West England. Compare quotes from 70+ local businesses. Free to use.',
+    siteName: 'TendorAI',
+    locale: 'en_GB',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Office Equipment Suppliers in Wales & South West England',
+    description: 'Compare quotes from 70+ local suppliers for photocopiers, telecoms, CCTV and IT equipment. Free comparison service.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  other: {
+    'geo.region': 'GB-WLS',
+    'geo.placename': 'Cardiff, Wales',
+    'geo.position': '51.4816;-3.1791',
+  },
 };
 
-// JSON-LD for home page
-const homePageJsonLd = {
+// JSON-LD Schema
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'TendorAI',
+  description: 'TendorAI is a free comparison platform that helps UK businesses find office equipment suppliers in Wales and South West England. Browse 70+ local suppliers for photocopiers, telecoms, CCTV, and IT equipment across Cardiff, Bristol, Swansea, and surrounding areas.',
+  url: 'https://www.tendorai.com',
+  priceRange: 'Free',
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'Wales',
+    addressCountry: 'GB',
+  },
+  areaServed: [
+    {
+      '@type': 'Place',
+      name: 'South Wales',
+      containsPlace: ['Cardiff', 'Newport', 'Swansea', 'Bridgend', 'Caerphilly'],
+    },
+    {
+      '@type': 'Place',
+      name: 'South West England',
+      containsPlace: ['Bristol', 'Bath', 'Gloucester', 'Cheltenham', 'Exeter', 'Plymouth'],
+    },
+  ],
+  serviceType: ['Office Equipment Comparison', 'Supplier Directory', 'Quote Requests'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Office Equipment Categories',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Photocopiers & Printers' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Telecoms & Phone Systems' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'CCTV & Security Systems' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'IT Equipment & Support' } },
+    ],
+  },
+};
+
+const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
   url: 'https://www.tendorai.com',
-  description: 'AI-powered procurement platform for UK businesses',
+  description: 'Office equipment supplier directory for Wales and South West England',
   potentialAction: {
     '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://www.tendorai.com/suppliers?q={search_term_string}',
-    },
+    target: 'https://www.tendorai.com/suppliers?postcode={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };
 
-export default function HomePage() {
-  const services = Object.values(SERVICES);
-  const featuredLocations = MAJOR_LOCATIONS.slice(0, 12);
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What areas does TendorAI cover?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'TendorAI lists office equipment suppliers across Wales and South West England. Our directory includes suppliers in Cardiff, Newport, Swansea, Bridgend, Bristol, Bath, Gloucester, Cheltenham, Exeter, Plymouth, and surrounding areas.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is TendorAI free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, TendorAI is completely free for businesses looking for office equipment. You can browse our supplier directory, view company profiles, and request quotes without any charge.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What types of office equipment can I find suppliers for?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our directory covers four main categories: photocopiers and multifunction printers, telecoms and business phone systems, CCTV and security systems, and IT equipment.',
+      },
+    },
+  ],
+};
 
+export default function HomePage() {
   return (
     <>
+      {/* Schema.org JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="bg-brand-gradient text-white py-20 lg:py-28">
-          <div className="section text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-              Find Trusted Office Equipment Suppliers
-            </h1>
-            <p className="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto mb-8">
-              TendorAI connects UK businesses with {SITE_CONFIG.stats.suppliers}+ verified suppliers
-              across Wales and South West England. Compare quotes for copiers, telecoms, CCTV, IT,
-              and security systems.
-            </p>
+      <main>
+        {/* Hero Section with Postcode Search */}
+        <Hero />
 
-            {/* Search Box */}
-            <div className="max-w-2xl mx-auto">
-              <Link
-                href="/suppliers"
-                className="btn-primary text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl"
-              >
-                Browse Suppliers
-              </Link>
-            </div>
+        {/* Features Section */}
+        <Features />
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold">{SITE_CONFIG.stats.suppliers}+</div>
-                <div className="text-purple-200 text-sm">Verified Suppliers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold">{SITE_CONFIG.stats.products}+</div>
-                <div className="text-purple-200 text-sm">Products Listed</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold">{SITE_CONFIG.stats.categories}</div>
-                <div className="text-purple-200 text-sm">Service Categories</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold">{SITE_CONFIG.stats.locations}+</div>
-                <div className="text-purple-200 text-sm">Locations Covered</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Service Categories */}
+        <ServiceCategories />
 
-        {/* Services Section */}
-        <section className="py-16 bg-white">
-          <div className="section">
-            <h2 className="text-3xl font-bold text-center mb-4">Our Service Categories</h2>
-            <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-              Find suppliers across all major office equipment categories. Each supplier is verified
-              for quality and reliability.
-            </p>
+        {/* Stats Section with Animated Counters */}
+        <Stats />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service) => (
-                <Link
-                  key={service.slug}
-                  href={`/suppliers/${service.slug}`}
-                  className="card-hover p-6 group"
-                >
-                  <div className="text-4xl mb-4">{service.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-600 transition-colors">
-                    {service.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{service.description}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Coverage Areas */}
+        <CoverageAreas />
 
-        {/* Locations Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="section">
-            <h2 className="text-3xl font-bold text-center mb-4">Coverage Areas</h2>
-            <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-              Our supplier network covers Wales and South West England. Find local suppliers in your
-              area.
-            </p>
+        {/* FAQ Section */}
+        <FAQ />
 
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {featuredLocations.map((location) => (
-                <Link
-                  key={location}
-                  href={`/suppliers/photocopiers/${location.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="card-hover p-4 text-center group"
-                >
-                  <span className="text-gray-700 group-hover:text-purple-600 transition-colors font-medium">
-                    {location}
-                  </span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <Link href="/suppliers" className="link font-medium">
-                View all locations →
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section className="py-16 bg-white">
-          <div className="section">
-            <h2 className="text-3xl font-bold text-center mb-12">How TendorAI Works</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-purple-600">1</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Search Suppliers</h3>
-                <p className="text-gray-600">
-                  Browse our directory of verified suppliers by service type and location.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-purple-600">2</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Compare Options</h3>
-                <p className="text-gray-600">
-                  Review profiles, ratings, and services to find the best match for your needs.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-purple-600">3</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Request Quotes</h3>
-                <p className="text-gray-600">
-                  Submit your requirements and receive competitive quotes directly from suppliers.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 bg-brand-gradient text-white">
-          <div className="section text-center">
-            <h2 className="text-3xl font-bold mb-4 text-white">Ready to Find Your Supplier?</h2>
-            <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
-              Join UK businesses saving time and money with TendorAI. Our AI-powered matching
-              connects you with the right suppliers for your needs.
-            </p>
-            <Link
-              href="/suppliers"
-              className="inline-flex items-center px-8 py-4 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors"
-            >
-              Browse Suppliers
-            </Link>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="bg-gray-900 text-gray-400 py-12">
-          <div className="section">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div>
-                <h4 className="text-white font-semibold mb-4">TendorAI</h4>
-                <p className="text-sm">
-                  AI-powered procurement platform connecting UK businesses with trusted office
-                  equipment suppliers.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-white font-semibold mb-4">Services</h4>
-                <ul className="space-y-2 text-sm">
-                  {services.slice(0, 4).map((service) => (
-                    <li key={service.slug}>
-                      <Link href={`/suppliers/${service.slug}`} className="hover:text-white transition-colors">
-                        {service.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-white font-semibold mb-4">Locations</h4>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <Link href="/suppliers/photocopiers/cardiff" className="hover:text-white transition-colors">
-                      Cardiff
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/suppliers/photocopiers/bristol" className="hover:text-white transition-colors">
-                      Bristol
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/suppliers/photocopiers/newport" className="hover:text-white transition-colors">
-                      Newport
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/suppliers/photocopiers/swansea" className="hover:text-white transition-colors">
-                      Swansea
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-white font-semibold mb-4">Contact</h4>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <a href="mailto:support@tendorai.com" className="hover:text-white transition-colors">
-                      support@tendorai.com
-                    </a>
-                  </li>
-                  <li>
-                    <Link href="/privacy-policy" className="hover:text-white transition-colors">
-                      Privacy Policy
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-              <p>© {new Date().getFullYear()} TendorAI. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+        {/* Final CTA with Newsletter */}
+        <FinalCTA />
       </main>
     </>
   );
