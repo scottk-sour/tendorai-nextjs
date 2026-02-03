@@ -1,28 +1,19 @@
 import Link from 'next/link';
 
 const footerNavigation = {
-  services: [
-    { name: 'Photocopiers', href: '/services/photocopiers' },
-    { name: 'Telecoms', href: '/services/telecoms' },
-    { name: 'CCTV', href: '/services/cctv' },
-    { name: 'IT Services', href: '/services/it' },
+  product: [
+    { name: 'Find Suppliers', href: '/suppliers' },
+    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'For Vendors', href: '/for-vendors' },
   ],
   company: [
     { name: 'About', href: '/about' },
-    { name: 'For Suppliers', href: '/for-suppliers' },
-    { name: 'Pricing', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
+    { name: 'FAQ', href: '/faq' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/terms' },
-    { name: 'Cookie Policy', href: '/cookies' },
-  ],
-  regions: [
-    { name: 'Wales', href: '/suppliers/wales' },
-    { name: 'South West', href: '/suppliers/south-west' },
-    { name: 'Cardiff', href: '/suppliers/cardiff' },
-    { name: 'Bristol', href: '/suppliers/bristol' },
   ],
 };
 
@@ -32,12 +23,12 @@ export default function Footer() {
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="section py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Logo and description */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-brand-gradient flex items-center justify-center">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center">
                 <svg
                   className="h-5 w-5 text-white"
                   fill="none"
@@ -57,7 +48,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-400 max-w-xs">
-              AI-powered procurement connecting UK businesses with trusted office equipment suppliers.
+              AI-powered procurement connecting UK businesses with verified office equipment suppliers.
             </p>
             <div className="flex space-x-4">
               <a
@@ -86,70 +77,51 @@ export default function Footer() {
           </div>
 
           {/* Navigation links */}
-          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-white">Services</h3>
-                <ul role="list" className="mt-4 space-y-3">
-                  {footerNavigation.services.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-gray-400 hover:text-white transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold text-white">Company</h3>
-                <ul role="list" className="mt-4 space-y-3">
-                  {footerNavigation.company.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-gray-400 hover:text-white transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="mt-12 grid grid-cols-3 gap-8 xl:col-span-2 xl:mt-0">
+            <div>
+              <h3 className="text-sm font-semibold text-white">Product</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {footerNavigation.product.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-white">Regions</h3>
-                <ul role="list" className="mt-4 space-y-3">
-                  {footerNavigation.regions.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-gray-400 hover:text-white transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold text-white">Legal</h3>
-                <ul role="list" className="mt-4 space-y-3">
-                  {footerNavigation.legal.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-gray-400 hover:text-white transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">Company</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {footerNavigation.company.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">Legal</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {footerNavigation.legal.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
