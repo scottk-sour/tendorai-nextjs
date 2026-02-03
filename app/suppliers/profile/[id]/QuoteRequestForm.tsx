@@ -108,7 +108,7 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           vendorId,
-          service: 'General Enquiry',
+          service: 'Other',
           companyName: formData.companyName.trim(),
           contactName: formData.contactName.trim(),
           email: formData.email.trim().toLowerCase(),
