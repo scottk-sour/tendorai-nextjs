@@ -79,9 +79,9 @@ export default function SearchResults() {
   return (
     <main className="min-h-screen bg-gray-50 pt-16">
       {/* Header */}
-      <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-12">
+      <section className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-sm mb-4 text-blue-200">
+          <nav className="text-sm mb-4 text-purple-200">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
             <Link href="/suppliers" className="hover:text-white">Suppliers</Link>
@@ -117,7 +117,7 @@ export default function SearchResults() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="text-center py-12">
-              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
               <p className="text-gray-600">Finding suppliers...</p>
             </div>
           ) : vendors.length > 0 ? (
@@ -129,7 +129,7 @@ export default function SearchResults() {
                 </p>
                 <Link
                   href="/suppliers"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-purple-600 hover:text-purple-700 font-medium"
                 >
                   View all categories
                 </Link>
@@ -148,7 +148,7 @@ export default function SearchResults() {
                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                           vendor.tier === 'verified'
                             ? 'bg-green-100 text-green-700'
-                            : 'bg-blue-100 text-blue-700'
+                            : 'bg-purple-100 text-purple-700'
                         }`}>
                           {vendor.tier === 'verified' ? 'Verified' : 'Visible'}
                         </span>
@@ -201,7 +201,7 @@ export default function SearchResults() {
               </p>
               <Link
                 href="/suppliers"
-                className="inline-block bg-blue-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Browse All Suppliers
               </Link>

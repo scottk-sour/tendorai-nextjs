@@ -23,7 +23,7 @@ export default function Stats() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="text-4xl md:text-5xl font-extrabold text-blue-800 mb-2">
+              <div className="text-4xl md:text-5xl font-extrabold text-purple-700 mb-2">
                 {stat.displayText ? (
                   <span>{stat.displayText}</span>
                 ) : stat.number !== undefined ? (
