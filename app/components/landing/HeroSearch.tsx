@@ -55,7 +55,7 @@ export default function HeroSearch() {
       if (category) params.set('category', category);
       params.set('distance', distance);
 
-      router.push(`/suppliers?${params.toString()}`);
+      router.push(`/suppliers/search?${params.toString()}`);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
