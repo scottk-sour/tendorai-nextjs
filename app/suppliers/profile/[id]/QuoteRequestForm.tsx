@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 interface QuoteRequestFormProps {
   vendorId: string;
   vendorName: string;
+  onClose?: () => void;
 }
 
 interface FormData {
@@ -27,7 +28,9 @@ interface FormErrors {
   postcode?: string;
 }
 
-export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestFormProps) {
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
+
+export default function QuoteRequestForm({ vendorId, vendorName, onClose }: QuoteRequestFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -99,7 +102,8 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/public/quote-request', {
+      // POST directly to backend API
+      const response = await fetch(`${BACKEND_URL}/api/vendor-leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -109,22 +113,31 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
           contactName: formData.contactName.trim(),
           email: formData.email.trim().toLowerCase(),
           phone: formData.phone.trim(),
-          postcode: formData.postcode.trim().toUpperCase(),
-          message: formData.message.trim(),
+          postcode: formData.postcode.trim().toUpperCase() || undefined,
+          message: formData.message.trim() || undefined,
           timeline: formData.timeline,
           monthlyVolume: formData.monthlyVolume ? parseInt(formData.monthlyVolume) : undefined,
-          referralSource: 'vendor-profile',
+          source: {
+            page: 'vendor-profile',
+            referrer: 'tendorai-nextjs',
+            utm: {
+              source: 'tendorai',
+              medium: 'website',
+              campaign: 'vendor-profile',
+            },
+          },
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit quote request');
+        throw new Error(data.error || data.details?.join(', ') || 'Failed to submit quote request');
       }
 
       setSubmitted(true);
     } catch (err) {
+      console.error('Quote submission error:', err);
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -140,10 +153,16 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
           Thank you for your enquiry. {vendorName} will be in touch within 1-2 business days.
         </p>
         <button
-          onClick={() => router.push(`/suppliers/profile/${vendorId}`)}
-          className="btn-primary"
+          onClick={() => {
+            if (onClose) {
+              onClose();
+            } else {
+              router.push(`/suppliers/profile/${vendorId}`);
+            }
+          }}
+          className="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-2 rounded-lg transition-colors"
         >
-          Back to Profile
+          {onClose ? 'Close' : 'Back to Profile'}
         </button>
       </div>
     );
@@ -169,7 +188,9 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="companyName"
             value={formData.companyName}
             onChange={handleChange}
-            className={`input ${errors.companyName ? 'input-error' : ''}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+              errors.companyName ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="Your company name"
           />
           {errors.companyName && (
@@ -187,7 +208,9 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="contactName"
             value={formData.contactName}
             onChange={handleChange}
-            className={`input ${errors.contactName ? 'input-error' : ''}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+              errors.contactName ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="Your name"
           />
           {errors.contactName && (
@@ -208,7 +231,9 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`input ${errors.email ? 'input-error' : ''}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+              errors.email ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="you@company.com"
           />
           {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
@@ -224,7 +249,9 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className={`input ${errors.phone ? 'input-error' : ''}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+              errors.phone ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="01234 567890"
           />
           {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
@@ -243,7 +270,9 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="postcode"
             value={formData.postcode}
             onChange={handleChange}
-            className={`input ${errors.postcode ? 'input-error' : ''}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+              errors.postcode ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="CF10 1AA"
           />
           {errors.postcode && <p className="mt-1 text-sm text-red-600">{errors.postcode}</p>}
@@ -258,7 +287,7 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
             name="timeline"
             value={formData.timeline}
             onChange={handleChange}
-            className="input"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
           >
             <option value="immediately">Immediately</option>
             <option value="1-3months">1-3 months</option>
@@ -278,7 +307,7 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
           name="monthlyVolume"
           value={formData.monthlyVolume}
           onChange={handleChange}
-          className="input"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
         >
           <option value="">Not sure</option>
           <option value="3000">Up to 3,000</option>
@@ -301,7 +330,7 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
           value={formData.message}
           onChange={handleChange}
           rows={4}
-          className="input"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
           placeholder="Tell us about your requirements, current setup, or any questions you have..."
         />
       </div>
@@ -311,23 +340,25 @@ export default function QuoteRequestForm({ vendorId, vendorName }: QuoteRequestF
         <button
           type="submit"
           disabled={isSubmitting}
-          className="btn-primary flex-1 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
         </button>
-        <button
-          type="button"
-          onClick={() => router.push(`/suppliers/profile/${vendorId}`)}
-          className="btn-secondary py-3"
-        >
-          Cancel
-        </button>
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+        )}
       </div>
 
       <p className="text-xs text-gray-500 text-center">
         By submitting this form, you agree to be contacted by {vendorName} regarding your enquiry.
         Your data will be handled in accordance with our{' '}
-        <a href="/privacy-policy" className="link">
+        <a href="/privacy" className="text-purple-600 hover:text-purple-700">
           Privacy Policy
         </a>
         .
