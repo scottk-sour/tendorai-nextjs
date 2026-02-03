@@ -3,10 +3,10 @@ import HeroSearch from './HeroSearch';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden bg-gradient-to-br from-purple-600 to-indigo-700">
+    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden bg-brand-gradient">
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/70 to-indigo-700/50 z-10" />
+        <div className="absolute inset-0 bg-brand-gradient opacity-70 z-10" />
         {/* Decorative circles */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl" />

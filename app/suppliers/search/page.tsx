@@ -12,7 +12,7 @@ export default function SearchResultsPage() {
 function SearchLoading() {
   return (
     <main className="min-h-screen bg-gray-50 pt-16">
-      <section className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white py-12">
+      <section className="bg-brand-gradient text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-8 bg-white/20 rounded w-48 mb-4 animate-pulse"></div>
           <div className="h-12 bg-white/20 rounded w-96 mb-4 animate-pulse"></div>
