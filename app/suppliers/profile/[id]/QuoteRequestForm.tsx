@@ -44,8 +44,8 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
     phone: '',
     postcode: '',
     message: '',
-    timeline: 'planning',
-    monthlyVolume: '',
+    timeline: 'soon',
+    monthlyVolume: 'not-sure',
   });
 
   const validateForm = (): boolean => {
@@ -116,7 +116,7 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
           postcode: formData.postcode.trim().toUpperCase() || undefined,
           message: formData.message.trim() || undefined,
           timeline: formData.timeline,
-          monthlyVolume: formData.monthlyVolume ? parseInt(formData.monthlyVolume) : undefined,
+          monthlyVolume: formData.monthlyVolume !== 'not-sure' ? formData.monthlyVolume : undefined,
           source: {
             page: 'vendor-profile',
             referrer: 'tendorai-nextjs',
@@ -289,10 +289,10 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
           >
-            <option value="immediately">Immediately</option>
-            <option value="1-3months">1-3 months</option>
-            <option value="3-6months">3-6 months</option>
-            <option value="planning">Just planning</option>
+            <option value="urgent">Urgent (ASAP)</option>
+            <option value="soon">Soon (1-3 months)</option>
+            <option value="planning">Planning (3-6 months)</option>
+            <option value="future">Future (6+ months)</option>
           </select>
         </div>
       </div>
@@ -300,7 +300,7 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
       {/* Monthly Volume */}
       <div>
         <label htmlFor="monthlyVolume" className="block text-sm font-medium text-gray-700 mb-1">
-          Estimated Monthly Print Volume (pages)
+          Estimated Monthly Print Volume
         </label>
         <select
           id="monthlyVolume"
@@ -309,13 +309,11 @@ export default function QuoteRequestForm({ vendorId, vendorName, onClose }: Quot
           onChange={handleChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
         >
-          <option value="">Not sure</option>
-          <option value="3000">Up to 3,000</option>
-          <option value="6000">3,000 - 6,000</option>
-          <option value="13000">6,000 - 13,000</option>
-          <option value="20000">13,000 - 20,000</option>
-          <option value="30000">20,000 - 30,000</option>
-          <option value="50000">30,000+</option>
+          <option value="not-sure">Not sure</option>
+          <option value="low">Low (up to 3,000 pages)</option>
+          <option value="medium">Medium (3,000 - 10,000 pages)</option>
+          <option value="high">High (10,000 - 30,000 pages)</option>
+          <option value="enterprise">Enterprise (30,000+ pages)</option>
         </select>
       </div>
 
