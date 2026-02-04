@@ -13,6 +13,47 @@ const nextConfig = {
     ],
   },
 
+  // Redirects for vendor/admin routes to React SPA at app.tendorai.com
+  async redirects() {
+    return [
+      {
+        source: '/vendor-login',
+        destination: 'https://app.tendorai.com/vendor-login',
+        permanent: false,
+      },
+      {
+        source: '/vendor-signup',
+        destination: 'https://app.tendorai.com/vendor-signup',
+        permanent: false,
+      },
+      {
+        source: '/vendor/dashboard/:path*',
+        destination: 'https://app.tendorai.com/vendor/dashboard/:path*',
+        permanent: false,
+      },
+      {
+        source: '/admin/:path*',
+        destination: 'https://app.tendorai.com/admin/:path*',
+        permanent: false,
+      },
+      {
+        source: '/login',
+        destination: 'https://app.tendorai.com/login',
+        permanent: false,
+      },
+      {
+        source: '/signup',
+        destination: 'https://app.tendorai.com/signup',
+        permanent: false,
+      },
+      {
+        source: '/dashboard/:path*',
+        destination: 'https://app.tendorai.com/dashboard/:path*',
+        permanent: false,
+      },
+    ];
+  },
+
   // Rewrites for gradual migration - forward some API routes to Express backend
   async rewrites() {
     const expressBackend = process.env.EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
