@@ -1,6 +1,7 @@
 export const SERVICES = {
   photocopiers: {
     name: 'Photocopiers',
+    value: 'Photocopiers', // Backend-expected value
     slug: 'photocopiers',
     description: 'Office multifunction printers, copiers, managed print services',
     keywords: ['copier', 'printer', 'MFP', 'print', 'copy', 'scan', 'fax', 'multifunction'],
@@ -8,6 +9,7 @@ export const SERVICES = {
   },
   telecoms: {
     name: 'Telecoms',
+    value: 'Telecoms', // Backend-expected value
     slug: 'telecoms',
     description: 'Business phone systems, VoIP, unified communications',
     keywords: ['phone', 'voip', 'pbx', 'telephone', 'communications', 'calls', 'unified communications'],
@@ -15,6 +17,7 @@ export const SERVICES = {
   },
   cctv: {
     name: 'CCTV',
+    value: 'CCTV', // Backend-expected value
     slug: 'cctv',
     description: 'Security cameras, video surveillance, monitoring systems',
     keywords: ['camera', 'surveillance', 'security', 'monitoring', 'video', 'recording'],
@@ -22,6 +25,7 @@ export const SERVICES = {
   },
   it: {
     name: 'IT Services',
+    value: 'IT', // Backend-expected value
     slug: 'it',
     description: 'Managed IT services, support, infrastructure, cloud solutions',
     keywords: ['it', 'support', 'network', 'computer', 'server', 'cloud', 'managed services'],
@@ -29,6 +33,7 @@ export const SERVICES = {
   },
   security: {
     name: 'Security Systems',
+    value: 'Security', // Backend-expected value
     slug: 'security',
     description: 'Access control, alarms, intruder detection, physical security',
     keywords: ['alarm', 'access', 'intruder', 'security', 'door', 'access control'],
@@ -36,6 +41,7 @@ export const SERVICES = {
   },
   software: {
     name: 'Business Software',
+    value: 'Software', // Backend-expected value
     slug: 'software',
     description: 'Enterprise software, document management, workflow automation',
     keywords: ['software', 'application', 'document', 'workflow', 'erp', 'automation'],

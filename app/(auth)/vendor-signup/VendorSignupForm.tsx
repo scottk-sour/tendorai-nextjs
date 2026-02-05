@@ -8,8 +8,8 @@ import { validateEmail, validatePhone, VendorSignupData } from '@/lib/auth';
 import { SERVICES, ServiceKey, SERVICE_KEYS } from '@/lib/constants/services';
 
 const SERVICE_OPTIONS = SERVICE_KEYS.map((key) => ({
-  value: SERVICES[key].name,
-  label: SERVICES[key].name,
+  value: SERVICES[key].value, // Backend-expected value (e.g., 'IT' not 'IT Services')
+  label: SERVICES[key].name,  // Display name (e.g., 'IT Services')
   icon: SERVICES[key].icon,
 }));
 
