@@ -1224,7 +1224,7 @@ export default function QuoteFlow() {
       </section>
 
       {/* Trust badges */}
-      <section className="py-8 bg-white border-t">
+      <section className={`py-8 bg-white border-t ${selectedVendors.length >= 2 ? 'pb-24' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500">
             <div className="flex items-center gap-2">
@@ -1246,6 +1246,47 @@ export default function QuoteFlow() {
           </div>
         </div>
       </section>
+
+      {/* Floating compare bar */}
+      {selectedVendors.length >= 2 && !showQuoteForm && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold">
+                  {selectedVendors.length}
+                </span>
+                <span className="text-gray-700 font-medium hidden sm:inline">
+                  suppliers selected
+                </span>
+                <span className="text-gray-500 text-sm hidden md:inline">
+                  ({vendors
+                    .filter((v) => selectedVendors.includes(v.id))
+                    .map((v) => v.company)
+                    .join(', ')})
+                </span>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedVendors([])}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                >
+                  Clear
+                </button>
+                <Link
+                  href={`/compare?vendors=${selectedVendors.join(',')}&volume=${monthlyVolume || '5000'}&postcode=${postcode}&category=${category}&colour=${needsColour !== false}&a3=${needsA3 !== false}`}
+                  className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Compare Side-by-Side
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
