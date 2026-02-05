@@ -57,6 +57,12 @@ export default function Hero() {
         {/* Secondary Actions */}
         <div className="flex justify-center gap-4 flex-wrap mb-6">
           <Link
+            href="/get-quotes"
+            className="px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-lg hover:bg-yellow-300 transition-all shadow-lg"
+          >
+            Get Quotes Now
+          </Link>
+          <Link
             href="/suppliers"
             className="px-6 py-3 bg-white/15 backdrop-blur text-white font-medium rounded-lg border border-white/40 hover:bg-white/25 transition-all"
           >
