@@ -47,12 +47,12 @@ export default function ContactPage() {
               <p className="text-gray-600 mb-6">
                 Want to join our network and receive qualified leads? Sign up for a vendor account.
               </p>
-              <a
-                href="https://app.tendorai.com/vendor-signup"
+              <Link
+                href="/vendor-signup"
                 className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Become a Vendor
-              </a>
+              </Link>
             </div>
           </div>
 

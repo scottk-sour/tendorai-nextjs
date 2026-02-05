@@ -133,7 +133,7 @@ export default function ForVendorsPage() {
               </ul>
 
               <a
-                href="https://app.tendorai.com/vendor-signup?plan=free"
+                href="/vendor-signup?plan=free"
                 className="block w-full text-center py-3 px-6 rounded-xl font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Get Started Free
@@ -197,7 +197,7 @@ export default function ForVendorsPage() {
               </ul>
 
               <a
-                href="https://app.tendorai.com/vendor-signup?plan=visible"
+                href="/vendor-signup?plan=visible"
                 className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-colors shadow-md"
               >
                 Start Visible
@@ -269,7 +269,7 @@ export default function ForVendorsPage() {
                 </ul>
 
                 <a
-                  href="https://app.tendorai.com/vendor-signup?plan=verified"
+                  href="/vendor-signup?plan=verified"
                   className="block w-full text-center py-4 px-6 rounded-xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   Go Verified
@@ -306,7 +306,7 @@ export default function ForVendorsPage() {
             Join 70+ UK suppliers already on TendorAI. Free to start, upgrade anytime.
           </p>
           <a
-            href="https://app.tendorai.com/vendor-signup?plan=free"
+            href="/vendor-signup?plan=free"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
           >
             Create Your Free Listing

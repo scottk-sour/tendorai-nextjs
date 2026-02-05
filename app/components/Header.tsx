@@ -69,15 +69,15 @@ const Header = () => {
 
           {/* Desktop Auth - Vendor Only */}
           <div className="hidden lg:flex items-center space-x-3">
-            <a
-              href="https://app.tendorai.com/vendor-login"
+            <Link
+              href="/vendor-login"
               className="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors flex items-center space-x-1"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span>Vendor Login</span>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -116,15 +116,15 @@ const Header = () => {
                 </Link>
               ))}
               <div className="border-t border-gray-100 pt-3 mt-2">
-                <a
-                  href="https://app.tendorai.com/vendor-login"
+                <Link
+                  href="/vendor-login"
                   className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   <span>Vendor Login</span>
-                </a>
+                </Link>
               </div>
             </nav>
           </div>
