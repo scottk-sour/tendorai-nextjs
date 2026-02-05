@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor, VendorProduct } from '@/lib/db/models';
 import {
@@ -9,7 +10,11 @@ import {
   canReceiveQuotes,
   TIER_CONFIG,
 } from '@/lib/constants';
+import { detectAISource } from '@/lib/ai-detection';
 import QuoteRequestForm from './QuoteRequestForm';
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
+  'https://ai-procurement-backend-q35u.onrender.com';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -133,6 +138,28 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
 
   if (!vendor) {
     notFound();
+  }
+
+  // Detect AI crawler visits for analytics
+  const headersList = await headers();
+  const userAgent = headersList.get('user-agent') || '';
+  const aiSource = detectAISource(userAgent);
+
+  if (aiSource) {
+    // Fire and forget - don't block page render
+    fetch(`${BACKEND_URL}/api/analytics`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        vendorId: id,
+        eventType: 'profile_view',
+        source: {
+          page: `/suppliers/profile/${id}`,
+          referrer: aiSource,
+          isAI: true,
+        },
+      }),
+    }).catch(() => {});
   }
 
   const products = await getProducts(id);

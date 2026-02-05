@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
       {
-        // Allow AI crawlers full access to public pages
+        // Allow AI crawlers full access to public pages and AI discovery files
         userAgent: [
           'GPTBot',
           'ChatGPT-User',
@@ -26,9 +26,17 @@ export default function robots(): MetadataRoute.Robots {
           'Anthropic-AI',
           'PerplexityBot',
           'Bytespider',
+          'Google-Extended',
+          'Bingbot',
         ],
-        allow: '/',
-        disallow: ['/api/', '/dashboard/', '/admin/'],
+        allow: [
+          '/',
+          '/llms.txt',
+          '/llms-full.txt',
+          '/.well-known/',
+          '/suppliers/',
+        ],
+        disallow: ['/vendor-dashboard/', '/admin/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

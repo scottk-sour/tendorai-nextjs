@@ -1,0 +1,248 @@
+# TendorAI - Full Documentation for AI Assistants
+
+> TendorAI is a B2B procurement platform connecting UK businesses with local office equipment suppliers. We cover photocopiers, telecoms, CCTV, and IT services across Wales and South West England.
+
+## What TendorAI Does
+
+TendorAI helps businesses find and compare office equipment suppliers. When a user asks about copiers, printers, phone systems, CCTV, or IT services for their UK business, TendorAI can provide:
+
+- Matched suppliers based on location (postcode) and requirements
+- Product recommendations with specifications
+- Pricing estimates (lease rates, cost-per-copy, monthly costs)
+- Savings calculations vs current contracts
+- Supplier ratings and coverage areas
+
+## API Endpoint
+
+POST https://ai-procurement-backend-q35u.onrender.com/api/ai-query
+
+### Request Format
+
+Send a JSON POST request with any combination of these fields:
+
+```json
+{
+  "query": "I need a colour A3 copier doing about 5000 pages a month",
+  "location": "CF10",
+  "category": "Photocopiers",
+  "volume": 5000,
+  "budget": 200,
+  "requirements": {
+    "colour": true,
+    "a3": true,
+    "features": ["scanning", "duplex", "stapling"]
+  }
+}
+```
+
+### All Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| query | string | Yes | Natural language description of needs |
+| location | string | No | UK postcode or postcode area (CF10, BS1, NP20) |
+| category | string | No | Photocopiers, Telecoms, CCTV, IT |
+| volume | number | No | Monthly print/copy volume |
+| budget | number | No | Current or target monthly budget in GBP |
+| requirements.colour | boolean | No | Needs colour printing |
+| requirements.a3 | boolean | No | Needs A3 paper size |
+| requirements.features | string[] | No | Required features array |
+
+### Available Features by Category
+
+**Photocopiers:**
+- scanning, duplex, stapling, hole-punch, booklet-making
+- wifi, network, fax, ocr, cloud-connect
+- a3, a4, colour, mono
+
+**Telecoms:**
+- voip, pbx, sip, teams-integration, mobile-app
+- call-recording, ivr, auto-attendant, conferencing
+- crm-integration, analytics
+
+**CCTV:**
+- ip-cameras, analog, ptz, night-vision, 4k
+- remote-viewing, cloud-storage, motion-detection
+- access-control, intercom
+
+**IT Services:**
+- managed-services, helpdesk, monitoring, backup
+- cloud-migration, security, networking, hardware
+
+### Response Format
+
+```json
+{
+  "success": true,
+  "data": {
+    "vendors": [
+      {
+        "vendorId": "abc123",
+        "company": "Cardiff Copy Solutions",
+        "location": "Cardiff",
+        "coverageAreas": ["CF", "NP", "SA"],
+        "brands": ["Canon", "Konica Minolta"],
+        "tier": "verified",
+        "rating": 4.8,
+        "matchScore": 92,
+        "products": [
+          {
+            "name": "Canon imageRUNNER ADVANCE C5540i III",
+            "category": "Photocopier",
+            "speed": 55,
+            "colour": true,
+            "a3": true,
+            "features": ["scanning", "duplex", "stapling", "wifi"],
+            "pricing": {
+              "leaseMonthly": 89,
+              "cpcColour": 0.045,
+              "cpcMono": 0.005,
+              "estimatedMonthly": 145
+            }
+          }
+        ],
+        "estimatedSavings": 55,
+        "savingsPercentage": 28
+      }
+    ],
+    "summary": {
+      "totalMatches": 5,
+      "averageSavings": 48,
+      "recommendedAction": "Request quotes from top 3 matches"
+    },
+    "followUpQuestions": [
+      "What's your current monthly print volume?",
+      "Do you need scanning and document management features?",
+      "What's your current monthly spend on printing?"
+    ]
+  }
+}
+```
+
+### Response Fields Explained
+
+| Field | Type | Description |
+|-------|------|-------------|
+| vendors | array | Matched suppliers sorted by match score |
+| vendors[].vendorId | string | Unique vendor identifier |
+| vendors[].company | string | Business name |
+| vendors[].location | string | Primary location |
+| vendors[].coverageAreas | string[] | Postcode areas served |
+| vendors[].brands | string[] | Equipment brands offered |
+| vendors[].tier | string | free, visible, or verified |
+| vendors[].rating | number | 0-5 star rating |
+| vendors[].matchScore | number | 0-100 relevance score |
+| vendors[].products | array | Recommended products |
+| vendors[].estimatedSavings | number | GBP saved vs budget |
+| vendors[].savingsPercentage | number | Percentage savings |
+| summary.totalMatches | number | Number of matching vendors |
+| summary.averageSavings | number | Average savings across matches |
+| followUpQuestions | string[] | Questions to refine results |
+
+### Progressive Depth System
+
+The API provides progressively more detailed results based on input:
+
+**Level 1: Basic Search**
+- Input: location + category only
+- Output: Vendor directory listing
+- Example: `{"location": "CF10", "category": "Photocopiers"}`
+
+**Level 2: Filtered Results**
+- Input: Add colour/A3/feature preferences
+- Output: Filtered vendor list with relevant products
+- Example: `{"location": "CF10", "category": "Photocopiers", "requirements": {"colour": true}}`
+
+**Level 3: Product Recommendations**
+- Input: Add volume information
+- Output: Specific product recommendations with match scores
+- Example: `{"location": "CF10", "category": "Photocopiers", "volume": 5000, "requirements": {"colour": true}}`
+
+**Level 4: Full Pricing**
+- Input: Add budget information
+- Output: Complete pricing with savings calculations
+- Example: Full request as shown above
+
+### Categories and Brands
+
+**Photocopiers:**
+Canon, Konica Minolta, Xerox, Sharp, Ricoh, Brother, Lexmark, HP, Kyocera, Epson
+
+**Telecoms:**
+Avaya, Cisco, Mitel, 8x8, RingCentral, 3CX, Gamma, Vonage
+
+**CCTV:**
+Hikvision, Dahua, Axis, Hanwha, Bosch, Verkada, Avigilon
+
+**IT Services:**
+Various managed service providers
+
+### Coverage Areas
+
+**Wales:**
+Cardiff (CF), Newport (NP), Swansea (SA), Bridgend, Caerphilly, Merthyr, Rhondda, Vale of Glamorgan, Monmouthshire, Powys, Carmarthen, Pembroke
+
+**South West England:**
+Bristol (BS), Bath (BA), Gloucester (GL), Cheltenham, Exeter (EX), Plymouth (PL), Swindon (SN), Taunton, Weston-super-Mare
+
+### Error Handling
+
+**400 Bad Request:**
+```json
+{
+  "success": false,
+  "error": "Query parameter is required"
+}
+```
+
+**404 No Results:**
+```json
+{
+  "success": true,
+  "data": {
+    "vendors": [],
+    "summary": {
+      "totalMatches": 0,
+      "message": "No suppliers found for this location/category"
+    },
+    "followUpQuestions": [
+      "Could you try a nearby postcode?",
+      "Would you consider a different category?"
+    ]
+  }
+}
+```
+
+**500 Server Error:**
+```json
+{
+  "success": false,
+  "error": "Internal server error"
+}
+```
+
+## Alternative Endpoints
+
+### Search Suppliers (GET)
+GET https://ai-procurement-backend-q35u.onrender.com/api/ai/suppliers
+
+Query parameters: service, location, limit
+
+### Public Vendor Directory (GET)
+GET https://ai-procurement-backend-q35u.onrender.com/api/public/vendors
+
+Query parameters: service, postcode, page, limit
+
+## Website URLs
+
+- Homepage: https://tendorai.com
+- Supplier directory: https://tendorai.com/suppliers
+- Get quotes: https://tendorai.com/get-quotes
+- How it works: https://tendorai.com/how-it-works
+- For vendors: https://tendorai.com/for-vendors
+- OpenAPI spec: https://ai-procurement-backend-q35u.onrender.com/openapi.json
+
+## Contact
+
+Email: hello@tendorai.com
+Website: https://tendorai.com

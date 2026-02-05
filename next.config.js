@@ -45,6 +45,11 @@ const nextConfig = {
     const expressBackend = process.env.EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
     return [
+      // OpenAPI spec for AI discovery
+      {
+        source: '/.well-known/openapi.json',
+        destination: `${expressBackend}/openapi.json`,
+      },
       // Stripe webhooks and payments - keep on Express
       {
         source: '/api/stripe/:path*',

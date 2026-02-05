@@ -13,11 +13,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { path: '/', priority: 1.0, changeFrequency: 'daily' as const },
     { path: '/suppliers', priority: 0.9, changeFrequency: 'daily' as const },
-    { path: '/login', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/signup', priority: 0.6, changeFrequency: 'monthly' as const },
-    { path: '/vendor-login', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/vendor-signup', priority: 0.6, changeFrequency: 'monthly' as const },
-    { path: '/privacy-policy', priority: 0.3, changeFrequency: 'yearly' as const },
+    { path: '/suppliers/search', priority: 0.8, changeFrequency: 'weekly' as const },
+    { path: '/get-quotes', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/how-it-works', priority: 0.7, changeFrequency: 'monthly' as const },
+    { path: '/for-vendors', priority: 0.7, changeFrequency: 'monthly' as const },
+    { path: '/compare', priority: 0.6, changeFrequency: 'weekly' as const },
+    { path: '/about', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/faq', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/contact', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
+    { path: '/terms', priority: 0.3, changeFrequency: 'yearly' as const },
+    { path: '/vendor-login', priority: 0.4, changeFrequency: 'monthly' as const },
+    { path: '/vendor-signup', priority: 0.5, changeFrequency: 'monthly' as const },
   ];
 
   staticPages.forEach(({ path, priority, changeFrequency }) => {

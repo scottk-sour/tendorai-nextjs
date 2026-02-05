@@ -1,0 +1,86 @@
+# TendorAI
+
+> TendorAI is a B2B procurement platform connecting UK businesses with local office equipment suppliers. We cover photocopiers, telecoms, CCTV, and IT services across Wales and South West England.
+
+## What TendorAI Does
+
+TendorAI helps businesses find and compare office equipment suppliers. When a user asks about copiers, printers, phone systems, CCTV, or IT services for their UK business, TendorAI can provide:
+
+- Matched suppliers based on location (postcode) and requirements
+- Product recommendations with specifications
+- Pricing estimates (lease rates, cost-per-copy, monthly costs)
+- Savings calculations vs current contracts
+- Supplier ratings and coverage areas
+
+## API Endpoint
+
+POST https://ai-procurement-backend-q35u.onrender.com/api/ai-query
+
+### Request Format
+
+Send a JSON POST request with any combination of these fields:
+
+```json
+{
+  "query": "I need a colour A3 copier doing about 5000 pages a month",
+  "location": "CF10",
+  "category": "Photocopiers",
+  "volume": 5000,
+  "budget": 200,
+  "requirements": {
+    "colour": true,
+    "a3": true,
+    "features": ["scanning", "duplex", "stapling"]
+  }
+}
+```
+
+### Parameters
+
+- `query` (string, required): Natural language description of what the user needs
+- `location` (string): UK postcode or postcode area (e.g. "CF10", "BS1", "NP20")
+- `category` (string): One of "Photocopiers", "Telecoms", "CCTV", "IT"
+- `volume` (number): Monthly print/copy volume
+- `budget` (number): Current or target monthly budget in GBP
+- `requirements.colour` (boolean): Needs colour printing
+- `requirements.a3` (boolean): Needs A3 paper size
+- `requirements.features` (string[]): Required features like "scanning", "duplex", "stapling", "wifi", "fax"
+
+### Response
+
+Returns matched vendors with:
+- Vendor name, location, coverage areas, brands
+- Recommended products with specs (speed, features, paper sizes)
+- Pricing breakdown (lease rates, CPC rates, estimated monthly cost)
+- Match scores (0-100)
+- Savings estimates vs stated budget
+- Follow-up questions to refine results
+
+### Progressive Depth
+
+The more information provided, the better the results:
+- Location + category only -> basic vendor directory
+- Add colour/A3 preferences -> filtered results
+- Add volume -> product recommendations with match scores
+- Add budget -> full pricing with savings calculations
+
+### Categories Available
+
+- **Photocopiers**: MFPs, printers, managed print services. Brands: Canon, Konica Minolta, Xerox, Sharp, Ricoh, Brother, Lexmark
+- **Telecoms**: Business phone systems, VoIP, unified communications
+- **CCTV**: Security cameras, surveillance, monitoring systems
+- **IT Services**: Managed IT, support, cloud, infrastructure
+
+### Coverage Area
+
+Primarily Wales and South West England: Cardiff, Newport, Swansea, Bridgend, Bristol, Bath, Gloucester, Cheltenham, Exeter, Plymouth, and surrounding areas. 70+ suppliers listed.
+
+## Website
+
+- Supplier directory: https://tendorai.com/suppliers
+- Get quotes: https://tendorai.com/get-quotes
+- OpenAPI spec: https://ai-procurement-backend-q35u.onrender.com/openapi.json
+
+## Contact
+
+hello@tendorai.com

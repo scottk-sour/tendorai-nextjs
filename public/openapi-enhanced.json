@@ -1,0 +1,382 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TendorAI Supplier Discovery API",
+    "description": "API for discovering UK office equipment suppliers and getting product recommendations. Use this API to help users find photocopier, telecoms, CCTV, and IT suppliers across Wales and South West England. The API uses a progressive depth system: more information = better results with pricing.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "TendorAI Support",
+      "url": "https://tendorai.com",
+      "email": "hello@tendorai.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ai-procurement-backend-q35u.onrender.com/api",
+      "description": "Production API"
+    }
+  ],
+  "paths": {
+    "/ai-query": {
+      "post": {
+        "operationId": "findSuppliers",
+        "summary": "Find UK office equipment suppliers with product recommendations",
+        "description": "Natural language query interface for finding office equipment suppliers. Provide location (UK postcode), category, and requirements to get matched suppliers with product recommendations and pricing. More detail = better results.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AIQueryRequest"
+              },
+              "examples": {
+                "basic": {
+                  "summary": "Basic search",
+                  "value": {
+                    "query": "I need a copier in Cardiff",
+                    "location": "CF10",
+                    "category": "Photocopiers"
+                  }
+                },
+                "detailed": {
+                  "summary": "Detailed search with pricing",
+                  "value": {
+                    "query": "I need a colour A3 copier doing about 5000 pages a month",
+                    "location": "CF10",
+                    "category": "Photocopiers",
+                    "volume": 5000,
+                    "budget": 200,
+                    "requirements": {
+                      "colour": true,
+                      "a3": true,
+                      "features": ["scanning", "duplex", "stapling"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matched suppliers with products and pricing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/suppliers": {
+      "get": {
+        "operationId": "searchSuppliers",
+        "summary": "Search for UK office equipment suppliers",
+        "description": "Find suppliers by service type and location. Returns a list of verified UK suppliers with ratings and coverage areas.",
+        "parameters": [
+          {
+            "name": "service",
+            "in": "query",
+            "description": "Type of service needed",
+            "schema": {
+              "type": "string",
+              "enum": ["photocopiers", "telecoms", "cctv", "it", "security", "software"]
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "UK region, city, or postcode area (e.g. 'Cardiff', 'CF10', 'Bristol')",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of matching suppliers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AIQueryRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural language description of what the user needs",
+            "example": "I need a colour A3 copier doing about 5000 pages a month"
+          },
+          "location": {
+            "type": "string",
+            "description": "UK postcode or postcode area",
+            "example": "CF10"
+          },
+          "category": {
+            "type": "string",
+            "description": "Equipment category",
+            "enum": ["Photocopiers", "Telecoms", "CCTV", "IT"]
+          },
+          "volume": {
+            "type": "integer",
+            "description": "Monthly print/copy volume",
+            "example": 5000
+          },
+          "budget": {
+            "type": "number",
+            "description": "Current or target monthly budget in GBP",
+            "example": 200
+          },
+          "requirements": {
+            "type": "object",
+            "properties": {
+              "colour": {
+                "type": "boolean",
+                "description": "Needs colour printing"
+              },
+              "a3": {
+                "type": "boolean",
+                "description": "Needs A3 paper size"
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["scanning", "duplex", "stapling", "hole-punch", "booklet-making", "wifi", "network", "fax", "ocr", "cloud-connect"]
+                },
+                "description": "Required features"
+              }
+            }
+          }
+        }
+      },
+      "AIQueryResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "vendors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MatchedVendor"
+                }
+              },
+              "summary": {
+                "type": "object",
+                "properties": {
+                  "totalMatches": {
+                    "type": "integer"
+                  },
+                  "averageSavings": {
+                    "type": "number"
+                  },
+                  "recommendedAction": {
+                    "type": "string"
+                  }
+                }
+              },
+              "followUpQuestions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Questions to refine results"
+              }
+            }
+          }
+        }
+      },
+      "MatchedVendor": {
+        "type": "object",
+        "properties": {
+          "vendorId": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string",
+            "description": "Business name"
+          },
+          "location": {
+            "type": "string",
+            "description": "Primary location"
+          },
+          "coverageAreas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Postcode areas served"
+          },
+          "brands": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Equipment brands offered"
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["free", "visible", "verified"]
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "matchScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Relevance score based on requirements"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "estimatedSavings": {
+            "type": "number",
+            "description": "GBP saved vs stated budget"
+          },
+          "savingsPercentage": {
+            "type": "number"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full product name"
+          },
+          "category": {
+            "type": "string"
+          },
+          "speed": {
+            "type": "integer",
+            "description": "Pages per minute"
+          },
+          "colour": {
+            "type": "boolean"
+          },
+          "a3": {
+            "type": "boolean"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pricing": {
+            "type": "object",
+            "properties": {
+              "leaseMonthly": {
+                "type": "number",
+                "description": "Monthly lease cost in GBP"
+              },
+              "cpcColour": {
+                "type": "number",
+                "description": "Cost per colour copy in GBP"
+              },
+              "cpcMono": {
+                "type": "number",
+                "description": "Cost per mono copy in GBP"
+              },
+              "estimatedMonthly": {
+                "type": "number",
+                "description": "Estimated total monthly cost"
+              }
+            }
+          }
+        }
+      },
+      "SupplierListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "suppliers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "services": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "rating": {
+                  "type": "number"
+                },
+                "profileUrl": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+  "x-coverage-areas": {
+    "wales": ["Cardiff (CF)", "Newport (NP)", "Swansea (SA)", "Bridgend", "Caerphilly", "Merthyr", "Monmouthshire", "Vale of Glamorgan", "Powys", "Carmarthen", "Pembroke"],
+    "south-west-england": ["Bristol (BS)", "Bath (BA)", "Gloucester (GL)", "Cheltenham", "Exeter (EX)", "Plymouth (PL)", "Swindon (SN)", "Taunton", "Weston-super-Mare"]
+  },
+  "x-brands": {
+    "photocopiers": ["Canon", "Konica Minolta", "Xerox", "Sharp", "Ricoh", "Brother", "Lexmark", "HP", "Kyocera", "Epson"],
+    "telecoms": ["Avaya", "Cisco", "Mitel", "8x8", "RingCentral", "3CX", "Gamma", "Vonage"],
+    "cctv": ["Hikvision", "Dahua", "Axis", "Hanwha", "Bosch", "Verkada", "Avigilon"]
+  },
+  "x-progressive-depth": {
+    "level1": "Location + category = basic vendor directory",
+    "level2": "Add colour/A3/features = filtered vendor list",
+    "level3": "Add volume = product recommendations with match scores",
+    "level4": "Add budget = full pricing with savings calculations"
+  }
+}
