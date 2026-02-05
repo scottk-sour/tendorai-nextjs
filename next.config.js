@@ -13,24 +13,10 @@ const nextConfig = {
     ],
   },
 
-  // Redirects for vendor/admin routes to React SPA at app.tendorai.com
+  // Redirects for admin routes to React SPA at app.tendorai.com
+  // Vendor auth and dashboard now handled by Next.js
   async redirects() {
     return [
-      {
-        source: '/vendor-login',
-        destination: 'https://app.tendorai.com/vendor-login',
-        permanent: false,
-      },
-      {
-        source: '/vendor-signup',
-        destination: 'https://app.tendorai.com/vendor-signup',
-        permanent: false,
-      },
-      {
-        source: '/vendor/dashboard/:path*',
-        destination: 'https://app.tendorai.com/vendor/dashboard/:path*',
-        permanent: false,
-      },
       {
         source: '/admin/:path*',
         destination: 'https://app.tendorai.com/admin/:path*',

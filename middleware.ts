@@ -17,7 +17,10 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
   if (isProtectedRoute && !token) {
-    const loginUrl = new URL('/login', request.url);
+    // Redirect vendor routes to vendor-login, others to login
+    const isVendorRoute = pathname.startsWith('/vendor-dashboard');
+    const loginPath = isVendorRoute ? '/vendor-login' : '/login';
+    const loginUrl = new URL(loginPath, request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
