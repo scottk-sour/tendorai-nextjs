@@ -3,19 +3,35 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
+import TierGate, { hasTierAccess, getTierLabel } from '@/app/components/dashboard/TierGate';
+import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
 
-interface AnalyticsStats {
-  views: number;
-  clicks: number;
-  leads: number;
-  conversions: number;
-}
-
-interface DailyStats {
-  date: string;
-  views: number;
-  clicks: number;
-  leads: number;
+interface AnalyticsData {
+  period: string;
+  profileViews: number;
+  quoteRequests: number;
+  websiteClicks: number;
+  phoneClicks: number;
+  aiMentions: number;
+  searchImpressions: number;
+  aiMentionsBySource: {
+    chatgpt: number;
+    claude: number;
+    perplexity: number;
+    other: number;
+  };
+  recentAiQueries: Array<{
+    timestamp: string;
+    query?: string;
+    position?: number;
+    source?: string;
+  }>;
+  dailyActivity: Array<{
+    date: string;
+    profileViews: number;
+    aiMentions: number;
+    quoteRequests: number;
+  }>;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -23,11 +39,11 @@ const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
 
 export default function AnalyticsPage() {
   const { getCurrentToken } = useAuth();
-  const [stats, setStats] = useState<AnalyticsStats | null>(null);
-  const [dailyStats, setDailyStats] = useState<DailyStats[]>([]);
+  const [data, setData] = useState<AnalyticsData | null>(null);
   const [tier, setTier] = useState('free');
+  const [vendorId, setVendorId] = useState('');
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState('30');
+  const [period, setPeriod] = useState<'7d' | '30d'>('30d');
 
   const fetchAnalytics = useCallback(async () => {
     const token = getCurrentToken();
@@ -35,7 +51,7 @@ export default function AnalyticsPage() {
 
     setLoading(true);
     try {
-      // Fetch profile to check tier
+      // First fetch profile to get tier and vendorId
       const profileRes = await fetch(`${API_URL}/api/vendors/profile`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
@@ -43,27 +59,20 @@ export default function AnalyticsPage() {
       if (profileRes.ok) {
         const profileData = await profileRes.json();
         const vendorTier = profileData.vendor?.tier || 'free';
+        const vId = profileData.vendor?.vendorId || profileData.vendor?._id || '';
         setTier(vendorTier);
+        setVendorId(vId);
 
-        // Only fetch analytics if tier allows
-        if (['visible', 'basic', 'managed', 'verified'].includes(vendorTier.toLowerCase())) {
-          const [statsRes, dailyRes] = await Promise.all([
-            fetch(`${API_URL}/api/analytics/stats`, {
-              headers: { 'Authorization': `Bearer ${token}` },
-            }),
-            fetch(`${API_URL}/api/analytics/daily?days=${dateRange}`, {
-              headers: { 'Authorization': `Bearer ${token}` },
-            }),
-          ]);
+        // Fetch analytics if vendor has access
+        if (hasTierAccess(vendorTier, 'visible') && vId) {
+          const analyticsRes = await fetch(
+            `${API_URL}/api/analytics/vendor/${vId}?period=${period}`,
+            { headers: { 'Authorization': `Bearer ${token}` } }
+          );
 
-          if (statsRes.ok) {
-            const statsData = await statsRes.json();
-            setStats(statsData.data || statsData);
-          }
-
-          if (dailyRes.ok) {
-            const dailyData = await dailyRes.json();
-            setDailyStats(dailyData.data?.stats || dailyData.stats || []);
+          if (analyticsRes.ok) {
+            const analyticsData = await analyticsRes.json();
+            setData(analyticsData);
           }
         }
       }
@@ -72,22 +81,14 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false);
     }
-  }, [getCurrentToken, dateRange]);
+  }, [getCurrentToken, period]);
 
   useEffect(() => {
     fetchAnalytics();
   }, [fetchAnalytics]);
 
-  const getTierLabel = (t: string) => {
-    const mapping: Record<string, string> = {
-      free: 'Listed', listed: 'Listed',
-      basic: 'Visible', visible: 'Visible',
-      managed: 'Verified', verified: 'Verified',
-    };
-    return mapping[t?.toLowerCase()] || 'Listed';
-  };
-
-  const isFreeTier = getTierLabel(tier) === 'Listed';
+  const hasVisibleAccess = hasTierAccess(tier, 'visible');
+  const hasVerifiedAccess = hasTierAccess(tier, 'verified');
 
   if (loading) {
     return (
@@ -97,206 +98,375 @@ export default function AnalyticsPage() {
     );
   }
 
-  // Free tier - show upgrade prompt
-  if (isFreeTier) {
+  const token = getCurrentToken();
+
+  // Chart component for AI mentions over time
+  const MentionsChart = () => {
+    const dailyData = data?.dailyActivity || [];
+    const maxMentions = Math.max(...dailyData.map(d => d.aiMentions), 1);
+
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-1">Track your performance and visibility</p>
-        </div>
-
-        <div className="card p-8 text-center">
-          <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4">
-            <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Unlock Analytics</h2>
-          <p className="text-gray-600 max-w-md mx-auto mb-6">
-            Upgrade to Visible or Verified tier to access detailed analytics including profile views,
-            lead tracking, conversion rates, and performance trends.
-          </p>
-          <Link href="/for-vendors" className="btn-primary py-2.5 px-6">
-            View Upgrade Options
-          </Link>
-        </div>
-
-        {/* Preview of what analytics looks like */}
-        <div className="card p-6 opacity-60">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900">Analytics Preview</h3>
-            <span className="text-sm text-gray-500">Available on Visible tier+</span>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {['Profile Views', 'Clicks', 'Leads', 'Conversion Rate'].map((label) => (
-              <div key={label} className="p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-400">--</div>
-                <div className="text-sm text-gray-500">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Paid tier - show full analytics
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-1">Track your performance and visibility</p>
-        </div>
-        <select
-          value={dateRange}
-          onChange={(e) => setDateRange(e.target.value)}
-          className="input w-full sm:w-40"
-        >
-          <option value="7">Last 7 days</option>
-          <option value="30">Last 30 days</option>
-          <option value="90">Last 90 days</option>
-        </select>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-gray-900">
-                {stats?.views?.toLocaleString() || 0}
-              </div>
-              <div className="text-sm text-gray-500">Profile Views</div>
-            </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-gray-900">
-                {stats?.clicks?.toLocaleString() || 0}
-              </div>
-              <div className="text-sm text-gray-500">Clicks</div>
-            </div>
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-gray-900">
-                {stats?.leads?.toLocaleString() || 0}
-              </div>
-              <div className="text-sm text-gray-500">Leads</div>
-            </div>
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-gray-900">
-                {stats?.views && stats.leads
-                  ? ((stats.leads / stats.views) * 100).toFixed(1)
-                  : 0}%
-              </div>
-              <div className="text-sm text-gray-500">Conversion Rate</div>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Trend Chart */}
-      <div className="card p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Daily Trends</h3>
-        {dailyStats.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <p>No data available for this period</p>
+      <div className="h-48">
+        {dailyData.length === 0 ? (
+          <div className="h-full flex items-center justify-center text-gray-500">
+            No data for this period
           </div>
         ) : (
-          <div className="h-64 flex items-end justify-between gap-1">
-            {dailyStats.slice(-30).map((day, index) => {
-              const maxViews = Math.max(...dailyStats.map((d) => d.views || 0), 1);
-              const height = ((day.views || 0) / maxViews) * 100;
+          <div className="h-full flex items-end gap-1">
+            {dailyData.map((day, i) => {
+              const height = (day.aiMentions / maxMentions) * 100;
               return (
                 <div
-                  key={day.date || index}
-                  className="flex-1 bg-purple-500 rounded-t hover:bg-purple-600 transition-colors"
-                  style={{ height: `${Math.max(height, 4)}%` }}
-                  title={`${new Date(day.date).toLocaleDateString('en-GB')}: ${day.views} views`}
+                  key={day.date || i}
+                  className="flex-1 bg-purple-500 rounded-t hover:bg-purple-600 transition-colors min-h-[4px]"
+                  style={{ height: `${Math.max(height, 2)}%` }}
+                  title={`${new Date(day.date).toLocaleDateString('en-GB')}: ${day.aiMentions} AI mentions`}
                 />
               );
             })}
           </div>
         )}
-        <div className="flex justify-between mt-2 text-xs text-gray-500">
-          <span>
-            {dailyStats.length > 0
-              ? new Date(dailyStats[0].date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })
-              : ''}
+        {dailyData.length > 0 && (
+          <div className="flex justify-between mt-2 text-xs text-gray-500">
+            <span>{new Date(dailyData[0]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
+            <span>{new Date(dailyData[dailyData.length - 1]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Mock chart for locked state
+  const MockChart = () => (
+    <div className="h-48 flex items-end gap-1">
+      {[3, 5, 2, 7, 4, 6, 8, 3, 5, 9, 4, 6, 2, 7, 5, 8, 4, 6, 3, 7, 5, 4, 6, 8, 3, 5, 7, 4, 6, 5].map((h, i) => (
+        <div
+          key={i}
+          className="flex-1 bg-purple-500 rounded-t"
+          style={{ height: `${h * 10}%` }}
+        />
+      ))}
+    </div>
+  );
+
+  // Source breakdown cards
+  const SourceBreakdown = () => {
+    const sources = data?.aiMentionsBySource || { chatgpt: 0, claude: 0, perplexity: 0, other: 0 };
+    const total = Object.values(sources).reduce((a, b) => a + b, 0);
+
+    const sourceData = [
+      { name: 'ChatGPT', value: sources.chatgpt, icon: '🤖', color: 'bg-green-500' },
+      { name: 'Claude', value: sources.claude, icon: '🧠', color: 'bg-orange-500' },
+      { name: 'Perplexity', value: sources.perplexity, icon: '🔍', color: 'bg-blue-500' },
+      { name: 'Other', value: sources.other, icon: '✨', color: 'bg-gray-500' },
+    ];
+
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        {sourceData.map((source) => (
+          <div key={source.name} className="p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xl">{source.icon}</span>
+              <span className="font-medium text-gray-900">{source.name}</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{source.value}</div>
+            {total > 0 && (
+              <div className="mt-2">
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${source.color} transition-all`}
+                    style={{ width: `${(source.value / total) * 100}%` }}
+                  />
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {total > 0 ? Math.round((source.value / total) * 100) : 0}% of mentions
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Recent AI queries list
+  const RecentQueries = () => {
+    const queries = data?.recentAiQueries || [];
+
+    if (queries.length === 0) {
+      return (
+        <div className="text-center py-8 text-gray-500">
+          <p>No recent AI queries</p>
+          <p className="text-sm mt-1">Queries will appear here when AI assistants mention your company</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-3 max-h-80 overflow-y-auto">
+        {queries.map((q, i) => (
+          <div key={i} className="p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-sm text-gray-900 flex-1">
+                &quot;{q.query || 'Search query'}&quot;
+              </p>
+              {q.position && (
+                <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded-full">
+                  #{q.position}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <span className="capitalize">{q.source || 'AI'}</span>
+              <span>{q.timestamp ? new Date(q.timestamp).toLocaleDateString('en-GB') : ''}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Mock queries for locked state
+  const MockQueries = () => (
+    <div className="space-y-3">
+      {[
+        { query: 'Best photocopier suppliers in Cardiff', position: 2, source: 'ChatGPT' },
+        { query: 'Office equipment suppliers South Wales', position: 1, source: 'Claude' },
+        { query: 'Copier leasing companies UK', position: 3, source: 'Perplexity' },
+      ].map((q, i) => (
+        <div key={i} className="p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-sm text-gray-900">&quot;{q.query}&quot;</p>
+            <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded-full">
+              #{q.position}
+            </span>
+          </div>
+          <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+            <span>{q.source}</span>
+            <span>Today</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">AI Analytics</h1>
+          <p className="text-gray-600 mt-1">Track how AI assistants recommend your business</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+            hasVerifiedAccess ? 'bg-green-100 text-green-700' :
+            hasVisibleAccess ? 'bg-blue-100 text-blue-700' :
+            'bg-gray-100 text-gray-700'
+          }`}>
+            {getTierLabel(tier)}
           </span>
-          <span>
-            {dailyStats.length > 0
-              ? new Date(dailyStats[dailyStats.length - 1].date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })
-              : ''}
-          </span>
+          {hasVisibleAccess && (
+            <select
+              value={period}
+              onChange={(e) => setPeriod(e.target.value as '7d' | '30d')}
+              className="input w-32"
+            >
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+            </select>
+          )}
         </div>
       </div>
 
-      {/* Tips */}
+      {/* AI Visibility Score - Full version */}
+      <AIVisibilityScoreCard
+        token={token || ''}
+        tier={tier}
+        compact={false}
+      />
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <TierGate
+          currentTier={tier}
+          requiredTier="visible"
+          featureName="AI Mentions"
+          featureDescription="Total AI recommendations"
+          compact
+        >
+          <div className="card p-4">
+            <div className="text-2xl font-bold text-purple-600">{data?.aiMentions || 0}</div>
+            <div className="text-sm text-gray-600">AI Mentions</div>
+          </div>
+        </TierGate>
+
+        <TierGate
+          currentTier={tier}
+          requiredTier="visible"
+          featureName="Profile Views"
+          featureDescription="Total profile views"
+          compact
+        >
+          <div className="card p-4">
+            <div className="text-2xl font-bold text-blue-600">{data?.profileViews || 0}</div>
+            <div className="text-sm text-gray-600">Profile Views</div>
+          </div>
+        </TierGate>
+
+        <TierGate
+          currentTier={tier}
+          requiredTier="visible"
+          featureName="Website Clicks"
+          featureDescription="Clicks to your website"
+          compact
+        >
+          <div className="card p-4">
+            <div className="text-2xl font-bold text-green-600">{data?.websiteClicks || 0}</div>
+            <div className="text-sm text-gray-600">Website Clicks</div>
+          </div>
+        </TierGate>
+
+        <TierGate
+          currentTier={tier}
+          requiredTier="visible"
+          featureName="Quote Requests"
+          featureDescription="Requests from AI traffic"
+          compact
+        >
+          <div className="card p-4">
+            <div className="text-2xl font-bold text-orange-600">{data?.quoteRequests || 0}</div>
+            <div className="text-sm text-gray-600">Quote Requests</div>
+          </div>
+        </TierGate>
+      </div>
+
+      {/* AI Mentions Over Time */}
+      <div className="card p-6">
+        <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
+        <TierGate
+          currentTier={tier}
+          requiredTier="visible"
+          featureName="AI Mentions Chart"
+          featureDescription="See your mention trends over time"
+        >
+          <MentionsChart />
+        </TierGate>
+        {!hasVisibleAccess && <MockChart />}
+      </div>
+
+      {/* Two column layout */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* AI Mentions by Source */}
+        <div className="card p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Mentions by AI Source</h3>
+          <TierGate
+            currentTier={tier}
+            requiredTier="visible"
+            featureName="Source Breakdown"
+            featureDescription="See which AI assistants recommend you most"
+          >
+            <SourceBreakdown />
+          </TierGate>
+          {!hasVisibleAccess && (
+            <div className="grid grid-cols-2 gap-4 opacity-50">
+              {['ChatGPT', 'Claude', 'Perplexity', 'Other'].map((name) => (
+                <div key={name} className="p-4 bg-gray-50 rounded-lg">
+                  <div className="font-medium text-gray-900 mb-2">{name}</div>
+                  <div className="text-2xl font-bold text-gray-400">--</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Recent AI Queries */}
+        <div className="card p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">Recent AI Queries</h3>
+            {!hasVerifiedAccess && hasVisibleAccess && (
+              <span className="text-xs text-gray-500">Query details require Verified tier</span>
+            )}
+          </div>
+          <TierGate
+            currentTier={tier}
+            requiredTier="verified"
+            featureName="Query Details"
+            featureDescription="See the exact queries where you were mentioned"
+          >
+            <RecentQueries />
+          </TierGate>
+          {!hasVerifiedAccess && <MockQueries />}
+        </div>
+      </div>
+
+      {/* Improvement Tips */}
       <div className="card p-6 bg-gradient-to-r from-purple-50 to-indigo-50">
-        <h3 className="font-semibold text-gray-900 mb-3">Tips to Improve Performance</h3>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li className="flex items-start">
-            <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Complete your profile with a detailed description and all services offered
-          </li>
-          <li className="flex items-start">
-            <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Add certifications and brands to build trust with potential customers
-          </li>
-          <li className="flex items-start">
-            <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Respond quickly to quote requests - fast response times improve conversion
-          </li>
-          <li className="flex items-start">
-            <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Keep your product catalog up to date with competitive pricing
-          </li>
-        </ul>
+        <h3 className="font-semibold text-gray-900 mb-4">Improve Your AI Visibility</h3>
+        {hasVisibleAccess ? (
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Complete your profile</p>
+                <p className="text-sm text-gray-600">Add a detailed description and all services you offer</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Upload products</p>
+                <p className="text-sm text-gray-600">AI assistants can recommend specific products to customers</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Add certifications</p>
+                <p className="text-sm text-gray-600">Accreditations and certifications boost your credibility score</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Expand coverage areas</p>
+                <p className="text-sm text-gray-600">Add all postcodes and regions you serve</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-4">
+            <p className="text-gray-600 mb-4">
+              Upgrade to see personalised improvement recommendations based on your profile
+            </p>
+            <Link
+              href="/vendor-dashboard/settings?tab=subscription"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              Upgrade to Visible — £99/mo
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

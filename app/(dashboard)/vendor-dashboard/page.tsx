@@ -3,6 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
+import AIMentionsCard from '@/app/components/dashboard/AIMentionsCard';
+import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
+import UpgradeBanner from '@/app/components/dashboard/UpgradeBanner';
+import { getTierLabel } from '@/app/components/dashboard/TierGate';
 
 interface Lead {
   _id: string;
@@ -30,6 +34,7 @@ interface Stats {
 interface ProfileData {
   company: string;
   tier: string;
+  vendorId: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -68,6 +73,7 @@ export default function VendorDashboardOverview() {
           setProfile({
             company: profileData.vendor.company || '',
             tier: profileData.vendor.tier || 'free',
+            vendorId: profileData.vendor.vendorId || profileData.vendor._id || '',
           });
         }
       }
@@ -104,24 +110,11 @@ export default function VendorDashboardOverview() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
-  // Normalize tier
-  const getTierLabel = (tier: string) => {
-    const mapping: Record<string, string> = {
-      free: 'Listed',
-      listed: 'Listed',
-      basic: 'Visible',
-      visible: 'Visible',
-      managed: 'Verified',
-      verified: 'Verified',
-    };
-    return mapping[tier?.toLowerCase()] || 'Listed';
-  };
-
   const getTierBadgeClass = (tier: string) => {
     const label = getTierLabel(tier);
-    if (label === 'Verified') return 'badge-verified';
-    if (label === 'Visible') return 'badge-visible';
-    return 'badge-free';
+    if (label.includes('Verified')) return 'bg-green-100 text-green-700';
+    if (label.includes('Visible')) return 'bg-blue-100 text-blue-700';
+    return 'bg-gray-100 text-gray-700';
   };
 
   if (loading) {
@@ -132,8 +125,14 @@ export default function VendorDashboardOverview() {
     );
   }
 
+  const token = getCurrentToken();
+  const currentTier = profile?.tier || 'free';
+
   return (
     <div className="space-y-6">
+      {/* Upgrade Banner for Free Tier */}
+      <UpgradeBanner tier={currentTier} />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -143,10 +142,27 @@ export default function VendorDashboardOverview() {
           )}
         </div>
         {profile?.tier && (
-          <span className={`badge ${getTierBadgeClass(profile.tier)}`}>
-            {getTierLabel(profile.tier)} Tier
+          <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getTierBadgeClass(profile.tier)}`}>
+            {getTierLabel(profile.tier)}
           </span>
         )}
+      </div>
+
+      {/* AI Insights Row */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* AI Mentions Card */}
+        <AIMentionsCard
+          vendorId={profile?.vendorId || ''}
+          token={token || ''}
+          tier={currentTier}
+        />
+
+        {/* AI Visibility Score Card */}
+        <AIVisibilityScoreCard
+          token={token || ''}
+          tier={currentTier}
+          compact={true}
+        />
       </div>
 
       {/* Stats Grid */}
@@ -202,18 +218,17 @@ export default function VendorDashboardOverview() {
         </Link>
 
         <Link
-          href="/vendor-dashboard/settings"
+          href="/vendor-dashboard/analytics"
           className="card-hover p-4 flex items-center space-x-3"
         >
           <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
             <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
           <div>
-            <div className="font-medium text-gray-900">Profile Settings</div>
-            <div className="text-sm text-gray-500">Edit your details</div>
+            <div className="font-medium text-gray-900">View Analytics</div>
+            <div className="text-sm text-gray-500">Track your performance</div>
           </div>
         </Link>
       </div>
@@ -275,26 +290,6 @@ export default function VendorDashboardOverview() {
           </div>
         )}
       </div>
-
-      {/* Upgrade CTA for free tier */}
-      {profile?.tier && getTierLabel(profile.tier) === 'Listed' && (
-        <div className="card bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h3 className="font-semibold text-lg">Upgrade Your Visibility</h3>
-              <p className="text-purple-100 mt-1">
-                Get more leads with enhanced AI recommendations and priority placement
-              </p>
-            </div>
-            <Link
-              href="/for-vendors"
-              className="inline-flex items-center justify-center px-4 py-2 bg-white text-purple-600 font-medium rounded-lg hover:bg-purple-50 transition-colors"
-            >
-              View Plans
-            </Link>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
