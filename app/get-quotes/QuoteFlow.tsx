@@ -179,8 +179,6 @@ export default function QuoteFlow() {
     setError(null);
 
     try {
-      const queryParams = new URLSearchParams();
-
       // Build query string for AI
       let query = 'photocopier';
       if (monthlyVolume) {
@@ -191,40 +189,38 @@ export default function QuoteFlow() {
       if (needsA3 === true) query += ' A3';
       if (needsA3 === false) query += ' A4';
 
-      queryParams.set('q', query);
-      if (postcode) queryParams.set('postcode', postcode);
-      queryParams.set('limit', '20');
-
-      const response = await fetch(`${BACKEND_URL}/api/ai-query?${queryParams.toString()}`);
+      const response = await fetch(`${BACKEND_URL}/api/ai-query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          postcode: postcode || undefined,
+          limit: 20,
+        }),
+      });
       const data = await response.json();
 
-      if (data.success && data.matches) {
-        const formattedProducts: Product[] = data.matches.map(
-          (match: {
-            vendorId: string;
-            vendorName: string;
+      if (data.success && data.vendors) {
+        const formattedProducts: Product[] = data.vendors.map(
+          (vendor: {
+            id: string;
+            company: string;
             product: {
-              _id: string;
-              manufacturer: string;
-              model: string;
+              name: string;
               category: string;
               speed: number;
               isA3: boolean;
+              isColour?: boolean;
               features: string[];
-              minVolume: number;
-              maxVolume: number;
-              costs?: {
-                cpcRates: {
-                  A4Mono: number;
-                  A4Colour: number;
-                  A3Mono?: number;
-                  A3Colour?: number;
-                };
-              };
-              leaseRates?: {
-                term36?: number;
-                term48?: number;
-                term60?: number;
+            };
+            pricing?: {
+              cpcMono?: string;
+              cpcColour?: string;
+              estimatedMonthly?: string;
+              breakdown?: {
+                lease?: string;
+                cpc?: string;
+                service?: string;
               };
             };
             matchScore: number;
@@ -233,23 +229,40 @@ export default function QuoteFlow() {
               percentage: number;
               formatted: string;
             };
-          }) => ({
-            id: match.product._id,
-            vendorId: match.vendorId,
-            vendorName: match.vendorName,
-            manufacturer: match.product.manufacturer,
-            model: match.product.model,
-            category: match.product.category,
-            speed: match.product.speed,
-            isA3: match.product.isA3,
-            features: match.product.features || [],
-            minVolume: match.product.minVolume,
-            maxVolume: match.product.maxVolume,
-            costs: match.product.costs,
-            leaseRates: match.product.leaseRates,
-            matchScore: match.matchScore,
-            savings: match.savings,
-          })
+          }) => {
+            // Parse product name into manufacturer and model
+            const productNameParts = vendor.product.name.split(' ');
+            const manufacturer = productNameParts[0];
+            const model = productNameParts.slice(1).join(' ');
+
+            // Parse CPC rates from strings like "0.5p"
+            const parseCpc = (cpc?: string) => cpc ? parseFloat(cpc.replace('p', '')) : 0;
+
+            return {
+              id: `${vendor.id}-${vendor.product.name.replace(/\s+/g, '-')}`,
+              vendorId: vendor.id,
+              vendorName: vendor.company,
+              manufacturer,
+              model,
+              category: vendor.product.category,
+              speed: vendor.product.speed,
+              isA3: vendor.product.isA3,
+              features: vendor.product.features || [],
+              minVolume: 0,
+              maxVolume: 0,
+              costs: {
+                cpcRates: {
+                  A4Mono: parseCpc(vendor.pricing?.cpcMono),
+                  A4Colour: parseCpc(vendor.pricing?.cpcColour),
+                },
+              },
+              leaseRates: vendor.pricing?.breakdown?.lease ? {
+                term48: parseFloat(vendor.pricing.breakdown.lease.replace('£', '')) * 3,
+              } : undefined,
+              matchScore: vendor.matchScore,
+              savings: vendor.savings,
+            };
+          }
         );
         setProducts(formattedProducts);
       } else {
