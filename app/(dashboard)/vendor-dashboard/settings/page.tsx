@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { SERVICES, SERVICE_KEYS } from '@/lib/constants/services';
+import { PLANS } from '@/lib/constants/plans';
 import { getTierLabel, hasTierAccess } from '@/app/components/dashboard/TierGate';
 
 interface ProfileData {
@@ -43,70 +44,26 @@ const SERVICE_OPTIONS = SERVICE_KEYS.map((key) => ({
   icon: SERVICES[key].icon,
 }));
 
-// Plan configurations
-const PLANS = [
-  {
-    id: 'free',
-    name: 'Listed',
-    price: 0,
-    priceLabel: 'Free',
-    description: 'Basic listing for new vendors',
-    features: [
-      { text: 'Company listing', included: true },
-      { text: 'Up to 3 products', included: true },
-      { text: 'Receive quote requests', included: true },
-      { text: 'AI Visibility Score (number only)', included: true },
-      { text: 'AI Mentions tracking', included: false },
-      { text: 'Visibility breakdown & tips', included: false },
-      { text: 'Analytics dashboard', included: false },
-      { text: 'Unlimited products', included: false },
-      { text: 'Priority AI ranking', included: false },
-      { text: 'Verified badge', included: false },
-    ],
-    cta: 'Current Plan',
-    popular: false,
-  },
-  {
-    id: 'visible',
-    name: 'Visible',
-    price: 99,
-    priceLabel: '£99/mo',
-    description: 'Get discovered by AI assistants',
-    features: [
-      { text: 'Company listing', included: true },
-      { text: 'Unlimited products', included: true },
-      { text: 'Receive quote requests', included: true },
-      { text: 'AI Visibility Score', included: true },
-      { text: 'AI Mentions tracking', included: true },
-      { text: 'Visibility breakdown & tips', included: true },
-      { text: 'Analytics dashboard', included: true },
-      { text: 'Appear in AI recommendations', included: true },
-      { text: 'Priority AI ranking', included: false },
-      { text: 'Verified badge', included: false },
-    ],
-    cta: 'Upgrade to Visible',
-    popular: true,
-  },
-  {
-    id: 'verified',
-    name: 'Verified',
-    price: 149,
-    priceLabel: '£149/mo',
-    description: 'Maximum visibility & trust',
-    features: [
-      { text: 'Everything in Visible', included: true },
-      { text: 'Verified Supplier badge', included: true },
-      { text: 'Priority in AI recommendations', included: true },
-      { text: 'Detailed AI query analytics', included: true },
-      { text: 'Profile optimisation by us', included: true },
-      { text: 'Priority support', included: true },
-      { text: 'AI Visibility Score up to 100', included: true },
-      { text: 'Competitor insights', included: true },
-    ],
-    cta: 'Upgrade to Verified',
-    popular: false,
-  },
-];
+// What you're missing by tier
+const MISSING_BY_TIER: Record<string, string[]> = {
+  free: [
+    'AI Mentions tracking',
+    'Analytics dashboard',
+    'Full visibility breakdown & tips',
+    'Up to 10 products (you have 3)',
+    'Logo upload',
+    'Request reviews',
+  ],
+  visible: [
+    'Verified badge',
+    'Unlimited products (you have 10)',
+    'Image gallery',
+    'Document uploads',
+    'Featured placement',
+    'Priority support',
+    '+15 extra visibility points',
+  ],
+};
 
 export default function SettingsPage() {
   const { getCurrentToken } = useAuth();
@@ -744,6 +701,34 @@ export default function SettingsPage() {
       {/* Subscription Tab */}
       {activeTab === 'subscription' && (
         <div className="space-y-6">
+          {/* What you're missing */}
+          {currentPlanId !== 'verified' && MISSING_BY_TIER[currentPlanId] && (
+            <div className="card p-6 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
+              <h3 className="font-semibold text-gray-900 mb-3">
+                What you&apos;re missing
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-2">
+                {MISSING_BY_TIER[currentPlanId].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                    <svg className="w-4 h-4 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => handleUpgrade(currentPlanId === 'free' ? 'visible' : 'verified')}
+                className="mt-4 inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
+              >
+                Unlock these features
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          )}
+
           {/* Current subscription info */}
           {subscription?.subscription && (
             <div className="card p-6 bg-purple-50 border-purple-200">
@@ -819,6 +804,16 @@ export default function SettingsPage() {
                       </li>
                     ))}
                   </ul>
+
+                  {/* What you'll lose warning for paid vendors viewing free tier */}
+                  {isDowngrade && plan.id === 'free' && currentPlanId !== 'free' && (
+                    <div className="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                      <p className="text-xs font-medium text-amber-800">
+                        Downgrading will remove: AI Mentions, Analytics, visibility tips
+                        {currentPlanId === 'verified' ? ', verified badge, unlimited products' : ', extra product slots'}.
+                      </p>
+                    </div>
+                  )}
 
                   {isCurrent ? (
                     <div className="w-full py-2.5 px-4 text-center text-purple-700 bg-purple-100 rounded-lg font-medium">

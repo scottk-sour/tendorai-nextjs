@@ -218,7 +218,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
           currentTier={tier}
           requiredTier="visible"
           featureName="AI Mentions"
-          featureDescription="See how often AI assistants recommend your company"
+          featureDescription="See which AI assistants recommend you and how often. Track trends over time."
         >
           <MockContent />
         </TierGate>

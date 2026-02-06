@@ -4,45 +4,74 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import TierGate, { hasTierAccess } from './TierGate';
 
+interface ScoreTip {
+  message: string;
+  impact: string;
+  points: number;
+  priority: number;
+  category: string;
+  action: string;
+}
+
+interface BreakdownSection {
+  earned: number;
+  max: number;
+  label?: string;
+  subtitle?: string;
+  items?: Array<{
+    name: string;
+    points: number;
+    completed: boolean;
+    upgrade?: boolean;
+    price?: string;
+  }>;
+}
+
 interface VisibilityScoreData {
   score: number;
   maxScore: number;
+  maxPossible: number;
   maxPossibleForTier: number;
+  maxOverall: number;
   label: string;
   colour: string;
   tier: string;
   tierDisplayName: string;
-  breakdown: Record<string, {
-    earned: number;
-    max: number;
-    items?: Array<{
-      name: string;
-      points: number;
-      completed: boolean;
-      upgrade?: boolean;
-      price?: string;
-    }>;
-  }>;
+  breakdown: {
+    profileCompleteness: BreakdownSection;
+    productData: BreakdownSection;
+    trustAndReviews: BreakdownSection;
+    subscriptionTier: BreakdownSection;
+  };
+  tips: ScoreTip[];
   recommendations: Array<{
     action: string;
     points: number;
     section: string;
     price?: string;
   }>;
+  nextTier?: {
+    name: string;
+    price: string;
+    additionalPoints: number;
+  } | null;
   nextMilestone?: {
+    target: number;
     label: string;
     pointsNeeded: number;
-  };
+  } | null;
 }
 
 interface AIVisibilityScoreCardProps {
   token: string;
   tier: string;
-  compact?: boolean; // For dashboard overview vs full analytics
+  compact?: boolean;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
+
+const BREAKDOWN_KEYS = ['profileCompleteness', 'productData', 'trustAndReviews', 'subscriptionTier'] as const;
 
 export default function AIVisibilityScoreCard({ token, tier, compact = true }: AIVisibilityScoreCardProps) {
   const [data, setData] = useState<VisibilityScoreData | null>(null);
@@ -140,7 +169,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
     if (error) return <p className="text-gray-500">{error}</p>;
     if (!data) return null;
 
-    const { score, maxScore, maxPossibleForTier, label, colour, recommendations, nextMilestone, tierDisplayName } = data;
+    const { score, maxScore, maxPossible, label, colour, tips, nextMilestone, tierDisplayName, breakdown } = data;
 
     return (
       <>
@@ -156,9 +185,9 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
             <p className="text-sm font-medium mb-1" style={{ color: colour }}>
               {label}
             </p>
-            {tier !== 'verified' && maxPossibleForTier && (
+            {tier !== 'verified' && maxPossible && (
               <p className="text-xs text-gray-500 mb-2">
-                Your tier max: {maxPossibleForTier}/100
+                Your tier max: {maxPossible}/100
               </p>
             )}
             <p className="text-sm text-gray-600">
@@ -176,6 +205,37 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
           </div>
         </div>
 
+        {/* Breakdown sections */}
+        {!compact && breakdown && (
+          <div className="mt-6 space-y-3">
+            {BREAKDOWN_KEYS.map((key) => {
+              const section = breakdown[key];
+              if (!section) return null;
+              return (
+                <div key={key} className="p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between mb-1">
+                    <div>
+                      <span className="text-sm font-medium text-gray-900">{section.label || key}</span>
+                      {section.subtitle && (
+                        <span className="text-xs text-gray-500 ml-2">{section.subtitle}</span>
+                      )}
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {section.earned}/{section.max}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-purple-500 rounded-full transition-all"
+                      style={{ width: `${section.max > 0 ? (section.earned / section.max) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {/* Next milestone */}
         {nextMilestone && nextMilestone.pointsNeeded > 0 && (
           <div className="mt-4 p-3 bg-purple-50 rounded-lg">
@@ -185,15 +245,15 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
           </div>
         )}
 
-        {/* Quick recommendations (compact mode) */}
-        {compact && recommendations && recommendations.length > 0 && (
+        {/* Quick Wins - show tips */}
+        {compact && tips && tips.length > 0 && (
           <div className="mt-4">
             <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Quick Wins</h4>
             <div className="space-y-2">
-              {recommendations.slice(0, 2).map((rec, i) => (
+              {tips.slice(0, 2).map((tip, i) => (
                 <div key={i} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700">{rec.action}</span>
-                  <span className="text-purple-600 font-medium">+{rec.points} pts</span>
+                  <span className="text-gray-700">{tip.message}</span>
+                  <span className="text-purple-600 font-medium whitespace-nowrap ml-2">+{tip.points} pts</span>
                 </div>
               ))}
             </div>
@@ -201,8 +261,37 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
               href="/vendor-dashboard/analytics"
               className="inline-block mt-3 text-sm text-purple-600 hover:text-purple-700 font-medium"
             >
-              View full breakdown →
+              View full breakdown
             </Link>
+          </div>
+        )}
+
+        {/* Full tips list (non-compact) */}
+        {!compact && tips && tips.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Tips to Improve</h4>
+            <div className="space-y-3">
+              {tips.map((tip, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 bg-white border rounded-lg">
+                  <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white ${
+                    tip.impact === 'high' ? 'bg-purple-600' : tip.impact === 'medium' ? 'bg-blue-500' : 'bg-gray-400'
+                  }`}>
+                    {tip.points}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-gray-900">{tip.message}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{tip.action}</p>
+                  </div>
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                    tip.impact === 'high' ? 'bg-purple-100 text-purple-700' :
+                    tip.impact === 'medium' ? 'bg-blue-100 text-blue-700' :
+                    'bg-gray-100 text-gray-600'
+                  }`}>
+                    {tip.impact}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </>
@@ -244,7 +333,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
           currentTier={tier}
           requiredTier="visible"
           featureName="AI Visibility Score"
-          featureDescription="See how discoverable you are to AI assistants"
+          featureDescription="See exactly what's boosting and hurting your AI ranking, with actionable tips to improve."
         >
           <MockContent />
         </TierGate>

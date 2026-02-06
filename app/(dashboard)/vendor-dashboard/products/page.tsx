@@ -175,9 +175,16 @@ export default function ProductsPage() {
     fetchProducts();
   }, [fetchProducts]);
 
-  // Check if free tier has reached product limit
-  const hasReachedLimit = !hasTierAccess(tier, 'visible') && products.length >= 3;
-  const productsRemaining = 3 - products.length;
+  // Tier-aware product limits: free=3, visible=10, verified=unlimited
+  const getProductLimit = (t: string) => {
+    const normalized = t?.toLowerCase() || 'free';
+    if (['verified', 'managed'].includes(normalized)) return Infinity;
+    if (['visible', 'basic'].includes(normalized)) return 10;
+    return 3;
+  };
+  const productLimit = getProductLimit(tier);
+  const hasReachedLimit = productLimit !== Infinity && products.length >= productLimit;
+  const productsRemaining = productLimit === Infinity ? null : productLimit - products.length;
 
   // Get unique categories
   const categories = [...new Set(products.map((p) => p.category))].filter(Boolean);
@@ -367,8 +374,12 @@ export default function ProductsPage() {
       if (response.ok) {
         setShowModal(false);
         fetchProducts();
-        setSuccess(editingProduct ? 'Product updated successfully' : 'Product created successfully');
-        setTimeout(() => setSuccess(null), 3000);
+        const slots = data.remainingSlots;
+        const slotsMsg = slots !== null && slots !== undefined ? ` (${slots} slot${slots !== 1 ? 's' : ''} remaining)` : '';
+        setSuccess((editingProduct ? 'Product updated successfully' : 'Product created successfully') + slotsMsg);
+        setTimeout(() => setSuccess(null), 5000);
+      } else if (response.status === 403) {
+        setError(data.message || 'Product limit reached. Upgrade your plan to add more products.');
       } else {
         setError(data.message || data.errors?.join(', ') || 'Failed to save product');
       }
@@ -420,23 +431,25 @@ export default function ProductsPage() {
         <div className="p-4 bg-green-50 text-green-700 rounded-lg">{success}</div>
       )}
 
-      {/* Free Tier Limit Warning */}
-      {!hasTierAccess(tier, 'visible') && (
+      {/* Tier Limit Warning */}
+      {productLimit !== Infinity && (
         <div className={`p-4 rounded-lg ${hasReachedLimit ? 'bg-amber-50 border border-amber-200' : 'bg-blue-50 border border-blue-200'}`}>
           <div className="flex items-center justify-between">
             <div>
               {hasReachedLimit ? (
                 <>
-                  <p className="font-medium text-amber-800">Product limit reached</p>
+                  <p className="font-medium text-amber-800">Product limit reached ({productLimit} products)</p>
                   <p className="text-sm text-amber-600">
-                    You&apos;ve used all 3 product slots on the Free plan. Upgrade to add unlimited products.
+                    You&apos;ve used all {productLimit} product slots on your current plan. Upgrade to add more products.
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="font-medium text-blue-800">Free plan: {productsRemaining} product slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
+                  <p className="font-medium text-blue-800">{productsRemaining} product slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
                   <p className="text-sm text-blue-600">
-                    Upgrade to Visible for unlimited products and AI visibility insights.
+                    {!hasTierAccess(tier, 'visible')
+                      ? 'Upgrade to Visible for up to 10 products and AI visibility insights.'
+                      : 'Upgrade to Verified for unlimited products and maximum AI ranking.'}
                   </p>
                 </>
               )}
