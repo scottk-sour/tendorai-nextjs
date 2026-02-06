@@ -32,16 +32,23 @@ interface Vendor {
   product?: {
     name: string;
     category: string;
-    speed: number;
-    isColour: boolean;
-    isA3: boolean;
-    features: string[];
+    serviceCategory?: string;
+    speed?: number;
+    isColour?: boolean;
+    isA3?: boolean;
+    features?: string[];
+    systemType?: string;
+    perUserMonthly?: number;
+    resolution?: string;
+    perCameraCost?: number;
+    serviceType?: string;
+    responseTimeSLA?: string;
   };
   pricing?: {
     estimatedMonthly: string;
-    breakdown: { lease: string; cpc: string; service: string };
-    cpcMono: string | null;
-    cpcColour: string | null;
+    breakdown: Record<string, string>;
+    cpcMono?: string | null;
+    cpcColour?: string | null;
   };
   savings?: {
     monthly: number;
@@ -778,11 +785,31 @@ export default function QuoteFlow() {
                       <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                         <p className="font-medium text-sm text-gray-900">{vendor.product.name}</p>
                         <div className="flex flex-wrap gap-2 mt-1 text-xs text-gray-600">
-                          <span>{vendor.product.speed} ppm</span>
-                          <span>•</span>
-                          <span>{vendor.product.isA3 ? 'A3' : 'A4'}</span>
-                          <span>•</span>
-                          <span>{vendor.product.isColour ? 'Colour' : 'Mono'}</span>
+                          {vendor.product.serviceCategory === 'Telecoms' ? (
+                            <>
+                              <span>{vendor.product.systemType}</span>
+                              {vendor.product.perUserMonthly && <><span>•</span><span>£{vendor.product.perUserMonthly}/user/mo</span></>}
+                            </>
+                          ) : vendor.product.serviceCategory === 'CCTV' ? (
+                            <>
+                              <span>{vendor.product.resolution}</span>
+                              {vendor.product.perCameraCost && <><span>•</span><span>£{vendor.product.perCameraCost}/camera</span></>}
+                            </>
+                          ) : vendor.product.serviceCategory === 'IT' ? (
+                            <>
+                              <span>{vendor.product.serviceType}</span>
+                              {vendor.product.perUserMonthly && <><span>•</span><span>£{vendor.product.perUserMonthly}/user/mo</span></>}
+                              {vendor.product.responseTimeSLA && <><span>•</span><span>{vendor.product.responseTimeSLA} SLA</span></>}
+                            </>
+                          ) : (
+                            <>
+                              {vendor.product.speed && <span>{vendor.product.speed} ppm</span>}
+                              {vendor.product.speed && <span>•</span>}
+                              <span>{vendor.product.isA3 ? 'A3' : 'A4'}</span>
+                              <span>•</span>
+                              <span>{vendor.product.isColour ? 'Colour' : 'Mono'}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                     )}
