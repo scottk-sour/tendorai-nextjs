@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 // Types
@@ -103,14 +104,59 @@ const BACKEND_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 export default function QuoteFlow() {
+  const searchParams = useSearchParams();
+
   // Stage management
   const [currentStage, setCurrentStage] = useState(1);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
 
-  // Filters
+  // Filters - initialize from URL params if present
   const [category, setCategory] = useState('');
   const [postcode, setPostcode] = useState('');
   const [monthlyVolume, setMonthlyVolume] = useState('');
+
+  // Read URL params on mount
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const postcodeParam = searchParams.get('postcode');
+    const volumeParam = searchParams.get('volume');
+
+    if (categoryParam) {
+      // Map category names to values
+      const categoryMap: Record<string, string> = {
+        'Photocopiers': 'photocopiers',
+        'photocopiers': 'photocopiers',
+        'Telecoms': 'telecoms',
+        'telecoms': 'telecoms',
+        'CCTV': 'cctv',
+        'cctv': 'cctv',
+        'IT': 'it-services',
+        'it': 'it-services',
+        'it-services': 'it-services',
+      };
+      const mappedCategory = categoryMap[categoryParam] || categoryParam.toLowerCase();
+      if (CATEGORIES.some(c => c.value === mappedCategory)) {
+        setCategory(mappedCategory);
+        setMaxUnlockedStage(2);
+        setCurrentStage(2);
+      }
+    }
+
+    if (postcodeParam) {
+      setPostcode(postcodeParam.toUpperCase());
+    }
+
+    if (volumeParam) {
+      // Find closest volume option
+      const volume = parseInt(volumeParam);
+      const closest = VOLUME_OPTIONS.reduce((prev, curr) => {
+        const prevDiff = Math.abs(parseInt(prev.value) - volume);
+        const currDiff = Math.abs(parseInt(curr.value) - volume);
+        return currDiff < prevDiff ? curr : prev;
+      });
+      setMonthlyVolume(closest.value);
+    }
+  }, [searchParams]);
   const [needsColour, setNeedsColour] = useState<boolean | null>(null);
   const [needsA3, setNeedsA3] = useState<boolean | null>(null);
 

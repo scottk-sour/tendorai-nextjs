@@ -24,6 +24,7 @@ const Header = () => {
     { href: '/suppliers', label: 'Find Suppliers' },
     { href: '/get-quotes', label: 'Get Quotes' },
     { href: '/how-it-works', label: 'How It Works' },
+    { href: '/resources', label: 'Guides' },
     { href: '/for-vendors', label: 'For Vendors' },
   ];
 

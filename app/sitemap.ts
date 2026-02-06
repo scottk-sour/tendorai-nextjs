@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 import { SERVICE_KEYS, MAJOR_LOCATIONS } from '@/lib/constants';
+import { articles } from '@/lib/content/articles';
 
 const BASE_URL = 'https://www.tendorai.com';
 
@@ -55,6 +56,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
   }
+
+  // Resources/articles pages
+  urls.push({
+    url: `${BASE_URL}/resources`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
+
+  articles.forEach((article) => {
+    urls.push({
+      url: `${BASE_URL}/resources/${article.slug}`,
+      lastModified: new Date(article.publishedDate),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+  });
 
   // Dynamic vendor profile pages from database
   try {

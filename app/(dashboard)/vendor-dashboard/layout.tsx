@@ -59,8 +59,17 @@ export default function VendorDashboardLayout({
   useEffect(() => {
     if (!auth.isLoading && (!auth.isAuthenticated || auth.user?.role !== 'vendor')) {
       router.replace('/vendor-login?redirect=/vendor-dashboard');
+      return;
     }
-  }, [auth, router]);
+
+    // Check onboarding status (skip if already on onboarding page)
+    if (auth.isAuthenticated && auth.user?.userId && !pathname.includes('/onboarding')) {
+      const hasOnboarded = localStorage.getItem(`onboarded_${auth.user.userId}`);
+      if (!hasOnboarded) {
+        router.replace('/vendor-dashboard/onboarding');
+      }
+    }
+  }, [auth, router, pathname]);
 
   const handleLogout = () => {
     logout();
