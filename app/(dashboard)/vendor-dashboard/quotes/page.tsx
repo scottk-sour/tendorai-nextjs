@@ -15,6 +15,18 @@ interface Lead {
   monthlyVolume?: number;
   status: string;
   createdAt: string;
+  // Review fields
+  reviewRequested?: boolean;
+  reviewRequestedAt?: string;
+  reviewSubmitted?: boolean;
+  // Customer object (from VendorLead model)
+  customer?: {
+    companyName?: string;
+    contactName?: string;
+    email?: string;
+    phone?: string;
+    postcode?: string;
+  };
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -29,6 +41,7 @@ export default function QuotesPage() {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [requestingReview, setRequestingReview] = useState<string | null>(null);
 
   const fetchLeads = useCallback(async () => {
     const token = getCurrentToken();
@@ -81,6 +94,49 @@ export default function QuotesPage() {
       }
     } catch (error) {
       console.error('Failed to update status:', error);
+    }
+  };
+
+  const requestReview = async (leadId: string) => {
+    const token = getCurrentToken();
+    if (!token) return;
+
+    setRequestingReview(leadId);
+    try {
+      const response = await fetch(`${API_URL}/api/reviews/request-review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ leadId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update the lead in state
+        setLeads((prev) =>
+          prev.map((lead) =>
+            lead._id === leadId
+              ? { ...lead, reviewRequested: true, reviewRequestedAt: new Date().toISOString() }
+              : lead
+          )
+        );
+        if (selectedLead?._id === leadId) {
+          setSelectedLead((prev) =>
+            prev ? { ...prev, reviewRequested: true, reviewRequestedAt: new Date().toISOString() } : null
+          );
+        }
+        alert(`Review request sent to ${data.sentTo || 'customer'}`);
+      } else {
+        alert(data.error || data.message || 'Failed to send review request');
+      }
+    } catch (error) {
+      console.error('Failed to request review:', error);
+      alert('Failed to send review request. Please try again.');
+    } finally {
+      setRequestingReview(null);
     }
   };
 
@@ -376,6 +432,60 @@ export default function QuotesPage() {
                   </a>
                 )}
               </div>
+
+              {/* Request Review Button */}
+              {(selectedLead.email || selectedLead.customer?.email) && (
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  {selectedLead.reviewSubmitted ? (
+                    <div className="flex items-center gap-2 text-green-700 bg-green-50 px-4 py-3 rounded-lg">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="font-medium">Review Received</span>
+                    </div>
+                  ) : selectedLead.reviewRequested ? (
+                    <div className="flex items-center justify-between text-gray-600 bg-gray-50 px-4 py-3 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>Review Requested</span>
+                      </div>
+                      {selectedLead.reviewRequestedAt && (
+                        <span className="text-sm text-gray-500">
+                          {new Date(selectedLead.reviewRequestedAt).toLocaleDateString('en-GB')}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => requestReview(selectedLead._id)}
+                      disabled={requestingReview === selectedLead._id}
+                      className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                    >
+                      {requestingReview === selectedLead._id ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                          </svg>
+                          Request Review
+                        </>
+                      )}
+                    </button>
+                  )}
+                  <p className="text-xs text-gray-500 mt-2 text-center">
+                    Customer will receive an email with a link to leave a verified review.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
