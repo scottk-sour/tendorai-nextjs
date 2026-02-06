@@ -1,61 +1,90 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Types
+// =====================================================
+// TYPES
+// =====================================================
+
 interface Vendor {
   id: string;
   company: string;
   services: string[];
-  location: {
-    city?: string;
-    region?: string;
-    coverage?: string[];
-  };
-  rating: number;
-  reviewCount: number;
-  tier: string;
   description?: string;
-  productCount: number;
+  location: string;
+  coverage: string[];
+  rating: number | null;
+  reviewCount: number;
   brands?: string[];
-  yearsInBusiness?: number;
-  accreditations?: string[];
-  website?: string;
-  showPricing: boolean;
-}
-
-interface Product {
-  id: string;
-  vendorId: string;
-  vendorName: string;
-  manufacturer: string;
-  model: string;
-  category: string;
-  speed: number;
-  isA3: boolean;
-  features: string[];
-  minVolume: number;
-  maxVolume: number;
-  costs?: {
-    cpcRates: {
-      A4Mono: number;
-      A4Colour: number;
-      A3Mono?: number;
-      A3Colour?: number;
-    };
+  tier: string;
+  matchScore: number;
+  scoreBreakdown?: {
+    productFit: number;
+    vendorQuality: number;
+    tierBonus: number;
+    costEfficiency: number;
   };
-  leaseRates?: {
-    term36?: number;
-    term48?: number;
-    term60?: number;
+  rank: number;
+  badge: string | null;
+  whyRecommended: string;
+  product?: {
+    name: string;
+    category: string;
+    speed: number;
+    isColour: boolean;
+    isA3: boolean;
+    features: string[];
   };
-  matchScore?: number;
+  pricing?: {
+    estimatedMonthly: string;
+    breakdown: { lease: string; cpc: string; service: string };
+    cpcMono: string | null;
+    cpcColour: string | null;
+  };
   savings?: {
+    monthly: number;
     annual: number;
     percentage: number;
     formatted: string;
+  };
+  service?: {
+    includesToner: boolean;
+    includesPartsLabour: boolean;
+    responseTime: string;
+  };
+  profileUrl: string;
+  quoteUrl: string;
+}
+
+interface FollowUpQuestion {
+  field: string;
+  question: string;
+  options: string[];
+  impact: 'high' | 'medium' | 'low';
+  help: string;
+  multiSelect?: boolean;
+}
+
+interface APIResponse {
+  success: boolean;
+  count: number;
+  vendors: Vendor[];
+  summary: {
+    totalMatches: number;
+    withPricing: number;
+    priceRange: { min: number; max: number } | null;
+    maxAnnualSavings: number | null;
+  };
+  followUp: FollowUpQuestion[];
+  answeredFields: string[];
+  filters: {
+    volume: number;
+    colour?: boolean;
+    a3?: boolean;
+    features?: string[];
+    colourRatio?: number;
   };
 }
 
@@ -69,114 +98,131 @@ interface FormData {
   timeline: string;
 }
 
-interface FormErrors {
-  companyName?: string;
-  contactName?: string;
-  email?: string;
-  phone?: string;
-  postcode?: string;
+// =====================================================
+// CONSTANTS
+// =====================================================
+
+const CATEGORIES = [
+  { value: 'Photocopiers', label: 'Photocopiers & Printers', icon: '🖨️', description: 'Lease or buy multifunction printers, copiers, and managed print services' },
+  { value: 'Telecoms', label: 'Telecoms & Phone Systems', icon: '📞', description: 'VoIP, cloud phones, PBX systems, and business broadband' },
+  { value: 'CCTV', label: 'CCTV & Security', icon: '📹', description: 'Security cameras, monitoring, access control, and alarms' },
+  { value: 'IT', label: 'IT Services', icon: '💻', description: 'Managed IT support, cloud services, cybersecurity, and Microsoft 365' },
+];
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
+
+// =====================================================
+// UTILITY FUNCTIONS
+// =====================================================
+
+function parseVolume(option: string): number {
+  const map: Record<string, number> = {
+    'Under 1,000': 500,
+    '1,000-3,000': 2000,
+    '3,000-5,000': 4000,
+    '5,000-10,000': 7500,
+    '10,000-20,000': 15000,
+    '20,000-50,000': 35000,
+    '50,000+': 60000,
+    '1-5': 3,
+    '6-10': 8,
+    '11-25': 18,
+    '26-50': 38,
+    '51-100': 75,
+    '100+': 150,
+    '100-250': 175,
+    '250+': 300,
+    '1-4': 3,
+    '5-8': 6,
+    '9-16': 12,
+    '17-32': 24,
+    '32+': 40,
+    '1-10': 5,
+  };
+  return map[option] || 5000;
 }
 
-// Constants
-const CATEGORIES = [
-  { value: 'photocopiers', label: 'Photocopiers & Printers', icon: '🖨️' },
-  { value: 'telecoms', label: 'Telecoms & Phone Systems', icon: '📞' },
-  { value: 'cctv', label: 'CCTV & Security', icon: '📹' },
-  { value: 'it-services', label: 'IT Services', icon: '💻' },
-];
+function parseBudget(option: string): number | undefined {
+  const map: Record<string, number> = {
+    // Photocopier budget options
+    'Under £100': 100,
+    '£100-£200': 150,
+    '£200-£350': 275,
+    '£350-£500': 425,
+    'Over £500': 600,
+    // CCTV budget options
+    'Under £50': 50,
+    '£50-£100': 75,
+    '£100-£250': 175,
+    '£250-£500': 375,
+    // IT budget options
+    'Under £500': 500,
+    '£500-£1000': 750,
+    '£1000-£2500': 1750,
+    '£2500-£5000': 3750,
+    'Over £5000': 6000,
+    // Telecoms budget options
+    '£100-£300': 200,
+    '£300-£500': 400,
+    'Over £1000': 1200,
+    // New setup
+    'New setup': 0,
+    'No current support': 0,
+  };
+  return map[option];
+}
 
-const VOLUME_OPTIONS = [
-  { value: '3000', label: 'Up to 3,000 pages/month', range: '0-6k' },
-  { value: '10000', label: '3,000 - 10,000 pages/month', range: '6k-13k' },
-  { value: '20000', label: '10,000 - 20,000 pages/month', range: '13k-20k' },
-  { value: '35000', label: '20,000 - 35,000 pages/month', range: '20k-40k' },
-  { value: '50000', label: '35,000+ pages/month', range: '40k+' },
-];
+function parseColourRatio(option: string): number {
+  const map: Record<string, number> = {
+    'Under 10%': 0.05,
+    '10-25%': 0.175,
+    '25-50%': 0.375,
+    'Over 50%': 0.6,
+  };
+  return map[option] || 0.2;
+}
 
-const STAGES = [
-  { id: 1, name: 'Browse', description: 'View supplier directory' },
-  { id: 2, name: 'Filter', description: 'Refine your search' },
-  { id: 3, name: 'Compare', description: 'View products & pricing' },
-  { id: 4, name: 'Quote', description: 'Get personalised quotes' },
-];
+function parseColour(option: string): boolean | undefined {
+  if (option === 'Yes - regularly' || option === 'Yes - occasionally') return true;
+  if (option === 'No - mono only') return false;
+  return undefined;
+}
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
+function parseA3(option: string): boolean | undefined {
+  if (option === 'Yes') return true;
+  if (option === 'No') return false;
+  return undefined;
+}
+
+// =====================================================
+// MAIN COMPONENT
+// =====================================================
 
 export default function QuoteFlow() {
   const searchParams = useSearchParams();
 
-  // Stage management
-  const [currentStage, setCurrentStage] = useState(1);
-  const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
-
-  // Filters - initialize from URL params if present
+  // Flow state
+  const [step, setStep] = useState<'category' | 'questions' | 'results' | 'form'>('category');
   const [category, setCategory] = useState('');
   const [postcode, setPostcode] = useState('');
-  const [monthlyVolume, setMonthlyVolume] = useState('');
 
-  // Read URL params on mount
-  useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    const postcodeParam = searchParams.get('postcode');
-    const volumeParam = searchParams.get('volume');
+  // Answers accumulated from questions
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
 
-    if (categoryParam) {
-      // Map category names to values
-      const categoryMap: Record<string, string> = {
-        'Photocopiers': 'photocopiers',
-        'photocopiers': 'photocopiers',
-        'Telecoms': 'telecoms',
-        'telecoms': 'telecoms',
-        'CCTV': 'cctv',
-        'cctv': 'cctv',
-        'IT': 'it-services',
-        'it': 'it-services',
-        'it-services': 'it-services',
-      };
-      const mappedCategory = categoryMap[categoryParam] || categoryParam.toLowerCase();
-      if (CATEGORIES.some(c => c.value === mappedCategory)) {
-        setCategory(mappedCategory);
-        setMaxUnlockedStage(2);
-        setCurrentStage(2);
-      }
-    }
-
-    if (postcodeParam) {
-      setPostcode(postcodeParam.toUpperCase());
-    }
-
-    if (volumeParam) {
-      // Find closest volume option
-      const volume = parseInt(volumeParam);
-      const closest = VOLUME_OPTIONS.reduce((prev, curr) => {
-        const prevDiff = Math.abs(parseInt(prev.value) - volume);
-        const currDiff = Math.abs(parseInt(curr.value) - volume);
-        return currDiff < prevDiff ? curr : prev;
-      });
-      setMonthlyVolume(closest.value);
-    }
-  }, [searchParams]);
-  const [needsColour, setNeedsColour] = useState<boolean | null>(null);
-  const [needsA3, setNeedsA3] = useState<boolean | null>(null);
-
-  // Data
+  // API data
   const [vendors, setVendors] = useState<Vendor[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [followUpQuestions, setFollowUpQuestions] = useState<FollowUpQuestion[]>([]);
+  const [summary, setSummary] = useState<APIResponse['summary'] | null>(null);
+  const [answeredFields, setAnsweredFields] = useState<string[]>([]);
 
-  // Loading/error states
+  // UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Mobile sidebar
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [showAllQuestions, setShowAllQuestions] = useState(false);
 
   // Quote form
-  const [showQuoteForm, setShowQuoteForm] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formSubmitting, setFormSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     companyName: '',
     contactName: '',
@@ -186,282 +232,179 @@ export default function QuoteFlow() {
     message: '',
     timeline: 'soon',
   });
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Fetch vendors
-  const fetchVendors = useCallback(async () => {
+  // Initialize from URL params
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const postcodeParam = searchParams.get('postcode');
+
+    if (categoryParam) {
+      const mappedCategory = CATEGORIES.find(
+        c => c.value.toLowerCase() === categoryParam.toLowerCase() || c.label.toLowerCase().includes(categoryParam.toLowerCase())
+      )?.value;
+      if (mappedCategory) {
+        setCategory(mappedCategory);
+      }
+    }
+    if (postcodeParam) {
+      setPostcode(postcodeParam.toUpperCase());
+    }
+  }, [searchParams]);
+
+  // Fetch matches from API
+  const fetchMatches = useCallback(async (categoryValue: string, postcodeValue: string, currentAnswers: Record<string, string | string[]>) => {
     setLoading(true);
     setError(null);
 
     try {
-      const params = new URLSearchParams();
-      if (category) params.set('category', category);
-      params.set('limit', '50');
+      // Build requirements from answers
+      const requirements: Record<string, unknown> = {};
+      let volume = 5000;
+      let budget: number | undefined;
+      let colourRatio = 0.2;
 
-      const response = await fetch(`/api/public/vendors?${params.toString()}`);
-      const data = await response.json();
-
-      if (data.success) {
-        setVendors(data.data.vendors);
-      } else {
-        setError('Failed to load suppliers');
-      }
-    } catch (err) {
-      console.error('Failed to fetch vendors:', err);
-      setError('Failed to load suppliers. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, [category]);
-
-  // Fetch products via AI query
-  const fetchProducts = useCallback(async () => {
-    if (!category || category !== 'photocopiers') {
-      setProducts([]);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Build query string for AI
-      let query = 'photocopier';
-      if (monthlyVolume) {
-        query += ` ${parseInt(monthlyVolume).toLocaleString()} pages per month`;
-      }
-      if (needsColour === true) query += ' colour';
-      if (needsColour === false) query += ' mono only';
-      if (needsA3 === true) query += ' A3';
-      if (needsA3 === false) query += ' A4';
+      Object.entries(currentAnswers).forEach(([field, value]) => {
+        if (field === 'volume') {
+          volume = parseVolume(value as string);
+        } else if (field === 'currentMonthlyCost') {
+          budget = parseBudget(value as string);
+        } else if (field === 'colourRatio') {
+          colourRatio = parseColourRatio(value as string);
+        } else if (field === 'colour') {
+          requirements.colour = parseColour(value as string);
+        } else if (field === 'a3') {
+          requirements.a3 = parseA3(value as string);
+        } else if (field === 'features') {
+          requirements.features = Array.isArray(value) ? value : [value];
+        } else if (field === 'numberOfUsers') {
+          requirements.numberOfUsers = parseVolume(value as string);
+        } else if (field === 'numberOfCameras') {
+          requirements.numberOfCameras = parseVolume(value as string);
+        } else {
+          requirements[field] = value;
+        }
+      });
 
       const response = await fetch(`${BACKEND_URL}/api/ai-query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query,
-          postcode: postcode || undefined,
-          limit: 20,
+          category: categoryValue,
+          location: postcodeValue,
+          volume,
+          budget,
+          colourRatio,
+          requirements,
+          limit: 10,
         }),
       });
-      const data = await response.json();
 
-      if (data.success && data.vendors) {
-        const formattedProducts: Product[] = data.vendors.map(
-          (vendor: {
-            id: string;
-            company: string;
-            product: {
-              name: string;
-              category: string;
-              speed: number;
-              isA3: boolean;
-              isColour?: boolean;
-              features: string[];
-            };
-            pricing?: {
-              cpcMono?: string;
-              cpcColour?: string;
-              estimatedMonthly?: string;
-              breakdown?: {
-                lease?: string;
-                cpc?: string;
-                service?: string;
-              };
-            };
-            matchScore: number;
-            savings?: {
-              annual: number;
-              percentage: number;
-              formatted: string;
-            };
-          }) => {
-            // Parse product name into manufacturer and model
-            const productNameParts = vendor.product.name.split(' ');
-            const manufacturer = productNameParts[0];
-            const model = productNameParts.slice(1).join(' ');
+      const data: APIResponse = await response.json();
 
-            // Parse CPC rates from strings like "0.5p"
-            const parseCpc = (cpc?: string) => cpc ? parseFloat(cpc.replace('p', '')) : 0;
-
-            return {
-              id: `${vendor.id}-${vendor.product.name.replace(/\s+/g, '-')}`,
-              vendorId: vendor.id,
-              vendorName: vendor.company,
-              manufacturer,
-              model,
-              category: vendor.product.category,
-              speed: vendor.product.speed,
-              isA3: vendor.product.isA3,
-              features: vendor.product.features || [],
-              minVolume: 0,
-              maxVolume: 0,
-              costs: {
-                cpcRates: {
-                  A4Mono: parseCpc(vendor.pricing?.cpcMono),
-                  A4Colour: parseCpc(vendor.pricing?.cpcColour),
-                },
-              },
-              leaseRates: vendor.pricing?.breakdown?.lease ? {
-                term48: parseFloat(vendor.pricing.breakdown.lease.replace('£', '')) * 3,
-              } : undefined,
-              matchScore: vendor.matchScore,
-              savings: vendor.savings,
-            };
-          }
-        );
-        setProducts(formattedProducts);
+      if (data.success) {
+        setVendors(data.vendors);
+        setFollowUpQuestions(data.followUp || []);
+        setSummary(data.summary);
+        setAnsweredFields(data.answeredFields || []);
       } else {
-        setProducts([]);
+        setError('Failed to load suppliers');
       }
     } catch (err) {
-      console.error('Failed to fetch products:', err);
-      setProducts([]);
+      console.error('Failed to fetch matches:', err);
+      setError('Failed to load suppliers. Please try again.');
     } finally {
       setLoading(false);
     }
-  }, [category, postcode, monthlyVolume, needsColour, needsA3]);
+  }, []);
 
-  // Effects
-  useEffect(() => {
-    fetchVendors();
-  }, [fetchVendors]);
-
-  useEffect(() => {
-    if (currentStage >= 3 && category === 'photocopiers') {
-      fetchProducts();
-    }
-  }, [currentStage, fetchProducts, category]);
-
-  // Stage progression
-  useEffect(() => {
-    // Unlock stage 2 when category is selected
-    if (category && maxUnlockedStage < 2) {
-      setMaxUnlockedStage(2);
-    }
-
-    // Unlock stage 3 when we have filters
-    if (category && (postcode || monthlyVolume) && maxUnlockedStage < 3) {
-      setMaxUnlockedStage(3);
-    }
-
-    // Unlock stage 4 when products are selected or at stage 3
-    if (currentStage >= 3 && maxUnlockedStage < 4) {
-      setMaxUnlockedStage(4);
-    }
-  }, [category, postcode, monthlyVolume, currentStage, maxUnlockedStage]);
-
-  // Handlers
-  const handleCategorySelect = (cat: string) => {
-    setCategory(cat);
-    setCurrentStage(2);
-    setSidebarOpen(false);
+  // Handle category selection and proceed
+  const handleCategorySubmit = async () => {
+    if (!category) return;
+    await fetchMatches(category, postcode, {});
+    setStep('questions');
+    setCurrentQuestionIndex(0);
   };
 
-  const handleApplyFilters = () => {
-    setCurrentStage(3);
-    setSidebarOpen(false);
+  // Handle answer submission
+  const handleAnswer = async (field: string, value: string | string[]) => {
+    const newAnswers = { ...answers, [field]: value };
+    setAnswers(newAnswers);
+
+    // Re-fetch with new answers
+    await fetchMatches(category, postcode, newAnswers);
+
+    // Move to next question
+    if (!showAllQuestions) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    }
   };
 
-  const handleVendorSelect = (vendorId: string) => {
-    setSelectedVendors((prev) =>
-      prev.includes(vendorId) ? prev.filter((id) => id !== vendorId) : [...prev, vendorId]
+  // Skip to results
+  const skipToResults = () => {
+    setStep('results');
+  };
+
+  // Get current high-impact questions answered
+  const highImpactAnswered = useMemo(() => {
+    const highImpactFields = followUpQuestions
+      .filter(q => q.impact === 'high')
+      .map(q => q.field);
+    return Object.keys(answers).filter(a => highImpactFields.includes(a)).length;
+  }, [answers, followUpQuestions]);
+
+  // Toggle vendor selection
+  const toggleVendorSelection = (vendorId: string) => {
+    setSelectedVendors(prev =>
+      prev.includes(vendorId) ? prev.filter(id => id !== vendorId) : [...prev, vendorId]
     );
   };
 
-  const handleProductSelect = (productId: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
-    );
-  };
-
-  const validatePostcode = (pc: string) => {
-    return /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(pc.trim());
-  };
-
+  // Form validation
   const validateForm = (): boolean => {
-    const errors: FormErrors = {};
+    const errors: Record<string, string> = {};
 
-    if (!formData.companyName.trim()) {
-      errors.companyName = 'Company name is required';
-    }
-    if (!formData.contactName.trim()) {
-      errors.contactName = 'Contact name is required';
-    }
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Please enter a valid email';
-    }
-    if (!formData.phone.trim()) {
-      errors.phone = 'Phone number is required';
-    } else if (!/^[\d\s+()-]{10,}$/.test(formData.phone)) {
-      errors.phone = 'Please enter a valid phone number';
-    }
-    if (formData.postcode && !validatePostcode(formData.postcode)) {
-      errors.postcode = 'Please enter a valid UK postcode';
-    }
+    if (!formData.companyName.trim()) errors.companyName = 'Company name is required';
+    if (!formData.contactName.trim()) errors.contactName = 'Contact name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = 'Invalid email';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+    else if (!/^[\d\s+()-]{10,}$/.test(formData.phone)) errors.phone = 'Invalid phone number';
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (formErrors[name as keyof FormErrors]) {
-      setFormErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
+  // Submit quote form
   const handleSubmitQuote = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     setFormSubmitting(true);
 
     try {
-      // Get selected vendors from products if any selected
-      const vendorIds =
-        selectedProducts.length > 0
-          ? [...new Set(products.filter((p) => selectedProducts.includes(p.id)).map((p) => p.vendorId))]
-          : selectedVendors.length > 0
-            ? selectedVendors
-            : vendors.slice(0, 3).map((v) => v.id);
+      const vendorIds = selectedVendors.length > 0
+        ? selectedVendors
+        : vendors.slice(0, 3).map(v => v.id);
 
-      // Submit lead to each vendor
       for (const vendorId of vendorIds) {
         await fetch(`${BACKEND_URL}/api/vendor-leads`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             vendorId,
-            service: category === 'photocopiers' ? 'Photocopiers' : category,
+            service: category,
             companyName: formData.companyName.trim(),
             contactName: formData.contactName.trim(),
             email: formData.email.trim().toLowerCase(),
             phone: formData.phone.trim(),
-            postcode: formData.postcode.trim().toUpperCase() || postcode || undefined,
+            postcode: formData.postcode.trim().toUpperCase() || postcode,
             message: formData.message.trim() || undefined,
             timeline: formData.timeline,
-            monthlyVolume: monthlyVolume || undefined,
-            requirements: {
-              needsColour,
-              needsA3,
-              selectedProducts: selectedProducts,
-            },
-            source: {
-              page: 'get-quotes',
-              referrer: 'tendorai-nextjs',
-              utm: {
-                source: 'tendorai',
-                medium: 'website',
-                campaign: 'quote-flow',
-              },
-            },
+            requirements: answers,
+            source: { page: 'get-quotes', referrer: 'tendorai-nextjs' },
           }),
         });
       }
@@ -475,466 +418,540 @@ export default function QuoteFlow() {
     }
   };
 
-  // Render functions
-  const renderStageIndicator = () => (
-    <div className="flex items-center justify-between mb-6 overflow-x-auto pb-2">
-      {STAGES.map((stage, index) => (
-        <div key={stage.id} className="flex items-center">
+  // =====================================================
+  // RENDER: Category Selection
+  // =====================================================
+  const renderCategoryStep = () => (
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">What do you need?</h1>
+        <p className="text-lg text-gray-600">Select a category to get started with personalised quotes</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 mb-8">
+        {CATEGORIES.map((cat) => (
           <button
-            onClick={() => stage.id <= maxUnlockedStage && setCurrentStage(stage.id)}
-            disabled={stage.id > maxUnlockedStage}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all whitespace-nowrap ${
-              currentStage === stage.id
-                ? 'bg-purple-600 text-white'
-                : stage.id <= maxUnlockedStage
-                  ? 'bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer'
-                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            key={cat.value}
+            onClick={() => setCategory(cat.value)}
+            className={`p-6 rounded-xl border-2 text-left transition-all ${
+              category === cat.value
+                ? 'border-purple-600 bg-purple-50 ring-2 ring-purple-200'
+                : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-25'
             }`}
           >
-            <span
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
-                currentStage === stage.id
-                  ? 'bg-white text-purple-600'
-                  : stage.id < currentStage
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-300 text-gray-600'
-              }`}
-            >
-              {stage.id < currentStage ? '✓' : stage.id}
-            </span>
-            <span className="hidden sm:inline font-medium">{stage.name}</span>
+            <div className="flex items-start gap-4">
+              <span className="text-4xl">{cat.icon}</span>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{cat.label}</h3>
+                <p className="text-sm text-gray-600 mt-1">{cat.description}</p>
+              </div>
+            </div>
           </button>
-          {index < STAGES.length - 1 && (
-            <div
-              className={`w-8 h-0.5 mx-1 ${
-                stage.id < currentStage ? 'bg-green-500' : 'bg-gray-200'
-              }`}
-            />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div className="bg-white rounded-xl p-6 border border-gray-200 mb-8">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Your postcode (optional but recommended)
+        </label>
+        <input
+          type="text"
+          value={postcode}
+          onChange={(e) => setPostcode(e.target.value.toUpperCase())}
+          placeholder="e.g., CF10 1AA"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg"
+          maxLength={10}
+        />
+        <p className="text-sm text-gray-500 mt-2">Helps us find suppliers in your area</p>
+      </div>
+
+      <button
+        onClick={handleCategorySubmit}
+        disabled={!category}
+        className={`w-full py-4 text-lg font-semibold rounded-xl transition-all ${
+          category
+            ? 'bg-purple-600 text-white hover:bg-purple-700'
+            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+        }`}
+      >
+        Find Suppliers
+      </button>
     </div>
   );
 
-  const renderSidebar = () => (
-    <div
-      className={`
-      fixed inset-y-0 left-0 z-50 w-80 bg-white shadow-xl transform transition-transform duration-300 lg:relative lg:transform-none lg:shadow-none lg:z-auto
-      ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-    `}
-    >
-      <div className="h-full overflow-y-auto p-6 pt-20 lg:pt-6">
-        {/* Mobile close button */}
-        <button
-          onClick={() => setSidebarOpen(false)}
-          className="lg:hidden absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700"
-        >
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+  // =====================================================
+  // RENDER: Question Flow
+  // =====================================================
+  const renderQuestionsStep = () => {
+    const currentQuestion = followUpQuestions[currentQuestionIndex];
+    const hasEnoughAnswers = highImpactAnswered >= 2 || Object.keys(answers).length >= 3;
+    const allQuestionsAnswered = currentQuestionIndex >= followUpQuestions.length;
 
-        {/* Category Selection */}
-        <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-            Category
-          </h3>
-          <div className="space-y-2">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => handleCategorySelect(cat.value)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all ${
-                  category === cat.value
-                    ? 'bg-purple-100 text-purple-700 ring-2 ring-purple-500'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                <span className="text-xl">{cat.icon}</span>
-                <span className="font-medium">{cat.label}</span>
-              </button>
-            ))}
+    if (loading && vendors.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Finding suppliers...</p>
+        </div>
+      );
+    }
+
+    if (allQuestionsAnswered || !currentQuestion) {
+      return (
+        <div className="max-w-2xl mx-auto text-center py-12">
+          <div className="text-6xl mb-4">✅</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Great! We have all we need</h2>
+          <p className="text-gray-600 mb-6">
+            We found <strong>{vendors.length}</strong> suppliers matching your requirements.
+          </p>
+          <button
+            onClick={skipToResults}
+            className="px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            See Your Matches
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="max-w-2xl mx-auto">
+        {/* Progress indicator */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+            <span>Question {currentQuestionIndex + 1} of {followUpQuestions.length}</span>
+            <span>{vendors.length} suppliers matched</span>
+          </div>
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-purple-600 transition-all duration-300"
+              style={{ width: `${((currentQuestionIndex + 1) / followUpQuestions.length) * 100}%` }}
+            />
           </div>
         </div>
 
-        {/* Postcode Filter */}
-        {category && (
-          <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-              Your Location
-            </h3>
-            <input
-              type="text"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value.toUpperCase())}
-              placeholder="Enter postcode (e.g., CF10 1AA)"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              maxLength={10}
-            />
-            {postcode && !validatePostcode(postcode) && (
-              <p className="mt-1 text-sm text-amber-600">Enter a valid UK postcode</p>
-            )}
+        {/* Current question */}
+        <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm mb-6">
+          <div className="flex items-start justify-between mb-4">
+            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+              currentQuestion.impact === 'high' ? 'bg-purple-100 text-purple-700' :
+              currentQuestion.impact === 'medium' ? 'bg-blue-100 text-blue-700' :
+              'bg-gray-100 text-gray-600'
+            }`}>
+              {currentQuestion.impact === 'high' ? 'Important' : currentQuestion.impact === 'medium' ? 'Helpful' : 'Optional'}
+            </span>
           </div>
-        )}
 
-        {/* Photocopier-specific filters */}
-        {category === 'photocopiers' && (
-          <>
-            {/* Monthly Volume */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                Monthly Print Volume
-              </h3>
-              <div className="space-y-2">
-                {VOLUME_OPTIONS.map((opt) => (
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">{currentQuestion.question}</h2>
+
+          {currentQuestion.multiSelect ? (
+            <div className="space-y-3">
+              {currentQuestion.options.map((option) => {
+                const currentValue = answers[currentQuestion.field];
+                const isSelected = Array.isArray(currentValue) && currentValue.includes(option);
+                return (
                   <button
-                    key={opt.value}
-                    onClick={() => setMonthlyVolume(monthlyVolume === opt.value ? '' : opt.value)}
-                    className={`w-full px-4 py-2 rounded-lg text-left text-sm transition-all ${
-                      monthlyVolume === opt.value
-                        ? 'bg-purple-100 text-purple-700 ring-2 ring-purple-500'
-                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    key={option}
+                    onClick={() => {
+                      const currentArr = Array.isArray(answers[currentQuestion.field])
+                        ? answers[currentQuestion.field] as string[]
+                        : [];
+                      const newValue = isSelected
+                        ? currentArr.filter(v => v !== option)
+                        : [...currentArr, option];
+                      setAnswers({ ...answers, [currentQuestion.field]: newValue });
+                    }}
+                    className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
+                      isSelected
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
                     }`}
                   >
-                    {opt.label}
+                    <div className="flex items-center gap-3">
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                        isSelected ? 'border-purple-600 bg-purple-600' : 'border-gray-300'
+                      }`}>
+                        {isSelected && <span className="text-white text-sm">✓</span>}
+                      </div>
+                      <span className="font-medium text-gray-900">{option}</span>
+                    </div>
                   </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Colour Toggle */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                Colour Printing
-              </h3>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setNeedsColour(needsColour === true ? null : true)}
-                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    needsColour === true
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={() => setNeedsColour(needsColour === false ? null : false)}
-                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    needsColour === false
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  No (Mono)
-                </button>
-              </div>
-            </div>
-
-            {/* A3 Toggle */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                Paper Size
-              </h3>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setNeedsA3(needsA3 === true ? null : true)}
-                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    needsA3 === true
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  A3
-                </button>
-                <button
-                  onClick={() => setNeedsA3(needsA3 === false ? null : false)}
-                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    needsA3 === false
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  A4 Only
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* Apply Filters Button */}
-        {category && currentStage < 3 && (
-          <button
-            onClick={handleApplyFilters}
-            className="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            View Matching Products
-          </button>
-        )}
-
-        {/* Selected count */}
-        {(selectedVendors.length > 0 || selectedProducts.length > 0) && (
-          <div className="mt-6 p-4 bg-green-50 rounded-lg">
-            <p className="text-sm text-green-700 font-medium">
-              {selectedProducts.length > 0 && `${selectedProducts.length} product(s) selected`}
-              {selectedVendors.length > 0 && `${selectedVendors.length} supplier(s) selected`}
-            </p>
-            <button
-              onClick={() => {
-                setCurrentStage(4);
-                setShowQuoteForm(true);
-              }}
-              className="mt-2 w-full py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Get Quotes Now
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  const renderVendorCard = (vendor: Vendor) => {
-    const isSelected = selectedVendors.includes(vendor.id);
-    const showDetails = currentStage >= 2;
-    const showFullDetails = currentStage >= 3 || vendor.tier !== 'free';
-
-    return (
-      <div
-        key={vendor.id}
-        className={`bg-white rounded-xl p-5 border transition-all ${
-          isSelected
-            ? 'border-purple-500 ring-2 ring-purple-200'
-            : 'border-gray-100 hover:border-purple-200'
-        }`}
-      >
-        <div className="flex justify-between items-start mb-3">
-          <div>
-            <h3 className="font-bold text-gray-900 text-lg">{vendor.company}</h3>
-            {showDetails && vendor.location.city && (
-              <p className="text-sm text-gray-500">{vendor.location.city}</p>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {vendor.tier !== 'free' && (
-              <span
-                className={`text-xs px-2 py-1 rounded-full font-medium ${
-                  vendor.tier === 'verified'
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-purple-100 text-purple-700'
-                }`}
+                );
+              })}
+              <button
+                onClick={() => {
+                  const currentArr = Array.isArray(answers[currentQuestion.field])
+                    ? answers[currentQuestion.field] as string[]
+                    : [];
+                  if (currentArr.length > 0) {
+                    handleAnswer(currentQuestion.field, currentArr);
+                  } else {
+                    setCurrentQuestionIndex(prev => prev + 1);
+                  }
+                }}
+                className="w-full mt-4 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
               >
-                {vendor.tier === 'verified' ? 'Verified' : 'Visible'}
-              </span>
-            )}
-            <button
-              onClick={() => handleVendorSelect(vendor.id)}
-              className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-colors ${
-                isSelected
-                  ? 'bg-purple-600 border-purple-600 text-white'
-                  : 'border-gray-300 hover:border-purple-400'
-              }`}
-            >
-              {isSelected && <span className="text-sm">✓</span>}
-            </button>
-          </div>
+                Continue
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-3">
+              {currentQuestion.options.map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleAnswer(currentQuestion.field, option)}
+                  disabled={loading}
+                  className="w-full p-4 text-left rounded-lg border-2 border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all disabled:opacity-50"
+                >
+                  <span className="font-medium text-gray-900">{option}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {currentQuestion.help && (
+            <p className="text-sm text-gray-500 mt-4 flex items-start gap-2">
+              <span className="text-purple-500">💡</span>
+              {currentQuestion.help}
+            </p>
+          )}
         </div>
 
-        {vendor.description && showDetails && (
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">{vendor.description}</p>
-        )}
-
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {vendor.services.slice(0, 3).map((service, idx) => (
-            <span key={idx} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-              {service}
-            </span>
-          ))}
-        </div>
-
-        {showFullDetails && (
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
-            {vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
-            {vendor.yearsInBusiness && <span>{vendor.yearsInBusiness} years in business</span>}
-          </div>
-        )}
-
-        {vendor.rating > 0 && showFullDetails && (
-          <div className="flex items-center gap-1 mb-3">
-            <span className="text-yellow-500">★</span>
-            <span className="text-sm font-medium">{vendor.rating.toFixed(1)}</span>
-            <span className="text-xs text-gray-400">({vendor.reviewCount} reviews)</span>
-          </div>
-        )}
-
-        <div className="flex gap-2">
-          <Link
-            href={`/suppliers/profile/${vendor.id}`}
-            className="flex-1 py-2 text-center text-sm font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+        {/* Skip option */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
+            className="text-gray-500 hover:text-gray-700 text-sm"
           >
-            View Profile
-          </Link>
-          {currentStage >= 3 && (
+            Skip this question
+          </button>
+
+          {hasEnoughAnswers && (
             <button
-              onClick={() => {
-                setSelectedVendors([vendor.id]);
-                setCurrentStage(4);
-                setShowQuoteForm(true);
-              }}
-              className="flex-1 py-2 text-center text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
+              onClick={skipToResults}
+              className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
             >
-              Get Quote
+              See {vendors.length} Results
+              <span className="text-lg">→</span>
             </button>
           )}
         </div>
+
+        {/* Summary of answered questions */}
+        {Object.keys(answers).length > 0 && (
+          <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Your requirements:</h4>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(answers).map(([field, value]) => (
+                <span key={field} className="px-3 py-1 bg-white rounded-full text-sm text-gray-700 border">
+                  {Array.isArray(value) ? value.join(', ') : value}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
-  const renderProductCard = (product: Product) => {
-    const isSelected = selectedProducts.includes(product.id);
-    const showPricing = currentStage >= 3;
+  // =====================================================
+  // RENDER: Results
+  // =====================================================
+  const renderResultsStep = () => {
+    const top3 = vendors.filter(v => v.badge);
+    const others = vendors.filter(v => !v.badge);
 
     return (
-      <div
-        key={product.id}
-        className={`bg-white rounded-xl p-5 border transition-all ${
-          isSelected
-            ? 'border-purple-500 ring-2 ring-purple-200'
-            : 'border-gray-100 hover:border-purple-200'
-        }`}
-      >
-        <div className="flex justify-between items-start mb-3">
-          <div>
-            <h3 className="font-bold text-gray-900">
-              {product.manufacturer} {product.model}
-            </h3>
-            <p className="text-sm text-gray-500">from {product.vendorName}</p>
-          </div>
-          <button
-            onClick={() => handleProductSelect(product.id)}
-            className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-colors ${
-              isSelected
-                ? 'bg-purple-600 border-purple-600 text-white'
-                : 'border-gray-300 hover:border-purple-400'
-            }`}
-          >
-            {isSelected && <span className="text-sm">✓</span>}
-          </button>
+      <div className="max-w-6xl mx-auto">
+        {/* Summary header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Top Matches</h1>
+          <p className="text-lg text-gray-600">
+            {vendors.length} suppliers matched your requirements
+            {summary?.withPricing ? ` • ${summary.withPricing} with pricing` : ''}
+          </p>
         </div>
 
-        {/* Match score badge */}
-        {product.matchScore && product.matchScore >= 80 && (
-          <div className="mb-3">
-            <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-              {product.matchScore}% Match
-            </span>
-          </div>
-        )}
-
-        {/* Savings badge */}
-        {product.savings && product.savings.annual > 0 && (
-          <div className="mb-3 p-2 bg-green-50 rounded-lg">
-            <p className="text-sm text-green-700 font-medium">
-              Could save you {product.savings.formatted}/year
-            </p>
-          </div>
-        )}
-
-        {/* Specs */}
-        <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
-          <div className="flex items-center gap-1 text-gray-600">
-            <span>⚡</span> {product.speed} ppm
-          </div>
-          <div className="flex items-center gap-1 text-gray-600">
-            <span>📄</span> {product.isA3 ? 'A3' : 'A4'}
-          </div>
-          <div className="flex items-center gap-1 text-gray-600">
-            <span>📊</span> {product.minVolume.toLocaleString()}-{product.maxVolume.toLocaleString()} pages
-          </div>
-          <div className="flex items-center gap-1 text-gray-600">
-            <span>🎨</span> {product.costs?.cpcRates?.A4Colour ? 'Colour' : 'Mono'}
-          </div>
-        </div>
-
-        {/* Features */}
-        {product.features.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-3">
-            {product.features.slice(0, 4).map((feature, idx) => (
-              <span key={idx} className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                {feature}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Pricing - only shown at stage 3+ */}
-        {showPricing && product.costs && (
-          <div className="border-t pt-3 mt-3">
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div>
-                <span className="text-gray-500">Mono:</span>{' '}
-                <span className="font-medium">{product.costs.cpcRates.A4Mono}p/page</span>
-              </div>
-              {product.costs.cpcRates.A4Colour > 0 && (
-                <div>
-                  <span className="text-gray-500">Colour:</span>{' '}
-                  <span className="font-medium">{product.costs.cpcRates.A4Colour}p/page</span>
-                </div>
-              )}
+        {/* Requirements summary (editable) */}
+        {Object.keys(answers).length > 0 && (
+          <div className="mb-8 p-4 bg-purple-50 rounded-xl border border-purple-100">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-medium text-purple-900">Your requirements</h3>
+              <button
+                onClick={() => { setStep('questions'); setCurrentQuestionIndex(0); }}
+                className="text-sm text-purple-600 hover:text-purple-800"
+              >
+                Edit
+              </button>
             </div>
-            {product.leaseRates?.term48 && (
-              <div className="mt-2 text-sm">
-                <span className="text-gray-500">Lease:</span>{' '}
-                <span className="font-medium">£{product.leaseRates.term48}/quarter (48mo)</span>
-              </div>
-            )}
+            <div className="flex flex-wrap gap-2">
+              <span className="px-3 py-1 bg-white rounded-full text-sm text-purple-700 border border-purple-200">
+                {CATEGORIES.find(c => c.value === category)?.label}
+              </span>
+              {postcode && (
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-purple-700 border border-purple-200">
+                  {postcode}
+                </span>
+              )}
+              {Object.entries(answers).map(([, value]) => (
+                <span key={String(value)} className="px-3 py-1 bg-white rounded-full text-sm text-purple-700 border border-purple-200">
+                  {Array.isArray(value) ? value.slice(0, 2).join(', ') + (value.length > 2 ? '...' : '') : value}
+                </span>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Actions */}
-        <div className="flex gap-2 mt-4">
-          <button
-            onClick={() => {
-              setSelectedProducts([product.id]);
-              setCurrentStage(4);
-              setShowQuoteForm(true);
-            }}
-            className="flex-1 py-2 text-center text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Get Quote
-          </button>
-        </div>
+        {/* Top 3 recommended */}
+        {top3.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Recommended for you</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {top3.map((vendor, index) => (
+                <div
+                  key={vendor.id}
+                  className={`bg-white rounded-xl p-6 border-2 transition-all relative ${
+                    index === 0 ? 'border-purple-500 ring-2 ring-purple-100' :
+                    index === 1 ? 'border-blue-400' :
+                    'border-green-400'
+                  } ${selectedVendors.includes(vendor.id) ? 'ring-2 ring-offset-2 ring-purple-500' : ''}`}
+                >
+                  {/* Badge */}
+                  <div className={`absolute -top-3 left-4 px-3 py-1 rounded-full text-xs font-bold text-white ${
+                    index === 0 ? 'bg-purple-600' : index === 1 ? 'bg-blue-500' : 'bg-green-500'
+                  }`}>
+                    {vendor.badge}
+                  </div>
+
+                  {/* Selection checkbox */}
+                  <button
+                    onClick={() => toggleVendorSelection(vendor.id)}
+                    className="absolute top-4 right-4 w-6 h-6 rounded border-2 flex items-center justify-center transition-colors"
+                    style={{
+                      borderColor: selectedVendors.includes(vendor.id) ? '#7c3aed' : '#d1d5db',
+                      backgroundColor: selectedVendors.includes(vendor.id) ? '#7c3aed' : 'white'
+                    }}
+                  >
+                    {selectedVendors.includes(vendor.id) && <span className="text-white text-sm">✓</span>}
+                  </button>
+
+                  <div className="pt-4">
+                    <h3 className="text-lg font-bold text-gray-900">{vendor.company}</h3>
+                    {vendor.location && <p className="text-sm text-gray-500">{vendor.location}</p>}
+
+                    {/* Match score */}
+                    <div className="flex items-center gap-2 mt-3">
+                      <div className="w-16 h-16 relative">
+                        <svg className="w-16 h-16 transform -rotate-90">
+                          <circle cx="32" cy="32" r="28" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle
+                            cx="32" cy="32" r="28"
+                            stroke={index === 0 ? '#7c3aed' : index === 1 ? '#3b82f6' : '#22c55e'}
+                            strokeWidth="6"
+                            fill="none"
+                            strokeDasharray={`${(vendor.matchScore / 100) * 175.9} 175.9`}
+                          />
+                        </svg>
+                        <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-gray-900">
+                          {vendor.matchScore}%
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-600">Match</div>
+                    </div>
+
+                    {/* Rating */}
+                    {vendor.rating && (
+                      <div className="flex items-center gap-1 mt-2">
+                        <span className="text-yellow-500">★</span>
+                        <span className="font-medium">{vendor.rating.toFixed(1)}</span>
+                        {vendor.reviewCount > 0 && (
+                          <span className="text-gray-400 text-sm">({vendor.reviewCount})</span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Why recommended */}
+                    <p className="text-sm text-gray-600 mt-3">{vendor.whyRecommended}</p>
+
+                    {/* Product info */}
+                    {vendor.product && (
+                      <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                        <p className="font-medium text-sm text-gray-900">{vendor.product.name}</p>
+                        <div className="flex flex-wrap gap-2 mt-1 text-xs text-gray-600">
+                          <span>{vendor.product.speed} ppm</span>
+                          <span>•</span>
+                          <span>{vendor.product.isA3 ? 'A3' : 'A4'}</span>
+                          <span>•</span>
+                          <span>{vendor.product.isColour ? 'Colour' : 'Mono'}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Pricing */}
+                    {vendor.pricing && (
+                      <div className="mt-3 p-3 bg-purple-50 rounded-lg">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-2xl font-bold text-purple-700">{vendor.pricing.estimatedMonthly}</span>
+                          <span className="text-sm text-purple-600">/month</span>
+                        </div>
+                        {vendor.savings && (
+                          <p className="text-sm text-green-600 mt-1">
+                            Save {vendor.savings.formatted}/year
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Actions */}
+                    <div className="mt-4 flex gap-2">
+                      <button
+                        onClick={() => {
+                          setSelectedVendors([vendor.id]);
+                          setStep('form');
+                        }}
+                        className="flex-1 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
+                      >
+                        Get Quote
+                      </button>
+                      <Link
+                        href={`/suppliers/profile/${vendor.id}`}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                      >
+                        Profile
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Other suppliers */}
+        {others.length > 0 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Other matching suppliers</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {others.map((vendor) => (
+                <div
+                  key={vendor.id}
+                  className={`bg-white rounded-xl p-5 border transition-all ${
+                    selectedVendors.includes(vendor.id)
+                      ? 'border-purple-500 ring-2 ring-purple-200'
+                      : 'border-gray-200 hover:border-purple-300'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="font-bold text-gray-900">{vendor.company}</h3>
+                      {vendor.location && <p className="text-sm text-gray-500">{vendor.location}</p>}
+                    </div>
+                    <button
+                      onClick={() => toggleVendorSelection(vendor.id)}
+                      className={`w-6 h-6 rounded border-2 flex items-center justify-center ${
+                        selectedVendors.includes(vendor.id)
+                          ? 'bg-purple-600 border-purple-600 text-white'
+                          : 'border-gray-300'
+                      }`}
+                    >
+                      {selectedVendors.includes(vendor.id) && <span className="text-sm">✓</span>}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-sm font-medium text-purple-600">{vendor.matchScore}% match</span>
+                    {vendor.rating && (
+                      <>
+                        <span className="text-gray-300">•</span>
+                        <span className="text-sm text-gray-600">{vendor.rating.toFixed(1)} ★</span>
+                      </>
+                    )}
+                  </div>
+
+                  {vendor.pricing && (
+                    <p className="text-lg font-bold text-gray-900 mb-3">{vendor.pricing.estimatedMonthly}/mo</p>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedVendors([vendor.id]);
+                        setStep('form');
+                      }}
+                      className="flex-1 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700"
+                    >
+                      Get Quote
+                    </button>
+                    <Link
+                      href={`/suppliers/profile/${vendor.id}`}
+                      className="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded-lg hover:bg-gray-200"
+                    >
+                      View
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Floating action bar */}
+        {selectedVendors.length >= 2 && (
+          <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
+            <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-bold">
+                  {selectedVendors.length}
+                </span>
+                <span className="text-gray-700 font-medium">suppliers selected</span>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedVendors([])}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={() => setStep('form')}
+                  className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700"
+                >
+                  Get Quotes from All
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
-  const renderQuoteForm = () => {
+  // =====================================================
+  // RENDER: Quote Form
+  // =====================================================
+  const renderFormStep = () => {
     if (formSubmitted) {
       return (
-        <div className="bg-white rounded-xl p-8 text-center max-w-xl mx-auto">
-          <div className="text-green-500 text-6xl mb-4">✓</div>
+        <div className="max-w-xl mx-auto text-center py-12">
+          <div className="text-6xl mb-4">✅</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Quote Request Submitted!</h2>
           <p className="text-gray-600 mb-6">
-            Thank you for your enquiry. The selected suppliers will be in touch within 1-2 business
-            days with personalised quotes.
+            Thank you for your enquiry. The selected suppliers will be in touch within 1-2 business days.
           </p>
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => {
                 setFormSubmitted(false);
-                setShowQuoteForm(false);
-                setSelectedProducts([]);
                 setSelectedVendors([]);
-                setCurrentStage(1);
+                setStep('results');
               }}
-              className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+              className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700"
             >
               Get More Quotes
             </button>
             <Link
               href="/suppliers"
-              className="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200"
             >
               Browse Suppliers
             </Link>
@@ -943,131 +960,114 @@ export default function QuoteFlow() {
       );
     }
 
-    return (
-      <div className="bg-white rounded-xl p-6 max-w-2xl mx-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Get Your Personalised Quotes</h2>
-        <p className="text-gray-600 mb-6">
-          Fill in your details below and our selected suppliers will send you tailored quotes.
-        </p>
+    const selectedVendorDetails = vendors.filter(v => selectedVendors.includes(v.id));
 
-        <form onSubmit={handleSubmitQuote} className="space-y-4">
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Get Your Personalised Quotes</h1>
+          <p className="text-gray-600">
+            {selectedVendorDetails.length > 0
+              ? `Requesting quotes from ${selectedVendorDetails.map(v => v.company).join(', ')}`
+              : `Requesting quotes from top ${Math.min(3, vendors.length)} suppliers`
+            }
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmitQuote} className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Company Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                id="companyName"
-                name="companyName"
                 value={formData.companyName}
-                onChange={handleFormChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 ${
                   formErrors.companyName ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Your company name"
               />
-              {formErrors.companyName && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.companyName}</p>
-              )}
+              {formErrors.companyName && <p className="text-sm text-red-600 mt-1">{formErrors.companyName}</p>}
             </div>
 
             <div>
-              <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Contact Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                id="contactName"
-                name="contactName"
                 value={formData.contactName}
-                onChange={handleFormChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 ${
                   formErrors.contactName ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Your name"
               />
-              {formErrors.contactName && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.contactName}</p>
-              )}
+              {formErrors.contactName && <p className="text-sm text-red-600 mt-1">{formErrors.contactName}</p>}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
-                id="email"
-                name="email"
                 value={formData.email}
-                onChange={handleFormChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 ${
                   formErrors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="you@company.com"
               />
-              {formErrors.email && <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>}
+              {formErrors.email && <p className="text-sm text-red-600 mt-1">{formErrors.email}</p>}
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone <span className="text-red-500">*</span>
               </label>
               <input
                 type="tel"
-                id="phone"
-                name="phone"
                 value={formData.phone}
-                onChange={handleFormChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 ${
                   formErrors.phone ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="01234 567890"
               />
-              {formErrors.phone && <p className="mt-1 text-sm text-red-600">{formErrors.phone}</p>}
+              {formErrors.phone && <p className="text-sm text-red-600 mt-1">{formErrors.phone}</p>}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label htmlFor="postcode" className="block text-sm font-medium text-gray-700 mb-1">
-                Postcode
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Postcode</label>
               <input
                 type="text"
-                id="postcode"
-                name="postcode"
-                value={formData.postcode}
-                onChange={handleFormChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
-                  formErrors.postcode ? 'border-red-500' : 'border-gray-300'
-                }`}
+                value={formData.postcode || postcode}
+                onChange={(e) => setFormData({ ...formData, postcode: e.target.value.toUpperCase() })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                 placeholder="CF10 1AA"
+                maxLength={10}
               />
-              {formErrors.postcode && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.postcode}</p>
-              )}
             </div>
 
             <div>
-              <label htmlFor="timeline" className="block text-sm font-medium text-gray-700 mb-1">
-                Timeline
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Timeline</label>
               <select
-                id="timeline"
-                name="timeline"
                 value={formData.timeline}
-                onChange={handleFormChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
                 <option value="urgent">Urgent (ASAP)</option>
                 <option value="soon">Soon (1-3 months)</option>
@@ -1077,200 +1077,81 @@ export default function QuoteFlow() {
             </div>
           </div>
 
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-              Additional Requirements
-            </label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Additional Message</label>
             <textarea
-              id="message"
-              name="message"
               value={formData.message}
-              onChange={handleFormChange}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              placeholder="Tell us about your requirements, current setup, or any questions..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+              placeholder="Tell us about your specific requirements..."
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-6">
             <button
               type="submit"
               disabled={formSubmitting}
-              className="flex-1 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {formSubmitting ? 'Submitting...' : 'Submit Quote Request'}
             </button>
             <button
               type="button"
-              onClick={() => setShowQuoteForm(false)}
-              className="py-3 px-6 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
+              onClick={() => setStep('results')}
+              className="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200"
             >
-              Cancel
+              Back
             </button>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
-            By submitting this form, you agree to be contacted by our selected suppliers regarding
-            your enquiry. Your data will be handled in accordance with our{' '}
-            <a href="/privacy" className="text-purple-600 hover:text-purple-700">
-              Privacy Policy
-            </a>
-            .
+          <p className="text-xs text-gray-500 text-center mt-4">
+            By submitting, you agree to be contacted by the selected suppliers.{' '}
+            <Link href="/privacy" className="text-purple-600 hover:text-purple-700">Privacy Policy</Link>
           </p>
         </form>
       </div>
     );
   };
 
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="text-center py-12">
-          <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Finding the best matches...</p>
-        </div>
-      );
-    }
-
-    // Stage 4: Quote form
-    if (currentStage === 4 || showQuoteForm) {
-      return renderQuoteForm();
-    }
-
-    // Stage 3: Products view (for photocopiers)
-    if (currentStage === 3 && category === 'photocopiers' && products.length > 0) {
-      return (
-        <>
-          <div className="flex justify-between items-center mb-6">
-            <p className="text-gray-600">
-              Found <strong>{products.length}</strong> matching product
-              {products.length !== 1 ? 's' : ''}
-            </p>
-            {selectedProducts.length > 0 && (
-              <button
-                onClick={() => {
-                  setCurrentStage(4);
-                  setShowQuoteForm(true);
-                }}
-                className="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Get Quotes ({selectedProducts.length})
-              </button>
-            )}
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            {products.map((product) => renderProductCard(product))}
-          </div>
-        </>
-      );
-    }
-
-    // Stage 1-2 or non-photocopier categories: Vendor view
-    if (vendors.length > 0) {
-      const filteredVendors =
-        category && category !== 'photocopiers'
-          ? vendors.filter((v) =>
-              v.services.some((s) => s.toLowerCase().includes(category.replace('-services', '')))
-            )
-          : vendors;
-
-      return (
-        <>
-          <div className="flex justify-between items-center mb-6">
-            <p className="text-gray-600">
-              Found <strong>{filteredVendors.length}</strong> supplier
-              {filteredVendors.length !== 1 ? 's' : ''}
-              {category && ` in ${CATEGORIES.find((c) => c.value === category)?.label}`}
-            </p>
-            {selectedVendors.length > 0 && (
-              <button
-                onClick={() => {
-                  setCurrentStage(4);
-                  setShowQuoteForm(true);
-                }}
-                className="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Get Quotes ({selectedVendors.length})
-              </button>
-            )}
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredVendors.map((vendor) => renderVendorCard(vendor))}
-          </div>
-        </>
-      );
-    }
-
-    // No results
-    return (
-      <div className="text-center py-12">
-        <div className="text-6xl mb-4">🔍</div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">No suppliers found</h2>
-        <p className="text-gray-600 mb-6">
-          Try adjusting your filters or selecting a different category.
-        </p>
-      </div>
-    );
-  };
-
+  // =====================================================
+  // MAIN RENDER
+  // =====================================================
   return (
-    <main className="min-h-screen bg-gray-50 pt-16">
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
+    <main className="min-h-screen bg-gray-50 pt-16 pb-24">
       {/* Hero */}
-      <section className="bg-brand-gradient text-white py-8">
+      <section className="bg-brand-gradient text-white py-8 mb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="text-sm mb-4 text-purple-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
+            <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
             <span className="text-white">Get Quotes</span>
           </nav>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">Get Quotes from Verified Suppliers</h1>
-              <p className="text-purple-100">
-                Compare pricing and get personalised quotes - free, instant, no obligation
-              </p>
-            </div>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 bg-white/20 rounded-lg"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+            {step === 'category' && 'Get Quotes from Verified Suppliers'}
+            {step === 'questions' && `Tell us about your ${CATEGORIES.find(c => c.value === category)?.label.toLowerCase() || 'needs'}`}
+            {step === 'results' && 'Your Matching Suppliers'}
+            {step === 'form' && 'Request Your Quotes'}
+          </h1>
+          <p className="text-purple-100">
+            {step === 'category' && 'Compare pricing and get personalised quotes — free, instant, no obligation'}
+            {step === 'questions' && 'A few questions help us find the best suppliers for you'}
+            {step === 'results' && `${vendors.length} suppliers found matching your requirements`}
+            {step === 'form' && 'Fill in your details to receive personalised quotes'}
+          </p>
         </div>
       </section>
 
-      {/* Main content */}
-      <section className="py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Stage indicator */}
-          {renderStageIndicator()}
-
-          {/* Two-column layout */}
-          <div className="flex gap-6">
-            {/* Sidebar */}
-            {renderSidebar()}
-
-            {/* Main content area */}
-            <div className="flex-1 min-w-0">{renderContent()}</div>
-          </div>
-        </div>
+      {/* Content */}
+      <section className="px-4 sm:px-6 lg:px-8">
+        {step === 'category' && renderCategoryStep()}
+        {step === 'questions' && renderQuestionsStep()}
+        {step === 'results' && renderResultsStep()}
+        {step === 'form' && renderFormStep()}
       </section>
 
       {/* Trust badges */}
-      <section className={`py-8 bg-white border-t ${selectedVendors.length >= 2 ? 'pb-24' : ''}`}>
+      <section className="py-8 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500">
             <div className="flex items-center gap-2">
@@ -1292,47 +1173,6 @@ export default function QuoteFlow() {
           </div>
         </div>
       </section>
-
-      {/* Floating compare bar */}
-      {selectedVendors.length >= 2 && !showQuoteForm && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold">
-                  {selectedVendors.length}
-                </span>
-                <span className="text-gray-700 font-medium hidden sm:inline">
-                  suppliers selected
-                </span>
-                <span className="text-gray-500 text-sm hidden md:inline">
-                  ({vendors
-                    .filter((v) => selectedVendors.includes(v.id))
-                    .map((v) => v.company)
-                    .join(', ')})
-                </span>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setSelectedVendors([])}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
-                >
-                  Clear
-                </button>
-                <Link
-                  href={`/compare?vendors=${selectedVendors.join(',')}&volume=${monthlyVolume || '5000'}&postcode=${postcode}&category=${category}&colour=${needsColour !== false}&a3=${needsA3 !== false}`}
-                  className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  Compare Side-by-Side
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </main>
   );
 }
