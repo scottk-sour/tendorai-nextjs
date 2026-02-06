@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor, VendorProduct } from '@/lib/db/models';
+import VendorCard from '@/app/components/VendorCard';
+import type { VendorCardData } from '@/app/components/VendorCard';
 import {
   SERVICES,
   MAJOR_LOCATIONS,
@@ -70,6 +72,54 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+// Map raw MongoDB vendor to VendorCardData
+function toVendorCardData(v: Record<string, unknown>): VendorCardData {
+  const vendor = v as {
+    _id: string;
+    company?: string;
+    services?: string[];
+    location?: { city?: string; region?: string; coverage?: string[] };
+    performance?: { rating?: number; reviewCount?: number };
+    businessProfile?: { description?: string; yearsInBusiness?: number; accreditations?: string[] };
+    brands?: string[];
+    tier?: string;
+    contactInfo?: { phone?: string; website?: string };
+    listingStatus?: string;
+    account?: { loginCount?: number };
+    productCount: number;
+  };
+
+  const displayTier = getDisplayTier(vendor.tier);
+  const hasPhone = !!(vendor.contactInfo?.phone);
+  const hasRating = (vendor.performance?.rating || 0) > 0;
+  const isPaid = displayTier !== 'free';
+  const ls = (vendor.listingStatus || 'unclaimed').toLowerCase();
+  const isClaimed = ls === 'claimed' || ls === 'verified' || hasPhone || isPaid || hasRating || (vendor.account?.loginCount || 0) > 0;
+
+  return {
+    id: vendor._id,
+    company: vendor.company || '',
+    services: vendor.services || [],
+    location: {
+      city: vendor.location?.city,
+      region: vendor.location?.region,
+      coverage: vendor.location?.coverage || [],
+    },
+    distance: null,
+    rating: vendor.performance?.rating || 0,
+    reviewCount: vendor.performance?.reviewCount || 0,
+    tier: displayTier,
+    description: vendor.businessProfile?.description,
+    accreditations: vendor.businessProfile?.accreditations || [],
+    yearsInBusiness: vendor.businessProfile?.yearsInBusiness,
+    brands: vendor.brands || [],
+    productCount: vendor.productCount || 0,
+    website: vendor.contactInfo?.website,
+    showPricing: canShowPricing(vendor.tier),
+    accountClaimed: isClaimed,
+  };
+}
+
 // Fetch vendors
 async function fetchVendors(category: string, location: string) {
   await connectDB();
@@ -102,6 +152,8 @@ async function fetchVendors(category: string, location: string) {
       tier: 1,
       contactInfo: 1,
       showPricing: 1,
+      listingStatus: 1,
+      'account.loginCount': 1,
     })
     .lean()
     .exec();
@@ -147,7 +199,21 @@ export default async function CategoryLocationPage({ params }: PageProps) {
     notFound();
   }
 
-  const vendors = await fetchVendors(category, location);
+  const allVendors = await fetchVendors(category, location);
+
+  // Separate local from national vendors
+  const localVendors = allVendors.filter((v) => {
+    const city = (v.location?.city || '').toLowerCase().trim();
+    return city !== 'uk' && city !== 'united kingdom' && city !== 'nationwide' && city !== '';
+  });
+  const nationalVendors = allVendors.filter((v) => {
+    const city = (v.location?.city || '').toLowerCase().trim();
+    return city === 'uk' || city === 'united kingdom' || city === 'nationwide' || city === '';
+  });
+
+  const localCards = localVendors.map((v) => toVendorCardData(v));
+  const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
+  const totalCount = localVendors.length + nationalVendors.length;
 
   // JSON-LD
   const jsonLd = {
@@ -157,8 +223,8 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         '@type': 'ItemList',
         name: `${service.name} Suppliers in ${locationName}`,
         description: `List of verified ${service.name.toLowerCase()} suppliers serving ${locationName}`,
-        numberOfItems: vendors.length,
-        itemListElement: vendors.slice(0, 10).map((vendor, index) => ({
+        numberOfItems: totalCount,
+        itemListElement: allVendors.slice(0, 10).map((vendor, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           item: {
@@ -225,7 +291,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               {service.name} Suppliers in {locationName}
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Compare {vendors.length} verified {service.name.toLowerCase()} suppliers serving{' '}
+              Compare {totalCount} verified {service.name.toLowerCase()} suppliers serving{' '}
               {locationName}. Get instant quotes from local businesses with transparent pricing.
             </p>
           </div>
@@ -235,12 +301,18 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         <section className="bg-white border-b">
           <div className="section py-4">
             <p className="text-gray-600">
-              <strong className="text-gray-900">{vendors.length}</strong> suppliers found
-              {vendors.filter((v) => canShowPricing(v.tier)).length > 0 && (
+              <strong className="text-gray-900">{localVendors.length}</strong> local supplier{localVendors.length !== 1 ? 's' : ''}
+              {nationalVendors.length > 0 && (
                 <span>
-                  {' '}•{' '}
+                  {' '}and{' '}
+                  <strong className="text-gray-900">{nationalVendors.length}</strong> national
+                </span>
+              )}
+              {localCards.filter((v) => v.showPricing).length > 0 && (
+                <span>
+                  {' '}&bull;{' '}
                   <strong className="text-green-600">
-                    {vendors.filter((v) => canShowPricing(v.tier)).length}
+                    {localCards.filter((v) => v.showPricing).length}
                   </strong>{' '}
                   with verified pricing
                 </span>
@@ -251,12 +323,37 @@ export default async function CategoryLocationPage({ params }: PageProps) {
 
         {/* Vendor List */}
         <section className="section py-8">
-          {vendors.length > 0 ? (
-            <div className="space-y-4">
-              {vendors.map((vendor) => (
-                <VendorCard key={vendor._id} vendor={vendor} />
-              ))}
-            </div>
+          {totalCount > 0 ? (
+            <>
+              {/* Local vendors */}
+              {localCards.length > 0 && (
+                <div className="mb-8">
+                  {nationalCards.length > 0 && (
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">Local Suppliers</h2>
+                  )}
+                  <div className="space-y-4">
+                    {localCards.map((vendor) => (
+                      <VendorCard key={vendor.id} vendor={vendor} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* National vendors */}
+              {nationalCards.length > 0 && (
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <h2 className="text-lg font-bold text-gray-900 mb-2">National Suppliers</h2>
+                  <p className="text-sm text-gray-500 mb-4">
+                    These suppliers operate nationwide and may serve {locationName}.
+                  </p>
+                  <div className="space-y-4">
+                    {nationalCards.map((vendor) => (
+                      <VendorCard key={vendor.id} vendor={vendor} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
             <EmptyState service={service.name} location={locationName} category={category} />
           )}
@@ -269,7 +366,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               <h2>Finding {service.name} Suppliers in {locationName}</h2>
               <p>
                 TendorAI connects {locationName} businesses with trusted {service.name.toLowerCase()}{' '}
-                suppliers across Wales and South West England. Our platform features {vendors.length}{' '}
+                suppliers across Wales and South West England. Our platform features {totalCount}{' '}
                 verified suppliers serving the {locationName} area, each vetted for reliability and
                 service quality.
               </p>
@@ -324,136 +421,6 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   );
 }
 
-// Vendor Card Component
-interface VendorCardProps {
-  vendor: {
-    _id: string;
-    company: string;
-    services?: string[];
-    location?: {
-      city?: string;
-      region?: string;
-      coverage?: string[];
-    };
-    performance?: {
-      rating?: number;
-      reviewCount?: number;
-    };
-    businessProfile?: {
-      description?: string;
-      yearsInBusiness?: number;
-      accreditations?: string[];
-    };
-    brands?: string[];
-    tier?: string;
-    contactInfo?: {
-      phone?: string;
-      website?: string;
-    };
-    productCount: number;
-  };
-}
-
-function VendorCard({ vendor }: VendorCardProps) {
-  const displayTier = getDisplayTier(vendor.tier);
-  const showPricing = canShowPricing(vendor.tier);
-
-  return (
-    <article
-      className={`bg-white rounded-lg shadow-sm border-l-4 p-6 hover:shadow-md transition-shadow ${
-        displayTier === 'verified'
-          ? 'border-l-green-500'
-          : displayTier === 'visible'
-          ? 'border-l-blue-500'
-          : 'border-l-transparent'
-      }`}
-      itemScope
-      itemType="https://schema.org/LocalBusiness"
-    >
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <h2 className="text-xl font-semibold text-gray-900" itemProp="name">
-              <Link href={`/suppliers/profile/${vendor._id}`} className="hover:text-purple-600">
-                {vendor.company}
-              </Link>
-            </h2>
-            {displayTier !== 'free' && (
-              <span
-                className={`text-xs font-medium px-2 py-1 rounded-full ${
-                  displayTier === 'verified'
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-blue-100 text-blue-700'
-                }`}
-              >
-                {displayTier === 'verified' ? 'Verified' : 'Listed'}
-              </span>
-            )}
-          </div>
-
-          {vendor.businessProfile?.description && (
-            <p className="text-gray-600 text-sm mb-3 line-clamp-2" itemProp="description">
-              {vendor.businessProfile.description}
-            </p>
-          )}
-
-          <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-            {vendor.location?.city && (
-              <span>
-                {vendor.location.city}
-                {vendor.location.region && `, ${vendor.location.region}`}
-              </span>
-            )}
-
-            {vendor.performance?.rating && vendor.performance.rating > 0 && (
-              <span>
-                <span className="text-yellow-500">★</span> {vendor.performance.rating.toFixed(1)}
-                <span className="text-gray-400"> ({vendor.performance.reviewCount || 0})</span>
-              </span>
-            )}
-
-            {vendor.businessProfile?.yearsInBusiness && (
-              <span>{vendor.businessProfile.yearsInBusiness}+ years</span>
-            )}
-
-            {vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
-          </div>
-
-          {vendor.brands && vendor.brands.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1">
-              {vendor.brands.slice(0, 4).map((brand) => (
-                <span key={brand} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                  {brand}
-                </span>
-              ))}
-              {vendor.brands.length > 4 && (
-                <span className="text-xs text-gray-400">+{vendor.brands.length - 4} more</span>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-2 md:items-end">
-          <Link
-            href={`/suppliers/profile/${vendor._id}`}
-            className="btn-outline text-center"
-          >
-            View Profile
-          </Link>
-          {showPricing && (
-            <Link
-              href={`/suppliers/profile/${vendor._id}?quote=true`}
-              className="btn-primary text-center"
-            >
-              Get Quote
-            </Link>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-}
-
 // Empty State Component
 function EmptyState({
   service,
@@ -468,7 +435,7 @@ function EmptyState({
 
   return (
     <div className="text-center py-12 bg-white rounded-lg">
-      <div className="text-gray-400 text-5xl mb-4">🔍</div>
+      <div className="text-gray-400 text-5xl mb-4">&#128269;</div>
       <h2 className="text-xl font-semibold text-gray-800 mb-2">
         No {service} suppliers found in {location}
       </h2>

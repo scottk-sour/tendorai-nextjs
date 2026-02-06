@@ -3,31 +3,27 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import VendorCard, { VendorCardData } from '@/app/components/VendorCard';
 
-interface Vendor {
-  id: string;
-  company: string;
-  services: string[];
-  location: {
-    city?: string;
-    region?: string;
-    coverage?: string[];
-  };
-  rating: number;
-  reviewCount: number;
-  tier: string;
-  description?: string;
-  productCount: number;
-}
+const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
+  'https://ai-procurement-backend-q35u.onrender.com';
 
 interface SearchResponse {
   success: boolean;
   data: {
-    vendors: Vendor[];
+    vendors: VendorCardData[];
+    nationalVendors?: VendorCardData[];
     pagination: {
       total: number;
       page: number;
       totalPages: number;
+      nationalCount?: number;
+    };
+    search?: {
+      postcode: string;
+      maxDistance: number;
+      maxDistanceKm: number;
+      region?: string;
     };
   };
 }
@@ -47,9 +43,15 @@ export default function SearchResults() {
   const category = searchParams.get('category') || '';
   const distance = searchParams.get('distance') || '50';
 
-  const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [vendors, setVendors] = useState<VendorCardData[]>([]);
+  const [nationalVendors, setNationalVendors] = useState<VendorCardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [searchInfo, setSearchInfo] = useState<{
+    postcode: string;
+    maxDistance: number;
+    region?: string;
+  } | null>(null);
 
   useEffect(() => {
     async function fetchVendors() {
@@ -57,14 +59,18 @@ export default function SearchResults() {
       try {
         const params = new URLSearchParams();
         if (category) params.set('category', category);
+        if (postcode) params.set('postcode', postcode);
+        if (distance) params.set('distance', distance);
         params.set('limit', '50');
 
-        const response = await fetch(`/api/public/vendors?${params.toString()}`);
+        const response = await fetch(`${API_URL}/api/public/vendors?${params.toString()}`);
         const data: SearchResponse = await response.json();
 
         if (data.success) {
           setVendors(data.data.vendors);
+          setNationalVendors(data.data.nationalVendors || []);
           setTotal(data.data.pagination.total);
+          setSearchInfo(data.data.search || null);
         }
       } catch (error) {
         console.error('Failed to fetch vendors:', error);
@@ -74,7 +80,9 @@ export default function SearchResults() {
     }
 
     fetchVendors();
-  }, [category]);
+  }, [category, postcode, distance]);
+
+  const hasResults = vendors.length > 0 || nationalVendors.length > 0;
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16">
@@ -96,108 +104,96 @@ export default function SearchResults() {
 
           <div className="flex flex-wrap gap-3 text-sm">
             {postcode && (
-              <span className="bg-white/20 px-3 py-1 rounded-full">
-                Postcode: {postcode}
+              <span className="bg-white/20 px-3 py-1.5 rounded-full">
+                {postcode}
               </span>
             )}
             {category && (
-              <span className="bg-white/20 px-3 py-1 rounded-full">
-                Category: {CATEGORY_LABELS[category]}
+              <span className="bg-white/20 px-3 py-1.5 rounded-full">
+                {CATEGORY_LABELS[category]}
               </span>
             )}
-            <span className="bg-white/20 px-3 py-1 rounded-full">
-              Distance: {distance} miles
+            <span className="bg-white/20 px-3 py-1.5 rounded-full">
+              Within {distance} miles
             </span>
           </div>
         </div>
       </section>
 
       {/* Results */}
-      <section className="py-12">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
-            <div className="text-center py-12">
-              <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">Finding suppliers...</p>
+            <div className="text-center py-16">
+              <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-gray-600">Finding suppliers{postcode ? ` near ${postcode}` : ''}...</p>
             </div>
-          ) : vendors.length > 0 ? (
+          ) : hasResults ? (
             <>
-              <div className="flex justify-between items-center mb-6">
-                <p className="text-gray-600">
-                  Found <strong>{total}</strong> supplier{total !== 1 ? 's' : ''}
-                  {category && ` in ${CATEGORY_LABELS[category]}`}
-                </p>
+              {/* Results header */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
+                  <p className="text-gray-600">
+                    Found <strong className="text-gray-900">{total}</strong> local supplier{total !== 1 ? 's' : ''}
+                    {nationalVendors.length > 0 && (
+                      <> and <strong className="text-gray-900">{nationalVendors.length}</strong> national</>
+                    )}
+                    {category && ` in ${CATEGORY_LABELS[category]}`}
+                  </p>
+                  {searchInfo?.region && (
+                    <p className="text-sm text-gray-400 mt-1">
+                      Showing results within {searchInfo.maxDistance} miles of {searchInfo.postcode} ({searchInfo.region})
+                    </p>
+                  )}
+                </div>
                 <Link
-                  href="/suppliers"
-                  className="text-purple-600 hover:text-purple-700 font-medium"
+                  href={`/get-quotes${category ? `?category=${category}` : ''}`}
+                  className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
                 >
-                  View all categories
+                  Get AI-Matched Quotes &rarr;
                 </Link>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {vendors.map((vendor) => (
-                  <Link
-                    key={vendor.id}
-                    href={`/suppliers/profile/${vendor.id}`}
-                    className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="font-bold text-gray-900 text-lg">{vendor.company}</h3>
-                      {vendor.tier !== 'free' && (
-                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                          vendor.tier === 'verified'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-purple-100 text-purple-700'
-                        }`}>
-                          {vendor.tier === 'verified' ? 'Verified' : 'Visible'}
-                        </span>
-                      )}
-                    </div>
+              {/* Local suppliers */}
+              {vendors.length > 0 && (
+                <div className="mb-12">
+                  {postcode && nationalVendors.length > 0 && (
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">
+                      Local Suppliers
+                    </h2>
+                  )}
+                  <div className="space-y-4">
+                    {vendors.map((vendor) => (
+                      <VendorCard key={vendor.id} vendor={vendor} />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                    {vendor.description && (
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {vendor.description}
-                      </p>
-                    )}
-
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {vendor.services.slice(0, 3).map((service, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
-                        >
-                          {service}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>
-                        {vendor.location.city || vendor.location.region || 'UK'}
-                      </span>
-                      {vendor.productCount > 0 && (
-                        <span>{vendor.productCount} products</span>
-                      )}
-                    </div>
-
-                    {vendor.rating > 0 && (
-                      <div className="flex items-center gap-1 mt-2">
-                        <span className="text-yellow-500">★</span>
-                        <span className="text-sm font-medium">{vendor.rating.toFixed(1)}</span>
-                        <span className="text-xs text-gray-400">({vendor.reviewCount})</span>
-                      </div>
-                    )}
-                  </Link>
-                ))}
-              </div>
+              {/* National suppliers */}
+              {nationalVendors.length > 0 && (
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <h2 className="text-lg font-bold text-gray-900 mb-2">
+                    National Suppliers
+                  </h2>
+                  <p className="text-sm text-gray-500 mb-4">
+                    These suppliers operate nationwide and may serve your area.
+                  </p>
+                  <div className="space-y-4">
+                    {nationalVendors.map((vendor) => (
+                      <VendorCard key={vendor.id} vendor={vendor} />
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           ) : (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">🔍</div>
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">&#128269;</div>
               <h2 className="text-xl font-bold text-gray-900 mb-2">No suppliers found</h2>
               <p className="text-gray-600 mb-6">
                 We couldn&apos;t find any suppliers matching your search.
+                {postcode && ' Try increasing the search radius or removing the category filter.'}
               </p>
               <Link
                 href="/suppliers"
@@ -211,7 +207,7 @@ export default function SearchResults() {
       </section>
 
       {/* Refine Search */}
-      {vendors.length > 0 && (
+      {hasResults && (
         <section className="py-12 bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
@@ -221,28 +217,16 @@ export default function SearchResults() {
               Browse suppliers by category or location to find the perfect match.
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
-              <Link
-                href="/suppliers/photocopiers"
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-              >
+              <Link href="/suppliers/photocopiers" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                 Photocopiers
               </Link>
-              <Link
-                href="/suppliers/telecoms"
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-              >
+              <Link href="/suppliers/telecoms" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                 Telecoms
               </Link>
-              <Link
-                href="/suppliers/cctv"
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-              >
+              <Link href="/suppliers/cctv" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                 CCTV
               </Link>
-              <Link
-                href="/suppliers/it-services"
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-              >
+              <Link href="/suppliers/it" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                 IT Services
               </Link>
             </div>
