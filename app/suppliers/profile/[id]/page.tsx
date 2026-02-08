@@ -181,10 +181,13 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
     ...(vendor.contactInfo?.website && { sameAs: [vendor.contactInfo.website] }),
     address: {
       '@type': 'PostalAddress',
+      ...(vendor.location?.address && { streetAddress: vendor.location.address }),
       addressLocality: vendor.location?.city,
       addressRegion: vendor.location?.region,
+      ...(vendor.location?.postcode && { postalCode: vendor.location.postcode }),
       addressCountry: 'GB',
     },
+    ...(vendor.contactInfo?.phone && { telephone: vendor.contactInfo.phone }),
     areaServed: vendor.location?.coverage?.map((area: string) => ({
       '@type': 'City',
       name: area,

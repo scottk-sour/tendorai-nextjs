@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { connectDB } from '@/lib/db/connection';
-import { Vendor } from '@/lib/db/models';
+import { Vendor, VendorPost } from '@/lib/db/models';
 import { SERVICE_KEYS, MAJOR_LOCATIONS } from '@/lib/constants';
 import { articles } from '@/lib/content/articles';
 
@@ -93,6 +93,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'weekly',
         priority: 0.7,
       });
+    });
+    // Vendor blog posts
+    const posts = await VendorPost.find(
+      { status: 'published' },
+      { slug: 1, updatedAt: 1 }
+    )
+      .sort({ createdAt: -1 })
+      .limit(200)
+      .lean()
+      .exec();
+
+    posts.forEach((post: { slug?: string; updatedAt?: Date }) => {
+      if (post.slug) {
+        urls.push({
+          url: `${BASE_URL}/posts/${post.slug}`,
+          lastModified: post.updatedAt || now,
+          changeFrequency: 'monthly',
+          priority: 0.6,
+        });
+      }
     });
   } catch (error) {
     console.error('Sitemap DB error:', error);
