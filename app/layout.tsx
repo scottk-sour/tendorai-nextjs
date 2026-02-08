@@ -30,11 +30,8 @@ export const metadata: Metadata = {
     'office technology suppliers',
   ],
   icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-touch-icon.png',
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
   manifest: '/manifest.json',
   authors: [{ name: 'TendorAI' }],
@@ -53,21 +50,14 @@ export const metadata: Metadata = {
     title: 'TendorAI | AI-Powered Procurement for UK Businesses',
     description:
       'Find and compare trusted office equipment suppliers across Wales and South West England. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'TendorAI - AI-Powered Procurement',
-      },
-    ],
+    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'TendorAI | AI-Powered Procurement for UK Businesses',
-    description: 'Find and compare trusted office equipment suppliers across Wales and South West England.',
+    card: 'summary',
+    title: 'TendorAI - AI-Powered Office Equipment Procurement',
+    description: 'Compare copiers, telecoms, CCTV & IT suppliers. Get AI-matched quotes from verified UK vendors.',
     creator: '@tendorai',
-    images: ['/og-image.png'],
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
