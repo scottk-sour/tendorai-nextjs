@@ -26,9 +26,9 @@ async function getPosts() {
       .limit(50)
       .populate('vendor', 'company tier location.city')
       .lean()
-      .exec();
+      .exec() as any[];
 
-    return posts.map((p) => ({
+    return posts.map((p: any) => ({
       ...p,
       _id: p._id.toString(),
       vendor: p.vendor ? { ...p.vendor, _id: p.vendor._id.toString() } : null,

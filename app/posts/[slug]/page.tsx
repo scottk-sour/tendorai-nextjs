@@ -17,7 +17,7 @@ async function getPost(slug: string) {
     const post = await VendorPost.findOne({ slug, status: 'published' })
       .populate('vendor', 'company tier location.city contactInfo.website')
       .lean()
-      .exec();
+      .exec() as any;
 
     if (!post) return null;
 
