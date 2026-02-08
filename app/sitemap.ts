@@ -104,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .lean()
       .exec();
 
-    posts.forEach((post: { slug?: string; updatedAt?: Date }) => {
+    (posts as any[]).forEach((post) => {
       if (post.slug) {
         urls.push({
           url: `${BASE_URL}/posts/${post.slug}`,
