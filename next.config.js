@@ -13,23 +13,30 @@ const nextConfig = {
     ],
   },
 
-  // Redirects for admin routes to React SPA at app.tendorai.com
-  // Vendor auth and dashboard now handled by Next.js
+  // Redirects for old URLs (Google-cached sitelinks from old React app)
   async redirects() {
     return [
-      {
-        source: '/admin/:path*',
-        destination: 'https://app.tendorai.com/admin/:path*',
-        permanent: false,
-      },
+      // Auth routes → vendor login
       {
         source: '/login',
-        destination: 'https://app.tendorai.com/login',
-        permanent: false,
+        destination: '/vendor-login',
+        permanent: true,
       },
       {
         source: '/signup',
-        destination: 'https://app.tendorai.com/signup',
+        destination: '/vendor-login',
+        permanent: true,
+      },
+      // Old category pages → new supplier directory
+      {
+        source: '/photocopiers',
+        destination: '/suppliers/photocopiers',
+        permanent: true,
+      },
+      // Admin routes still on old React SPA
+      {
+        source: '/admin/:path*',
+        destination: 'https://app.tendorai.com/admin/:path*',
         permanent: false,
       },
       {
