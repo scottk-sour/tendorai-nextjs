@@ -6,6 +6,7 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import TierGate, { hasTierAccess, getTierLabel } from '@/app/components/dashboard/TierGate';
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
 import AISearchTest from '@/app/components/dashboard/AISearchTest';
+import GeoAuditCard from '@/app/components/dashboard/GeoAuditCard';
 
 interface AnalyticsData {
   period: string;
@@ -46,6 +47,7 @@ export default function AnalyticsPage() {
   const [vendorName, setVendorName] = useState('');
   const [vendorCategory, setVendorCategory] = useState('');
   const [vendorLocation, setVendorLocation] = useState('');
+  const [vendorWebsite, setVendorWebsite] = useState('');
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<'7d' | '30d'>('30d');
 
@@ -70,6 +72,7 @@ export default function AnalyticsPage() {
         setVendorName(v?.company || '');
         setVendorCategory(v?.services?.[0] || '');
         setVendorLocation(v?.location?.city || v?.location?.region || '');
+        setVendorWebsite(v?.contactInfo?.website || v?.website || '');
 
         // Fetch analytics if vendor has access
         if (hasTierAccess(vendorTier, 'visible') && vId) {
@@ -301,6 +304,13 @@ export default function AnalyticsPage() {
         vendorName={vendorName}
         vendorCategory={vendorCategory}
         vendorLocation={vendorLocation}
+      />
+
+      {/* GEO Audit */}
+      <GeoAuditCard
+        token={token || ''}
+        tier={tier}
+        vendorWebsite={vendorWebsite}
       />
 
       {/* Stats Overview */}
