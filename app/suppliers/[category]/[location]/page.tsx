@@ -258,6 +258,33 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           { '@type': 'ListItem', position: 4, name: locationName },
         ],
       },
+      {
+        '@type': 'Service',
+        name: `${service.name} Suppliers in ${locationName}`,
+        description: `Compare verified ${service.name.toLowerCase()} suppliers serving ${locationName}. Get quotes from ${totalCount} AI-vetted businesses.`,
+        provider: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        areaServed: {
+          '@type': 'City',
+          name: locationName,
+          containedInPlace: { '@type': 'Country', name: 'United Kingdom' },
+        },
+        url: `https://www.tendorai.com/suppliers/${category}/${location}`,
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      },
     ],
   };
 
@@ -265,6 +292,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const relatedCategories = Object.values(SERVICES)
     .filter((s) => s.slug !== category)
     .slice(0, 3);
+
+  // Generate FAQs
+  const faqs = generateFAQs(service.name, locationName, totalCount, category);
 
   return (
     <>
@@ -359,34 +389,39 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           )}
         </section>
 
-        {/* SEO Content */}
+        {/* FAQ Section */}
         <section className="bg-white py-12 mt-8">
           <div className="section max-w-4xl">
-            <div className="prose prose-purple">
-              <h2>Finding {service.name} Suppliers in {locationName}</h2>
-              <p>
-                TendorAI connects {locationName} businesses with trusted {service.name.toLowerCase()}{' '}
-                suppliers across Wales and South West England. Our platform features {totalCount}{' '}
-                verified suppliers serving the {locationName} area, each vetted for reliability and
-                service quality.
-              </p>
-
-              <h3>How to Choose a {service.name} Supplier</h3>
-              <ul>
-                <li>
-                  <strong>Local presence:</strong> Suppliers with offices in {locationName} typically
-                  offer faster response times and better ongoing support.
-                </li>
-                <li>
-                  <strong>Verified pricing:</strong> Look for the &quot;Verified&quot; badge indicating
-                  transparent pricing and active engagement with customers.
-                </li>
-                <li>
-                  <strong>Service coverage:</strong> Confirm the supplier services your specific
-                  postcode area before requesting a quote.
-                </li>
-              </ul>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              Frequently Asked Questions — {service.name} in {locationName}
+            </h2>
+            <div className="space-y-6">
+              {faqs.map((faq, i) => (
+                <div key={i} className="border-b border-gray-200 pb-6 last:border-0">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{faq.question}</h3>
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
+
+        {/* Vendor Acquisition CTA */}
+        <section className="bg-purple-50 py-10">
+          <div className="section text-center">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              Don&apos;t see your company listed?
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Join {totalCount > 0 ? `${totalCount}+ ` : ''}other {service.name.toLowerCase()} suppliers on TendorAI.
+              Create your free listing in under 2 minutes and start appearing in AI-powered buyer searches.
+            </p>
+            <Link
+              href="/for-vendors"
+              className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              List Your Business — Free
+            </Link>
           </div>
         </section>
 
@@ -419,6 +454,73 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       </main>
     </>
   );
+}
+
+// FAQ generator
+function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string) {
+  const categoryTips: Record<string, string[]> = {
+    photocopiers: [
+      'Check for manufacturer accreditations (e.g. Konica Minolta, Ricoh, Canon authorised dealer)',
+      'Compare lease vs purchase options for your print volume',
+      'Ask about managed print services that include toner and maintenance',
+      'Confirm response times for engineer callouts in your area',
+    ],
+    telecoms: [
+      'Verify the provider supports your preferred system type (cloud VoIP, on-premise, hybrid)',
+      'Check if they offer Teams or Zoom integration',
+      'Ask about call recording and compliance features if required',
+      'Confirm they provide local number porting and ongoing support',
+    ],
+    cctv: [
+      'Look for NSI Gold or SSAIB accreditation for insurance compliance',
+      'Check whether they offer remote monitoring and cloud storage',
+      'Ask about analytics features like ANPR or people counting',
+      'Confirm they handle both installation and ongoing maintenance',
+    ],
+    it: [
+      'Verify their response time SLAs for critical issues',
+      'Check if they offer both fully managed and co-managed options',
+      'Ask about cybersecurity provisions (endpoint protection, backup, disaster recovery)',
+      'Confirm they support your existing infrastructure (Microsoft 365, Google Workspace, etc.)',
+    ],
+    security: [
+      'Check for NSI or SSAIB accreditation',
+      'Ask about integrated systems (CCTV + access control + alarms)',
+      'Verify monitoring station capabilities for 24/7 response',
+      'Confirm maintenance contracts and response times',
+    ],
+    software: [
+      'Ensure the provider offers training and onboarding support',
+      'Check integration capabilities with your existing tools',
+      'Ask about data migration and implementation timelines',
+      'Verify ongoing support and update policies',
+    ],
+  };
+
+  const tips = categoryTips[categorySlug] || categoryTips['it'] || [];
+
+  return [
+    {
+      question: `How do I find the best ${serviceName.toLowerCase()} supplier in ${locationName}?`,
+      answer: `TendorAI makes it easy to compare verified ${serviceName.toLowerCase()} suppliers serving ${locationName}. Each supplier is AI-vetted with an AI Visibility Score showing how established and active they are. You can compare services, check accreditations, and request quotes from multiple suppliers — all from one page.`,
+    },
+    {
+      question: `How many ${serviceName.toLowerCase()} companies operate in ${locationName}?`,
+      answer: `TendorAI currently lists ${vendorCount} verified ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area, including both local businesses and national providers with coverage in ${locationName}.`,
+    },
+    {
+      question: `What should I look for when choosing a ${serviceName.toLowerCase()} supplier in ${locationName}?`,
+      answer: `When choosing a ${serviceName.toLowerCase()} supplier in ${locationName}, consider these key factors: ${tips.join('. ')}.`,
+    },
+    {
+      question: `How much does ${serviceName.toLowerCase()} cost in ${locationName}?`,
+      answer: `Pricing for ${serviceName.toLowerCase()} in ${locationName} varies depending on your specific requirements, the scale of your operation, and whether you choose a local or national supplier. The best way to get accurate pricing is to submit your requirements through TendorAI and receive tailored quotes from verified suppliers.`,
+    },
+    {
+      question: `Can I get multiple quotes from ${serviceName.toLowerCase()} suppliers in ${locationName}?`,
+      answer: `Yes — TendorAI lets you compare quotes from multiple verified suppliers in ${locationName}. Submit your requirements once and receive tailored proposals from suppliers that match your needs, location, and budget. It's completely free for buyers.`,
+    },
+  ];
 }
 
 // Empty State Component

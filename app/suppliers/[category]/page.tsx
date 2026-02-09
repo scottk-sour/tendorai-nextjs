@@ -90,17 +90,56 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const { vendorCount, locationStats } = data;
 
+  const categoryFaqs = [
+    {
+      question: `How do I find ${service.name.toLowerCase()} suppliers near me?`,
+      answer: `Use TendorAI to browse verified ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area, complete with AI visibility scores and verified pricing.`,
+    },
+    {
+      question: `How many ${service.name.toLowerCase()} suppliers are listed on TendorAI?`,
+      answer: `TendorAI currently lists ${vendorCount} verified ${service.name.toLowerCase()} suppliers across Wales and South West England. New suppliers are added regularly as our network grows.`,
+    },
+    {
+      question: `Is TendorAI free to use for finding ${service.name.toLowerCase()} suppliers?`,
+      answer: `Yes — TendorAI is completely free for buyers. You can browse suppliers, compare AI visibility scores, and request quotes without any charge. Suppliers pay for enhanced listings, which means you only see businesses that are actively investing in serving customers.`,
+    },
+  ];
+
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: `${service.name} Suppliers`,
-    description: service.description,
-    provider: {
-      '@type': 'Organization',
-      name: 'TendorAI',
-    },
-    areaServed: ['Wales', 'South West England'],
-    url: `https://www.tendorai.com/suppliers/${category}`,
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: `${service.name} Suppliers`,
+        description: service.description,
+        provider: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        areaServed: ['Wales', 'South West England'],
+        url: `https://www.tendorai.com/suppliers/${category}`,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
+          { '@type': 'ListItem', position: 3, name: service.name },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: categoryFaqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      },
+    ],
   };
 
   return (
@@ -192,6 +231,23 @@ export default async function CategoryPage({ params }: PageProps) {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="py-12 bg-gray-50">
+          <div className="section max-w-4xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              Frequently Asked Questions — {service.name}
+            </h2>
+            <div className="space-y-6">
+              {categoryFaqs.map((faq, i) => (
+                <div key={i} className="border-b border-gray-200 pb-6 last:border-0">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{faq.question}</h3>
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Related Categories */}
         <section className="py-12 bg-white">
           <div className="section">
@@ -220,6 +276,25 @@ export default async function CategoryPage({ params }: PageProps) {
                   </Link>
                 ))}
             </div>
+          </div>
+        </section>
+
+        {/* Vendor Acquisition CTA */}
+        <section className="bg-purple-50 py-10">
+          <div className="section text-center">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              Are you a {service.name.toLowerCase()} supplier?
+            </h2>
+            <p className="text-gray-600 mb-4">
+              List your business on TendorAI for free and start appearing in AI-powered buyer searches.
+              Paid plans unlock enhanced visibility and lead generation.
+            </p>
+            <Link
+              href="/for-vendors"
+              className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              List Your Business — Free
+            </Link>
           </div>
         </section>
       </main>
