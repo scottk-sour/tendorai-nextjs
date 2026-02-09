@@ -38,10 +38,10 @@ interface VisibilityScoreData {
   tier: string;
   tierDisplayName: string;
   breakdown: {
-    profileCompleteness: BreakdownSection;
-    productData: BreakdownSection;
-    trustAndReviews: BreakdownSection;
-    subscriptionTier: BreakdownSection;
+    profile: BreakdownSection;
+    products: BreakdownSection;
+    geo: BreakdownSection;
+    mentions: BreakdownSection;
   };
   tips: ScoreTip[];
   recommendations: Array<{
@@ -71,7 +71,7 @@ interface AIVisibilityScoreCardProps {
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-const BREAKDOWN_KEYS = ['profileCompleteness', 'productData', 'trustAndReviews', 'subscriptionTier'] as const;
+const BREAKDOWN_KEYS = ['profile', 'products', 'geo', 'mentions'] as const;
 
 export default function AIVisibilityScoreCard({ token, tier, compact = true }: AIVisibilityScoreCardProps) {
   const [data, setData] = useState<VisibilityScoreData | null>(null);
@@ -185,50 +185,74 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
             <p className="text-sm font-medium mb-1" style={{ color: colour }}>
               {label}
             </p>
-            {tier !== 'verified' && maxPossible && (
-              <p className="text-xs text-gray-500 mb-2">
-                Your tier max: {maxPossible}/100
-              </p>
-            )}
             <p className="text-sm text-gray-600">
-              {score <= 30
-                ? 'AI assistants struggle to find your business.'
-                : score <= 50
-                  ? 'Basic visibility. Add more details to improve.'
-                  : score <= 70
-                    ? 'Good visibility! Upgrade to unlock higher scores.'
-                    : score <= 85
-                      ? 'Strong visibility! Upgrade to Verified for max score.'
+              {score <= 20
+                ? 'AI tools can\'t find your business yet.'
+                : score <= 40
+                  ? 'Basic visibility. Complete your profile and add products.'
+                  : score <= 60
+                    ? 'Good visibility! Run a GEO Audit to go further.'
+                    : score <= 80
+                      ? 'Strong visibility across AI platforms.'
                       : 'Excellent! Maximum AI visibility achieved.'
               }
             </p>
           </div>
         </div>
 
-        {/* Breakdown sections */}
-        {!compact && breakdown && (
-          <div className="mt-6 space-y-3">
+        {/* Breakdown mini bars (always shown) */}
+        {breakdown && (
+          <div className="mt-5 grid grid-cols-2 gap-3">
             {BREAKDOWN_KEYS.map((key) => {
               const section = breakdown[key];
               if (!section) return null;
+              const pct = section.max > 0 ? (section.earned / section.max) * 100 : 0;
+              const barColours: Record<string, string> = {
+                profile: 'bg-blue-500',
+                products: 'bg-emerald-500',
+                geo: 'bg-amber-500',
+                mentions: 'bg-purple-500',
+              };
               return (
-                <div key={key} className="p-3 bg-gray-50 rounded-lg">
+                <div key={key}>
                   <div className="flex items-center justify-between mb-1">
-                    <div>
-                      <span className="text-sm font-medium text-gray-900">{section.label || key}</span>
-                      {section.subtitle && (
-                        <span className="text-xs text-gray-500 ml-2">{section.subtitle}</span>
-                      )}
-                    </div>
-                    <span className="text-sm font-semibold text-gray-700">
+                    <span className="text-xs font-medium text-gray-600">{section.label}</span>
+                    <span className="text-xs font-semibold text-gray-700">
                       {section.earned}/{section.max}
                     </span>
                   </div>
-                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-purple-500 rounded-full transition-all"
-                      style={{ width: `${section.max > 0 ? (section.earned / section.max) * 100 : 0}%` }}
+                      className={`h-full rounded-full transition-all ${barColours[key] || 'bg-purple-500'}`}
+                      style={{ width: `${pct}%` }}
                     />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Full breakdown items (non-compact) */}
+        {!compact && breakdown && (
+          <div className="mt-4 space-y-3">
+            {BREAKDOWN_KEYS.map((key) => {
+              const section = breakdown[key];
+              if (!section?.items?.length) return null;
+              return (
+                <div key={key} className="p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm font-medium text-gray-900 mb-2">{section.label}</p>
+                  <div className="space-y-1">
+                    {section.items.map((item, i) => (
+                      <div key={i} className="flex items-center justify-between text-xs">
+                        <span className={item.completed ? 'text-gray-700' : 'text-gray-400'}>
+                          {item.completed ? '\u2713' : '\u25CB'} {item.name}
+                        </span>
+                        <span className={item.completed ? 'text-green-600 font-medium' : 'text-gray-400'}>
+                          {item.completed ? `+${item.points}` : `0/${item.points}`}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               );
