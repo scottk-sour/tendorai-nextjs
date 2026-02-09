@@ -6,6 +6,7 @@ import Stats from './components/landing/Stats';
 import CoverageAreas from './components/landing/CoverageAreas';
 import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
+import AeoReportCTA from './components/landing/AeoReportCTA';
 
 export const metadata: Metadata = {
   title: 'Compare Office Equipment Quotes | Local Suppliers in Wales & South West England | TendorAI',
@@ -157,6 +158,9 @@ export default function HomePage() {
 
         {/* FAQ Section */}
         <FAQ />
+
+        {/* AEO Report CTA */}
+        <AeoReportCTA />
 
         {/* Final CTA with Newsletter */}
         <FinalCTA />

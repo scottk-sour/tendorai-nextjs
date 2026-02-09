@@ -26,6 +26,7 @@ const Header = () => {
     { href: '/how-it-works', label: 'How It Works' },
     { href: '/resources', label: 'Guides' },
     { href: '/for-vendors', label: 'For Vendors' },
+    { href: '/aeo-report', label: 'Free AEO Report' },
   ];
 
   const isActive = (path: string) => {
