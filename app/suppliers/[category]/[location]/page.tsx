@@ -215,6 +215,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
   const totalCount = localVendors.length + nationalVendors.length;
 
+  // Generate FAQs
+  const faqs = generateFAQs(service.name, locationName, totalCount, category);
+
   // JSON-LD
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -292,9 +295,6 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const relatedCategories = Object.values(SERVICES)
     .filter((s) => s.slug !== category)
     .slice(0, 3);
-
-  // Generate FAQs
-  const faqs = generateFAQs(service.name, locationName, totalCount, category);
 
   return (
     <>
