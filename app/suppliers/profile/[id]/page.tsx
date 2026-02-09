@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { connectDB } from '@/lib/db/connection';
-import { Vendor, VendorProduct } from '@/lib/db/models';
+import { Vendor, VendorProduct, Review } from '@/lib/db/models';
 import {
   getDisplayTier,
   canShowPricing,
@@ -12,6 +12,7 @@ import {
 } from '@/lib/constants';
 import { detectAISource } from '@/lib/ai-detection';
 import QuoteRequestForm from './QuoteRequestForm';
+import VendorReviews from '@/app/components/VendorReviews';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
   'https://ai-procurement-backend-q35u.onrender.com';
@@ -102,6 +103,31 @@ async function getProducts(vendorId: string) {
   }
 }
 
+// Fetch approved reviews for JSON-LD schema
+async function getApprovedReviews(vendorId: string) {
+  await connectDB();
+
+  try {
+    const reviews = await Review.find({
+      vendor: vendorId,
+      status: 'approved',
+    })
+      .select('reviewer.name rating title content createdAt')
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .lean()
+      .exec();
+
+    return reviews.map((r) => ({
+      ...r,
+      _id: r._id.toString(),
+      vendor: r.vendor.toString(),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 // Dynamic metadata
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
@@ -162,7 +188,10 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
     }).catch(() => {});
   }
 
-  const products = await getProducts(id);
+  const [products, approvedReviews] = await Promise.all([
+    getProducts(id),
+    getApprovedReviews(id),
+  ]);
   const displayTier = getDisplayTier(vendor.tier);
   const showPricing = canShowPricing(vendor.tier) || vendor.showPricing === true;
   const acceptsQuotes = canReceiveQuotes(vendor.tier) || vendor.showPricing;
@@ -217,6 +246,16 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
         priceCurrency: 'GBP',
       }),
     })),
+    ...(approvedReviews.length > 0 && {
+      review: approvedReviews.slice(0, 10).map((r) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.reviewer?.name || 'Anonymous' },
+        datePublished: new Date(r.createdAt).toISOString().split('T')[0],
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+        name: r.title,
+        reviewBody: r.content,
+      })),
+    }),
   };
 
   const breadcrumbJsonLd = {
@@ -386,6 +425,9 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
                   </div>
                 </div>
               )}
+
+              {/* Reviews */}
+              <VendorReviews vendorId={id} vendorName={vendor.company} />
             </div>
 
             {/* Sidebar */}
