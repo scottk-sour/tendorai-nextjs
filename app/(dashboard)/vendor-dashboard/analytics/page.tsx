@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierGate, { hasTierAccess, getTierLabel } from '@/app/components/dashboard/TierGate';
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
+import AISearchTest from '@/app/components/dashboard/AISearchTest';
 
 interface AnalyticsData {
   period: string;
@@ -42,6 +43,9 @@ export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [tier, setTier] = useState('free');
   const [vendorId, setVendorId] = useState('');
+  const [vendorName, setVendorName] = useState('');
+  const [vendorCategory, setVendorCategory] = useState('');
+  const [vendorLocation, setVendorLocation] = useState('');
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<'7d' | '30d'>('30d');
 
@@ -58,10 +62,14 @@ export default function AnalyticsPage() {
 
       if (profileRes.ok) {
         const profileData = await profileRes.json();
-        const vendorTier = profileData.vendor?.tier || 'free';
-        const vId = profileData.vendor?.vendorId || profileData.vendor?._id || '';
+        const v = profileData.vendor;
+        const vendorTier = v?.tier || 'free';
+        const vId = v?.vendorId || v?._id || '';
         setTier(vendorTier);
         setVendorId(vId);
+        setVendorName(v?.company || '');
+        setVendorCategory(v?.services?.[0] || '');
+        setVendorLocation(v?.location?.city || v?.location?.region || '');
 
         // Fetch analytics if vendor has access
         if (hasTierAccess(vendorTier, 'visible') && vId) {
@@ -284,6 +292,15 @@ export default function AnalyticsPage() {
         token={token || ''}
         tier={tier}
         compact={false}
+      />
+
+      {/* AI Search Test */}
+      <AISearchTest
+        token={token || ''}
+        tier={tier}
+        vendorName={vendorName}
+        vendorCategory={vendorCategory}
+        vendorLocation={vendorLocation}
       />
 
       {/* Stats Overview */}
