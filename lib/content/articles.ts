@@ -2,7 +2,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips';
+  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility';
   readTime: number;
   publishedDate: string;
   content: string;
@@ -885,6 +885,15 @@ Ready to explore your options? Whether your contract is ending soon or you're ju
 [Compare suppliers in your area →](/get-quotes)
 `,
   },
+  {
+    slug: 'ai-visibility-vs-seo-agencies',
+    title: 'AI Visibility vs Traditional SEO: Why Your Business Needs Both in 2026',
+    excerpt: 'Traditional SEO is no longer enough. With AI tools like ChatGPT and Gemini reshaping how buyers find suppliers, UK businesses need a new strategy. Here\'s how AI visibility works and what it means for your business.',
+    category: 'AI & Visibility',
+    readTime: 12,
+    publishedDate: '2026-02-09',
+    content: '',
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
@@ -896,4 +905,4 @@ export function getArticlesByCategory(category: string): Article[] {
   return articles.filter(a => a.category === category);
 }
 
-export const articleCategories = ['All', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
+export const articleCategories = ['All', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips', 'AI & Visibility'] as const;
