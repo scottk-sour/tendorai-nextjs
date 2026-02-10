@@ -3,7 +3,7 @@ import { PLANS } from '@/lib/constants/plans';
 
 export const metadata: Metadata = {
   title: 'For Vendors | TendorAI - Get Found by AI Assistants',
-  description: 'AI assistants are already recommending your competitors. Join 71+ UK suppliers on TendorAI and start appearing in AI-powered recommendations from ChatGPT, Claude, and Perplexity.',
+  description: 'AI assistants are already recommending your competitors. Join 1,000+ UK suppliers on TendorAI and start appearing in AI-powered recommendations from ChatGPT, Claude, and Perplexity.',
 };
 
 export default function ForVendorsPage() {
@@ -59,7 +59,7 @@ export default function ForVendorsPage() {
       <section className="bg-brand-gradient text-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-            <span className="text-sm font-medium">71 suppliers already listed</span>
+            <span className="text-sm font-medium">1,000+ suppliers already listed</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             AI assistants are already<br />
@@ -91,7 +91,7 @@ export default function ForVendorsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-8 text-center">
             <div>
-              <span className="text-2xl font-bold text-white">71</span>
+              <span className="text-2xl font-bold text-white">1,000+</span>
               <span className="text-gray-400 text-sm ml-2">Suppliers listed</span>
             </div>
             <div className="hidden sm:block text-gray-600">|</div>
@@ -101,7 +101,7 @@ export default function ForVendorsPage() {
             </div>
             <div className="hidden sm:block text-gray-600">|</div>
             <div>
-              <span className="text-gray-400 text-sm">Wales &amp; South West England</span>
+              <span className="text-gray-400 text-sm">Across the UK</span>
             </div>
           </div>
         </div>
@@ -287,7 +287,7 @@ export default function ForVendorsPage() {
             Start Getting AI Mentions Today
           </h2>
           <p className="text-gray-400 mb-8 text-lg">
-            Join 71+ UK suppliers already on TendorAI. Free to start, upgrade anytime.
+            Join 1,000+ UK suppliers already on TendorAI. Free to start, upgrade anytime.
           </p>
           <a
             href="/vendor-signup?plan=free"

@@ -6,7 +6,7 @@ export * from './tiers';
 export const SITE_CONFIG = {
   name: 'TendorAI',
   tagline: 'AI-Powered Procurement for UK Businesses',
-  description: 'Find and compare trusted office equipment suppliers across Wales and South West England. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
+  description: 'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
   url: 'https://www.tendorai.com',
   apiUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tendorai.com',
 
@@ -18,7 +18,7 @@ export const SITE_CONFIG = {
   linkedIn: 'https://linkedin.com/company/tendorai',
 
   // Geographic focus
-  primaryRegion: 'Wales and South West England',
+  primaryRegion: 'United Kingdom',
   country: 'United Kingdom',
   countryCode: 'GB',
   currency: 'GBP',
@@ -26,7 +26,7 @@ export const SITE_CONFIG = {
 
   // Business stats (update periodically)
   stats: {
-    suppliers: 70,
+    suppliers: 1000,
     products: 231,
     categories: 6,
     locations: 30,

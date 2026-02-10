@@ -3,7 +3,7 @@ import Link from 'next/link';
 const faqItems = [
   {
     question: 'What areas does TendorAI cover?',
-    answer: 'TendorAI lists office equipment suppliers across Wales and South West England. Our directory includes suppliers in Cardiff, Newport, Swansea, Bridgend, Bristol, Bath, Gloucester, Cheltenham, Exeter, Plymouth, and surrounding areas.',
+    answer: 'TendorAI lists office equipment suppliers across the UK. Our directory includes 1,000+ suppliers covering all major cities and regions nationwide.',
   },
   {
     question: 'What types of office equipment can I find suppliers for?',
@@ -19,11 +19,11 @@ const faqItems = [
   },
   {
     question: 'Are the suppliers on TendorAI vetted?',
-    answer: 'We compile and categorise established office equipment suppliers across Wales and the South West. Supplier profiles include their services, coverage areas, and contact information. We recommend checking reviews when comparing quotes.',
+    answer: 'We compile and categorise established office equipment suppliers across the UK. Supplier profiles include their services, coverage areas, and contact information. We recommend checking reviews when comparing quotes.',
   },
   {
     question: 'Can I find photocopier suppliers in Cardiff or Bristol?',
-    answer: 'Yes, we have multiple photocopier and printer suppliers listed in both Cardiff and Bristol, as well as across South Wales and the South West region. Use the postcode search to find suppliers who cover your specific area.',
+    answer: 'Yes, we have multiple photocopier and printer suppliers listed across the UK, including Cardiff, Bristol, London, Manchester, Birmingham, and many more. Use the postcode search to find suppliers who cover your specific area.',
   },
 ];
 
@@ -36,7 +36,7 @@ export default function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Common questions about finding office equipment suppliers in Wales and South West England
+            Common questions about finding office equipment suppliers across the UK
           </p>
         </div>
 

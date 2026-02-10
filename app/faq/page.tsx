@@ -30,7 +30,7 @@ export default function FAQPage() {
     },
     {
       question: 'What areas do you cover?',
-      answer: 'TendorAI currently has strong coverage across Wales and South West England, with suppliers throughout the UK. We are expanding coverage continuously.',
+      answer: 'TendorAI has 1,000+ suppliers listed across the UK, covering all major cities and regions. We are expanding coverage continuously.',
     },
     {
       question: 'How is this different from other quote sites?',

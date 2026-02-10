@@ -7,7 +7,7 @@ import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Supplier Directory',
   description:
-    'Browse our directory of verified office equipment suppliers across Wales and South West England. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
+    'Browse our directory of verified office equipment suppliers across the UK. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
   alternates: {
     canonical: 'https://www.tendorai.com/suppliers',
   },
@@ -57,7 +57,7 @@ export default async function SuppliersIndexPage() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Office Equipment Supplier Directory',
-    description: 'Directory of verified office equipment suppliers in Wales and South West England',
+    description: 'Directory of verified office equipment suppliers across the UK',
     numberOfItems: totalCount,
     itemListElement: services.map((service, index) => ({
       '@type': 'ListItem',
@@ -93,8 +93,7 @@ export default async function SuppliersIndexPage() {
               Supplier Directory
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Browse {totalCount} verified office equipment suppliers across Wales and South West
-              England. Find the right supplier for your business needs.
+              Browse {totalCount} verified office equipment suppliers across the UK. Find the right supplier for your business needs.
             </p>
           </div>
         </section>

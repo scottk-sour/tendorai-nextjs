@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: '%s | TendorAI',
   },
   description:
-    'Find and compare trusted office equipment suppliers across Wales and South West England. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
+    'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
   keywords: [
     'office equipment suppliers UK',
     'copier suppliers Wales',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: 'TendorAI',
     title: 'TendorAI | AI-Powered Procurement for UK Businesses',
     description:
-      'Find and compare trusted office equipment suppliers across Wales and South West England. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
+      'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
     images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
   },
   twitter: {
@@ -95,7 +95,7 @@ const organisationJsonLd = {
     },
     geoRadius: '150 mi',
   },
-  serviceArea: ['Wales', 'South West England', 'West of England'],
+  serviceArea: ['United Kingdom'],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',

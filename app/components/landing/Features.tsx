@@ -6,8 +6,8 @@ const features = [
       </svg>
     ),
     title: 'Compare Local Suppliers',
-    description: 'Browse 70+ office equipment suppliers across Wales and South West England. Compare photocopier, telecoms, and IT providers serving Cardiff, Bristol, Swansea, and surrounding areas.',
-    metric: '70+ suppliers',
+    description: 'Browse 1,000+ office equipment suppliers across the UK. Compare photocopier, telecoms, and IT providers near you.',
+    metric: '1,000+ suppliers',
   },
   {
     icon: (
@@ -17,7 +17,7 @@ const features = [
       </svg>
     ),
     title: 'Regional Coverage',
-    description: 'Find suppliers who actually serve your area. Our directory covers South Wales, Bristol, Bath, Devon, Cornwall, Somerset, and Gloucestershire with local businesses you can trust.',
+    description: 'Find suppliers who actually serve your area. Our directory covers the entire UK with local and national businesses you can trust.',
     metric: 'Local to you',
   },
   {

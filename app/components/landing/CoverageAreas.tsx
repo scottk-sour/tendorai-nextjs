@@ -11,7 +11,7 @@ export default function CoverageAreas() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-purple-700 mb-4">
-            Suppliers Across Wales & South West England
+            Suppliers Across the UK
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Our directory includes office equipment suppliers serving these areas
@@ -59,7 +59,7 @@ export default function CoverageAreas() {
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
             <h3 className="text-xl font-bold text-purple-900 mb-4">Are You a Supplier?</h3>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Join 70+ office equipment suppliers already listed on TendorAI. Get your business in front of companies looking for quotes in your area.
+              Join 1,000+ office equipment suppliers already listed on TendorAI. Get your business in front of companies looking for quotes in your area.
             </p>
             <Link
               href="/for-vendors"

@@ -9,8 +9,8 @@ import FinalCTA from './components/landing/FinalCTA';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 
 export const metadata: Metadata = {
-  title: 'Compare Office Equipment Quotes | Local Suppliers in Wales & South West England | TendorAI',
-  description: 'Compare photocopier, telecoms, CCTV and IT equipment quotes from 70+ local suppliers across Wales, Bristol and South West England. Free comparison service for UK businesses.',
+  title: 'Compare Office Equipment Quotes | 1,000+ UK Suppliers | TendorAI',
+  description: 'Compare photocopier, telecoms, CCTV and IT equipment quotes from 1,000+ verified suppliers across the UK. Free comparison service for UK businesses.',
   keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
   alternates: {
     canonical: 'https://www.tendorai.com',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.tendorai.com/',
     title: 'Compare Office Equipment Quotes from Local Suppliers | TendorAI',
-    description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers in Wales, Bristol and South West England. Compare quotes from 70+ local businesses. Free to use.',
+    description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers across the UK. Compare quotes from 1,000+ verified businesses. Free to use.',
     siteName: 'TendorAI',
     locale: 'en_GB',
     images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
@@ -46,7 +46,7 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'TendorAI',
-  description: 'TendorAI is a free comparison platform that helps UK businesses find office equipment suppliers in Wales and South West England. Browse 70+ local suppliers for photocopiers, telecoms, CCTV, and IT equipment across Cardiff, Bristol, Swansea, and surrounding areas.',
+  description: 'TendorAI is a free AI-powered comparison platform that helps UK businesses find office equipment suppliers. Browse 1,000+ verified suppliers for photocopiers, telecoms, CCTV, and IT equipment across the UK.',
   url: 'https://www.tendorai.com',
   priceRange: 'Free',
   address: {
@@ -84,7 +84,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'TendorAI',
   url: 'https://www.tendorai.com',
-  description: 'Office equipment supplier directory for Wales and South West England',
+  description: 'AI-powered office equipment supplier directory for UK businesses',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://www.tendorai.com/suppliers?postcode={search_term_string}',
@@ -101,7 +101,7 @@ const faqSchema = {
       name: 'What areas does TendorAI cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'TendorAI lists office equipment suppliers across Wales and South West England. Our directory includes suppliers in Cardiff, Newport, Swansea, Bridgend, Bristol, Bath, Gloucester, Cheltenham, Exeter, Plymouth, and surrounding areas.',
+        text: 'TendorAI lists 1,000+ office equipment suppliers across the UK. Our directory covers all major cities and regions nationwide, helping businesses find trusted local and national suppliers.',
       },
     },
     {

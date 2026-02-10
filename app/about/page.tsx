@@ -47,7 +47,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">70+</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">1,000+</div>
               <div className="text-gray-600">Verified Suppliers</div>
             </div>
             <div>

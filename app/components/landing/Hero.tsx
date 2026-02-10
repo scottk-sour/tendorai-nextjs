@@ -22,22 +22,22 @@ export default function Hero() {
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
           Compare Office Equipment Quotes from{' '}
           <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
-            Local Suppliers in Wales & South West England
+            UK Office Equipment Suppliers
           </span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-          TendorAI is a free supplier directory for UK businesses. Browse 70+ office equipment suppliers
-          across South Wales, Bristol, and the South West. Find local providers for photocopiers,
+          TendorAI is a free AI-powered supplier directory for UK businesses. Browse 1,000+ office equipment suppliers
+          across the UK. Find trusted providers for photocopiers,
           business telecoms, CCTV systems, and IT equipment.
         </p>
 
         {/* Stats */}
         <div className="flex justify-center gap-4 md:gap-8 mb-10 flex-wrap">
           <div className="bg-white/10 backdrop-blur px-6 py-4 rounded-xl border border-white/20">
-            <div className="text-2xl md:text-3xl font-bold text-yellow-400">70+</div>
-            <div className="text-sm text-white/90 font-medium">Local Suppliers</div>
+            <div className="text-2xl md:text-3xl font-bold text-yellow-400">1,000+</div>
+            <div className="text-sm text-white/90 font-medium">UK Suppliers</div>
           </div>
           <div className="bg-white/10 backdrop-blur px-6 py-4 rounded-xl border border-white/20">
             <div className="text-2xl md:text-3xl font-bold text-yellow-400">4</div>

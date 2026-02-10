@@ -1187,7 +1187,7 @@ export default function QuoteFlow() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-500">✓</span>
-              <span>70+ verified suppliers</span>
+              <span>1,000+ verified suppliers</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-500">✓</span>

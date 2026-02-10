@@ -440,7 +440,7 @@ export default function SavingsCalculatorPage() {
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">We Compare Rates</h3>
               <p className="text-sm text-gray-600">
-                We check real pricing from 70+ verified UK suppliers
+                We check real pricing from 1,000+ verified UK suppliers
               </p>
             </div>
             <div className="text-center">

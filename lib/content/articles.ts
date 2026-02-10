@@ -21,7 +21,7 @@ export const articles: Article[] = [
 
 If you're looking to get a photocopier for your UK business, you've probably discovered that pricing isn't straightforward. Unlike buying a laptop where you pay once and you're done, photocopiers come with ongoing costs that can vary dramatically between suppliers.
 
-This guide breaks down exactly what you'll pay, based on real pricing data from over 70 suppliers across Wales and South West England.
+This guide breaks down exactly what you'll pay, based on real pricing data from over 1,000 suppliers across the UK.
 
 ## Lease Costs: What to Expect
 
@@ -390,7 +390,7 @@ Understanding CPC rates is crucial because small differences compound dramatical
 
 ## 2026 UK Average CPC Rates
 
-Based on analysis of pricing from 70+ suppliers across Wales and South West England:
+Based on analysis of pricing from 1,000+ suppliers across the UK:
 
 ### A4 Mono (Black & White)
 | Tier | Rate | Who Pays This |
