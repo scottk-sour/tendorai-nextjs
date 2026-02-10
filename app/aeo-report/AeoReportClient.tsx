@@ -314,6 +314,14 @@ function NotMentionedResult({
               </div>
             ))}
           </div>
+          <div className="mt-4 flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+            <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-xs text-blue-700 leading-relaxed">
+              This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -463,6 +471,14 @@ function MentionedResult({
                 </div>
               );
             })}
+          </div>
+          <div className="mt-4 flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+            <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-xs text-blue-700 leading-relaxed">
+              This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
+            </p>
           </div>
         </div>
       </section>
