@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import AIMentionsCard from '@/app/components/dashboard/AIMentionsCard';
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
+import FreeScoreBreakdown from '@/app/components/dashboard/FreeScoreBreakdown';
+import CompetitorLeaderboard from '@/app/components/dashboard/CompetitorLeaderboard';
+import LeadTeaser from '@/app/components/dashboard/LeadTeaser';
 import UpgradeBanner from '@/app/components/dashboard/UpgradeBanner';
-import { getTierLabel } from '@/app/components/dashboard/TierGate';
+import { getTierLabel, hasTierAccess } from '@/app/components/dashboard/TierGate';
 
 interface Lead {
   _id: string;
@@ -35,6 +38,8 @@ interface ProfileData {
   company: string;
   tier: string;
   vendorId: string;
+  services: string[];
+  locationCity: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -74,6 +79,8 @@ export default function VendorDashboardOverview() {
             company: profileData.vendor.company || '',
             tier: profileData.vendor.tier || 'free',
             vendorId: profileData.vendor.vendorId || profileData.vendor._id || '',
+            services: profileData.vendor.services || [],
+            locationCity: profileData.vendor.location?.city || '',
           });
         }
       }
@@ -157,13 +164,24 @@ export default function VendorDashboardOverview() {
           tier={currentTier}
         />
 
-        {/* AI Visibility Score Card */}
-        <AIVisibilityScoreCard
-          token={token || ''}
-          tier={currentTier}
-          compact={true}
-        />
+        {/* AI Visibility Score — full breakdown for free, compact for paid */}
+        {hasTierAccess(currentTier, 'visible') ? (
+          <AIVisibilityScoreCard
+            token={token || ''}
+            tier={currentTier}
+            compact={true}
+          />
+        ) : (
+          <FreeScoreBreakdown token={token || ''} />
+        )}
       </div>
+
+      {/* Competitor Leaderboard (after AI Insights Row) */}
+      <CompetitorLeaderboard
+        token={token || ''}
+        tier={currentTier}
+        vendorName={profile?.company || ''}
+      />
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -184,6 +202,11 @@ export default function VendorDashboardOverview() {
           <div className="text-sm text-gray-600">Response Rate</div>
         </div>
       </div>
+
+      {/* Lead Teaser (free tier only) */}
+      {!hasTierAccess(currentTier, 'visible') && (
+        <LeadTeaser token={token || ''} />
+      )}
 
       {/* Quick Actions */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

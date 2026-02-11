@@ -48,6 +48,8 @@ export default function AnalyticsPage() {
   const [vendorCategory, setVendorCategory] = useState('');
   const [vendorLocation, setVendorLocation] = useState('');
   const [vendorWebsite, setVendorWebsite] = useState('');
+  const [vendorServices, setVendorServices] = useState<string[]>([]);
+  const [vendorCoverage, setVendorCoverage] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<'7d' | '30d'>('30d');
 
@@ -73,6 +75,8 @@ export default function AnalyticsPage() {
         setVendorCategory(v?.services?.[0] || '');
         setVendorLocation(v?.location?.city || v?.location?.region || '');
         setVendorWebsite(v?.contactInfo?.website || v?.website || '');
+        setVendorServices(v?.services || []);
+        setVendorCoverage(v?.location?.coverage || []);
 
         // Fetch analytics if vendor has access
         if (hasTierAccess(vendorTier, 'visible') && vId) {
@@ -304,6 +308,8 @@ export default function AnalyticsPage() {
         vendorName={vendorName}
         vendorCategory={vendorCategory}
         vendorLocation={vendorLocation}
+        vendorServices={vendorServices}
+        vendorCoverage={vendorCoverage}
       />
 
       {/* GEO Audit */}
