@@ -8,10 +8,11 @@ interface CompetitorData {
   locked: boolean;
   competitorCount: number;
   topCounts?: number[];
+  vendorRank?: number | null;
+  vendorMentionCount?: number;
   category?: string;
   location?: string;
   topCompetitors?: Array<{ name: string; mentionCount: number }>;
-  vendorRank?: number | null;
 }
 
 interface CompetitorLeaderboardProps {
@@ -143,10 +144,13 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
         {/* Your business row */}
         <div className="flex items-center gap-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
           <span className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-sm font-bold text-white">
-            {topCounts.length + 1}
+            {data.vendorRank ?? topCounts.length + 1}
           </span>
           <span className="flex-1 text-sm font-medium text-purple-900">{vendorName || 'Your Business'}</span>
-          <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-medium">You</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-purple-600">{data.vendorMentionCount ?? 0} mentions</span>
+            <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-medium">You</span>
+          </div>
         </div>
       </div>
 
