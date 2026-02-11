@@ -7,6 +7,35 @@ import CoverageAreas from './components/landing/CoverageAreas';
 import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
 import AeoReportCTA from './components/landing/AeoReportCTA';
+import { connectDB } from '@/lib/db/connection';
+import { Vendor } from '@/lib/db/models';
+
+export const revalidate = 3600; // Revalidate every hour
+
+async function getCategoryCounts(): Promise<Record<string, number>> {
+  await connectDB();
+  const stats = await Vendor.aggregate([
+    {
+      $match: {
+        'account.status': 'active',
+        'account.verificationStatus': 'verified',
+      },
+    },
+    { $unwind: '$services' },
+    {
+      $group: {
+        _id: '$services',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  const counts: Record<string, number> = {};
+  stats.forEach((stat: { _id: string; count: number }) => {
+    counts[stat._id] = stat.count;
+  });
+  return counts;
+}
 
 export const metadata: Metadata = {
   title: 'Compare Office Equipment Quotes from UK Suppliers | TendorAI',
@@ -123,7 +152,9 @@ const faqSchema = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const categoryCounts = await getCategoryCounts();
+
   return (
     <>
       {/* Schema.org JSON-LD */}
@@ -148,7 +179,7 @@ export default function HomePage() {
         <Features />
 
         {/* Service Categories */}
-        <ServiceCategories />
+        <ServiceCategories categoryCounts={categoryCounts} />
 
         {/* Stats Section with Animated Counters */}
         <Stats />

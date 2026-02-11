@@ -10,8 +10,8 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { number: 70, suffix: '+', label: 'Local Suppliers' },
-  { number: 4, suffix: '', label: 'Equipment Categories' },
+  { number: 1000, suffix: '+', label: 'UK Suppliers' },
+  { number: 6, suffix: '', label: 'Equipment Categories' },
   { number: 100, suffix: '%', label: 'UK Based' },
   { displayText: 'Free', label: 'Cost to Compare' },
 ];

@@ -1,12 +1,16 @@
 import Link from 'next/link';
 
-const ServiceCategories = () => {
+interface ServiceCategoriesProps {
+  categoryCounts?: Record<string, number>;
+}
+
+const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
   const categories = [
     {
       name: 'Photocopiers',
+      dbValue: 'Photocopiers',
       slug: 'photocopiers',
       description: 'Office multifunction printers, copiers, managed print services',
-      supplierCount: 51,
       iconBg: 'bg-slate-100',
       iconColor: 'text-slate-600',
       icon: (
@@ -17,9 +21,9 @@ const ServiceCategories = () => {
     },
     {
       name: 'Telecoms',
+      dbValue: 'Telecoms',
       slug: 'telecoms',
       description: 'Business phone systems, VoIP, unified communications',
-      supplierCount: 23,
       iconBg: 'bg-pink-50',
       iconColor: 'text-pink-500',
       icon: (
@@ -30,9 +34,9 @@ const ServiceCategories = () => {
     },
     {
       name: 'CCTV',
+      dbValue: 'CCTV',
       slug: 'cctv',
       description: 'Security cameras, video surveillance, monitoring systems',
-      supplierCount: 5,
       iconBg: 'bg-purple-50',
       iconColor: 'text-purple-500',
       icon: (
@@ -43,9 +47,9 @@ const ServiceCategories = () => {
     },
     {
       name: 'IT Services',
-      slug: 'it-services',
+      dbValue: 'IT',
+      slug: 'it',
       description: 'Managed IT services, support, infrastructure, cloud solutions',
-      supplierCount: 0,
       iconBg: 'bg-blue-50',
       iconColor: 'text-blue-500',
       icon: (
@@ -56,9 +60,9 @@ const ServiceCategories = () => {
     },
     {
       name: 'Security Systems',
+      dbValue: 'Security',
       slug: 'security',
       description: 'Access control, alarms, intruder detection, physical security',
-      supplierCount: 0,
       iconBg: 'bg-amber-50',
       iconColor: 'text-amber-500',
       icon: (
@@ -69,9 +73,9 @@ const ServiceCategories = () => {
     },
     {
       name: 'Business Software',
+      dbValue: 'Software',
       slug: 'software',
       description: 'Enterprise software, document management, workflow automation',
-      supplierCount: 0,
       iconBg: 'bg-emerald-50',
       iconColor: 'text-emerald-500',
       icon: (
@@ -90,33 +94,33 @@ const ServiceCategories = () => {
         </h2>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/suppliers/${category.slug}`}
-              className="bg-white rounded-xl p-5 border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all group"
-            >
-              <div className="flex items-start space-x-4">
-                {/* Icon */}
-                <div className={`${category.iconBg} ${category.iconColor} p-3 rounded-lg flex-shrink-0`}>
-                  {category.icon}
+          {categories.map((category) => {
+            const count = categoryCounts[category.dbValue] || 0;
+            return (
+              <Link
+                key={category.slug}
+                href={`/suppliers/${category.slug}`}
+                className="bg-white rounded-xl p-5 border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all group"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className={`${category.iconBg} ${category.iconColor} p-3 rounded-lg flex-shrink-0`}>
+                    {category.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-600 transition-colors">
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+                      {category.description}
+                    </p>
+                    <span className="text-sm text-purple-600 font-medium">
+                      {count} suppliers →
+                    </span>
+                  </div>
                 </div>
-
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-600 transition-colors">
-                    {category.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-                    {category.description}
-                  </p>
-                  <span className="text-sm text-purple-600 font-medium">
-                    {category.supplierCount} suppliers →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

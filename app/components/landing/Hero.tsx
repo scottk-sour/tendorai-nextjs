@@ -40,7 +40,7 @@ export default function Hero() {
             <div className="text-sm text-white/90 font-medium">UK Suppliers</div>
           </div>
           <div className="bg-white/10 backdrop-blur px-6 py-4 rounded-xl border border-white/20">
-            <div className="text-2xl md:text-3xl font-bold text-yellow-400">4</div>
+            <div className="text-2xl md:text-3xl font-bold text-yellow-400">6</div>
             <div className="text-sm text-white/90 font-medium">Categories</div>
           </div>
           <div className="bg-white/10 backdrop-blur px-6 py-4 rounded-xl border border-white/20">
