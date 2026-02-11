@@ -6,7 +6,7 @@ const TITLE = 'AI Visibility vs Traditional SEO: Why Your Business Needs Both in
 const DESCRIPTION = 'Traditional SEO is no longer enough. With AI tools like ChatGPT and Gemini reshaping how buyers find suppliers, UK businesses need a new strategy. Here\'s how AI visibility works and what it means for your business.';
 const SLUG = 'ai-visibility-vs-seo-agencies';
 const PUBLISHED = '2026-02-09';
-const CANONICAL = `https://www.tendorai.com/resources/${SLUG}`;
+const CANONICAL = `https://tendorai.com/resources/${SLUG}`;
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -252,15 +252,15 @@ export default function AIVisibilityVsSEOPage() {
     author: {
       '@type': 'Organization',
       name: 'TendorAI',
-      url: 'https://www.tendorai.com',
+      url: 'https://tendorai.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
-      url: 'https://www.tendorai.com',
+      url: 'https://tendorai.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.tendorai.com/logo.png',
+        url: 'https://tendorai.com/logo.png',
       },
     },
     datePublished: PUBLISHED,
@@ -276,8 +276,8 @@ export default function AIVisibilityVsSEOPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
-      { '@type': 'ListItem', position: 2, name: 'Resources', item: 'https://www.tendorai.com/resources' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
+      { '@type': 'ListItem', position: 2, name: 'Resources', item: 'https://tendorai.com/resources' },
       { '@type': 'ListItem', position: 3, name: TITLE },
     ],
   };

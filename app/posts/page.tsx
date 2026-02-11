@@ -10,10 +10,10 @@ export const metadata: Metadata = {
   description: 'Read the latest news, product updates, guides, and offers from UK office equipment suppliers on TendorAI.',
   openGraph: {
     title: 'Supplier Posts | TendorAI',
-    url: 'https://www.tendorai.com/posts',
+    url: 'https://tendorai.com/posts',
   },
   alternates: {
-    canonical: 'https://www.tendorai.com/posts',
+    canonical: 'https://tendorai.com/posts',
   },
 };
 

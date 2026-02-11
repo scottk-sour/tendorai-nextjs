@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://www.tendorai.com';
+  const baseUrl = 'https://tendorai.com';
 
   return {
     rules: [
@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/api/',
           '/dashboard/',
           '/vendor-dashboard/',
           '/admin/',
@@ -20,28 +19,21 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
       {
-        // Allow AI crawlers full access to public pages and AI discovery files
+        // Explicitly allow AI crawlers — maximum crawlability
         userAgent: [
           'GPTBot',
           'ChatGPT-User',
-          'Claude-Web',
           'ClaudeBot',
-          'Anthropic-AI',
           'anthropic-ai',
           'PerplexityBot',
-          'Amazonbot',
           'Google-Extended',
-          'Bytespider',
+          'Applebot-Extended',
+          'Amazonbot',
           'Bingbot',
+          'Bytespider',
+          'cohere-ai',
         ],
-        allow: [
-          '/',
-          '/llms.txt',
-          '/llms-full.txt',
-          '/.well-known/',
-          '/suppliers/',
-          '/posts/',
-        ],
+        allow: '/',
         disallow: ['/vendor-dashboard/', '/admin/'],
       },
     ],

@@ -39,6 +39,16 @@ function getVariant(vendor: VendorCardData): CardVariant {
   return 'unclaimed';
 }
 
+/** Build a descriptive label for the vendor's primary service and location */
+function getVendorLabel(vendor: VendorCardData): string {
+  const service = vendor.services[0] || 'Office Equipment';
+  const city = vendor.location.city && vendor.location.city.toLowerCase() !== 'uk'
+    ? vendor.location.city
+    : null;
+  if (city) return `${service} Supplier in ${city}`;
+  return `${service} Supplier`;
+}
+
 export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
   const variant = getVariant(vendor);
 
@@ -50,6 +60,7 @@ export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
 // --- Premium Card (Verified / Visible tier) ---
 function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   const isVerified = vendor.tier === 'verified';
+  const label = getVendorLabel(vendor);
 
   return (
     <article
@@ -95,13 +106,13 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             href={`/suppliers/profile/${vendor.id}?quote=true`}
             className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
-            Get Quote
+            Get Quote from {vendor.company}
           </Link>
           <Link
             href={`/suppliers/profile/${vendor.id}`}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
-            View Profile
+            {vendor.company} — {label}
           </Link>
         </div>
       </div>
@@ -111,6 +122,8 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
 
 // --- Active Card (Free tier, claimed) ---
 function ActiveCard({ vendor }: { vendor: VendorCardData }) {
+  const label = getVendorLabel(vendor);
+
   return (
     <article className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -140,7 +153,7 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
             href={`/suppliers/profile/${vendor.id}`}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
-            View Profile
+            {vendor.company} — {label}
           </Link>
         </div>
       </div>
@@ -185,7 +198,7 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
             href={`/vendor-signup?claim=${encodeURIComponent(vendor.company)}`}
             className="text-sm text-purple-600 hover:text-purple-700 font-medium"
           >
-            Is this your business? Claim it &rarr;
+            Claim {vendor.company} on TendorAI &rarr;
           </Link>
         </div>
       </div>

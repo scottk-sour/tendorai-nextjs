@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     'Browse our directory of verified office equipment suppliers across the UK. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
   alternates: {
-    canonical: 'https://www.tendorai.com/suppliers',
+    canonical: 'https://tendorai.com/suppliers',
   },
 };
 
@@ -66,7 +66,7 @@ export default async function SuppliersIndexPage() {
         '@type': 'Service',
         name: service.name,
         description: service.description,
-        url: `https://www.tendorai.com/suppliers/${service.slug}`,
+        url: `https://tendorai.com/suppliers/${service.slug}`,
       },
     })),
   };

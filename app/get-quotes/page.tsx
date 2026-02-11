@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Get Quotes | TendorAI',
     description: 'Compare quotes from verified UK suppliers. Free, instant, no obligation.',
-    url: 'https://www.tendorai.com/get-quotes',
+    url: 'https://tendorai.com/get-quotes',
     type: 'website',
   },
   robots: { index: true, follow: true },

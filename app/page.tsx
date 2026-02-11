@@ -9,15 +9,15 @@ import FinalCTA from './components/landing/FinalCTA';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 
 export const metadata: Metadata = {
-  title: 'Compare Office Equipment Quotes | 1,000+ UK Suppliers | TendorAI',
-  description: 'Compare photocopier, telecoms, CCTV and IT equipment quotes from 1,000+ verified suppliers across the UK. Free comparison service for UK businesses.',
+  title: 'Compare Office Equipment Quotes from UK Suppliers | TendorAI',
+  description: 'Free AI-powered supplier directory for UK businesses. Compare photocopier, telecoms, CCTV, IT, and security quotes from 1,000+ verified suppliers.',
   keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
   alternates: {
-    canonical: 'https://www.tendorai.com',
+    canonical: 'https://tendorai.com',
   },
   openGraph: {
     type: 'website',
-    url: 'https://www.tendorai.com/',
+    url: 'https://tendorai.com/',
     title: 'Compare Office Equipment Quotes from Local Suppliers | TendorAI',
     description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers across the UK. Compare quotes from 1,000+ verified businesses. Free to use.',
     siteName: 'TendorAI',
@@ -47,7 +47,7 @@ const localBusinessSchema = {
   '@type': 'LocalBusiness',
   name: 'TendorAI',
   description: 'TendorAI is a free AI-powered comparison platform that helps UK businesses find office equipment suppliers. Browse 1,000+ verified suppliers for photocopiers, telecoms, CCTV, and IT equipment across the UK.',
-  url: 'https://www.tendorai.com',
+  url: 'https://tendorai.com',
   priceRange: 'Free',
   address: {
     '@type': 'PostalAddress',
@@ -83,11 +83,11 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
-  url: 'https://www.tendorai.com',
+  url: 'https://tendorai.com',
   description: 'AI-powered office equipment supplier directory for UK businesses',
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://www.tendorai.com/suppliers?postcode={search_term_string}',
+    target: 'https://tendorai.com/suppliers?postcode={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };

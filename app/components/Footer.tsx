@@ -5,6 +5,8 @@ const footerNavigation = {
     { name: 'Find Suppliers', href: '/suppliers' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'For Vendors', href: '/for-vendors' },
+    { name: 'Get Quotes', href: '/get-quotes' },
+    { name: 'Guides & Resources', href: '/resources' },
   ],
   company: [
     { name: 'About', href: '/about' },
@@ -17,14 +19,39 @@ const footerNavigation = {
   ],
 };
 
+// Top cities for internal linking — improves crawl depth for GEO pages
+const popularLocations = [
+  { name: 'Cardiff', slug: 'cardiff' },
+  { name: 'Bristol', slug: 'bristol' },
+  { name: 'Swansea', slug: 'swansea' },
+  { name: 'Newport', slug: 'newport' },
+  { name: 'Bath', slug: 'bath' },
+  { name: 'Gloucester', slug: 'gloucester' },
+  { name: 'Exeter', slug: 'exeter' },
+  { name: 'Plymouth', slug: 'plymouth' },
+  { name: 'Cheltenham', slug: 'cheltenham' },
+  { name: 'Swindon', slug: 'swindon' },
+  { name: 'Bournemouth', slug: 'bournemouth' },
+  { name: 'Taunton', slug: 'taunton' },
+];
+
+const serviceCategories = [
+  { name: 'Photocopier Suppliers', slug: 'photocopiers' },
+  { name: 'Telecoms Providers', slug: 'telecoms' },
+  { name: 'CCTV Installers', slug: 'cctv' },
+  { name: 'IT Services', slug: 'it' },
+  { name: 'Security Systems', slug: 'security' },
+  { name: 'Business Software', slug: 'software' },
+];
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900" aria-labelledby="footer-heading">
+    <footer className="bg-gray-900" aria-labelledby="footer-heading" data-nosnippet>
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div className="xl:grid xl:grid-cols-4 xl:gap-8">
           {/* Logo and description */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
@@ -48,7 +75,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-400 max-w-xs">
-              AI-powered procurement connecting UK businesses with verified office equipment suppliers.
+              AI-powered supplier directory connecting UK businesses with verified office equipment suppliers.
             </p>
             <div className="flex space-x-4">
               <a
@@ -77,7 +104,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation links */}
-          <div className="mt-12 grid grid-cols-3 gap-8 xl:col-span-2 xl:mt-0">
+          <div className="mt-12 grid grid-cols-3 gap-8 xl:col-span-3 xl:mt-0">
             <div>
               <h3 className="text-sm font-semibold text-white">Product</h3>
               <ul role="list" className="mt-4 space-y-3">
@@ -92,9 +119,8 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white">Company</h3>
+
+              <h3 className="text-sm font-semibold text-white mt-8">Company</h3>
               <ul role="list" className="mt-4 space-y-3">
                 {footerNavigation.company.map((item) => (
                   <li key={item.name}>
@@ -106,11 +132,6 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white">Legal</h3>
-              <ul role="list" className="mt-4 space-y-3">
                 {footerNavigation.legal.map((item) => (
                   <li key={item.name}>
                     <Link
@@ -123,13 +144,45 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-white">Services</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {serviceCategories.map((cat) => (
+                  <li key={cat.slug}>
+                    <Link
+                      href={`/suppliers/${cat.slug}`}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-white">Popular Locations</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {popularLocations.map((loc) => (
+                  <li key={loc.slug}>
+                    <Link
+                      href={`/suppliers/photocopiers/${loc.slug}`}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      Suppliers in {loc.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="mt-12 border-t border-gray-800 pt-8">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} TendorAI. All rights reserved. Registered in England & Wales.
+            &copy; {new Date().getFullYear()} TendorAI. All rights reserved. Registered in England &amp; Wales.
           </p>
         </div>
       </div>

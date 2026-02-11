@@ -1,0 +1,266 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TendorAI — UK Office Equipment Supplier Directory",
+    "description": "TendorAI is the definitive UK office equipment supplier directory. Search verified suppliers for photocopiers, telecoms, CCTV, IT services, security systems, and business software. Get matched vendors with pricing and coverage data.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "TendorAI Support",
+      "email": "support@tendorai.com",
+      "url": "https://tendorai.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ai-procurement-backend-q35u.onrender.com",
+      "description": "Production API"
+    }
+  ],
+  "paths": {
+    "/api/public/vendors": {
+      "get": {
+        "operationId": "searchVendors",
+        "summary": "Search and list verified UK office equipment suppliers",
+        "description": "Returns a paginated list of verified suppliers, optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by service category",
+            "schema": {
+              "type": "string",
+              "enum": ["Photocopiers", "Telecoms", "CCTV", "IT", "Security", "Software"]
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filter by city name or region (e.g. Cardiff, Bristol, South Wales)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "postcode",
+            "in": "query",
+            "description": "UK postcode for distance-based search (e.g. CF10 1AA, BS1 4DJ)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "distance",
+            "in": "query",
+            "description": "Maximum distance in km from postcode (default: 50)",
+            "schema": { "type": "number", "default": 50 }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "description": "Filter by brand or accreditation",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "default": 20, "maximum": 100 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of matching vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/VendorSummary" }
+                    },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ai-query": {
+      "post": {
+        "operationId": "aiVendorMatch",
+        "summary": "AI-powered vendor matching with natural language requirements",
+        "description": "Accepts a natural language query describing office equipment needs and returns matched vendors with products, pricing, and match scores.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Natural language description of requirements",
+                    "example": "I need a colour A3 photocopier for 10,000 pages a month in Cardiff"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": ["Photocopiers", "Telecoms", "CCTV", "IT", "Security", "Software"]
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "UK postcode or city name",
+                    "example": "CF10"
+                  },
+                  "volume": {
+                    "type": "number",
+                    "description": "Monthly print/copy volume"
+                  },
+                  "budget": {
+                    "type": "number",
+                    "description": "Monthly budget in GBP"
+                  },
+                  "requirements": {
+                    "type": "object",
+                    "properties": {
+                      "colour": { "type": "boolean" },
+                      "a3": { "type": "boolean" },
+                      "features": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matched vendors with products and pricing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "vendors": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/MatchedVendor" }
+                        },
+                        "summary": {
+                          "type": "object",
+                          "properties": {
+                            "totalMatches": { "type": "integer" },
+                            "averageSavings": { "type": "number" }
+                          }
+                        },
+                        "followUpQuestions": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VendorSummary": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "company": { "type": "string" },
+          "services": { "type": "array", "items": { "type": "string" } },
+          "location": {
+            "type": "object",
+            "properties": {
+              "city": { "type": "string" },
+              "region": { "type": "string" },
+              "coverage": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "performance": {
+            "type": "object",
+            "properties": {
+              "rating": { "type": "number" },
+              "reviewCount": { "type": "integer" }
+            }
+          },
+          "businessProfile": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "accreditations": { "type": "array", "items": { "type": "string" } },
+              "yearsInBusiness": { "type": "integer" }
+            }
+          },
+          "brands": { "type": "array", "items": { "type": "string" } },
+          "tier": { "type": "string", "enum": ["verified", "visible", "free"] },
+          "productCount": { "type": "integer" }
+        }
+      },
+      "MatchedVendor": {
+        "type": "object",
+        "properties": {
+          "vendorId": { "type": "string" },
+          "company": { "type": "string" },
+          "location": { "type": "string" },
+          "coverageAreas": { "type": "array", "items": { "type": "string" } },
+          "brands": { "type": "array", "items": { "type": "string" } },
+          "tier": { "type": "string" },
+          "rating": { "type": "number" },
+          "matchScore": { "type": "integer" },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "category": { "type": "string" },
+                "speed": { "type": "integer" },
+                "colour": { "type": "boolean" },
+                "a3": { "type": "boolean" },
+                "features": { "type": "array", "items": { "type": "string" } },
+                "pricing": {
+                  "type": "object",
+                  "properties": {
+                    "leaseMonthly": { "type": "number" },
+                    "cpcColour": { "type": "number" },
+                    "cpcMono": { "type": "number" },
+                    "estimatedMonthly": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" },
+          "total": { "type": "integer" },
+          "pages": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

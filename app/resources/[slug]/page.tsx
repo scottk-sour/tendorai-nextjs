@@ -30,10 +30,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'article',
       publishedTime: article.publishedDate,
       authors: ['TendorAI'],
-      url: `https://www.tendorai.com/resources/${slug}`,
+      url: `https://tendorai.com/resources/${slug}`,
     },
     alternates: {
-      canonical: `https://www.tendorai.com/resources/${slug}`,
+      canonical: `https://tendorai.com/resources/${slug}`,
     },
   };
 }
@@ -149,22 +149,22 @@ export default async function ArticlePage({ params }: PageProps) {
     author: {
       '@type': 'Organization',
       name: 'TendorAI',
-      url: 'https://www.tendorai.com',
+      url: 'https://tendorai.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
-      url: 'https://www.tendorai.com',
+      url: 'https://tendorai.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.tendorai.com/logo.png',
+        url: 'https://tendorai.com/logo.png',
       },
     },
     datePublished: article.publishedDate,
     dateModified: article.publishedDate,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://www.tendorai.com/resources/${slug}`,
+      '@id': `https://tendorai.com/resources/${slug}`,
     },
     articleSection: article.category,
     wordCount: article.content.split(/\s+/).length,
@@ -174,8 +174,8 @@ export default async function ArticlePage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
-      { '@type': 'ListItem', position: 2, name: 'Resources', item: 'https://www.tendorai.com/resources' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
+      { '@type': 'ListItem', position: 2, name: 'Resources', item: 'https://tendorai.com/resources' },
       { '@type': 'ListItem', position: 3, name: article.title },
     ],
   };

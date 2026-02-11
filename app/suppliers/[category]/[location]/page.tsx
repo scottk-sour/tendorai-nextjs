@@ -16,6 +16,7 @@ import {
   calculatePriorityScore,
   canShowPricing,
 } from '@/lib/constants';
+import { LocationContent } from '@/lib/db/models/LocationContent';
 
 interface PageProps {
   params: Promise<{ category: string; location: string }>;
@@ -63,11 +64,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: `https://www.tendorai.com/suppliers/${category}/${location}`,
+      url: `https://tendorai.com/suppliers/${category}/${location}`,
       type: 'website',
     },
     alternates: {
-      canonical: `https://www.tendorai.com/suppliers/${category}/${location}`,
+      canonical: `https://tendorai.com/suppliers/${category}/${location}`,
     },
   };
 }
@@ -199,7 +200,10 @@ export default async function CategoryLocationPage({ params }: PageProps) {
     notFound();
   }
 
-  const allVendors = await fetchVendors(category, location);
+  const [allVendors, locationContent] = await Promise.all([
+    fetchVendors(category, location),
+    LocationContent.findOne({ category, location: locationName }).select('content').lean().catch(() => null) as Promise<{ content: string } | null>,
+  ]);
 
   // Separate local from national vendors
   const localVendors = allVendors.filter((v) => {
@@ -247,7 +251,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 reviewCount: vendor.performance.reviewCount || 1,
               },
             }),
-            url: `https://www.tendorai.com/suppliers/profile/${vendor._id}`,
+            url: `https://tendorai.com/suppliers/profile/${vendor._id}`,
             areaServed: vendor.location?.coverage || [locationName],
           },
         })),
@@ -255,9 +259,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
-          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: service.name, item: `https://www.tendorai.com/suppliers/${category}` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
+          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://tendorai.com/suppliers' },
+          { '@type': 'ListItem', position: 3, name: service.name, item: `https://tendorai.com/suppliers/${category}` },
           { '@type': 'ListItem', position: 4, name: locationName },
         ],
       },
@@ -268,14 +272,14 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         provider: {
           '@type': 'Organization',
           name: 'TendorAI',
-          url: 'https://www.tendorai.com',
+          url: 'https://tendorai.com',
         },
         areaServed: {
           '@type': 'City',
           name: locationName,
           containedInPlace: { '@type': 'Country', name: 'United Kingdom' },
         },
-        url: `https://www.tendorai.com/suppliers/${category}/${location}`,
+        url: `https://tendorai.com/suppliers/${category}/${location}`,
       },
       {
         '@type': 'FAQPage',
@@ -351,6 +355,22 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           </div>
         </section>
 
+        {/* Location Guide Content */}
+        {locationContent?.content && (
+          <section className="bg-white border-b">
+            <div className="section py-8 max-w-4xl">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                {service.name} in {locationName} — Buyer&apos;s Guide
+              </h2>
+              <div className="text-gray-600 leading-relaxed space-y-4">
+                {(locationContent.content as string).split('\n\n').map((paragraph: string, i: number) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Vendor List */}
         <section className="section py-8">
           {totalCount > 0 ? (
@@ -407,10 +427,10 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         </section>
 
         {/* Vendor Acquisition CTA */}
-        <section className="bg-purple-50 py-10">
+        <section className="bg-purple-50 py-10" data-nosnippet>
           <div className="section text-center">
             <h2 className="text-xl font-bold text-gray-900 mb-2">
-              Don&apos;t see your company listed?
+              {service.name} Supplier in {locationName}? Get Listed
             </h2>
             <p className="text-gray-600 mb-4">
               Join {totalCount > 0 ? `${totalCount}+ ` : ''}other {service.name.toLowerCase()} suppliers on TendorAI.

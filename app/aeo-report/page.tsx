@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   description:
     'Find out if ChatGPT, Perplexity and Claude recommend your business when customers search for suppliers. Free instant AI visibility report for UK businesses.',
   alternates: {
-    canonical: 'https://www.tendorai.com/aeo-report',
+    canonical: 'https://tendorai.com/aeo-report',
   },
   openGraph: {
     type: 'website',
-    url: 'https://www.tendorai.com/aeo-report',
+    url: 'https://tendorai.com/aeo-report',
     title: 'Free AEO Report — Is AI Recommending Your Business?',
     description:
       'Find out if ChatGPT, Perplexity and Claude recommend your business. Free instant AI visibility report for UK businesses.',

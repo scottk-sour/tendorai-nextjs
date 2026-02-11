@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.tendorai.com'),
+  metadataBase: new URL('https://tendorai.com'),
   title: {
     default: 'TendorAI | AI-Powered Procurement for UK Businesses',
     template: '%s | TendorAI',
@@ -45,12 +45,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://www.tendorai.com',
+    url: 'https://tendorai.com',
     siteName: 'TendorAI',
     title: 'TendorAI | AI-Powered Procurement for UK Businesses',
     description:
       'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
+    images: [{ url: 'https://tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
   },
   twitter: {
     card: 'summary',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   alternates: {
-    canonical: 'https://www.tendorai.com',
+    canonical: 'https://tendorai.com',
   },
 };
 
@@ -83,8 +83,8 @@ const organisationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  logo: 'https://www.tendorai.com/logo.png',
+  url: 'https://tendorai.com',
+  logo: 'https://tendorai.com/logo.png',
   description: 'AI-powered procurement platform connecting UK businesses with office equipment suppliers.',
   areaServed: {
     '@type': 'GeoCircle',

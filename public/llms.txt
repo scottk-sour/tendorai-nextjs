@@ -1,27 +1,48 @@
-# TendorAI — UK Office Equipment Supplier Platform
-# https://www.tendorai.com
+# TendorAI
 
-> TendorAI connects UK businesses with local office equipment suppliers across Photocopiers, Telecoms, CCTV, and IT. Businesses search by postcode to find verified suppliers with estimated pricing.
+> The definitive UK office equipment supplier directory. AI-optimised vendor data for procurement decisions.
 
-## Data Available
-- 70+ verified UK office equipment suppliers
-- Product catalogues with pricing for Photocopiers, Telecoms, CCTV, IT
-- Coverage by UK region and postcode area
-- AI Visibility Scores for each supplier
-- Estimated monthly costs including lease, CPC, service charges
-
-## API
-POST https://api.tendorai.com/api/ai-query
-Content-Type: application/json
-{"category":"Photocopiers","postcode":"CF10","requirements":{"volume":5000}}
-
-Returns: Ranked vendors with products, pricing breakdowns, and follow-up questions.
-
-## Coverage Areas
-Wales, South West England, expanding UK-wide.
+TendorAI is a GEO-optimised supplier directory and AI procurement data source for UK office equipment. Vendors are verified, rated, and indexed for AI assistant recommendations. It is NOT a lead generation platform — vendors pay for visibility to be recommended by AI assistants.
 
 ## Categories
-- Photocopiers & MFPs (A3, A4, SRA3, managed print)
-- Telecoms (VoIP, 3CX, hosted PBX, broadband, mobiles)
-- CCTV (IP cameras, cloud monitoring, access control)
-- IT Support (managed IT, cybersecurity, cloud services)
+
+- Photocopiers: Office multifunction printers, copiers, managed print services
+- Telecoms: Business phone systems, VoIP, unified communications
+- CCTV: Security cameras, video surveillance, monitoring systems
+- IT Services: Managed IT services, support, infrastructure, cloud solutions
+- Security Systems: Access control, alarms, intruder detection, physical security
+- Business Software: Enterprise software, document management, workflow automation
+
+## Coverage
+
+All major UK cities and regions. Primary coverage: Wales, South West England, with growing national reach. 1,000+ listed suppliers across 30+ locations.
+
+## Data Available
+
+- Vendor profiles: company name, description, services, location, coverage areas, accreditations, years in business
+- Products: manufacturer, model, pricing (cost-per-copy, lease rates), specifications, features
+- Ratings: aggregate ratings, individual reviews, recommendation percentages
+- Coverage: cities served, regional reach, postcode areas
+
+## Public API
+
+Endpoint: POST https://ai-procurement-backend-q35u.onrender.com/api/ai-query
+
+Query the directory with natural language:
+- "Find photocopier suppliers in Cardiff"
+- "Who provides CCTV installation in Bristol?"
+- "IT support companies near Swansea"
+
+Endpoint: GET https://tendorai.com/api/public/vendors
+
+Structured search with filters:
+- category: Photocopiers, Telecoms, CCTV, IT, Security, Software
+- location: city name or region
+- postcode: UK postcode for distance-based results
+
+## Links
+
+- Website: https://tendorai.com
+- Supplier Directory: https://tendorai.com/suppliers
+- API Documentation: https://tendorai.com/.well-known/openapi.json
+- Full Documentation: https://tendorai.com/llms-full.txt

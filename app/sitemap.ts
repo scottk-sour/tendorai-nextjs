@@ -4,7 +4,7 @@ import { Vendor, VendorPost } from '@/lib/db/models';
 import { SERVICE_KEYS, MAJOR_LOCATIONS } from '@/lib/constants';
 import { articles } from '@/lib/content/articles';
 
-const BASE_URL = 'https://www.tendorai.com';
+const BASE_URL = 'https://tendorai.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

@@ -1,10 +1,12 @@
-# TendorAI - Full Documentation for AI Assistants
+# TendorAI — Full Documentation for AI Systems
 
-> TendorAI is a B2B procurement platform connecting UK businesses with local office equipment suppliers. We cover photocopiers, telecoms, CCTV, and IT services across Wales and South West England.
+> The definitive UK office equipment supplier directory. AI-optimised vendor data for procurement decisions.
+
+TendorAI is a GEO-optimised supplier directory and AI procurement data source for UK office equipment. It is NOT a lead generation platform. Vendors pay for visibility — to be recommended by AI assistants — and buyers use the platform for free.
 
 ## What TendorAI Does
 
-TendorAI helps businesses find and compare office equipment suppliers. When a user asks about copiers, printers, phone systems, CCTV, or IT services for their UK business, TendorAI can provide:
+TendorAI helps businesses find and compare office equipment suppliers. When a user asks about copiers, printers, phone systems, CCTV, IT services, security systems, or business software for their UK business, TendorAI can provide:
 
 - Matched suppliers based on location (postcode) and requirements
 - Product recommendations with specifications
@@ -12,65 +14,126 @@ TendorAI helps businesses find and compare office equipment suppliers. When a us
 - Savings calculations vs current contracts
 - Supplier ratings and coverage areas
 
-## API Endpoint
+## Categories
 
-POST https://ai-procurement-backend-q35u.onrender.com/api/ai-query
+### Photocopiers
+Office multifunction printers, copiers, managed print services. Includes A3 and A4 devices, colour and mono, with cost-per-copy pricing, lease rates, and service level agreements.
 
-### Request Format
+### Telecoms
+Business phone systems, VoIP, unified communications. Covers cloud-hosted, on-premise, and hybrid systems. Per-user pricing, call packages, broadband bundles.
 
-Send a JSON POST request with any combination of these fields:
+### CCTV
+Security cameras, video surveillance, monitoring systems. IP and analogue systems, NVR/DVR, cloud storage, remote monitoring. Per-camera and system-level pricing.
 
+### IT Services
+Managed IT services, support, infrastructure, cloud solutions. Fully managed and co-managed options. Per-user/per-device pricing, Microsoft 365 integration, cybersecurity add-ons.
+
+### Security Systems
+Access control, alarms, intruder detection, physical security. NSI and SSAIB accredited installers. Integrated security solutions.
+
+### Business Software
+Enterprise software, document management, workflow automation. Implementation, training, and ongoing support included.
+
+## Coverage Areas
+
+### Primary Regions
+- **Wales**: Cardiff, Newport, Swansea, Bridgend, Barry, Neath, Port Talbot, Pontypridd, Cwmbran, Caerphilly, Merthyr Tydfil, Llanelli, Wrexham, Rhondda, Aberdare
+- **South West England**: Bristol, Bath, Gloucester, Cheltenham, Exeter, Plymouth, Taunton, Swindon, Weston-super-Mare, Torquay, Barnstaple, Truro, Salisbury, Yeovil, Poole, Bournemouth
+
+### Growing Coverage
+National suppliers serve all UK regions. The directory is expanding to include the Midlands, North West, London, and South East.
+
+## API Reference
+
+### GET /api/public/vendors
+
+List and search verified suppliers.
+
+**Parameters:**
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| category  | string | No       | Filter by service: Photocopiers, Telecoms, CCTV, IT, Security, Software |
+| location  | string | No       | Filter by city name or region |
+| postcode  | string | No       | UK postcode for distance-based results |
+| distance  | number | No       | Maximum distance in km (default: 50, only with postcode) |
+| brand     | string | No       | Filter by brand or accreditation |
+| page      | number | No       | Page number (default: 1) |
+| limit     | number | No       | Results per page (default: 20, max: 100) |
+
+**Example Request:**
+```
+GET https://tendorai.com/api/public/vendors?category=Photocopiers&location=Cardiff&limit=10
+```
+
+**Example Response:**
 ```json
 {
-  "query": "I need a colour A3 copier doing about 5000 pages a month",
-  "location": "CF10",
-  "category": "Photocopiers",
-  "volume": 5000,
-  "budget": 200,
-  "requirements": {
-    "colour": true,
-    "a3": true,
-    "features": ["scanning", "duplex", "stapling"]
+  "success": true,
+  "data": [
+    {
+      "id": "abc123",
+      "company": "Example Copier Co",
+      "services": ["Photocopiers"],
+      "location": {
+        "city": "Cardiff",
+        "region": "South Wales",
+        "coverage": ["Cardiff", "Newport", "Bridgend"]
+      },
+      "performance": {
+        "rating": 4.5,
+        "reviewCount": 12
+      },
+      "businessProfile": {
+        "description": "Established photocopier dealer serving South Wales since 2005.",
+        "accreditations": ["Konica Minolta Authorised Dealer"],
+        "yearsInBusiness": 19
+      },
+      "brands": ["Konica Minolta", "Ricoh"],
+      "tier": "verified",
+      "productCount": 8
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 25,
+    "pages": 3
   }
 }
 ```
 
-### All Parameters
+### POST /api/ai-query
 
+Intelligent vendor matching using natural language. Parses requirements and returns matched suppliers with scoring.
+
+**Request Body:**
+```json
+{
+  "query": "I need a colour A3 photocopier for an office in Cardiff doing about 10,000 pages a month",
+  "category": "Photocopiers",
+  "location": "Cardiff"
+}
+```
+
+**All Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | query | string | Yes | Natural language description of needs |
 | location | string | No | UK postcode or postcode area (CF10, BS1, NP20) |
-| category | string | No | Photocopiers, Telecoms, CCTV, IT |
+| category | string | No | Photocopiers, Telecoms, CCTV, IT, Security, Software |
 | volume | number | No | Monthly print/copy volume |
 | budget | number | No | Current or target monthly budget in GBP |
 | requirements.colour | boolean | No | Needs colour printing |
 | requirements.a3 | boolean | No | Needs A3 paper size |
 | requirements.features | string[] | No | Required features array |
 
-### Available Features by Category
+**Response includes:**
+- Matched vendors sorted by relevance
+- Match scores with breakdown (volume match, cost efficiency, feature match)
+- Product recommendations with pricing
+- Coverage confirmation for the requested area
 
-**Photocopiers:**
-- scanning, duplex, stapling, hole-punch, booklet-making
-- wifi, network, fax, ocr, cloud-connect
-- a3, a4, colour, mono
-
-**Telecoms:**
-- voip, pbx, sip, teams-integration, mobile-app
-- call-recording, ivr, auto-attendant, conferencing
-- crm-integration, analytics
-
-**CCTV:**
-- ip-cameras, analog, ptz, night-vision, 4k
-- remote-viewing, cloud-storage, motion-detection
-- access-control, intercom
-
-**IT Services:**
-- managed-services, helpdesk, monitoring, backup
-- cloud-migration, security, networking, hardware
-
-### Response Format
-
+**Example Response:**
 ```json
 {
   "success": true,
@@ -119,49 +182,25 @@ Send a JSON POST request with any combination of these fields:
 }
 ```
 
-### Response Fields Explained
+### Available Features by Category
 
-| Field | Type | Description |
-|-------|------|-------------|
-| vendors | array | Matched suppliers sorted by match score |
-| vendors[].vendorId | string | Unique vendor identifier |
-| vendors[].company | string | Business name |
-| vendors[].location | string | Primary location |
-| vendors[].coverageAreas | string[] | Postcode areas served |
-| vendors[].brands | string[] | Equipment brands offered |
-| vendors[].tier | string | free, visible, or verified |
-| vendors[].rating | number | 0-5 star rating |
-| vendors[].matchScore | number | 0-100 relevance score |
-| vendors[].products | array | Recommended products |
-| vendors[].estimatedSavings | number | GBP saved vs budget |
-| vendors[].savingsPercentage | number | Percentage savings |
-| summary.totalMatches | number | Number of matching vendors |
-| summary.averageSavings | number | Average savings across matches |
-| followUpQuestions | string[] | Questions to refine results |
+**Photocopiers:**
+scanning, duplex, stapling, hole-punch, booklet-making, wifi, network, fax, ocr, cloud-connect, a3, a4, colour, mono
 
-### Progressive Depth System
+**Telecoms:**
+voip, pbx, sip, teams-integration, mobile-app, call-recording, ivr, auto-attendant, conferencing, crm-integration, analytics
 
-The API provides progressively more detailed results based on input:
+**CCTV:**
+ip-cameras, analog, ptz, night-vision, 4k, remote-viewing, cloud-storage, motion-detection, access-control, intercom
 
-**Level 1: Basic Search**
-- Input: location + category only
-- Output: Vendor directory listing
-- Example: `{"location": "CF10", "category": "Photocopiers"}`
+**IT Services:**
+managed-services, helpdesk, monitoring, backup, cloud-migration, security, networking, hardware
 
-**Level 2: Filtered Results**
-- Input: Add colour/A3/feature preferences
-- Output: Filtered vendor list with relevant products
-- Example: `{"location": "CF10", "category": "Photocopiers", "requirements": {"colour": true}}`
+**Security Systems:**
+access-control, intruder-alarms, fire-alarms, cctv-integration, remote-monitoring, key-holding
 
-**Level 3: Product Recommendations**
-- Input: Add volume information
-- Output: Specific product recommendations with match scores
-- Example: `{"location": "CF10", "category": "Photocopiers", "volume": 5000, "requirements": {"colour": true}}`
-
-**Level 4: Full Pricing**
-- Input: Add budget information
-- Output: Complete pricing with savings calculations
-- Example: Full request as shown above
+**Business Software:**
+document-management, erp, crm, workflow-automation, cloud-hosting, training
 
 ### Categories and Brands
 
@@ -177,72 +216,99 @@ Hikvision, Dahua, Axis, Hanwha, Bosch, Verkada, Avigilon
 **IT Services:**
 Various managed service providers
 
-### Coverage Areas
+### Vendor Profile URLs
 
-**Wales:**
-Cardiff (CF), Newport (NP), Swansea (SA), Bridgend, Caerphilly, Merthyr, Rhondda, Vale of Glamorgan, Monmouthshire, Powys, Carmarthen, Pembroke
+Individual vendor profiles are available at:
+```
+https://tendorai.com/suppliers/profile/{vendorId}
+```
 
-**South West England:**
-Bristol (BS), Bath (BA), Gloucester (GL), Cheltenham, Exeter (EX), Plymouth (PL), Swindon (SN), Taunton, Weston-super-Mare
+### Category + Location Pages
 
-### Error Handling
+Browse suppliers by category and location:
+```
+https://tendorai.com/suppliers/{category}
+https://tendorai.com/suppliers/{category}/{location}
+```
+
+Where:
+- category: photocopiers, telecoms, cctv, it, security, software
+- location: city slug (e.g., cardiff, bristol, swansea, bath)
+
+## Data Schema
+
+### Vendor Fields
+- **company**: Company name
+- **services**: Array of service categories offered
+- **location.city**: Primary city
+- **location.region**: UK region
+- **location.coverage**: Array of cities/areas served
+- **performance.rating**: Average rating (0-5)
+- **performance.reviewCount**: Number of approved reviews
+- **businessProfile.description**: Company description
+- **businessProfile.accreditations**: Industry certifications
+- **businessProfile.yearsInBusiness**: Years trading
+- **brands**: Manufacturer partnerships
+- **tier**: Listing level (verified, visible, free)
+- **productCount**: Number of active products listed
+
+### Product Fields (Photocopiers)
+- **manufacturer**: e.g., Konica Minolta, Ricoh, Canon
+- **model**: Product model name
+- **category**: A4 Printers, A4 MFP, A3 MFP, SRA3 MFP
+- **speed**: Pages per minute
+- **isA3**: Boolean
+- **isColour**: Boolean
+- **features**: Array of feature strings
+- **costs.totalMachineCost**: Capital cost in GBP
+- **costs.cpcRates.A4Mono**: Cost per A4 mono page in pence
+- **costs.cpcRates.A4Colour**: Cost per A4 colour page in pence
+- **leaseRates**: Quarterly payments for 36/48/60/72 month terms
+
+### Product Fields (Telecoms)
+- **telecomsPricing.systemType**: Cloud VoIP, On-Premise, Hybrid
+- **telecomsPricing.perUserMonthly**: Monthly cost per user in GBP
+- **telecomsPricing.features**: Array of included features
+
+### Product Fields (CCTV)
+- **cctvPricing.perCameraCost**: Cost per camera in GBP
+- **cctvPricing.resolution**: HD 1080p, 2K 1440p, 4K 2160p
+- **cctvPricing.monthlyMonitoring**: Monthly monitoring cost in GBP
+
+### Product Fields (IT Services)
+- **itPricing.serviceType**: Fully Managed, Co-Managed, Project-Based
+- **itPricing.perUserMonthly**: Monthly cost per user in GBP
+- **itPricing.responseTimeSLA**: Response time commitment
+
+## Pricing Tiers
+
+Vendors on TendorAI are listed at three levels:
+
+| Tier     | Price    | Features |
+|----------|----------|----------|
+| Listed   | Free     | Basic listing, 3 products max |
+| Visible  | £99/mo   | 10 products, analytics, AI visibility score, pricing shown |
+| Verified | £149/mo  | Unlimited products, verified badge, priority ranking, full analytics |
+
+## Error Handling
 
 **400 Bad Request:**
 ```json
-{
-  "success": false,
-  "error": "Query parameter is required"
-}
+{"success": false, "error": "Query parameter is required"}
 ```
 
 **404 No Results:**
 ```json
-{
-  "success": true,
-  "data": {
-    "vendors": [],
-    "summary": {
-      "totalMatches": 0,
-      "message": "No suppliers found for this location/category"
-    },
-    "followUpQuestions": [
-      "Could you try a nearby postcode?",
-      "Would you consider a different category?"
-    ]
-  }
-}
+{"success": true, "data": {"vendors": [], "summary": {"totalMatches": 0}}}
 ```
 
 **500 Server Error:**
 ```json
-{
-  "success": false,
-  "error": "Internal server error"
-}
+{"success": false, "error": "Internal server error"}
 ```
-
-## Alternative Endpoints
-
-### Search Suppliers (GET)
-GET https://ai-procurement-backend-q35u.onrender.com/api/ai/suppliers
-
-Query parameters: service, location, limit
-
-### Public Vendor Directory (GET)
-GET https://ai-procurement-backend-q35u.onrender.com/api/public/vendors
-
-Query parameters: service, postcode, page, limit
-
-## Website URLs
-
-- Homepage: https://tendorai.com
-- Supplier directory: https://tendorai.com/suppliers
-- Get quotes: https://tendorai.com/get-quotes
-- How it works: https://tendorai.com/how-it-works
-- For vendors: https://tendorai.com/for-vendors
-- OpenAPI spec: https://ai-procurement-backend-q35u.onrender.com/openapi.json
 
 ## Contact
 
-Email: hello@tendorai.com
-Website: https://tendorai.com
+- Website: https://tendorai.com
+- Support: support@tendorai.com
+- LinkedIn: https://linkedin.com/company/tendorai
