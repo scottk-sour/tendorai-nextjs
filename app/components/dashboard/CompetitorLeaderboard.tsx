@@ -108,7 +108,10 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
                 {data.vendorRank}
               </span>
               <span className="flex-1 text-sm font-medium text-purple-900">{vendorName || 'Your Business'}</span>
-              <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-medium">You</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-purple-600">{data.vendorMentionCount ?? 0} mentions</span>
+                <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-medium">You</span>
+              </div>
             </div>
           )}
         </div>
