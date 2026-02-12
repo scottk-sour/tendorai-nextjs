@@ -5,12 +5,8 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 
-const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
-  'https://ai-procurement-backend-q35u.onrender.com';
-
 const navigation = [
   { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
-  { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
   { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
   { name: 'Products', href: '/vendor-dashboard/products', icon: 'package' },
   { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
@@ -57,11 +53,6 @@ function NavIcon({ icon, className }: { icon: string; className?: string }) {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
       </svg>
     ),
-    rocket: (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-6.233 0c-1.296 1.296-1.296 3.441.011 5.751 1.308-1.308 3.453-1.308 5.751.011a4.493 4.493 0 000-6.233" />
-      </svg>
-    ),
   };
   return icons[icon] || null;
 }
@@ -71,58 +62,25 @@ export default function VendorDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { auth, logout, getCurrentToken } = useAuth();
+  const { auth, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [onboardingChecked, setOnboardingChecked] = useState(false);
 
   // Redirect if not authenticated or not a vendor
   useEffect(() => {
     if (!auth.isLoading && (!auth.isAuthenticated || auth.user?.role !== 'vendor')) {
       router.replace('/vendor-login?redirect=/vendor-dashboard');
-      return;
     }
-
-    if (auth.isAuthenticated && auth.user?.userId) {
-      // Skip check if already on onboarding page
-      if (pathname.includes('/onboarding')) {
-        setOnboardingChecked(true);
-        return;
-      }
-
-      // Check onboarding status from API
-      const checkOnboarding = async () => {
-        const token = getCurrentToken();
-        if (token) {
-          try {
-            const res = await fetch(`${API_URL}/api/vendors/profile`, {
-              headers: { 'Authorization': `Bearer ${token}` },
-            });
-            if (res.ok) {
-              const data = await res.json();
-              if (!data.vendor?.onboardingCompleted) {
-                router.replace('/vendor-dashboard/onboarding');
-                return;
-              }
-            }
-          } catch {
-            // If profile fetch fails, don't block dashboard access
-          }
-        }
-        setOnboardingChecked(true);
-      };
-      checkOnboarding();
-    }
-  }, [auth, router, pathname, getCurrentToken]);
+  }, [auth, router]);
 
   const handleLogout = () => {
     logout();
     router.push('/vendor-login');
   };
 
-  // Show loading while checking auth or onboarding status
-  if (auth.isLoading || (!onboardingChecked && !pathname.includes('/onboarding'))) {
+  // Show loading while checking auth
+  if (auth.isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
