@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'How It Works | TendorAI - AI-Powered Procurement',
+  title: 'How It Works',
   description: 'Learn how TendorAI connects UK businesses with verified office equipment suppliers. Get instant AI-matched quotes in 3 simple steps.',
 };
 

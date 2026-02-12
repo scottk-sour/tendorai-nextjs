@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import CompareView from './CompareView';
 
 export const metadata: Metadata = {
-  title: 'Compare Office Equipment Suppliers | TendorAI',
+  title: 'Compare Office Equipment Suppliers',
   description:
     'Compare quotes, pricing, and features from multiple office equipment suppliers side-by-side. Find the best deal for your business.',
   openGraph: {

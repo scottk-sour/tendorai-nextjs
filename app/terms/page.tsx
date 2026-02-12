@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | TendorAI',
+  title: 'Terms of Service',
   description: 'TendorAI Terms of Service - The terms and conditions governing use of our B2B supplier directory and quote comparison platform.',
   robots: { index: true, follow: true },
 };

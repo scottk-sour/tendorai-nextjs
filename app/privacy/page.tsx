@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | TendorAI',
+  title: 'Privacy Policy',
   description: 'TendorAI Privacy Policy - Learn how we collect, use, and protect your data. We are committed to protecting the privacy of our users and vendors.',
   robots: { index: true, follow: true },
 };

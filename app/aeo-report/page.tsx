@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import AeoReportClient from './AeoReportClient';
 
 export const metadata: Metadata = {
-  title: 'Free AEO Report — Is AI Recommending Your Business? | TendorAI',
+  title: 'Free AEO Report — Is AI Recommending Your Business?',
   description:
     'Find out if ChatGPT, Perplexity and Claude recommend your business when customers search for suppliers. Free instant AI visibility report for UK businesses.',
   alternates: {

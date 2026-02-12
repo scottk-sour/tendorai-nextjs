@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | TendorAI',
+  title: 'Contact Us',
   description: 'Get in touch with TendorAI. Questions about our AI-powered procurement platform? We are here to help.',
 };
 

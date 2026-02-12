@@ -32,7 +32,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   photocopiers: 'Photocopiers & Printers',
   telecoms: 'Telecoms & Phone Systems',
   cctv: 'CCTV & Security',
-  'it-services': 'IT Services & Equipment',
+  it: 'IT Services & Equipment',
   'office-equipment': 'Office Equipment',
   '': 'All Categories',
 };

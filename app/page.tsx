@@ -38,7 +38,7 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
 }
 
 export const metadata: Metadata = {
-  title: 'Compare Office Equipment Quotes from UK Suppliers | TendorAI',
+  title: { absolute: 'TendorAI | UK Supplier Directory — 1,000+ Verified Vendors' },
   description: 'Free AI-powered supplier directory for UK businesses. Compare photocopier, telecoms, CCTV, IT, and security quotes from 1,000+ verified suppliers.',
   keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
   alternates: {
@@ -74,10 +74,11 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': 'https://tendorai.com/#business',
   name: 'TendorAI',
   description: 'TendorAI is a free AI-powered comparison platform that helps UK businesses find office equipment suppliers. Browse 1,000+ verified suppliers for photocopiers, telecoms, CCTV, and IT equipment across the UK.',
   url: 'https://tendorai.com',
-  priceRange: 'Free',
+  image: 'https://tendorai.com/logo.png',
   address: {
     '@type': 'PostalAddress',
     addressRegion: 'Wales',
@@ -87,15 +88,16 @@ const localBusinessSchema = {
     {
       '@type': 'Place',
       name: 'South Wales',
-      containsPlace: ['Cardiff', 'Newport', 'Swansea', 'Bridgend', 'Caerphilly'],
     },
     {
       '@type': 'Place',
       name: 'South West England',
-      containsPlace: ['Bristol', 'Bath', 'Gloucester', 'Cheltenham', 'Exeter', 'Plymouth'],
+    },
+    {
+      '@type': 'Country',
+      name: 'United Kingdom',
     },
   ],
-  serviceType: ['Office Equipment Comparison', 'Supplier Directory', 'Quote Requests'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Office Equipment Categories',

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import VendorSignupForm from './VendorSignupForm';
 
 export const metadata: Metadata = {
-  title: 'Become a Vendor | TendorAI',
+  title: 'Become a Vendor',
   description: 'Join TendorAI to receive qualified leads from UK businesses looking for office equipment suppliers. Sign up for free.',
   robots: { index: true, follow: true },
   openGraph: {

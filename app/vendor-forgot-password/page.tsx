@@ -43,9 +43,9 @@ export default function VendorForgotPasswordPage() {
         <Link href="/" className="flex justify-center">
           <span className="text-3xl font-bold text-purple-600">TendorAI</span>
         </Link>
-        <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">
+        <h1 className="mt-6 text-center text-2xl font-bold text-gray-900">
           Reset your password
-        </h2>
+        </h1>
         <p className="mt-2 text-center text-sm text-gray-600">
           Enter your email and we&apos;ll send you a link to reset your password.
         </p>

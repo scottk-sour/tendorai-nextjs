@@ -8,7 +8,7 @@ const CATEGORIES = [
   { value: 'photocopiers', label: 'Photocopiers & Printers' },
   { value: 'telecoms', label: 'Telecoms & Phone Systems' },
   { value: 'cctv', label: 'CCTV & Security' },
-  { value: 'it-services', label: 'IT Services & Equipment' },
+  { value: 'it', label: 'IT Services & Equipment' },
   { value: 'office-equipment', label: 'Office Equipment' },
 ];
 

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { PLANS } from '@/lib/constants/plans';
 
 export const metadata: Metadata = {
-  title: 'For Vendors | TendorAI - Get Found by AI Assistants',
+  title: 'For Vendors — Get Found by AI Assistants',
   description: 'AI assistants are already recommending your competitors. Join 1,000+ UK suppliers on TendorAI and start appearing in AI-powered recommendations from ChatGPT, Claude, and Perplexity.',
 };
 

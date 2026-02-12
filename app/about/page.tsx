@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About Us | TendorAI - AI-Powered Procurement Platform',
+  title: 'About TendorAI',
   description: 'TendorAI is an AI-powered procurement platform helping UK businesses find the best office equipment suppliers. Learn about our mission and how we work.',
 };
 

@@ -68,7 +68,7 @@ export const SERVICE_SLUG_MAP: Record<string, ValidService> = {
   cctv: 'CCTV',
   'security-cameras': 'CCTV',
   it: 'IT',
-  'it-services': 'IT',
+  'it-services': 'IT', // legacy redirect support
   security: 'Security',
   'security-systems': 'Security',
   software: 'Software',

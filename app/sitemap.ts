@@ -24,9 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/contact', priority: 0.5, changeFrequency: 'monthly' as const },
     { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
     { path: '/terms', priority: 0.3, changeFrequency: 'yearly' as const },
-    { path: '/vendor-login', priority: 0.4, changeFrequency: 'monthly' as const },
-    { path: '/vendor-signup', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/vendor-forgot-password', priority: 0.3, changeFrequency: 'yearly' as const },
   ];
 
   staticPages.forEach(({ path, priority, changeFrequency }) => {

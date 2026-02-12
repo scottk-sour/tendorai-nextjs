@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import VendorLoginForm from './VendorLoginForm';
 
 export const metadata: Metadata = {
-  title: 'Vendor Login | TendorAI',
+  title: 'Vendor Login',
   description: 'Log in to your TendorAI vendor account to manage listings, view leads, and track analytics.',
   robots: { index: false, follow: false },
 };

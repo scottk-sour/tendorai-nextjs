@@ -82,20 +82,20 @@ export const metadata: Metadata = {
 const organisationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://tendorai.com/#organization',
   name: 'TendorAI',
   url: 'https://tendorai.com',
-  logo: 'https://tendorai.com/logo.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://tendorai.com/logo.png',
+    width: 575,
+    height: 283,
+  },
   description: 'AI-powered procurement platform connecting UK businesses with office equipment suppliers.',
   areaServed: {
-    '@type': 'GeoCircle',
-    geoMidpoint: {
-      '@type': 'GeoCoordinates',
-      latitude: 51.4816,
-      longitude: -3.1791,
-    },
-    geoRadius: '150 mi',
+    '@type': 'Country',
+    name: 'United Kingdom',
   },
-  serviceArea: ['United Kingdom'],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
