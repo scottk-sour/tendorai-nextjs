@@ -5,6 +5,9 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 
+const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
+  'https://ai-procurement-backend-q35u.onrender.com';
+
 const navigation = [
   { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
   { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
@@ -68,10 +71,11 @@ export default function VendorDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { auth, logout } = useAuth();
+  const { auth, logout, getCurrentToken } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
 
   // Redirect if not authenticated or not a vendor
   useEffect(() => {
@@ -80,22 +84,45 @@ export default function VendorDashboardLayout({
       return;
     }
 
-    // Check onboarding status (skip if already on onboarding page)
-    if (auth.isAuthenticated && auth.user?.userId && !pathname.includes('/onboarding')) {
-      const hasOnboarded = localStorage.getItem(`onboarded_${auth.user.userId}`);
-      if (!hasOnboarded) {
-        router.replace('/vendor-dashboard/onboarding');
+    if (auth.isAuthenticated && auth.user?.userId) {
+      // Skip check if already on onboarding page
+      if (pathname.includes('/onboarding')) {
+        setOnboardingChecked(true);
+        return;
       }
+
+      // Check onboarding status from API
+      const checkOnboarding = async () => {
+        const token = getCurrentToken();
+        if (token) {
+          try {
+            const res = await fetch(`${API_URL}/api/vendors/profile`, {
+              headers: { 'Authorization': `Bearer ${token}` },
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (!data.vendor?.onboardingCompleted) {
+                router.replace('/vendor-dashboard/onboarding');
+                return;
+              }
+            }
+          } catch {
+            // If profile fetch fails, don't block dashboard access
+          }
+        }
+        setOnboardingChecked(true);
+      };
+      checkOnboarding();
     }
-  }, [auth, router, pathname]);
+  }, [auth, router, pathname, getCurrentToken]);
 
   const handleLogout = () => {
     logout();
     router.push('/vendor-login');
   };
 
-  // Show loading while checking auth
-  if (auth.isLoading) {
+  // Show loading while checking auth or onboarding status
+  if (auth.isLoading || (!onboardingChecked && !pathname.includes('/onboarding'))) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />

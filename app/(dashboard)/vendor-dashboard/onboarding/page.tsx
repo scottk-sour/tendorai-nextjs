@@ -274,11 +274,27 @@ export default function OnboardingPage() {
     setCurrentStep(5);
   };
 
-  const handleComplete = () => {
-    // Mark onboarding as complete
-    if (auth.user?.userId) {
-      localStorage.setItem(`onboarded_${auth.user.userId}`, 'true');
+  const markOnboardingComplete = async () => {
+    const token = getCurrentToken();
+    if (token) {
+      try {
+        await fetch(`${API_URL}/api/vendors/onboarding-complete`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+      } catch {
+        // Best-effort — don't block navigation
+      }
     }
+  };
+
+  const handleComplete = async () => {
+    await markOnboardingComplete();
+    router.push('/vendor-dashboard');
+  };
+
+  const handleSkip = async () => {
+    await markOnboardingComplete();
     router.push('/vendor-dashboard');
   };
 
@@ -354,6 +370,14 @@ export default function OnboardingPage() {
             <h2 className="text-xl font-semibold text-gray-900">
               {STEPS[currentStep - 1].label}
             </h2>
+            {currentStep < 5 && (
+              <button
+                onClick={handleSkip}
+                className="mt-2 text-sm text-gray-500 hover:text-gray-700 underline"
+              >
+                Skip setup — I&apos;ll do this later
+              </button>
+            )}
           </div>
         </div>
 
