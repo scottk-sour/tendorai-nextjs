@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { NEARBY_LOCATIONS } from '@/lib/constants/locations';
+import { NEARBY_LOCATIONS, POSTCODE_AREAS, MAJOR_LOCATIONS } from '@/lib/constants/locations';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
@@ -96,10 +96,24 @@ export default function AISearchTest({
   const areaOptions = useMemo(() => {
     const areas = new Set<string>();
     if (vendorLocation) areas.add(vendorLocation);
-    if (vendorCoverage) vendorCoverage.forEach((c) => areas.add(c));
+    // Resolve postcode prefixes (CF, NP, BS) to city names
+    if (vendorCoverage) {
+      vendorCoverage.forEach((c) => {
+        const mapped = POSTCODE_AREAS[c.toUpperCase() as keyof typeof POSTCODE_AREAS];
+        if (mapped) {
+          areas.add(mapped.name);
+        } else {
+          areas.add(c);
+        }
+      });
+    }
     // Add nearby locations for the vendor's city
     const nearby = NEARBY_LOCATIONS[vendorLocation?.toLowerCase() || ''];
     if (nearby) nearby.forEach((loc) => areas.add(loc));
+    // Fallback: if still empty, show major locations
+    if (areas.size === 0) {
+      MAJOR_LOCATIONS.forEach((loc) => areas.add(loc));
+    }
     return Array.from(areas);
   }, [vendorLocation, vendorCoverage]);
 
