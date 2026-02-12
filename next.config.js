@@ -33,16 +33,11 @@ const nextConfig = {
         destination: '/suppliers/photocopiers',
         permanent: true,
       },
-      // Admin routes still on old React SPA
-      {
-        source: '/admin/:path*',
-        destination: 'https://app.tendorai.com/admin/:path*',
-        permanent: false,
-      },
+      // Old /dashboard → vendor-dashboard
       {
         source: '/dashboard/:path*',
-        destination: 'https://app.tendorai.com/dashboard/:path*',
-        permanent: false,
+        destination: '/vendor-dashboard/:path*',
+        permanent: true,
       },
     ];
   },
