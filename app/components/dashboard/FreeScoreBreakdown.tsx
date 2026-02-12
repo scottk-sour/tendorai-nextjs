@@ -3,21 +3,29 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 
+interface BreakdownItem {
+  name: string;
+  points: number;
+  completed: boolean;
+}
+
 interface BreakdownSection {
   earned: number;
   max: number;
   label?: string;
+  locked?: boolean;
+  items?: BreakdownItem[];
 }
+
+type BreakdownKey = 'profile' | 'products' | 'reviews' | 'mentions' | 'engagement' | 'plan' | 'verified';
 
 interface ScoreData {
   score: number;
   maxScore: number;
-  breakdown: {
-    profile: BreakdownSection;
-    products: BreakdownSection;
-    geo: BreakdownSection;
-    mentions: BreakdownSection;
-  };
+  tier: string;
+  maxPossibleForTier: number;
+  nextTier?: { name: string; price: string; additionalPoints: number } | null;
+  breakdown: Record<BreakdownKey, BreakdownSection>;
 }
 
 interface FreeScoreBreakdownProps {
@@ -28,7 +36,7 @@ const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
 const SECTIONS: Array<{
-  key: 'profile' | 'products' | 'geo' | 'mentions';
+  key: BreakdownKey;
   label: string;
   colour: string;
   bgColour: string;
@@ -48,16 +56,15 @@ const SECTIONS: Array<{
     label: 'Products',
     colour: 'text-emerald-600',
     bgColour: 'bg-emerald-500',
-    emptyTip: 'Add products to gain 20 points',
+    emptyTip: 'Add products with descriptions and pricing',
     emptyAction: '/vendor-dashboard/products',
   },
   {
-    key: 'geo',
-    label: 'GEO Audit',
-    colour: 'text-amber-600',
-    bgColour: 'bg-amber-500',
-    emptyTip: 'Run a GEO audit to gain 25 points',
-    emptyAction: '/vendor-dashboard/analytics',
+    key: 'reviews',
+    label: 'Reviews',
+    colour: 'text-yellow-600',
+    bgColour: 'bg-yellow-500',
+    emptyTip: 'Get verified reviews from customers',
   },
   {
     key: 'mentions',
@@ -65,6 +72,28 @@ const SECTIONS: Array<{
     colour: 'text-purple-600',
     bgColour: 'bg-purple-500',
     emptyTip: "You're not being found by AI yet",
+  },
+  {
+    key: 'engagement',
+    label: 'Engagement',
+    colour: 'text-cyan-600',
+    bgColour: 'bg-cyan-500',
+    emptyTip: 'Stay active — log in, test, and respond',
+  },
+  {
+    key: 'plan',
+    label: 'Plan Tier',
+    colour: 'text-indigo-600',
+    bgColour: 'bg-indigo-500',
+    emptyTip: 'Upgrade your plan to earn tier points',
+    emptyAction: '/vendor-dashboard/settings?tab=subscription',
+  },
+  {
+    key: 'verified',
+    label: 'Verified Features',
+    colour: 'text-amber-600',
+    bgColour: 'bg-amber-500',
+    emptyTip: 'Unlock with Verified plan',
   },
 ];
 
@@ -104,6 +133,9 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
           <div className="h-3 bg-gray-200 rounded w-full" />
           <div className="h-3 bg-gray-200 rounded w-full" />
           <div className="h-3 bg-gray-200 rounded w-full" />
+          <div className="h-3 bg-gray-200 rounded w-full" />
+          <div className="h-3 bg-gray-200 rounded w-full" />
+          <div className="h-3 bg-gray-200 rounded w-full" />
         </div>
       </div>
     );
@@ -111,7 +143,7 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
 
   if (!data) return null;
 
-  const { score, maxScore, breakdown } = data;
+  const { score, maxScore, breakdown, maxPossibleForTier, nextTier } = data;
   const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
 
   return (
@@ -125,6 +157,9 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
         <div className="text-right">
           <span className="text-2xl font-bold text-gray-900">{score}</span>
           <span className="text-sm text-gray-500">/{maxScore}</span>
+          {maxPossibleForTier < 100 && (
+            <p className="text-xs text-gray-400">Tier max: ~{maxPossibleForTier}</p>
+          )}
         </div>
       </div>
 
@@ -136,19 +171,25 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
         />
       </div>
 
-      {/* Score breakdown */}
+      {/* Score breakdown — 7 categories */}
       <div className="space-y-4">
         {SECTIONS.map((section) => {
           const bd = breakdown[section.key];
           if (!bd) return null;
+
+          const isLocked = !!bd.locked;
           const pct = bd.max > 0 ? Math.round((bd.earned / bd.max) * 100) : 0;
           const isEmpty = bd.earned === 0;
 
           return (
-            <div key={section.key}>
+            <div key={section.key} className={isLocked ? 'opacity-60' : ''}>
               <div className="flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-2">
-                  {isEmpty ? (
+                  {isLocked ? (
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  ) : isEmpty ? (
                     <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" strokeWidth={2} />
                     </svg>
@@ -159,19 +200,30 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
                   )}
                   <span className="text-sm font-medium text-gray-700">{section.label}</span>
                 </div>
-                <span className={`text-sm font-semibold ${isEmpty ? 'text-gray-400' : section.colour}`}>
-                  {bd.earned}/{bd.max}
+                <span className={`text-sm font-semibold ${isLocked ? 'text-gray-400' : isEmpty ? 'text-gray-400' : section.colour}`}>
+                  {isLocked ? `0/${bd.max}` : `${bd.earned}/${bd.max}`}
                 </span>
               </div>
 
               <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden mb-1">
                 <div
-                  className={`h-full rounded-full transition-all ${section.bgColour}`}
-                  style={{ width: `${pct}%` }}
+                  className={`h-full rounded-full transition-all ${isLocked ? 'bg-gray-300' : section.bgColour}`}
+                  style={{ width: `${isLocked ? 0 : pct}%` }}
                 />
               </div>
 
-              {isEmpty && (
+              {isLocked && (
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-500">
+                    Unlock with Verified plan (&pound;149/month) &mdash; up to {bd.max} more points
+                  </p>
+                  <Link href="/vendor-dashboard/settings?tab=subscription" className="text-xs text-purple-600 hover:text-purple-700 font-medium whitespace-nowrap ml-2">
+                    Upgrade &rarr;
+                  </Link>
+                </div>
+              )}
+
+              {!isLocked && isEmpty && (
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-gray-500">{section.emptyTip}</p>
                   {section.emptyAction && (
@@ -186,24 +238,28 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
         })}
       </div>
 
-      {/* Locked improvement plan */}
-      <div className="mt-6 pt-4 border-t">
-        <div className="flex items-center gap-2 mb-3">
-          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <span className="text-sm text-gray-600">Upgrade to see your improvement plan</span>
+      {/* Upgrade CTA */}
+      {nextTier && (
+        <div className="mt-6 pt-4 border-t">
+          <div className="flex items-center gap-2 mb-3">
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            <span className="text-sm text-gray-600">
+              Upgrade to {nextTier.name} to unlock up to {nextTier.additionalPoints} more points
+            </span>
+          </div>
+          <Link
+            href="/vendor-dashboard/settings?tab=subscription"
+            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all"
+          >
+            Upgrade to {nextTier.name} &mdash; {nextTier.price}
+            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
-        <Link
-          href="/vendor-dashboard/settings?tab=subscription"
-          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all"
-        >
-          Upgrade to Visible &mdash; &pound;99/mo
-          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </div>
+      )}
     </div>
   );
 }

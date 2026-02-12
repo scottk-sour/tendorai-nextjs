@@ -18,6 +18,7 @@ interface BreakdownSection {
   max: number;
   label?: string;
   subtitle?: string;
+  locked?: boolean;
   items?: Array<{
     name: string;
     points: number;
@@ -26,6 +27,18 @@ interface BreakdownSection {
     price?: string;
   }>;
 }
+
+interface BreakdownData {
+  profile: BreakdownSection;
+  products: BreakdownSection;
+  reviews: BreakdownSection;
+  mentions: BreakdownSection;
+  engagement: BreakdownSection;
+  plan: BreakdownSection;
+  verified: BreakdownSection;
+}
+
+type BreakdownKey = keyof BreakdownData;
 
 interface VisibilityScoreData {
   score: number;
@@ -37,12 +50,7 @@ interface VisibilityScoreData {
   colour: string;
   tier: string;
   tierDisplayName: string;
-  breakdown: {
-    profile: BreakdownSection;
-    products: BreakdownSection;
-    geo: BreakdownSection;
-    mentions: BreakdownSection;
-  };
+  breakdown: BreakdownData;
   tips: ScoreTip[];
   recommendations: Array<{
     action: string;
@@ -71,7 +79,15 @@ interface AIVisibilityScoreCardProps {
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-const BREAKDOWN_KEYS = ['profile', 'products', 'geo', 'mentions'] as const;
+const BREAKDOWN_KEYS: Array<{ key: BreakdownKey; colour: string }> = [
+  { key: 'profile', colour: 'bg-blue-500' },
+  { key: 'products', colour: 'bg-emerald-500' },
+  { key: 'reviews', colour: 'bg-yellow-500' },
+  { key: 'mentions', colour: 'bg-purple-500' },
+  { key: 'engagement', colour: 'bg-cyan-500' },
+  { key: 'plan', colour: 'bg-indigo-500' },
+  { key: 'verified', colour: 'bg-amber-500' },
+];
 
 export default function AIVisibilityScoreCard({ token, tier, compact = true }: AIVisibilityScoreCardProps) {
   const [data, setData] = useState<VisibilityScoreData | null>(null);
@@ -186,15 +202,17 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
               {label}
             </p>
             <p className="text-sm text-gray-600">
-              {score <= 20
+              {score <= 15
                 ? 'AI tools can\'t find your business yet.'
-                : score <= 40
+                : score <= 30
                   ? 'Basic visibility. Complete your profile and add products.'
-                  : score <= 60
-                    ? 'Good visibility! Run a GEO Audit to go further.'
-                    : score <= 80
+                  : score <= 50
+                    ? 'Good progress. Keep building your presence.'
+                    : score <= 70
                       ? 'Strong visibility across AI platforms.'
-                      : 'Excellent! Maximum AI visibility achieved.'
+                      : score <= 85
+                        ? 'Very strong! You\'re ahead of most vendors.'
+                        : 'Excellent! Maximum AI visibility achieved.'
               }
             </p>
           </div>
@@ -203,28 +221,30 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
         {/* Breakdown mini bars (always shown) */}
         {breakdown && (
           <div className="mt-5 grid grid-cols-2 gap-3">
-            {BREAKDOWN_KEYS.map((key) => {
+            {BREAKDOWN_KEYS.map(({ key, colour }) => {
               const section = breakdown[key];
               if (!section) return null;
+              const isLocked = !!section.locked;
               const pct = section.max > 0 ? (section.earned / section.max) * 100 : 0;
-              const barColours: Record<string, string> = {
-                profile: 'bg-blue-500',
-                products: 'bg-emerald-500',
-                geo: 'bg-amber-500',
-                mentions: 'bg-purple-500',
-              };
               return (
-                <div key={key}>
+                <div key={key} className={isLocked ? 'opacity-50' : ''}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-medium text-gray-600">{section.label}</span>
-                    <span className="text-xs font-semibold text-gray-700">
-                      {section.earned}/{section.max}
+                    <span className="text-xs font-medium text-gray-600">
+                      {isLocked && (
+                        <svg className="w-3 h-3 inline mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      )}
+                      {section.label}
+                    </span>
+                    <span className={`text-xs font-semibold ${isLocked ? 'text-gray-400' : 'text-gray-700'}`}>
+                      {isLocked ? `0/${section.max}` : `${section.earned}/${section.max}`}
                     </span>
                   </div>
                   <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all ${barColours[key] || 'bg-purple-500'}`}
-                      style={{ width: `${pct}%` }}
+                      className={`h-full rounded-full transition-all ${isLocked ? 'bg-gray-300' : colour}`}
+                      style={{ width: `${isLocked ? 0 : pct}%` }}
                     />
                   </div>
                 </div>
@@ -236,24 +256,45 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
         {/* Full breakdown items (non-compact) */}
         {!compact && breakdown && (
           <div className="mt-4 space-y-3">
-            {BREAKDOWN_KEYS.map((key) => {
+            {BREAKDOWN_KEYS.map(({ key }) => {
               const section = breakdown[key];
               if (!section?.items?.length) return null;
+              const isLocked = !!section.locked;
               return (
-                <div key={key} className="p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-900 mb-2">{section.label}</p>
-                  <div className="space-y-1">
-                    {section.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between text-xs">
-                        <span className={item.completed ? 'text-gray-700' : 'text-gray-400'}>
-                          {item.completed ? '\u2713' : '\u25CB'} {item.name}
-                        </span>
-                        <span className={item.completed ? 'text-green-600 font-medium' : 'text-gray-400'}>
-                          {item.completed ? `+${item.points}` : `0/${item.points}`}
-                        </span>
-                      </div>
-                    ))}
+                <div key={key} className={`p-3 bg-gray-50 rounded-lg ${isLocked ? 'opacity-60' : ''}`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium text-gray-900">
+                      {isLocked && (
+                        <svg className="w-3.5 h-3.5 inline mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      )}
+                      {section.label}
+                    </p>
+                    {isLocked && (
+                      <Link href="/vendor-dashboard/settings?tab=subscription" className="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                        Upgrade &rarr;
+                      </Link>
+                    )}
                   </div>
+                  {isLocked ? (
+                    <p className="text-xs text-gray-500">
+                      Unlock with Verified plan (&pound;149/month) &mdash; up to {section.max} more points
+                    </p>
+                  ) : (
+                    <div className="space-y-1">
+                      {section.items.map((item, i) => (
+                        <div key={i} className="flex items-center justify-between text-xs">
+                          <span className={item.completed ? 'text-gray-700' : 'text-gray-400'}>
+                            {item.completed ? '\u2713' : '\u25CB'} {item.name}
+                          </span>
+                          <span className={item.completed ? 'text-green-600 font-medium' : 'text-gray-400'}>
+                            {item.completed ? `+${item.points}` : `0/${item.points}`}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
