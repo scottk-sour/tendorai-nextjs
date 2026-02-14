@@ -144,12 +144,20 @@ export default function AeoReportClient() {
   return (
     <main className="pt-16 min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900 text-white py-16 sm:py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Is AI Recommending Your Business?
+      <section className="bg-brand-gradient text-white py-16 sm:py-24 relative overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl" />
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-block bg-white/15 backdrop-blur border border-white/30 text-white px-6 py-2 rounded-full text-sm font-semibold mb-8 shadow-lg">
+            Free AI Visibility Check
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+            Is AI Recommending{' '}
+            <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
+              Your Business?
+            </span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
             Find out if ChatGPT, Perplexity, and Claude mention you when customers search for
             suppliers in your area.
           </p>
@@ -232,7 +240,7 @@ export default function AeoReportClient() {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg hover:bg-purple-700 transition-colors text-lg"
+              className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-6 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
             >
               Run My Free AEO Report
             </button>
@@ -270,7 +278,7 @@ function NotMentionedResult({
   return (
     <main className="pt-16 min-h-screen bg-gray-50">
       {/* Red banner */}
-      <section className="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 sm:py-16">
+      <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-12 sm:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/30 mb-4">
             <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,11 +322,11 @@ function NotMentionedResult({
               </div>
             ))}
           </div>
-          <div className="mt-4 flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-lg">
-            <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mt-4 flex gap-3 p-4 bg-purple-50 border border-purple-100 rounded-lg">
+            <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-xs text-blue-700 leading-relaxed">
+            <p className="text-xs text-purple-700 leading-relaxed">
               This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
             </p>
           </div>
@@ -326,13 +334,13 @@ function NotMentionedResult({
       </section>
 
       {/* Fear section */}
-      <section className="bg-gray-900 text-white py-12 sm:py-16">
+      <section className="bg-slate-900 text-white py-12 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold mb-6">
             Your competitors are being recommended. You&apos;re not.
           </h2>
 
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-slate-400 leading-relaxed">
             <p>
               This is Google SEO all over again. In the early days, any website could rank on Google.
               Then businesses started investing in SEO, and those who didn&apos;t got pushed to page 10.
@@ -370,9 +378,12 @@ function NotMentionedResult({
           </p>
           <Link
             href="/vendor-signup"
-            className="inline-block bg-purple-600 text-white font-semibold py-4 px-10 rounded-lg hover:bg-purple-700 transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-10 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
           >
             List Your Business Free &mdash; Fix This Now
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </Link>
           <div className="mt-4">
             <button
@@ -472,11 +483,11 @@ function MentionedResult({
               );
             })}
           </div>
-          <div className="mt-4 flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-lg">
-            <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mt-4 flex gap-3 p-4 bg-purple-50 border border-purple-100 rounded-lg">
+            <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-xs text-blue-700 leading-relaxed">
+            <p className="text-xs text-purple-700 leading-relaxed">
               This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
             </p>
           </div>
@@ -484,13 +495,13 @@ function MentionedResult({
       </section>
 
       {/* Urgency section */}
-      <section className="bg-gray-900 text-white py-12 sm:py-16">
+      <section className="bg-slate-900 text-white py-12 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold mb-6">
             You&apos;re showing up today &mdash; by accident, not strategy.
           </h2>
 
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-slate-400 leading-relaxed">
             <p>
               Your competitors are starting to invest in AEO. When they optimise their profiles on
               platforms like TendorAI with structured data, verified reviews, and detailed service
@@ -512,8 +523,8 @@ function MentionedResult({
                 'AI Visibility Score tracking your mentions',
                 'Direct quote requests from businesses',
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-gray-300">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li key={item} className="flex items-start gap-2 text-slate-300">
+                  <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   {item}
@@ -536,9 +547,12 @@ function MentionedResult({
           </p>
           <Link
             href="/vendor-signup"
-            className="inline-block bg-purple-600 text-white font-semibold py-4 px-10 rounded-lg hover:bg-purple-700 transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-10 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
           >
             Protect Your AI Visibility &mdash; List Free
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </Link>
           <div className="mt-4">
             <button
@@ -560,9 +574,9 @@ function MentionedResult({
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-white/10 rounded-lg p-4 text-center">
-      <div className="text-2xl sm:text-3xl font-bold text-white">{value}</div>
-      <div className="text-xs sm:text-sm text-gray-400 mt-1">{label}</div>
+    <div className="bg-white/10 backdrop-blur rounded-xl p-4 text-center border border-white/20">
+      <div className="text-2xl sm:text-3xl font-bold text-yellow-400">{value}</div>
+      <div className="text-xs sm:text-sm text-slate-400 mt-1">{label}</div>
     </div>
   );
 }
