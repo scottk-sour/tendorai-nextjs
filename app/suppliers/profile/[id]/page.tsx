@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor, VendorProduct, Review } from '@/lib/db/models';
@@ -359,7 +358,25 @@ export default async function VendorProfilePage({ params }: PageProps) {
   const vendor = await getVendor(id);
 
   if (!vendor) {
-    notFound();
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full mx-4 text-center py-20">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-6">
+            <BuildingIcon className="w-8 h-8 text-gray-400" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">Supplier Not Found</h1>
+          <p className="text-gray-600 mb-8">
+            This supplier is no longer listed on TendorAI. They may have been removed or the link may be outdated.
+          </p>
+          <Link
+            href="/suppliers"
+            className="inline-flex items-center justify-center bg-purple-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-purple-700 transition-colors"
+          >
+            Browse Suppliers
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   // ── Unclaimed vendor layout ─────────────────────────────────────
