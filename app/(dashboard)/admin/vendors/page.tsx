@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -58,6 +58,97 @@ export default function AdminVendorsPage() {
   const [filterTier, setFilterTier] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<Vendor | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [deleting, setDeleting] = useState(false);
+  const toastTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleDeleteVendor = async (id: string) => {
+    setDeleting(true);
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/admin/vendors/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        setVendors((prev) => prev.filter((v) => v.id !== id));
+        setSelectedIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+        showToast('Vendor deleted');
+      }
+    } catch {
+      // silent fail
+    } finally {
+      setDeleting(false);
+      setDeleteTarget(null);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    setDeleting(true);
+    try {
+      const token = getToken();
+      const ids = Array.from(selectedIds);
+      const res = await fetch(`${API_URL}/api/admin/vendors/bulk-delete`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ids }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVendors((prev) => prev.filter((v) => !selectedIds.has(v.id)));
+        setSelectedIds(new Set());
+        showToast(`${data.count} vendor${data.count === 1 ? '' : 's'} deleted`);
+      }
+    } catch {
+      // silent fail
+    } finally {
+      setDeleting(false);
+      setBulkDeleteOpen(false);
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    const filteredIds = filtered.map((v) => v.id);
+    const allSelected = filteredIds.length > 0 && filteredIds.every((id) => selectedIds.has(id));
+    if (allSelected) {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        filteredIds.forEach((id) => next.delete(id));
+        return next;
+      });
+    } else {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        filteredIds.forEach((id) => next.add(id));
+        return next;
+      });
+    }
+  };
 
   const fetchVendors = useCallback(async () => {
     try {
@@ -343,6 +434,14 @@ export default function AdminVendorsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="px-4 py-3 w-10">
+                  <input
+                    type="checkbox"
+                    checked={filtered.length > 0 && filtered.every((v) => selectedIds.has(v.id))}
+                    onChange={toggleSelectAll}
+                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  />
+                </th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Company</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Email</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Tier</th>
@@ -351,11 +450,20 @@ export default function AdminVendorsPage() {
                 <th className="text-center px-4 py-3 font-medium text-gray-600">Products</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-600">Rating</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Created</th>
+                <th className="px-4 py-3 w-10"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filtered.map((vendor) => (
-                <tr key={vendor.id} className="hover:bg-gray-50 transition">
+                <tr key={vendor.id} className={`hover:bg-gray-50 transition ${selectedIds.has(vendor.id) ? 'bg-purple-50' : ''}`}>
+                  <td className="px-4 py-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(vendor.id)}
+                      onChange={() => toggleSelect(vendor.id)}
+                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    />
+                  </td>
                   <td className="px-4 py-3">
                     <div>
                       <p className="font-medium text-gray-900">{vendor.company}</p>
@@ -407,11 +515,22 @@ export default function AdminVendorsPage() {
                   <td className="px-4 py-3 text-gray-500 text-xs">
                     {new Date(vendor.createdAt).toLocaleDateString('en-GB')}
                   </td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => setDeleteTarget(vendor)}
+                      className="p-1 text-gray-400 hover:text-red-600 transition"
+                      title="Delete vendor"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={10} className="px-4 py-8 text-center text-gray-500">
                     No vendors found matching your filters.
                   </td>
                 </tr>
@@ -420,6 +539,94 @@ export default function AdminVendorsPage() {
           </table>
         </div>
       </div>
+
+      {/* Floating Action Bar */}
+      {selectedIds.size > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-4 z-40">
+          <span className="text-sm font-medium">{selectedIds.size} selected</span>
+          <button
+            onClick={() => setBulkDeleteOpen(true)}
+            className="px-4 py-1.5 bg-red-600 text-white text-sm font-medium rounded-full hover:bg-red-700 transition"
+          >
+            Delete Selected
+          </button>
+          <button
+            onClick={() => setSelectedIds(new Set())}
+            className="text-sm text-gray-300 hover:text-white transition underline"
+          >
+            Clear
+          </button>
+        </div>
+      )}
+
+      {/* Single Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+            <h3 className="text-lg font-bold text-gray-900">Delete {deleteTarget.company}?</h3>
+            <p className="text-sm text-gray-600 mt-2">
+              This will permanently remove this vendor and all their data (products, leads, reviews, posts, audits, and mention scans). This cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteVendor(deleteTarget.id)}
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 transition flex items-center gap-2"
+              >
+                {deleting && (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                )}
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {bulkDeleteOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+            <h3 className="text-lg font-bold text-gray-900">Delete {selectedIds.size} vendor{selectedIds.size === 1 ? '' : 's'}?</h3>
+            <p className="text-sm text-gray-600 mt-2">
+              This will permanently remove {selectedIds.size === 1 ? 'this vendor' : 'these vendors'} and all their data (products, leads, reviews, posts, audits, and mention scans). This cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setBulkDeleteOpen(false)}
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleBulkDelete}
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 transition flex items-center gap-2"
+              >
+                {deleting && (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                )}
+                Delete {selectedIds.size} Vendor{selectedIds.size === 1 ? '' : 's'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium z-50 animate-in fade-in slide-in-from-bottom-2">
+          {toastMessage}
+        </div>
+      )}
     </div>
   );
 }
