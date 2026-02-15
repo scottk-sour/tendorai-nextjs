@@ -51,19 +51,14 @@ async function getVendor(id: string) {
 
     if (!vendor) return null;
 
-    // Allow unclaimed vendors through with a flag
-    if (vendor.listingStatus === 'unclaimed') {
-      return {
-        ...vendor,
-        _id: vendor._id.toString(),
-        _isUnclaimed: true,
-      };
-    }
+    // Allow unclaimed vendors through for claim CTA
+    const isUnclaimed = vendor.listingStatus === 'unclaimed';
 
-    // Check if vendor is active and verified
+    // Check if vendor is active and verified (unless unclaimed)
     if (
-      vendor.account?.status !== 'active' ||
-      vendor.account?.verificationStatus !== 'verified'
+      !isUnclaimed &&
+      (vendor.account?.status !== 'active' ||
+        vendor.account?.verificationStatus !== 'verified')
     ) {
       return null;
     }
@@ -71,7 +66,6 @@ async function getVendor(id: string) {
     return {
       ...vendor,
       _id: vendor._id.toString(),
-      _isUnclaimed: false,
     };
   } catch {
     return null;
@@ -180,7 +174,7 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
   }
 
   // Unclaimed vendor: show limited profile with claim CTA
-  if (vendor._isUnclaimed) {
+  if (vendor.listingStatus === 'unclaimed') {
     return (
       <main className="min-h-screen bg-gray-50">
         <section className="bg-brand-gradient text-white py-8">
