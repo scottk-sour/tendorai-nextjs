@@ -11,6 +11,8 @@ interface Stats {
   totalLeads: number;
   activeSubscriptions: number;
   monthlyRevenue: number;
+  pastDueSubscriptions?: number;
+  revenueSource?: string;
   recentVendors: number;
   tierBreakdown: Record<string, number>;
 }
@@ -83,10 +85,13 @@ export default function AdminOverviewPage() {
     );
   }
 
+  const isEstimated = stats?.revenueSource === 'estimated';
+  const pastDue = stats?.pastDueSubscriptions ?? 0;
+
   const statCards = [
     { label: 'Total Vendors', value: stats?.totalVendors ?? 0, color: 'bg-blue-500' },
-    { label: 'Active Subscriptions', value: stats?.activeSubscriptions ?? 0, color: 'bg-green-500' },
-    { label: 'Monthly Revenue', value: `£${(stats?.monthlyRevenue ?? 0).toLocaleString()}`, color: 'bg-purple-500' },
+    { label: 'Active Subscriptions', value: stats?.activeSubscriptions ?? 0, color: 'bg-green-500', subtitle: pastDue > 0 ? `+ ${pastDue} past due` : undefined },
+    { label: isEstimated ? 'Monthly Revenue (est.)' : 'Monthly Revenue', value: `£${(stats?.monthlyRevenue ?? 0).toLocaleString()}`, color: 'bg-purple-500' },
     { label: 'Total Leads', value: leadCounts?.total ?? stats?.totalLeads ?? 0, color: 'bg-orange-500' },
     { label: 'Total Products', value: stats?.totalProducts ?? 0, color: 'bg-cyan-500' },
     { label: 'Recent Vendors (30d)', value: stats?.recentVendors ?? 0, color: 'bg-pink-500' },
@@ -117,6 +122,9 @@ export default function AdminOverviewPage() {
               <div>
                 <p className="text-sm text-gray-500">{card.label}</p>
                 <p className="text-2xl font-bold text-gray-900 mt-1">{card.value}</p>
+                {card.subtitle && (
+                  <p className="text-xs text-amber-600 mt-0.5">{card.subtitle}</p>
+                )}
               </div>
               <div className={`w-10 h-10 rounded-lg ${card.color} opacity-20`} />
             </div>
