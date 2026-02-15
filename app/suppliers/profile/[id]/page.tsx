@@ -71,6 +71,7 @@ async function getVendor(id: string) {
     return {
       ...vendor,
       _id: vendor._id.toString(),
+      _isUnclaimed: false,
     };
   } catch {
     return null;
