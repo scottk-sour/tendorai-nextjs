@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 
 // =====================================================
@@ -205,13 +204,22 @@ function parseA3(option: string): boolean | undefined {
 // MAIN COMPONENT
 // =====================================================
 
-export default function QuoteFlow() {
-  const searchParams = useSearchParams();
+interface QuoteFlowProps {
+  initialCategory?: string;
+  initialPostcode?: string;
+}
 
-  // Flow state
+export default function QuoteFlow({ initialCategory, initialPostcode }: QuoteFlowProps) {
+  // Flow state — initialize from server-side search params
+  const mappedCategory = initialCategory
+    ? CATEGORIES.find(
+        c => c.value.toLowerCase() === initialCategory.toLowerCase() || c.label.toLowerCase().includes(initialCategory.toLowerCase())
+      )?.value || ''
+    : '';
+
   const [step, setStep] = useState<'category' | 'questions' | 'results' | 'form'>('category');
-  const [category, setCategory] = useState('');
-  const [postcode, setPostcode] = useState('');
+  const [category, setCategory] = useState(mappedCategory);
+  const [postcode, setPostcode] = useState(initialPostcode?.toUpperCase() || '');
 
   // Answers accumulated from questions
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
@@ -242,24 +250,6 @@ export default function QuoteFlow() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
-  // Initialize from URL params
-  useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    const postcodeParam = searchParams.get('postcode');
-
-    if (categoryParam) {
-      const mappedCategory = CATEGORIES.find(
-        c => c.value.toLowerCase() === categoryParam.toLowerCase() || c.label.toLowerCase().includes(categoryParam.toLowerCase())
-      )?.value;
-      if (mappedCategory) {
-        setCategory(mappedCategory);
-      }
-    }
-    if (postcodeParam) {
-      setPostcode(postcodeParam.toUpperCase());
-    }
-  }, [searchParams]);
 
   // Fetch matches from API
   const fetchMatches = useCallback(async (categoryValue: string, postcodeValue: string, currentAnswers: Record<string, string | string[]>) => {
