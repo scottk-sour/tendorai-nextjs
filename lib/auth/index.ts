@@ -49,6 +49,7 @@ export interface AuthResponse {
   vendorId?: string;
   name?: string;
   message?: string;
+  status?: string;
 }
 
 // API Base URL
@@ -128,6 +129,8 @@ export async function vendorLogin(credentials: LoginCredentials): Promise<AuthRe
     return {
       success: false,
       message: data.message || (response.status === 401 ? 'Invalid email or password.' : 'Login failed.'),
+      status: data.status,
+      vendorId: data.vendorId,
     };
   }
 

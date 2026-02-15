@@ -4,6 +4,13 @@ import { useEffect, useState, useCallback } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
+interface ClaimedBy {
+  name: string;
+  email: string;
+  role: string;
+  date: string;
+}
+
 interface Vendor {
   id: string;
   company: string;
@@ -16,6 +23,9 @@ interface Vendor {
   productCount: number;
   rating: number;
   isClaimed: boolean;
+  listingStatus: string;
+  claimedBy: ClaimedBy | null;
+  claimedAt: string | null;
   createdAt: string;
 }
 
@@ -23,16 +33,13 @@ function getToken(): string {
   return localStorage.getItem('admin_token') || '';
 }
 
-const tierOptions = ['free', 'visible', 'verified', 'basic', 'managed', 'enterprise'];
-const statusOptions = ['active', 'pending', 'suspended', 'inactive'];
+const tierOptions = ['free', 'visible', 'verified'];
+const statusOptions = ['active', 'pending', 'suspended', 'inactive', 'unclaimed'];
 
 const tierBadgeColors: Record<string, string> = {
   free: 'bg-gray-100 text-gray-700',
   visible: 'bg-blue-100 text-blue-700',
-  basic: 'bg-blue-100 text-blue-700',
   verified: 'bg-green-100 text-green-700',
-  managed: 'bg-green-100 text-green-700',
-  enterprise: 'bg-purple-100 text-purple-700',
 };
 
 const statusBadgeColors: Record<string, string> = {
@@ -40,6 +47,7 @@ const statusBadgeColors: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-700',
   suspended: 'bg-red-100 text-red-700',
   inactive: 'bg-gray-100 text-gray-600',
+  unclaimed: 'bg-orange-100 text-orange-700',
 };
 
 export default function AdminVendorsPage() {
@@ -117,7 +125,15 @@ export default function AdminVendorsPage() {
 
       if (res.ok) {
         setVendors((prev) =>
-          prev.map((v) => (v.id === vendorId ? { ...v, status } : v))
+          prev.map((v) => {
+            if (v.id !== vendorId) return v;
+            const updated = { ...v, status };
+            // If rejecting (setting to unclaimed), clear claimed state
+            if (status === 'unclaimed') {
+              updated.listingStatus = 'unclaimed';
+            }
+            return updated;
+          })
         );
       }
     } catch {
@@ -129,7 +145,6 @@ export default function AdminVendorsPage() {
 
   const handleExportCSV = () => {
     const token = getToken();
-    // Open CSV export in new tab with auth via fetch + blob
     fetch(`${API_URL}/api/admin/vendors/export/csv`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -143,6 +158,11 @@ export default function AdminVendorsPage() {
         URL.revokeObjectURL(url);
       });
   };
+
+  // Pending claims: vendors with status=pending AND claimedBy data
+  const pendingClaims = vendors.filter(
+    (v) => v.status === 'pending' && v.claimedBy?.name
+  );
 
   // Client-side filtering
   const filtered = vendors.filter((v) => {
@@ -198,6 +218,64 @@ export default function AdminVendorsPage() {
           Export CSV
         </button>
       </div>
+
+      {/* Pending Claims Section */}
+      {pendingClaims.length > 0 && (
+        <div className="bg-amber-50 border-2 border-amber-300 rounded-xl p-6">
+          <h2 className="text-lg font-bold text-amber-800 mb-4">
+            Pending Claims ({pendingClaims.length})
+          </h2>
+          <div className="space-y-3">
+            {pendingClaims.map((vendor) => (
+              <div
+                key={vendor.id}
+                className="bg-white rounded-lg border border-amber-200 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900">{vendor.company}</p>
+                  <div className="text-sm text-gray-600 mt-1 space-y-0.5">
+                    <p>
+                      <span className="font-medium">Claimed by:</span>{' '}
+                      {vendor.claimedBy?.name} ({vendor.claimedBy?.role})
+                    </p>
+                    <p>
+                      <span className="font-medium">Email:</span>{' '}
+                      {vendor.claimedBy?.email}
+                    </p>
+                    {vendor.claimedAt && (
+                      <p className="text-xs text-gray-400">
+                        {new Date(vendor.claimedAt).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    onClick={() => updateStatus(vendor.id, 'active')}
+                    disabled={updatingId === vendor.id}
+                    className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition"
+                  >
+                    Activate
+                  </button>
+                  <button
+                    onClick={() => updateStatus(vendor.id, 'unclaimed')}
+                    disabled={updatingId === vendor.id}
+                    className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 disabled:opacity-50 transition"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

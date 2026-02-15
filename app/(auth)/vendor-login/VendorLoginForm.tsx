@@ -12,6 +12,7 @@ export default function VendorLoginForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [statusInfo, setStatusInfo] = useState<{ status?: string; vendorId?: string } | null>(null);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -30,6 +31,7 @@ export default function VendorLoginForm() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setStatusInfo(null);
 
     if (!email.trim() || !password.trim()) {
       setError('Please enter both email and password.');
@@ -49,6 +51,9 @@ export default function VendorLoginForm() {
       if (result.success) {
         router.push(redirectTo);
       } else {
+        if (result.status) {
+          setStatusInfo({ status: result.status, vendorId: result.vendorId });
+        }
         setError(result.message || 'Login failed. Please try again.');
       }
     } catch {
@@ -89,7 +94,28 @@ export default function VendorLoginForm() {
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           <div className="card p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
+              {error && statusInfo?.status === 'unclaimed' && (
+                <div className="p-4 bg-amber-50 border border-amber-300 rounded-lg text-amber-800 text-sm">
+                  <p className="font-medium mb-1">{error}</p>
+                  <Link
+                    href={`/vendor-claim/${statusInfo.vendorId}`}
+                    className="inline-block mt-1 text-purple-600 hover:text-purple-700 font-semibold underline"
+                  >
+                    Claim it now &rarr;
+                  </Link>
+                </div>
+              )}
+              {error && statusInfo?.status === 'pending' && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm">
+                  {error}
+                </div>
+              )}
+              {error && statusInfo?.status === 'inactive' && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+              {error && !statusInfo?.status && (
                 <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
                   {error}
                 </div>

@@ -42,6 +42,7 @@ async function getVendor(id: string) {
         contactInfo: 1,
         showPricing: 1,
         postcodeAreas: 1,
+        listingStatus: 1,
         'account.status': 1,
         'account.verificationStatus': 1,
       })
@@ -49,6 +50,15 @@ async function getVendor(id: string) {
       .exec();
 
     if (!vendor) return null;
+
+    // Allow unclaimed vendors through with a flag
+    if (vendor.listingStatus === 'unclaimed') {
+      return {
+        ...vendor,
+        _id: vendor._id.toString(),
+        _isUnclaimed: true,
+      };
+    }
 
     // Check if vendor is active and verified
     if (
@@ -166,6 +176,85 @@ export default async function VendorProfilePage({ params, searchParams }: PagePr
 
   if (!vendor) {
     notFound();
+  }
+
+  // Unclaimed vendor: show limited profile with claim CTA
+  if (vendor._isUnclaimed) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <section className="bg-brand-gradient text-white py-8">
+          <div className="section">
+            <nav className="text-sm mb-4 text-purple-200">
+              <Link href="/" className="hover:text-white">Home</Link>
+              <span className="mx-2">/</span>
+              <Link href="/suppliers" className="hover:text-white">Suppliers</Link>
+              <span className="mx-2">/</span>
+              <span className="text-white">{vendor.company}</span>
+            </nav>
+            <h1 className="text-3xl md:text-4xl font-bold text-white">{vendor.company}</h1>
+            {vendor.location?.city && (
+              <p className="text-purple-100 text-lg mt-2">
+                {vendor.location.city}
+                {vendor.location.region && `, ${vendor.location.region}`}
+              </p>
+            )}
+          </div>
+        </section>
+
+        <div className="section py-8">
+          <div className="max-w-2xl mx-auto space-y-6">
+            {/* Claim Banner */}
+            <div className="bg-amber-50 border-2 border-amber-300 rounded-xl p-8 text-center">
+              <div className="text-4xl mb-3">&#x1F3E2;</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Is this your business?</h2>
+              <p className="text-gray-600 mb-6">
+                This listing for <strong>{vendor.company}</strong> hasn&apos;t been claimed yet.
+                Claim it to manage your profile, respond to leads, and appear in AI recommendations.
+              </p>
+              <Link
+                href={`/vendor-claim/${id}`}
+                className="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
+              >
+                Claim This Listing
+              </Link>
+            </div>
+
+            {/* Limited Info */}
+            {vendor.services && vendor.services.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold mb-4">Services</h2>
+                <div className="flex flex-wrap gap-2">
+                  {vendor.services.map((service: string) => (
+                    <span
+                      key={service}
+                      className="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium"
+                    >
+                      {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {vendor.location?.coverage && vendor.location.coverage.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h3 className="text-lg font-semibold mb-4">Service Coverage</h3>
+                <div className="flex flex-wrap gap-2">
+                  {vendor.location.coverage.map((area: string) => (
+                    <span
+                      key={area}
+                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
+                    >
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+    );
   }
 
   // Detect AI crawler visits for analytics
