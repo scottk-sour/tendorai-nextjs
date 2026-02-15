@@ -13,17 +13,13 @@ export function middleware(request: NextRequest) {
   // Get token from cookies
   const token = request.cookies.get('auth-token')?.value;
 
-  // Check auth routes first (login/signup pages) — must come before protected route check
-  // to avoid /admin/login being caught by the /admin protected route prefix
+  // Auth routes (login/signup pages) — always allow through.
+  // Client-side AuthContext handles redirecting already-authenticated users.
+  // Middleware can't verify JWT validity, only cookie existence, so redirecting
+  // here with a stale cookie causes infinite redirect loops.
   const isAuthRoute = authRoutes.some((route) => pathname === route);
 
-  if (isAuthRoute && token) {
-    const redirectTo = pathname === '/admin/login' ? '/admin' : '/dashboard';
-    return NextResponse.redirect(new URL(redirectTo, request.url));
-  }
-
   if (isAuthRoute) {
-    // Allow unauthenticated access to auth routes (don't fall through to protected check)
     const response = NextResponse.next();
     response.headers.set('X-Frame-Options', 'DENY');
     response.headers.set('X-Content-Type-Options', 'nosniff');
