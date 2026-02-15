@@ -32,6 +32,40 @@ interface QuoteValue {
   currency?: string;
 }
 
+interface LeadRequirements {
+  // Common
+  timeline?: string;
+  hasContract?: string;
+  currentProvider?: string;
+  contractEnd?: string;
+  currentCost?: string;
+  currentSupport?: string;
+  // Photocopier
+  volume?: string;
+  colour?: string;
+  a3?: string;
+  devices?: string;
+  features?: string[];
+  brands?: string[];
+  // Telecoms
+  telecomsServices?: string[];
+  users?: string;
+  mobileIntegration?: string;
+  callRecording?: string;
+  crmIntegration?: string;
+  // CCTV
+  securityServices?: string[];
+  cameras?: string;
+  cameraLocation?: string;
+  remoteViewing?: string;
+  installationType?: string;
+  existingCabling?: string;
+  // IT
+  itServices?: string[];
+  painPoint?: string;
+  [key: string]: string | string[] | undefined;
+}
+
 interface Lead {
   _id: string;
   vendor: string;
@@ -48,6 +82,7 @@ interface Lead {
   timeline?: 'urgent' | 'soon' | 'planning' | 'future';
   contractPreference?: string;
   budgetRange?: string;
+  requirements?: LeadRequirements;
   customer?: LeadCustomer;
   status: string;
   viewedAt?: string;
@@ -68,7 +103,6 @@ interface Lead {
   email?: string;
   phone?: string;
   postcode?: string;
-  requirements?: string;
 }
 
 interface LeadCounts {
@@ -170,6 +204,49 @@ function getSatisfactionLabel(level?: string): string {
   return labels[level || ''] || '';
 }
 
+const REQUIREMENT_LABELS: Record<string, string> = {
+  volume: 'Monthly Print Volume',
+  colour: 'Colour Printing',
+  a3: 'A3 Printing',
+  devices: 'Number of Devices',
+  features: 'Features Required',
+  brands: 'Preferred Brands',
+  hasContract: 'Existing Contract',
+  currentProvider: 'Current Provider',
+  contractEnd: 'Contract End Date',
+  currentCost: 'Current Monthly Cost',
+  timeline: 'Timeline',
+  telecomsServices: 'Telecoms Services',
+  users: 'Users/Handsets',
+  mobileIntegration: 'Mobile Integration',
+  callRecording: 'Call Recording',
+  crmIntegration: 'CRM Integration',
+  securityServices: 'Security Services',
+  cameras: 'Number of Cameras',
+  cameraLocation: 'Location Type',
+  remoteViewing: 'Remote Viewing',
+  installationType: 'Installation Type',
+  existingCabling: 'Existing Cabling',
+  itServices: 'IT Services',
+  currentSupport: 'Current IT Support',
+  painPoint: 'Biggest Pain Point',
+};
+
+const MONTHS_SHORT = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
+function formatRequirementValue(field: string, value: string | string[]): string {
+  if (Array.isArray(value)) return value.join(', ');
+  // Format YYYY-MM date strings
+  if (/^\d{4}-\d{2}$/.test(value)) {
+    const [y, m] = value.split('-');
+    return `${MONTHS_SHORT[parseInt(m) - 1]} ${y}`;
+  }
+  return value;
+}
+
 function getLeadName(lead: Lead, tier: string): string {
   if (hasTierAccess(tier, 'visible')) {
     return lead.customer?.companyName || lead.businessName || lead.contactName || 'Business Inquiry';
@@ -198,7 +275,7 @@ function getLeadContact(lead: Lead): string {
 }
 
 function getLeadMessage(lead: Lead): string {
-  return lead.customer?.message || lead.requirements || '';
+  return lead.customer?.message || '';
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────
@@ -781,113 +858,182 @@ export default function QuotesPage() {
             <div className="card p-5">
               <h3 className="font-semibold text-gray-900 mb-4">Requirements</h3>
               <div className="space-y-4">
-                {/* Service + Equipment */}
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  {selectedLead.service && (
-                    <div>
-                      <div className="text-gray-500">Service Category</div>
-                      <div className="font-medium">{selectedLead.service}</div>
-                    </div>
-                  )}
-                  {selectedLead.equipmentType && (
-                    <div>
-                      <div className="text-gray-500">Equipment Type</div>
-                      <div className="font-medium">{selectedLead.equipmentType}</div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Volume */}
-                {(selectedLead.specificVolume || selectedLead.monthlyVolume) && (
+                {/* Service Category */}
+                {selectedLead.service && (
                   <div className="text-sm">
-                    <div className="text-gray-500">Monthly Volume</div>
-                    <div className="font-medium">
-                      {selectedLead.specificVolume
-                        ? `${selectedLead.specificVolume.toLocaleString()} pages/mo`
-                        : selectedLead.monthlyVolume}
-                    </div>
+                    <div className="text-gray-500">Service Category</div>
+                    <div className="font-medium">{selectedLead.service}</div>
                   </div>
                 )}
 
-                {/* Colour / A3 (photocopiers) */}
-                {(selectedLead.colour !== null && selectedLead.colour !== undefined) || (selectedLead.a3 !== null && selectedLead.a3 !== undefined) ? (
-                  <div className="flex gap-3">
-                    {selectedLead.colour !== null && selectedLead.colour !== undefined && (
-                      <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${selectedLead.colour ? 'bg-cyan-100 text-cyan-700' : 'bg-gray-100 text-gray-600'}`}>
-                        {selectedLead.colour ? 'Colour required' : 'Mono only'}
-                      </span>
-                    )}
-                    {selectedLead.a3 !== null && selectedLead.a3 !== undefined && (
-                      <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${selectedLead.a3 ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-600'}`}>
-                        {selectedLead.a3 ? 'A3 required' : 'A4 only'}
-                      </span>
-                    )}
-                  </div>
-                ) : null}
+                {/* Structured requirements from new flow */}
+                {selectedLead.requirements && typeof selectedLead.requirements === 'object' && (() => {
+                  const reqs = selectedLead.requirements;
+                  // Separate into sections
+                  const mainFields = ['volume', 'colour', 'a3', 'devices', 'features', 'brands', 'telecomsServices', 'users', 'mobileIntegration', 'callRecording', 'crmIntegration', 'securityServices', 'cameras', 'cameraLocation', 'remoteViewing', 'installationType', 'existingCabling', 'itServices', 'currentSupport', 'painPoint'];
+                  const contractFields = ['hasContract', 'currentProvider', 'contractEnd', 'currentCost'];
+                  const timelineFields = ['timeline'];
 
-                {/* Features */}
-                {selectedLead.features && selectedLead.features.length > 0 && (
-                  <div>
-                    <div className="text-sm text-gray-500 mb-1.5">Features Required</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {selectedLead.features.map((f) => (
-                        <span key={f} className="px-2.5 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">{f}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  const mainEntries = mainFields.filter(f => reqs[f] !== undefined && reqs[f] !== null && reqs[f] !== '');
+                  const contractEntries = contractFields.filter(f => reqs[f] !== undefined && reqs[f] !== null && reqs[f] !== '');
+                  const hasTimeline = reqs.timeline;
 
-                {/* Timeline + Budget */}
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  {selectedLead.timeline && (
-                    <div>
-                      <div className="text-gray-500">Timeline</div>
-                      <div className="font-medium">
-                        {selectedLead.timeline === 'urgent' && (
-                          <span className="text-red-600">{getTimelineLabel(selectedLead.timeline)}</span>
+                  return (
+                    <>
+                      {/* Main requirements */}
+                      {mainEntries.length > 0 && (
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          {mainEntries.map(field => {
+                            const value = reqs[field];
+                            if (!value) return null;
+                            const isArray = Array.isArray(value);
+                            return (
+                              <div key={field} className={isArray ? 'col-span-2' : ''}>
+                                <div className="text-gray-500">{REQUIREMENT_LABELS[field] || field}</div>
+                                {isArray ? (
+                                  <div className="flex flex-wrap gap-1.5 mt-1">
+                                    {(value as string[]).map(v => (
+                                      <span key={v} className="px-2.5 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">{v}</span>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <div className="font-medium">{formatRequirementValue(field, value as string)}</div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {/* Current Setup section */}
+                      {contractEntries.length > 0 && (
+                        <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                          <div className="text-sm font-medium text-gray-700">Current Setup</div>
+                          <div className="grid grid-cols-2 gap-3 text-sm">
+                            {contractEntries.map(field => {
+                              const value = reqs[field];
+                              if (!value) return null;
+                              return (
+                                <div key={field}>
+                                  <div className="text-gray-500">{REQUIREMENT_LABELS[field] || field}</div>
+                                  <div className="font-medium">{formatRequirementValue(field, value as string)}</div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Budget & Timeline section */}
+                      {(hasTimeline || selectedLead.budgetRange) && (
+                        <div className="bg-purple-50 rounded-lg p-4">
+                          <div className="text-sm font-medium text-purple-800 mb-2">Budget & Timeline</div>
+                          <div className="grid grid-cols-2 gap-3 text-sm">
+                            {hasTimeline && (
+                              <div>
+                                <div className="text-purple-600">Timeline</div>
+                                <div className={`font-medium ${reqs.timeline === 'ASAP' ? 'text-red-600' : 'text-gray-900'}`}>
+                                  {reqs.timeline}
+                                </div>
+                              </div>
+                            )}
+                            {(reqs.currentCost || selectedLead.budgetRange) && (
+                              <div>
+                                <div className="text-purple-600">Current Spend</div>
+                                <div className="font-medium">{reqs.currentCost || getBudgetLabel(selectedLead.budgetRange)}</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
+
+                {/* Fallback: legacy fields if no structured requirements */}
+                {(!selectedLead.requirements || Object.keys(selectedLead.requirements).length === 0) && (
+                  <>
+                    {(selectedLead.specificVolume || selectedLead.monthlyVolume) && (
+                      <div className="text-sm">
+                        <div className="text-gray-500">Monthly Volume</div>
+                        <div className="font-medium">
+                          {selectedLead.specificVolume
+                            ? `${selectedLead.specificVolume.toLocaleString()} pages/mo`
+                            : selectedLead.monthlyVolume}
+                        </div>
+                      </div>
+                    )}
+                    {(selectedLead.colour !== null && selectedLead.colour !== undefined) || (selectedLead.a3 !== null && selectedLead.a3 !== undefined) ? (
+                      <div className="flex gap-3">
+                        {selectedLead.colour !== null && selectedLead.colour !== undefined && (
+                          <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${selectedLead.colour ? 'bg-cyan-100 text-cyan-700' : 'bg-gray-100 text-gray-600'}`}>
+                            {selectedLead.colour ? 'Colour required' : 'Mono only'}
+                          </span>
                         )}
-                        {selectedLead.timeline !== 'urgent' && getTimelineLabel(selectedLead.timeline)}
+                        {selectedLead.a3 !== null && selectedLead.a3 !== undefined && (
+                          <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${selectedLead.a3 ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-600'}`}>
+                            {selectedLead.a3 ? 'A3 required' : 'A4 only'}
+                          </span>
+                        )}
                       </div>
-                    </div>
-                  )}
-                  {selectedLead.budgetRange && (
-                    <div>
-                      <div className="text-gray-500">Budget Range</div>
-                      <div className="font-medium">{getBudgetLabel(selectedLead.budgetRange)}</div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Current Provider */}
-                {selectedLead.currentProvider?.name && (
-                  <div className="bg-gray-50 rounded-lg p-3 text-sm space-y-1">
-                    <div className="text-gray-500 font-medium">Current Provider</div>
-                    <div>{selectedLead.currentProvider.name}</div>
-                    {selectedLead.currentProvider.contractEndDate && (
-                      <div className="text-gray-500">
-                        Contract ends: {new Date(selectedLead.currentProvider.contractEndDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                    ) : null}
+                    {selectedLead.features && selectedLead.features.length > 0 && (
+                      <div>
+                        <div className="text-sm text-gray-500 mb-1.5">Features Required</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {selectedLead.features.map((f) => (
+                            <span key={f} className="px-2.5 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">{f}</span>
+                          ))}
+                        </div>
                       </div>
                     )}
-                    {selectedLead.currentProvider.satisfactionLevel && (
-                      <div className="text-gray-500">
-                        Satisfaction: {getSatisfactionLabel(selectedLead.currentProvider.satisfactionLevel)}
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      {selectedLead.timeline && (
+                        <div>
+                          <div className="text-gray-500">Timeline</div>
+                          <div className="font-medium">
+                            {selectedLead.timeline === 'urgent' ? (
+                              <span className="text-red-600">{getTimelineLabel(selectedLead.timeline)}</span>
+                            ) : getTimelineLabel(selectedLead.timeline)}
+                          </div>
+                        </div>
+                      )}
+                      {selectedLead.budgetRange && (
+                        <div>
+                          <div className="text-gray-500">Budget Range</div>
+                          <div className="font-medium">{getBudgetLabel(selectedLead.budgetRange)}</div>
+                        </div>
+                      )}
+                    </div>
+                    {selectedLead.currentProvider?.name && (
+                      <div className="bg-gray-50 rounded-lg p-3 text-sm space-y-1">
+                        <div className="text-gray-500 font-medium">Current Provider</div>
+                        <div>{selectedLead.currentProvider.name}</div>
+                        {selectedLead.currentProvider.contractEndDate && (
+                          <div className="text-gray-500">
+                            Contract ends: {new Date(selectedLead.currentProvider.contractEndDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                          </div>
+                        )}
+                        {selectedLead.currentProvider.satisfactionLevel && (
+                          <div className="text-gray-500">
+                            Satisfaction: {getSatisfactionLabel(selectedLead.currentProvider.satisfactionLevel)}
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
-                )}
-
-                {/* Current monthly cost */}
-                {selectedLead.currentMonthlyCost !== undefined && selectedLead.currentMonthlyCost !== null && (
-                  <div className="text-sm">
-                    <div className="text-gray-500">Current Monthly Cost</div>
-                    <div className="font-medium">£{selectedLead.currentMonthlyCost.toLocaleString()}/mo</div>
-                  </div>
+                    {selectedLead.currentMonthlyCost !== undefined && selectedLead.currentMonthlyCost !== null && (
+                      <div className="text-sm">
+                        <div className="text-gray-500">Current Monthly Cost</div>
+                        <div className="font-medium">&pound;{selectedLead.currentMonthlyCost.toLocaleString()}/mo</div>
+                      </div>
+                    )}
+                  </>
                 )}
 
                 {/* Customer message */}
                 {message && (
                   <div>
-                    <div className="text-sm text-gray-500 mb-1">Message</div>
+                    <div className="text-sm text-gray-500 mb-1">Additional Notes</div>
                     <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg whitespace-pre-wrap">{message}</div>
                   </div>
                 )}
@@ -1327,10 +1473,25 @@ export default function QuotesPage() {
                           {leadPostcode}
                         </span>
                       )}
-                      {lead.specificVolume && (
+                      {/* Show key requirement snippets */}
+                      {lead.requirements?.volume && (
+                        <span>{lead.requirements.volume} pages/mo</span>
+                      )}
+                      {!lead.requirements?.volume && lead.specificVolume && (
                         <span>{lead.specificVolume.toLocaleString()} pages/mo</span>
                       )}
-                      {lead.timeline && (
+                      {lead.requirements?.users && (
+                        <span>{lead.requirements.users} users</span>
+                      )}
+                      {lead.requirements?.cameras && (
+                        <span>{lead.requirements.cameras} cameras</span>
+                      )}
+                      {lead.requirements?.timeline && (
+                        <span className={lead.requirements.timeline === 'ASAP' ? 'text-red-500 font-medium' : ''}>
+                          {lead.requirements.timeline}
+                        </span>
+                      )}
+                      {!lead.requirements?.timeline && lead.timeline && (
                         <span className={lead.timeline === 'urgent' ? 'text-red-500 font-medium' : ''}>
                           {getTimelineLabel(lead.timeline)}
                         </span>
