@@ -14,7 +14,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tendorai.com'),
   title: {
-    default: 'TendorAI | AI-Powered Procurement for UK Businesses',
+    default: 'TendorAI | Get Found by AI. Win More Business.',
     template: '%s | TendorAI',
   },
   description:
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     'telecoms providers Bristol',
     'CCTV installers Cardiff',
     'IT services South West',
-    'business equipment procurement',
+    'AI visibility for suppliers',
     'managed print services',
     'office technology suppliers',
   ],
@@ -47,14 +47,14 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: 'https://tendorai.com',
     siteName: 'TendorAI',
-    title: 'TendorAI | AI-Powered Procurement for UK Businesses',
+    title: 'TendorAI | Get Found by AI. Win More Business.',
     description:
       'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-    images: [{ url: 'https://tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
+    images: [{ url: 'https://tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
   },
   twitter: {
     card: 'summary',
-    title: 'TendorAI - AI-Powered Office Equipment Procurement',
+    title: 'TendorAI - Get Found by AI. Win More Business.',
     description: 'Compare copiers, telecoms, CCTV & IT suppliers. Get AI-matched quotes from verified UK vendors.',
     creator: '@tendorai',
     images: ['/logo.png'],
@@ -91,7 +91,7 @@ const organisationJsonLd = {
     width: 575,
     height: 283,
   },
-  description: 'AI-powered procurement platform connecting UK businesses with office equipment suppliers.',
+  description: 'AI visibility platform helping UK suppliers get found by AI search engines and win more business.',
   areaServed: {
     '@type': 'Country',
     name: 'United Kingdom',

@@ -51,11 +51,11 @@ export const metadata: Metadata = {
     description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers across the UK. Compare quotes from 1,000+ verified businesses. Free to use.',
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI-Powered Procurement' }],
+    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
   },
   twitter: {
     card: 'summary',
-    title: 'TendorAI - AI-Powered Office Equipment Procurement',
+    title: 'TendorAI - Get Found by AI. Win More Business.',
     description: 'Compare copiers, telecoms, CCTV & IT suppliers. Get AI-matched quotes from verified UK vendors.',
     images: ['/logo.png'],
   },

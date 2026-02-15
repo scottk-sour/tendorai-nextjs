@@ -96,6 +96,16 @@ const nextConfig = {
         ],
       },
       {
+        // Prevent stale HTML on Vercel CDN edge
+        source: '/((?!_next/static|_next/image|static/).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
+      {
         // Cache static assets aggressively
         source: '/static/:path*',
         headers: [
