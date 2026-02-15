@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 const protectedRoutes = ['/dashboard', '/vendor-dashboard', '/admin'];
 
 // Routes that should redirect to dashboard if already authenticated
-const authRoutes = ['/login', '/signup', '/vendor-login', '/vendor-signup'];
+const authRoutes = ['/login', '/signup', '/vendor-login', '/vendor-signup', '/admin/login'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,9 +17,10 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
   if (isProtectedRoute && !token) {
-    // Redirect vendor routes to vendor-login, others to login
+    // Redirect to appropriate login page
     const isVendorRoute = pathname.startsWith('/vendor-dashboard');
-    const loginPath = isVendorRoute ? '/vendor-login' : '/login';
+    const isAdminRoute = pathname.startsWith('/admin');
+    const loginPath = isAdminRoute ? '/admin/login' : isVendorRoute ? '/vendor-login' : '/login';
     const loginUrl = new URL(loginPath, request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
@@ -29,7 +30,8 @@ export function middleware(request: NextRequest) {
   const isAuthRoute = authRoutes.some((route) => pathname === route);
 
   if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    const redirectTo = pathname === '/admin/login' ? '/admin' : '/dashboard';
+    return NextResponse.redirect(new URL(redirectTo, request.url));
   }
 
   // Add security headers
