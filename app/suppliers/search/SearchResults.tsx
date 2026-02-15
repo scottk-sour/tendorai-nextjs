@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import VendorCard, { VendorCardData } from '@/app/components/VendorCard';
 
@@ -37,11 +36,17 @@ const CATEGORY_LABELS: Record<string, string> = {
   '': 'All Categories',
 };
 
-export default function SearchResults() {
-  const searchParams = useSearchParams();
-  const postcode = searchParams.get('postcode') || '';
-  const category = searchParams.get('category') || '';
-  const distance = searchParams.get('distance') || '50';
+interface SearchResultsProps {
+  postcode?: string;
+  category?: string;
+  distance?: string;
+}
+
+export default function SearchResults({
+  postcode = '',
+  category = '',
+  distance = '50',
+}: SearchResultsProps) {
 
   const [vendors, setVendors] = useState<VendorCardData[]>([]);
   const [nationalVendors, setNationalVendors] = useState<VendorCardData[]>([]);

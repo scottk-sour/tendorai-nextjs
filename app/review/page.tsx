@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: 'Share your experience with an office equipment supplier on TendorAI.',
 };
 
-export default function ReviewPage() {
-  return <ReviewForm />;
+export default async function ReviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string }>;
+}) {
+  const { token } = await searchParams;
+  return <ReviewForm token={token || null} />;
 }

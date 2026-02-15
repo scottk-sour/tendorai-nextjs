@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 // Types
@@ -91,19 +90,33 @@ const COMPARISON_ROWS = [
   { key: 'whyRecommended', label: 'Why Recommended' },
 ];
 
-export default function CompareView() {
-  const searchParams = useSearchParams();
+interface CompareViewProps {
+  vendors?: string;
+  volume?: string;
+  postcode?: string;
+  category?: string;
+  colour?: string;
+  a3?: string;
+}
 
-  // Parse URL params
+export default function CompareView({
+  vendors: vendorsParam,
+  volume: volumeParam,
+  postcode: postcodeParam,
+  category: categoryParam,
+  colour: colourParam,
+  a3: a3Param,
+}: CompareViewProps) {
+  // Parse props
   const vendorIds = useMemo(
-    () => searchParams.get('vendors')?.split(',').filter(Boolean) || [],
-    [searchParams]
+    () => vendorsParam?.split(',').filter(Boolean) || [],
+    [vendorsParam]
   );
-  const volume = parseInt(searchParams.get('volume') || '5000');
-  const postcode = searchParams.get('postcode') || '';
-  const category = searchParams.get('category') || 'Photocopiers';
-  const needsColour = searchParams.get('colour') !== 'false';
-  const needsA3 = searchParams.get('a3') !== 'false';
+  const volume = parseInt(volumeParam || '5000');
+  const postcode = postcodeParam || '';
+  const category = categoryParam || 'Photocopiers';
+  const needsColour = colourParam !== 'false';
+  const needsA3 = a3Param !== 'false';
 
   // State
   const [vendors, setVendors] = useState<CompareVendor[]>([]);

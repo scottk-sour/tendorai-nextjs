@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import CompareView from './CompareView';
 
 export const metadata: Metadata = {
@@ -15,31 +14,27 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-function LoadingState() {
+export default async function ComparePage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    vendors?: string;
+    volume?: string;
+    postcode?: string;
+    category?: string;
+    colour?: string;
+    a3?: string;
+  }>;
+}) {
+  const { vendors, volume, postcode, category, colour, a3 } = await searchParams;
   return (
-    <main className="min-h-screen bg-gray-50 pt-16">
-      <section className="bg-brand-gradient text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-8 bg-white/20 rounded w-64 animate-pulse mb-4"></div>
-          <div className="h-6 bg-white/20 rounded w-96 animate-pulse"></div>
-        </div>
-      </section>
-      <section className="py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center py-12">
-            <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading comparison...</p>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-}
-
-export default function ComparePage() {
-  return (
-    <Suspense fallback={<LoadingState />}>
-      <CompareView />
-    </Suspense>
+    <CompareView
+      vendors={vendors}
+      volume={volume}
+      postcode={postcode}
+      category={category}
+      colour={colour}
+      a3={a3}
+    />
   );
 }

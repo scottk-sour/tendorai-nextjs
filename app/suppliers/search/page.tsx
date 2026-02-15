@@ -1,13 +1,4 @@
-import { Suspense } from 'react';
 import SearchResults from './SearchResults';
-
-export default function SearchResultsPage() {
-  return (
-    <Suspense fallback={<SearchLoading />}>
-      <SearchResults />
-    </Suspense>
-  );
-}
 
 function SearchLoading() {
   return (
@@ -27,5 +18,20 @@ function SearchLoading() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default async function SearchResultsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ postcode?: string; category?: string; distance?: string }>;
+}) {
+  const { postcode, category, distance } = await searchParams;
+  return (
+    <SearchResults
+      postcode={postcode}
+      category={category}
+      distance={distance}
+    />
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
@@ -16,9 +15,7 @@ interface TokenData {
   message?: string;
 }
 
-function ReviewFormContent() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+function ReviewFormContent({ token }: { token: string | null }) {
 
   const [tokenData, setTokenData] = useState<TokenData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -324,14 +321,6 @@ function ReviewFormContent() {
   );
 }
 
-export default function ReviewForm() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
-      </div>
-    }>
-      <ReviewFormContent />
-    </Suspense>
-  );
+export default function ReviewForm({ token }: { token: string | null }) {
+  return <ReviewFormContent token={token} />;
 }
