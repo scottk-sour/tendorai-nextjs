@@ -7,13 +7,15 @@ export default function NewsletterSignup() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     setLoading(true);
     try {
-      const response = await fetch('https://formspree.io/f/xblgkvnk', {
+      const response = await fetch(`${API_URL}/api/public/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
