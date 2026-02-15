@@ -16,26 +16,34 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20')));
     const skip = (page - 1) * limit;
 
-    // Build query
-    const query: Record<string, unknown> = {
-      'account.status': 'active',
-      'account.verificationStatus': 'verified',
-    };
+    // Build query - include active verified + unclaimed vendors
+    const conditions: Record<string, unknown>[] = [
+      {
+        $or: [
+          { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+          { listingStatus: 'unclaimed' },
+        ],
+      },
+    ];
 
     if (category) {
       const serviceName = getServiceFromSlug(category);
       if (serviceName) {
-        query.services = { $regex: new RegExp(serviceName, 'i') };
+        conditions.push({ services: { $regex: new RegExp(serviceName, 'i') } });
       }
     }
 
     if (location) {
-      query.$or = [
-        { 'location.coverage': { $regex: new RegExp(location, 'i') } },
-        { 'location.city': { $regex: new RegExp(location, 'i') } },
-        { 'location.region': { $regex: new RegExp(location, 'i') } },
-      ];
+      conditions.push({
+        $or: [
+          { 'location.coverage': { $regex: new RegExp(location, 'i') } },
+          { 'location.city': { $regex: new RegExp(location, 'i') } },
+          { 'location.region': { $regex: new RegExp(location, 'i') } },
+        ],
+      });
     }
+
+    const query: Record<string, unknown> = conditions.length === 1 ? conditions[0] : { $and: conditions };
 
     // Count total
     const total = await Vendor.countDocuments(query);
@@ -53,6 +61,8 @@ export async function GET(request: NextRequest) {
         tier: 1,
         contactInfo: 1,
         showPricing: 1,
+        listingStatus: 1,
+        'account.loginCount': 1,
       })
       .lean();
 
@@ -92,6 +102,12 @@ export async function GET(request: NextRequest) {
       const displayTier = getDisplayTier(v.tier);
       const showPricing = displayTier !== 'free' || v.showPricing;
 
+      const ls = (v.listingStatus || 'unclaimed').toLowerCase();
+      const hasPhone = !!(v.contactInfo?.phone);
+      const hasRating = (v.performance?.rating || 0) > 0;
+      const isPaid = displayTier !== 'free';
+      const accountClaimed = ls === 'claimed' || ls === 'verified' || hasPhone || isPaid || hasRating || (v.account?.loginCount || 0) > 0;
+
       return {
         id: v._id.toString(),
         company: v.company,
@@ -112,6 +128,7 @@ export async function GET(request: NextRequest) {
         productCount: v.productCount,
         website: v.contactInfo?.website,
         showPricing,
+        accountClaimed,
         // Schema.org metadata
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',

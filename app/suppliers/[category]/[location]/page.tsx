@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const title = `${service.name} Suppliers in ${locationName}`;
-  const description = `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare verified vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
+  const description = `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   return {
     title,
@@ -131,14 +131,22 @@ async function fetchVendors(category: string, location: string) {
   const normalizedLocation = location.replace(/-/g, ' ');
 
   const query = {
-    'account.status': 'active',
-    'account.verificationStatus': 'verified',
-    services: serviceName,
-    $or: [
-      { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
-      { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
-      { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
-      { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
+    $and: [
+      {
+        $or: [
+          { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+          { listingStatus: 'unclaimed' },
+        ],
+      },
+      { services: serviceName },
+      {
+        $or: [
+          { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
+        ],
+      },
     ],
   };
 
@@ -229,7 +237,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       {
         '@type': 'ItemList',
         name: `${service.name} Suppliers in ${locationName}`,
-        description: `List of verified ${service.name.toLowerCase()} suppliers serving ${locationName}`,
+        description: `List of ${service.name.toLowerCase()} suppliers serving ${locationName}`,
         numberOfItems: totalCount,
         itemListElement: allVendors.slice(0, 10).map((vendor, index) => ({
           '@type': 'ListItem',
@@ -268,7 +276,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       {
         '@type': 'Service',
         name: `${service.name} Suppliers in ${locationName}`,
-        description: `Compare verified ${service.name.toLowerCase()} suppliers serving ${locationName}. Get quotes from ${totalCount} AI-vetted businesses.`,
+        description: `Compare ${service.name.toLowerCase()} suppliers serving ${locationName}. Get quotes from ${totalCount} businesses.`,
         provider: {
           '@type': 'Organization',
           name: 'TendorAI',
@@ -325,7 +333,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               {service.name} Suppliers in {locationName}
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Compare {totalCount} verified {service.name.toLowerCase()} suppliers serving{' '}
+              Compare {totalCount} {service.name.toLowerCase()} suppliers serving{' '}
               {locationName}. Get instant quotes from local businesses with transparent pricing.
             </p>
           </div>
@@ -522,11 +530,11 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
   return [
     {
       question: `How do I find the best ${serviceName.toLowerCase()} supplier in ${locationName}?`,
-      answer: `TendorAI makes it easy to compare verified ${serviceName.toLowerCase()} suppliers serving ${locationName}. Each supplier is AI-vetted with an AI Visibility Score showing how established and active they are. You can compare services, check accreditations, and request quotes from multiple suppliers — all from one page.`,
+      answer: `TendorAI makes it easy to compare ${serviceName.toLowerCase()} suppliers serving ${locationName}. Each supplier has an AI Visibility Score showing how established and active they are. You can compare services, check accreditations, and request quotes from multiple suppliers — all from one page.`,
     },
     {
       question: `How many ${serviceName.toLowerCase()} companies operate in ${locationName}?`,
-      answer: `TendorAI currently lists ${vendorCount} verified ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area, including both local businesses and national providers with coverage in ${locationName}.`,
+      answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area, including both local businesses and national providers with coverage in ${locationName}.`,
     },
     {
       question: `What should I look for when choosing a ${serviceName.toLowerCase()} supplier in ${locationName}?`,

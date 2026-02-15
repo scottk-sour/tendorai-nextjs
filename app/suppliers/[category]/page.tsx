@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const title = `${service.name} Suppliers UK`;
-  const description = `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare verified vendors and get instant quotes.`;
+  const description = `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
 
   return {
     title,
@@ -46,19 +46,18 @@ async function getCategoryData(category: string) {
   const serviceName = getServiceFromSlug(category);
   if (!serviceName) return null;
 
+  const statusFilter = {
+    $or: [
+      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+      { listingStatus: 'unclaimed' },
+    ],
+  };
+
   const [vendors, locationStats] = await Promise.all([
-    Vendor.countDocuments({
-      'account.status': 'active',
-      'account.verificationStatus': 'verified',
-      services: serviceName,
-    }),
+    Vendor.countDocuments({ ...statusFilter, services: serviceName }),
     Vendor.aggregate([
       {
-        $match: {
-          'account.status': 'active',
-          'account.verificationStatus': 'verified',
-          services: serviceName,
-        },
+        $match: { ...statusFilter, services: serviceName },
       },
       { $unwind: '$location.coverage' },
       {
@@ -93,11 +92,11 @@ export default async function CategoryPage({ params }: PageProps) {
   const categoryFaqs = [
     {
       question: `How do I find ${service.name.toLowerCase()} suppliers near me?`,
-      answer: `Use TendorAI to browse verified ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area, complete with AI visibility scores and verified pricing.`,
+      answer: `Use TendorAI to browse ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area, complete with AI visibility scores and pricing.`,
     },
     {
       question: `How many ${service.name.toLowerCase()} suppliers are listed on TendorAI?`,
-      answer: `TendorAI currently lists ${vendorCount} verified ${service.name.toLowerCase()} suppliers across the UK. New suppliers are added regularly as our network grows.`,
+      answer: `TendorAI currently lists ${vendorCount} ${service.name.toLowerCase()} suppliers across the UK. New suppliers are added regularly as our network grows.`,
     },
     {
       question: `Is TendorAI free to use for finding ${service.name.toLowerCase()} suppliers?`,
@@ -189,7 +188,7 @@ export default async function CategoryPage({ params }: PageProps) {
               </h1>
             </div>
             <p className="text-lg text-purple-100 max-w-3xl">
-              {service.description}. Find {vendorCount} verified suppliers across the UK.
+              {service.description}. Browse {vendorCount} suppliers across the UK.
             </p>
           </div>
         </section>

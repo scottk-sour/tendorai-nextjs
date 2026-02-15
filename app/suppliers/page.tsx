@@ -7,7 +7,7 @@ import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Supplier Directory',
   description:
-    'Browse our directory of verified office equipment suppliers across the UK. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
+    'Browse our directory of office equipment suppliers across the UK. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
   alternates: {
     canonical: 'https://tendorai.com/suppliers',
   },
@@ -18,18 +18,17 @@ export const revalidate = 3600; // Revalidate every hour
 async function getSupplierStats() {
   await connectDB();
 
+  const statusFilter = {
+    $or: [
+      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+      { listingStatus: 'unclaimed' },
+    ],
+  };
+
   const [totalCount, categoryStats] = await Promise.all([
-    Vendor.countDocuments({
-      'account.status': 'active',
-      'account.verificationStatus': 'verified',
-    }),
+    Vendor.countDocuments(statusFilter),
     Vendor.aggregate([
-      {
-        $match: {
-          'account.status': 'active',
-          'account.verificationStatus': 'verified',
-        },
-      },
+      { $match: statusFilter },
       { $unwind: '$services' },
       {
         $group: {
@@ -57,7 +56,7 @@ export default async function SuppliersIndexPage() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Office Equipment Supplier Directory',
-    description: 'Directory of verified office equipment suppliers across the UK',
+    description: 'Directory of office equipment suppliers across the UK',
     numberOfItems: totalCount,
     itemListElement: services.map((service, index) => ({
       '@type': 'ListItem',
@@ -93,7 +92,7 @@ export default async function SuppliersIndexPage() {
               Supplier Directory
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Browse {totalCount} verified office equipment suppliers across the UK. Find the right supplier for your business needs.
+              Browse {totalCount} office equipment suppliers across the UK. Find the right supplier for your business needs.
             </p>
           </div>
         </section>
