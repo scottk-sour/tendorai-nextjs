@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { validateEmail } from '@/lib/auth';
 
-export default function VendorLoginForm() {
+export default function VendorLoginForm({ redirectTo }: { redirectTo: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,10 +15,7 @@ export default function VendorLoginForm() {
   const [statusInfo, setStatusInfo] = useState<{ status?: string; vendorId?: string } | null>(null);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { auth, loginVendor } = useAuth();
-
-  const redirectTo = searchParams.get('redirect') || '/vendor-dashboard';
 
   // Redirect if already authenticated as vendor
   useEffect(() => {

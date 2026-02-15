@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import VendorSignupForm from './VendorSignupForm';
 
 export const metadata: Metadata = {
@@ -13,18 +12,11 @@ export const metadata: Metadata = {
   },
 };
 
-function LoadingState() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
-    </div>
-  );
-}
-
-export default function VendorSignupPage() {
-  return (
-    <Suspense fallback={<LoadingState />}>
-      <VendorSignupForm />
-    </Suspense>
-  );
+export default async function VendorSignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
+  const { plan } = await searchParams;
+  return <VendorSignupForm plan={plan || 'free'} />;
 }

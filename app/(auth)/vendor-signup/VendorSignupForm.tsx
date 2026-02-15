@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { validateEmail, validatePhone, VendorSignupData } from '@/lib/auth';
@@ -13,7 +13,7 @@ const SERVICE_OPTIONS = SERVICE_KEYS.map((key) => ({
   icon: SERVICES[key].icon,
 }));
 
-export default function VendorSignupForm() {
+export default function VendorSignupForm({ plan }: { plan: string }) {
   const [formData, setFormData] = useState<VendorSignupData>({
     name: '',
     company: '',
@@ -30,10 +30,7 @@ export default function VendorSignupForm() {
   const [success, setSuccess] = useState('');
 
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { auth, signupVendor } = useAuth();
-
-  const plan = searchParams.get('plan') || 'free';
 
   // Redirect if already authenticated as vendor
   useEffect(() => {

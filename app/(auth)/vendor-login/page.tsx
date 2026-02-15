@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import VendorLoginForm from './VendorLoginForm';
 
 export const metadata: Metadata = {
@@ -8,18 +7,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-function LoadingState() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
-    </div>
-  );
-}
-
-export default function VendorLoginPage() {
-  return (
-    <Suspense fallback={<LoadingState />}>
-      <VendorLoginForm />
-    </Suspense>
-  );
+export default async function VendorLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const { redirect } = await searchParams;
+  return <VendorLoginForm redirectTo={redirect || '/vendor-dashboard'} />;
 }
