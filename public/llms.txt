@@ -1,38 +1,20 @@
 # TendorAI
+> The UK's AI visibility platform for office equipment suppliers.
 
-> The definitive UK office equipment supplier directory. AI-optimised vendor data for procurement decisions.
+## About
+TendorAI helps UK businesses become visible to AI recommendation
+engines like ChatGPT, Perplexity, and Claude. We provide structured
+data, AI visibility scores, and GEO audits.
 
-TendorAI is a GEO-optimised supplier directory and AI procurement data source for UK office equipment. Vendors are verified, rated, and indexed for AI assistant recommendations.
+## Sitemap
+- [Sitemap](https://www.tendorai.com/sitemap.xml)
 
-## Categories
-
-- [Photocopiers](https://www.tendorai.com/suppliers/photocopiers): Office multifunction printers, copiers, managed print services
-- [Telecoms](https://www.tendorai.com/suppliers/telecoms): Business phone systems, VoIP, unified communications
-- [CCTV](https://www.tendorai.com/suppliers/cctv): Security cameras, video surveillance, monitoring systems
-- [IT Services](https://www.tendorai.com/suppliers/it): Managed IT services, support, infrastructure, cloud solutions
-- [Security Systems](https://www.tendorai.com/suppliers/security): Access control, alarms, intruder detection, physical security
-- [Business Software](https://www.tendorai.com/suppliers/software): Enterprise software, document management, workflow automation
-
-## Coverage
-
-All major UK cities and regions. Primary coverage: Wales, South West England, with growing national reach. 1,000+ listed suppliers across 30+ locations.
-
-## Data Available
-
-- Vendor profiles: company name, description, services, location, coverage areas, accreditations, years in business
-- Products: manufacturer, model, pricing (cost-per-copy, lease rates), specifications, features
-- Ratings: aggregate ratings, individual reviews, recommendation percentages
-- Coverage: cities served, regional reach, postcode areas
-
-## API
-
-- [Public Vendor Search](https://www.tendorai.com/api/public/vendors): Structured search with filters for category, location, postcode
-- [AI Query Endpoint](https://ai-procurement-backend-q35u.onrender.com/api/ai-query): Natural language queries like "Find photocopier suppliers in Cardiff"
-- [OpenAPI Spec](https://www.tendorai.com/.well-known/openapi.json): Machine-readable API documentation
-
-## Links
-
-- [Supplier Directory](https://www.tendorai.com/suppliers): Browse all verified suppliers
-- [Get Quotes](https://www.tendorai.com/get-quotes): Request quotes from matched suppliers
-- [For Vendors](https://www.tendorai.com/for-vendors): Join the directory as a supplier
-- [Full Documentation](https://www.tendorai.com/llms-full.txt): Extended version of this file
+## Key Pages
+- [Home](https://www.tendorai.com)
+- [Free AI Visibility Report](https://www.tendorai.com/aeo-report)
+- [Suppliers Directory](https://www.tendorai.com/suppliers)
+- [Photocopier Suppliers](https://www.tendorai.com/suppliers/photocopiers)
+- [Telecoms Suppliers](https://www.tendorai.com/suppliers/telecoms)
+- [CCTV Suppliers](https://www.tendorai.com/suppliers/cctv)
+- [IT Services Suppliers](https://www.tendorai.com/suppliers/it-services)
+- [For Vendors](https://www.tendorai.com/for-vendors)
