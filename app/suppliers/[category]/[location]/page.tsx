@@ -64,11 +64,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: `https://tendorai.com/suppliers/${category}/${location}`,
+      url: `https://www.tendorai.com/suppliers/${category}/${location}`,
       type: 'website',
     },
     alternates: {
-      canonical: `https://tendorai.com/suppliers/${category}/${location}`,
+      canonical: `https://www.tendorai.com/suppliers/${category}/${location}`,
     },
   };
 }
@@ -259,7 +259,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 reviewCount: vendor.performance.reviewCount || 1,
               },
             }),
-            url: `https://tendorai.com/suppliers/profile/${vendor._id}`,
+            url: `https://www.tendorai.com/suppliers/profile/${vendor._id}`,
             areaServed: vendor.location?.coverage || [locationName],
           },
         })),
@@ -267,9 +267,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
-          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: service.name, item: `https://tendorai.com/suppliers/${category}` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
+          { '@type': 'ListItem', position: 3, name: service.name, item: `https://www.tendorai.com/suppliers/${category}` },
           { '@type': 'ListItem', position: 4, name: locationName },
         ],
       },
@@ -280,14 +280,14 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         provider: {
           '@type': 'Organization',
           name: 'TendorAI',
-          url: 'https://tendorai.com',
+          url: 'https://www.tendorai.com',
         },
         areaServed: {
           '@type': 'City',
           name: locationName,
           containedInPlace: { '@type': 'Country', name: 'United Kingdom' },
         },
-        url: `https://tendorai.com/suppliers/${category}/${location}`,
+        url: `https://www.tendorai.com/suppliers/${category}/${location}`,
       },
       {
         '@type': 'FAQPage',

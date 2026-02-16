@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Compare Suppliers | TendorAI',
     description: 'Compare quotes from verified UK suppliers side-by-side.',
-    url: 'https://tendorai.com/compare',
+    url: 'https://www.tendorai.com/compare',
     type: 'website',
   },
   robots: { index: true, follow: true },

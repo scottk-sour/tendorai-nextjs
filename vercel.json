@@ -5,10 +5,10 @@
       "has": [
         {
           "type": "host",
-          "value": "www.tendorai.com"
+          "value": "tendorai.com"
         }
       ],
-      "destination": "https://tendorai.com/:path",
+      "destination": "https://www.tendorai.com/:path",
       "permanent": true
     }
   ]

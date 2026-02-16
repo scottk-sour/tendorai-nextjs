@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tendorai.com'),
+  metadataBase: new URL('https://www.tendorai.com'),
   title: {
     default: 'TendorAI | Get Found by AI. Win More Business.',
     template: '%s | TendorAI',
@@ -45,12 +45,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://tendorai.com',
+    url: 'https://www.tendorai.com',
     siteName: 'TendorAI',
     title: 'TendorAI | Get Found by AI. Win More Business.',
     description:
       'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-    images: [{ url: 'https://tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
+    images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
   },
   twitter: {
     card: 'summary',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   alternates: {
-    canonical: 'https://tendorai.com',
+    canonical: 'https://www.tendorai.com',
   },
 };
 
@@ -82,12 +82,12 @@ export const metadata: Metadata = {
 const organisationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': 'https://tendorai.com/#organization',
+  '@id': 'https://www.tendorai.com/#organization',
   name: 'TendorAI',
-  url: 'https://tendorai.com',
+  url: 'https://www.tendorai.com',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://tendorai.com/logo.png',
+    url: 'https://www.tendorai.com/logo.png',
     width: 575,
     height: 283,
   },

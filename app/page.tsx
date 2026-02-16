@@ -42,11 +42,11 @@ export const metadata: Metadata = {
   description: 'Free AI-powered supplier directory for UK businesses. Compare photocopier, telecoms, CCTV, IT, and security quotes from 1,000+ verified suppliers.',
   keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
   alternates: {
-    canonical: 'https://tendorai.com',
+    canonical: 'https://www.tendorai.com',
   },
   openGraph: {
     type: 'website',
-    url: 'https://tendorai.com/',
+    url: 'https://www.tendorai.com/',
     title: 'Compare Office Equipment Quotes from Local Suppliers | TendorAI',
     description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers across the UK. Compare quotes from 1,000+ verified businesses. Free to use.',
     siteName: 'TendorAI',
@@ -74,11 +74,11 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://tendorai.com/#business',
+  '@id': 'https://www.tendorai.com/#business',
   name: 'TendorAI',
   description: 'TendorAI is a free AI-powered comparison platform that helps UK businesses find office equipment suppliers. Browse 1,000+ verified suppliers for photocopiers, telecoms, CCTV, and IT equipment across the UK.',
-  url: 'https://tendorai.com',
-  image: 'https://tendorai.com/logo.png',
+  url: 'https://www.tendorai.com',
+  image: 'https://www.tendorai.com/logo.png',
   address: {
     '@type': 'PostalAddress',
     addressRegion: 'Wales',
@@ -114,11 +114,11 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
-  url: 'https://tendorai.com',
+  url: 'https://www.tendorai.com',
   description: 'AI-powered office equipment supplier directory for UK businesses',
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://tendorai.com/suppliers?postcode={search_term_string}',
+    target: 'https://www.tendorai.com/suppliers?postcode={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };

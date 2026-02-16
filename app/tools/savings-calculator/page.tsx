@@ -464,13 +464,13 @@ export default function SavingsCalculatorPage() {
             '@context': 'https://schema.org',
             '@type': 'WebApplication',
             name: 'Office Equipment Savings Calculator',
-            url: 'https://tendorai.com/tools/savings-calculator',
+            url: 'https://www.tendorai.com/tools/savings-calculator',
             applicationCategory: 'BusinessApplication',
             description: 'Calculate how much you could save on office equipment by comparing local supplier quotes.',
             provider: {
               '@type': 'Organization',
               name: 'TendorAI',
-              url: 'https://tendorai.com',
+              url: 'https://www.tendorai.com',
             },
             offers: {
               '@type': 'Offer',

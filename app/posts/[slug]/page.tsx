@@ -52,11 +52,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: `https://tendorai.com/posts/${slug}`,
+      url: `https://www.tendorai.com/posts/${slug}`,
       type: 'article',
     },
     alternates: {
-      canonical: `https://tendorai.com/posts/${slug}`,
+      canonical: `https://www.tendorai.com/posts/${slug}`,
     },
   };
 }
@@ -85,15 +85,15 @@ export default async function PostPage({ params }: PageProps) {
       '@type': 'Organization',
       name: vendorName,
       url: vendorId
-        ? `https://tendorai.com/suppliers/profile/${vendorId}`
-        : 'https://tendorai.com',
+        ? `https://www.tendorai.com/suppliers/profile/${vendorId}`
+        : 'https://www.tendorai.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
-      url: 'https://tendorai.com',
+      url: 'https://www.tendorai.com',
     },
-    mainEntityOfPage: `https://tendorai.com/posts/${slug}`,
+    mainEntityOfPage: `https://www.tendorai.com/posts/${slug}`,
     keywords: post.tags?.join(', ') || '',
   };
 
@@ -101,8 +101,8 @@ export default async function PostPage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
-      { '@type': 'ListItem', position: 2, name: 'Posts', item: 'https://tendorai.com/posts' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+      { '@type': 'ListItem', position: 2, name: 'Posts', item: 'https://www.tendorai.com/posts' },
       { '@type': 'ListItem', position: 3, name: post.title },
     ],
   };

@@ -62,7 +62,7 @@ List and search verified suppliers.
 
 **Example Request:**
 ```
-GET https://tendorai.com/api/public/vendors?category=Photocopiers&location=Cardiff&limit=10
+GET https://www.tendorai.com/api/public/vendors?category=Photocopiers&location=Cardiff&limit=10
 ```
 
 **Example Response:**
@@ -220,15 +220,15 @@ Various managed service providers
 
 Individual vendor profiles are available at:
 ```
-https://tendorai.com/suppliers/profile/{vendorId}
+https://www.tendorai.com/suppliers/profile/{vendorId}
 ```
 
 ### Category + Location Pages
 
 Browse suppliers by category and location:
 ```
-https://tendorai.com/suppliers/{category}
-https://tendorai.com/suppliers/{category}/{location}
+https://www.tendorai.com/suppliers/{category}
+https://www.tendorai.com/suppliers/{category}/{location}
 ```
 
 Where:
@@ -309,6 +309,6 @@ Vendors on TendorAI are listed at three levels:
 
 ## Contact
 
-- Website: https://tendorai.com
+- Website: https://www.tendorai.com
 - Support: scott.davies@tendorai.com
 - LinkedIn: https://linkedin.com/company/tendorai

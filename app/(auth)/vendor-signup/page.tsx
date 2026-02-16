@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Become a TendorAI Vendor',
     description: 'Join our network of verified UK suppliers and receive qualified business leads.',
-    url: 'https://tendorai.com/vendor-signup',
+    url: 'https://www.tendorai.com/vendor-signup',
   },
 };
 

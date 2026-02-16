@@ -292,11 +292,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description: description.slice(0, 160),
-      url: `https://tendorai.com/suppliers/profile/${id}`,
+      url: `https://www.tendorai.com/suppliers/profile/${id}`,
       type: 'website',
     },
     alternates: {
-      canonical: `https://tendorai.com/suppliers/profile/${id}`,
+      canonical: `https://www.tendorai.com/suppliers/profile/${id}`,
     },
   };
 }
@@ -532,12 +532,12 @@ export default async function VendorProfilePage({ params }: PageProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': `https://tendorai.com/suppliers/profile/${id}`,
+    '@id': `https://www.tendorai.com/suppliers/profile/${id}`,
     name: vendor.company,
     description:
       vendor.businessProfile?.description ||
       `${vendor.company} - Office equipment supplier`,
-    url: `https://tendorai.com/suppliers/profile/${id}`,
+    url: `https://www.tendorai.com/suppliers/profile/${id}`,
     ...(vendor.contactInfo?.website && { sameAs: [vendor.contactInfo.website] }),
     address: {
       '@type': 'PostalAddress',
@@ -591,8 +591,8 @@ export default async function VendorProfilePage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
-      { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://tendorai.com/suppliers' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+      { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
       { '@type': 'ListItem', position: 3, name: vendor.company },
     ],
   };

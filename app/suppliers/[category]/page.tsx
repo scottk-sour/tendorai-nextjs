@@ -32,10 +32,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: `https://tendorai.com/suppliers/${category}`,
+      url: `https://www.tendorai.com/suppliers/${category}`,
     },
     alternates: {
-      canonical: `https://tendorai.com/suppliers/${category}`,
+      canonical: `https://www.tendorai.com/suppliers/${category}`,
     },
   };
 }
@@ -111,8 +111,8 @@ export default async function CategoryPage({ params }: PageProps) {
         '@type': 'CollectionPage',
         name: `${service.name} Suppliers UK`,
         description: `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}.`,
-        url: `https://tendorai.com/suppliers/${category}`,
-        isPartOf: { '@type': 'WebSite', url: 'https://tendorai.com' },
+        url: `https://www.tendorai.com/suppliers/${category}`,
+        isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'Service',
           name: `${service.name} Suppliers`,
@@ -120,7 +120,7 @@ export default async function CategoryPage({ params }: PageProps) {
           provider: {
             '@type': 'Organization',
             name: 'TendorAI',
-            url: 'https://tendorai.com',
+            url: 'https://www.tendorai.com',
           },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
@@ -133,15 +133,15 @@ export default async function CategoryPage({ params }: PageProps) {
         itemListElement: MAJOR_LOCATIONS.slice(0, 15).map((loc, index) => ({
           '@type': 'ListItem',
           position: index + 1,
-          url: `https://tendorai.com/suppliers/${category}/${loc.toLowerCase().replace(/\s+/g, '-')}`,
+          url: `https://www.tendorai.com/suppliers/${category}/${loc.toLowerCase().replace(/\s+/g, '-')}`,
           name: `${service.name} Suppliers in ${loc}`,
         })),
       },
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
-          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://tendorai.com/suppliers' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+          { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
           { '@type': 'ListItem', position: 3, name: service.name },
         ],
       },

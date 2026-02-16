@@ -7,8 +7,8 @@ export const SITE_CONFIG = {
   name: 'TendorAI',
   tagline: 'Get Found by AI. Win More Business.',
   description: 'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-  url: 'https://tendorai.com',
-  apiUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://tendorai.com',
+  url: 'https://www.tendorai.com',
+  apiUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tendorai.com',
 
   // Contact
   email: 'scott.davies@tendorai.com',

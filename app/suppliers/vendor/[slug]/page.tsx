@@ -162,12 +162,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description: description.slice(0, 160),
-      url: `https://tendorai.com/suppliers/vendor/${slug}`,
+      url: `https://www.tendorai.com/suppliers/vendor/${slug}`,
       type: 'website',
       siteName: 'TendorAI',
     },
     alternates: {
-      canonical: `https://tendorai.com/suppliers/vendor/${slug}`,
+      canonical: `https://www.tendorai.com/suppliers/vendor/${slug}`,
     },
   };
 }
@@ -231,12 +231,12 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': `https://tendorai.com/suppliers/vendor/${slug}`,
+    '@id': `https://www.tendorai.com/suppliers/vendor/${slug}`,
     name: vendor.company,
     description:
       vendor.businessProfile?.description ||
       `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'}${city ? ` in ${city}` : ''}.`,
-    url: `https://tendorai.com/suppliers/vendor/${slug}`,
+    url: `https://www.tendorai.com/suppliers/vendor/${slug}`,
     address: {
       '@type': 'PostalAddress',
       ...(city && { addressLocality: city }),
@@ -259,14 +259,14 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tendorai.com' },
-      { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://tendorai.com/suppliers' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+      { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
       ...(serviceLinks.length > 0
         ? [{
             '@type': 'ListItem',
             position: 3,
             name: serviceLinks[0].name,
-            item: `https://tendorai.com/suppliers/${serviceLinks[0].slug}`,
+            item: `https://www.tendorai.com/suppliers/${serviceLinks[0].slug}`,
           }]
         : []),
       {
