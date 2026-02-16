@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { connectDB } from '@/lib/db/connection';
-import { Vendor, VendorProduct, Review } from '@/lib/db/models';
+import { Vendor, VendorProduct, Review, AeoReport } from '@/lib/db/models';
 import {
   getDisplayTier,
   canShowPricing,
@@ -124,37 +124,19 @@ function getServingText(vendor: { location?: { city?: string; region?: string; c
   return parts.join(' & ') || '';
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function estimateVisibilityScore(vendor: any, productsCount: number, reviewCount: number): number {
-  let score = 0;
+// Fetch latest AEO report score for this vendor (matched by company name)
+async function getAeoScore(companyName: string): Promise<{ score: number; createdAt: Date } | null> {
+  const report = await AeoReport.findOne({
+    companyName: { $regex: new RegExp(`^${companyName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    score: { $ne: null },
+  })
+    .sort({ createdAt: -1 })
+    .select('score createdAt')
+    .lean();
 
-  // Profile completeness (~35 max)
-  if (vendor.company) score += 5;
-  if (vendor.businessProfile?.description) {
-    score += vendor.businessProfile.description.length > 100 ? 10 : 5;
-  }
-  if (vendor.contactInfo?.phone) score += 5;
-  if (vendor.contactInfo?.website) score += 8;
-  if (vendor.location?.city) score += 4;
-  if (vendor.brands?.length > 0) score += 3;
-
-  // Coverage (~5 max)
-  if (vendor.location?.coverage?.length > 0) score += 5;
-
-  // Products (~15 max)
-  if (productsCount > 0) score += Math.min(15, productsCount * 3);
-
-  // Reviews (~10 max)
-  if (reviewCount > 0) score += Math.min(10, reviewCount * 2);
-
-  // Tier bonus (~15 max)
-  const dt = getDisplayTier(vendor.tier);
-  if (dt === 'verified') score += 15;
-  else if (dt === 'visible') score += 10;
-
-  return Math.min(100, score);
+  if (!report || report.score == null) return null;
+  return { score: report.score, createdAt: report.createdAt };
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // ─── Data fetching (unchanged) ──────────────────────────────────────
 
@@ -516,7 +498,8 @@ export default async function VendorProfilePage({ params }: PageProps) {
     ? mapCoverageAreas(vendor.location.coverage)
     : null;
 
-  const visibilityScore = estimateVisibilityScore(vendor, products.length, approvedReviews.length);
+  const aeoData = await getAeoScore(vendor.company);
+  const visibilityScore = aeoData?.score ?? null;
 
   const establishedYear = vendor.businessProfile?.yearsInBusiness
     ? new Date().getFullYear() - vendor.businessProfile.yearsInBusiness
@@ -913,56 +896,67 @@ export default async function VendorProfilePage({ params }: PageProps) {
               {/* AI Visibility Score */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h3 className="text-sm font-bold text-gray-900 mb-4">AI Visibility Score</h3>
-                <div className="flex items-center gap-4">
-                  {/* Circular score */}
-                  <div className="flex-shrink-0">
-                    <svg className="w-20 h-20" viewBox="0 0 36 36">
-                      <path
-                        className="text-gray-100"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                      />
-                      <path
-                        className={visibilityScore >= 60 ? 'text-green-500' : visibilityScore >= 35 ? 'text-amber-500' : 'text-red-400'}
-                        strokeDasharray={`${visibilityScore}, 100`}
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                      />
-                      <text
-                        x="18"
-                        y="19"
-                        className="fill-gray-900 font-bold"
-                        textAnchor="middle"
-                        dominantBaseline="central"
-                        fontSize="8"
-                      >
-                        {visibilityScore}
-                      </text>
-                      <text
-                        x="18"
-                        y="25"
-                        className="fill-gray-400"
-                        textAnchor="middle"
-                        fontSize="3.5"
-                      >
-                        / 100
-                      </text>
-                    </svg>
+                {visibilityScore !== null ? (
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0">
+                      <svg className="w-20 h-20" viewBox="0 0 36 36">
+                        <path
+                          className="text-gray-100"
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                        />
+                        <path
+                          className={visibilityScore >= 60 ? 'text-green-500' : visibilityScore >= 35 ? 'text-amber-500' : 'text-red-400'}
+                          strokeDasharray={`${visibilityScore}, 100`}
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                        />
+                        <text
+                          x="18"
+                          y="19"
+                          className="fill-gray-900 font-bold"
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          fontSize="8"
+                        >
+                          {visibilityScore}
+                        </text>
+                        <text
+                          x="18"
+                          y="25"
+                          className="fill-gray-400"
+                          textAnchor="middle"
+                          fontSize="3.5"
+                        >
+                          / 100
+                        </text>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-700">
+                        This supplier scores <span className="font-semibold">{visibilityScore}/100</span> for AI visibility
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">
+                        How AI platforms like ChatGPT see this business
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      This supplier scores <span className="font-semibold">{visibilityScore}/100</span> for AI visibility
-                    </p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      How AI platforms like ChatGPT see this business
-                    </p>
+                ) : (
+                  <div className="text-center py-2">
+                    <p className="text-sm text-gray-500 mb-2">Not yet scored</p>
+                    <Link
+                      href="/aeo-report"
+                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Run an AI visibility scan &rarr;
+                    </Link>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 

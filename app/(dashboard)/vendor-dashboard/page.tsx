@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import AIMentionsCard from '@/app/components/dashboard/AIMentionsCard';
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
-import FreeScoreBreakdown from '@/app/components/dashboard/FreeScoreBreakdown';
 import CompetitorLeaderboard from '@/app/components/dashboard/CompetitorLeaderboard';
 import LeadTeaser from '@/app/components/dashboard/LeadTeaser';
 import UpgradeBanner from '@/app/components/dashboard/UpgradeBanner';
@@ -165,15 +164,11 @@ export default function VendorDashboardOverview() {
         />
 
         {/* AI Visibility Score — full breakdown for free, compact for paid */}
-        {hasTierAccess(currentTier, 'visible') ? (
-          <AIVisibilityScoreCard
-            token={token || ''}
-            tier={currentTier}
-            compact={true}
-          />
-        ) : (
-          <FreeScoreBreakdown token={token || ''} />
-        )}
+        <AIVisibilityScoreCard
+          token={token || ''}
+          tier={currentTier}
+          compact={true}
+        />
       </div>
 
       {/* Competitor Leaderboard (after AI Insights Row) */}
