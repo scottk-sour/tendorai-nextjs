@@ -99,7 +99,7 @@ const organisationJsonLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
-    email: 'support@tendorai.com',
+    email: 'scott.davies@tendorai.com',
     availableLanguage: 'English',
   },
   sameAs: ['https://linkedin.com/company/tendorai'],

@@ -63,10 +63,10 @@ export default function ContactPage() {
               For all other questions, reach us at:
             </p>
             <a
-              href="mailto:support@tendorai.com"
+              href="mailto:scott.davies@tendorai.com"
               className="text-purple-600 hover:text-purple-700 font-medium text-lg"
             >
-              support@tendorai.com
+              scott.davies@tendorai.com
             </a>
           </div>
         </div>

@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
   apiUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://tendorai.com',
 
   // Contact
-  email: 'support@tendorai.com',
+  email: 'scott.davies@tendorai.com',
 
   // Social
   twitter: '@tendorai',

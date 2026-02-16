@@ -310,5 +310,5 @@ Vendors on TendorAI are listed at three levels:
 ## Contact
 
 - Website: https://tendorai.com
-- Support: support@tendorai.com
+- Support: scott.davies@tendorai.com
 - LinkedIn: https://linkedin.com/company/tendorai
