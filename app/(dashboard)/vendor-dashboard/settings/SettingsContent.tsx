@@ -236,7 +236,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
       } else if (response.status === 503) {
         // Stripe not configured
         setMessage({
-          text: 'Online payments are not yet available. Please contact us to upgrade: hello@tendorai.com',
+          text: 'Online payments are not yet available. Please contact us to upgrade: scott.davies@tendorai.com',
           type: 'error',
         });
       } else {
@@ -841,10 +841,10 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               For enterprise needs or custom requirements, get in touch.
             </p>
             <a
-              href="mailto:hello@tendorai.com?subject=Custom Plan Enquiry"
+              href="mailto:scott.davies@tendorai.com?subject=Custom Plan Enquiry"
               className="inline-block mt-4 text-purple-600 hover:text-purple-700 font-medium"
             >
-              Contact us at hello@tendorai.com
+              Contact us at scott.davies@tendorai.com
             </a>
           </div>
         </div>

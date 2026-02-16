@@ -216,8 +216,8 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p className="text-gray-600">
                 To exercise any of these rights, please contact us at{' '}
-                <a href="mailto:hello@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  hello@tendorai.com
+                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
+                  scott.davies@tendorai.com
                 </a>. We will respond within 30 days.
               </p>
             </div>
@@ -255,8 +255,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <p className="text-gray-600">
                 <strong>Email:</strong>{' '}
-                <a href="mailto:hello@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  hello@tendorai.com
+                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
+                  scott.davies@tendorai.com
                 </a>
               </p>
             </div>

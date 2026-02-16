@@ -220,8 +220,8 @@ export default function TermsOfServicePage() {
               <p className="text-gray-600 mb-4">
                 <strong>Informal resolution:</strong> If you have a dispute with TendorAI, we encourage you to
                 contact us first at{' '}
-                <a href="mailto:hello@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  hello@tendorai.com
+                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
+                  scott.davies@tendorai.com
                 </a>{' '}
                 to attempt informal resolution.
               </p>
@@ -273,8 +273,8 @@ export default function TermsOfServicePage() {
               </p>
               <p className="text-gray-600">
                 <strong>Email:</strong>{' '}
-                <a href="mailto:hello@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  hello@tendorai.com
+                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
+                  scott.davies@tendorai.com
                 </a>
               </p>
             </div>
