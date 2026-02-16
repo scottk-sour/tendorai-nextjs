@@ -4,3 +4,4 @@ export { default as VendorPost, type IVendorPost } from './VendorPost';
 export { default as User, type IUser } from './User';
 export { default as Lead, type ILead } from './Lead';
 export { default as Review, type IReview } from './Review';
+export { default as AeoReport, type IAeoReport } from './AeoReport';
