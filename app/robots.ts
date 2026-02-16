@@ -1,23 +1,38 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://tendorai.com';
-
   return {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: ['/_next/static/'],
         disallow: [
+          '/_next/data/',
           '/vendor-dashboard/',
           '/vendor-login',
-          '/vendor-signup',
           '/vendor-forgot-password',
           '/vendor-reset-password',
+          '/admin/',
           '/api/',
         ],
       },
+      {
+        userAgent: 'GPTBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+      },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: 'https://www.tendorai.com/sitemap.xml',
   };
 }
