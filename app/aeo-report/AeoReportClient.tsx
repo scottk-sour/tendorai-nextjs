@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
@@ -20,53 +20,37 @@ const CATEGORY_LABELS: Record<string, string> = {
   it: 'IT support',
 };
 
-interface AiCompany {
-  name: string;
-  description: string;
-  reason: string;
-}
-
-interface AeoResult {
-  companyName: string;
-  category: string;
-  city: string;
-  aiMentioned: boolean;
-  aiPosition: number | null;
-  aiRecommendations: AiCompany[];
-  competitorsOnTendorAI: number;
-  timestamp: string;
-}
-
 const LOADING_STEPS = [
-  'Querying AI systems...',
-  'Analysing local market data...',
-  'Checking your visibility...',
+  'Searching for your company online...',
+  'Analysing your AI visibility...',
+  'Researching competitors in your area...',
+  'Identifying visibility gaps...',
+  'Generating your personalised report...',
 ];
 
 export default function AeoReportClient() {
+  const router = useRouter();
   const [companyName, setCompanyName] = useState('');
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const [result, setResult] = useState<AeoResult | null>(null);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setResult(null);
     setLoading(true);
     setLoadingStep(0);
 
-    // Animate through loading steps
+    // Animate through loading steps (report takes 30-60s)
     const stepInterval = setInterval(() => {
       setLoadingStep((prev) => {
         if (prev < LOADING_STEPS.length - 1) return prev + 1;
         return prev;
       });
-    }, 2000);
+    }, 8000);
 
     try {
       const res = await fetch(`${API_URL}/api/public/aeo-report`, {
@@ -82,7 +66,8 @@ export default function AeoReportClient() {
         return;
       }
 
-      setResult(data);
+      // Redirect to full results page
+      router.push(`/aeo-report/results/${data.reportId}`);
     } catch {
       setError('Failed to connect to the AI service. Please try again.');
     } finally {
@@ -95,7 +80,7 @@ export default function AeoReportClient() {
   if (loading) {
     return (
       <main className="pt-16 min-h-screen bg-gray-50">
-        <div className="max-w-2xl mx-auto px-4 py-32 text-center">
+        <div className="max-w-2xl mx-auto px-4 py-24 sm:py-32 text-center">
           <div className="space-y-8">
             {/* Animated rings */}
             <div className="relative w-24 h-24 mx-auto">
@@ -109,7 +94,7 @@ export default function AeoReportClient() {
               {LOADING_STEPS.map((step, i) => (
                 <div
                   key={step}
-                  className={`text-lg font-medium transition-all duration-500 ${
+                  className={`text-base sm:text-lg font-medium transition-all duration-500 ${
                     i <= loadingStep ? 'text-gray-900 opacity-100' : 'text-gray-300 opacity-50'
                   }`}
                 >
@@ -122,21 +107,18 @@ export default function AeoReportClient() {
               ))}
             </div>
 
-            <p className="text-sm text-gray-500">
-              Checking what AI recommends for {CATEGORY_LABELS[category] || category} in {city}...
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">
+                Generating your full AI visibility report for{' '}
+                <strong>{companyName}</strong> in {city}...
+              </p>
+              <p className="text-xs text-gray-400">
+                This takes 30&ndash;60 seconds while we research your company and competitors.
+              </p>
+            </div>
           </div>
         </div>
       </main>
-    );
-  }
-
-  // RESULTS STATE
-  if (result) {
-    return result.aiMentioned ? (
-      <MentionedResult result={result} onReset={() => setResult(null)} />
-    ) : (
-      <NotMentionedResult result={result} onReset={() => setResult(null)} />
     );
   }
 
@@ -158,8 +140,8 @@ export default function AeoReportClient() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
-            Find out if ChatGPT, Perplexity, and Claude mention you when customers search for
-            suppliers in your area.
+            Get your free AI visibility score. See who AI recommends instead of you,
+            what gaps are holding you back, and how to fix it.
           </p>
         </div>
       </section>
@@ -246,8 +228,35 @@ export default function AeoReportClient() {
             </button>
           </form>
 
-          {/* Context box */}
+          {/* What you get */}
           <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+            <h2 className="font-semibold text-gray-900 mb-3">Your report includes:</h2>
+            <ul className="space-y-2 text-gray-600 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="text-purple-500 font-bold mt-0.5">1.</span>
+                <span><strong>AI Visibility Score</strong> &mdash; 0&ndash;100 rating with 6 sub-scores</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-500 font-bold mt-0.5">2.</span>
+                <span><strong>What AI Knows</strong> &mdash; checklist of what AI can find about you</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-500 font-bold mt-0.5">3.</span>
+                <span><strong>Who AI Recommends Instead</strong> &mdash; your competitors with website links</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-500 font-bold mt-0.5">4.</span>
+                <span><strong>Your Visibility Gaps</strong> &mdash; specific reasons you&apos;re not showing up</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-500 font-bold mt-0.5">5.</span>
+                <span><strong>Downloadable PDF</strong> &mdash; share with your team or management</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Context box */}
+          <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="font-semibold text-gray-900 mb-2">What is AEO?</h2>
             <p className="text-gray-600 text-sm leading-relaxed">
               <strong>Answer Engine Optimisation</strong> is the new SEO. As more people use AI
@@ -259,324 +268,5 @@ export default function AeoReportClient() {
         </div>
       </section>
     </main>
-  );
-}
-
-// ============================================================
-// NOT MENTIONED — Red/alarming result
-// ============================================================
-
-function NotMentionedResult({
-  result,
-  onReset,
-}: {
-  result: AeoResult;
-  onReset: () => void;
-}) {
-  const catLabel = CATEGORY_LABELS[result.category] || result.category;
-
-  return (
-    <main className="pt-16 min-h-screen bg-gray-50">
-      {/* Red banner */}
-      <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-12 sm:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/30 mb-4">
-            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-            AI Does NOT Recommend {result.companyName}
-          </h1>
-          <p className="text-red-100 text-lg">
-            When customers ask AI for {catLabel} companies in {result.city}, you&apos;re not on the list.
-          </p>
-        </div>
-      </section>
-
-      {/* What AI recommended instead */}
-      <section className="py-10 sm:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            What AI recommended instead
-          </h2>
-          <p className="text-gray-600 mb-6">
-            When we asked AI: &ldquo;Who are the best {catLabel} companies in {result.city}?&rdquo;
-            &mdash; these companies were recommended instead of you:
-          </p>
-
-          <div className="space-y-3">
-            {result.aiRecommendations.map((company, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl border border-gray-200 p-5 flex items-start gap-4"
-              >
-                <span className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
-                  #{i + 1}
-                </span>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{company.name}</h3>
-                  <p className="text-sm text-gray-600 mt-0.5">{company.description}</p>
-                  <p className="text-xs text-gray-400 mt-1">{company.reason}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex gap-3 p-4 bg-purple-50 border border-purple-100 rounded-lg">
-            <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-xs text-purple-700 leading-relaxed">
-              This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Fear section */}
-      <section className="bg-slate-900 text-white py-12 sm:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold mb-6">
-            Your competitors are being recommended. You&apos;re not.
-          </h2>
-
-          <div className="space-y-4 text-slate-400 leading-relaxed">
-            <p>
-              This is Google SEO all over again. In the early days, any website could rank on Google.
-              Then businesses started investing in SEO, and those who didn&apos;t got pushed to page 10.
-              The same thing is happening with AI right now.
-            </p>
-            <p>
-              Right now, AI recommends companies based on whatever it finds online. But as suppliers
-              start investing in AEO &mdash; optimising their profiles on platforms like TendorAI &mdash;
-              they&apos;ll push you further down. Early movers win.
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-4 mt-8">
-            <StatCard value="200M+" label="people use ChatGPT monthly" />
-            <StatCard value="100M+" label="people use Perplexity monthly" />
-            <StatCard value="67%" label="of users trust AI over Google results" />
-            <StatCard
-              value={`${result.competitorsOnTendorAI}`}
-              label={`${catLabel} suppliers already on TendorAI`}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Fix this now &mdash; before your competitors lock you out
-          </h2>
-          <p className="text-gray-600 mb-8">
-            List your business on TendorAI for free. Get structured data that AI tools prioritise,
-            a verified profile, and start showing up in AI recommendations.
-          </p>
-          <Link
-            href="/vendor-signup"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-10 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
-          >
-            List Your Business Free &mdash; Fix This Now
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-          <div className="mt-4">
-            <button
-              onClick={onReset}
-              className="text-purple-600 hover:text-purple-700 text-sm font-medium"
-            >
-              Run another report
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-}
-
-// ============================================================
-// MENTIONED — Amber/urgent result
-// ============================================================
-
-function MentionedResult({
-  result,
-  onReset,
-}: {
-  result: AeoResult;
-  onReset: () => void;
-}) {
-  const catLabel = CATEGORY_LABELS[result.category] || result.category;
-
-  return (
-    <main className="pt-16 min-h-screen bg-gray-50">
-      {/* Amber banner */}
-      <section className="bg-gradient-to-r from-amber-500 to-orange-500 text-white py-12 sm:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-400/30 mb-4">
-            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
-              />
-            </svg>
-          </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-            AI Mentions {result.companyName} &mdash; But For How Long?
-          </h1>
-          <p className="text-amber-100 text-lg">
-            You&apos;re at position #{result.aiPosition} for {catLabel} in {result.city}. But this won&apos;t last without action.
-          </p>
-        </div>
-      </section>
-
-      {/* Full list with position highlighted */}
-      <section className="py-10 sm:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            Your current AI ranking
-          </h2>
-          <p className="text-gray-600 mb-6">
-            When we asked AI: &ldquo;Who are the best {catLabel} companies in {result.city}?&rdquo;
-          </p>
-
-          <div className="space-y-3">
-            {result.aiRecommendations.map((company, i) => {
-              const isVendor = i + 1 === result.aiPosition;
-              return (
-                <div
-                  key={i}
-                  className={`rounded-xl border p-5 flex items-start gap-4 ${
-                    isVendor
-                      ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-300'
-                      : 'bg-white border-gray-200'
-                  }`}
-                >
-                  <span
-                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                      isVendor
-                        ? 'bg-amber-500 text-white'
-                        : 'bg-gray-100 text-gray-500'
-                    }`}
-                  >
-                    #{i + 1}
-                  </span>
-                  <div>
-                    <h3 className={`font-semibold ${isVendor ? 'text-amber-800' : 'text-gray-900'}`}>
-                      {company.name}
-                      {isVendor && (
-                        <span className="ml-2 text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full">
-                          That&apos;s you
-                        </span>
-                      )}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-0.5">{company.description}</p>
-                    <p className="text-xs text-gray-400 mt-1">{company.reason}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-4 flex gap-3 p-4 bg-purple-50 border border-purple-100 rounded-lg">
-            <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-xs text-purple-700 leading-relaxed">
-              This report uses one AI model (Claude) to check your visibility. Different AI tools (ChatGPT, Perplexity, Google AI) use different data and may give different results. Your weekly AI Mention Tracking on the dashboard scans multiple AI models for a complete picture.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Urgency section */}
-      <section className="bg-slate-900 text-white py-12 sm:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold mb-6">
-            You&apos;re showing up today &mdash; by accident, not strategy.
-          </h2>
-
-          <div className="space-y-4 text-slate-400 leading-relaxed">
-            <p>
-              Your competitors are starting to invest in AEO. When they optimise their profiles on
-              platforms like TendorAI with structured data, verified reviews, and detailed service
-              information &mdash; they&apos;ll push you down.
-            </p>
-            <p>
-              Remember what happened with Google? In 2005, your website ranked just by existing.
-              By 2015, if you weren&apos;t actively doing SEO, you were invisible. The same shift is
-              happening with AI right now. The window to secure your position is closing.
-            </p>
-          </div>
-
-          <div className="mt-8 bg-white/10 rounded-xl p-6">
-            <h3 className="font-semibold text-white mb-4">Vendors on TendorAI get:</h3>
-            <ul className="space-y-2">
-              {[
-                'Structured data that AI tools prioritise',
-                'Verified profile that outranks random web scrapes',
-                'AI Visibility Score tracking your mentions',
-                'Direct quote requests from businesses',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-slate-300">
-                  <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Protect your AI visibility &mdash; before it slips away
-          </h2>
-          <p className="text-gray-600 mb-8">
-            You&apos;re visible now. Make sure you stay visible. List on TendorAI to lock in your position
-            with structured data, verified reviews, and ongoing monitoring.
-          </p>
-          <Link
-            href="/vendor-signup"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-10 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
-          >
-            Protect Your AI Visibility &mdash; List Free
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-          <div className="mt-4">
-            <button
-              onClick={onReset}
-              className="text-purple-600 hover:text-purple-700 text-sm font-medium"
-            >
-              Run another report
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-}
-
-// ============================================================
-// Shared components
-// ============================================================
-
-function StatCard({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="bg-white/10 backdrop-blur rounded-xl p-4 text-center border border-white/20">
-      <div className="text-2xl sm:text-3xl font-bold text-yellow-400">{value}</div>
-      <div className="text-xs sm:text-sm text-slate-400 mt-1">{label}</div>
-    </div>
   );
 }
