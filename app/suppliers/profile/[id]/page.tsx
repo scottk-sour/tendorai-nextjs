@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { connectDB } from '@/lib/db/connection';
-import { Vendor, VendorProduct, Review, AeoReport } from '@/lib/db/models';
+import { Vendor, VendorProduct, Review } from '@/lib/db/models';
 import {
   getDisplayTier,
   canShowPricing,
@@ -124,19 +124,6 @@ function getServingText(vendor: { location?: { city?: string; region?: string; c
   return parts.join(' & ') || '';
 }
 
-// Fetch latest AEO report score for this vendor (matched by company name)
-async function getAeoScore(companyName: string): Promise<{ score: number; createdAt: Date } | null> {
-  const report = await AeoReport.findOne({
-    companyName: { $regex: new RegExp(`^${companyName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
-    score: { $ne: null },
-  })
-    .sort({ createdAt: -1 })
-    .select('score createdAt')
-    .lean();
-
-  if (!report || report.score == null) return null;
-  return { score: report.score, createdAt: report.createdAt };
-}
 
 // ─── Data fetching (unchanged) ──────────────────────────────────────
 
@@ -497,9 +484,6 @@ export default async function VendorProfilePage({ params }: PageProps) {
   const coverageData = vendor.location?.coverage?.length
     ? mapCoverageAreas(vendor.location.coverage)
     : null;
-
-  const aeoData = await getAeoScore(vendor.company);
-  const visibilityScore = aeoData?.score ?? null;
 
   const establishedYear = vendor.businessProfile?.yearsInBusiness
     ? new Date().getFullYear() - vendor.businessProfile.yearsInBusiness
@@ -893,71 +877,6 @@ export default async function VendorProfilePage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* AI Visibility Score */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-4">AI Visibility Score</h3>
-                {visibilityScore !== null ? (
-                  <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0">
-                      <svg className="w-20 h-20" viewBox="0 0 36 36">
-                        <path
-                          className="text-gray-100"
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                        />
-                        <path
-                          className={visibilityScore >= 60 ? 'text-green-500' : visibilityScore >= 35 ? 'text-amber-500' : 'text-red-400'}
-                          strokeDasharray={`${visibilityScore}, 100`}
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                        />
-                        <text
-                          x="18"
-                          y="19"
-                          className="fill-gray-900 font-bold"
-                          textAnchor="middle"
-                          dominantBaseline="central"
-                          fontSize="8"
-                        >
-                          {visibilityScore}
-                        </text>
-                        <text
-                          x="18"
-                          y="25"
-                          className="fill-gray-400"
-                          textAnchor="middle"
-                          fontSize="3.5"
-                        >
-                          / 100
-                        </text>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-700">
-                        This supplier scores <span className="font-semibold">{visibilityScore}/100</span> for AI visibility
-                      </p>
-                      <p className="text-xs text-gray-400 mt-1">
-                        How AI platforms like ChatGPT see this business
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-2">
-                    <p className="text-sm text-gray-500 mb-2">Not yet scored</p>
-                    <Link
-                      href="/aeo-report"
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                    >
-                      Run an AI visibility scan &rarr;
-                    </Link>
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* ─── MAIN CONTENT (second on mobile) ─── */}
