@@ -109,6 +109,7 @@ export interface IVendor extends Document {
   importedAt?: Date;
   importSource?: string;
   showPricing?: boolean;
+  slug?: string;
   createdAt: Date;
   updatedAt: Date;
 
@@ -310,6 +311,7 @@ const vendorSchema = new Schema<IVendor>(
     importedAt: { type: Date },
     importSource: { type: String, trim: true },
     showPricing: { type: Boolean, default: false },
+    slug: { type: String, unique: true, sparse: true, trim: true, lowercase: true, index: true },
   },
   {
     timestamps: true,

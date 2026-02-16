@@ -76,14 +76,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     await connectDB();
 
-    const vendors = await Vendor.find(
+    // All vendors with slugs — public profile pages
+    const allVendors = await Vendor.find(
+      { slug: { $exists: true, $ne: null } },
+      { slug: 1, updatedAt: 1 }
+    )
+      .lean()
+      .exec();
+
+    (allVendors as any[]).forEach((vendor) => {
+      if (vendor.slug) {
+        urls.push({
+          url: `${BASE_URL}/suppliers/vendor/${vendor.slug}`,
+          lastModified: vendor.updatedAt || now,
+          changeFrequency: 'weekly',
+          priority: 0.6,
+        });
+      }
+    });
+
+    // Claimed/verified vendor profile pages (legacy ID-based URLs)
+    const verifiedVendors = await Vendor.find(
       { 'account.status': 'active', 'account.verificationStatus': 'verified' },
       { _id: 1, updatedAt: 1 }
     )
       .lean()
       .exec();
 
-    vendors.forEach((vendor: { _id: { toString(): string }; updatedAt?: Date }) => {
+    verifiedVendors.forEach((vendor: { _id: { toString(): string }; updatedAt?: Date }) => {
       urls.push({
         url: `${BASE_URL}/suppliers/profile/${vendor._id.toString()}`,
         lastModified: vendor.updatedAt || now,
