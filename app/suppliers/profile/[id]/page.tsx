@@ -79,6 +79,29 @@ const SERVICE_COLORS: Record<string, string> = {
   IT: 'bg-indigo-100 text-indigo-800',
   Security: 'bg-amber-100 text-amber-800',
   Software: 'bg-emerald-100 text-emerald-800',
+  Solicitors: 'bg-green-100 text-green-800',
+};
+
+const PRACTICE_AREA_COLORS: Record<string, string> = {
+  Conveyancing: 'bg-blue-100 text-blue-800',
+  'Family Law': 'bg-amber-100 text-amber-800',
+  'Criminal Law': 'bg-red-100 text-red-800',
+  'Commercial Law': 'bg-slate-100 text-slate-800',
+  'Employment Law': 'bg-teal-100 text-teal-800',
+  'Wills & Probate': 'bg-purple-100 text-purple-800',
+  Immigration: 'bg-emerald-100 text-emerald-800',
+  'Personal Injury': 'bg-orange-100 text-orange-800',
+};
+
+const PRACTICE_AREA_TO_SLUG: Record<string, string> = {
+  Conveyancing: 'conveyancing',
+  'Family Law': 'family-law',
+  'Criminal Law': 'criminal-law',
+  'Commercial Law': 'commercial-law',
+  'Employment Law': 'employment-law',
+  'Wills & Probate': 'wills-and-probate',
+  Immigration: 'immigration',
+  'Personal Injury': 'personal-injury',
 };
 
 // ─── Helpers ────────────────────────────────────────────────────────
@@ -154,6 +177,12 @@ async function getVendor(id: string) {
         listingStatus: 1,
         'account.status': 1,
         'account.verificationStatus': 1,
+        vendorType: 1,
+        practiceAreas: 1,
+        sraNumber: 1,
+        regulatoryBody: 1,
+        slug: 1,
+        claimed: 1,
       })
       .lean()
       .exec();
@@ -248,12 +277,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Supplier Not Found' };
   }
 
-  const primaryService = vendor.services?.[0] || 'Office Equipment';
+  const isSolicitor = vendor.vendorType === 'solicitor';
+  const primaryService = isSolicitor
+    ? (vendor.practiceAreas?.[0] || 'Solicitors')
+    : (vendor.services?.[0] || 'Office Equipment');
   const city = vendor.location?.city || 'the UK';
-  const title = `${vendor.company} — ${primaryService} in ${city}`;
+  const suffix = isSolicitor ? 'Solicitors' : 'Supplier';
+  const title = `${vendor.company} | ${primaryService} ${suffix} in ${city} | TendorAI`;
   const description =
     vendor.businessProfile?.description?.slice(0, 155) ||
-    `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare pricing, read reviews, and request quotes on TendorAI.`;
+    (isSolicitor
+      ? `${vendor.company} — SRA-regulated ${vendor.practiceAreas?.join(', ') || 'solicitors'} in ${city}. View profile on TendorAI.`
+      : `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare pricing, read reviews, and request quotes on TendorAI.`);
 
   return {
     title,
@@ -350,9 +385,14 @@ export default async function VendorProfilePage({ params }: PageProps) {
 
   // ── Unclaimed vendor layout ─────────────────────────────────────
   if (vendor.listingStatus === 'unclaimed') {
+    const unclaimedIsSolicitor = vendor.vendorType === 'solicitor';
     const coverageData = vendor.location?.coverage?.length
       ? mapCoverageAreas(vendor.location.coverage)
       : null;
+
+    const claimUrl = unclaimedIsSolicitor && vendor.sraNumber
+      ? `/vendor-signup?sra=${vendor.sraNumber}&company=${encodeURIComponent(vendor.company)}`
+      : `/vendor-claim/${id}`;
 
     return (
       <main className="min-h-screen bg-gray-50">
@@ -367,7 +407,28 @@ export default async function VendorProfilePage({ params }: PageProps) {
               <span className="text-white">{vendor.company}</span>
             </nav>
 
-            <h1 className="text-3xl md:text-4xl font-bold">{vendor.company}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl md:text-4xl font-bold">{vendor.company}</h1>
+              {unclaimedIsSolicitor && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
+                  SRA Regulated
+                </span>
+              )}
+            </div>
+
+            {unclaimedIsSolicitor && vendor.sraNumber && (
+              <p className="text-sm text-purple-200 mt-1">
+                SRA No:{' '}
+                <a
+                  href={`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`}
+                  className="underline hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {vendor.sraNumber}
+                </a>
+              </p>
+            )}
 
             {vendor.location?.city && (
               <div className="flex items-center gap-2 mt-3 text-purple-200">
@@ -379,7 +440,23 @@ export default async function VendorProfilePage({ params }: PageProps) {
               </div>
             )}
 
-            {vendor.services && vendor.services.length > 0 && (
+            {/* Practice areas for solicitors */}
+            {unclaimedIsSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                {vendor.practiceAreas.map((area: string) => (
+                  <Link
+                    key={area}
+                    href={`/suppliers/${PRACTICE_AREA_TO_SLUG[area] || area.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-sm font-medium text-white hover:bg-white/25 transition-colors"
+                  >
+                    {area}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {/* Services for equipment */}
+            {!unclaimedIsSolicitor && vendor.services && vendor.services.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
                 {vendor.services.map((service: string) => (
                   <span
@@ -401,21 +478,50 @@ export default async function VendorProfilePage({ params }: PageProps) {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-100 rounded-full mb-4">
                 <BuildingIcon className="w-8 h-8 text-amber-600" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Is this your business?</h2>
-              <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto">
-                Claim your free listing to manage your profile, respond to leads, and boost your AI visibility.
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                {unclaimedIsSolicitor ? 'Is this your firm?' : 'Is this your business?'}
+              </h2>
+              <p className="text-gray-600 text-lg mb-4 max-w-lg mx-auto">
+                {unclaimedIsSolicitor
+                  ? 'Claim your free profile to add pricing, accreditations, client reviews, and rank higher in AI recommendations.'
+                  : 'Claim your free listing to manage your profile, respond to leads, and boost your AI visibility.'}
               </p>
+              {unclaimedIsSolicitor && (
+                <ul className="text-sm text-gray-500 mb-6 space-y-1 max-w-md mx-auto text-left">
+                  <li className="flex items-center gap-2"><span className="text-green-500">&#10003;</span> Add pricing, reviews &amp; accreditations (CQS, Lexcel, Legal 500)</li>
+                  <li className="flex items-center gap-2"><span className="text-green-500">&#10003;</span> Appear higher in AI search results</li>
+                  <li className="flex items-center gap-2"><span className="text-green-500">&#10003;</span> Free forever &mdash; no credit card required</li>
+                </ul>
+              )}
               <Link
-                href={`/vendor-claim/${id}`}
+                href={claimUrl}
                 className="inline-block bg-purple-600 text-white px-8 py-3.5 rounded-xl font-semibold text-lg hover:bg-purple-700 transition-colors shadow-lg shadow-purple-600/25"
               >
-                Claim This Listing &mdash; It&apos;s Free
+                Claim This Profile &mdash; It&apos;s Free
               </Link>
             </div>
 
             {/* Basic info cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {vendor.services && vendor.services.length > 0 && (
+              {/* Practice Areas for solicitors */}
+              {unclaimedIsSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Practice Areas</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {vendor.practiceAreas.map((area: string) => (
+                      <span
+                        key={area}
+                        className={`px-3 py-1.5 rounded-full text-sm font-medium ${PRACTICE_AREA_COLORS[area] || 'bg-gray-100 text-gray-800'}`}
+                      >
+                        {area}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Services for equipment */}
+              {!unclaimedIsSolicitor && vendor.services && vendor.services.length > 0 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Services</h3>
                   <div className="flex flex-wrap gap-2">
@@ -431,6 +537,17 @@ export default async function VendorProfilePage({ params }: PageProps) {
                 </div>
               )}
 
+              {/* Location / Coverage */}
+              {vendor.location?.city && vendor.location.city.toLowerCase() !== 'uk' && (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Location</h3>
+                  <p className="text-gray-700">
+                    {vendor.location.city}
+                    {vendor.location.region && `, ${vendor.location.region}`}
+                  </p>
+                </div>
+              )}
+
               {coverageData && coverageData.locations.length > 0 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Coverage Area</h3>
@@ -441,6 +558,16 @@ export default async function VendorProfilePage({ params }: PageProps) {
                 </div>
               )}
             </div>
+
+            {/* SRA attribution for solicitors */}
+            {unclaimedIsSolicitor && (
+              <p className="text-xs text-gray-400 text-center">
+                Firm data supplied by the{' '}
+                <a href="https://www.sra.org.uk" className="underline hover:text-gray-600" target="_blank" rel="noopener noreferrer">
+                  Solicitors Regulation Authority
+                </a>
+              </p>
+            )}
           </div>
         </div>
       </main>
@@ -495,10 +622,12 @@ export default async function VendorProfilePage({ params }: PageProps) {
   if (vendor.location?.postcode) quoteParams.set('postcode', vendor.location.postcode);
   const getQuoteUrl = `/get-quotes${quoteParams.toString() ? `?${quoteParams.toString()}` : ''}`;
 
+  const claimedIsSolicitor = vendor.vendorType === 'solicitor';
+
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': claimedIsSolicitor ? 'LegalService' : 'LocalBusiness',
     '@id': `https://www.tendorai.com/suppliers/profile/${id}`,
     name: vendor.company,
     description:
@@ -604,7 +733,26 @@ export default async function VendorProfilePage({ params }: PageProps) {
                       {TIER_CONFIG.visible.badge}
                     </span>
                   )}
+                  {claimedIsSolicitor && (
+                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
+                      SRA Regulated
+                    </span>
+                  )}
                 </div>
+
+                {claimedIsSolicitor && vendor.sraNumber && (
+                  <p className="text-sm text-purple-200 mt-1">
+                    SRA No:{' '}
+                    <a
+                      href={`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`}
+                      className="underline hover:text-white"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {vendor.sraNumber}
+                    </a>
+                  </p>
+                )}
 
                 {/* Location line */}
                 {(vendor.location?.city || servingText) && (
@@ -622,8 +770,23 @@ export default async function VendorProfilePage({ params }: PageProps) {
                   </div>
                 )}
 
-                {/* Service pills */}
-                {vendor.services && vendor.services.length > 0 && (
+                {/* Practice areas for solicitors */}
+                {claimedIsSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {vendor.practiceAreas.map((area: string) => (
+                      <Link
+                        key={area}
+                        href={`/suppliers/${PRACTICE_AREA_TO_SLUG[area] || area.toLowerCase().replace(/\s+/g, '-')}`}
+                        className="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-sm font-medium text-white hover:bg-white/25 transition-colors"
+                      >
+                        {area}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+
+                {/* Service pills for equipment */}
+                {!claimedIsSolicitor && vendor.services && vendor.services.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-4">
                     {vendor.services.map((service: string) => (
                       <span
@@ -699,8 +862,25 @@ export default async function VendorProfilePage({ params }: PageProps) {
                 <h3 className="text-lg font-bold text-gray-900 mb-5">At a Glance</h3>
 
                 <div className="space-y-5">
-                  {/* Services */}
-                  {vendor.services && vendor.services.length > 0 && (
+                  {/* Practice Areas for solicitors */}
+                  {claimedIsSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Practice Areas</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {vendor.practiceAreas.map((area: string) => (
+                          <span
+                            key={area}
+                            className={`px-2.5 py-1 rounded-full text-xs font-medium ${PRACTICE_AREA_COLORS[area] || 'bg-gray-100 text-gray-700'}`}
+                          >
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Services for equipment */}
+                  {!claimedIsSolicitor && vendor.services && vendor.services.length > 0 && (
                     <div>
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Services</p>
                       <div className="flex flex-wrap gap-1.5">

@@ -64,7 +64,7 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
     practiceAreas?: string[];
     sraNumber?: string;
     slug?: string;
-    location?: { city?: string; region?: string; coverage?: string[] };
+    location?: { city?: string; region?: string; coverage?: string[]; postcode?: string };
     performance?: { rating?: number; reviewCount?: number };
     businessProfile?: { description?: string; yearsInBusiness?: number; accreditations?: string[] };
     brands?: string[];
@@ -85,11 +85,13 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
   return {
     id: vendor._id,
     company: vendor.company || '',
-    services: vendor.vendorType === 'solicitor' ? (vendor.practiceAreas || []) : (vendor.services || []),
+    services: vendor.services || [],
+    practiceAreas: vendor.practiceAreas || [],
     location: {
       city: vendor.location?.city,
       region: vendor.location?.region,
       coverage: vendor.location?.coverage || [],
+      postcode: vendor.location?.postcode,
     },
     distance: null,
     rating: vendor.performance?.rating || 0,

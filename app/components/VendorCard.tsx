@@ -28,11 +28,24 @@ export interface VendorCardData {
   website?: string;
   showPricing?: boolean;
   accountClaimed?: boolean;
-  // Solicitor-specific
+  // Multi-vertical fields
   vendorType?: string;
   sraNumber?: string;
+  practiceAreas?: string[];
   slug?: string;
 }
+
+// ─── Practice area tag colours ─────────────────────────────────────
+const PRACTICE_AREA_COLORS: Record<string, string> = {
+  Conveyancing: 'bg-blue-50 text-blue-700',
+  'Family Law': 'bg-amber-50 text-amber-700',
+  'Criminal Law': 'bg-red-50 text-red-700',
+  'Commercial Law': 'bg-slate-100 text-slate-700',
+  'Employment Law': 'bg-teal-50 text-teal-700',
+  'Wills & Probate': 'bg-purple-50 text-purple-700',
+  Immigration: 'bg-emerald-50 text-emerald-700',
+  'Personal Injury': 'bg-orange-50 text-orange-700',
+};
 
 type CardVariant = 'premium' | 'active' | 'unclaimed';
 
@@ -43,22 +56,18 @@ function getVariant(vendor: VendorCardData): CardVariant {
   return 'unclaimed';
 }
 
-/** Build a descriptive label for the vendor's primary service and location */
-function getVendorLabel(vendor: VendorCardData): string {
-  const isSolicitor = vendor.vendorType === 'solicitor';
-  const service = vendor.services[0] || (isSolicitor ? 'Solicitors' : 'Office Equipment');
-  const city = vendor.location.city && vendor.location.city.toLowerCase() !== 'uk'
-    ? vendor.location.city
-    : null;
-  const suffix = isSolicitor ? 'Solicitors' : 'Supplier';
-  if (city) return `${service} ${suffix} in ${city}`;
-  return `${service} ${suffix}`;
-}
-
 /** Get the profile URL — use slug if available, otherwise MongoDB ID */
 function getProfileUrl(vendor: VendorCardData): string {
   if (vendor.slug) return `/suppliers/vendor/${vendor.slug}`;
   return `/suppliers/profile/${vendor.id}`;
+}
+
+/** Claim URL with relevant params */
+function getClaimUrl(vendor: VendorCardData): string {
+  if (vendor.vendorType === 'solicitor' && vendor.sraNumber) {
+    return `/vendor-signup?sra=${vendor.sraNumber}&company=${encodeURIComponent(vendor.company)}`;
+  }
+  return `/vendor-signup?claim=${encodeURIComponent(vendor.company)}`;
 }
 
 export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
@@ -69,10 +78,10 @@ export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
   return <ActiveCard vendor={vendor} />;
 }
 
-// --- Premium Card (Verified / Visible tier) ---
+// ─── Premium Card (Verified / Visible tier) ────────────────────────
 function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   const isVerified = vendor.tier === 'verified';
-  const label = getVendorLabel(vendor);
+  const isSolicitor = vendor.vendorType === 'solicitor';
 
   return (
     <article
@@ -97,6 +106,11 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             >
               {isVerified ? 'Verified' : 'Visible'}
             </span>
+            {isSolicitor && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+                SRA Regulated
+              </span>
+            )}
           </div>
 
           {vendor.description && (
@@ -107,10 +121,27 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             <LocationBadge vendor={vendor} />
             <RatingBadge rating={vendor.rating} reviewCount={vendor.reviewCount} />
             {vendor.yearsInBusiness ? <span>{vendor.yearsInBusiness}+ years</span> : null}
-            {vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
+            {!isSolicitor && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
           </div>
 
-          <BrandTags brands={vendor.brands} />
+          {/* Solicitor: practice area tags */}
+          {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+            <PracticeAreaTags areas={vendor.practiceAreas} />
+          )}
+
+          {/* Solicitor: accreditations */}
+          {isSolicitor && vendor.accreditations && vendor.accreditations.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {vendor.accreditations.map((acc) => (
+                <span key={acc} className="text-xs px-2 py-0.5 rounded bg-green-50 text-green-700 font-medium">
+                  {acc}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Office equipment: brand tags */}
+          {!isSolicitor && <BrandTags brands={vendor.brands} />}
         </div>
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
@@ -118,13 +149,13 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             href={`${getProfileUrl(vendor)}?quote=true`}
             className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
-            Get Quote from {vendor.company}
+            {isSolicitor ? `Contact ${vendor.company}` : `Get Quote from ${vendor.company}`}
           </Link>
           <Link
             href={getProfileUrl(vendor)}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
-            {vendor.company} — {label}
+            View Profile
           </Link>
         </div>
       </div>
@@ -132,19 +163,26 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   );
 }
 
-// --- Active Card (Free tier, claimed) ---
+// ─── Active Card (Free tier, claimed) ──────────────────────────────
 function ActiveCard({ vendor }: { vendor: VendorCardData }) {
-  const label = getVendorLabel(vendor);
+  const isSolicitor = vendor.vendorType === 'solicitor';
 
   return (
     <article className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2 truncate">
-            <Link href={getProfileUrl(vendor)} className="hover:text-purple-600">
-              {vendor.company}
-            </Link>
-          </h3>
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-xl font-semibold text-gray-900 truncate">
+              <Link href={getProfileUrl(vendor)} className="hover:text-purple-600">
+                {vendor.company}
+              </Link>
+            </h3>
+            {isSolicitor && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+                SRA Regulated
+              </span>
+            )}
+          </div>
 
           {vendor.description && (
             <p className="text-gray-600 text-sm mb-3 line-clamp-2">{vendor.description}</p>
@@ -154,10 +192,24 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
             <LocationBadge vendor={vendor} />
             <RatingBadge rating={vendor.rating} reviewCount={vendor.reviewCount} />
             {vendor.yearsInBusiness ? <span>{vendor.yearsInBusiness}+ years</span> : null}
-            {vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
+            {!isSolicitor && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
           </div>
 
-          <BrandTags brands={vendor.brands} />
+          {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+            <PracticeAreaTags areas={vendor.practiceAreas} />
+          )}
+
+          {isSolicitor && vendor.accreditations && vendor.accreditations.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {vendor.accreditations.map((acc) => (
+                <span key={acc} className="text-xs px-2 py-0.5 rounded bg-green-50 text-green-700 font-medium">
+                  {acc}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {!isSolicitor && <BrandTags brands={vendor.brands} />}
         </div>
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
@@ -165,7 +217,7 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
             href={getProfileUrl(vendor)}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
-            {vendor.company} — {label}
+            View Profile
           </Link>
         </div>
       </div>
@@ -173,60 +225,111 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
   );
 }
 
-// --- Unclaimed Card (Seeded vendor, never signed up) ---
+// ─── Unclaimed Card ────────────────────────────────────────────────
 function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
   const isSolicitor = vendor.vendorType === 'solicitor';
   const profileUrl = getProfileUrl(vendor);
 
   return (
-    <article className="bg-gray-50 rounded-xl border border-gray-200 p-6 relative">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-700 truncate">
-              <Link href={profileUrl} className="hover:text-purple-600">{vendor.company}</Link>
-            </h3>
-            {isSolicitor && (
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
-                SRA Regulated
-              </span>
+    <article className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+      <div className="p-6">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-lg font-semibold text-gray-700 truncate">
+                <Link href={profileUrl} className="hover:text-purple-600">{vendor.company}</Link>
+              </h3>
+              {isSolicitor && (
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
+                  SRA Regulated
+                </span>
+              )}
+            </div>
+
+            {/* SRA number */}
+            {isSolicitor && vendor.sraNumber && (
+              <p className="text-xs text-gray-400 mb-2">SRA No: {vendor.sraNumber}</p>
+            )}
+
+            {/* Location */}
+            {vendor.location.city && vendor.location.city.toLowerCase() !== 'uk' && (
+              <p className="text-sm text-gray-500 mb-3">
+                {vendor.location.city}
+                {vendor.location.postcode && `, ${vendor.location.postcode}`}
+              </p>
+            )}
+
+            {/* Solicitor: practice area tags with per-area colours */}
+            {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 ? (
+              <PracticeAreaTags areas={vendor.practiceAreas} />
+            ) : (
+              /* Equipment: service tags */
+              <div className="flex flex-wrap gap-1.5 mb-1">
+                {vendor.services.slice(0, 4).map((service, idx) => (
+                  <span key={idx} className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-500">
+                    {service}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Rating if present */}
+            {vendor.rating > 0 && (
+              <div className="mt-2">
+                <RatingBadge rating={vendor.rating} reviewCount={vendor.reviewCount} />
+              </div>
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {vendor.services.slice(0, 4).map((service, idx) => (
-              <span key={idx} className={`text-xs px-2 py-1 rounded ${
-                isSolicitor ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-500'
-              }`}>
-                {service}
-              </span>
-            ))}
+          <div className="flex flex-col gap-2 md:items-end flex-shrink-0 text-right">
+            <Link
+              href={profileUrl}
+              className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+            >
+              View profile &rarr;
+            </Link>
           </div>
-
-          {vendor.location.city && vendor.location.city.toLowerCase() !== 'uk' && (
-            <span className="text-sm text-gray-500">{vendor.location.city}</span>
-          )}
         </div>
+      </div>
 
-        <div className="flex flex-col gap-2 md:items-end flex-shrink-0 text-right">
-          <p className="text-xs text-gray-400 italic">
-            {isSolicitor ? 'This firm hasn\u2019t claimed their profile yet' : 'This supplier hasn\u2019t joined TendorAI yet'}
-          </p>
-          <Link
-            href={isSolicitor && vendor.sraNumber
-              ? `/vendor-signup?sra=${vendor.sraNumber}&company=${encodeURIComponent(vendor.company)}`
-              : `/vendor-signup?claim=${encodeURIComponent(vendor.company)}`}
-            className="text-sm text-purple-600 hover:text-purple-700 font-medium"
-          >
-            Claim this profile &rarr;
-          </Link>
-        </div>
+      {/* Claim banner */}
+      <div className="bg-amber-50 border-t border-amber-100 px-6 py-3 flex items-center justify-between gap-4">
+        <p className="text-xs text-amber-700">
+          Unclaimed profile &middot; Claim to add pricing &amp; rank higher
+        </p>
+        <Link
+          href={getClaimUrl(vendor)}
+          className="text-xs font-semibold text-purple-600 hover:text-purple-700 whitespace-nowrap"
+        >
+          Claim Profile &rarr;
+        </Link>
       </div>
     </article>
   );
 }
 
-// --- Shared sub-components ---
+// ─── Shared sub-components ─────────────────────────────────────────
+
+function PracticeAreaTags({ areas }: { areas: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {areas.slice(0, 5).map((area) => (
+        <span
+          key={area}
+          className={`text-xs px-2 py-1 rounded font-medium ${
+            PRACTICE_AREA_COLORS[area] || 'bg-gray-100 text-gray-600'
+          }`}
+        >
+          {area}
+        </span>
+      ))}
+      {areas.length > 5 && (
+        <span className="text-xs text-gray-400 self-center">+{areas.length - 5} more</span>
+      )}
+    </div>
+  );
+}
+
 function LocationBadge({ vendor }: { vendor: VendorCardData }) {
   const city = vendor.location.city;
   const region = vendor.location.region;
