@@ -5,7 +5,20 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/_next/static/'],
+        allow: [
+          '/_next/static/',
+          '/suppliers/conveyancing/',
+          '/suppliers/family-law/',
+          '/suppliers/criminal-law/',
+          '/suppliers/commercial-law/',
+          '/suppliers/employment-law/',
+          '/suppliers/wills-and-probate/',
+          '/suppliers/immigration/',
+          '/suppliers/personal-injury/',
+          '/suppliers/profile/',
+          '/aeo-report/',
+          '/for-vendors/',
+        ],
         disallow: [
           '/_next/data/',
           '/vendor-dashboard/',

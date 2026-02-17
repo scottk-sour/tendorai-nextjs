@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import CompareView from './CompareView';
 
 export const metadata: Metadata = {
-  title: 'Compare Office Equipment Suppliers',
+  title: 'Compare Suppliers',
   description:
-    'Compare quotes, pricing, and features from multiple office equipment suppliers side-by-side. Find the best deal for your business.',
+    'Compare pricing, services, and AI visibility from multiple UK suppliers side-by-side. Find the best match for your business.',
   openGraph: {
     title: 'Compare Suppliers | TendorAI',
-    description: 'Compare quotes from verified UK suppliers side-by-side.',
+    description: 'Compare verified UK suppliers side-by-side on TendorAI.',
     url: 'https://www.tendorai.com/compare',
     type: 'website',
   },

@@ -38,25 +38,25 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
 }
 
 export const metadata: Metadata = {
-  title: { absolute: 'TendorAI | UK Supplier Directory — 1,000+ Verified Vendors' },
-  description: 'Free AI-powered supplier directory for UK businesses. Compare photocopier, telecoms, CCTV, IT, and security quotes from 1,000+ verified suppliers.',
-  keywords: 'photocopier suppliers Cardiff, office equipment Bristol, telecoms suppliers Wales, CCTV installation South Wales, IT equipment Swansea, business phone systems Bristol',
+  title: { absolute: "TendorAI \u2014 The UK's AI Visibility Platform" },
+  description: "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for suppliers, structured data profiles, GEO audit, AEO report',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/',
-    title: 'Compare Office Equipment Quotes from Local Suppliers | TendorAI',
-    description: 'Find photocopier, telecoms, CCTV and IT equipment suppliers across the UK. Compare quotes from 1,000+ verified businesses. Free to use.',
+    title: "TendorAI \u2014 The UK's AI Visibility Platform",
+    description: "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
     siteName: 'TendorAI',
     locale: 'en_GB',
     images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
   },
   twitter: {
     card: 'summary',
-    title: 'TendorAI - Get Found by AI. Win More Business.',
-    description: 'Compare copiers, telecoms, CCTV & IT suppliers. Get AI-matched quotes from verified UK vendors.',
+    title: "TendorAI \u2014 The UK's AI Visibility Platform",
+    description: "Get your business recommended by ChatGPT, Claude, and Perplexity. Free AI visibility reports for UK businesses.",
     images: ['/logo.png'],
   },
   robots: {

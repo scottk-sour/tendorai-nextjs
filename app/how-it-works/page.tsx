@@ -96,7 +96,7 @@ export default function HowItWorksPage() {
             Ready to Get Started?
           </h2>
           <p className="text-gray-600 mb-8">
-            Join thousands of UK businesses who save time and money with TendorAI&apos;s AI-powered procurement.
+            Join thousands of UK businesses getting recommended by AI with TendorAI.
           </p>
           <Link
             href="/suppliers"

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Get in touch with TendorAI. Questions about our AI-powered procurement platform? We are here to help.',
+  description: "Get in touch with TendorAI. Questions about AI visibility for your business? We're here to help.",
 };
 
 export default function ContactPage() {

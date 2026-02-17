@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About TendorAI',
-  description: 'TendorAI is an AI-powered procurement platform helping UK businesses find the best office equipment suppliers. Learn about our mission and how we work.',
+  description: "TendorAI is the UK's AI visibility platform helping businesses get recommended by ChatGPT, Claude, and Perplexity. Learn about our mission.",
 };
 
 export default function AboutPage() {

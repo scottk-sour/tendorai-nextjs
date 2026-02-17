@@ -14,20 +14,20 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.tendorai.com'),
   title: {
-    default: 'TendorAI | Get Found by AI. Win More Business.',
+    default: "TendorAI \u2014 The UK's AI Visibility Platform",
     template: '%s | TendorAI',
   },
   description:
-    'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
+    "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
   keywords: [
-    'office equipment suppliers UK',
-    'copier suppliers Wales',
-    'telecoms providers Bristol',
-    'CCTV installers Cardiff',
-    'IT services South West',
+    'AI visibility platform UK',
+    'get recommended by ChatGPT',
+    'AI visibility for solicitors',
+    'AI visibility for accountants',
     'AI visibility for suppliers',
-    'managed print services',
-    'office technology suppliers',
+    'structured data profiles',
+    'GEO audit',
+    'AEO report',
   ],
   icons: {
     icon: '/logo.png',
@@ -47,15 +47,15 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: 'https://www.tendorai.com',
     siteName: 'TendorAI',
-    title: 'TendorAI | Get Found by AI. Win More Business.',
+    title: "TendorAI \u2014 The UK's AI Visibility Platform",
     description:
-      'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
-    images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
+      "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
+    images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: "TendorAI - The UK's AI Visibility Platform" }],
   },
   twitter: {
     card: 'summary',
-    title: 'TendorAI - Get Found by AI. Win More Business.',
-    description: 'Compare copiers, telecoms, CCTV & IT suppliers. Get AI-matched quotes from verified UK vendors.',
+    title: "TendorAI \u2014 The UK's AI Visibility Platform",
+    description: "Get your business recommended by ChatGPT, Claude, and Perplexity. Free AI visibility reports for UK businesses.",
     creator: '@tendorai',
     images: ['/logo.png'],
   },
@@ -78,31 +78,81 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD for organisation
+// JSON-LD schemas
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'TendorAI',
+  description: "The UK's AI Visibility Platform. Structured data profiles for solicitors, accountants, and office equipment suppliers \u2014 so AI recommends them by name.",
+  url: 'https://www.tendorai.com/',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://www.tendorai.com/suppliers?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 const organisationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': 'https://www.tendorai.com/#organization',
   name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  logo: {
-    '@type': 'ImageObject',
-    url: 'https://www.tendorai.com/logo.png',
-    width: 575,
-    height: 283,
+  legalName: 'TendorAI Ltd',
+  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Self-service structured data profiles for solicitors, accountants, and office equipment suppliers.',
+  url: 'https://www.tendorai.com/',
+  logo: 'https://www.tendorai.com/tendorai.png',
+  foundingDate: '2024',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'Customer Service',
+    email: 'scott.davies@tendorai.com',
+    availableLanguage: 'en',
   },
-  description: 'AI visibility platform helping UK suppliers get found by AI search engines and win more business.',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'GB',
+    addressLocality: 'Bristol',
+    addressRegion: 'England',
+  },
   areaServed: {
     '@type': 'Country',
     name: 'United Kingdom',
   },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'customer service',
-    email: 'scott.davies@tendorai.com',
-    availableLanguage: 'English',
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: 'Self-service AI visibility platform for UK businesses. Get recommended by ChatGPT, Claude, and Perplexity. Free AI visibility reports, structured data profiles, and GEO audits.',
+  url: 'https://www.tendorai.com/',
+  offers: [
+    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'GBP', description: 'Basic profile listed in directory' },
+    { '@type': 'Offer', name: 'Starter', price: '149', priceCurrency: 'GBP', description: 'Full AI visibility with pricing visible to AI platforms' },
+    { '@type': 'Offer', name: 'Pro', price: '299', priceCurrency: 'GBP', description: 'Priority ranking in AI responses with full structured data' },
+    { '@type': 'Offer', name: 'Enterprise', price: '499', priceCurrency: 'GBP', description: 'Multi-location with API analytics and custom Schema.org' },
+  ],
+};
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'AI Visibility Platform',
+  provider: { '@type': 'Organization', name: 'TendorAI' },
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'UK Business Verticals',
+    itemListElement: [
+      { '@type': 'OfferCatalog', name: 'Solicitors', description: 'Conveyancing, Family Law, Criminal Law, Commercial, Employment, Wills & Probate, Immigration, Personal Injury' },
+      { '@type': 'OfferCatalog', name: 'Office Equipment', description: 'Photocopiers, Telecoms, CCTV, IT Services' },
+      { '@type': 'OfferCatalog', name: 'Accountants', description: 'Tax, Bookkeeping, Payroll, Advisory, Audit, R&D Tax Credits' },
+    ],
   },
-  sameAs: ['https://linkedin.com/company/tendorai'],
 };
 
 export default function RootLayout({
@@ -116,7 +166,19 @@ export default function RootLayout({
         <meta name="theme-color" content="#667eea" />
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
         />
       </head>
       <body className={`${inter.className} antialiased min-h-screen flex flex-col`}>

@@ -2,28 +2,28 @@ import Link from 'next/link';
 
 const faqItems = [
   {
-    question: 'What areas does TendorAI cover?',
-    answer: 'TendorAI lists office equipment suppliers across the UK. Our directory includes 1,000+ suppliers covering all major cities and regions nationwide.',
+    question: 'What is AI visibility?',
+    answer: 'AI visibility is how likely AI assistants like ChatGPT, Claude, and Perplexity are to recommend your business. TendorAI provides structured data profiles and AI visibility reports so AI platforms can find and recommend you by name.',
   },
   {
-    question: 'What types of office equipment can I find suppliers for?',
-    answer: 'Our directory covers four main categories: photocopiers and multifunction printers, telecoms and business phone systems, CCTV and security systems, and IT equipment. You can browse suppliers by category or search by your postcode.',
+    question: 'Which industries does TendorAI cover?',
+    answer: 'We currently cover solicitors, office equipment suppliers (photocopiers, telecoms, CCTV, IT), and are adding accountants soon. Our directory includes 10,000+ solicitor firms and 1,044 office equipment dealers across the UK.',
   },
   {
     question: 'Is TendorAI free to use?',
-    answer: 'Yes, TendorAI is completely free for businesses looking for office equipment. You can browse our supplier directory, view company profiles, and request quotes without any charge.',
+    answer: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3149/month for full AI visibility with structured data profiles.',
   },
   {
-    question: 'How do I get quotes from suppliers?',
-    answer: 'Enter your postcode to see suppliers in your area, then browse their profiles to learn about their services. You can request quotes directly through supplier profile pages. We recommend contacting 2-3 suppliers to compare quotes.',
+    question: 'How is this different from SEO?',
+    answer: 'SEO optimises for Google search results. AI visibility (AEO/GEO) optimises for AI recommendations. When someone asks ChatGPT "find me a solicitor in Bristol", AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.',
   },
   {
-    question: 'Are the suppliers on TendorAI vetted?',
-    answer: 'We compile and categorise established office equipment suppliers across the UK. Supplier profiles include their services, coverage areas, and contact information. We recommend checking reviews when comparing quotes.',
+    question: 'What does a free AI visibility report show?',
+    answer: 'Our free report scans how AI platforms currently see your business. It shows your AI visibility score (0-100), who AI recommends instead, gaps in your online presence, and specific steps to improve.',
   },
   {
-    question: 'Can I find photocopier suppliers in Cardiff or Bristol?',
-    answer: 'Yes, we have multiple photocopier and printer suppliers listed across the UK, including Cardiff, Bristol, London, Manchester, Birmingham, and many more. Use the postcode search to find suppliers who cover your specific area.',
+    question: 'What areas does TendorAI cover?',
+    answer: 'TendorAI covers all of England and Wales, including London, Birmingham, Manchester, Bristol, Cardiff, Leeds, Liverpool, Sheffield, Newcastle, and hundreds more cities and towns.',
   },
 ];
 
@@ -36,7 +36,7 @@ export default function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Common questions about finding office equipment suppliers across the UK
+            Common questions about AI visibility for UK businesses
           </p>
         </div>
 
