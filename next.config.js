@@ -47,6 +47,11 @@ const nextConfig = {
     const expressBackend = process.env.EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
     return [
+      // Sitemap — generated dynamically by backend from database
+      {
+        source: '/sitemap.xml',
+        destination: `${expressBackend}/sitemap.xml`,
+      },
       // OpenAPI spec for AI discovery
       {
         source: '/.well-known/openapi.json',
