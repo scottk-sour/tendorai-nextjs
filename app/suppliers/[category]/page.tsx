@@ -6,7 +6,6 @@ import { Vendor } from '@/lib/db/models';
 import {
   SERVICES,
   MAJOR_LOCATIONS,
-  SERVICE_KEYS,
   isSolicitorCategory,
   getPracticeAreaFromSlug,
   getServiceFromSlug,
@@ -17,10 +16,6 @@ interface PageProps {
 }
 
 export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  return SERVICE_KEYS.map((category) => ({ category }));
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;

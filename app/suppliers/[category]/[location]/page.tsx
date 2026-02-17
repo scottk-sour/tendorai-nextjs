@@ -7,8 +7,6 @@ import VendorCard from '@/app/components/VendorCard';
 import type { VendorCardData } from '@/app/components/VendorCard';
 import {
   SERVICES,
-  MAJOR_LOCATIONS,
-  SERVICE_KEYS,
   formatLocationName,
   getNearbyLocations,
   getDisplayTier,
@@ -25,19 +23,6 @@ interface PageProps {
 }
 
 export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  const params: { category: string; location: string }[] = [];
-  for (const category of SERVICE_KEYS) {
-    for (const location of MAJOR_LOCATIONS) {
-      params.push({
-        category,
-        location: location.toLowerCase().replace(/\s+/g, '-'),
-      });
-    }
-  }
-  return params;
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, location } = await params;

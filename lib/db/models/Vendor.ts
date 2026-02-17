@@ -136,7 +136,7 @@ interface IVendorModel extends Model<IVendor> {
 const vendorSchema = new Schema<IVendor>(
   {
     name: { type: String, required: true, trim: true },
-    company: { type: String, required: true, trim: true, index: true },
+    company: { type: String, required: true, trim: true },
     email: {
       type: String,
       required: true,
@@ -144,7 +144,6 @@ const vendorSchema = new Schema<IVendor>(
       trim: true,
       lowercase: true,
       match: [/.+@.+\..+/, 'Please provide a valid email address'],
-      index: true,
     },
     password: { type: String, required: true, minlength: 6 },
 
@@ -289,7 +288,7 @@ const vendorSchema = new Schema<IVendor>(
     subscriptionCurrentPeriodEnd: { type: Date },
 
     integration: {
-      apiKey: { type: String, unique: true, sparse: true },
+      apiKey: { type: String },
       webhookUrl: { type: String, trim: true },
       autoQuoteGeneration: { type: Boolean, default: false },
       productCatalogUrl: { type: String, trim: true },
@@ -311,7 +310,7 @@ const vendorSchema = new Schema<IVendor>(
     ],
 
     vendorType: { type: String, enum: ['office-equipment', 'solicitor', 'accountant'], default: 'office-equipment' },
-    sraNumber: { type: String, trim: true, sparse: true },
+    sraNumber: { type: String, trim: true },
     regulatoryBody: { type: String, trim: true },
     practiceAreas: [{ type: String, trim: true }],
     organisationType: { type: String, trim: true },
