@@ -6,19 +6,30 @@ import { useRouter } from 'next/navigation';
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
-const CATEGORIES = [
-  { value: 'copiers', label: 'Copiers & Managed Print' },
-  { value: 'telecoms', label: 'Telecoms & VoIP' },
-  { value: 'cctv', label: 'CCTV & Security' },
-  { value: 'it', label: 'IT Support' },
+const CATEGORY_GROUPS = [
+  {
+    label: 'Legal Services',
+    options: [
+      { value: 'conveyancing', label: 'Conveyancing' },
+      { value: 'family-law', label: 'Family Law' },
+      { value: 'criminal-law', label: 'Criminal Law' },
+      { value: 'commercial-law', label: 'Commercial Law' },
+      { value: 'employment-law', label: 'Employment Law' },
+      { value: 'wills-and-probate', label: 'Wills & Probate' },
+      { value: 'immigration', label: 'Immigration' },
+      { value: 'personal-injury', label: 'Personal Injury' },
+    ],
+  },
+  {
+    label: 'Office Equipment',
+    options: [
+      { value: 'copiers', label: 'Copiers & Managed Print' },
+      { value: 'telecoms', label: 'Telecoms & VoIP' },
+      { value: 'cctv', label: 'CCTV & Security' },
+      { value: 'it', label: 'IT Support' },
+    ],
+  },
 ];
-
-const CATEGORY_LABELS: Record<string, string> = {
-  copiers: 'copier and managed print',
-  telecoms: 'telecoms and VoIP',
-  cctv: 'CCTV and security',
-  it: 'IT support',
-};
 
 const LOADING_STEPS = [
   'Searching for your company online...',
@@ -160,7 +171,7 @@ export default function AeoReportClient() {
                 required
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="e.g. ABC Copiers"
+                placeholder="e.g. Smith & Jones Solicitors"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
               />
             </div>
@@ -177,10 +188,14 @@ export default function AeoReportClient() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
               >
                 <option value="">Select your category</option>
-                {CATEGORIES.map((c) => (
-                  <option key={c.value} value={c.value}>
-                    {c.label}
-                  </option>
+                {CATEGORY_GROUPS.map((group) => (
+                  <optgroup key={group.label} label={group.label}>
+                    {group.options.map((c) => (
+                      <option key={c.value} value={c.value}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
