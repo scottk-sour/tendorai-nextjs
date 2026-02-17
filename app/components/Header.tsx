@@ -22,11 +22,10 @@ const Header = () => {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/suppliers', label: 'Find Suppliers' },
-    { href: '/get-quotes', label: 'Get Quotes' },
-    { href: '/how-it-works', label: 'How It Works' },
-    { href: '/resources', label: 'Blog' },
+    { href: '/aeo-report', label: 'AI Visibility Report' },
     { href: '/for-vendors', label: 'For Vendors' },
-    { href: '/aeo-report', label: 'Free AEO Report' },
+    { href: '/for-vendors#pricing', label: 'Pricing' },
+    { href: '/resources', label: 'Resources' },
   ];
 
   const isActive = (path: string) => {
@@ -69,7 +68,7 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Desktop Auth - Vendor Only */}
+          {/* Desktop Auth + CTA */}
           <div className="hidden lg:flex items-center space-x-3">
             <Link
               href="/vendor-login"
@@ -79,6 +78,12 @@ const Header = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span>Vendor Login</span>
+            </Link>
+            <Link
+              href="/aeo-report"
+              className="text-sm font-medium bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              Check AI Visibility — Free
             </Link>
           </div>
 

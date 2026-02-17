@@ -5,8 +5,8 @@ export * from './tiers';
 // Site configuration
 export const SITE_CONFIG = {
   name: 'TendorAI',
-  tagline: 'Get Found by AI. Win More Business.',
-  description: 'Find and compare trusted office equipment suppliers across the UK. Get instant quotes for copiers, telecoms, CCTV, IT services, and security systems.',
+  tagline: "The UK's AI Visibility Platform",
+  description: "Get your business recommended by ChatGPT, Perplexity, and Claude. AI visibility profiles and reports for UK solicitors, accountants, and suppliers.",
   url: 'https://www.tendorai.com',
   apiUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tendorai.com',
 
@@ -26,7 +26,7 @@ export const SITE_CONFIG = {
 
   // Business stats (update periodically)
   stats: {
-    suppliers: 1000,
+    suppliers: 11000,
     products: 231,
     categories: 6,
     locations: 30,

@@ -114,13 +114,13 @@ export default function ResourcesPage() {
             Ready to compare suppliers?
           </h2>
           <p className="text-purple-100 mb-6 max-w-xl mx-auto">
-            Get free quotes from verified local suppliers. No obligation, no pressure.
+            See what AI says about your business. Free, instant, 30-second results.
           </p>
           <Link
-            href="/get-quotes"
+            href="/aeo-report"
             className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
           >
-            Get Quotes Now
+            Check AI Visibility — Free
             <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

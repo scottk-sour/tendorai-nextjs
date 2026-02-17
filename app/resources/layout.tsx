@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Office Equipment Guides & Insights',
+  title: 'Resources — AI Visibility Guides & Insights',
   description:
-    'Expert advice on photocopiers, telecoms, CCTV, and IT for UK businesses. Compare suppliers, understand costs, and make informed procurement decisions.',
+    'Expert guides on AI visibility, AEO, and getting your business recommended by ChatGPT, Claude, and Perplexity. For UK solicitors, suppliers, and professional services.',
   openGraph: {
-    title: 'Office Equipment Guides & Insights | TendorAI',
+    title: 'AI Visibility Resources | TendorAI',
     description:
-      'Expert advice on photocopiers, telecoms, CCTV, and IT for UK businesses.',
+      'Expert guides on AI visibility and getting recommended by AI platforms.',
     url: '/resources',
   },
   alternates: {

@@ -36,7 +36,7 @@ export default function ContactPage() {
                 href="/suppliers"
                 className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
               >
-                Get Quotes Now
+                Check AI Visibility
               </Link>
             </div>
 

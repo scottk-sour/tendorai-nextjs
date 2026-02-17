@@ -1,55 +1,32 @@
 import { Metadata } from 'next';
-import { PLANS } from '@/lib/constants/plans';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'For Vendors — Get Found by AI Assistants',
-  description: 'AI assistants are already recommending your competitors. Join 1,000+ UK suppliers on TendorAI and start appearing in AI-powered recommendations from ChatGPT, Claude, and Perplexity.',
+  title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
+  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, paid tiers from £149/month. No agency required.",
 };
 
 export default function ForVendorsPage() {
-  const steps = [
-    {
-      step: '1',
-      title: 'Create Your Profile',
-      description: 'Add your company details, products, pricing, and coverage areas. Takes under 10 minutes.',
-    },
-    {
-      step: '2',
-      title: 'AI Finds You',
-      description: 'When businesses ask ChatGPT, Claude, or Perplexity for suppliers, our data feeds your profile into their answers.',
-    },
-    {
-      step: '3',
-      title: 'Get Qualified Leads',
-      description: 'Receive quote requests from businesses who already know what they need — no cold calling required.',
-    },
-    {
-      step: '4',
-      title: 'Track & Improve',
-      description: 'See which AI platforms mention you, how often, and get tips to increase your visibility score.',
-    },
-  ];
-
   const faqs = [
     {
-      q: 'Is there a free trial?',
-      a: 'Yes — the Listed plan is free forever. You can list your company and up to 3 products at no cost. Upgrade to Visible or Verified when you\'re ready for more features and higher AI visibility.',
+      q: 'Is there a free option?',
+      a: "Yes — every business gets a free profile built from public register data. It's live already. Claim it to control what AI says about you. Upgrade when you're ready for priority ranking and full AI visibility features.",
     },
     {
       q: 'How does AI find my company?',
-      a: 'TendorAI structures your company data so it\'s accessible to AI assistants like ChatGPT, Claude, and Perplexity. When a business asks "who supplies photocopiers in Cardiff?", AI draws from our data to recommend you.',
+      a: "TendorAI structures your company data so it's accessible to AI assistants like ChatGPT, Claude, and Perplexity. When someone asks \"who's the best solicitor in Bristol?\", AI draws from our structured data to recommend you.",
     },
     {
       q: 'Why should I care about AI recommendations?',
-      a: 'More businesses are asking AI for supplier recommendations instead of searching Google. If your company isn\'t in AI\'s data sources, you\'re invisible to these buyers. It\'s the same shift that happened with SEO — but for AI.',
+      a: "200M+ people now use AI instead of Google to find suppliers. If your company isn't in AI's data sources, you're invisible to these buyers. It's the same shift that happened with SEO — but for AI.",
     },
     {
       q: 'Can I cancel anytime?',
-      a: 'Yes. No contracts, no lock-in. Cancel your subscription at any time from your dashboard and you\'ll keep access until the end of your billing period.',
+      a: "Yes. Month-to-month, no contracts, no lock-in. Cancel your subscription at any time from your dashboard and you'll keep access until the end of your billing period.",
     },
     {
-      q: 'How is this different from Google Ads?',
-      a: 'Google Ads targets people searching Google. TendorAI targets people asking AI assistants for recommendations — a rapidly growing channel. Think of it as GEO (Generative Engine Optimisation) vs SEO.',
+      q: 'How is this different from SEO agencies?',
+      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £149/month, not £5,000.",
     },
   ];
 
@@ -59,23 +36,23 @@ export default function ForVendorsPage() {
       <section className="bg-brand-gradient text-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-            <span className="text-sm font-medium">1,000+ suppliers already listed</span>
+            <span className="text-sm font-medium">11,000+ businesses already listed</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            AI assistants are already<br />
-            recommending your competitors.
+            AI is recommending your competitors.<br />
+            We fix that.
           </h1>
           <p className="text-xl text-purple-100 max-w-2xl mx-auto mb-10">
-            When businesses ask ChatGPT, Claude, or Perplexity for office equipment suppliers,
-            will they hear your name — or your competitor&apos;s?
+            200M people now ask ChatGPT instead of Google. When they ask for a solicitor,
+            accountant, or copier dealer &mdash; is AI recommending you?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/vendor-signup?plan=free"
+            <Link
+              href="/aeo-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
-              Start Free Trial
-            </a>
+              Run Your Free AI Visibility Report
+            </Link>
             <a
               href="#pricing"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold border-2 border-white/30 text-white hover:bg-white/10 transition-all text-lg"
@@ -83,6 +60,9 @@ export default function ForVendorsPage() {
               See Pricing
             </a>
           </div>
+          <p className="mt-6 text-sm text-purple-200">
+            Your free profile is already live. Claim it to control what AI says about you.
+          </p>
         </div>
       </section>
 
@@ -91,17 +71,17 @@ export default function ForVendorsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-8 text-center">
             <div>
-              <span className="text-2xl font-bold text-white">1,000+</span>
-              <span className="text-gray-400 text-sm ml-2">Suppliers listed</span>
+              <span className="text-2xl font-bold text-white">11,000+</span>
+              <span className="text-gray-400 text-sm ml-2">Businesses listed</span>
             </div>
             <div className="hidden sm:block text-gray-600">|</div>
             <div>
-              <span className="text-2xl font-bold text-white">4</span>
-              <span className="text-gray-400 text-sm ml-2">Categories covered</span>
+              <span className="text-2xl font-bold text-white">6</span>
+              <span className="text-gray-400 text-sm ml-2">AI platforms tracked</span>
             </div>
             <div className="hidden sm:block text-gray-600">|</div>
             <div>
-              <span className="text-gray-400 text-sm">Across the UK</span>
+              <span className="text-gray-400 text-sm">Self-serve. No agency.</span>
             </div>
           </div>
         </div>
@@ -115,11 +95,16 @@ export default function ForVendorsPage() {
               How It Works
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Four simple steps to start appearing in AI recommendations
+              From invisible to AI-recommended in four steps
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            {steps.map((step) => (
+            {[
+              { step: '1', title: 'We list you', description: 'Your business gets a free profile built from public register data (SRA, Companies House).' },
+              { step: '2', title: 'You claim & enrich', description: 'Add pricing, accreditations, and specialisms — the structured data AI needs.' },
+              { step: '3', title: 'AI crawlers index us', description: 'ChatGPT, Claude, Perplexity, and Google AI all crawl your enriched profile.' },
+              { step: '4', title: 'You get the client', description: 'AI recommends you by name. Customer comes direct. No bidding. No shared leads.' },
+            ].map((step) => (
               <div key={step.step} className="text-center">
                 <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-700 font-bold text-xl flex items-center justify-center mx-auto mb-4">
                   {step.step}
@@ -140,124 +125,155 @@ export default function ForVendorsPage() {
               Simple, Transparent Pricing
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Start free. Upgrade when you&apos;re ready to dominate AI recommendations.
+              Start free. Upgrade when AI should recommend you first.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-            {PLANS.map((plan) => {
-              const isPopular = plan.popular;
-              const isVerified = plan.id === 'verified';
-
-              return (
-                <div
-                  key={plan.id}
-                  className={`relative ${isVerified ? '' : ''}`}
-                >
-                  {/* Verified glow effect */}
-                  {isVerified && (
-                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 rounded-3xl blur-lg opacity-50 animate-pulse" />
-                  )}
-
-                  <div
-                    className={`relative rounded-2xl p-8 ${
-                      isVerified
-                        ? 'bg-gradient-to-b from-amber-50 via-white to-orange-50 border-2 border-amber-400 shadow-2xl transform md:-translate-y-6'
-                        : isPopular
-                          ? 'bg-gradient-to-b from-purple-50 to-white border-2 border-purple-200 shadow-lg transform md:-translate-y-4'
-                          : 'bg-white border border-gray-200'
-                    }`}
-                  >
-                    {/* Badge */}
-                    {(isPopular || isVerified) && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                        <span
-                          className={`text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide ${
-                            isVerified
-                              ? 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg'
-                              : 'bg-purple-600'
-                          }`}
-                        >
-                          {isVerified ? 'Best Value' : 'Popular'}
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="text-center mb-6 pt-2">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                      <div className="mb-2">
-                        <span
-                          className={`text-4xl md:text-5xl font-bold ${
-                            isVerified
-                              ? 'bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent'
-                              : isPopular
-                                ? 'text-purple-600'
-                                : 'text-gray-900'
-                          }`}
-                        >
-                          {plan.price === 0 ? '£0' : `£${plan.price}`}
-                        </span>
-                        <span className="text-gray-500">/month</span>
-                      </div>
-                      <p className={`text-sm font-medium ${
-                        isVerified ? 'text-amber-600' : isPopular ? 'text-purple-600' : 'text-gray-500'
-                      }`}>
-                        {plan.description}
-                      </p>
-                    </div>
-
-                    <ul className="space-y-3 mb-8">
-                      {plan.features.map((feature, i) => (
-                        <li key={i} className="flex items-start space-x-3">
-                          {feature.included ? (
-                            <svg
-                              className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
-                                isVerified ? 'text-amber-500' : isPopular ? 'text-purple-500' : 'text-gray-400'
-                              }`}
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                            </svg>
-                          ) : (
-                            <svg className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          )}
-                          <span className={`text-sm ${feature.included ? 'text-gray-700' : 'text-gray-400'}`}>
-                            {feature.text}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href={`/vendor-signup?plan=${plan.id}`}
-                      className={`block w-full text-center py-3.5 px-6 rounded-xl font-semibold transition-all ${
-                        isVerified
-                          ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                          : isPopular
-                            ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-md'
-                            : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                      }`}
-                    >
-                      {plan.price === 0 ? 'Get Started Free' : `Start ${plan.name}`}
-                    </a>
-                  </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
+            {/* Free */}
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
+                <div className="mb-2">
+                  <span className="text-4xl font-bold text-gray-900">£0</span>
+                  <span className="text-gray-500">/forever</span>
                 </div>
-              );
-            })}
+                <p className="text-sm text-gray-500">Basic profile, ranked last</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {['Basic company profile', 'Listed in directory', 'Public register data', 'No pricing visible to AI'].map((f, i) => (
+                  <li key={i} className="flex items-start space-x-3">
+                    <svg className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm text-gray-700">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/vendor-signup?plan=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-all">
+                Claim Your Profile
+              </Link>
+            </div>
+
+            {/* Starter */}
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Starter</h3>
+                <div className="mb-1">
+                  <span className="text-sm text-gray-400 line-through">£299</span>
+                </div>
+                <div className="mb-2">
+                  <span className="text-4xl font-bold text-gray-900">£149</span>
+                  <span className="text-gray-500">/month</span>
+                </div>
+                <p className="text-xs font-medium text-purple-600">Early Adopter Price</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {['Pricing visible to AI', 'Ranked above free profiles', 'Monthly AEO report', 'AI visibility score', 'Up to 10 products'].map((f, i) => (
+                  <li key={i} className="flex items-start space-x-3">
+                    <svg className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm text-gray-700">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/vendor-signup?plan=visible" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
+                Start Starter
+              </Link>
+            </div>
+
+            {/* Pro — MOST POPULAR */}
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 rounded-3xl blur-lg opacity-50 animate-pulse" />
+              <div className="relative bg-gradient-to-b from-amber-50 via-white to-orange-50 rounded-2xl p-8 border-2 border-amber-400 shadow-2xl transform md:-translate-y-6">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg">
+                    Most Popular
+                  </span>
+                </div>
+                <div className="text-center mb-6 pt-2">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Pro</h3>
+                  <div className="mb-1">
+                    <span className="text-sm text-gray-400 line-through">£499</span>
+                  </div>
+                  <div className="mb-2">
+                    <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
+                    <span className="text-gray-500">/month</span>
+                  </div>
+                  <p className="text-xs font-medium text-amber-600">Early Adopter Price</p>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  {['Ranked first in AI results', 'Full structured data to AI', 'AI mention tracking', 'Weekly AEO reports', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'].map((f, i) => (
+                    <li key={i} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/vendor-signup?plan=verified" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                  Start Pro
+                </Link>
+              </div>
+            </div>
+
+            {/* Enterprise */}
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                <div className="mb-2">
+                  <span className="text-4xl font-bold text-gray-900">£499</span>
+                  <span className="text-gray-500">/month</span>
+                </div>
+                <p className="text-sm text-gray-500">For multi-location businesses</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {['Everything in Pro', 'Multiple locations', 'API analytics', 'Custom Schema.org markup', 'Quarterly strategy call', 'Dedicated account manager'].map((f, i) => (
+                  <li key={i} className="flex items-start space-x-3">
+                    <svg className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm text-gray-700">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/contact" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-all">
+                Contact Sales
+              </Link>
+            </div>
           </div>
 
-          {/* ROI callout */}
-          <div className="mt-16 max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-2">The ROI Math</h3>
-              <p className="text-gray-600">
-                One copier deal = £3,000+ contract. At £149/month, you need
-                <strong className="text-purple-600"> one deal every 20 months</strong> to break even.
-                Most verified vendors close 2-3 deals per month.
-              </p>
+          {/* Comparison Table: TendorAI vs Agencies */}
+          <div className="mt-20 max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">TendorAI vs Agencies</h3>
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600"></th>
+                    <th className="text-center py-4 px-6 text-sm font-semibold text-gray-600">Agencies</th>
+                    <th className="text-center py-4 px-6 text-sm font-semibold text-purple-700">TendorAI</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {[
+                    ['Monthly cost', '£1,500–£8,000', '£149–£299'],
+                    ['Contract length', '12 months', 'Month-to-month'],
+                    ['Time to go live', '3–6 months', 'Profile live in 24 hours'],
+                    ['Self-service', 'No', 'Yes'],
+                    ['Built for AI platforms', '1–2 platforms', 'All major AI'],
+                    ['AI visibility score', 'Manual audit', 'Real-time dashboard'],
+                  ].map(([label, agency, tendorai], i) => (
+                    <tr key={i}>
+                      <td className="py-4 px-6 text-sm font-medium text-gray-900">{label}</td>
+                      <td className="py-4 px-6 text-sm text-gray-500 text-center">{agency}</td>
+                      <td className="py-4 px-6 text-sm text-purple-700 font-semibold text-center">{tendorai}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -284,17 +300,17 @@ export default function ForVendorsPage() {
       <section className="bg-gray-900 py-16 lg:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Start Getting AI Mentions Today
+            Run Your Free AI Visibility Report
           </h2>
           <p className="text-gray-400 mb-8 text-lg">
-            Join 1,000+ UK suppliers already on TendorAI. Free to start, upgrade anytime.
+            See exactly what ChatGPT, Claude, and Perplexity say about your business. Takes 30 seconds.
           </p>
-          <a
-            href="/vendor-signup?plan=free"
+          <Link
+            href="/aeo-report"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl text-lg"
           >
-            Start Free Trial
-          </a>
+            Check Your AI Visibility — Free
+          </Link>
         </div>
       </section>
     </main>

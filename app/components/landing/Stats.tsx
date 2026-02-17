@@ -10,10 +10,10 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { number: 1000, suffix: '+', label: 'UK Suppliers' },
-  { number: 6, suffix: '', label: 'Equipment Categories' },
-  { number: 100, suffix: '%', label: 'UK Based' },
-  { displayText: 'Free', label: 'Cost to Compare' },
+  { number: 11000, suffix: '+', label: 'UK Businesses Listed' },
+  { number: 6, suffix: '', label: 'AI Platforms Tracked' },
+  { displayText: 'From £149/mo', label: 'Not £5,000' },
+  { displayText: 'Self-Serve', label: 'No Agency' },
 ];
 
 export default function Stats() {

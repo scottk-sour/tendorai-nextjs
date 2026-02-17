@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About TendorAI',
-  description: "TendorAI is the UK's AI visibility platform helping businesses get recommended by ChatGPT, Claude, and Perplexity. Learn about our mission.",
+  title: "About TendorAI — The UK's AI Visibility Platform",
+  description: "TendorAI is the structured data layer between UK businesses and AI. When someone asks ChatGPT for a supplier, our data powers the answer.",
 };
 
 export default function AboutPage() {
@@ -16,7 +16,7 @@ export default function AboutPage() {
             About TendorAI
           </h1>
           <p className="text-xl text-purple-100 max-w-2xl mx-auto">
-            We&apos;re making procurement simple, fast, and intelligent for UK businesses.
+            The UK&apos;s AI Visibility Platform
           </p>
         </div>
       </section>
@@ -27,16 +27,25 @@ export default function AboutPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
             <p className="text-gray-600 mb-6">
-              TendorAI was built to solve a problem every business faces: finding reliable suppliers
-              for office equipment shouldn&apos;t be a time-consuming, frustrating process.
+              TendorAI is the UK&apos;s AI Visibility Platform &mdash; the structured data layer
+              between UK businesses and AI.
             </p>
             <p className="text-gray-600 mb-6">
-              We use AI to match businesses with verified suppliers instantly, saving hours of research
-              and ensuring you get competitive quotes from companies that actually serve your area.
+              When someone asks ChatGPT, Claude, or Perplexity for a supplier
+              recommendation, AI needs structured data to give a useful answer.
+              TendorAI is that data.
             </p>
             <p className="text-gray-600 mb-6">
-              Whether you need photocopiers, telecoms systems, CCTV, or IT services, TendorAI connects
-              you with the right suppliers in minutes, not days.
+              We build verified profiles for every UK solicitor firm, accountancy
+              practice, and office equipment supplier &mdash; enriched with pricing,
+              accreditations, specialisms, and reviews. AI crawlers index our platform.
+              When someone asks AI for a recommendation, our data powers the answer.
+            </p>
+            <p className="text-gray-700 font-semibold text-xl mb-6">
+              Listed free. Pay to rank first.
+            </p>
+            <p className="text-gray-600">
+              Founded in Bristol, UK. Built for every B2B service vertical in the country.
             </p>
           </div>
         </div>
@@ -47,16 +56,16 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">1,000+</div>
-              <div className="text-gray-600">Verified Suppliers</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">11,000+</div>
+              <div className="text-gray-600">UK Businesses Listed</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">230+</div>
-              <div className="text-gray-600">Products Listed</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">6</div>
+              <div className="text-gray-600">AI Platforms Tracked</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">5</div>
-              <div className="text-gray-600">Service Categories</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">10,000+</div>
+              <div className="text-gray-600">Solicitor Firms</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-purple-600 mb-2">UK</div>
@@ -74,24 +83,25 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-2">🤖 AI-Powered Matching</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Built for AI, Not Google</h3>
               <p className="text-gray-600">
-                Our AI analyses your requirements and matches you with suppliers based on location,
-                specialisation, pricing, and verified ratings — not just whoever pays the most.
+                SEO agencies optimise your website for Google search. TendorAI optimises your
+                structured data for AI platforms &mdash; ChatGPT, Claude, Perplexity, Google AI.
+                Different technology, different audience, different results.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-2">✅ Verified Suppliers Only</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Self-Serve, Not Agency</h3>
               <p className="text-gray-600">
-                Every supplier in our network is vetted. We check their credentials, service areas,
-                and track their performance to ensure you&apos;re dealing with reliable businesses.
+                No 12-month contracts. No £5,000/month retainers. TendorAI is a self-serve
+                platform starting at £149/month. Your profile goes live in 24 hours, not 3-6 months.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-2">💷 Free for Businesses</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Data-Driven Visibility</h3>
               <p className="text-gray-600">
-                TendorAI is completely free for businesses to use. We&apos;re funded by suppliers who
-                value qualified leads, not by charging you for quotes.
+                Every business gets a real-time AI visibility score, mention tracking across all
+                major AI platforms, and actionable tips to improve. No guesswork &mdash; just data.
               </p>
             </div>
           </div>
@@ -102,13 +112,16 @@ export default function AboutPage() {
       <section className="bg-purple-600 py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Simplify Your Procurement?
+            Check Your AI Visibility
           </h2>
+          <p className="text-purple-100 mb-8 text-lg">
+            Run a free AI visibility report &mdash; see what ChatGPT, Claude, and Perplexity say about your business.
+          </p>
           <Link
-            href="/suppliers"
+            href="/aeo-report"
             className="inline-block bg-white text-purple-600 font-medium px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            Get Started Free
+            Check AI Visibility &mdash; Free
           </Link>
         </div>
       </section>

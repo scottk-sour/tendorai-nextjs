@@ -76,7 +76,7 @@ const localBusinessSchema = {
   '@type': 'LocalBusiness',
   '@id': 'https://www.tendorai.com/#business',
   name: 'TendorAI',
-  description: 'TendorAI is a free AI-powered comparison platform that helps UK businesses find office equipment suppliers. Browse 1,000+ verified suppliers for photocopiers, telecoms, CCTV, and IT equipment across the UK.',
+  description: "TendorAI is the UK's AI Visibility Platform. We help businesses get recommended by ChatGPT, Claude, and Perplexity through structured data profiles and AI visibility optimisation. 11,000+ UK businesses listed.",
   url: 'https://www.tendorai.com',
   image: 'https://www.tendorai.com/logo.png',
   address: {
@@ -86,26 +86,18 @@ const localBusinessSchema = {
   },
   areaServed: [
     {
-      '@type': 'Place',
-      name: 'South Wales',
-    },
-    {
-      '@type': 'Place',
-      name: 'South West England',
-    },
-    {
       '@type': 'Country',
       name: 'United Kingdom',
     },
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Office Equipment Categories',
+    name: 'AI Visibility Services',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Photocopiers & Printers' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Telecoms & Phone Systems' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'CCTV & Security Systems' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'IT Equipment & Support' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility Profiles' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AEO Reports' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Mention Tracking' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'GEO Audit' } },
     ],
   },
 };
@@ -115,10 +107,10 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'TendorAI',
   url: 'https://www.tendorai.com',
-  description: 'AI-powered office equipment supplier directory for UK businesses',
+  description: "The UK's AI Visibility Platform — helping businesses get recommended by ChatGPT, Claude, and Perplexity",
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://www.tendorai.com/suppliers?postcode={search_term_string}',
+    target: 'https://www.tendorai.com/suppliers?q={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };
@@ -129,10 +121,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What areas does TendorAI cover?',
+      name: 'What is TendorAI?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'TendorAI lists 1,000+ office equipment suppliers across the UK. Our directory covers all major cities and regions nationwide, helping businesses find trusted local and national suppliers.',
+        text: "TendorAI is the UK's AI Visibility Platform. We help businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity through structured data profiles and AI visibility optimisation.",
       },
     },
     {
@@ -140,15 +132,15 @@ const faqSchema = {
       name: 'Is TendorAI free to use?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, TendorAI is completely free for businesses looking for office equipment. You can browse our supplier directory, view company profiles, and request quotes without any charge.',
+        text: 'Free to be listed with a basic profile. Paid tiers from £149/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What types of office equipment can I find suppliers for?',
+      name: 'What industries does TendorAI cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Our directory covers four main categories: photocopiers and multifunction printers, telecoms and business phone systems, CCTV and security systems, and IT equipment.',
+        text: 'Solicitors (10,000+ firms), office equipment dealers (1,044), with accountants, estate agents, and recruitment agencies coming soon.',
       },
     },
   ],
@@ -174,26 +166,26 @@ export default async function HomePage() {
       />
 
       <main>
-        {/* Hero Section with Postcode Search */}
+        {/* Hero Section */}
         <Hero />
 
-        {/* Features Section */}
+        {/* Stats Bar */}
+        <Stats />
+
+        {/* How It Works */}
         <Features />
 
-        {/* Service Categories */}
-        <ServiceCategories categoryCounts={categoryCounts} />
+        {/* AI Visibility CTA — Prominent Position */}
+        <AeoReportCTA />
 
-        {/* Stats Section with Animated Counters */}
-        <Stats />
+        {/* Browse by Service */}
+        <ServiceCategories categoryCounts={categoryCounts} />
 
         {/* Coverage Areas */}
         <CoverageAreas />
 
         {/* FAQ Section */}
         <FAQ />
-
-        {/* AEO Report CTA */}
-        <AeoReportCTA />
 
         {/* Final CTA with Newsletter */}
         <FinalCTA />

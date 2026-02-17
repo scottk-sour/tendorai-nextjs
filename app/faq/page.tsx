@@ -9,32 +9,36 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   const faqs = [
     {
-      question: 'Is TendorAI free to use?',
-      answer: 'Yes, TendorAI is completely free for businesses looking for quotes. We earn our revenue from suppliers who pay for visibility and qualified leads.',
+      question: 'What is TendorAI?',
+      answer: "TendorAI is the UK's AI Visibility Platform. We help businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity through structured data profiles and AI visibility optimisation.",
     },
     {
-      question: 'How does AI matching work?',
-      answer: 'Our AI analyses your requirements (equipment type, location, volume, budget) and matches you with suppliers from our verified network who best fit your needs. This happens instantly — no waiting days for responses.',
+      question: 'How does it work?',
+      answer: "Every UK business in our verticals gets a free profile built from public register data. You claim your profile, add pricing and accreditations, and AI crawlers index your enriched data. Paid tiers rank you higher when AI recommends suppliers.",
     },
     {
-      question: 'Are the suppliers verified?',
-      answer: 'Yes. Every supplier in our network is vetted before they can receive leads. We verify their business credentials, service areas, and track their performance over time.',
+      question: 'How much does it cost?',
+      answer: "Free to be listed. Paid tiers start at £149/month for full AI visibility including priority ranking, AEO reports, and mention tracking.",
     },
     {
-      question: 'What equipment can I get quotes for?',
-      answer: 'TendorAI covers photocopiers and printers, telecoms systems (VoIP, phone systems), CCTV and security systems, IT services, and office equipment. We are constantly expanding our categories.',
+      question: 'What industries do you cover?',
+      answer: "Solicitors (10,000+ firms), office equipment dealers (1,044), with accountants, estate agents, and recruitment agencies coming soon.",
     },
     {
-      question: 'How do I become a vendor on TendorAI?',
-      answer: 'Visit our For Vendors page and sign up for a free account. You can upgrade to paid tiers (Visible or Verified) to increase your AI visibility and receive more qualified leads.',
+      question: 'Is it free?',
+      answer: "Free to be listed with a basic profile. Paid tiers from £149/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
     },
     {
-      question: 'What areas do you cover?',
-      answer: 'TendorAI has 1,000+ suppliers listed across the UK, covering all major cities and regions. We are expanding coverage continuously.',
+      question: 'What is an AEO report?',
+      answer: "An AI Engine Optimisation report that audits how AI platforms see your business. It shows what AI says about you, who it recommends instead, and what to fix.",
     },
     {
-      question: 'How is this different from other quote sites?',
-      answer: 'Traditional quote sites blast your details to every supplier and hope for the best. TendorAI uses AI to match you with the most relevant suppliers, and we are built to be queried by AI assistants — so when someone asks ChatGPT for supplier recommendations, our verified suppliers get mentioned.',
+      question: 'How is this different from SEO?',
+      answer: "SEO optimises your website for Google search. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience.",
+    },
+    {
+      question: 'How is this different from Trustpilot?',
+      answer: "Trustpilot manages reviews. TendorAI manages your visibility across all AI platforms — structured data, pricing, accreditations, and ranking. Reviews are one input; we optimise the full picture.",
     },
   ];
 
@@ -75,7 +79,7 @@ export default function FAQPage() {
               href="/contact"
               className="text-purple-600 hover:text-purple-700 font-medium"
             >
-              Contact us →
+              Contact us &rarr;
             </Link>
           </div>
         </div>

@@ -242,13 +242,13 @@ export default async function ArticlePage({ params }: PageProps) {
               Need help choosing the right solution?
             </h3>
             <p className="text-gray-600 mb-4">
-              Compare quotes from verified local suppliers. Free, no-obligation, and takes just 2 minutes.
+              See what AI says about your business. Free, instant, and takes just 30 seconds.
             </p>
             <Link
-              href={`/get-quotes?category=${encodeURIComponent(article.category === 'Business Tips' ? 'Photocopiers' : article.category)}`}
+              href="/aeo-report"
               className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Get Quotes Now
+              Check AI Visibility
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

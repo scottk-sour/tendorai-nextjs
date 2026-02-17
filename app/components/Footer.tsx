@@ -3,10 +3,10 @@ import Link from 'next/link';
 const footerNavigation = {
   product: [
     { name: 'Find Suppliers', href: '/suppliers' },
-    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'AI Visibility Report', href: '/aeo-report' },
     { name: 'For Vendors', href: '/for-vendors' },
-    { name: 'Get Quotes', href: '/get-quotes' },
-    { name: 'Guides & Resources', href: '/resources' },
+    { name: 'Pricing', href: '/for-vendors#pricing' },
+    { name: 'Resources', href: '/resources' },
   ],
   company: [
     { name: 'About', href: '/about' },
