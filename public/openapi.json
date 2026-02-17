@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "TendorAI — UK Office Equipment Supplier Directory",
-    "description": "TendorAI is the definitive UK office equipment supplier directory. Search verified suppliers for photocopiers, telecoms, CCTV, IT services, security systems, and business software. Get matched vendors with pricing and coverage data.",
+    "title": "TendorAI — UK AI Visibility Platform & Supplier Directory",
+    "description": "TendorAI is the UK's AI visibility platform. Search verified suppliers including solicitors, accountants, and office equipment dealers. Structured data profiles optimised for AI recommendation engines.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",
@@ -20,8 +20,8 @@
     "/api/public/vendors": {
       "get": {
         "operationId": "searchVendors",
-        "summary": "Search and list verified UK office equipment suppliers",
-        "description": "Returns a paginated list of verified suppliers, optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
+        "summary": "Search and list verified UK suppliers",
+        "description": "Returns a paginated list of verified suppliers (solicitors, accountants, office equipment), optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
         "parameters": [
           {
             "name": "category",
@@ -95,7 +95,7 @@
       "post": {
         "operationId": "aiVendorMatch",
         "summary": "AI-powered vendor matching with natural language requirements",
-        "description": "Accepts a natural language query describing office equipment needs and returns matched vendors with products, pricing, and match scores.",
+        "description": "Accepts a natural language query describing business needs and returns matched vendors with products, pricing, and match scores.",
         "requestBody": {
           "required": true,
           "content": {

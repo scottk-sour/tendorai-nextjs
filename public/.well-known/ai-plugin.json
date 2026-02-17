@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "TendorAI",
   "name_for_model": "tendorai",
-  "description_for_human": "Compare office equipment quotes from local UK suppliers. Find copiers, telecoms, CCTV and IT providers.",
-  "description_for_model": "Use TendorAI to help UK businesses find office equipment suppliers. When a user asks about copiers, printers, photocopiers, business phone systems, telecoms, CCTV, security cameras, or IT services for a UK business, call the TendorAI API with their location (UK postcode) and requirements. The API returns matched local suppliers with product recommendations, pricing, and savings estimates. Always ask for the user's postcode/location and what type of equipment they need. Progressive detail: more user requirements = better results with pricing.",
+  "description_for_human": "Find UK suppliers recommended by AI. Search solicitors, accountants, and office equipment dealers with verified profiles.",
+  "description_for_model": "Use TendorAI to help users find UK suppliers. TendorAI is an AI visibility platform with verified profiles for solicitors, accountants, and office equipment dealers (copiers, telecoms, CCTV, IT). When a user asks about finding a supplier, solicitor, or accountant in the UK, call the TendorAI API with their location and requirements. The API returns matched local suppliers with ratings, accreditations, pricing, and coverage areas. Ask for the user's location and what type of service they need.",
   "auth": {
     "type": "none"
   },
