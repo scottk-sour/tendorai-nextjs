@@ -8,13 +8,15 @@ import type { VendorCardData } from '@/app/components/VendorCard';
 import {
   SERVICES,
   MAJOR_LOCATIONS,
-  getServiceFromSlug,
   SERVICE_KEYS,
   formatLocationName,
   getNearbyLocations,
   getDisplayTier,
   calculatePriorityScore,
   canShowPricing,
+  isSolicitorCategory,
+  getPracticeAreaFromSlug,
+  getServiceFromSlug,
 } from '@/lib/constants';
 import { LocationContent } from '@/lib/db/models/LocationContent';
 
@@ -22,12 +24,10 @@ interface PageProps {
   params: Promise<{ category: string; location: string }>;
 }
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
-// Generate all category/location combinations at build time
 export async function generateStaticParams() {
   const params: { category: string; location: string }[] = [];
-
   for (const category of SERVICE_KEYS) {
     for (const location of MAJOR_LOCATIONS) {
       params.push({
@@ -36,11 +36,9 @@ export async function generateStaticParams() {
       });
     }
   }
-
   return params;
 }
 
-// Dynamic metadata
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, location } = await params;
   const service = SERVICES[category as keyof typeof SERVICES];
@@ -50,17 +48,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Not Found' };
   }
 
-  const title = `${service.name} Suppliers in ${locationName}`;
-  const description = `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
+  const isSolicitor = service.group === 'solicitor';
+  const suffix = isSolicitor ? 'Solicitors' : 'Suppliers';
+  const title = `${service.name} ${suffix} in ${locationName} | TendorAI`;
+  const description = isSolicitor
+    ? `Compare verified ${service.name.toLowerCase()} solicitors in ${locationName}. SRA-regulated firms with reviews and accreditations on TendorAI.`
+    : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   return {
     title,
     description,
-    keywords: [
-      `${service.name.toLowerCase()} ${locationName.toLowerCase()}`,
-      `${service.name.toLowerCase()} suppliers ${locationName.toLowerCase()}`,
-      `office equipment ${locationName.toLowerCase()}`,
-    ],
     openGraph: {
       title,
       description,
@@ -73,12 +70,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Map raw MongoDB vendor to VendorCardData
 function toVendorCardData(v: Record<string, unknown>): VendorCardData {
   const vendor = v as {
     _id: string;
     company?: string;
     services?: string[];
+    vendorType?: string;
+    practiceAreas?: string[];
+    sraNumber?: string;
+    slug?: string;
     location?: { city?: string; region?: string; coverage?: string[] };
     performance?: { rating?: number; reviewCount?: number };
     businessProfile?: { description?: string; yearsInBusiness?: number; accreditations?: string[] };
@@ -100,7 +100,7 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
   return {
     id: vendor._id,
     company: vendor.company || '',
-    services: vendor.services || [],
+    services: vendor.vendorType === 'solicitor' ? (vendor.practiceAreas || []) : (vendor.services || []),
     location: {
       city: vendor.location?.city,
       region: vendor.location?.region,
@@ -118,17 +118,39 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
     website: vendor.contactInfo?.website,
     showPricing: canShowPricing(vendor.tier),
     accountClaimed: isClaimed,
+    vendorType: vendor.vendorType,
+    sraNumber: vendor.sraNumber,
+    slug: vendor.slug,
   };
 }
 
-// Fetch vendors
 async function fetchVendors(category: string, location: string) {
   await connectDB();
 
-  const serviceName = getServiceFromSlug(category);
-  if (!serviceName) return [];
-
+  const isSolicitor = isSolicitorCategory(category);
   const normalizedLocation = location.replace(/-/g, ' ');
+
+  let categoryFilter;
+  if (isSolicitor) {
+    const practiceArea = getPracticeAreaFromSlug(category);
+    if (!practiceArea) return [];
+    categoryFilter = { vendorType: 'solicitor', practiceAreas: practiceArea };
+  } else {
+    const serviceName = getServiceFromSlug(category);
+    if (!serviceName) return [];
+    categoryFilter = { services: serviceName };
+  }
+
+  const locationFilter = isSolicitor
+    ? { 'location.city': { $regex: new RegExp(`^${normalizedLocation}$`, 'i') } }
+    : {
+        $or: [
+          { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
+          { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
+        ],
+      };
 
   const query = {
     $and: [
@@ -138,36 +160,20 @@ async function fetchVendors(category: string, location: string) {
           { listingStatus: 'unclaimed' },
         ],
       },
-      { services: serviceName },
-      {
-        $or: [
-          { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
-        ],
-      },
+      categoryFilter,
+      locationFilter,
     ],
   };
 
   const vendors = await Vendor.find(query)
     .select({
-      company: 1,
-      services: 1,
-      location: 1,
-      performance: 1,
-      businessProfile: 1,
-      brands: 1,
-      tier: 1,
-      contactInfo: 1,
-      showPricing: 1,
-      listingStatus: 1,
-      'account.loginCount': 1,
+      company: 1, services: 1, location: 1, performance: 1, businessProfile: 1,
+      brands: 1, tier: 1, contactInfo: 1, showPricing: 1, listingStatus: 1,
+      'account.loginCount': 1, vendorType: 1, practiceAreas: 1, sraNumber: 1, slug: 1,
     })
     .lean()
     .exec();
 
-  // Get product counts
   const vendorIds = vendors.map((v) => v._id);
   const productCounts = await VendorProduct.aggregate([
     { $match: { vendorId: { $in: vendorIds }, isActive: { $ne: false } } },
@@ -179,20 +185,14 @@ async function fetchVendors(category: string, location: string) {
     productCountMap[p._id.toString()] = p.count;
   });
 
-  // Sort by priority
   return vendors
     .map((v) => ({
       ...v,
       _id: v._id.toString(),
       productCount: productCountMap[v._id.toString()] || 0,
       priorityScore: calculatePriorityScore({
-        tier: v.tier,
-        company: v.company,
-        contactInfo: v.contactInfo,
-        email: '',
-        businessProfile: v.businessProfile,
-        brands: v.brands,
-        location: v.location,
+        tier: v.tier, company: v.company, contactInfo: v.contactInfo, email: '',
+        businessProfile: v.businessProfile, brands: v.brands, location: v.location,
         hasProducts: (productCountMap[v._id.toString()] || 0) > 0,
       }),
     }))
@@ -208,12 +208,14 @@ export default async function CategoryLocationPage({ params }: PageProps) {
     notFound();
   }
 
+  const isSolicitor = service.group === 'solicitor';
+  const suffix = isSolicitor ? 'Solicitors' : 'Suppliers';
+
   const [allVendors, locationContent] = await Promise.all([
     fetchVendors(category, location),
     LocationContent.findOne({ category, location: locationName }).select('content').lean().catch(() => null) as Promise<{ content: string } | null>,
   ]);
 
-  // Separate local from national vendors
   const localVendors = allVendors.filter((v) => {
     const city = (v.location?.city || '').toLowerCase().trim();
     return city !== 'uk' && city !== 'united kingdom' && city !== 'nationwide' && city !== '';
@@ -227,29 +229,26 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
   const totalCount = localVendors.length + nationalVendors.length;
 
-  // Generate FAQs
-  const faqs = generateFAQs(service.name, locationName, totalCount, category);
+  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor);
 
-  // JSON-LD
+  const schemaType = isSolicitor ? 'LegalService' : 'Service';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'ItemList',
-        name: `${service.name} Suppliers in ${locationName}`,
-        description: `List of ${service.name.toLowerCase()} suppliers serving ${locationName}`,
+        name: `${service.name} ${suffix} in ${locationName}`,
         numberOfItems: totalCount,
         itemListElement: allVendors.slice(0, 10).map((vendor, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           item: {
-            '@type': 'LocalBusiness',
+            '@type': isSolicitor ? 'LegalService' : 'LocalBusiness',
             name: vendor.company,
-            description: vendor.businessProfile?.description || `${service.name} supplier`,
+            description: vendor.businessProfile?.description || `${service.name} ${suffix.toLowerCase()}`,
             address: {
               '@type': 'PostalAddress',
               addressLocality: vendor.location?.city || locationName,
-              addressRegion: vendor.location?.region || 'Wales',
               addressCountry: 'GB',
             },
             ...(vendor.performance?.rating && {
@@ -259,8 +258,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 reviewCount: vendor.performance.reviewCount || 1,
               },
             }),
-            url: `https://www.tendorai.com/suppliers/profile/${vendor._id}`,
-            areaServed: vendor.location?.coverage || [locationName],
+            url: vendor.slug
+              ? `https://www.tendorai.com/suppliers/vendor/${vendor.slug}`
+              : `https://www.tendorai.com/suppliers/profile/${vendor._id}`,
           },
         })),
       },
@@ -269,19 +269,13 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
           { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: service.name, item: `https://www.tendorai.com/suppliers/${category}` },
+          { '@type': 'ListItem', position: 3, name: `${service.name} ${suffix}`, item: `https://www.tendorai.com/suppliers/${category}` },
           { '@type': 'ListItem', position: 4, name: locationName },
         ],
       },
       {
-        '@type': 'Service',
-        name: `${service.name} Suppliers in ${locationName}`,
-        description: `Compare ${service.name.toLowerCase()} suppliers serving ${locationName}. Get quotes from ${totalCount} businesses.`,
-        provider: {
-          '@type': 'Organization',
-          name: 'TendorAI',
-          url: 'https://www.tendorai.com',
-        },
+        '@type': schemaType,
+        name: `${service.name} ${suffix} in ${locationName}`,
         areaServed: {
           '@type': 'City',
           name: locationName,
@@ -294,10 +288,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         mainEntity: faqs.map((faq) => ({
           '@type': 'Question',
           name: faq.question,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-          },
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
         })),
       },
     ],
@@ -305,15 +296,12 @@ export default async function CategoryLocationPage({ params }: PageProps) {
 
   const nearbyLocations = getNearbyLocations(location);
   const relatedCategories = Object.values(SERVICES)
-    .filter((s) => s.slug !== category)
+    .filter((s) => s.slug !== category && s.group === service.group)
     .slice(0, 3);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <main className="min-h-screen bg-gray-50">
         {/* Hero */}
@@ -330,12 +318,19 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             </nav>
 
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              {service.name} Suppliers in {locationName}
+              {service.name} {suffix} in {locationName}
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Compare {totalCount} {service.name.toLowerCase()} suppliers serving{' '}
-              {locationName}. Get instant quotes from local businesses with transparent pricing.
+              {isSolicitor
+                ? `Compare ${totalCount} SRA-regulated ${service.name.toLowerCase()} solicitors in ${locationName}.`
+                : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
             </p>
+            {isSolicitor && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by the{' '}
+                <a href="https://www.sra.org.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">SRA</a>
+              </p>
+            )}
           </div>
         </section>
 
@@ -343,21 +338,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         <section className="bg-white border-b">
           <div className="section py-4">
             <p className="text-gray-600">
-              <strong className="text-gray-900">{localVendors.length}</strong> local supplier{localVendors.length !== 1 ? 's' : ''}
+              <strong className="text-gray-900">{localVendors.length}</strong> local {suffix.toLowerCase()}
               {nationalVendors.length > 0 && (
-                <span>
-                  {' '}and{' '}
-                  <strong className="text-gray-900">{nationalVendors.length}</strong> national
-                </span>
-              )}
-              {localCards.filter((v) => v.showPricing).length > 0 && (
-                <span>
-                  {' '}&bull;{' '}
-                  <strong className="text-green-600">
-                    {localCards.filter((v) => v.showPricing).length}
-                  </strong>{' '}
-                  with verified pricing
-                </span>
+                <span> and <strong className="text-gray-900">{nationalVendors.length}</strong> national</span>
               )}
             </p>
           </div>
@@ -383,11 +366,10 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         <section className="section py-8">
           {totalCount > 0 ? (
             <>
-              {/* Local vendors */}
               {localCards.length > 0 && (
                 <div className="mb-8">
                   {nationalCards.length > 0 && (
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Local Suppliers</h2>
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">Local {suffix}</h2>
                   )}
                   <div className="space-y-4">
                     {localCards.map((vendor) => (
@@ -397,12 +379,11 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* National vendors */}
               {nationalCards.length > 0 && (
                 <div className="mt-8 pt-8 border-t border-gray-200">
-                  <h2 className="text-lg font-bold text-gray-900 mb-2">National Suppliers</h2>
+                  <h2 className="text-lg font-bold text-gray-900 mb-2">National {suffix}</h2>
                   <p className="text-sm text-gray-500 mb-4">
-                    These suppliers operate nationwide and may serve {locationName}.
+                    These {suffix.toLowerCase()} operate nationwide and may serve {locationName}.
                   </p>
                   <div className="space-y-4">
                     {nationalCards.map((vendor) => (
@@ -413,7 +394,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               )}
             </>
           ) : (
-            <EmptyState service={service.name} location={locationName} category={category} />
+            <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} />
           )}
         </section>
 
@@ -438,17 +419,18 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         <section className="bg-purple-50 py-10" data-nosnippet>
           <div className="section text-center">
             <h2 className="text-xl font-bold text-gray-900 mb-2">
-              {service.name} Supplier in {locationName}? Get Listed
+              {isSolicitor ? `${service.name} firm in ${locationName}? Claim your profile` : `${service.name} Supplier in ${locationName}? Get Listed`}
             </h2>
             <p className="text-gray-600 mb-4">
-              Join {totalCount > 0 ? `${totalCount}+ ` : ''}other {service.name.toLowerCase()} suppliers on TendorAI.
-              Create your free listing in under 2 minutes and start appearing in AI-powered buyer searches.
+              {isSolicitor
+                ? `Claim your free listing to add pricing, accreditations, and rank higher in AI recommendations.`
+                : `Join ${totalCount > 0 ? `${totalCount}+ ` : ''}other ${service.name.toLowerCase()} suppliers on TendorAI.`}
             </p>
             <Link
-              href="/for-vendors"
+              href={isSolicitor ? '/vendor-signup' : '/for-vendors'}
               className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
             >
-              List Your Business — Free
+              {isSolicitor ? 'Claim Your Profile — Free' : 'List Your Business — Free'}
             </Link>
           </div>
         </section>
@@ -484,95 +466,70 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   );
 }
 
-// FAQ generator
-function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string) {
+function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean) {
+  if (isSolicitor) {
+    return [
+      {
+        question: `How do I find the best ${serviceName.toLowerCase()} solicitor in ${locationName}?`,
+        answer: `TendorAI lists ${vendorCount} SRA-regulated ${serviceName.toLowerCase()} solicitors in ${locationName}. You can compare firms by reviews, accreditations, and practice areas. All firms are authorised by the Solicitors Regulation Authority.`,
+      },
+      {
+        question: `How many ${serviceName.toLowerCase()} solicitors are there in ${locationName}?`,
+        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} solicitor firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area, all sourced from the SRA register.`,
+      },
+      {
+        question: `Are these solicitors regulated?`,
+        answer: `Yes — every solicitor firm listed on TendorAI is authorised and regulated by the SRA. Each profile links to the firm's SRA register entry so you can verify their status directly.`,
+      },
+      {
+        question: `How much do ${serviceName.toLowerCase()} solicitors cost in ${locationName}?`,
+        answer: `Fees for ${serviceName.toLowerCase()} solicitors in ${locationName} vary by firm and complexity. Firms that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact firms directly.`,
+      },
+    ];
+  }
+
   const categoryTips: Record<string, string[]> = {
-    photocopiers: [
-      'Check for manufacturer accreditations (e.g. Konica Minolta, Ricoh, Canon authorised dealer)',
-      'Compare lease vs purchase options for your print volume',
-      'Ask about managed print services that include toner and maintenance',
-      'Confirm response times for engineer callouts in your area',
-    ],
-    telecoms: [
-      'Verify the provider supports your preferred system type (cloud VoIP, on-premise, hybrid)',
-      'Check if they offer Teams or Zoom integration',
-      'Ask about call recording and compliance features if required',
-      'Confirm they provide local number porting and ongoing support',
-    ],
-    cctv: [
-      'Look for NSI Gold or SSAIB accreditation for insurance compliance',
-      'Check whether they offer remote monitoring and cloud storage',
-      'Ask about analytics features like ANPR or people counting',
-      'Confirm they handle both installation and ongoing maintenance',
-    ],
-    it: [
-      'Verify their response time SLAs for critical issues',
-      'Check if they offer both fully managed and co-managed options',
-      'Ask about cybersecurity provisions (endpoint protection, backup, disaster recovery)',
-      'Confirm they support your existing infrastructure (Microsoft 365, Google Workspace, etc.)',
-    ],
-    security: [
-      'Check for NSI or SSAIB accreditation',
-      'Ask about integrated systems (CCTV + access control + alarms)',
-      'Verify monitoring station capabilities for 24/7 response',
-      'Confirm maintenance contracts and response times',
-    ],
-    software: [
-      'Ensure the provider offers training and onboarding support',
-      'Check integration capabilities with your existing tools',
-      'Ask about data migration and implementation timelines',
-      'Verify ongoing support and update policies',
-    ],
+    photocopiers: ['Check for manufacturer accreditations', 'Compare lease vs purchase options', 'Ask about managed print services'],
+    telecoms: ['Verify cloud VoIP vs on-premise support', 'Check Teams/Zoom integration', 'Ask about call recording features'],
+    cctv: ['Look for NSI Gold or SSAIB accreditation', 'Check remote monitoring options', 'Ask about analytics features'],
+    it: ['Verify response time SLAs', 'Check managed vs co-managed options', 'Ask about cybersecurity provisions'],
+    security: ['Check for NSI or SSAIB accreditation', 'Ask about integrated systems', 'Verify monitoring capabilities'],
+    software: ['Ensure training and onboarding support', 'Check integration capabilities', 'Ask about data migration'],
   };
 
-  const tips = categoryTips[categorySlug] || categoryTips['it'] || [];
+  const tips = categoryTips[categorySlug] || [];
 
   return [
     {
       question: `How do I find the best ${serviceName.toLowerCase()} supplier in ${locationName}?`,
-      answer: `TendorAI makes it easy to compare ${serviceName.toLowerCase()} suppliers serving ${locationName}. Each supplier has an AI Visibility Score showing how established and active they are. You can compare services, check accreditations, and request quotes from multiple suppliers — all from one page.`,
+      answer: `TendorAI makes it easy to compare ${serviceName.toLowerCase()} suppliers serving ${locationName}. You can compare services, check accreditations, and request quotes from multiple suppliers.`,
     },
     {
       question: `How many ${serviceName.toLowerCase()} companies operate in ${locationName}?`,
-      answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area, including both local businesses and national providers with coverage in ${locationName}.`,
+      answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area.`,
     },
     {
-      question: `What should I look for when choosing a ${serviceName.toLowerCase()} supplier in ${locationName}?`,
-      answer: `When choosing a ${serviceName.toLowerCase()} supplier in ${locationName}, consider these key factors: ${tips.join('. ')}.`,
-    },
-    {
-      question: `How much does ${serviceName.toLowerCase()} cost in ${locationName}?`,
-      answer: `Pricing for ${serviceName.toLowerCase()} in ${locationName} varies depending on your specific requirements, the scale of your operation, and whether you choose a local or national supplier. The best way to get accurate pricing is to submit your requirements through TendorAI and receive tailored quotes from verified suppliers.`,
-    },
-    {
-      question: `Can I get multiple quotes from ${serviceName.toLowerCase()} suppliers in ${locationName}?`,
-      answer: `Yes — TendorAI lets you compare quotes from multiple verified suppliers in ${locationName}. Submit your requirements once and receive tailored proposals from suppliers that match your needs, location, and budget. It's completely free for buyers.`,
+      question: `What should I look for when choosing a ${serviceName.toLowerCase()} supplier?`,
+      answer: tips.length > 0
+        ? `Key factors: ${tips.join('. ')}.`
+        : `Consider experience, accreditations, response times, and coverage area when choosing a ${serviceName.toLowerCase()} supplier.`,
     },
   ];
 }
 
-// Empty State Component
-function EmptyState({
-  service,
-  location,
-  category,
-}: {
-  service: string;
-  location: string;
-  category: string;
-}) {
+function EmptyState({ service, location, category, isSolicitor }: { service: string; location: string; category: string; isSolicitor: boolean }) {
   const nearbyLocations = getNearbyLocations(location.toLowerCase().replace(/\s+/g, '-'));
+  const suffix = isSolicitor ? 'solicitors' : 'suppliers';
 
   return (
     <div className="text-center py-12 bg-white rounded-lg">
       <div className="text-gray-400 text-5xl mb-4">&#128269;</div>
       <h2 className="text-xl font-semibold text-gray-800 mb-2">
-        No {service} suppliers found in {location}
+        No {service} {suffix} found in {location}
       </h2>
       <p className="text-gray-600 mb-6">
-        We&apos;re expanding our network. Check nearby areas or browse all suppliers.
+        We&apos;re expanding our network. Check nearby areas or browse all {suffix}.
       </p>
-
       {nearbyLocations.length > 0 && (
         <div className="mb-6">
           <p className="text-sm text-gray-500 mb-3">Try nearby locations:</p>
@@ -589,10 +546,7 @@ function EmptyState({
           </div>
         </div>
       )}
-
-      <Link href="/suppliers" className="btn-primary">
-        Browse All Suppliers
-      </Link>
+      <Link href="/suppliers" className="btn-primary">Browse All Suppliers</Link>
     </div>
   );
 }

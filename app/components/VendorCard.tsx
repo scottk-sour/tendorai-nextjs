@@ -28,6 +28,10 @@ export interface VendorCardData {
   website?: string;
   showPricing?: boolean;
   accountClaimed?: boolean;
+  // Solicitor-specific
+  vendorType?: string;
+  sraNumber?: string;
+  slug?: string;
 }
 
 type CardVariant = 'premium' | 'active' | 'unclaimed';
@@ -41,12 +45,20 @@ function getVariant(vendor: VendorCardData): CardVariant {
 
 /** Build a descriptive label for the vendor's primary service and location */
 function getVendorLabel(vendor: VendorCardData): string {
-  const service = vendor.services[0] || 'Office Equipment';
+  const isSolicitor = vendor.vendorType === 'solicitor';
+  const service = vendor.services[0] || (isSolicitor ? 'Solicitors' : 'Office Equipment');
   const city = vendor.location.city && vendor.location.city.toLowerCase() !== 'uk'
     ? vendor.location.city
     : null;
-  if (city) return `${service} Supplier in ${city}`;
-  return `${service} Supplier`;
+  const suffix = isSolicitor ? 'Solicitors' : 'Supplier';
+  if (city) return `${service} ${suffix} in ${city}`;
+  return `${service} ${suffix}`;
+}
+
+/** Get the profile URL — use slug if available, otherwise MongoDB ID */
+function getProfileUrl(vendor: VendorCardData): string {
+  if (vendor.slug) return `/suppliers/vendor/${vendor.slug}`;
+  return `/suppliers/profile/${vendor.id}`;
 }
 
 export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
@@ -72,7 +84,7 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-2">
             <h3 className="text-xl font-semibold text-gray-900 truncate">
-              <Link href={`/suppliers/profile/${vendor.id}`} className="hover:text-purple-600">
+              <Link href={getProfileUrl(vendor)} className="hover:text-purple-600">
                 {vendor.company}
               </Link>
             </h3>
@@ -103,13 +115,13 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
           <Link
-            href={`/suppliers/profile/${vendor.id}?quote=true`}
+            href={`${getProfileUrl(vendor)}?quote=true`}
             className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
             Get Quote from {vendor.company}
           </Link>
           <Link
-            href={`/suppliers/profile/${vendor.id}`}
+            href={getProfileUrl(vendor)}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
             {vendor.company} — {label}
@@ -129,7 +141,7 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1 min-w-0">
           <h3 className="text-xl font-semibold text-gray-900 mb-2 truncate">
-            <Link href={`/suppliers/profile/${vendor.id}`} className="hover:text-purple-600">
+            <Link href={getProfileUrl(vendor)} className="hover:text-purple-600">
               {vendor.company}
             </Link>
           </h3>
@@ -150,7 +162,7 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
           <Link
-            href={`/suppliers/profile/${vendor.id}`}
+            href={getProfileUrl(vendor)}
             className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
             {vendor.company} — {label}
@@ -163,42 +175,50 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
 
 // --- Unclaimed Card (Seeded vendor, never signed up) ---
 function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
+  const isSolicitor = vendor.vendorType === 'solicitor';
+  const profileUrl = getProfileUrl(vendor);
+
   return (
     <article className="bg-gray-50 rounded-xl border border-gray-200 p-6 relative">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2 truncate">
-            {vendor.company}
-          </h3>
-
-          {vendor.description && (
-            <p className="text-gray-400 text-sm mb-3 line-clamp-2 blur-sm select-none" aria-hidden>
-              {vendor.description}
-            </p>
-          )}
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-lg font-semibold text-gray-700 truncate">
+              <Link href={profileUrl} className="hover:text-purple-600">{vendor.company}</Link>
+            </h3>
+            {isSolicitor && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
+                SRA Regulated
+              </span>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-1.5 mb-3">
-            {vendor.services.slice(0, 3).map((service, idx) => (
-              <span key={idx} className="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">
+            {vendor.services.slice(0, 4).map((service, idx) => (
+              <span key={idx} className={`text-xs px-2 py-1 rounded ${
+                isSolicitor ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-500'
+              }`}>
                 {service}
               </span>
             ))}
           </div>
 
           {vendor.location.city && vendor.location.city.toLowerCase() !== 'uk' && (
-            <span className="text-sm text-gray-400">{vendor.location.city}</span>
+            <span className="text-sm text-gray-500">{vendor.location.city}</span>
           )}
         </div>
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0 text-right">
           <p className="text-xs text-gray-400 italic">
-            This supplier hasn&apos;t joined TendorAI yet
+            {isSolicitor ? 'This firm hasn\u2019t claimed their profile yet' : 'This supplier hasn\u2019t joined TendorAI yet'}
           </p>
           <Link
-            href={`/vendor-signup?claim=${encodeURIComponent(vendor.company)}`}
+            href={isSolicitor && vendor.sraNumber
+              ? `/vendor-signup?sra=${vendor.sraNumber}&company=${encodeURIComponent(vendor.company)}`
+              : `/vendor-signup?claim=${encodeURIComponent(vendor.company)}`}
             className="text-sm text-purple-600 hover:text-purple-700 font-medium"
           >
-            Claim {vendor.company} on TendorAI &rarr;
+            Claim this profile &rarr;
           </Link>
         </div>
       </div>

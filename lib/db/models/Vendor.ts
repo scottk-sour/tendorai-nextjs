@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
-const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software'];
+const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants'];
 
 export interface IVendor extends Document {
   _id: mongoose.Types.ObjectId;
@@ -103,6 +103,15 @@ export interface IVendor extends Document {
     type?: string;
     priority?: string;
   }>;
+  vendorType?: string;
+  sraNumber?: string;
+  regulatoryBody?: string;
+  practiceAreas?: string[];
+  organisationType?: string;
+  companyNumber?: string;
+  officeCount?: number;
+  source?: string;
+  claimed?: boolean;
   listingStatus?: string;
   claimedAt?: Date;
   claimedBy?: mongoose.Types.ObjectId;
@@ -301,6 +310,15 @@ const vendorSchema = new Schema<IVendor>(
       },
     ],
 
+    vendorType: { type: String, enum: ['office-equipment', 'solicitor', 'accountant'], default: 'office-equipment' },
+    sraNumber: { type: String, trim: true, sparse: true },
+    regulatoryBody: { type: String, trim: true },
+    practiceAreas: [{ type: String, trim: true }],
+    organisationType: { type: String, trim: true },
+    companyNumber: { type: String, trim: true },
+    officeCount: { type: Number },
+    source: { type: String, trim: true },
+    claimed: { type: Boolean, default: false },
     listingStatus: {
       type: String,
       enum: ['unclaimed', 'claimed', 'verified', 'suspended'],
@@ -407,6 +425,10 @@ vendorSchema.index({ listingStatus: 1 });
 vendorSchema.index({ postcodeAreas: 1 });
 vendorSchema.index({ brands: 1 });
 vendorSchema.index({ tier: 1 });
+vendorSchema.index({ vendorType: 1 });
+vendorSchema.index({ sraNumber: 1 }, { sparse: true });
+vendorSchema.index({ practiceAreas: 1 });
+vendorSchema.index({ vendorType: 1, 'location.city': 1 });
 
 // Prevent model recompilation in development
 const Vendor = (mongoose.models.Vendor as IVendorModel) || mongoose.model<IVendor, IVendorModel>('Vendor', vendorSchema);

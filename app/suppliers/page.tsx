@@ -5,15 +5,15 @@ import { Vendor } from '@/lib/db/models';
 import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Supplier Directory',
+  title: 'Supplier Directory — Solicitors & Office Equipment | TendorAI',
   description:
-    'Browse our directory of office equipment suppliers across the UK. Find copier, telecoms, CCTV, IT, and security suppliers in your area.',
+    'Browse verified UK suppliers on TendorAI. Find solicitors by practice area, plus office equipment dealers including photocopiers, telecoms, CCTV, and IT services.',
   alternates: {
     canonical: 'https://www.tendorai.com/suppliers',
   },
 };
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
 async function getSupplierStats() {
   await connectDB();
@@ -25,17 +25,19 @@ async function getSupplierStats() {
     ],
   };
 
-  const [totalCount, categoryStats] = await Promise.all([
+  const [totalCount, categoryStats, solicitorStats] = await Promise.all([
     Vendor.countDocuments(statusFilter),
     Vendor.aggregate([
       { $match: statusFilter },
       { $unwind: '$services' },
-      {
-        $group: {
-          _id: '$services',
-          count: { $sum: 1 },
-        },
-      },
+      { $group: { _id: '$services', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]),
+    // Get solicitor practice area counts
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: 'solicitor' } },
+      { $unwind: '$practiceAreas' },
+      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]),
   ]);
@@ -44,25 +46,30 @@ async function getSupplierStats() {
   categoryStats.forEach((stat: { _id: string; count: number }) => {
     categoryCountMap[stat._id] = stat.count;
   });
+  solicitorStats.forEach((stat: { _id: string; count: number }) => {
+    categoryCountMap[stat._id] = stat.count;
+  });
 
   return { totalCount, categoryCountMap };
 }
 
 export default async function SuppliersIndexPage() {
   const { totalCount, categoryCountMap } = await getSupplierStats();
-  const services = Object.values(SERVICES);
+
+  const officeEquipment = Object.values(SERVICES).filter((s) => s.group === 'office-equipment');
+  const solicitorCategories = Object.values(SERVICES).filter((s) => s.group === 'solicitor');
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Office Equipment Supplier Directory',
-    description: 'Directory of office equipment suppliers across the UK',
+    name: 'UK Supplier Directory — Solicitors & Office Equipment',
+    description: 'Directory of verified UK suppliers including solicitors and office equipment dealers',
     numberOfItems: totalCount,
-    itemListElement: services.map((service, index) => ({
+    itemListElement: Object.values(SERVICES).map((service, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': 'Service',
+        '@type': service.group === 'solicitor' ? 'LegalService' : 'Service',
         name: service.name,
         description: service.description,
         url: `https://www.tendorai.com/suppliers/${service.slug}`,
@@ -92,17 +99,52 @@ export default async function SuppliersIndexPage() {
               Supplier Directory
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Browse {totalCount} office equipment suppliers across the UK. Find the right supplier for your business needs.
+              Browse {totalCount.toLocaleString()} verified suppliers across the UK. Find solicitors by
+              practice area or office equipment dealers by service type.
             </p>
           </div>
         </section>
 
-        {/* Categories */}
+        {/* Legal Services */}
         <section className="py-12">
           <div className="section">
-            <h2 className="text-2xl font-bold mb-8">Browse by Service</h2>
+            <h2 className="text-2xl font-bold mb-2">Legal Services</h2>
+            <p className="text-gray-600 mb-8">SRA-regulated solicitor firms across England and Wales</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {solicitorCategories.map((service) => {
+                const count = categoryCountMap[service.value] || 0;
+                return (
+                  <Link
+                    key={service.slug}
+                    href={`/suppliers/${service.slug}`}
+                    className="card-hover p-5 group"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="text-3xl">{service.icon}</div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-semibold mb-0.5 group-hover:text-purple-600 transition-colors">
+                          {service.name}
+                        </h3>
+                        <p className="text-gray-500 text-xs mb-1.5 line-clamp-1">{service.description}</p>
+                        <span className="text-sm text-purple-600 font-medium">
+                          {count.toLocaleString()} firms
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Office Equipment */}
+        <section className="py-12 bg-white">
+          <div className="section">
+            <h2 className="text-2xl font-bold mb-2">Office Equipment</h2>
+            <p className="text-gray-600 mb-8">Photocopiers, telecoms, CCTV, IT, and more</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service) => {
+              {officeEquipment.map((service) => {
                 const count = categoryCountMap[service.value] || 0;
                 return (
                   <Link
@@ -118,7 +160,7 @@ export default async function SuppliersIndexPage() {
                         </h3>
                         <p className="text-gray-600 text-sm mb-2">{service.description}</p>
                         <span className="text-sm text-purple-600 font-medium">
-                          {count} suppliers →
+                          {count.toLocaleString()} suppliers
                         </span>
                       </div>
                     </div>
@@ -130,14 +172,14 @@ export default async function SuppliersIndexPage() {
         </section>
 
         {/* Locations */}
-        <section className="py-12 bg-white">
+        <section className="py-12">
           <div className="section">
             <h2 className="text-2xl font-bold mb-8">Browse by Location</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {MAJOR_LOCATIONS.map((location) => (
                 <Link
                   key={location}
-                  href={`/suppliers/photocopiers/${location.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={`/suppliers/conveyancing/${location.toLowerCase().replace(/\s+/g, '-')}`}
                   className="card-hover p-4 text-center group"
                 >
                   <span className="text-gray-700 group-hover:text-purple-600 transition-colors font-medium">
@@ -150,16 +192,16 @@ export default async function SuppliersIndexPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-12">
+        <section className="py-12 bg-white">
           <div className="section">
             <div className="card p-8 text-center bg-purple-50 border-purple-100">
-              <h2 className="text-2xl font-bold mb-4">Can&apos;t find what you&apos;re looking for?</h2>
+              <h2 className="text-2xl font-bold mb-4">Check your AI visibility for free</h2>
               <p className="text-gray-600 mb-6">
-                Our AI can help match you with the right suppliers based on your specific
-                requirements.
+                See how AI assistants like ChatGPT and Perplexity describe your business — and
+                who they recommend instead.
               </p>
-              <Link href="/" className="btn-primary">
-                Get AI Recommendations
+              <Link href="/aeo-report" className="btn-primary">
+                Get Free AI Visibility Report
               </Link>
             </div>
           </div>
