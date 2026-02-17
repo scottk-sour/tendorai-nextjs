@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { connectDB } from '@/lib/db/connection';
 import { VendorPost } from '@/lib/db/models';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Supplier Posts | News, Guides & Offers',
