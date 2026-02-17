@@ -11,7 +11,7 @@ interface SearchResult {
   slug: string | null;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || '';
+const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 export default function VendorSearchBar() {
   const [query, setQuery] = useState('');
