@@ -38,18 +38,18 @@ export default function ForVendorsPage() {
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
             <span className="text-sm font-medium">11,000+ businesses already listed</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             AI is recommending your competitors.<br />
             We fix that.
           </h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
             200M people now ask ChatGPT instead of Google. When they ask for a solicitor,
             accountant, or copier dealer &mdash; is AI recommending you?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/aeo-report"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-[var(--purple-start)] hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
               Run Your Free AI Visibility Report
             </Link>
@@ -60,7 +60,7 @@ export default function ForVendorsPage() {
               See Pricing
             </a>
           </div>
-          <p className="mt-6 text-sm text-purple-200">
+          <p className="mt-6 text-sm text-white/70">
             Your free profile is already live. Claim it to control what AI says about you.
           </p>
         </div>
@@ -91,10 +91,10 @@ export default function ForVendorsPage() {
       <section className="py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text)] mb-4">
               How It Works
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-[var(--text2)] text-lg max-w-2xl mx-auto">
               From invisible to AI-recommended in four steps
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function ForVendorsPage() {
               { step: '4', title: 'You get the client', description: 'AI recommends you by name. Customer comes direct. No bidding. No shared leads.' },
             ].map((step) => (
               <div key={step.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-700 font-bold text-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-full bg-purple-100 text-[var(--purple-start)] font-bold text-xl flex items-center justify-center mx-auto mb-4">
                   {step.step}
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
@@ -118,20 +118,20 @@ export default function ForVendorsPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-24 bg-gray-50">
+      <section id="pricing" className="py-24 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text)] mb-4">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-[var(--text2)] text-lg max-w-2xl mx-auto">
               Start free. Upgrade when AI should recommend you first.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
             {/* Free */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+            <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
               <div className="text-center mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
                 <div className="mb-2">
@@ -150,13 +150,13 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/vendor-signup?plan=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-all">
+              <Link href="/vendor-signup?plan=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
                 Claim Your Profile
               </Link>
             </div>
 
             {/* Starter */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+            <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
               <div className="text-center mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Starter</h3>
                 <div className="mb-1">
@@ -220,7 +220,7 @@ export default function ForVendorsPage() {
             </div>
 
             {/* Enterprise */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+            <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
               <div className="text-center mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Enterprise</h3>
                 <div className="mb-2">
@@ -239,7 +239,7 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/contact" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-all">
+              <Link href="/contact" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
                 Contact Sales
               </Link>
             </div>
@@ -248,13 +248,13 @@ export default function ForVendorsPage() {
           {/* Comparison Table: TendorAI vs Agencies */}
           <div className="mt-20 max-w-3xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">TendorAI vs Agencies</h3>
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[var(--border)] overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50">
+                  <tr className="bg-[var(--surface)]">
                     <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600"></th>
                     <th className="text-center py-4 px-6 text-sm font-semibold text-gray-600">Agencies</th>
-                    <th className="text-center py-4 px-6 text-sm font-semibold text-purple-700">TendorAI</th>
+                    <th className="text-center py-4 px-6 text-sm font-semibold text-[var(--purple-start)]">TendorAI</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -269,7 +269,7 @@ export default function ForVendorsPage() {
                     <tr key={i}>
                       <td className="py-4 px-6 text-sm font-medium text-gray-900">{label}</td>
                       <td className="py-4 px-6 text-sm text-gray-500 text-center">{agency}</td>
-                      <td className="py-4 px-6 text-sm text-purple-700 font-semibold text-center">{tendorai}</td>
+                      <td className="py-4 px-6 text-sm text-[var(--purple-start)] font-semibold text-center">{tendorai}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -287,7 +287,7 @@ export default function ForVendorsPage() {
           </h2>
           <div className="space-y-6">
             {faqs.map((faq, i) => (
-              <div key={i} className="border-b border-gray-200 pb-6 last:border-0">
+              <div key={i} className="border-b border-[var(--border)] pb-6 last:border-0">
                 <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{faq.a}</p>
               </div>

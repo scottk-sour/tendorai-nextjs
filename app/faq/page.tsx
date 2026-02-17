@@ -47,10 +47,10 @@ export default function FAQPage() {
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-white">
             Frequently Asked Questions
           </h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto">
             Everything you need to know about TendorAI
           </p>
         </div>
@@ -59,25 +59,24 @@ export default function FAQPage() {
       {/* FAQs */}
       <section className="py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-6">
+          <div className="space-y-5">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <div key={index} className="bg-white rounded-xl p-6 border border-[var(--border)]">
+                <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">
                   {faq.question}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-[var(--text2)] leading-relaxed">
                   {faq.answer}
                 </p>
               </div>
             ))}
           </div>
 
-          {/* Still have questions */}
           <div className="mt-12 text-center">
-            <p className="text-gray-600 mb-4">Still have questions?</p>
+            <p className="text-[var(--text2)] mb-4">Still have questions?</p>
             <Link
               href="/contact"
-              className="text-purple-600 hover:text-purple-700 font-medium"
+              className="text-[var(--purple-start)] hover:text-[var(--purple-end)] font-medium"
             >
               Contact us &rarr;
             </Link>

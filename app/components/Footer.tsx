@@ -182,7 +182,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 border-t border-gray-800 pt-8">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} TendorAI. All rights reserved. Registered in England &amp; Wales.
+            &copy; {new Date().getFullYear()} TendorAI Ltd &middot; The UK&apos;s AI Visibility Platform &middot; Bristol, UK
           </p>
         </div>
       </div>

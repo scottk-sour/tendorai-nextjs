@@ -12,10 +12,10 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-white">
             Contact Us
           </h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto">
             Have questions? We&apos;d love to hear from you.
           </p>
         </div>
@@ -26,45 +26,37 @@ export default function ContactPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {/* For Businesses */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <div className="text-3xl mb-4">🏢</div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">For Businesses</h2>
-              <p className="text-gray-600 mb-6">
-                Looking for office equipment quotes? Our AI can match you with verified suppliers instantly.
+            <div className="bg-white rounded-xl p-8 border border-[var(--border)]">
+              <h2 className="font-serif text-xl font-semibold text-[var(--text)] mb-4">For Businesses</h2>
+              <p className="text-[var(--text2)] mb-6">
+                Want to see what AI says about your business? Run a free AI visibility report.
               </p>
-              <Link
-                href="/suppliers"
-                className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-              >
+              <Link href="/aeo-report" className="btn-primary">
                 Check AI Visibility
               </Link>
             </div>
 
             {/* For Vendors */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <div className="text-3xl mb-4">🤝</div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">For Vendors</h2>
-              <p className="text-gray-600 mb-6">
-                Want to join our network and receive qualified leads? Sign up for a vendor account.
+            <div className="bg-white rounded-xl p-8 border border-[var(--border)]">
+              <h2 className="font-serif text-xl font-semibold text-[var(--text)] mb-4">For Vendors</h2>
+              <p className="text-[var(--text2)] mb-6">
+                Want to claim your profile and get recommended by AI? Sign up for a vendor account.
               </p>
-              <Link
-                href="/vendor-signup"
-                className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Become a Vendor
+              <Link href="/vendor-signup" className="btn-secondary">
+                Claim Your Profile
               </Link>
             </div>
           </div>
 
           {/* Email */}
           <div className="mt-12 text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">General Enquiries</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="font-serif text-xl font-semibold text-[var(--text)] mb-4">General Enquiries</h2>
+            <p className="text-[var(--text2)] mb-4">
               For all other questions, reach us at:
             </p>
             <a
               href="mailto:scott.davies@tendorai.com"
-              className="text-purple-600 hover:text-purple-700 font-medium text-lg"
+              className="text-[var(--purple-start)] hover:text-[var(--purple-end)] font-medium text-lg"
             >
               scott.davies@tendorai.com
             </a>

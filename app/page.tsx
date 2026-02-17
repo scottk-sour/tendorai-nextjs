@@ -1,12 +1,14 @@
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
+import ProblemSection from './components/landing/ProblemSection';
+import AiShift from './components/landing/AiShift';
 import Features from './components/landing/Features';
-import ServiceCategories from './components/landing/ServiceCategories';
-import Stats from './components/landing/Stats';
-import CoverageAreas from './components/landing/CoverageAreas';
-import FAQ from './components/landing/FAQ';
-import FinalCTA from './components/landing/FinalCTA';
 import AeoReportCTA from './components/landing/AeoReportCTA';
+import ConversationDemo from './components/landing/ConversationDemo';
+import Pricing from './components/landing/Pricing';
+import Verticals from './components/landing/Verticals';
+import ServiceCategories from './components/landing/ServiceCategories';
+import FinalCTA from './components/landing/FinalCTA';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
@@ -166,28 +168,34 @@ export default async function HomePage() {
       />
 
       <main>
-        {/* Hero Section */}
+        {/* Hero */}
         <Hero />
 
-        {/* Stats Bar */}
-        <Stats />
+        {/* Problem — Cost comparison cards */}
+        <ProblemSection />
 
-        {/* How It Works */}
+        {/* AI Shift — Old vs New comparison */}
+        <AiShift />
+
+        {/* How It Works — 4 steps */}
         <Features />
 
-        {/* AI Visibility CTA — Prominent Position */}
+        {/* AEO Report CTA */}
         <AeoReportCTA />
 
-        {/* Browse by Service */}
+        {/* Conversation Demo */}
+        <ConversationDemo />
+
+        {/* Pricing */}
+        <Pricing />
+
+        {/* Verticals */}
+        <Verticals />
+
+        {/* Browse by Service (SEO value) */}
         <ServiceCategories categoryCounts={categoryCounts} />
 
-        {/* Coverage Areas */}
-        <CoverageAreas />
-
-        {/* FAQ Section */}
-        <FAQ />
-
-        {/* Final CTA with Newsletter */}
+        {/* Final CTA */}
         <FinalCTA />
       </main>
     </>

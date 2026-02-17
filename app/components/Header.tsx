@@ -36,7 +36,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-white'
+        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[var(--border)]' : 'bg-white/80 backdrop-blur-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,7 +81,7 @@ const Header = () => {
             </Link>
             <Link
               href="/aeo-report"
-              className="text-sm font-medium bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              className="btn-primary !py-2 !px-5 !text-sm"
             >
               Check AI Visibility — Free
             </Link>

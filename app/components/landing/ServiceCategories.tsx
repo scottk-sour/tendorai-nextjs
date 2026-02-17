@@ -189,7 +189,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+            <h3 className="font-semibold text-[var(--text)] group-hover:text-[var(--purple-start)] transition-colors">
               {category.name}
             </h3>
             {category.comingSoon && (
@@ -198,11 +198,11 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+          <p className="text-sm text-[var(--text2)] mb-3 line-clamp-2">
             {category.description}
           </p>
           {!category.comingSoon && (
-            <span className="text-sm text-purple-600 font-medium">
+            <span className="text-sm text-[var(--purple-start)] font-medium">
               {count} suppliers &rarr;
             </span>
           )}
@@ -214,7 +214,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
       return (
         <div
           key={category.slug}
-          className="bg-white rounded-xl p-5 border border-gray-200 opacity-75 group"
+          className="bg-white rounded-xl p-5 border border-[var(--border)] opacity-75 group"
         >
           {content}
         </div>
@@ -225,7 +225,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
       <Link
         key={category.slug}
         href={`/suppliers/${category.slug}`}
-        className="bg-white rounded-xl p-5 border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all group"
+        className="bg-white rounded-xl p-5 border border-[var(--border)] hover:border-[var(--purple-start)] hover:shadow-md transition-all group"
       >
         {content}
       </Link>
@@ -233,20 +233,21 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
   };
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">
-          Browse by Service
-        </h2>
+    <section className="py-20 md:py-24 bg-[var(--surface)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="section-header">
+          <h2>Browse by service</h2>
+          <p>AI visibility profiles for office equipment and legal services across the UK</p>
+        </div>
 
         {/* Office Equipment */}
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">Office Equipment</h3>
+        <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Office Equipment</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {officeEquipmentCategories.map(renderCategory)}
         </div>
 
         {/* Legal Services */}
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">Legal Services</h3>
+        <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Legal Services</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {legalCategories.map(renderCategory)}
         </div>
