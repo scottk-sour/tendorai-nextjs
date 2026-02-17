@@ -140,7 +140,6 @@ const vendorSchema = new Schema<IVendor>(
     email: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
       lowercase: true,
       match: [/.+@.+\..+/, 'Please provide a valid email address'],
