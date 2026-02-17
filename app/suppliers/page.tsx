@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
+import VendorSearchBar from '@/app/components/VendorSearchBar';
 
 export const metadata: Metadata = {
   title: 'Supplier Directory — Solicitors & Office Equipment | TendorAI',
@@ -102,6 +103,7 @@ export default async function SuppliersIndexPage() {
               Browse {totalCount.toLocaleString()} verified suppliers across the UK. Find solicitors by
               practice area or office equipment dealers by service type.
             </p>
+            <VendorSearchBar />
           </div>
         </section>
 
