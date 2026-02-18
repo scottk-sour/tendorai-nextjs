@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const stats = [
-  { value: '9,600+', label: 'UK Businesses Listed' },
+  { value: '11,000+', label: 'UK Businesses Listed' },
   { value: '6', label: 'AI Platforms Tracked' },
   { value: '£149/mo', label: 'Not £5,000/month' },
   { value: 'Self-Serve', label: 'No Agency Needed' },
