@@ -178,6 +178,7 @@ export default function VendorDashboardOverview() {
         token={token || ''}
         tier={currentTier}
         vendorName={profile?.company || ''}
+        vendorType={profile?.vendorType || 'office-equipment'}
       />
 
       {/* Stats Grid */}

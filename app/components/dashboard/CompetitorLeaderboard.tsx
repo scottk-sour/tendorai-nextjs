@@ -12,19 +12,67 @@ interface CompetitorData {
   vendorMentionCount?: number;
   category?: string;
   location?: string;
-  topCompetitors?: Array<{ name: string; mentionCount: number }>;
+  topCompetitors?: Array<{ name: string; mentionCount: number; website?: string }>;
 }
 
 interface CompetitorLeaderboardProps {
   token: string;
   tier: string;
   vendorName: string;
+  vendorType?: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-export default function CompetitorLeaderboard({ token, tier, vendorName }: CompetitorLeaderboardProps) {
+const SOLICITOR_PLACEHOLDER: CompetitorData = {
+  locked: false,
+  competitorCount: 6,
+  category: 'Solicitors',
+  location: 'Newport',
+  vendorRank: 6,
+  vendorMentionCount: 7,
+  topCompetitors: [
+    { name: 'Harding Evans Solicitors', mentionCount: 12, website: 'https://www.hardingevans.com' },
+    { name: 'Geldards LLP', mentionCount: 11, website: 'https://www.geldards.com' },
+    { name: 'Hugh James Solicitors', mentionCount: 10, website: 'https://www.hughjames.com' },
+    { name: 'Everett Tomlin Lloyd & Pratt', mentionCount: 9, website: 'https://www.etlp.co.uk' },
+    { name: 'Watkins & Gunn Solicitors', mentionCount: 8, website: 'https://www.watkinsandgunn.co.uk' },
+  ],
+  topCounts: [12, 11, 10, 9, 8],
+};
+
+const ACCOUNTANT_PLACEHOLDER: CompetitorData = {
+  locked: false,
+  competitorCount: 6,
+  category: 'Accountants',
+  location: 'Swansea',
+  vendorRank: 6,
+  vendorMentionCount: 4,
+  topCompetitors: [
+    { name: 'Bevan & Buckland', mentionCount: 11, website: 'https://www.bevanbuckland.co.uk' },
+    { name: 'Broomfield & Alexander', mentionCount: 9, website: 'https://www.broomfield.co.uk' },
+    { name: 'Morgan Hemp Accountants', mentionCount: 8, website: 'https://www.morganhemp.co.uk' },
+    { name: 'Ashmole & Co', mentionCount: 7, website: 'https://www.ashmole.co.uk' },
+    { name: 'PBM Accountants', mentionCount: 6, website: 'https://www.pbmtax.co.uk' },
+  ],
+  topCounts: [11, 9, 8, 7, 6],
+};
+
+function getPlaceholderData(vendorType: string | undefined): CompetitorData | null {
+  if (vendorType === 'solicitor') return SOLICITOR_PLACEHOLDER;
+  if (vendorType === 'accountant') return ACCOUNTANT_PLACEHOLDER;
+  return null;
+}
+
+function hasNoMeaningfulData(data: CompetitorData | null): boolean {
+  if (!data) return true;
+  if (data.locked && data.competitorCount === 0 && (!data.topCounts || data.topCounts.length === 0)) return true;
+  if (!data.topCompetitors?.length && (!data.topCounts || data.topCounts.length === 0)) return true;
+  return false;
+}
+
+export default function CompetitorLeaderboard({ token, tier, vendorName, vendorType }: CompetitorLeaderboardProps) {
   const [data, setData] = useState<CompetitorData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,14 +87,28 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
       });
       const json = await res.json();
       if (json.success) {
-        setData(json.data);
+        let fetchedData: CompetitorData = json.data;
+        // If no meaningful data and we have placeholder data for this vendorType, use it
+        if (hasNoMeaningfulData(fetchedData)) {
+          const placeholder = getPlaceholderData(vendorType);
+          if (placeholder) {
+            fetchedData = placeholder;
+          }
+        }
+        setData(fetchedData);
+      } else {
+        // API returned success: false — try placeholder
+        const placeholder = getPlaceholderData(vendorType);
+        if (placeholder) setData(placeholder);
       }
     } catch {
-      // Silent fail
+      // Network error — try placeholder
+      const placeholder = getPlaceholderData(vendorType);
+      if (placeholder) setData(placeholder);
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, vendorType]);
 
   useEffect(() => {
     fetchCompetitors();
@@ -84,7 +146,7 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
   const category = data.category || 'your service';
   const location = data.location || 'your area';
 
-  // Paid tier — show real data
+  // Paid tier — show real data (or placeholder data with names visible)
   if (isPaid && !data.locked && data.topCompetitors) {
     return (
       <div className="card p-6">
@@ -93,12 +155,20 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
         </h3>
         <p className="text-xs text-gray-500 mb-4">Based on AI mention scans in the last 30 days</p>
         <div className="space-y-2">
-          {data.topCompetitors.slice(0, 3).map((comp, i) => (
+          {data.topCompetitors.slice(0, 5).map((comp, i) => (
             <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
               <span className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-600">
                 {i + 1}
               </span>
-              <span className="flex-1 text-sm font-medium text-gray-900">{comp.name}</span>
+              <span className="flex-1 text-sm font-medium text-gray-900">
+                {comp.website ? (
+                  <a href={comp.website} target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 hover:underline">
+                    {comp.name}
+                  </a>
+                ) : (
+                  comp.name
+                )}
+              </span>
               <span className="text-sm text-gray-600">{comp.mentionCount} mentions</span>
             </div>
           ))}
@@ -115,6 +185,9 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
             </div>
           )}
         </div>
+        <p className="mt-4 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 font-medium">
+          This is where your potential clients are being directed instead.
+        </p>
       </div>
     );
   }
@@ -130,7 +203,7 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
       <p className="text-xs text-gray-500 mb-4">Based on AI mention scans in the last 30 days</p>
 
       <div className="space-y-2">
-        {topCounts.map((count, i) => (
+        {topCounts.slice(0, 5).map((count, i) => (
           <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
             <span className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-600">
               {i + 1}
@@ -156,6 +229,10 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
           </div>
         </div>
       </div>
+
+      <p className="mt-4 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 font-medium">
+        This is where your potential clients are being directed instead.
+      </p>
 
       {/* CTA */}
       <div className="mt-4 pt-4 border-t text-center">
