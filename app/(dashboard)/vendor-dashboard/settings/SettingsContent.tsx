@@ -6,6 +6,44 @@ import { SERVICES, SERVICE_KEYS } from '@/lib/constants/services';
 import { PLANS } from '@/lib/constants/plans';
 import { getTierLabel } from '@/app/components/dashboard/TierGate';
 
+// ─── Solicitor constants ──────────────────────────────────────────────
+const SOLICITOR_PRACTICE_AREAS = [
+  'Conveyancing', 'Family Law', 'Criminal Law', 'Commercial Law',
+  'Employment Law', 'Wills & Probate', 'Immigration', 'Personal Injury',
+];
+
+const SOLICITOR_ACCREDITATIONS = [
+  'CQS', 'Lexcel', 'Legal 500', 'Law Society Panel',
+];
+
+const SOLICITOR_RESPONSE_TIMES = [
+  { value: 'same-day', label: 'Same day' },
+  { value: '24-hours', label: 'Within 24 hours' },
+  { value: '48-hours', label: 'Within 48 hours' },
+];
+
+// ─── Accountant constants ─────────────────────────────────────────────
+const ACCOUNTANT_SERVICES = [
+  'Tax', 'Bookkeeping', 'Payroll', 'VAT', 'Self-Assessment',
+  'Corporation Tax', 'Management Accounts', 'Audit', 'R&D Tax Credits',
+  'Company Formation', 'Cloud Accounting',
+];
+
+const ACCOUNTANT_SOFTWARE = ['Xero', 'QuickBooks', 'Sage', 'FreeAgent'];
+
+// ─── Types ────────────────────────────────────────────────────────────
+interface FixedFee {
+  service: string;
+  fee: string;
+}
+
+interface IndividualSolicitor {
+  name: string;
+  role: string;
+  specialisms: string;
+  qualifications: string;
+}
+
 interface ProfileData {
   company: string;
   name: string;
@@ -21,6 +59,22 @@ interface ProfileData {
   brands: string[];
   certifications: string[];
   tier: string;
+  vendorType: string;
+  // Solicitor fields
+  sraNumber: string;
+  practiceAreas: string[];
+  accreditations: string[];
+  fixedFees: FixedFee[];
+  lenderPanels: string[];
+  individualSolicitors: IndividualSolicitor[];
+  languages: string[];
+  legalAid: boolean;
+  responseTime: string;
+  // Accountant fields
+  icaewFirmNumber: string;
+  softwareUsed: string[];
+  industrySpecialisms: string[];
+  mtdCompliant: boolean;
 }
 
 interface SubscriptionData {
@@ -37,11 +91,13 @@ interface SubscriptionData {
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-const SERVICE_OPTIONS = SERVICE_KEYS.map((key) => ({
-  value: SERVICES[key].value,
-  label: SERVICES[key].name,
-  icon: SERVICES[key].icon,
-}));
+const SERVICE_OPTIONS = SERVICE_KEYS
+  .filter((key) => SERVICES[key].group === 'office-equipment')
+  .map((key) => ({
+    value: SERVICES[key].value,
+    label: SERVICES[key].name,
+    icon: SERVICES[key].icon,
+  }));
 
 // What you're missing by tier
 const MISSING_BY_TIER: Record<string, string[]> = {
@@ -64,25 +120,22 @@ const MISSING_BY_TIER: Record<string, string[]> = {
   ],
 };
 
+const DEFAULT_PROFILE: ProfileData = {
+  company: '', name: '', email: '', phone: '', website: '',
+  city: '', postcode: '', coverage: [], description: '',
+  yearsInBusiness: 0, services: [], brands: [], certifications: [],
+  tier: 'free', vendorType: 'office-equipment',
+  sraNumber: '', practiceAreas: [], accreditations: [], fixedFees: [],
+  lenderPanels: [], individualSolicitors: [], languages: [],
+  legalAid: false, responseTime: '',
+  icaewFirmNumber: '', softwareUsed: [], industrySpecialisms: [],
+  mtdCompliant: false,
+};
+
 export default function SettingsContent({ initialTab }: { initialTab?: string }) {
   const { getCurrentToken } = useAuth();
   const [activeTab, setActiveTab] = useState(initialTab === 'subscription' ? 'subscription' : 'profile');
-  const [profile, setProfile] = useState<ProfileData>({
-    company: '',
-    name: '',
-    email: '',
-    phone: '',
-    website: '',
-    city: '',
-    postcode: '',
-    coverage: [],
-    description: '',
-    yearsInBusiness: 0,
-    services: [],
-    brands: [],
-    certifications: [],
-    tier: 'free',
-  });
+  const [profile, setProfile] = useState<ProfileData>(DEFAULT_PROFILE);
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -91,6 +144,14 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   const [newBrand, setNewBrand] = useState('');
   const [newCertification, setNewCertification] = useState('');
   const [newCoverage, setNewCoverage] = useState('');
+  const [newLenderPanel, setNewLenderPanel] = useState('');
+  const [newLanguage, setNewLanguage] = useState('');
+  const [newSpecialism, setNewSpecialism] = useState('');
+
+  const vendorType = profile.vendorType || 'office-equipment';
+  const isSolicitor = vendorType === 'solicitor';
+  const isAccountant = vendorType === 'accountant';
+  const isEquipment = !isSolicitor && !isAccountant;
 
   const fetchProfile = useCallback(async () => {
     const token = getCurrentToken();
@@ -125,6 +186,20 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             brands: data.vendor.brands || [],
             certifications: data.vendor.certifications || [],
             tier: data.vendor.tier || 'free',
+            vendorType: data.vendor.vendorType || 'office-equipment',
+            sraNumber: data.vendor.sraNumber || '',
+            practiceAreas: data.vendor.practiceAreas || [],
+            accreditations: data.vendor.accreditations || [],
+            fixedFees: data.vendor.fixedFees || [],
+            lenderPanels: data.vendor.lenderPanels || [],
+            individualSolicitors: data.vendor.individualSolicitors || [],
+            languages: data.vendor.languages || [],
+            legalAid: data.vendor.legalAid || false,
+            responseTime: data.vendor.responseTime || '',
+            icaewFirmNumber: data.vendor.icaewFirmNumber || '',
+            softwareUsed: data.vendor.softwareUsed || [],
+            industrySpecialisms: data.vendor.industrySpecialisms || [],
+            mtdCompliant: data.vendor.mtdCompliant || false,
           });
         }
       }
@@ -178,9 +253,14 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: checked }));
   };
 
   const handleServiceToggle = (service: string) => {
@@ -192,21 +272,79 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     }));
   };
 
-  const addTag = (field: 'brands' | 'certifications' | 'coverage', value: string) => {
+  const handleArrayToggle = (field: keyof ProfileData, value: string) => {
+    setProfile((prev) => {
+      const arr = (prev[field] as string[]) || [];
+      return {
+        ...prev,
+        [field]: arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value],
+      };
+    });
+  };
+
+  type TagField = 'brands' | 'certifications' | 'coverage' | 'lenderPanels' | 'languages' | 'industrySpecialisms';
+
+  const addTag = (field: TagField, value: string) => {
     if (!value.trim()) return;
     setProfile((prev) => ({
       ...prev,
-      [field]: [...prev[field], value.trim()],
+      [field]: [...(prev[field] as string[]), value.trim()],
     }));
-    if (field === 'brands') setNewBrand('');
-    if (field === 'certifications') setNewCertification('');
-    if (field === 'coverage') setNewCoverage('');
+    const setters: Record<string, (v: string) => void> = {
+      brands: setNewBrand, certifications: setNewCertification, coverage: setNewCoverage,
+      lenderPanels: setNewLenderPanel, languages: setNewLanguage, industrySpecialisms: setNewSpecialism,
+    };
+    setters[field]?.('');
   };
 
-  const removeTag = (field: 'brands' | 'certifications' | 'coverage', index: number) => {
+  const removeTag = (field: TagField, index: number) => {
     setProfile((prev) => ({
       ...prev,
-      [field]: prev[field].filter((_, i) => i !== index),
+      [field]: (prev[field] as string[]).filter((_, i) => i !== index),
+    }));
+  };
+
+  // Fixed fees helpers
+  const addFixedFee = () => {
+    setProfile((prev) => ({
+      ...prev,
+      fixedFees: [...prev.fixedFees, { service: '', fee: '' }],
+    }));
+  };
+
+  const updateFixedFee = (index: number, field: 'service' | 'fee', value: string) => {
+    setProfile((prev) => ({
+      ...prev,
+      fixedFees: prev.fixedFees.map((f, i) => i === index ? { ...f, [field]: value } : f),
+    }));
+  };
+
+  const removeFixedFee = (index: number) => {
+    setProfile((prev) => ({
+      ...prev,
+      fixedFees: prev.fixedFees.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Individual solicitors helpers
+  const addSolicitor = () => {
+    setProfile((prev) => ({
+      ...prev,
+      individualSolicitors: [...prev.individualSolicitors, { name: '', role: '', specialisms: '', qualifications: '' }],
+    }));
+  };
+
+  const updateSolicitor = (index: number, field: keyof IndividualSolicitor, value: string) => {
+    setProfile((prev) => ({
+      ...prev,
+      individualSolicitors: prev.individualSolicitors.map((s, i) => i === index ? { ...s, [field]: value } : s),
+    }));
+  };
+
+  const removeSolicitor = (index: number) => {
+    setProfile((prev) => ({
+      ...prev,
+      individualSolicitors: prev.individualSolicitors.filter((_, i) => i !== index),
     }));
   };
 
@@ -231,10 +369,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
       const data = await response.json();
 
       if (data.success && data.url) {
-        // Redirect to Stripe checkout
         window.location.href = data.url;
       } else if (response.status === 503) {
-        // Stripe not configured
         setMessage({
           text: 'Online payments are not yet available. Please contact us to upgrade: scott.davies@tendorai.com',
           type: 'error',
@@ -306,6 +442,45 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   }
 
   const currentPlanId = getCurrentPlanId();
+
+  // ─── Tag input helper component ──────────────────────────────────────
+  const TagInput = ({ label, placeholder, value, onChange, onAdd, tags, onRemove, color = 'gray' }: {
+    label: string; placeholder: string; value: string;
+    onChange: (v: string) => void; onAdd: () => void;
+    tags: string[]; onRemove: (i: number) => void;
+    color?: 'gray' | 'blue' | 'green' | 'purple';
+  }) => {
+    const colorMap = {
+      gray: 'bg-gray-100 text-gray-700',
+      blue: 'bg-blue-100 text-blue-700',
+      green: 'bg-green-100 text-green-700',
+      purple: 'bg-purple-100 text-purple-700',
+    };
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="input flex-1"
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onAdd(); } }}
+          />
+          <button type="button" onClick={onAdd} className="btn-secondary px-4">Add</button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag, i) => (
+            <span key={i} className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${colorMap[color]}`}>
+              {tag}
+              <button type="button" onClick={() => onRemove(i)} className="ml-2 hover:opacity-70">&times;</button>
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -380,88 +555,52 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
 
           {/* Business Details */}
           <div className="card p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Business Details</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              {isSolicitor ? 'Firm Details' : isAccountant ? 'Practice Details' : 'Business Details'}
+            </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                  Company Name
+                  {isSolicitor || isAccountant ? 'Firm Name' : 'Company Name'}
                 </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={profile.company}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <input type="text" id="company" name="company" value={profile.company} onChange={handleChange} className="input" />
               </div>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Contact Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={profile.name}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Contact Name</label>
+                <input type="text" id="name" name="name" value={profile.name} onChange={handleChange} className="input" />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={profile.email}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" name="email" value={profile.email} onChange={handleChange} className="input" />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={profile.phone}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input type="tel" id="phone" name="phone" value={profile.phone} onChange={handleChange} className="input" />
               </div>
               <div>
-                <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">
-                  Website
-                </label>
-                <input
-                  type="url"
-                  id="website"
-                  name="website"
-                  value={profile.website}
-                  onChange={handleChange}
-                  placeholder="https://"
-                  className="input"
-                />
+                <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                <input type="url" id="website" name="website" value={profile.website} onChange={handleChange} placeholder="https://" className="input" />
               </div>
               <div>
-                <label htmlFor="yearsInBusiness" className="block text-sm font-medium text-gray-700 mb-1">
-                  Years in Business
-                </label>
-                <input
-                  type="number"
-                  id="yearsInBusiness"
-                  name="yearsInBusiness"
-                  value={profile.yearsInBusiness || ''}
-                  onChange={handleChange}
-                  min="0"
-                  className="input"
-                />
+                <label htmlFor="yearsInBusiness" className="block text-sm font-medium text-gray-700 mb-1">Years in Business</label>
+                <input type="number" id="yearsInBusiness" name="yearsInBusiness" value={profile.yearsInBusiness || ''} onChange={handleChange} min="0" className="input" />
               </div>
+
+              {/* SRA Number (solicitor, read-only) */}
+              {isSolicitor && profile.sraNumber && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">SRA Number</label>
+                  <input type="text" value={profile.sraNumber} readOnly className="input bg-gray-50 text-gray-500 cursor-not-allowed" />
+                </div>
+              )}
+
+              {/* ICAEW/ACCA Number (accountant, read-only) */}
+              {isAccountant && profile.icaewFirmNumber && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">ICAEW/ACCA Firm Number</label>
+                  <input type="text" value={profile.icaewFirmNumber} readOnly className="input bg-gray-50 text-gray-500 cursor-not-allowed" />
+                </div>
+              )}
             </div>
           </div>
 
@@ -470,199 +609,355 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Location</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-                  City
-                </label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={profile.city}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <input type="text" id="city" name="city" value={profile.city} onChange={handleChange} className="input" />
               </div>
               <div>
-                <label htmlFor="postcode" className="block text-sm font-medium text-gray-700 mb-1">
-                  Postcode
-                </label>
-                <input
-                  type="text"
-                  id="postcode"
-                  name="postcode"
-                  value={profile.postcode}
-                  onChange={handleChange}
-                  className="input"
-                />
+                <label htmlFor="postcode" className="block text-sm font-medium text-gray-700 mb-1">Postcode</label>
+                <input type="text" id="postcode" name="postcode" value={profile.postcode} onChange={handleChange} className="input" />
               </div>
             </div>
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Coverage Areas
-              </label>
-              <div className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={newCoverage}
-                  onChange={(e) => setNewCoverage(e.target.value)}
-                  placeholder="e.g. South Wales, Bristol"
-                  className="input flex-1"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      addTag('coverage', newCoverage);
-                    }
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => addTag('coverage', newCoverage)}
-                  className="btn-secondary px-4"
-                >
-                  Add
-                </button>
+              <TagInput
+                label="Coverage Areas"
+                placeholder="e.g. South Wales, Bristol"
+                value={newCoverage}
+                onChange={setNewCoverage}
+                onAdd={() => addTag('coverage', newCoverage)}
+                tags={profile.coverage}
+                onRemove={(i) => removeTag('coverage', i)}
+              />
+            </div>
+          </div>
+
+          {/* ═══════════════════════════════════════════════════════════════
+              SOLICITOR-SPECIFIC FIELDS
+              ═══════════════════════════════════════════════════════════════ */}
+          {isSolicitor && (
+            <>
+              {/* Practice Areas */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Practice Areas</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {SOLICITOR_PRACTICE_AREAS.map((area) => (
+                    <label key={area} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.practiceAreas.includes(area)
+                        ? 'border-purple-600 bg-purple-50 text-purple-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.practiceAreas.includes(area)}
+                        onChange={() => handleArrayToggle('practiceAreas', area)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{area}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {profile.coverage.map((area, i) => (
-                  <span key={i} className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm">
-                    {area}
-                    <button
-                      type="button"
-                      onClick={() => removeTag('coverage', i)}
-                      className="ml-2 text-gray-500 hover:text-gray-700"
-                    >
-                      &times;
-                    </button>
-                  </span>
+
+              {/* Fixed Fees */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Fixed Fees</h2>
+                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services (e.g. &quot;Conveyancing from &pound;999+VAT&quot;)</p>
+                {profile.fixedFees.map((fee, i) => (
+                  <div key={i} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={fee.service}
+                      onChange={(e) => updateFixedFee(i, 'service', e.target.value)}
+                      placeholder="Service (e.g. Conveyancing)"
+                      className="input flex-1"
+                    />
+                    <input
+                      type="text"
+                      value={fee.fee}
+                      onChange={(e) => updateFixedFee(i, 'fee', e.target.value)}
+                      placeholder="Fee (e.g. from &pound;999+VAT)"
+                      className="input w-48"
+                    />
+                    <button type="button" onClick={() => removeFixedFee(i)} className="text-red-500 hover:text-red-700 px-2">&times;</button>
+                  </div>
                 ))}
+                <button type="button" onClick={addFixedFee} className="btn-secondary text-sm mt-2">+ Add fee</button>
               </div>
-            </div>
-          </div>
 
-          {/* Services */}
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Services Offered</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {SERVICE_OPTIONS.map((service) => (
-                <button
-                  key={service.value}
-                  type="button"
-                  onClick={() => handleServiceToggle(service.value)}
-                  className={`flex items-center p-3 rounded-lg border-2 transition-all ${
-                    profile.services.includes(service.value)
-                      ? 'border-purple-600 bg-purple-50 text-purple-700'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                  }`}
-                >
-                  <span className="text-xl mr-2">{service.icon}</span>
-                  <span className="text-sm font-medium">{service.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+              {/* Accreditations */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Accreditations</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {SOLICITOR_ACCREDITATIONS.map((acc) => (
+                    <label key={acc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.accreditations.includes(acc)
+                        ? 'border-green-600 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.accreditations.includes(acc)}
+                        onChange={() => handleArrayToggle('accreditations', acc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{acc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
 
-          {/* Description */}
+              {/* Lender Panels */}
+              <div className="card p-6">
+                <TagInput
+                  label="Lender Panels"
+                  placeholder="e.g. Nationwide, Halifax, Barclays"
+                  value={newLenderPanel}
+                  onChange={setNewLenderPanel}
+                  onAdd={() => addTag('lenderPanels', newLenderPanel)}
+                  tags={profile.lenderPanels}
+                  onRemove={(i) => removeTag('lenderPanels', i)}
+                  color="blue"
+                />
+              </div>
+
+              {/* Individual Solicitors */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Solicitors at the Firm</h2>
+                {profile.individualSolicitors.map((sol, i) => (
+                  <div key={i} className="grid gap-3 sm:grid-cols-2 mb-4 p-4 bg-gray-50 rounded-lg relative">
+                    <button type="button" onClick={() => removeSolicitor(i)} className="absolute top-2 right-2 text-red-500 hover:text-red-700">&times;</button>
+                    <input type="text" value={sol.name} onChange={(e) => updateSolicitor(i, 'name', e.target.value)} placeholder="Name" className="input" />
+                    <input type="text" value={sol.role} onChange={(e) => updateSolicitor(i, 'role', e.target.value)} placeholder="Role (e.g. Partner)" className="input" />
+                    <input type="text" value={sol.specialisms} onChange={(e) => updateSolicitor(i, 'specialisms', e.target.value)} placeholder="Specialisms" className="input" />
+                    <input type="text" value={sol.qualifications} onChange={(e) => updateSolicitor(i, 'qualifications', e.target.value)} placeholder="Qualifications" className="input" />
+                  </div>
+                ))}
+                <button type="button" onClick={addSolicitor} className="btn-secondary text-sm">+ Add solicitor</button>
+              </div>
+
+              {/* Languages */}
+              <div className="card p-6">
+                <TagInput
+                  label="Languages Spoken"
+                  placeholder="e.g. English, Welsh, Urdu"
+                  value={newLanguage}
+                  onChange={setNewLanguage}
+                  onAdd={() => addTag('languages', newLanguage)}
+                  tags={profile.languages}
+                  onRemove={(i) => removeTag('languages', i)}
+                  color="purple"
+                />
+              </div>
+
+              {/* Legal Aid & Response Time */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="legalAid"
+                      name="legalAid"
+                      checked={profile.legalAid}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="legalAid" className="text-sm font-medium text-gray-700">Legal aid accepted</label>
+                  </div>
+                  <div>
+                    <label htmlFor="responseTime" className="block text-sm font-medium text-gray-700 mb-1">Response Time</label>
+                    <select id="responseTime" name="responseTime" value={profile.responseTime} onChange={handleChange} className="input">
+                      <option value="">Select...</option>
+                      {SOLICITOR_RESPONSE_TIMES.map((rt) => (
+                        <option key={rt.value} value={rt.value}>{rt.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════════════
+              ACCOUNTANT-SPECIFIC FIELDS
+              ═══════════════════════════════════════════════════════════════ */}
+          {isAccountant && (
+            <>
+              {/* Accountant Services (practiceAreas) */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Services</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {ACCOUNTANT_SERVICES.map((svc) => (
+                    <label key={svc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.practiceAreas.includes(svc)
+                        ? 'border-purple-600 bg-purple-50 text-purple-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.practiceAreas.includes(svc)}
+                        onChange={() => handleArrayToggle('practiceAreas', svc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{svc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Software Used */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Software Used</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {ACCOUNTANT_SOFTWARE.map((sw) => (
+                    <label key={sw} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.softwareUsed.includes(sw)
+                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.softwareUsed.includes(sw)}
+                        onChange={() => handleArrayToggle('softwareUsed', sw)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{sw}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Fixed Fees */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Fixed Fees</h2>
+                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services</p>
+                {profile.fixedFees.map((fee, i) => (
+                  <div key={i} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={fee.service}
+                      onChange={(e) => updateFixedFee(i, 'service', e.target.value)}
+                      placeholder="Service (e.g. Self-Assessment)"
+                      className="input flex-1"
+                    />
+                    <input
+                      type="text"
+                      value={fee.fee}
+                      onChange={(e) => updateFixedFee(i, 'fee', e.target.value)}
+                      placeholder="Fee (e.g. from &pound;250+VAT)"
+                      className="input w-48"
+                    />
+                    <button type="button" onClick={() => removeFixedFee(i)} className="text-red-500 hover:text-red-700 px-2">&times;</button>
+                  </div>
+                ))}
+                <button type="button" onClick={addFixedFee} className="btn-secondary text-sm mt-2">+ Add fee</button>
+              </div>
+
+              {/* Industry Specialisms */}
+              <div className="card p-6">
+                <TagInput
+                  label="Industry Specialisms"
+                  placeholder="e.g. Construction, Healthcare, Property"
+                  value={newSpecialism}
+                  onChange={setNewSpecialism}
+                  onAdd={() => addTag('industrySpecialisms', newSpecialism)}
+                  tags={profile.industrySpecialisms}
+                  onRemove={(i) => removeTag('industrySpecialisms', i)}
+                  color="green"
+                />
+              </div>
+
+              {/* MTD Compliant */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="mtdCompliant"
+                    name="mtdCompliant"
+                    checked={profile.mtdCompliant}
+                    onChange={handleCheckboxChange}
+                    className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                  />
+                  <label htmlFor="mtdCompliant" className="text-sm font-medium text-gray-700">Making Tax Digital (MTD) compliant</label>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════════════
+              OFFICE EQUIPMENT FIELDS (existing)
+              ═══════════════════════════════════════════════════════════════ */}
+          {isEquipment && (
+            <>
+              {/* Services */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Services Offered</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {SERVICE_OPTIONS.map((service) => (
+                    <button
+                      key={service.value}
+                      type="button"
+                      onClick={() => handleServiceToggle(service.value)}
+                      className={`flex items-center p-3 rounded-lg border-2 transition-all ${
+                        profile.services.includes(service.value)
+                          ? 'border-purple-600 bg-purple-50 text-purple-700'
+                          : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      }`}
+                    >
+                      <span className="text-xl mr-2">{service.icon}</span>
+                      <span className="text-sm font-medium">{service.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Brands & Certifications */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Brands & Certifications</h2>
+                <div className="space-y-4">
+                  <TagInput
+                    label="Brands You Work With"
+                    placeholder="e.g. Canon, Ricoh, Xerox"
+                    value={newBrand}
+                    onChange={setNewBrand}
+                    onAdd={() => addTag('brands', newBrand)}
+                    tags={profile.brands}
+                    onRemove={(i) => removeTag('brands', i)}
+                    color="blue"
+                  />
+                  <TagInput
+                    label="Certifications"
+                    placeholder="e.g. ISO 9001, Cyber Essentials"
+                    value={newCertification}
+                    onChange={setNewCertification}
+                    onAdd={() => addTag('certifications', newCertification)}
+                    tags={profile.certifications}
+                    onRemove={(i) => removeTag('certifications', i)}
+                    color="green"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Description (all vendor types) */}
           <div className="card p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">About Your Business</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              {isSolicitor ? 'About the Firm' : isAccountant ? 'About the Practice' : 'About Your Business'}
+            </h2>
             <textarea
               id="description"
               name="description"
               value={profile.description}
               onChange={handleChange}
               rows={4}
-              placeholder="Tell potential customers about your business, experience, and what makes you different..."
+              placeholder={
+                isSolicitor ? 'Tell potential clients about your firm, areas of expertise, and what sets you apart...'
+                : isAccountant ? 'Tell potential clients about your practice, specialisms, and approach...'
+                : 'Tell potential customers about your business, experience, and what makes you different...'
+              }
               className="input"
             />
-          </div>
-
-          {/* Brands & Certifications */}
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Brands & Certifications</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Brands You Work With
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={newBrand}
-                    onChange={(e) => setNewBrand(e.target.value)}
-                    placeholder="e.g. Canon, Ricoh, Xerox"
-                    className="input flex-1"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addTag('brands', newBrand);
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => addTag('brands', newBrand)}
-                    className="btn-secondary px-4"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {profile.brands.map((brand, i) => (
-                    <span key={i} className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm">
-                      {brand}
-                      <button
-                        type="button"
-                        onClick={() => removeTag('brands', i)}
-                        className="ml-2 hover:text-blue-900"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Certifications
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={newCertification}
-                    onChange={(e) => setNewCertification(e.target.value)}
-                    placeholder="e.g. ISO 9001, Cyber Essentials"
-                    className="input flex-1"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addTag('certifications', newCertification);
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => addTag('certifications', newCertification)}
-                    className="btn-secondary px-4"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {profile.certifications.map((cert, i) => (
-                    <span key={i} className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm">
-                      {cert}
-                      <button
-                        type="button"
-                        onClick={() => removeTag('certifications', i)}
-                        className="ml-2 hover:text-green-900"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Save Button */}
