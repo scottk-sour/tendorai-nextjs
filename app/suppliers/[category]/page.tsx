@@ -70,9 +70,8 @@ async function getCategoryData(category: string) {
     if (!practiceArea) return null;
     vendorFilter = { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea };
   } else if (isAccountant) {
-    const serviceArea = getAccountantServiceArea(category);
-    if (!serviceArea) return null;
-    vendorFilter = { ...statusFilter, vendorType: 'accountant', practiceAreas: serviceArea };
+    // practiceAreas not populated yet for accountants — show all accountant vendors
+    vendorFilter = { ...statusFilter, vendorType: 'accountant' };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return null;

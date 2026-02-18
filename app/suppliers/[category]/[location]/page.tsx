@@ -131,9 +131,8 @@ async function fetchVendors(category: string, location: string) {
     if (!practiceArea) return [];
     categoryFilter = { vendorType: 'solicitor', practiceAreas: practiceArea };
   } else if (isAccountant) {
-    const serviceArea = getAccountantServiceArea(category);
-    if (!serviceArea) return [];
-    categoryFilter = { vendorType: 'accountant', practiceAreas: serviceArea };
+    // practiceAreas not populated yet for accountants — show all accountant vendors
+    categoryFilter = { vendorType: 'accountant' };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return [];

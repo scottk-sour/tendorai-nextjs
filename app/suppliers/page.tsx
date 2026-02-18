@@ -26,7 +26,7 @@ async function getSupplierStats() {
     ],
   };
 
-  const [totalCount, categoryStats, solicitorStats, accountantStats] = await Promise.all([
+  const [totalCount, categoryStats, solicitorStats, accountantTotal] = await Promise.all([
     Vendor.countDocuments(statusFilter),
     Vendor.aggregate([
       { $match: statusFilter },
@@ -41,13 +41,8 @@ async function getSupplierStats() {
       { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]),
-    // Get accountant practice area counts
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: 'accountant' } },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-    ]),
+    // Get total accountant count (practiceAreas not populated yet, so count all)
+    Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' }),
   ]);
 
   const categoryCountMap: Record<string, number> = {};
@@ -57,8 +52,13 @@ async function getSupplierStats() {
   solicitorStats.forEach((stat: { _id: string; count: number }) => {
     categoryCountMap[stat._id] = stat.count;
   });
-  accountantStats.forEach((stat: { _id: string; count: number }) => {
-    categoryCountMap[stat._id] = stat.count;
+  // All accountant categories share the same pool until practiceAreas is populated
+  const accountantServiceValues = [
+    'Tax Advisory', 'Audit & Assurance', 'Bookkeeping', 'Payroll',
+    'Corporate Finance', 'Business Advisory', 'VAT', 'Financial Planning',
+  ];
+  accountantServiceValues.forEach((val) => {
+    categoryCountMap[val] = accountantTotal;
   });
 
   return { totalCount, categoryCountMap };
