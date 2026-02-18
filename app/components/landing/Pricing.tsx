@@ -63,25 +63,6 @@ const plans = [
     ctaStyle: 'btn-primary',
     href: '/vendor-signup?plan=verified',
   },
-  {
-    name: 'Enterprise',
-    price: '£499',
-    period: '/month',
-    description: 'For multi-location businesses',
-    popular: false,
-    highlight: false,
-    features: [
-      { text: 'Everything in Pro', included: true },
-      { text: 'Multiple locations', included: true },
-      { text: 'API analytics', included: true },
-      { text: 'Custom Schema.org markup', included: true },
-      { text: 'Quarterly strategy call', included: true },
-      { text: 'Dedicated account manager', included: true },
-    ],
-    cta: 'Contact Sales',
-    ctaStyle: 'btn-secondary',
-    href: '/contact',
-  },
 ];
 
 const comparisonRows = [
@@ -103,7 +84,7 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white mb-16">
+        <div className="grid md:grid-cols-3 gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white mb-16">
           {plans.map((plan, i) => (
             <div
               key={plan.name}

@@ -36,8 +36,8 @@ export default function Hero() {
 
         {/* Subtitle */}
         <p className="text-base md:text-lg text-[var(--text2)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          When someone asks ChatGPT, Claude, or Perplexity for a supplier, AI needs structured
-          data to answer. TendorAI is that data. Listed free. Pay to rank first.
+          When someone asks ChatGPT or Claude for a solicitor, AI needs structured data to answer.
+          TendorAI is that data. The more you add, the more AI recommends you.
         </p>
 
         {/* CTA Buttons */}

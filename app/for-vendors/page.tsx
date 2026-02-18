@@ -129,7 +129,7 @@ export default function ForVendorsPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
             {/* Free */}
             <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
               <div className="text-center mb-6">
@@ -219,30 +219,6 @@ export default function ForVendorsPage() {
               </div>
             </div>
 
-            {/* Enterprise */}
-            <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Enterprise</h3>
-                <div className="mb-2">
-                  <span className="text-4xl font-bold text-gray-900">£499</span>
-                  <span className="text-gray-500">/month</span>
-                </div>
-                <p className="text-sm text-gray-500">For multi-location businesses</p>
-              </div>
-              <ul className="space-y-3 mb-8">
-                {['Everything in Pro', 'Multiple locations', 'API analytics', 'Custom Schema.org markup', 'Quarterly strategy call', 'Dedicated account manager'].map((f, i) => (
-                  <li key={i} className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-sm text-gray-700">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
-                Contact Sales
-              </Link>
-            </div>
           </div>
 
           {/* Comparison Table: TendorAI vs Agencies */}
@@ -275,6 +251,17 @@ export default function ForVendorsPage() {
                 </tbody>
               </table>
             </div>
+          </div>
+
+          {/* What to Expect */}
+          <div className="mt-12 max-w-3xl mx-auto bg-purple-50/60 border border-purple-100 rounded-xl px-6 py-5">
+            <h3 className="font-semibold text-gray-900 text-sm mb-2">What to Expect</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              TendorAI structures your data so AI recommends you to potential clients. Can you get leads
+              and enquiries from this? Absolutely. But this isn&apos;t pay-per-lead &mdash; it&apos;s building your AI
+              presence for the long term. Think of it like SEO in 2005. The businesses that invested
+              early dominated for years. AI search is that same moment, right now.
+            </p>
           </div>
         </div>
       </section>
