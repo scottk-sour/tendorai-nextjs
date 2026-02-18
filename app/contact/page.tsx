@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Contact Us',
   description: "Get in touch with TendorAI. Questions about AI visibility for your business? We're here to help.",
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactPage() {

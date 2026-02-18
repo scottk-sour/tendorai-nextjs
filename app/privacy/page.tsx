@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'TendorAI Privacy Policy - Learn how we collect, use, and protect your data. We are committed to protecting the privacy of our users and vendors.',
   robots: { index: true, follow: true },
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPolicyPage() {

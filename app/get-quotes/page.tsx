@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   robots: { index: true, follow: true },
+  alternates: { canonical: '/get-quotes' },
 };
 
 export default async function GetQuotesPage({

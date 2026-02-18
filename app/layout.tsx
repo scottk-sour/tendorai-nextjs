@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   alternates: {
-    canonical: 'https://www.tendorai.com',
+    canonical: '/',
   },
 };
 

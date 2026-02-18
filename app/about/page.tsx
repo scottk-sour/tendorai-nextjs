@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: "About TendorAI — The UK's AI Visibility Platform",
   description: "TendorAI is the structured data layer between UK businesses and AI. When someone asks ChatGPT for a supplier, our data powers the answer.",
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

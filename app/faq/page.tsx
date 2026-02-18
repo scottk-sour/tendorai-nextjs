@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions',
   description: "Find answers to common questions about TendorAI, the UK's AI visibility platform for solicitors, accountants, and suppliers.",
+  alternates: { canonical: '/faq' },
 };
 
 export default function FAQPage() {

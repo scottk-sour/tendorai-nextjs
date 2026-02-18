@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
   description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, paid tiers from £149/month. No agency required.",
+  alternates: { canonical: '/for-vendors' },
 };
 
 export default function ForVendorsPage() {
