@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: article.excerpt,
       type: 'article',
       publishedTime: article.publishedDate,
-      authors: ['TendorAI'],
+      authors: [article.author || 'TendorAI'],
       url: `https://www.tendorai.com/resources/${slug}`,
     },
     alternates: {
@@ -45,6 +45,8 @@ const categoryColors: Record<string, string> = {
   IT: 'bg-purple-100 text-purple-700',
   'Business Tips': 'bg-gray-100 text-gray-700',
   'AI & Visibility': 'bg-indigo-100 text-indigo-700',
+  'AI Visibility': 'bg-teal-100 text-teal-700',
+  Research: 'bg-rose-100 text-rose-700',
 };
 
 function parseMarkdown(content: string): string {
@@ -146,11 +148,9 @@ export default async function ArticlePage({ params }: PageProps) {
     '@type': 'Article',
     headline: article.title,
     description: article.excerpt,
-    author: {
-      '@type': 'Organization',
-      name: 'TendorAI',
-      url: 'https://www.tendorai.com',
-    },
+    author: article.author
+      ? { '@type': 'Person', name: article.author }
+      : { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
@@ -220,6 +220,8 @@ export default async function ArticlePage({ params }: PageProps) {
             </p>
 
             <div className="mt-6 text-sm text-purple-200">
+              {article.author && <span className="text-white font-medium">{article.author}</span>}
+              {article.author && <span className="mx-2">&middot;</span>}
               Published {new Date(article.publishedDate).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'long',

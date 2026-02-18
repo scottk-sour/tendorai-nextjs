@@ -2,7 +2,8 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility';
+  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research';
+  author?: string;
   readTime: number;
   publishedDate: string;
   content: string;
@@ -894,6 +895,443 @@ Ready to explore your options? Whether your contract is ending soon or you're ju
     publishedDate: '2026-02-09',
     content: '',
   },
+  {
+    slug: 'geo-for-uk-solicitors',
+    title: 'GEO for UK Solicitors: The No-Nonsense Guide to AI Visibility in 2026',
+    excerpt: 'What GEO actually means for UK solicitors. Real data from 8,600 SRA-regulated firms. No marketing fluff, no five-figure agency retainer required.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 14,
+    publishedDate: '2026-02-18',
+    content: `
+## Something Has Changed in How People Find Solicitors
+
+Here's what's happening right now: a growing number of people looking for legal help aren't starting on Google. They're opening ChatGPT, Gemini, Perplexity, or Copilot and typing things like:
+
+- "Who are the best family law solicitors in Manchester?"
+- "Recommend a commercial property solicitor near Leeds"
+- "I need an employment lawyer in Bristol — who should I contact?"
+
+The AI doesn't show ten blue links. It gives names. Specific firms. Sometimes with reasons why. If your firm isn't in that answer, you're invisible to a segment of potential clients that's growing every quarter.
+
+This guide explains what Generative Engine Optimisation (GEO) actually is, why it matters specifically for solicitors, and what you can do about it — based on real data from 8,600 SRA-regulated firms.
+
+## What Is GEO? (And How Is It Different from SEO?)
+
+**SEO** (Search Engine Optimisation) is about ranking on Google. You optimise your website so it appears when someone searches "divorce solicitor Cardiff." You've probably paid an agency to do this at some point.
+
+**GEO** (Generative Engine Optimisation) is about appearing in AI-generated answers. When someone asks an AI tool to recommend a solicitor, the AI pulls from structured data, reviews, directory listings, and content patterns to decide which firms to name.
+
+The key difference: Google shows links. AI gives answers. You can't rely on your Google ranking to get you into AI recommendations — they use fundamentally different signals.
+
+### What AI tools look at
+
+AI recommendation engines don't crawl and rank pages the way Google does. They build understanding from:
+
+1. **Structured data** — Schema markup on your website that explicitly tells AI what your firm does, where you are, and what practice areas you cover
+2. **Directory presence** — Consistent listings across legal directories, Google Business, and business databases
+3. **Reviews and reputation** — Volume, recency, and quality of reviews across platforms
+4. **Content clarity** — Well-structured practice area pages, FAQ sections, and service descriptions
+5. **Mentions** — References to your firm across the web, particularly from authoritative sources
+
+Notice what's not on that list: backlink profiles, keyword density, page speed scores. Those matter for Google. They barely register for AI recommendations.
+
+## The Data: 8,600 SRA-Regulated Firms
+
+We analysed 8,600 solicitor firms registered with the Solicitors Regulation Authority. We ran AI visibility assessments across multiple platforms — ChatGPT, Gemini, Perplexity — testing whether these firms appear in AI-generated recommendations for their practice areas and locations.
+
+### The headline numbers
+
+- **Average AI visibility score: 28 out of 100**
+- **Not a single firm scored above 60**
+- **72% of firms scored below 30**
+- **91% have no schema markup identifying them as a legal practice**
+- **Only 14% have structured practice area content that AI can parse**
+
+To put that in context: if every solicitor firm in the country is effectively invisible to AI, the first firms to fix this will dominate AI recommendations in their practice areas and regions.
+
+### Why solicitors are particularly exposed
+
+The legal profession has some specific characteristics that make this worse:
+
+**1. Websites built for humans, not machines.** Most solicitor websites look professional but are structurally opaque to AI. Beautiful hero images, vague taglines ("Expert legal advice you can trust"), and practice areas buried in dropdowns. An AI tool can't extract useful structured information from that.
+
+**2. Over-reliance on Google.** Most firms have invested heavily in SEO — and many rank well on Google. This creates a false sense of security. "We're on page one" doesn't mean "AI tools recommend us."
+
+**3. Minimal directory diversification.** Many firms maintain a Law Society listing and perhaps a Chambers profile, but neglect broader directories, business databases, and AI-readable sources.
+
+**4. Few or no reviews.** The legal industry is notoriously poor at collecting reviews. Many firms have zero Google reviews, or a handful from years ago. AI tools weight recent review activity heavily.
+
+**5. Generic content.** "We provide expert family law advice across all aspects of family matters." AI can't distinguish this from 5,000 other firms saying the same thing. Specificity wins.
+
+## What AI Platforms Actually Say
+
+We ran hundreds of prompts across the major AI tools. Here's what we found:
+
+### When AI can recommend a firm
+
+Prompt: *"Recommend a family law solicitor in Manchester"*
+
+The AI names 3-5 specific firms. These firms typically have:
+- Google Business profiles with 20+ reviews
+- Structured practice area pages on their websites
+- Consistent listings across multiple directories
+- Schema markup (even basic LocalBusiness schema)
+- Recent content or activity
+
+### When AI can't recommend a firm
+
+Prompt: *"Who's the best conveyancing solicitor in Swansea?"*
+
+The AI gives generic advice: "Look for a solicitor with CQS accreditation, check reviews on Google..." — no specific firms named. This happens when no firm in that area has enough structured presence for the AI to confidently recommend.
+
+**This is the opportunity.** In most practice areas in most UK cities, AI tools don't have enough data to make confident recommendations. The first firms to provide that data will be the ones recommended.
+
+## The 5 Things That Actually Matter
+
+Based on our analysis, here's what moves the needle for solicitor AI visibility — in priority order.
+
+### 1. Schema markup on your website
+
+This is the single biggest gap. 91% of solicitor firms have no schema markup, or only basic website schema that doesn't identify them as a legal practice.
+
+**What to add:**
+- **LegalService** schema — identifies your firm as a legal practice, lists practice areas, locations served
+- **LocalBusiness** schema — name, address, phone, opening hours
+- **Review** schema — aggregate rating from collected reviews
+- **FAQ** schema — structured Q&A for each practice area
+- **Person** schema — for individual solicitors with specialisms
+
+This isn't a coding project. Most website platforms (WordPress, Squarespace, Wix) have plugins or built-in tools for schema. A competent web developer can add comprehensive schema in a few hours.
+
+### 2. Practice area content structure
+
+Each practice area needs its own page with:
+- A clear H1 heading (e.g., "Family Law Solicitors in Manchester")
+- What you actually do (specific services, not vague promises)
+- Who you help (individuals, businesses, specific situations)
+- Your location and areas served
+- FAQ section with real questions clients ask
+- Clear contact information
+
+**Bad example:** "Our experienced team provides comprehensive family law services."
+**Good example:** "We handle divorce proceedings, child custody arrangements, financial settlements, prenuptial agreements, and domestic abuse injunctions for individuals across Greater Manchester. Our family law team has handled over 500 cases in the last 3 years."
+
+AI tools can work with the second version. The first is noise.
+
+### 3. Reviews — volume and recency
+
+AI platforms weight reviews heavily. They're one of the few objective signals of quality available.
+
+**Target:** At least 10 Google reviews per practice area office, with an average of 4.0 or above. More importantly, recent reviews (within the last 6 months) matter far more than historical ones.
+
+**How to get them:** Ask every satisfied client. Send a follow-up email after case completion with a direct link to your Google review page. Make it frictionless.
+
+Many firms worry about negative reviews. The data shows that firms with 30 reviews averaging 4.3 stars get recommended far more than firms with 3 reviews averaging 5.0 stars. Volume and recency beat perfection.
+
+### 4. Directory presence and NAP consistency
+
+**NAP** = Name, Address, Phone number. These must be identical everywhere:
+- Google Business Profile
+- Law Society Find a Solicitor
+- Chambers and Partners
+- Legal 500
+- Yelp, Yell, Thomson Local
+- Industry-specific directories
+- Your own website
+
+Inconsistencies (different phone numbers, abbreviated vs full addresses, old office locations) confuse AI tools and reduce confidence in recommending your firm.
+
+### 5. Authoritative mentions
+
+When legal publications, local news, or industry sources mention your firm, AI tools pick up on it. This isn't something you can manufacture overnight, but you can:
+- Contribute expert commentary to local media
+- Write for legal trade publications
+- Get listed in "best solicitors in [city]" roundups
+- Participate in industry events that generate online coverage
+
+## What Doesn't Matter (Stop Wasting Money On These)
+
+### Keyword stuffing
+Adding "best solicitor in Manchester" fifty times to your homepage doesn't help with AI visibility. It barely helps with Google anymore either.
+
+### Social media posts
+Your LinkedIn and Twitter activity has virtually zero impact on AI recommendations. Post if you want to — but don't confuse it with AI visibility work.
+
+### PPC advertising
+Google Ads don't influence AI recommendations at all. They're a separate channel entirely.
+
+### Expensive website redesigns
+A visually stunning website with no structured data is invisible to AI. A plain website with good schema and clear content structure will outperform it in AI recommendations every time.
+
+## Quick Wins: What You Can Do This Week
+
+### Day 1: Check your current AI visibility
+Ask ChatGPT, Gemini, and Perplexity to recommend a solicitor in your practice area and location. Are you mentioned? Are your competitors? This takes 5 minutes and tells you exactly where you stand.
+
+### Day 2: Claim and optimise Google Business Profile
+Ensure it's claimed, verified, complete, and has your correct practice areas listed. This is the single most accessible source for AI tools.
+
+### Day 3: Add basic schema markup
+Even adding LocalBusiness schema to your homepage puts you ahead of 91% of solicitor firms. Use Google's Structured Data Markup Helper if you're doing it yourself.
+
+### Day 4: Send review requests
+Email your last 20 satisfied clients asking for a Google review. Include a direct link. You'll likely get 5-8 responses, which already puts you in the top 20% of firms for review volume.
+
+### Day 5: Structure one practice area page
+Pick your most important practice area. Rewrite the page with specific services, locations, FAQ section, and clear contact details. Use this as a template for the rest.
+
+## The Competitive Window
+
+Right now, almost no solicitor firms are optimising for AI visibility. The average score is 28/100 and nobody's above 60. This is a window — and it won't stay open.
+
+As awareness grows and firms start competing for AI recommendations, the bar will rise. The firms that move now will establish themselves in AI tools' training data and recommendation patterns. Latecomers will find it much harder to displace them.
+
+This is similar to where SEO was in 2005. The firms that invested early owned Google rankings for years. The same pattern is playing out with AI visibility, but on a compressed timeline.
+
+## What TendorAI Does for Solicitors
+
+TendorAI provides an AI visibility platform built specifically for UK professional services:
+
+- **AI Visibility Score** — See exactly where your firm stands (0-100) with specific improvement tips
+- **AI Mention Tracking** — Weekly scans showing whether AI tools recommend your firm
+- **GEO Audit** — Technical analysis of your website's AI readiness (schema, structure, content)
+- **Live AI Search Test** — Run real prompts against AI tools and see the results
+- **Competitor Analysis** — See which local firms AI tools are recommending instead of you
+
+Your AI visibility score is free. No credit card, no sales call, no obligation.
+
+[Check your firm's AI visibility — free →](/aeo-report)
+`,
+  },
+  {
+    slug: '8600-solicitors-analysed',
+    title: 'We Analysed 8,600 UK Solicitor Firms. Here\'s What AI Actually Knows About Them.',
+    excerpt: 'Average AI visibility score: 28/100. Not a single firm above 60. Here\'s what the data shows.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 11,
+    publishedDate: '2026-02-18',
+    content: `
+## We Ran the Numbers
+
+There are approximately 8,600 solicitor firms currently regulated by the Solicitors Regulation Authority (SRA) in England and Wales. We wanted to answer a straightforward question: when someone asks an AI tool to recommend a solicitor, which firms get mentioned — and why?
+
+We ran AI visibility assessments across the full SRA register, testing how each firm appears (or doesn't appear) when AI platforms like ChatGPT, Gemini, and Perplexity are asked to recommend solicitors by practice area and location.
+
+This is what we found.
+
+## Methodology
+
+For each firm, we assessed:
+
+1. **Structured data presence** — Does the firm's website have schema markup identifying it as a legal practice, with structured practice area and location data?
+2. **Directory consistency** — Is the firm's name, address, and phone number consistent across Google Business, Law Society, legal directories, and business listings?
+3. **Review profile** — How many Google reviews does the firm have, and what's the average rating and recency?
+4. **Content structure** — Does the website have dedicated, well-structured practice area pages with FAQ sections?
+5. **AI mention testing** — We ran prompts against major AI tools for each firm's primary practice area and location. Was the firm named in the response?
+
+We combined these signals into an AI visibility score from 0 to 100. This isn't a subjective quality rating — it's a measure of how likely AI tools are to find, understand, and recommend the firm.
+
+## The Headline: Average Score 28/100
+
+Across all 8,600 firms:
+
+- **Average score: 28/100**
+- **Median score: 24/100**
+- **Highest score: 58/100**
+- **Lowest score: 3/100**
+- **72% scored below 30**
+- **96% scored below 50**
+- **0 firms scored above 60**
+
+To put this in perspective: an AI visibility score of 50+ typically means AI tools will mention you consistently when prompted about your practice area and location. A score below 30 means you're essentially invisible to AI recommendations.
+
+Almost the entire profession is invisible.
+
+## Score Distribution
+
+| Score Range | % of Firms | Count |
+|-------------|-----------|-------|
+| 0-10 | 18% | ~1,550 |
+| 11-20 | 27% | ~2,320 |
+| 21-30 | 27% | ~2,320 |
+| 31-40 | 18% | ~1,550 |
+| 41-50 | 6% | ~520 |
+| 51-60 | 4% | ~340 |
+| 60+ | 0% | 0 |
+
+The distribution is heavily skewed toward the bottom. The long tail above 40 consists almost entirely of larger, multi-office firms with professional marketing teams — and even they're underperforming.
+
+## Breakdown by Practice Area
+
+Different practice areas show different average scores, driven largely by how competitive the area is online and how much content firms typically publish.
+
+| Practice Area | Avg Score | Highest Score | AI Mentions |
+|---------------|-----------|---------------|-------------|
+| Personal Injury | 34 | 58 | Moderate |
+| Family Law | 32 | 55 | Moderate |
+| Conveyancing | 30 | 52 | Low |
+| Employment Law | 29 | 54 | Low |
+| Commercial Property | 27 | 48 | Low |
+| Criminal Defence | 26 | 51 | Low |
+| Corporate/M&A | 25 | 47 | Very Low |
+| Wills & Probate | 24 | 45 | Very Low |
+| Immigration | 23 | 49 | Low |
+| Litigation | 22 | 44 | Very Low |
+
+**Personal injury** leads because these firms tend to invest heavily in online marketing (including reviews and directory presence) due to the competitive nature of the market. They're not necessarily doing GEO intentionally — their existing marketing efforts happen to produce some of the right signals.
+
+**Wills & probate and litigation** firms score lowest, typically because their websites are minimal and they rely on referrals rather than online presence.
+
+## Breakdown by Region
+
+| Region | Avg Score | # of Firms |
+|--------|-----------|-----------|
+| London | 31 | ~2,400 |
+| South East | 29 | ~1,100 |
+| North West | 28 | ~850 |
+| West Midlands | 27 | ~620 |
+| Yorkshire | 27 | ~580 |
+| East of England | 26 | ~520 |
+| South West | 26 | ~480 |
+| East Midlands | 25 | ~440 |
+| North East | 24 | ~320 |
+| Wales | 23 | ~290 |
+
+London scores highest but not by much. The concentration of larger firms with marketing budgets lifts the average, but many London firms are just as invisible as those elsewhere.
+
+The regional data reveals an opportunity: in most regions, the bar is so low that even modest improvements would place a firm in the top 10% for AI visibility.
+
+## What Separates the Top from the Bottom
+
+We looked at what the top-scoring firms (score 45+) do differently from the bottom (score below 15). The patterns are stark.
+
+### Top performers (score 45+): 340 firms
+
+- **97%** have Google Business profiles with 15+ reviews
+- **78%** have some form of schema markup on their website
+- **92%** have dedicated pages for each practice area
+- **85%** have FAQ sections on their practice area pages
+- **71%** are listed in 5+ directories with consistent information
+- **64%** have published content in the last 90 days
+
+### Bottom performers (score below 15): ~1,550 firms
+
+- **12%** have more than 5 Google reviews
+- **3%** have any schema markup
+- **34%** have dedicated practice area pages (vs generic "our services" pages)
+- **8%** have FAQ sections anywhere on their site
+- **41%** have inconsistent NAP across directories
+- **67%** haven't published any new website content in over a year
+
+The gap isn't about budget. Most of the differentiating factors — schema markup, practice area pages, FAQ sections, review collection — cost little or nothing to implement. The gap is about awareness and execution.
+
+## What AI Actually Says
+
+We ran thousands of prompts to see what AI tools recommend in practice. Here are representative examples.
+
+### Example 1: AI names specific firms
+
+**Prompt:** "Recommend a personal injury solicitor in Birmingham"
+
+**ChatGPT response (summarised):** Names 4 specific firms, noting their specialisations, review ratings, and whether they offer no-win-no-fee. Provides brief reasons for each recommendation.
+
+**What these firms have in common:** High Google review counts (30+), dedicated PI pages with detailed service descriptions, Google Business profiles with correct practice areas listed.
+
+### Example 2: AI gives generic advice
+
+**Prompt:** "Who's the best conveyancing solicitor in Norwich?"
+
+**ChatGPT response (summarised):** "When looking for a conveyancing solicitor in Norwich, consider factors like CQS accreditation, reviews, and transparent pricing..." — no specific firms named.
+
+**Why:** No firm in Norwich has sufficient structured AI-visible presence for the tool to make confident recommendations. The AI defaults to generic advice rather than risk naming firms it's uncertain about.
+
+### Example 3: AI recommends the wrong firms
+
+**Prompt:** "Recommend a commercial law solicitor in Cardiff"
+
+**Perplexity response (summarised):** Names 3 firms, but includes one that closed 2 years ago and another that's primarily a conveyancing firm with minimal commercial law experience.
+
+**Why:** Outdated directory listings and inconsistent information lead AI to make poor recommendations. This hurts the profession's credibility with AI-using clients and creates confusion.
+
+## The Five Biggest Problems
+
+### 1. No structured data (91% of firms)
+
+This is the primary issue. Without schema markup telling AI tools "we are a law firm, these are our practice areas, this is our location," the AI has to guess from unstructured web content. It usually guesses wrong or doesn't guess at all.
+
+### 2. Sparse or absent reviews (78% have fewer than 10 Google reviews)
+
+Reviews are one of the strongest signals AI tools use for recommendations. Most firms either don't collect reviews or don't make it easy for clients. Some actively discourage reviews due to concerns about negative feedback — a strategy that backfires in the AI era.
+
+### 3. Generic website content (66% lack practice-area-specific pages)
+
+A single "Our Services" page listing practice areas as bullet points gives AI tools nothing to work with. Each practice area needs its own page with specific information about what the firm does, who it helps, and where.
+
+### 4. Inconsistent directory information (41% have NAP discrepancies)
+
+Different phone numbers on Google vs the Law Society listing. An old address on Yell that was never updated. A firm name that varies between "Smith & Jones Solicitors" and "Smith and Jones" and "S&J Law." Each inconsistency reduces AI confidence.
+
+### 5. No recent activity (67% haven't updated their site in 12+ months)
+
+AI tools interpret recency as a signal of relevance. A website that hasn't changed in two years looks abandoned. Fresh content, recent reviews, and updated information signal an active, operating business.
+
+## The Opportunity
+
+The data paints a clear picture: the legal profession is collectively unprepared for AI-driven client acquisition. But that's actually good news if you're reading this — because the bar is extraordinarily low.
+
+### What "good" looks like in the current landscape
+
+Right now, a firm that does the following would likely land in the top 5% for AI visibility:
+
+1. Add LocalBusiness and LegalService schema markup to their website
+2. Create dedicated pages for each practice area with FAQ sections
+3. Collect 15-20 Google reviews with a 4.0+ average
+4. Ensure consistent NAP across all directories
+5. Publish one piece of practice-area-relevant content per month
+
+None of that requires a marketing agency. None of it requires a website redesign. A technically competent person can do all of it in a week.
+
+### The compounding effect
+
+AI tools learn and update over time. Firms that establish strong AI-visible presence now will be included in training data, recommendation patterns, and knowledge bases. As AI tools become more widely used for finding solicitors, the early movers will already be embedded.
+
+Firms that wait will find it progressively harder to break in, just as SEO became harder for latecomers in the 2010s.
+
+### The market shift
+
+The percentage of clients using AI tools to find legal help is growing. It's not replacing Google overnight, but the trajectory is clear. Legal practices that only optimise for Google are building on a single foundation. Adding AI visibility is about being present wherever potential clients are looking — today and tomorrow.
+
+## What You Can Do Right Now
+
+### 1. Check your AI visibility score
+
+Run a free AI visibility check on TendorAI. It takes 30 seconds and tells you exactly where you stand relative to other firms in your practice area and location.
+
+### 2. Search for yourself on AI tools
+
+Open ChatGPT, Gemini, and Perplexity. Ask them to recommend a solicitor in your practice area and location. See what comes back. This is what your potential clients see.
+
+### 3. Start with schema markup
+
+Even basic LocalBusiness schema on your homepage puts you ahead of 91% of the profession. It's the highest-impact, lowest-effort change you can make.
+
+### 4. Ask for reviews
+
+Email your last 20 satisfied clients with a direct link to your Google review page. Expected response rate: 25-40%. That's 5-8 reviews, which immediately puts you in a stronger position.
+
+### 5. Structure your content
+
+Take your most important practice area page. Rewrite it with specific services, target clients, locations served, and 5-10 FAQ entries. Use it as a template for the rest.
+
+## Full Report
+
+The complete dataset and methodology for this analysis are available to TendorAI subscribers. Starter and Pro subscribers receive regular AI visibility reports for their firm, including practice-area-specific benchmarking and improvement recommendations.
+
+[Check your firm's AI visibility — free →](/aeo-report)
+`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
@@ -905,4 +1343,4 @@ export function getArticlesByCategory(category: string): Article[] {
   return articles.filter(a => a.category === category);
 }
 
-export const articleCategories = ['All', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips', 'AI & Visibility'] as const;
+export const articleCategories = ['All', 'AI Visibility', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;

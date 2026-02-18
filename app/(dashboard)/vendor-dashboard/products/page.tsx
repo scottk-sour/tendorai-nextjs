@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { hasTierAccess } from '@/app/components/dashboard/TierGate';
 
-type ServiceCategory = 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT';
+type ServiceCategory = 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Solicitor' | 'Accountant';
 
 interface Product {
   _id: string;
@@ -99,6 +99,24 @@ interface Product {
     supportHours?: string;
     accreditations?: string[];
   };
+  solicitorPricing?: {
+    practiceArea?: string;
+    serviceName?: string;
+    feeType?: string;
+    feeAmount?: number;
+    turnaroundTime?: string;
+    whatsIncluded?: string[];
+    keyTeamMember?: { name?: string; role?: string };
+  };
+  accountantPricing?: {
+    serviceCategory?: string;
+    serviceName?: string;
+    feeType?: string;
+    feeAmount?: number;
+    softwareUsed?: string[];
+    whatsIncluded?: string[];
+    keyTeamMember?: { name?: string; role?: string };
+  };
   status: string;
 }
 
@@ -182,7 +200,74 @@ interface ProductFormData {
   itResponseTimeSLA: string;
   itSupportHours: string;
   itAccreditations: string[];
+  // Solicitor fields
+  solicitorFeeType: string;
+  solicitorFeeAmount: number;
+  solicitorTurnaroundTime: string;
+  solicitorWhatsIncluded: string[];
+  solicitorCustomInclusion: string;
+  solicitorTeamMemberName: string;
+  solicitorTeamMemberRole: string;
+  // Accountant fields
+  accountantFeeType: string;
+  accountantFeeAmount: number;
+  accountantSoftwareUsed: string[];
+  accountantWhatsIncluded: string[];
+  accountantCustomInclusion: string;
+  accountantTeamMemberName: string;
+  accountantTeamMemberRole: string;
 }
+
+// Solicitor constants
+const SOLICITOR_PRACTICE_AREAS = [
+  { value: 'Conveyancing', label: 'Conveyancing' },
+  { value: 'Family Law', label: 'Family Law' },
+  { value: 'Criminal Law', label: 'Criminal Law' },
+  { value: 'Commercial Law', label: 'Commercial Law' },
+  { value: 'Employment Law', label: 'Employment Law' },
+  { value: 'Wills & Probate', label: 'Wills & Probate' },
+  { value: 'Immigration', label: 'Immigration' },
+  { value: 'Personal Injury', label: 'Personal Injury' },
+];
+const SOLICITOR_FEE_TYPES = [
+  { value: 'fixed', label: 'Fixed Fee' },
+  { value: 'hourly', label: 'Hourly Rate' },
+  { value: 'from', label: 'From (starting price)' },
+];
+const SOLICITOR_TURNAROUND_TIMES = [
+  'Same day', '1-2 days', '3-5 days', '1-2 weeks', '2-4 weeks', '4-8 weeks', '8-12 weeks', '12+ weeks',
+];
+const SOLICITOR_COMMON_INCLUSIONS = [
+  'Initial Consultation', 'Document Preparation', 'Court Representation', 'Legal Advice',
+  'Contract Review', 'Land Registry Fees', 'Search Fees', 'Disbursements',
+  'Post-Completion Work', 'Ongoing Support',
+];
+
+// Accountant constants
+const ACCOUNTANT_SERVICE_CATEGORIES = [
+  { value: 'Annual Accounts', label: 'Annual Accounts' },
+  { value: 'Tax Returns', label: 'Tax Returns' },
+  { value: 'Bookkeeping', label: 'Bookkeeping' },
+  { value: 'Payroll', label: 'Payroll' },
+  { value: 'VAT Returns', label: 'VAT Returns' },
+  { value: 'Management Accounts', label: 'Management Accounts' },
+  { value: 'Company Formation', label: 'Company Formation' },
+  { value: 'Tax Planning', label: 'Tax Planning' },
+];
+const ACCOUNTANT_FEE_TYPES = [
+  { value: 'fixed', label: 'Fixed Fee' },
+  { value: 'monthly-retainer', label: 'Monthly Retainer' },
+  { value: 'hourly', label: 'Hourly Rate' },
+  { value: 'per-transaction', label: 'Per Transaction' },
+];
+const ACCOUNTANT_SOFTWARE_OPTIONS = [
+  'Xero', 'QuickBooks', 'Sage', 'FreeAgent', 'Kashflow', 'IRIS', 'TaxCalc', 'Other',
+];
+const ACCOUNTANT_COMMON_INCLUSIONS = [
+  'Annual Accounts Preparation', 'Corporation Tax Return', 'Self-Assessment Return',
+  'VAT Return Filing', 'Payroll Processing', 'Bookkeeping', 'Management Reports',
+  'HMRC Correspondence', 'Year-End Advice', 'MTD Compliance',
+];
 
 const CATEGORIES_MAP: Record<ServiceCategory, { value: string; label: string }[]> = {
   Photocopiers: [
@@ -209,6 +294,8 @@ const CATEGORIES_MAP: Record<ServiceCategory, { value: string; label: string }[]
     { value: 'Project-Based IT', label: 'Project-Based IT' },
     { value: 'IT Consultancy', label: 'IT Consultancy' },
   ],
+  Solicitor: SOLICITOR_PRACTICE_AREAS,
+  Accountant: ACCOUNTANT_SERVICE_CATEGORIES,
 };
 
 const MANUFACTURERS_MAP: Record<ServiceCategory, string[]> = {
@@ -216,6 +303,8 @@ const MANUFACTURERS_MAP: Record<ServiceCategory, string[]> = {
   Telecoms: ['3CX', 'Mitel', 'Avaya', 'Cisco', 'Gamma', 'RingCentral', 'Yealink', 'Poly', 'Grandstream', '8x8', 'Vonage', 'Other'],
   CCTV: ['Hikvision', 'Dahua', 'Axis', 'Avigilon', 'Hanwha', 'Uniview', 'Bosch', 'Honeywell', 'Swann', 'Other'],
   IT: ['Microsoft', 'Dell', 'HP', 'Cisco', 'Sophos', 'Datto', 'SentinelOne', 'CrowdStrike', 'Veeam', 'Other'],
+  Solicitor: [],
+  Accountant: [],
 };
 
 const COPIER_FEATURES = [
@@ -328,6 +417,22 @@ const emptyFormData: ProductFormData = {
   itResponseTimeSLA: '4 hours',
   itSupportHours: 'Business hours (9-5)',
   itAccreditations: [],
+  // Solicitor
+  solicitorFeeType: 'fixed',
+  solicitorFeeAmount: 0,
+  solicitorTurnaroundTime: '1-2 weeks',
+  solicitorWhatsIncluded: [],
+  solicitorCustomInclusion: '',
+  solicitorTeamMemberName: '',
+  solicitorTeamMemberRole: '',
+  // Accountant
+  accountantFeeType: 'fixed',
+  accountantFeeAmount: 0,
+  accountantSoftwareUsed: [],
+  accountantWhatsIncluded: [],
+  accountantCustomInclusion: '',
+  accountantTeamMemberName: '',
+  accountantTeamMemberRole: '',
 };
 
 export default function ProductsPage() {
@@ -346,6 +451,10 @@ export default function ProductsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const isSolicitor = vendorType === 'solicitor';
+  const isAccountant = vendorType === 'accountant';
+  const isEquipment = !isSolicitor && !isAccountant;
 
   const fetchProducts = useCallback(async () => {
     const token = getCurrentToken();
@@ -411,7 +520,9 @@ export default function ProductsPage() {
   const handleAddProduct = () => {
     if (hasReachedLimit) return;
     setEditingProduct(null);
-    setFormData(emptyFormData);
+    const defaultSc: ServiceCategory = isSolicitor ? 'Solicitor' : isAccountant ? 'Accountant' : 'Photocopiers';
+    const defaultCategory = CATEGORIES_MAP[defaultSc][0]?.value || '';
+    setFormData({ ...emptyFormData, serviceCategory: defaultSc, category: defaultCategory });
     setError(null);
     setSuccess(null);
     setShowModal(true);
@@ -502,6 +613,22 @@ export default function ProductsPage() {
       itResponseTimeSLA: product.itPricing?.responseTimeSLA || '4 hours',
       itSupportHours: product.itPricing?.supportHours || 'Business hours (9-5)',
       itAccreditations: product.itPricing?.accreditations || [],
+      // Solicitor
+      solicitorFeeType: product.solicitorPricing?.feeType || 'fixed',
+      solicitorFeeAmount: product.solicitorPricing?.feeAmount || 0,
+      solicitorTurnaroundTime: product.solicitorPricing?.turnaroundTime || '1-2 weeks',
+      solicitorWhatsIncluded: product.solicitorPricing?.whatsIncluded || [],
+      solicitorCustomInclusion: '',
+      solicitorTeamMemberName: product.solicitorPricing?.keyTeamMember?.name || '',
+      solicitorTeamMemberRole: product.solicitorPricing?.keyTeamMember?.role || '',
+      // Accountant
+      accountantFeeType: product.accountantPricing?.feeType || 'fixed',
+      accountantFeeAmount: product.accountantPricing?.feeAmount || 0,
+      accountantSoftwareUsed: product.accountantPricing?.softwareUsed || [],
+      accountantWhatsIncluded: product.accountantPricing?.whatsIncluded || [],
+      accountantCustomInclusion: '',
+      accountantTeamMemberName: product.accountantPricing?.keyTeamMember?.name || '',
+      accountantTeamMemberRole: product.accountantPricing?.keyTeamMember?.role || '',
     });
     setError(null);
     setSuccess(null);
@@ -580,8 +707,21 @@ export default function ProductsPage() {
     if (!token) return;
 
     // Validate required fields
-    if (!formData.manufacturer || !formData.model || !formData.category) {
+    const isSolOrAcc = formData.serviceCategory === 'Solicitor' || formData.serviceCategory === 'Accountant';
+    if (!isSolOrAcc && (!formData.manufacturer || !formData.model || !formData.category)) {
       setError('Manufacturer, model, and category are required');
+      return;
+    }
+    if (isSolOrAcc && (!formData.model || !formData.category)) {
+      setError('Service name and category are required');
+      return;
+    }
+    if (formData.serviceCategory === 'Solicitor' && !formData.solicitorFeeAmount) {
+      setError('Fee amount is required');
+      return;
+    }
+    if (formData.serviceCategory === 'Accountant' && !formData.accountantFeeAmount) {
+      setError('Fee amount is required');
       return;
     }
 
@@ -600,7 +740,49 @@ export default function ProductsPage() {
 
     let productData: Record<string, unknown>;
 
-    if (formData.serviceCategory === 'Telecoms') {
+    if (formData.serviceCategory === 'Solicitor') {
+      const inclusions = [...formData.solicitorWhatsIncluded];
+      if (formData.solicitorCustomInclusion.trim()) {
+        inclusions.push(formData.solicitorCustomInclusion.trim());
+      }
+      productData = {
+        ...baseData,
+        manufacturer: formData.category, // auto-set manufacturer to practice area
+        solicitorPricing: {
+          practiceArea: formData.category,
+          serviceName: formData.model,
+          feeType: formData.solicitorFeeType,
+          feeAmount: formData.solicitorFeeAmount,
+          turnaroundTime: formData.solicitorTurnaroundTime,
+          whatsIncluded: inclusions,
+          keyTeamMember: formData.solicitorTeamMemberName ? {
+            name: formData.solicitorTeamMemberName,
+            role: formData.solicitorTeamMemberRole,
+          } : undefined,
+        },
+      };
+    } else if (formData.serviceCategory === 'Accountant') {
+      const inclusions = [...formData.accountantWhatsIncluded];
+      if (formData.accountantCustomInclusion.trim()) {
+        inclusions.push(formData.accountantCustomInclusion.trim());
+      }
+      productData = {
+        ...baseData,
+        manufacturer: formData.category, // auto-set manufacturer to service category
+        accountantPricing: {
+          serviceCategory: formData.category,
+          serviceName: formData.model,
+          feeType: formData.accountantFeeType,
+          feeAmount: formData.accountantFeeAmount,
+          softwareUsed: formData.accountantSoftwareUsed,
+          whatsIncluded: inclusions,
+          keyTeamMember: formData.accountantTeamMemberName ? {
+            name: formData.accountantTeamMemberName,
+            role: formData.accountantTeamMemberRole,
+          } : undefined,
+        },
+      };
+    } else if (formData.serviceCategory === 'Telecoms') {
       productData = {
         ...baseData,
         telecomsPricing: {
@@ -750,7 +932,10 @@ export default function ProductsPage() {
 
   // Delete product
   const handleDeleteProduct = async (product: Product) => {
-    if (!confirm(`Are you sure you want to delete "${product.manufacturer} ${product.model}"?`)) {
+    const displayName = product.serviceCategory === 'Solicitor' || product.serviceCategory === 'Accountant'
+      ? product.model
+      : `${product.manufacturer} ${product.model}`;
+    if (!confirm(`Are you sure you want to delete "${displayName}"?`)) {
       return;
     }
 
@@ -774,8 +959,32 @@ export default function ProductsPage() {
   };
 
   // Get product card summary based on service category
+  const formatFee = (amount: number | undefined, feeType: string | undefined) => {
+    if (!amount) return '—';
+    const formatted = `£${amount.toLocaleString()}`;
+    if (feeType === 'hourly') return `${formatted}/hr`;
+    if (feeType === 'from') return `from ${formatted}`;
+    if (feeType === 'monthly-retainer') return `${formatted}/mo`;
+    if (feeType === 'per-transaction') return `${formatted}/txn`;
+    return formatted;
+  };
+
   const getProductSummary = (product: Product) => {
     const sc = product.serviceCategory || 'Photocopiers';
+    if (sc === 'Solicitor' && product.solicitorPricing) {
+      return [
+        { label: 'Practice Area', value: product.category || '—' },
+        { label: 'Fee', value: formatFee(product.solicitorPricing.feeAmount, product.solicitorPricing.feeType) },
+        { label: 'Turnaround', value: product.solicitorPricing.turnaroundTime || '—' },
+      ];
+    }
+    if (sc === 'Accountant' && product.accountantPricing) {
+      return [
+        { label: 'Category', value: product.category || '—' },
+        { label: 'Fee', value: formatFee(product.accountantPricing.feeAmount, product.accountantPricing.feeType) },
+        { label: 'Software', value: product.accountantPricing.softwareUsed?.slice(0, 2).join(', ') || '—' },
+      ];
+    }
     if (sc === 'Telecoms' && product.telecomsPricing) {
       return [
         { label: 'Per user/mo', value: `£${product.telecomsPricing.perUserMonthly?.toFixed(2) || '—'}` },
@@ -810,6 +1019,8 @@ export default function ProductsPage() {
     Telecoms: 'Telecoms',
     CCTV: 'CCTV',
     IT: 'IT',
+    Solicitor: 'Solicitor',
+    Accountant: 'Accountant',
   };
 
   if (loading) {
@@ -964,12 +1175,18 @@ export default function ProductsPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="font-medium text-gray-900">
-                    {product.manufacturer} {product.model}
+                    {product.serviceCategory === 'Solicitor' || product.serviceCategory === 'Accountant'
+                      ? product.model
+                      : `${product.manufacturer} ${product.model}`}
                   </h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <p className="text-sm text-gray-500">{product.category}</p>
                     {product.serviceCategory && product.serviceCategory !== 'Photocopiers' && (
-                      <span className="text-xs px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">
+                      <span className={`text-xs px-1.5 py-0.5 rounded ${
+                        product.serviceCategory === 'Solicitor' ? 'bg-indigo-100 text-indigo-700'
+                        : product.serviceCategory === 'Accountant' ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-purple-100 text-purple-700'
+                      }`}>
                         {SERVICE_CATEGORY_LABELS[product.serviceCategory as ServiceCategory] || product.serviceCategory}
                       </span>
                     )}
@@ -1048,8 +1265,8 @@ export default function ProductsPage() {
                   <div className="p-4 bg-red-50 text-red-700 rounded-lg">{error}</div>
                 )}
 
-                {/* Service Category Selector */}
-                {!editingProduct && (
+                {/* Service Category Selector - only for equipment vendors */}
+                {!editingProduct && isEquipment && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Service Category</label>
                     <div className="grid grid-cols-4 gap-2">
@@ -1075,26 +1292,29 @@ export default function ProductsPage() {
                 <div>
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
+                    {/* Manufacturer - only for equipment vendors */}
+                    {formData.serviceCategory !== 'Solicitor' && formData.serviceCategory !== 'Accountant' && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Manufacturer <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          name="manufacturer"
+                          value={formData.manufacturer}
+                          onChange={handleInputChange}
+                          className="input"
+                          required
+                        >
+                          <option value="">Select manufacturer</option>
+                          {MANUFACTURERS_MAP[formData.serviceCategory].map(m => (
+                            <option key={m} value={m}>{m}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Manufacturer <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        name="manufacturer"
-                        value={formData.manufacturer}
-                        onChange={handleInputChange}
-                        className="input"
-                        required
-                      >
-                        <option value="">Select manufacturer</option>
-                        {MANUFACTURERS_MAP[formData.serviceCategory].map(m => (
-                          <option key={m} value={m}>{m}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Model <span className="text-red-500">*</span>
+                        {formData.serviceCategory === 'Solicitor' || formData.serviceCategory === 'Accountant' ? 'Service Name' : 'Model'} <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -1102,13 +1322,20 @@ export default function ProductsPage() {
                         value={formData.model}
                         onChange={handleInputChange}
                         className="input"
-                        placeholder={formData.serviceCategory === 'Telecoms' ? 'e.g. Cloud VoIP Business' : formData.serviceCategory === 'CCTV' ? 'e.g. 8-Camera Bundle' : formData.serviceCategory === 'IT' ? 'e.g. Managed IT Pro' : 'e.g. iR-ADV C5535i'}
+                        placeholder={
+                          formData.serviceCategory === 'Solicitor' ? 'e.g. Residential Conveyancing'
+                          : formData.serviceCategory === 'Accountant' ? 'e.g. Small Business Annual Accounts'
+                          : formData.serviceCategory === 'Telecoms' ? 'e.g. Cloud VoIP Business'
+                          : formData.serviceCategory === 'CCTV' ? 'e.g. 8-Camera Bundle'
+                          : formData.serviceCategory === 'IT' ? 'e.g. Managed IT Pro'
+                          : 'e.g. iR-ADV C5535i'
+                        }
                         required
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Category <span className="text-red-500">*</span>
+                        {formData.serviceCategory === 'Solicitor' ? 'Practice Area' : formData.serviceCategory === 'Accountant' ? 'Service Category' : 'Category'} <span className="text-red-500">*</span>
                       </label>
                       <select
                         name="category"
@@ -1149,7 +1376,11 @@ export default function ProductsPage() {
                       onChange={handleInputChange}
                       className="input"
                       rows={2}
-                      placeholder="Brief description of the product..."
+                      placeholder={
+                        formData.serviceCategory === 'Solicitor' ? 'Describe this legal service...'
+                        : formData.serviceCategory === 'Accountant' ? 'Describe this accountancy service...'
+                        : 'Brief description of the product...'
+                      }
                     />
                   </div>
                   {formData.serviceCategory === 'Photocopiers' && (
@@ -1599,6 +1830,164 @@ export default function ProductsPage() {
                             className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${formData.itIncludes.includes(service) ? 'bg-purple-100 border-purple-300 text-purple-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}
                           >{service}</button>
                         ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* ==================== SOLICITOR FIELDS ==================== */}
+                {formData.serviceCategory === 'Solicitor' && (
+                  <>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">Fee Details</h3>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Fee Type <span className="text-red-500">*</span></label>
+                          <select name="solicitorFeeType" value={formData.solicitorFeeType} onChange={handleInputChange} className="input">
+                            {SOLICITOR_FEE_TYPES.map(ft => (
+                              <option key={ft.value} value={ft.value}>{ft.label}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Fee Amount (£) <span className="text-red-500">*</span>
+                          </label>
+                          <input type="number" name="solicitorFeeAmount" value={formData.solicitorFeeAmount} onChange={handleInputChange} className="input" min="0" step="50" required />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Turnaround Time</label>
+                          <select name="solicitorTurnaroundTime" value={formData.solicitorTurnaroundTime} onChange={handleInputChange} className="input">
+                            {SOLICITOR_TURNAROUND_TIMES.map(t => (
+                              <option key={t} value={t}>{t}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">What&apos;s Included</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {SOLICITOR_COMMON_INCLUSIONS.map(item => (
+                          <button key={item} type="button" onClick={() => handleFeatureToggle(item, 'solicitorWhatsIncluded')}
+                            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${formData.solicitorWhatsIncluded.includes(item) ? 'bg-indigo-100 border-indigo-300 text-indigo-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}
+                          >{item}</button>
+                        ))}
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <input
+                          type="text"
+                          name="solicitorCustomInclusion"
+                          value={formData.solicitorCustomInclusion}
+                          onChange={handleInputChange}
+                          className="input flex-1"
+                          placeholder="Add custom inclusion..."
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (formData.solicitorCustomInclusion.trim()) {
+                              handleFeatureToggle(formData.solicitorCustomInclusion.trim(), 'solicitorWhatsIncluded');
+                              setFormData(prev => ({ ...prev, solicitorCustomInclusion: '' }));
+                            }
+                          }}
+                          className="btn-secondary py-2 px-3 text-sm"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">Key Team Member</h3>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                          <input type="text" name="solicitorTeamMemberName" value={formData.solicitorTeamMemberName} onChange={handleInputChange} className="input" placeholder="e.g. Sarah Johnson" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                          <input type="text" name="solicitorTeamMemberRole" value={formData.solicitorTeamMemberRole} onChange={handleInputChange} className="input" placeholder="e.g. Senior Partner" />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* ==================== ACCOUNTANT FIELDS ==================== */}
+                {formData.serviceCategory === 'Accountant' && (
+                  <>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">Fee Details</h3>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Fee Type <span className="text-red-500">*</span></label>
+                          <select name="accountantFeeType" value={formData.accountantFeeType} onChange={handleInputChange} className="input">
+                            {ACCOUNTANT_FEE_TYPES.map(ft => (
+                              <option key={ft.value} value={ft.value}>{ft.label}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Fee Amount (£) <span className="text-red-500">*</span>
+                          </label>
+                          <input type="number" name="accountantFeeAmount" value={formData.accountantFeeAmount} onChange={handleInputChange} className="input" min="0" step="25" required />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">Software Used</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {ACCOUNTANT_SOFTWARE_OPTIONS.map(sw => (
+                          <button key={sw} type="button" onClick={() => handleFeatureToggle(sw, 'accountantSoftwareUsed')}
+                            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${formData.accountantSoftwareUsed.includes(sw) ? 'bg-emerald-100 border-emerald-300 text-emerald-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}
+                          >{sw}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">What&apos;s Included</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {ACCOUNTANT_COMMON_INCLUSIONS.map(item => (
+                          <button key={item} type="button" onClick={() => handleFeatureToggle(item, 'accountantWhatsIncluded')}
+                            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${formData.accountantWhatsIncluded.includes(item) ? 'bg-emerald-100 border-emerald-300 text-emerald-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}
+                          >{item}</button>
+                        ))}
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <input
+                          type="text"
+                          name="accountantCustomInclusion"
+                          value={formData.accountantCustomInclusion}
+                          onChange={handleInputChange}
+                          className="input flex-1"
+                          placeholder="Add custom inclusion..."
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (formData.accountantCustomInclusion.trim()) {
+                              handleFeatureToggle(formData.accountantCustomInclusion.trim(), 'accountantWhatsIncluded');
+                              setFormData(prev => ({ ...prev, accountantCustomInclusion: '' }));
+                            }
+                          }}
+                          className="btn-secondary py-2 px-3 text-sm"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">Key Team Member</h3>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                          <input type="text" name="accountantTeamMemberName" value={formData.accountantTeamMemberName} onChange={handleInputChange} className="input" placeholder="e.g. John Smith" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                          <input type="text" name="accountantTeamMemberRole" value={formData.accountantTeamMemberRole} onChange={handleInputChange} className="input" placeholder="e.g. Senior Accountant" />
+                        </div>
                       </div>
                     </div>
                   </>

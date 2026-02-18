@@ -11,6 +11,8 @@ const categoryColors: Record<string, string> = {
   IT: 'bg-purple-100 text-purple-700',
   'Business Tips': 'bg-gray-100 text-gray-700',
   'AI & Visibility': 'bg-indigo-100 text-indigo-700',
+  'AI Visibility': 'bg-teal-100 text-teal-700',
+  Research: 'bg-rose-100 text-rose-700',
 };
 
 function ArticleCard({ article }: { article: Article }) {
@@ -34,6 +36,7 @@ function ArticleCard({ article }: { article: Article }) {
         </p>
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-400">
+            {article.author && <>{article.author} &middot; </>}
             {new Date(article.publishedDate).toLocaleDateString('en-GB', {
               day: 'numeric',
               month: 'short',
@@ -62,11 +65,11 @@ export default function ResourcesPage() {
       <section className="bg-brand-gradient text-white py-16">
         <div className="section text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            Office Equipment Guides & Insights
+            AI Visibility Guides & Insights
           </h1>
           <p className="text-lg text-purple-100 max-w-2xl mx-auto">
-            Expert advice on photocopiers, telecoms, CCTV, and IT for UK businesses.
-            Make informed decisions and save money.
+            Expert advice on AI visibility, GEO, and getting your business recommended by
+            ChatGPT, Gemini, and Perplexity. For UK solicitors, suppliers, and professional services.
           </p>
         </div>
       </section>
