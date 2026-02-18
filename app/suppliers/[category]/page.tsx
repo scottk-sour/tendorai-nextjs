@@ -7,7 +7,9 @@ import {
   SERVICES,
   MAJOR_LOCATIONS,
   isSolicitorCategory,
+  isAccountantCategory,
   getPracticeAreaFromSlug,
+  getAccountantServiceArea,
   getServiceFromSlug,
 } from '@/lib/constants';
 
@@ -26,12 +28,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const isSolicitor = service.group === 'solicitor';
+  const isAccountant = service.group === 'accountant';
   const title = isSolicitor
     ? `${service.name} Solicitors UK | TendorAI`
-    : `${service.name} Suppliers UK | TendorAI`;
+    : isAccountant
+      ? `${service.name} Accountants UK | TendorAI`
+      : `${service.name} Suppliers UK | TendorAI`;
   const description = isSolicitor
     ? `Find verified ${service.name.toLowerCase()} solicitors across the UK. SRA-regulated firms with reviews, accreditations, and pricing on TendorAI.`
-    : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
+    : isAccountant
+      ? `Find verified ${service.name.toLowerCase()} accountants across the UK. ICAEW-regulated firms with reviews, accreditations, and pricing on TendorAI.`
+      : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
 
   return {
     title,
@@ -48,6 +55,7 @@ async function getCategoryData(category: string) {
   if (!service) return null;
 
   const isSolicitor = service.group === 'solicitor';
+  const isAccountant = service.group === 'accountant';
 
   const statusFilter = {
     $or: [
@@ -61,16 +69,22 @@ async function getCategoryData(category: string) {
     const practiceArea = getPracticeAreaFromSlug(category);
     if (!practiceArea) return null;
     vendorFilter = { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea };
+  } else if (isAccountant) {
+    const serviceArea = getAccountantServiceArea(category);
+    if (!serviceArea) return null;
+    vendorFilter = { ...statusFilter, vendorType: 'accountant', practiceAreas: serviceArea };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return null;
     vendorFilter = { ...statusFilter, services: serviceName };
   }
 
+  const groupByCity = isSolicitor || isAccountant;
+
   const [vendorCount, locationStats] = await Promise.all([
     Vendor.countDocuments(vendorFilter),
-    // For solicitors, group by city; for equipment, group by coverage
-    isSolicitor
+    // For solicitors/accountants, group by city; for equipment, group by coverage
+    groupByCity
       ? Vendor.aggregate([
           { $match: vendorFilter },
           { $group: { _id: '$location.city', count: { $sum: 1 } } },
@@ -87,7 +101,7 @@ async function getCategoryData(category: string) {
         ]),
   ]);
 
-  return { vendorCount, locationStats, isSolicitor };
+  return { vendorCount, locationStats, isSolicitor, isAccountant };
 }
 
 export default async function CategoryPage({ params }: PageProps) {
@@ -103,8 +117,9 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const { vendorCount, locationStats, isSolicitor } = data;
-  const suffix = isSolicitor ? 'Solicitors' : 'Suppliers';
+  const { vendorCount, locationStats, isSolicitor, isAccountant } = data;
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
+  const isProfessional = isSolicitor || isAccountant;
 
   const categoryFaqs = isSolicitor
     ? [
@@ -121,22 +136,37 @@ export default async function CategoryPage({ params }: PageProps) {
           answer: `Yes — all solicitor firms listed on TendorAI are authorised and regulated by the Solicitors Regulation Authority (SRA). Each listing links to the firm's SRA register entry for verification.`,
         },
       ]
-    : [
-        {
-          question: `How do I find ${service.name.toLowerCase()} suppliers near me?`,
-          answer: `Use TendorAI to browse ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area.`,
-        },
-        {
-          question: `How many ${service.name.toLowerCase()} suppliers are listed on TendorAI?`,
-          answer: `TendorAI currently lists ${vendorCount} ${service.name.toLowerCase()} suppliers across the UK. New suppliers are added regularly as our network grows.`,
-        },
-        {
-          question: `Is TendorAI free to use for finding ${service.name.toLowerCase()} suppliers?`,
-          answer: `Yes — TendorAI is completely free for buyers. You can browse suppliers, compare services, and request quotes without any charge.`,
-        },
-      ];
+    : isAccountant
+      ? [
+          {
+            question: `How do I find ${service.name.toLowerCase()} accountants near me?`,
+            answer: `Use TendorAI to browse ${service.name.toLowerCase()} accountants by location. Select your city from the list below to see ICAEW-regulated firms in your area.`,
+          },
+          {
+            question: `How many ${service.name.toLowerCase()} accountants are listed on TendorAI?`,
+            answer: `TendorAI currently lists ${vendorCount.toLocaleString()} ${service.name.toLowerCase()} accountancy firms across England and Wales, sourced from ICAEW data.`,
+          },
+          {
+            question: `Are these accountants regulated?`,
+            answer: `Yes — all accountancy firms listed on TendorAI are regulated by the Institute of Chartered Accountants in England and Wales (ICAEW). Each listing links to the firm's ICAEW directory entry for verification.`,
+          },
+        ]
+      : [
+          {
+            question: `How do I find ${service.name.toLowerCase()} suppliers near me?`,
+            answer: `Use TendorAI to browse ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area.`,
+          },
+          {
+            question: `How many ${service.name.toLowerCase()} suppliers are listed on TendorAI?`,
+            answer: `TendorAI currently lists ${vendorCount} ${service.name.toLowerCase()} suppliers across the UK. New suppliers are added regularly as our network grows.`,
+          },
+          {
+            question: `Is TendorAI free to use for finding ${service.name.toLowerCase()} suppliers?`,
+            answer: `Yes — TendorAI is completely free for buyers. You can browse suppliers, compare services, and request quotes without any charge.`,
+          },
+        ];
 
-  const schemaType = isSolicitor ? 'LegalService' : 'Service';
+  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'Service';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -205,13 +235,21 @@ export default async function CategoryPage({ params }: PageProps) {
             </div>
             <p className="text-lg text-purple-100 max-w-3xl">
               {service.description}. Browse {vendorCount.toLocaleString()} {suffix.toLowerCase()} across{' '}
-              {isSolicitor ? 'England and Wales' : 'the UK'}.
+              {isProfessional ? 'England and Wales' : 'the UK'}.
             </p>
             {isSolicitor && (
               <p className="text-sm text-purple-300 mt-2">
                 Data supplied by the{' '}
                 <a href="https://www.sra.org.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
                   SRA
+                </a>
+              </p>
+            )}
+            {isAccountant && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by the{' '}
+                <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
+                  ICAEW
                 </a>
               </p>
             )}
@@ -255,7 +293,7 @@ export default async function CategoryPage({ params }: PageProps) {
             )}
 
             {/* All major locations */}
-            {!isSolicitor && (
+            {!isProfessional && (
               <>
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">All Locations</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -297,7 +335,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <section className="py-12 bg-white">
           <div className="section">
             <h2 className="text-2xl font-bold mb-6">
-              Other {isSolicitor ? 'Practice Areas' : 'Service Categories'}
+              Other {isProfessional ? 'Practice Areas' : 'Service Categories'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {otherInGroup.map((otherService) => (
@@ -324,7 +362,7 @@ export default async function CategoryPage({ params }: PageProps) {
         {/* Vendor Acquisition CTA */}
         <section className="bg-purple-50 py-10">
           <div className="section text-center">
-            {isSolicitor ? (
+            {isProfessional ? (
               <>
                 <h2 className="text-xl font-bold text-gray-900 mb-2">
                   Is your firm listed here?

@@ -72,6 +72,7 @@ export default function VendorSearchBar() {
 
   const typeLabel: Record<string, string> = {
     solicitor: 'Solicitor',
+    accountant: 'Accountant',
     'office-equipment': 'Office Equipment',
   };
 

@@ -14,11 +14,11 @@ const verticals = [
     statusColor: 'bg-green-100 text-green-700',
   },
   {
-    number: '35,000+',
+    number: '1,300+',
     title: 'Accountants',
     description: 'Tax advisors, bookkeepers, payroll services, audit firms, and R&D tax credit specialists.',
-    status: 'Coming Soon',
-    statusColor: 'bg-amber-100 text-amber-700',
+    status: 'Live',
+    statusColor: 'bg-green-100 text-green-700',
   },
   {
     number: '20,000+',

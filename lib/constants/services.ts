@@ -127,6 +127,79 @@ export const SERVICES = {
     keywords: ['personal injury', 'accident', 'compensation', 'clinical negligence', 'no win no fee'],
     icon: '🩹',
   },
+  // ─── Accountant Categories ─────────────────────────────────────────
+  'tax-advisory': {
+    name: 'Tax Advisory',
+    value: 'Tax Advisory',
+    slug: 'tax-advisory',
+    group: 'accountant' as const,
+    description: 'Personal tax, corporation tax, inheritance tax, self-assessment',
+    keywords: ['tax', 'corporation tax', 'self-assessment', 'inheritance tax', 'HMRC'],
+    icon: '📋',
+  },
+  'audit-assurance': {
+    name: 'Audit & Assurance',
+    value: 'Audit & Assurance',
+    slug: 'audit-assurance',
+    group: 'accountant' as const,
+    description: 'Statutory audits, internal audits, assurance services',
+    keywords: ['audit', 'statutory audit', 'internal audit', 'assurance'],
+    icon: '🔍',
+  },
+  bookkeeping: {
+    name: 'Bookkeeping',
+    value: 'Bookkeeping',
+    slug: 'bookkeeping',
+    group: 'accountant' as const,
+    description: 'Bookkeeping, accounts preparation, management accounts',
+    keywords: ['bookkeeping', 'accounts', 'management accounts', 'ledger'],
+    icon: '📒',
+  },
+  payroll: {
+    name: 'Payroll',
+    value: 'Payroll',
+    slug: 'payroll',
+    group: 'accountant' as const,
+    description: 'Payroll processing, RTI submissions, pension auto-enrolment',
+    keywords: ['payroll', 'RTI', 'pensions', 'auto-enrolment', 'PAYE'],
+    icon: '💷',
+  },
+  'corporate-finance': {
+    name: 'Corporate Finance',
+    value: 'Corporate Finance',
+    slug: 'corporate-finance',
+    group: 'accountant' as const,
+    description: 'M&A, due diligence, business valuations, fundraising',
+    keywords: ['corporate finance', 'M&A', 'due diligence', 'valuations', 'fundraising'],
+    icon: '🏦',
+  },
+  'business-advisory': {
+    name: 'Business Advisory',
+    value: 'Business Advisory',
+    slug: 'business-advisory',
+    group: 'accountant' as const,
+    description: 'Consultancy, start-ups, growth planning',
+    keywords: ['business advisory', 'consultancy', 'start-up', 'growth planning'],
+    icon: '📈',
+  },
+  'vat-services': {
+    name: 'VAT',
+    value: 'VAT',
+    slug: 'vat-services',
+    group: 'accountant' as const,
+    description: 'VAT returns, MTD compliance, cross-border VAT',
+    keywords: ['VAT', 'MTD', 'making tax digital', 'VAT returns'],
+    icon: '🧾',
+  },
+  'financial-planning': {
+    name: 'Financial Planning',
+    value: 'Financial Planning',
+    slug: 'financial-planning',
+    group: 'accountant' as const,
+    description: 'Wealth management, retirement planning, estate planning',
+    keywords: ['financial planning', 'wealth management', 'retirement', 'estate planning'],
+    icon: '💰',
+  },
 } as const;
 
 export type ServiceKey = keyof typeof SERVICES;
@@ -134,6 +207,20 @@ export type ServiceKey = keyof typeof SERVICES;
 export const SERVICE_KEYS = Object.keys(SERVICES) as ServiceKey[];
 
 export const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants'] as const;
+
+// Accountant slug → practiceAreas value mapping
+export const ACCOUNTANT_SERVICE_AREA_MAP: Record<string, string> = {
+  'tax-advisory': 'Tax Advisory',
+  'audit-assurance': 'Audit & Assurance',
+  bookkeeping: 'Bookkeeping',
+  payroll: 'Payroll',
+  'corporate-finance': 'Corporate Finance',
+  'business-advisory': 'Business Advisory',
+  'vat-services': 'VAT',
+  'financial-planning': 'Financial Planning',
+};
+
+export const ACCOUNTANT_SLUGS = Object.keys(ACCOUNTANT_SERVICE_AREA_MAP);
 
 export type ValidService = (typeof VALID_SERVICES)[number];
 
@@ -172,13 +259,23 @@ export function isSolicitorCategory(slug: string): boolean {
   return slug in SOLICITOR_PRACTICE_AREA_MAP;
 }
 
+export function isAccountantCategory(slug: string): boolean {
+  return slug in ACCOUNTANT_SERVICE_AREA_MAP;
+}
+
 export function getPracticeAreaFromSlug(slug: string): string | null {
   return SOLICITOR_PRACTICE_AREA_MAP[slug.toLowerCase()] || null;
+}
+
+export function getAccountantServiceArea(slug: string): string | null {
+  return ACCOUNTANT_SERVICE_AREA_MAP[slug.toLowerCase()] || null;
 }
 
 export function getServiceFromSlug(slug: string): ValidService | null {
   // Check solicitor categories first — they map to 'Solicitors' service
   if (isSolicitorCategory(slug)) return 'Solicitors';
+  // Check accountant categories — they map to 'Accountants' service
+  if (isAccountantCategory(slug)) return 'Accountants';
   return SERVICE_SLUG_MAP[slug.toLowerCase()] || null;
 }
 

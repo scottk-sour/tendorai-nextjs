@@ -178,6 +178,121 @@ const legalCategories = [
   },
 ];
 
+const accountantCategories = [
+  {
+    name: 'Tax Advisory',
+    dbValue: 'Tax Advisory',
+    slug: 'tax-advisory',
+    description: 'Personal tax, corporation tax, inheritance tax, self-assessment',
+    iconBg: 'bg-green-50',
+    iconColor: 'text-green-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Audit & Assurance',
+    dbValue: 'Audit & Assurance',
+    slug: 'audit-assurance',
+    description: 'Statutory audits, internal audits, assurance services',
+    iconBg: 'bg-sky-50',
+    iconColor: 'text-sky-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Bookkeeping',
+    dbValue: 'Bookkeeping',
+    slug: 'bookkeeping',
+    description: 'Bookkeeping, accounts preparation, management accounts',
+    iconBg: 'bg-violet-50',
+    iconColor: 'text-violet-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Payroll',
+    dbValue: 'Payroll',
+    slug: 'payroll',
+    description: 'Payroll processing, RTI submissions, pension auto-enrolment',
+    iconBg: 'bg-lime-50',
+    iconColor: 'text-lime-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Corporate Finance',
+    dbValue: 'Corporate Finance',
+    slug: 'corporate-finance',
+    description: 'M&A, due diligence, business valuations, fundraising',
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-blue-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Business Advisory',
+    dbValue: 'Business Advisory',
+    slug: 'business-advisory',
+    description: 'Consultancy, start-ups, growth planning',
+    iconBg: 'bg-amber-50',
+    iconColor: 'text-amber-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+      </svg>
+    ),
+  },
+  {
+    name: 'VAT',
+    dbValue: 'VAT',
+    slug: 'vat-services',
+    description: 'VAT returns, MTD compliance, cross-border VAT',
+    iconBg: 'bg-fuchsia-50',
+    iconColor: 'text-fuchsia-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Financial Planning',
+    dbValue: 'Financial Planning',
+    slug: 'financial-planning',
+    description: 'Wealth management, retirement planning, estate planning',
+    iconBg: 'bg-emerald-50',
+    iconColor: 'text-emerald-600',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+];
+
 const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
   const renderCategory = (category: typeof officeEquipmentCategories[0]) => {
     const count = categoryCounts[category.dbValue] || 0;
@@ -237,7 +352,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>Browse by service</h2>
-          <p>AI visibility profiles for office equipment and legal services across the UK</p>
+          <p>AI visibility profiles for office equipment, legal, and accounting services across the UK</p>
         </div>
 
         {/* Office Equipment */}
@@ -248,8 +363,14 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
 
         {/* Legal Services */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Legal Services</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {legalCategories.map(renderCategory)}
+        </div>
+
+        {/* Accounting Services */}
+        <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Accounting Services</h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {accountantCategories.map(renderCategory)}
         </div>
       </div>
     </section>

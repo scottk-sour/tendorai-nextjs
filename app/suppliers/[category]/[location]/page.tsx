@@ -13,7 +13,9 @@ import {
   calculatePriorityScore,
   canShowPricing,
   isSolicitorCategory,
+  isAccountantCategory,
   getPracticeAreaFromSlug,
+  getAccountantServiceArea,
   getServiceFromSlug,
 } from '@/lib/constants';
 import { LocationContent } from '@/lib/db/models/LocationContent';
@@ -34,11 +36,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const isSolicitor = service.group === 'solicitor';
-  const suffix = isSolicitor ? 'Solicitors' : 'Suppliers';
+  const isAccountant = service.group === 'accountant';
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
   const title = `${service.name} ${suffix} in ${locationName} | TendorAI`;
   const description = isSolicitor
     ? `Compare verified ${service.name.toLowerCase()} solicitors in ${locationName}. SRA-regulated firms with reviews and accreditations on TendorAI.`
-    : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
+    : isAccountant
+      ? `Compare verified ${service.name.toLowerCase()} accountants in ${locationName}. ICAEW-regulated firms with reviews and accreditations on TendorAI.`
+      : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   return {
     title,
@@ -63,6 +68,7 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
     vendorType?: string;
     practiceAreas?: string[];
     sraNumber?: string;
+    icaewFirmNumber?: string;
     slug?: string;
     location?: { city?: string; region?: string; coverage?: string[]; postcode?: string };
     performance?: { rating?: number; reviewCount?: number };
@@ -107,6 +113,7 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
     accountClaimed: isClaimed,
     vendorType: vendor.vendorType,
     sraNumber: vendor.sraNumber,
+    icaewFirmNumber: vendor.icaewFirmNumber,
     slug: vendor.slug,
   };
 }
@@ -115,6 +122,7 @@ async function fetchVendors(category: string, location: string) {
   await connectDB();
 
   const isSolicitor = isSolicitorCategory(category);
+  const isAccountant = isAccountantCategory(category);
   const normalizedLocation = location.replace(/-/g, ' ');
 
   let categoryFilter;
@@ -122,13 +130,18 @@ async function fetchVendors(category: string, location: string) {
     const practiceArea = getPracticeAreaFromSlug(category);
     if (!practiceArea) return [];
     categoryFilter = { vendorType: 'solicitor', practiceAreas: practiceArea };
+  } else if (isAccountant) {
+    const serviceArea = getAccountantServiceArea(category);
+    if (!serviceArea) return [];
+    categoryFilter = { vendorType: 'accountant', practiceAreas: serviceArea };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return [];
     categoryFilter = { services: serviceName };
   }
 
-  const locationFilter = isSolicitor
+  const isProfessional = isSolicitor || isAccountant;
+  const locationFilter = isProfessional
     ? { 'location.city': { $regex: new RegExp(`^${normalizedLocation}$`, 'i') } }
     : {
         $or: [
@@ -156,7 +169,7 @@ async function fetchVendors(category: string, location: string) {
     .select({
       company: 1, services: 1, location: 1, performance: 1, businessProfile: 1,
       brands: 1, tier: 1, contactInfo: 1, showPricing: 1, listingStatus: 1,
-      'account.loginCount': 1, vendorType: 1, practiceAreas: 1, sraNumber: 1, slug: 1,
+      'account.loginCount': 1, vendorType: 1, practiceAreas: 1, sraNumber: 1, icaewFirmNumber: 1, slug: 1,
     })
     .lean()
     .exec();
@@ -196,7 +209,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   }
 
   const isSolicitor = service.group === 'solicitor';
-  const suffix = isSolicitor ? 'Solicitors' : 'Suppliers';
+  const isAccountant = service.group === 'accountant';
+  const isProfessional = isSolicitor || isAccountant;
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
 
   const [allVendors, locationContent] = await Promise.all([
     fetchVendors(category, location),
@@ -216,9 +231,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
   const totalCount = localVendors.length + nationalVendors.length;
 
-  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor);
+  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor, isAccountant);
 
-  const schemaType = isSolicitor ? 'LegalService' : 'Service';
+  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'Service';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -230,7 +245,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           '@type': 'ListItem',
           position: index + 1,
           item: {
-            '@type': isSolicitor ? 'LegalService' : 'LocalBusiness',
+            '@type': isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'LocalBusiness',
             name: vendor.company,
             description: vendor.businessProfile?.description || `${service.name} ${suffix.toLowerCase()}`,
             address: {
@@ -310,12 +325,20 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             <p className="text-lg text-purple-100 max-w-3xl">
               {isSolicitor
                 ? `Compare ${totalCount} SRA-regulated ${service.name.toLowerCase()} solicitors in ${locationName}.`
-                : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
+                : isAccountant
+                  ? `Compare ${totalCount} ICAEW-regulated ${service.name.toLowerCase()} accountants in ${locationName}.`
+                  : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
             </p>
             {isSolicitor && (
               <p className="text-sm text-purple-300 mt-2">
                 Data supplied by the{' '}
                 <a href="https://www.sra.org.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">SRA</a>
+              </p>
+            )}
+            {isAccountant && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by the{' '}
+                <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">ICAEW</a>
               </p>
             )}
           </div>
@@ -381,7 +404,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               )}
             </>
           ) : (
-            <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} />
+            <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} isAccountant={isAccountant} />
           )}
         </section>
 
@@ -406,18 +429,18 @@ export default async function CategoryLocationPage({ params }: PageProps) {
         <section className="bg-purple-50 py-10" data-nosnippet>
           <div className="section text-center">
             <h2 className="text-xl font-bold text-gray-900 mb-2">
-              {isSolicitor ? `${service.name} firm in ${locationName}? Claim your profile` : `${service.name} Supplier in ${locationName}? Get Listed`}
+              {isProfessional ? `${service.name} firm in ${locationName}? Claim your profile` : `${service.name} Supplier in ${locationName}? Get Listed`}
             </h2>
             <p className="text-gray-600 mb-4">
-              {isSolicitor
+              {isProfessional
                 ? `Claim your free listing to add pricing, accreditations, and rank higher in AI recommendations.`
                 : `Join ${totalCount > 0 ? `${totalCount}+ ` : ''}other ${service.name.toLowerCase()} suppliers on TendorAI.`}
             </p>
             <Link
-              href={isSolicitor ? '/vendor-signup' : '/for-vendors'}
+              href={isProfessional ? '/vendor-signup' : '/for-vendors'}
               className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
             >
-              {isSolicitor ? 'Claim Your Profile — Free' : 'List Your Business — Free'}
+              {isProfessional ? 'Claim Your Profile — Free' : 'List Your Business — Free'}
             </Link>
           </div>
         </section>
@@ -453,7 +476,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   );
 }
 
-function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean) {
+function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean, isAccountant: boolean = false) {
   if (isSolicitor) {
     return [
       {
@@ -471,6 +494,27 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
       {
         question: `How much do ${serviceName.toLowerCase()} solicitors cost in ${locationName}?`,
         answer: `Fees for ${serviceName.toLowerCase()} solicitors in ${locationName} vary by firm and complexity. Firms that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact firms directly.`,
+      },
+    ];
+  }
+
+  if (isAccountant) {
+    return [
+      {
+        question: `How do I find the best ${serviceName.toLowerCase()} accountant in ${locationName}?`,
+        answer: `TendorAI lists ${vendorCount} ICAEW-regulated ${serviceName.toLowerCase()} accountants in ${locationName}. You can compare firms by reviews, accreditations, and practice areas. All firms are regulated by the Institute of Chartered Accountants in England and Wales.`,
+      },
+      {
+        question: `How many ${serviceName.toLowerCase()} accountants are there in ${locationName}?`,
+        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} accountancy firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area, sourced from ICAEW data.`,
+      },
+      {
+        question: `Are these accountants regulated?`,
+        answer: `Yes — every accountancy firm listed on TendorAI is regulated by the ICAEW. Each profile links to the firm's ICAEW directory entry so you can verify their status directly.`,
+      },
+      {
+        question: `How much do ${serviceName.toLowerCase()} accountants cost in ${locationName}?`,
+        answer: `Fees for ${serviceName.toLowerCase()} accountants in ${locationName} vary by firm and complexity. Firms that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact firms directly.`,
       },
     ];
   }
@@ -504,9 +548,9 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
   ];
 }
 
-function EmptyState({ service, location, category, isSolicitor }: { service: string; location: string; category: string; isSolicitor: boolean }) {
+function EmptyState({ service, location, category, isSolicitor, isAccountant }: { service: string; location: string; category: string; isSolicitor: boolean; isAccountant: boolean }) {
   const nearbyLocations = getNearbyLocations(location.toLowerCase().replace(/\s+/g, '-'));
-  const suffix = isSolicitor ? 'solicitors' : 'suppliers';
+  const suffix = isSolicitor ? 'solicitors' : isAccountant ? 'accountants' : 'suppliers';
 
   return (
     <div className="text-center py-12 bg-white rounded-lg">

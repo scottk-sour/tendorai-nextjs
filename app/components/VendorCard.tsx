@@ -31,12 +31,14 @@ export interface VendorCardData {
   // Multi-vertical fields
   vendorType?: string;
   sraNumber?: string;
+  icaewFirmNumber?: string;
   practiceAreas?: string[];
   slug?: string;
 }
 
 // ─── Practice area tag colours ─────────────────────────────────────
 const PRACTICE_AREA_COLORS: Record<string, string> = {
+  // Solicitor practice areas
   Conveyancing: 'bg-blue-50 text-blue-700',
   'Family Law': 'bg-amber-50 text-amber-700',
   'Criminal Law': 'bg-red-50 text-red-700',
@@ -45,6 +47,15 @@ const PRACTICE_AREA_COLORS: Record<string, string> = {
   'Wills & Probate': 'bg-purple-50 text-purple-700',
   Immigration: 'bg-emerald-50 text-emerald-700',
   'Personal Injury': 'bg-orange-50 text-orange-700',
+  // Accountant practice areas
+  'Tax Advisory': 'bg-green-50 text-green-700',
+  'Audit & Assurance': 'bg-sky-50 text-sky-700',
+  Bookkeeping: 'bg-violet-50 text-violet-700',
+  Payroll: 'bg-lime-50 text-lime-700',
+  'Corporate Finance': 'bg-blue-50 text-blue-700',
+  'Business Advisory': 'bg-amber-50 text-amber-700',
+  VAT: 'bg-fuchsia-50 text-fuchsia-700',
+  'Financial Planning': 'bg-emerald-50 text-emerald-700',
 };
 
 type CardVariant = 'premium' | 'active' | 'unclaimed';
@@ -67,6 +78,9 @@ function getClaimUrl(vendor: VendorCardData): string {
   if (vendor.vendorType === 'solicitor' && vendor.sraNumber) {
     return `/vendor-signup?sra=${vendor.sraNumber}&company=${encodeURIComponent(vendor.company)}`;
   }
+  if (vendor.vendorType === 'accountant' && vendor.icaewFirmNumber) {
+    return `/vendor-signup?icaew=${vendor.icaewFirmNumber}&company=${encodeURIComponent(vendor.company)}`;
+  }
   return `/vendor-signup?claim=${encodeURIComponent(vendor.company)}`;
 }
 
@@ -82,6 +96,8 @@ export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
 function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   const isVerified = vendor.tier === 'verified';
   const isSolicitor = vendor.vendorType === 'solicitor';
+  const isAccountant = vendor.vendorType === 'accountant';
+  const isProfessional = isSolicitor || isAccountant;
 
   return (
     <article
@@ -111,6 +127,11 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
                 SRA Regulated
               </span>
             )}
+            {isAccountant && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+                ICAEW Regulated
+              </span>
+            )}
           </div>
 
           {vendor.description && (
@@ -121,16 +142,16 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             <LocationBadge vendor={vendor} />
             <RatingBadge rating={vendor.rating} reviewCount={vendor.reviewCount} />
             {vendor.yearsInBusiness ? <span>{vendor.yearsInBusiness}+ years</span> : null}
-            {!isSolicitor && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
+            {!isProfessional && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
           </div>
 
-          {/* Solicitor: practice area tags */}
-          {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+          {/* Professional: practice area tags */}
+          {isProfessional && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
             <PracticeAreaTags areas={vendor.practiceAreas} />
           )}
 
-          {/* Solicitor: accreditations */}
-          {isSolicitor && vendor.accreditations && vendor.accreditations.length > 0 && (
+          {/* Professional: accreditations */}
+          {isProfessional && vendor.accreditations && vendor.accreditations.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {vendor.accreditations.map((acc) => (
                 <span key={acc} className="text-xs px-2 py-0.5 rounded bg-green-50 text-green-700 font-medium">
@@ -141,7 +162,7 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
           )}
 
           {/* Office equipment: brand tags */}
-          {!isSolicitor && <BrandTags brands={vendor.brands} />}
+          {!isProfessional && <BrandTags brands={vendor.brands} />}
         </div>
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
@@ -149,7 +170,7 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             href={`${getProfileUrl(vendor)}?quote=true`}
             className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
-            {isSolicitor ? `Contact ${vendor.company}` : `Get Quote from ${vendor.company}`}
+            {isProfessional ? `Contact ${vendor.company}` : `Get Quote from ${vendor.company}`}
           </Link>
           <Link
             href={getProfileUrl(vendor)}
@@ -166,6 +187,8 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
 // ─── Active Card (Free tier, claimed) ──────────────────────────────
 function ActiveCard({ vendor }: { vendor: VendorCardData }) {
   const isSolicitor = vendor.vendorType === 'solicitor';
+  const isAccountant = vendor.vendorType === 'accountant';
+  const isProfessional = isSolicitor || isAccountant;
 
   return (
     <article className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
@@ -182,6 +205,11 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
                 SRA Regulated
               </span>
             )}
+            {isAccountant && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+                ICAEW Regulated
+              </span>
+            )}
           </div>
 
           {vendor.description && (
@@ -192,14 +220,14 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
             <LocationBadge vendor={vendor} />
             <RatingBadge rating={vendor.rating} reviewCount={vendor.reviewCount} />
             {vendor.yearsInBusiness ? <span>{vendor.yearsInBusiness}+ years</span> : null}
-            {!isSolicitor && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
+            {!isProfessional && vendor.productCount > 0 && <span>{vendor.productCount} products</span>}
           </div>
 
-          {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+          {isProfessional && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
             <PracticeAreaTags areas={vendor.practiceAreas} />
           )}
 
-          {isSolicitor && vendor.accreditations && vendor.accreditations.length > 0 && (
+          {isProfessional && vendor.accreditations && vendor.accreditations.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {vendor.accreditations.map((acc) => (
                 <span key={acc} className="text-xs px-2 py-0.5 rounded bg-green-50 text-green-700 font-medium">
@@ -209,7 +237,7 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
             </div>
           )}
 
-          {!isSolicitor && <BrandTags brands={vendor.brands} />}
+          {!isProfessional && <BrandTags brands={vendor.brands} />}
         </div>
 
         <div className="flex flex-col gap-2 md:items-end flex-shrink-0">
@@ -228,6 +256,8 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
 // ─── Unclaimed Card ────────────────────────────────────────────────
 function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
   const isSolicitor = vendor.vendorType === 'solicitor';
+  const isAccountant = vendor.vendorType === 'accountant';
+  const isProfessional = isSolicitor || isAccountant;
   const profileUrl = getProfileUrl(vendor);
 
   return (
@@ -244,11 +274,21 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
                   SRA Regulated
                 </span>
               )}
+              {isAccountant && (
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
+                  ICAEW Regulated
+                </span>
+              )}
             </div>
 
             {/* SRA number */}
             {isSolicitor && vendor.sraNumber && (
               <p className="text-xs text-gray-400 mb-2">SRA No: {vendor.sraNumber}</p>
+            )}
+
+            {/* ICAEW firm number */}
+            {isAccountant && vendor.icaewFirmNumber && (
+              <p className="text-xs text-gray-400 mb-2">ICAEW Firm: {vendor.icaewFirmNumber}</p>
             )}
 
             {/* Location */}
@@ -259,8 +299,8 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
               </p>
             )}
 
-            {/* Solicitor: practice area tags with per-area colours */}
-            {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 ? (
+            {/* Professional: practice area tags with per-area colours */}
+            {isProfessional && vendor.practiceAreas && vendor.practiceAreas.length > 0 ? (
               <PracticeAreaTags areas={vendor.practiceAreas} />
             ) : (
               /* Equipment: service tags */
