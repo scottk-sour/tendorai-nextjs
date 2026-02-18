@@ -65,6 +65,10 @@ function getPlaceholderData(vendorType: string | undefined): CompetitorData | nu
   return null;
 }
 
+function isPlaceholderType(vendorType: string | undefined): boolean {
+  return vendorType === 'solicitor' || vendorType === 'accountant';
+}
+
 function hasNoMeaningfulData(data: CompetitorData | null): boolean {
   if (!data) return true;
   if (data.locked && data.competitorCount === 0 && (!data.topCounts || data.topCounts.length === 0)) return true;
@@ -147,26 +151,40 @@ export default function CompetitorLeaderboard({ token, tier, vendorName, vendorT
   const location = data.location || 'your area';
 
   // Paid tier — show real data (or placeholder data with names visible)
+  const usingPlaceholder = isPlaceholderType(vendorType) && hasNoMeaningfulData(data);
+
   if (isPaid && !data.locked && data.topCompetitors) {
     return (
       <div className="card p-6">
         <h3 className="font-semibold text-gray-900 mb-1">
           AI Recommendation Ranking — {category} in {location}
         </h3>
-        <p className="text-xs text-gray-500 mb-4">Based on AI mention scans in the last 30 days</p>
+        <p className="text-xs text-gray-500 mb-4">
+          {usingPlaceholder
+            ? 'These are your real local competitors — AI tools are already recommending them'
+            : 'Based on AI mention scans in the last 30 days'}
+        </p>
         <div className="space-y-2">
           {data.topCompetitors.slice(0, 5).map((comp, i) => (
             <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
               <span className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-600">
                 {i + 1}
               </span>
-              <span className="flex-1 text-sm font-medium text-gray-900">
+              <span className="flex-1 text-sm font-medium">
                 {comp.website ? (
-                  <a href={comp.website} target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 hover:underline">
+                  <a
+                    href={comp.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-700 underline decoration-purple-300 hover:text-purple-900 hover:decoration-purple-500 inline-flex items-center gap-1"
+                  >
                     {comp.name}
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                   </a>
                 ) : (
-                  comp.name
+                  <span className="text-gray-900">{comp.name}</span>
                 )}
               </span>
               <span className="text-sm text-gray-600">{comp.mentionCount} mentions</span>
@@ -200,7 +218,11 @@ export default function CompetitorLeaderboard({ token, tier, vendorName, vendorT
       <h3 className="font-semibold text-gray-900 mb-1">
         AI Recommendation Ranking — {category} in {location}
       </h3>
-      <p className="text-xs text-gray-500 mb-4">Based on AI mention scans in the last 30 days</p>
+      <p className="text-xs text-gray-500 mb-4">
+        {usingPlaceholder
+          ? 'These are your real local competitors — AI tools are already recommending them'
+          : 'Based on AI mention scans in the last 30 days'}
+      </p>
 
       <div className="space-y-2">
         {topCounts.slice(0, 5).map((count, i) => (
