@@ -39,6 +39,7 @@ interface ProfileData {
   vendorId: string;
   services: string[];
   locationCity: string;
+  vendorType: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -80,6 +81,7 @@ export default function VendorDashboardOverview() {
             vendorId: profileData.vendor.vendorId || profileData.vendor._id || '',
             services: profileData.vendor.services || [],
             locationCity: profileData.vendor.location?.city || '',
+            vendorType: profileData.vendor.vendorType || 'office-equipment',
           });
         }
       }
@@ -118,8 +120,8 @@ export default function VendorDashboardOverview() {
 
   const getTierBadgeClass = (tier: string) => {
     const label = getTierLabel(tier);
-    if (label.includes('Verified')) return 'bg-green-100 text-green-700';
-    if (label.includes('Visible')) return 'bg-blue-100 text-blue-700';
+    if (label.includes('Pro')) return 'bg-green-100 text-green-700';
+    if (label.includes('Starter')) return 'bg-blue-100 text-blue-700';
     return 'bg-gray-100 text-gray-700';
   };
 
@@ -199,7 +201,7 @@ export default function VendorDashboardOverview() {
       </div>
 
       {/* Lead Teaser (free tier only) */}
-      {!hasTierAccess(currentTier, 'visible') && (
+      {!hasTierAccess(currentTier, 'starter') && (
         <LeadTeaser token={token || ''} />
       )}
 
@@ -230,8 +232,12 @@ export default function VendorDashboardOverview() {
             </svg>
           </div>
           <div>
-            <div className="font-medium text-gray-900">Manage Products</div>
-            <div className="text-sm text-gray-500">Update your catalog</div>
+            <div className="font-medium text-gray-900">
+              {profile?.vendorType === 'office-equipment' ? 'Manage Products' : 'Manage Services'}
+            </div>
+            <div className="text-sm text-gray-500">
+              {profile?.vendorType === 'office-equipment' ? 'Update your catalog' : 'Update your service listings'}
+            </div>
           </div>
         </Link>
 

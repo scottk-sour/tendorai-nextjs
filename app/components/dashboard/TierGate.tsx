@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 
-export type VendorTier = 'free' | 'listed' | 'basic' | 'visible' | 'managed' | 'verified';
+export type VendorTier = 'free' | 'listed' | 'starter' | 'basic' | 'visible' | 'pro' | 'managed' | 'verified';
 
 interface TierGateProps {
   currentTier: string;
-  requiredTier: 'visible' | 'verified';
+  requiredTier: 'starter' | 'pro';
   featureName: string;
   featureDescription?: string;
   children: React.ReactNode;
@@ -20,10 +20,12 @@ function normalizeTier(tier: string): VendorTier {
   const mapping: Record<string, VendorTier> = {
     free: 'free',
     listed: 'free',
-    basic: 'visible',
-    visible: 'visible',
-    managed: 'verified',
-    verified: 'verified',
+    starter: 'starter',
+    basic: 'starter',
+    visible: 'starter',
+    pro: 'pro',
+    managed: 'pro',
+    verified: 'pro',
   };
   return mapping[t] || 'free';
 }
@@ -32,28 +34,32 @@ function normalizeTier(tier: string): VendorTier {
 export function getTierLabel(tier: string): string {
   const normalized = normalizeTier(tier);
   const labels: Record<VendorTier, string> = {
-    free: 'Listed (Free)',
-    listed: 'Listed (Free)',
-    basic: 'Visible',
-    visible: 'Visible',
-    managed: 'Verified',
-    verified: 'Verified',
+    free: 'Free',
+    listed: 'Free',
+    starter: 'Starter',
+    basic: 'Starter',
+    visible: 'Starter',
+    pro: 'Pro',
+    managed: 'Pro',
+    verified: 'Pro',
   };
-  return labels[normalized] || 'Listed (Free)';
+  return labels[normalized] || 'Free';
 }
 
 // Tier hierarchy for comparison
 const tierHierarchy: Record<VendorTier, number> = {
   free: 0,
   listed: 0,
+  starter: 1,
   basic: 1,
   visible: 1,
+  pro: 2,
   managed: 2,
   verified: 2,
 };
 
 // Check if user has access
-export function hasTierAccess(currentTier: string, requiredTier: 'visible' | 'verified'): boolean {
+export function hasTierAccess(currentTier: string, requiredTier: 'starter' | 'pro'): boolean {
   const normalized = normalizeTier(currentTier);
   const requiredNormalized = normalizeTier(requiredTier);
   return tierHierarchy[normalized] >= tierHierarchy[requiredNormalized];
@@ -61,8 +67,8 @@ export function hasTierAccess(currentTier: string, requiredTier: 'visible' | 've
 
 // Pricing for upgrade CTAs
 const tierPricing: Record<string, string> = {
-  visible: '£99/mo',
-  verified: '£149/mo',
+  starter: '£149/mo',
+  pro: '£299/mo',
 };
 
 export default function TierGate({
@@ -125,7 +131,7 @@ export default function TierGate({
           <p className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 mb-3`}>
             Upgrade to{' '}
             <span className="font-medium text-purple-600">
-              {requiredTier === 'visible' ? 'Visible' : 'Verified'}
+              {requiredTier === 'starter' ? 'Starter' : 'Pro'}
             </span>{' '}
             to unlock
           </p>
@@ -149,7 +155,7 @@ export default function TierGate({
 }
 
 // Smaller inline lock for feature hints
-export function TierBadge({ requiredTier }: { requiredTier: 'visible' | 'verified' }) {
+export function TierBadge({ requiredTier }: { requiredTier: 'starter' | 'pro' }) {
   return (
     <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded-full">
       <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +166,7 @@ export function TierBadge({ requiredTier }: { requiredTier: 'visible' | 'verifie
           d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
         />
       </svg>
-      {requiredTier === 'visible' ? 'Visible+' : 'Verified'}
+      {requiredTier === 'starter' ? 'Starter+' : 'Pro'}
     </span>
   );
 }

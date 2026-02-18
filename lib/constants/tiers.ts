@@ -1,15 +1,17 @@
 export const TIER_PRIORITY: Record<string, number> = {
-  // Verified tiers (highest priority) - £149/mo
+  // Pro tiers (highest priority) - £299/mo
   enterprise: 100,
   managed: 100,
   verified: 100,
+  pro: 100,
 
-  // Visible tiers (medium priority) - £99/mo
+  // Starter tiers (medium priority) - £149/mo
+  starter: 50,
   basic: 50,
   visible: 50,
   standard: 50,
 
-  // Legacy tiers (mapped to verified)
+  // Legacy tiers (mapped to pro)
   gold: 100,
   platinum: 100,
   silver: 50,
@@ -24,30 +26,34 @@ export type TierKey = keyof typeof TIER_PRIORITY;
 
 // Tier display configuration
 export const TIER_CONFIG = {
-  verified: {
-    name: 'Verified',
-    price: 149,
+  pro: {
+    name: 'Pro',
+    price: 299,
     color: 'green',
     badge: 'Verified',
     features: [
       'Priority listing in search results',
       'Full profile with contact details',
-      'Product catalogue display',
+      'Unlimited product/service listings',
       'Quote request form',
-      'Analytics dashboard',
+      'Full analytics dashboard',
       'Verified badge',
+      'Weekly AEO visibility report',
+      'Priority support',
     ],
   },
-  visible: {
-    name: 'Visible',
-    price: 99,
+  starter: {
+    name: 'Starter',
+    price: 149,
     color: 'blue',
     badge: 'Listed',
     features: [
       'Enhanced listing visibility',
       'Full profile with contact details',
+      'Up to 10 products/services',
       'Quote request form',
-      'Basic analytics',
+      'Full analytics dashboard',
+      'Monthly AEO visibility report',
     ],
   },
   free: {
@@ -71,12 +77,12 @@ export function getDisplayTier(tier?: string): DisplayTier {
 
   const normalised = tier.toLowerCase();
 
-  if (['enterprise', 'managed', 'verified', 'gold', 'platinum'].includes(normalised)) {
-    return 'verified';
+  if (['enterprise', 'managed', 'verified', 'gold', 'platinum', 'pro'].includes(normalised)) {
+    return 'pro';
   }
 
-  if (['basic', 'visible', 'standard', 'silver', 'bronze'].includes(normalised)) {
-    return 'visible';
+  if (['basic', 'visible', 'standard', 'silver', 'bronze', 'starter'].includes(normalised)) {
+    return 'starter';
   }
 
   return 'free';
@@ -85,7 +91,7 @@ export function getDisplayTier(tier?: string): DisplayTier {
 // Check if tier can show pricing/contact details
 export function canShowPricing(tier?: string): boolean {
   const displayTier = getDisplayTier(tier);
-  return displayTier === 'verified' || displayTier === 'visible';
+  return displayTier === 'pro' || displayTier === 'starter';
 }
 
 // Check if tier can receive quotes

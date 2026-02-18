@@ -21,7 +21,7 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
   }, []);
 
   // Don't show if user has visible or verified tier
-  if (hasTierAccess(tier, 'visible')) {
+  if (hasTierAccess(tier, 'starter')) {
     return null;
   }
 
@@ -91,7 +91,7 @@ export function UpgradeNudge({
   message: string;
   tier: string;
 }) {
-  if (hasTierAccess(tier, 'visible')) {
+  if (hasTierAccess(tier, 'starter')) {
     return null;
   }
 

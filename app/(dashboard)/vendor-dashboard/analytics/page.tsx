@@ -48,6 +48,7 @@ export default function AnalyticsPage() {
   const [vendorCategory, setVendorCategory] = useState('');
   const [vendorLocation, setVendorLocation] = useState('');
   const [vendorWebsite, setVendorWebsite] = useState('');
+  const [vendorType, setVendorType] = useState('office-equipment');
   const [vendorServices, setVendorServices] = useState<string[]>([]);
   const [vendorCoverage, setVendorCoverage] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,14 +73,23 @@ export default function AnalyticsPage() {
         setTier(vendorTier);
         setVendorId(vId);
         setVendorName(v?.company || '');
-        setVendorCategory(v?.services?.[0] || '');
+        const vType = v?.vendorType || 'office-equipment';
+        setVendorType(vType);
+        // Derive category from vendorType for professional services
+        if (vType === 'solicitor') {
+          setVendorCategory('Solicitors');
+        } else if (vType === 'accountant') {
+          setVendorCategory('Accountants');
+        } else {
+          setVendorCategory(v?.services?.[0] || '');
+        }
         setVendorLocation(v?.location?.city || v?.location?.region || '');
         setVendorWebsite(v?.contactInfo?.website || v?.website || '');
         setVendorServices(v?.services || []);
         setVendorCoverage(v?.location?.coverage || []);
 
         // Fetch analytics if vendor has access
-        if (hasTierAccess(vendorTier, 'visible') && vId) {
+        if (hasTierAccess(vendorTier, 'starter') && vId) {
           const analyticsRes = await fetch(
             `${API_URL}/api/analytics/vendor/${vId}?period=${period}`,
             { headers: { 'Authorization': `Bearer ${token}` } }
@@ -102,8 +112,8 @@ export default function AnalyticsPage() {
     fetchAnalytics();
   }, [fetchAnalytics]);
 
-  const hasVisibleAccess = hasTierAccess(tier, 'visible');
-  const hasVerifiedAccess = hasTierAccess(tier, 'verified');
+  const hasVisibleAccess = hasTierAccess(tier, 'starter');
+  const hasVerifiedAccess = hasTierAccess(tier, 'pro');
 
   if (loading) {
     return (
@@ -241,14 +251,36 @@ export default function AnalyticsPage() {
     );
   };
 
+  // Derive mock queries from vendor data
+  const getMockQueries = () => {
+    const loc = vendorLocation || 'your area';
+    const cat = vendorCategory || 'supplier';
+    // vendorType-aware mock queries
+    if (vendorCategory === 'Solicitors' || vendorName.toLowerCase().includes('solicitor') || vendorName.toLowerCase().includes('law')) {
+      return [
+        { query: `Best solicitors in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `Family law solicitors ${loc}`, position: 1, source: 'Claude' },
+        { query: `Conveyancing solicitors near ${loc}`, position: 3, source: 'Perplexity' },
+      ];
+    }
+    if (vendorCategory === 'Accountants' || vendorName.toLowerCase().includes('accountant')) {
+      return [
+        { query: `Best accountants in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `Small business accountants ${loc}`, position: 1, source: 'Claude' },
+        { query: `Tax advisors near ${loc}`, position: 3, source: 'Perplexity' },
+      ];
+    }
+    return [
+      { query: `Best ${cat.toLowerCase()} suppliers in ${loc}`, position: 2, source: 'ChatGPT' },
+      { query: `${cat} companies ${loc}`, position: 1, source: 'Claude' },
+      { query: `${cat} suppliers UK`, position: 3, source: 'Perplexity' },
+    ];
+  };
+
   // Mock queries for locked state
   const MockQueries = () => (
     <div className="space-y-3">
-      {[
-        { query: 'Best photocopier suppliers in Cardiff', position: 2, source: 'ChatGPT' },
-        { query: 'Office equipment suppliers South Wales', position: 1, source: 'Claude' },
-        { query: 'Copier leasing companies UK', position: 3, source: 'Perplexity' },
-      ].map((q, i) => (
+      {getMockQueries().map((q, i) => (
         <div key={i} className="p-3 bg-gray-50 rounded-lg">
           <div className="flex items-start justify-between gap-2">
             <p className="text-sm text-gray-900">&quot;{q.query}&quot;</p>
@@ -323,7 +355,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="AI Mentions"
           featureDescription="Track how many times AI recommended you this month."
           compact
@@ -336,7 +368,7 @@ export default function AnalyticsPage() {
 
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="Profile Views"
           featureDescription="See how many businesses viewed your profile."
           compact
@@ -349,7 +381,7 @@ export default function AnalyticsPage() {
 
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="Website Clicks"
           featureDescription="Track how many visitors clicked through to your website."
           compact
@@ -362,7 +394,7 @@ export default function AnalyticsPage() {
 
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="Quote Requests"
           featureDescription="Monitor quote requests generated by AI traffic."
           compact
@@ -379,7 +411,7 @@ export default function AnalyticsPage() {
         <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="AI Mentions Chart"
           featureDescription="Visualise your AI mention trends over time."
         >
@@ -395,7 +427,7 @@ export default function AnalyticsPage() {
           <h3 className="font-semibold text-gray-900 mb-4">Mentions by AI Source</h3>
           <TierGate
             currentTier={tier}
-            requiredTier="visible"
+            requiredTier="starter"
             featureName="Source Breakdown"
             featureDescription="Discover which AI platforms (ChatGPT, Claude, Perplexity) mention you most."
           >
@@ -418,12 +450,12 @@ export default function AnalyticsPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">Recent AI Queries</h3>
             {!hasVerifiedAccess && hasVisibleAccess && (
-              <span className="text-xs text-gray-500">Query details require Verified tier</span>
+              <span className="text-xs text-gray-500">Query details require Pro tier</span>
             )}
           </div>
           <TierGate
             currentTier={tier}
-            requiredTier="verified"
+            requiredTier="pro"
             featureName="Query Details"
             featureDescription="See the exact questions businesses asked AI about suppliers like you."
           >
@@ -493,7 +525,7 @@ export default function AnalyticsPage() {
               href="/vendor-dashboard/settings?tab=subscription"
               className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Upgrade to Visible — £99/mo
+              Upgrade to Starter — £149/mo
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

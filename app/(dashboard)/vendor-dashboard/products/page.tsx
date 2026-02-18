@@ -335,6 +335,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [tier, setTier] = useState('free');
+  const [vendorType, setVendorType] = useState('office-equipment');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
 
@@ -369,6 +370,7 @@ export default function ProductsPage() {
       if (profileRes.ok) {
         const profileData = await profileRes.json();
         setTier(profileData.vendor?.tier || 'free');
+        setVendorType(profileData.vendor?.vendorType || 'office-equipment');
       }
     } catch (err) {
       console.error('Failed to fetch products:', err);
@@ -384,8 +386,8 @@ export default function ProductsPage() {
   // Tier-aware product limits: free=3, visible=10, verified=unlimited
   const getProductLimit = (t: string) => {
     const normalized = t?.toLowerCase() || 'free';
-    if (['verified', 'managed'].includes(normalized)) return Infinity;
-    if (['visible', 'basic'].includes(normalized)) return 10;
+    if (['verified', 'managed', 'pro', 'enterprise'].includes(normalized)) return Infinity;
+    if (['visible', 'basic', 'starter'].includes(normalized)) return 10;
     return 3;
   };
   const productLimit = getProductLimit(tier);
@@ -832,18 +834,18 @@ export default function ProductsPage() {
             <div>
               {hasReachedLimit ? (
                 <>
-                  <p className="font-medium text-amber-800">Product limit reached ({productLimit} products)</p>
+                  <p className="font-medium text-amber-800">{vendorType === 'office-equipment' ? 'Product' : 'Service'} limit reached ({productLimit})</p>
                   <p className="text-sm text-amber-600">
-                    You&apos;ve used all {productLimit} product slots on your current plan. Upgrade to add more products.
+                    You&apos;ve used all {productLimit} slots on your current plan. Upgrade to add more.
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="font-medium text-blue-800">{productsRemaining} product slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
+                  <p className="font-medium text-blue-800">{productsRemaining} {vendorType === 'office-equipment' ? 'product' : 'service'} slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
                   <p className="text-sm text-blue-600">
-                    {!hasTierAccess(tier, 'visible')
-                      ? 'Upgrade to Visible for up to 10 products and AI visibility insights.'
-                      : 'Upgrade to Verified for unlimited products and maximum AI ranking.'}
+                    {!hasTierAccess(tier, 'starter')
+                      ? 'Upgrade to Starter for up to 10 products/services and AI visibility insights.'
+                      : 'Upgrade to Pro for unlimited products/services and maximum AI ranking.'}
                   </p>
                 </>
               )}
@@ -861,8 +863,12 @@ export default function ProductsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-          <p className="text-gray-600 mt-1">Manage your product catalog</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {vendorType === 'office-equipment' ? 'Products' : 'Services'}
+          </h1>
+          <p className="text-gray-600 mt-1">
+            {vendorType === 'office-equipment' ? 'Manage your product catalog' : 'Manage your service listings'}
+          </p>
         </div>
         <button
           onClick={handleAddProduct}
@@ -872,7 +878,7 @@ export default function ProductsPage() {
           <svg className="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Add Product
+          {vendorType === 'office-equipment' ? 'Add Product' : 'Add Service'}
         </button>
       </div>
 
@@ -911,7 +917,7 @@ export default function ProductsPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="card p-4 text-center">
           <div className="text-2xl font-bold text-gray-900">{products.length}</div>
-          <div className="text-sm text-gray-500">Total Products</div>
+          <div className="text-sm text-gray-500">Total {vendorType === 'office-equipment' ? 'Products' : 'Services'}</div>
         </div>
         <div className="card p-4 text-center">
           <div className="text-2xl font-bold text-green-600">
@@ -938,13 +944,15 @@ export default function ProductsPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
           </svg>
           {searchTerm || filterCategory !== 'all' ? (
-            <p>No products match your search</p>
+            <p>No {vendorType === 'office-equipment' ? 'products' : 'services'} match your search</p>
           ) : (
             <>
-              <p>No products yet</p>
-              <p className="text-sm mt-1">Add products to your catalog to get started</p>
+              <p>No {vendorType === 'office-equipment' ? 'products' : 'services'} yet</p>
+              <p className="text-sm mt-1">
+                {vendorType === 'office-equipment' ? 'Add products to your catalog to get started' : 'Add your service listings to get started'}
+              </p>
               <button onClick={handleAddProduct} className="btn-primary py-2 px-4 mt-4">
-                Add Your First Product
+                {vendorType === 'office-equipment' ? 'Add Your First Product' : 'Add Your First Service'}
               </button>
             </>
           )}
@@ -1020,7 +1028,9 @@ export default function ProductsPage() {
               {/* Modal Header */}
               <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {editingProduct ? 'Edit Product' : 'Add Product'}
+                  {editingProduct
+                    ? (vendorType === 'office-equipment' ? 'Edit Product' : 'Edit Service')
+                    : (vendorType === 'office-equipment' ? 'Add Product' : 'Add Service')}
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
@@ -1608,7 +1618,9 @@ export default function ProductsPage() {
                     disabled={saving}
                     className="btn-primary py-2 px-6 disabled:opacity-50"
                   >
-                    {saving ? 'Saving...' : editingProduct ? 'Update Product' : 'Add Product'}
+                    {saving ? 'Saving...' : editingProduct
+                      ? (vendorType === 'office-equipment' ? 'Update Product' : 'Update Service')
+                      : (vendorType === 'office-equipment' ? 'Add Product' : 'Add Service')}
                   </button>
                 </div>
               </form>

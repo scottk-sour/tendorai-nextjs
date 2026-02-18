@@ -53,6 +53,8 @@ const CATEGORY_MAP: Record<string, string> = {
   IT: 'IT support company',
   Security: 'security systems provider',
   Software: 'business software provider',
+  Solicitors: 'solicitor',
+  Accountants: 'accountant',
 };
 
 export default function AISearchTest({
@@ -312,7 +314,7 @@ export default function AISearchTest({
             href="/vendor-dashboard/settings?tab=subscription"
             className="inline-block px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
           >
-            Upgrade to Visible &mdash; &pound;99/mo
+            Upgrade to Starter &mdash; &pound;149/mo
           </a>
         </div>
       )}
@@ -364,7 +366,7 @@ export default function AISearchTest({
               href="/vendor-dashboard/settings?tab=subscription"
               className="inline-block mt-2 px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
             >
-              Upgrade to Visible &mdash; &pound;99/mo
+              Upgrade to Starter &mdash; &pound;149/mo
             </a>
           )}
         </div>

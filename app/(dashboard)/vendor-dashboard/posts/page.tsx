@@ -215,7 +215,7 @@ export default function PostsPage() {
                 {!canPost && <span className="text-red-600 ml-2">— limit reached</span>}
               </p>
               <a href="/vendor-dashboard/settings?tab=subscription" className="text-sm text-purple-600 hover:text-purple-700 font-medium">
-                Upgrade to Verified for unlimited posts
+                Upgrade to Pro for unlimited posts
               </a>
             </div>
           )}

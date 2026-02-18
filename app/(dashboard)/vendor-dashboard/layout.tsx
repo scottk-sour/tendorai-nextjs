@@ -1,20 +1,26 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 
-const navigation = [
-  { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
-  { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
-  { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
-  { name: 'Products', href: '/vendor-dashboard/products', icon: 'package' },
-  { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
-  { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
-  { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
-  { name: 'Settings', href: '/vendor-dashboard/settings', icon: 'cog' },
-];
+const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
+                'https://ai-procurement-backend-q35u.onrender.com';
+
+function getNavigation(vendorType: string) {
+  const isEquipment = vendorType === 'office-equipment';
+  return [
+    { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
+    { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
+    { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
+    { name: isEquipment ? 'Products' : 'Services', href: '/vendor-dashboard/products', icon: 'package' },
+    { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
+    { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
+    { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
+    { name: 'Settings', href: '/vendor-dashboard/settings', icon: 'cog' },
+  ];
+}
 
 function NavIcon({ icon, className }: { icon: string; className?: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -68,10 +74,11 @@ export default function VendorDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { auth, logout } = useAuth();
+  const { auth, logout, getCurrentToken } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [vendorType, setVendorType] = useState('office-equipment');
 
   // Redirect if not authenticated or not a vendor
   useEffect(() => {
@@ -79,6 +86,27 @@ export default function VendorDashboardLayout({
       router.replace('/vendor-login?redirect=/vendor-dashboard');
     }
   }, [auth, router]);
+
+  // Fetch vendorType for nav label
+  const fetchVendorType = useCallback(async () => {
+    const token = getCurrentToken();
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_URL}/api/vendors/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVendorType(data.vendor?.vendorType || 'office-equipment');
+      }
+    } catch { /* silent */ }
+  }, [getCurrentToken]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) fetchVendorType();
+  }, [auth.isAuthenticated, fetchVendorType]);
+
+  const navigation = getNavigation(vendorType);
 
   const handleLogout = () => {
     logout();

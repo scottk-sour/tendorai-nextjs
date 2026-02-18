@@ -248,7 +248,7 @@ function formatRequirementValue(field: string, value: string | string[]): string
 }
 
 function getLeadName(lead: Lead, tier: string): string {
-  if (hasTierAccess(tier, 'visible')) {
+  if (hasTierAccess(tier, 'starter')) {
     return lead.customer?.companyName || lead.businessName || lead.contactName || 'Business Inquiry';
   }
   return 'Anonymous Business';
@@ -257,7 +257,7 @@ function getLeadName(lead: Lead, tier: string): string {
 function getLeadPostcode(lead: Lead, tier: string): string {
   const pc = lead.customer?.postcode || lead.postcode || '';
   if (!pc) return '';
-  if (hasTierAccess(tier, 'visible')) return pc;
+  if (hasTierAccess(tier, 'starter')) return pc;
   // Free tier: outward code only (e.g. "CF10" from "CF10 3AT")
   return pc.split(' ')[0];
 }
@@ -344,7 +344,7 @@ function StatusPipeline({
   const steps = STATUS_PIPELINE;
   const currentIdx = steps.indexOf(lead.status);
   const isTerminal = STATUS_TERMINAL.includes(lead.status);
-  const isFree = !hasTierAccess(tier, 'visible');
+  const isFree = !hasTierAccess(tier, 'starter');
 
   const getStepDate = (step: string): string | undefined => {
     const dateMap: Record<string, string | undefined> = {
@@ -690,7 +690,7 @@ export default function QuotesPage() {
     return Math.round((totalHrs / viewed.length) * 10) / 10;
   }, [leads]);
 
-  const isFree = !hasTierAccess(vendorTier, 'visible');
+  const isFree = !hasTierAccess(vendorTier, 'starter');
 
   // ─── Loading State ──────────────────────────────────────────────
 
@@ -795,7 +795,7 @@ export default function QuotesPage() {
               {isFree ? (
                 <TierGate
                   currentTier={vendorTier}
-                  requiredTier="visible"
+                  requiredTier="starter"
                   featureName="See who this buyer is"
                   featureDescription="Upgrade to view company name, contact details, and respond to this lead."
                 >
@@ -1146,7 +1146,7 @@ export default function QuotesPage() {
             <div className="card p-5">
               <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                {hasTierAccess(vendorTier, 'visible') ? (
+                {hasTierAccess(vendorTier, 'starter') ? (
                   <>
                     {email && (
                       <a
@@ -1178,14 +1178,14 @@ export default function QuotesPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                       <span>Send Email</span>
-                      <TierBadge requiredTier="visible" />
+                      <TierBadge requiredTier="starter" />
                     </div>
                     <div className="flex items-center gap-3 w-full px-4 py-2.5 bg-gray-50 text-gray-400 rounded-lg text-sm">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                       <span>Call</span>
-                      <TierBadge requiredTier="visible" />
+                      <TierBadge requiredTier="starter" />
                     </div>
                   </>
                 )}
@@ -1218,7 +1218,7 @@ export default function QuotesPage() {
             {/* AI Insight (Verified only) */}
             <TierGate
               currentTier={vendorTier}
-              requiredTier="verified"
+              requiredTier="pro"
               featureName="AI Lead Insights"
               featureDescription="Get AI-powered insights and tips for each lead."
             >
@@ -1313,7 +1313,7 @@ export default function QuotesPage() {
                 You have {counts.pending} new lead{counts.pending !== 1 ? 's' : ''} waiting
               </h3>
               <p className="text-purple-100 text-sm mt-0.5">
-                Upgrade to Visible (£99/month) to see who they are and respond.
+                Upgrade to Starter (£149/month) to see who they are and respond.
               </p>
             </div>
             <Link

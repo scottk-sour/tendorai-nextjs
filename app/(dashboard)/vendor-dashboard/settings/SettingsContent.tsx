@@ -105,15 +105,15 @@ const MISSING_BY_TIER: Record<string, string[]> = {
     'AI Mentions tracking',
     'Analytics dashboard',
     'Full visibility breakdown & tips',
-    'Up to 10 products (you have 3)',
-    'Logo upload',
+    'Up to 10 products/services (you have 3)',
+    'Monthly AEO visibility report',
     'Request reviews',
   ],
-  visible: [
+  starter: [
     'Verified badge',
-    'Unlimited products (you have 10)',
-    'Image gallery',
-    'Document uploads',
+    'Unlimited products/services (you have 10)',
+    'Weekly AEO visibility report',
+    'Detailed AI query analytics',
     'Featured placement',
     'Priority support',
     '+15 extra visibility points',
@@ -428,8 +428,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   // Get current plan ID
   const getCurrentPlanId = () => {
     const tier = profile.tier?.toLowerCase() || 'free';
-    if (tier === 'managed' || tier === 'verified') return 'verified';
-    if (tier === 'basic' || tier === 'visible') return 'visible';
+    if (['managed', 'verified', 'pro', 'enterprise'].includes(tier)) return 'pro';
+    if (['basic', 'visible', 'starter'].includes(tier)) return 'starter';
     return 'free';
   };
 
@@ -536,8 +536,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               <div>
                 <span className="text-gray-700">Current Plan: </span>
                 <span className={`font-semibold ${
-                  currentPlanId === 'verified' ? 'text-green-600' :
-                  currentPlanId === 'visible' ? 'text-blue-600' :
+                  currentPlanId === 'pro' ? 'text-green-600' :
+                  currentPlanId === 'starter' ? 'text-blue-600' :
                   'text-gray-600'
                 }`}>
                   {getTierLabel(profile.tier)}
@@ -987,7 +987,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
       {activeTab === 'subscription' && (
         <div className="space-y-6">
           {/* What you're missing */}
-          {currentPlanId !== 'verified' && MISSING_BY_TIER[currentPlanId] && (
+          {currentPlanId !== 'pro' && MISSING_BY_TIER[currentPlanId] && (
             <div className="card p-6 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
               <h3 className="font-semibold text-gray-900 mb-3">
                 What you&apos;re missing
@@ -1003,7 +1003,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                 ))}
               </div>
               <button
-                onClick={() => handleUpgrade(currentPlanId === 'free' ? 'visible' : 'verified')}
+                onClick={() => handleUpgrade(currentPlanId === 'free' ? 'starter' : 'pro')}
                 className="mt-4 inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
               >
                 Unlock these features
@@ -1045,8 +1045,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             {PLANS.map((plan) => {
               const isCurrent = plan.id === currentPlanId;
               const isUpgrade = !isCurrent && (
-                (currentPlanId === 'free' && (plan.id === 'visible' || plan.id === 'verified')) ||
-                (currentPlanId === 'visible' && plan.id === 'verified')
+                (currentPlanId === 'free' && (plan.id === 'starter' || plan.id === 'pro')) ||
+                (currentPlanId === 'starter' && plan.id === 'pro')
               );
               const isDowngrade = !isCurrent && !isUpgrade && plan.id !== currentPlanId;
 
@@ -1095,7 +1095,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     <div className="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                       <p className="text-xs font-medium text-amber-800">
                         Downgrading will remove: AI Mentions, Analytics, visibility tips
-                        {currentPlanId === 'verified' ? ', verified badge, unlimited products' : ', extra product slots'}.
+                        {currentPlanId === 'pro' ? ', verified badge, unlimited products/services' : ', extra product/service slots'}.
                       </p>
                     </div>
                   )}

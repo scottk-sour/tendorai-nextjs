@@ -722,15 +722,15 @@ export default async function VendorProfilePage({ params }: PageProps) {
                 {/* Company name + badge */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <h1 className="text-3xl md:text-4xl font-bold">{vendor.company}</h1>
-                  {displayTier === 'verified' && (
+                  {displayTier === 'pro' && (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold bg-green-500 text-white">
                       <CheckBadgeIcon className="w-4 h-4" />
                       Verified
                     </span>
                   )}
-                  {displayTier === 'visible' && (
+                  {displayTier === 'starter' && (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold bg-blue-500 text-white">
-                      {TIER_CONFIG.visible.badge}
+                      {TIER_CONFIG.starter.badge}
                     </span>
                   )}
                   {claimedIsSolicitor && (
@@ -941,14 +941,14 @@ export default async function VendorProfilePage({ params }: PageProps) {
                   <div className="pt-3 border-t border-gray-100">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">TendorAI Tier</span>
-                      {displayTier === 'verified' ? (
+                      {displayTier === 'pro' ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
                           <CheckBadgeIcon className="w-3.5 h-3.5" />
                           Verified
                         </span>
-                      ) : displayTier === 'visible' ? (
+                      ) : displayTier === 'starter' ? (
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                          {TIER_CONFIG.visible.badge}
+                          {TIER_CONFIG.starter.badge}
                         </span>
                       ) : (
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
@@ -964,7 +964,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold text-gray-900">Get in Touch</h3>
-                  {displayTier === 'verified' && (
+                  {displayTier === 'pro' && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
                       <CheckBadgeIcon className="w-3 h-3" />
                       Verified

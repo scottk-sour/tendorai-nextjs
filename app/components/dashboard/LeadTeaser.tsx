@@ -79,7 +79,7 @@ export default function LeadTeaser({ token }: LeadTeaserProps) {
             href="/vendor-dashboard/settings?tab=subscription"
             className="inline-flex items-center mt-3 px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 transition-colors"
           >
-            Upgrade to Visible &mdash; &pound;99/mo
+            Upgrade to Starter &mdash; &pound;149/mo
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

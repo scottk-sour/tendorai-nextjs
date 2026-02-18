@@ -46,7 +46,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'The free Listed plan gives you a basic profile and visibility score. Paid plans (Visible at £99/mo, Verified at £149/mo) unlock AI mention tracking, detailed analytics, GEO audits, and higher visibility through tier-based score boosts.',
+    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, GEO audits, AEO reports, and higher visibility through tier-based score boosts.',
   },
   {
     q: 'How often should I check my dashboard?',
@@ -513,18 +513,17 @@ export default function GettingStartedPage() {
         <div className="grid sm:grid-cols-3 gap-5">
           {PLANS.map((plan) => {
             const isCurrentPlan = displayTier === plan.id;
-            const isVerified = plan.id === 'verified';
 
             return (
               <div
                 key={plan.id}
                 className={`card p-6 flex flex-col relative ${
-                  isVerified
+                  plan.popular
                     ? 'border-2 border-purple-500 shadow-lg'
                     : ''
                 }`}
               >
-                {isVerified && (
+                {plan.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                     Recommended
                   </span>
@@ -609,7 +608,7 @@ export default function GettingStartedPage() {
                   <Link
                     href="/vendor-dashboard/settings?tab=subscription"
                     className={`w-full py-2.5 rounded-lg text-sm font-medium text-center block ${
-                      isVerified
+                      plan.popular
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700'
                         : 'bg-purple-600 text-white hover:bg-purple-700'
                     } transition-colors`}
@@ -630,7 +629,7 @@ export default function GettingStartedPage() {
           <div>
             <h4 className="font-semibold text-gray-900">Blog Posts Add-on</h4>
             <p className="text-sm text-gray-600">
-              Available on Visible and Verified plans. Publish articles to
+              Available on Starter and Pro plans. Publish articles to
               build authority signals that AI systems recognise. Manage your posts
               from the Posts section in the sidebar.
             </p>

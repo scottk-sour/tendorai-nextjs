@@ -28,7 +28,7 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
   const [data, setData] = useState<CompetitorData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isPaid = hasTierAccess(tier, 'visible');
+  const isPaid = hasTierAccess(tier, 'starter');
 
   const fetchCompetitors = useCallback(async () => {
     if (!token) return;
@@ -164,7 +164,7 @@ export default function CompetitorLeaderboard({ token, tier, vendorName }: Compe
           href="/vendor-dashboard/settings?tab=subscription"
           className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
         >
-          Upgrade to Visible &mdash; &pound;99/month
+          Upgrade to Starter &mdash; &pound;149/month
           <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

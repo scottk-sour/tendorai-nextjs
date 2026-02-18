@@ -34,7 +34,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const hasAccess = hasTierAccess(tier, 'visible');
+  const hasAccess = hasTierAccess(tier, 'starter');
 
   const fetchAnalytics = useCallback(async () => {
     if (!vendorId || !token) return;
@@ -216,7 +216,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
       ) : (
         <TierGate
           currentTier={tier}
-          requiredTier="visible"
+          requiredTier="starter"
           featureName="AI Mentions"
           featureDescription="See which AI assistants recommend you and how often. Track trends over time."
         >
