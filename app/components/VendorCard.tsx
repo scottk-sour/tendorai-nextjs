@@ -116,7 +116,7 @@ export default function VendorCard({ vendor }: { vendor: VendorCardData }) {
   return <ActiveCard vendor={vendor} />;
 }
 
-// ─── Premium Card (Verified / Visible tier) ────────────────────────
+// ─── Premium Card (Pro / Starter tier) ────────────────────────
 function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   const isVerified = vendor.tier === 'verified';
   const isSolicitor = vendor.vendorType === 'solicitor';

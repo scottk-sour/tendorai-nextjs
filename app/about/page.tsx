@@ -43,7 +43,7 @@ export default function AboutPage() {
               When someone asks AI for a recommendation, our data powers the answer.
             </p>
             <p className="text-[var(--text)] font-semibold text-xl mb-6">
-              Listed free. Pay to rank first.
+              Free to list. Pay to rank first.
             </p>
             <p className="text-[var(--text2)]">
               Founded in Bristol, UK. Built for every B2B service vertical in the country.

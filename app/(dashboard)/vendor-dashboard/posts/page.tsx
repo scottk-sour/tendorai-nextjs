@@ -198,7 +198,7 @@ export default function PostsPage() {
           {isFree ? (
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-600">
-                Posting is available on Visible and Verified tiers.
+                Posting is available on Starter and Pro plans.
               </p>
               <a href="/vendor-dashboard/settings?tab=subscription" className="btn-primary px-3 py-1.5 text-sm">
                 Upgrade
@@ -206,7 +206,7 @@ export default function PostsPage() {
             </div>
           ) : tierInfo.limit === Infinity ? (
             <p className="text-sm text-green-700">
-              Verified tier — unlimited posts per month
+              Pro plan — unlimited posts per month
             </p>
           ) : (
             <div className="flex items-center justify-between">

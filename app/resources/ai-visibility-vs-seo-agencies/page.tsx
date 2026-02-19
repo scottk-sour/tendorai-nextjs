@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
-    a: 'TendorAI plans start from free (Listed tier) up to £149/month (Verified tier). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
+    a: 'TendorAI plans start from free up to £299/month (Pro tier). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
   },
   {
     q: 'Is AI search actually replacing Google?',
@@ -86,7 +86,7 @@ function ComparisonTable() {
     { factor: 'Traffic source', seo: 'Google/Bing organic clicks', aeo: 'AI-generated answers with citations' },
     { factor: 'Key ranking factors', seo: 'Backlinks, keywords, site speed', aeo: 'Structured data, reviews, mentions, schema' },
     { factor: 'Time to results', seo: '3-6 months', aeo: '4-8 weeks for initial mentions' },
-    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£149/month with TendorAI' },
+    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI' },
     { factor: 'Measurability', seo: 'Google Search Console, rankings', aeo: 'AI mention tracking, visibility scores' },
     { factor: 'Competition awareness', seo: 'Keyword difficulty scores', aeo: 'Most businesses aren\'t doing this yet' },
   ];
@@ -118,24 +118,24 @@ function ComparisonTable() {
 function PricingCards() {
   const plans = [
     {
-      name: 'Listed',
-      price: 'Free',
-      priceLabel: 'forever',
+      name: 'Free',
+      price: '£0',
+      priceLabel: '/forever',
       features: ['Basic vendor profile', 'AI Visibility Score', '1 GEO Audit', 'Category listing'],
       highlighted: false,
     },
     {
-      name: 'Visible',
-      price: '£99',
+      name: 'Starter',
+      price: '£149',
       priceLabel: '/month',
-      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly GEO Audits', 'Live AI Search Tests', 'Product listings (10)', 'Quote request notifications'],
+      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly GEO Audits', 'Live AI Search Tests', 'Product listings (10)', 'Monthly AEO report'],
       highlighted: false,
     },
     {
-      name: 'Verified',
-      price: '£149',
+      name: 'Pro',
+      price: '£299',
       priceLabel: '/month',
-      features: ['Everything in Visible', 'Unlimited products', 'Priority AI indexing', 'Competitor analysis', 'Verified badge', 'Priority support'],
+      features: ['Everything in Starter', 'Unlimited products', 'Priority AI ranking', 'Weekly AEO reports', 'Verified badge', 'Priority support'],
       highlighted: true,
     },
   ];

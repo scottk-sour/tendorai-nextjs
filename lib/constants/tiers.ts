@@ -46,7 +46,7 @@ export const TIER_CONFIG = {
     name: 'Starter',
     price: 149,
     color: 'blue',
-    badge: 'Listed',
+    badge: 'Starter',
     features: [
       'Enhanced listing visibility',
       'Full profile with contact details',

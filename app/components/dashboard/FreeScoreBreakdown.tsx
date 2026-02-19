@@ -93,7 +93,7 @@ const SECTIONS: Array<{
     label: 'Verified Features',
     colour: 'text-amber-600',
     bgColour: 'bg-amber-500',
-    emptyTip: 'Unlock with Verified plan',
+    emptyTip: 'Unlock with Pro plan',
   },
 ];
 
@@ -215,7 +215,7 @@ export default function FreeScoreBreakdown({ token }: FreeScoreBreakdownProps) {
               {isLocked && (
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-gray-500">
-                    Unlock with Verified plan (&pound;149/month) &mdash; up to {bd.max} more points
+                    Unlock with Pro plan (&pound;299/month) &mdash; up to {bd.max} more points
                   </p>
                   <Link href="/vendor-dashboard/settings?tab=subscription" className="text-xs text-purple-600 hover:text-purple-700 font-medium whitespace-nowrap ml-2">
                     Upgrade &rarr;
