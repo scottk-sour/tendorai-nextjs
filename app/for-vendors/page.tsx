@@ -179,7 +179,7 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/vendor-signup?plan=visible" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
+              <Link href="/vendor-signup?plan=starter" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
                 Start Starter
               </Link>
             </div>
@@ -214,7 +214,7 @@ export default function ForVendorsPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/vendor-signup?plan=verified" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                <Link href="/vendor-signup?plan=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                   Start Pro
                 </Link>
               </div>

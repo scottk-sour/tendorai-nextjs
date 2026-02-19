@@ -172,7 +172,7 @@ function PricingCards() {
             ))}
           </ul>
           <Link
-            href={plan.highlighted ? '/vendor-signup?plan=verified' : plan.price === 'Free' ? '/vendor-signup' : '/vendor-signup?plan=visible'}
+            href={plan.highlighted ? '/vendor-signup?plan=pro' : plan.price === 'Free' ? '/vendor-signup' : '/vendor-signup?plan=starter'}
             className={`block text-center mt-6 py-2.5 px-4 rounded-lg text-sm font-medium transition-colors ${
               plan.highlighted
                 ? 'bg-purple-600 text-white hover:bg-purple-700'

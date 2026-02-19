@@ -40,7 +40,7 @@ const plans = [
     ],
     cta: 'Start Starter',
     ctaStyle: 'btn-secondary',
-    href: '/vendor-signup?plan=visible',
+    href: '/vendor-signup?plan=starter',
   },
   {
     name: 'Pro',
@@ -61,7 +61,7 @@ const plans = [
     ],
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
-    href: '/vendor-signup?plan=verified',
+    href: '/vendor-signup?plan=pro',
   },
 ];
 
