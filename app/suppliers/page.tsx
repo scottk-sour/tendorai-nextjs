@@ -6,9 +6,9 @@ import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
 import VendorSearchBar from '@/app/components/VendorSearchBar';
 
 export const metadata: Metadata = {
-  title: 'Supplier Directory — Solicitors, Accountants, Mortgage Advisors & Office Equipment | TendorAI',
+  title: 'Supplier Directory — Solicitors, Accountants, Mortgage Advisors, Estate Agents & Office Equipment | TendorAI',
   description:
-    'Browse verified UK suppliers on TendorAI. Find solicitors, accountants, mortgage advisors, and office equipment dealers including photocopiers, telecoms, CCTV, and IT services.',
+    'Browse verified UK suppliers on TendorAI. Find solicitors, accountants, mortgage advisors, estate agents, and office equipment dealers including photocopiers, telecoms, CCTV, and IT services.',
   alternates: {
     canonical: 'https://www.tendorai.com/suppliers',
   },
@@ -26,7 +26,7 @@ async function getSupplierStats() {
     ],
   };
 
-  const [totalCount, categoryStats, solicitorStats, accountantTotal, mortgageAdvisorTotal] = await Promise.all([
+  const [totalCount, categoryStats, solicitorStats, accountantTotal, mortgageAdvisorTotal, estateAgentTotal] = await Promise.all([
     Vendor.countDocuments(statusFilter),
     Vendor.aggregate([
       { $match: statusFilter },
@@ -45,6 +45,8 @@ async function getSupplierStats() {
     Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' }),
     // Get total mortgage advisor count
     Vendor.countDocuments({ ...statusFilter, vendorType: 'mortgage-advisor' }),
+    // Get total estate agent count
+    Vendor.countDocuments({ ...statusFilter, vendorType: 'estate-agent' }),
   ]);
 
   const categoryCountMap: Record<string, number> = {};
@@ -63,11 +65,11 @@ async function getSupplierStats() {
     categoryCountMap[val] = accountantTotal;
   });
 
-  return { totalCount, categoryCountMap, mortgageAdvisorTotal };
+  return { totalCount, categoryCountMap, mortgageAdvisorTotal, estateAgentTotal };
 }
 
 export default async function SuppliersIndexPage() {
-  const { totalCount, categoryCountMap, mortgageAdvisorTotal } = await getSupplierStats();
+  const { totalCount, categoryCountMap, mortgageAdvisorTotal, estateAgentTotal } = await getSupplierStats();
 
   const officeEquipment = Object.values(SERVICES).filter((s) => s.group === 'office-equipment');
   const solicitorCategories = Object.values(SERVICES).filter((s) => s.group === 'solicitor');
@@ -76,14 +78,14 @@ export default async function SuppliersIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'UK Supplier Directory — Solicitors, Accountants, Mortgage Advisors & Office Equipment',
-    description: 'Directory of verified UK suppliers including solicitors, accountants, mortgage advisors, and office equipment dealers',
+    name: 'UK Supplier Directory — Solicitors, Accountants, Mortgage Advisors, Estate Agents & Office Equipment',
+    description: 'Directory of verified UK suppliers including solicitors, accountants, mortgage advisors, estate agents, and office equipment dealers',
     numberOfItems: totalCount,
     itemListElement: Object.values(SERVICES).map((service, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': service.group === 'solicitor' ? 'LegalService' : service.group === 'accountant' ? 'AccountingService' : service.group === 'mortgage-advisor' ? 'FinancialService' : 'Service',
+        '@type': service.group === 'solicitor' ? 'LegalService' : service.group === 'accountant' ? 'AccountingService' : service.group === 'mortgage-advisor' ? 'FinancialService' : service.group === 'estate-agent' ? 'RealEstateAgent' : 'Service',
         name: service.name,
         description: service.description,
         url: `https://www.tendorai.com/suppliers/${service.slug}`,
@@ -114,7 +116,7 @@ export default async function SuppliersIndexPage() {
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
               Browse {totalCount.toLocaleString()} verified suppliers across the UK. Find solicitors,
-              accountants, mortgage advisors, or office equipment dealers by service type.
+              accountants, mortgage advisors, estate agents, or office equipment dealers by service type.
             </p>
             <VendorSearchBar />
           </div>
@@ -213,8 +215,35 @@ export default async function SuppliersIndexPage() {
           </div>
         </section>
 
-        {/* Office Equipment */}
+        {/* Property Services */}
         <section className="py-12 bg-white">
+          <div className="section">
+            <h2 className="text-2xl font-bold mb-2">Property Services</h2>
+            <p className="text-gray-600 mb-8">Estate agents, lettings agencies, and property managers</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Link
+                href="/suppliers/estate-agents"
+                className="card-hover p-5 group"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="text-3xl">🏡</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold mb-0.5 group-hover:text-purple-600 transition-colors">
+                      Estate Agents
+                    </h3>
+                    <p className="text-gray-500 text-xs mb-1.5 line-clamp-1">Sales, lettings, property management, and commercial property</p>
+                    <span className="text-sm text-purple-600 font-medium">
+                      {estateAgentTotal.toLocaleString()} agencies
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Office Equipment */}
+        <section className="py-12">
           <div className="section">
             <h2 className="text-2xl font-bold mb-2">Office Equipment</h2>
             <p className="text-gray-600 mb-8">Photocopiers, telecoms, CCTV, IT, and more</p>
