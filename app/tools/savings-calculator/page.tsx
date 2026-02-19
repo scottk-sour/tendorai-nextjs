@@ -152,7 +152,7 @@ export default function SavingsCalculatorPage() {
     if (postcode) params.set('postcode', postcode);
     if (monthlyVolume) params.set('volume', monthlyVolume);
     if (currentCost) params.set('budget', currentCost);
-    return `/get-quotes?${params.toString()}`;
+    return `/aeo-report`;
   };
 
   return (
@@ -408,10 +408,10 @@ export default function SavingsCalculatorPage() {
                     href={getQuoteUrl()}
                     className="block w-full py-3 bg-purple-600 text-white font-semibold rounded-lg text-center hover:bg-purple-700 transition-colors"
                   >
-                    Get Actual Quotes from Local Suppliers
+                    Check Your AI Visibility
                   </Link>
                   <p className="text-xs text-gray-500 text-center mt-2">
-                    Free, no-obligation quotes
+                    Free AI visibility report
                   </p>
                 </>
               )}

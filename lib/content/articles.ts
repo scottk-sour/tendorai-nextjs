@@ -128,7 +128,7 @@ For most SMEs, leasing makes more sense unless you have specific reasons to own 
 
 Ready to see what suppliers in your area are charging? Use our free comparison tool to get quotes from verified local suppliers—no obligation, no pressure.
 
-[Compare photocopier quotes in your area →](/get-quotes?category=Photocopiers)
+[Compare photocopier quotes in your area →](/aeo-report?category=Photocopiers)
 `,
   },
   {
@@ -234,7 +234,7 @@ Buy only if:
 
 Not sure which option suits you? Local suppliers can quote both options so you can compare directly.
 
-[Get lease and purchase quotes →](/get-quotes?category=Photocopiers)
+[Get lease and purchase quotes →](/aeo-report?category=Photocopiers)
 `,
   },
   {
@@ -370,7 +370,7 @@ Moving now means:
 - No last-minute panic in 2027
 - Proper time for staff training
 
-[Compare telecoms suppliers in your area →](/get-quotes?category=Telecoms)
+[Compare telecoms suppliers in your area →](/aeo-report?category=Telecoms)
 `,
   },
   {
@@ -508,7 +508,7 @@ Even mid-contract, knowing you're overpaying helps you plan for renewal and avoi
 
 Want to see what suppliers in your area are charging? Our free quote comparison shows CPC rates alongside lease costs—so you can compare total cost of ownership.
 
-[Compare CPC rates from local suppliers →](/get-quotes?category=Photocopiers)
+[Compare CPC rates from local suppliers →](/aeo-report?category=Photocopiers)
 `,
   },
   {
@@ -713,7 +713,7 @@ Modern IP cameras offer:
 
 Ready to protect your premises? Get quotes from verified CCTV installers in your area.
 
-[Compare CCTV suppliers →](/get-quotes?category=CCTV)
+[Compare CCTV suppliers →](/aeo-report?category=CCTV)
 `,
   },
   {
@@ -883,7 +883,7 @@ Even with careful planning, expect some disruption:
 
 Ready to explore your options? Whether your contract is ending soon or you're just curious about what's available, getting quotes is free and no-obligation.
 
-[Compare suppliers in your area →](/get-quotes)
+[Compare suppliers in your area →](/aeo-report)
 `,
   },
   {

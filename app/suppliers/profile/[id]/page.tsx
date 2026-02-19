@@ -616,11 +616,8 @@ export default async function VendorProfilePage({ params }: PageProps) {
     ? new Date().getFullYear() - vendor.businessProfile.yearsInBusiness
     : null;
 
-  // Build get-quotes URL
-  const quoteParams = new URLSearchParams();
-  if (vendor.services?.[0]) quoteParams.set('service', vendor.services[0]);
-  if (vendor.location?.postcode) quoteParams.set('postcode', vendor.location.postcode);
-  const getQuoteUrl = `/get-quotes${quoteParams.toString() ? `?${quoteParams.toString()}` : ''}`;
+  // Build AEO report URL
+  const getQuoteUrl = '/aeo-report';
 
   const claimedIsSolicitor = vendor.vendorType === 'solicitor';
 
@@ -827,14 +824,14 @@ export default async function VendorProfilePage({ params }: PageProps) {
                     href={getQuoteUrl}
                     className="inline-flex items-center justify-center bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:bg-purple-50 transition-colors shadow-lg shadow-black/10 text-center"
                   >
-                    Request a Quote from {vendor.company}
+                    Check AI Visibility
                   </Link>
                 ) : (
                   <Link
                     href={getQuoteUrl}
                     className="inline-flex items-center justify-center bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:bg-purple-50 transition-colors shadow-lg shadow-black/10 text-center"
                   >
-                    Compare Quotes from Similar Suppliers
+                    Check AI Visibility
                   </Link>
                 )}
 
@@ -1019,7 +1016,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
                         href={getQuoteUrl}
                         className="block w-full text-center bg-purple-600 text-white font-semibold py-2.5 rounded-xl hover:bg-purple-700 transition-colors mt-4"
                       >
-                        Request a Quote
+                        Check AI Visibility
                       </Link>
                     )}
                   </div>

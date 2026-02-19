@@ -152,10 +152,10 @@ export default function SearchResults({
                   )}
                 </div>
                 <Link
-                  href={`/get-quotes${category ? `?category=${category}` : ''}`}
+                  href="/aeo-report"
                   className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
                 >
-                  Get AI-Matched Quotes &rarr;
+                  Check AI Visibility &rarr;
                 </Link>
               </div>
 

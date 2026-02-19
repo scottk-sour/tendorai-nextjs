@@ -708,10 +708,10 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                   {city ? ` in ${city}` : ''} and get the best deal for your business.
                 </p>
                 <Link
-                  href={`/get-quotes${vendor.services?.[0] ? `?service=${vendor.services[0]}` : ''}`}
+                  href="/aeo-report"
                   className="inline-block bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-700 transition-colors"
                 >
-                  Compare Quotes
+                  Check AI Visibility
                 </Link>
               </div>
             </div>

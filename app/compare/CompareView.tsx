@@ -842,7 +842,7 @@ export default function CompareView({
             <nav className="text-sm mb-4 text-purple-200">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
-              <Link href="/get-quotes" className="hover:text-white">Get Quotes</Link>
+              <Link href="/aeo-report" className="hover:text-white">Check AI Visibility</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Compare</span>
             </nav>
@@ -856,10 +856,10 @@ export default function CompareView({
               {error || 'No vendors to compare'}
             </h2>
             <p className="text-gray-600 mb-6">
-              Please select vendors from the Get Quotes page to compare them side-by-side.
+              Please select vendors to compare them side-by-side.
             </p>
             <Link
-              href="/get-quotes"
+              href="/aeo-report"
               className="inline-block px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
               Find Suppliers to Compare
@@ -878,7 +878,7 @@ export default function CompareView({
           <nav className="text-sm mb-4 text-purple-200">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/get-quotes" className="hover:text-white">Get Quotes</Link>
+            <Link href="/aeo-report" className="hover:text-white">Check AI Visibility</Link>
             <span className="mx-2">/</span>
             <span className="text-white">Compare</span>
           </nav>
@@ -948,7 +948,7 @@ export default function CompareView({
           {/* Back link */}
           <div className="mt-8 text-center">
             <Link
-              href={`/get-quotes?category=${category}&postcode=${postcode}&volume=${volume}`}
+              href="/aeo-report"
               className="text-purple-600 hover:text-purple-700 font-medium"
             >
               ← Back to search results

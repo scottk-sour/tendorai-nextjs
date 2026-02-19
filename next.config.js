@@ -39,6 +39,12 @@ const nextConfig = {
         destination: '/vendor-dashboard/:path*',
         permanent: true,
       },
+      // Old /get-quotes → /aeo-report
+      {
+        source: '/get-quotes',
+        destination: '/aeo-report',
+        permanent: true,
+      },
     ];
   },
 
