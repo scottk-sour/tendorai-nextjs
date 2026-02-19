@@ -6,6 +6,7 @@ import Features from './components/landing/Features';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
+import SeoAeoGeo from './components/landing/SeoAeoGeo';
 import Pricing from './components/landing/Pricing';
 import Verticals from './components/landing/Verticals';
 import ServiceCategories from './components/landing/ServiceCategories';
@@ -189,6 +190,9 @@ export default async function HomePage() {
 
         {/* What AI Platforms Say */}
         <AiTestimonials />
+
+        {/* SEO vs AEO vs GEO */}
+        <SeoAeoGeo />
 
         {/* Pricing */}
         <Pricing />
