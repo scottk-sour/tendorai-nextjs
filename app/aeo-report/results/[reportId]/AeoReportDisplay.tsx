@@ -440,20 +440,22 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           {/* Pricing summary */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
-              { name: 'Listed', price: 'Free', desc: 'Basic AI profile & listing' },
-              { name: 'Visible', price: '\u00A399/mo', desc: 'Full profile, AI scans, GEO Audit' },
-              { name: 'Verified', price: '\u00A3149/mo', desc: 'Everything + verified badge & priority' },
+              { name: 'Free', price: '\u00A30', desc: 'Basic profile, ranked last', url: '/vendor-signup' },
+              { name: 'Starter', price: '\u00A3149/mo', desc: 'Pricing visible to AI, monthly AEO report', subtext: 'Early adopter (was \u00A3299)', url: '/vendor-signup?plan=starter' },
+              { name: 'Pro', price: '\u00A3299/mo', desc: 'Ranked first, weekly AEO reports, Verified badge', subtext: 'Early adopter (was \u00A3499)', url: '/vendor-signup?plan=pro' },
             ].map((plan, i) => (
-              <div
+              <a
                 key={i}
-                className={`rounded-lg p-4 ${
-                  i === 1 ? 'bg-white text-[#1B4F72] ring-2 ring-white' : 'bg-white/10'
+                href={plan.url}
+                className={`rounded-lg p-4 block transition-transform hover:scale-105 ${
+                  i === 2 ? 'bg-white text-[#1B4F72] ring-2 ring-white' : 'bg-white/10'
                 }`}
               >
-                <p className={`font-bold text-lg ${i === 1 ? 'text-[#1B4F72]' : ''}`}>{plan.name}</p>
-                <p className={`text-2xl font-bold my-1 ${i === 1 ? 'text-[#1B4F72]' : ''}`}>{plan.price}</p>
-                <p className={`text-xs ${i === 1 ? 'text-gray-500' : 'text-blue-200'}`}>{plan.desc}</p>
-              </div>
+                <p className={`font-bold text-lg ${i === 2 ? 'text-[#1B4F72]' : ''}`}>{plan.name}</p>
+                <p className={`text-2xl font-bold my-1 ${i === 2 ? 'text-[#1B4F72]' : ''}`}>{plan.price}</p>
+                {plan.subtext && <p className={`text-[10px] mb-1 ${i === 2 ? 'text-gray-400' : 'text-blue-300'}`}>{plan.subtext}</p>}
+                <p className={`text-xs ${i === 2 ? 'text-gray-500' : 'text-blue-200'}`}>{plan.desc}</p>
+              </a>
             ))}
           </div>
         </section>
