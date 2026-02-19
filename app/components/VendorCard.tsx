@@ -32,6 +32,8 @@ export interface VendorCardData {
   vendorType?: string;
   sraNumber?: string;
   icaewFirmNumber?: string;
+  fcaNumber?: string;
+  propertymarkNumber?: string;
   practiceAreas?: string[];
   slug?: string;
 }
@@ -56,6 +58,22 @@ const PRACTICE_AREA_COLORS: Record<string, string> = {
   'Business Advisory': 'bg-amber-50 text-amber-700',
   VAT: 'bg-fuchsia-50 text-fuchsia-700',
   'Financial Planning': 'bg-emerald-50 text-emerald-700',
+  // Mortgage advisor practice areas
+  'Residential Mortgages': 'bg-blue-100 text-blue-800',
+  'Buy-to-Let': 'bg-teal-100 text-teal-800',
+  Remortgage: 'bg-cyan-100 text-cyan-800',
+  'First-Time Buyer': 'bg-sky-100 text-sky-800',
+  'Equity Release': 'bg-indigo-100 text-indigo-800',
+  'Commercial Mortgages': 'bg-slate-100 text-slate-800',
+  'Protection Insurance': 'bg-violet-100 text-violet-800',
+  // Estate agent practice areas
+  Sales: 'bg-orange-100 text-orange-800',
+  Lettings: 'bg-amber-100 text-amber-800',
+  'Property Management': 'bg-yellow-100 text-yellow-800',
+  'Block Management': 'bg-lime-100 text-lime-800',
+  Auctions: 'bg-red-100 text-red-800',
+  'Commercial Property': 'bg-stone-100 text-stone-800',
+  Inventory: 'bg-neutral-100 text-neutral-800',
 };
 
 type CardVariant = 'premium' | 'active' | 'unclaimed';
@@ -81,6 +99,12 @@ function getClaimUrl(vendor: VendorCardData): string {
   if (vendor.vendorType === 'accountant' && vendor.icaewFirmNumber) {
     return `/vendor-signup?icaew=${vendor.icaewFirmNumber}&company=${encodeURIComponent(vendor.company)}`;
   }
+  if (vendor.vendorType === 'mortgage-advisor' && vendor.fcaNumber) {
+    return `/vendor-signup?fca=${vendor.fcaNumber}&company=${encodeURIComponent(vendor.company)}`;
+  }
+  if (vendor.vendorType === 'estate-agent' && vendor.propertymarkNumber) {
+    return `/vendor-signup?propertymark=${vendor.propertymarkNumber}&company=${encodeURIComponent(vendor.company)}`;
+  }
   return `/vendor-signup?claim=${encodeURIComponent(vendor.company)}`;
 }
 
@@ -97,7 +121,9 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
   const isVerified = vendor.tier === 'verified';
   const isSolicitor = vendor.vendorType === 'solicitor';
   const isAccountant = vendor.vendorType === 'accountant';
-  const isProfessional = isSolicitor || isAccountant;
+  const isMortgageAdvisor = vendor.vendorType === 'mortgage-advisor';
+  const isEstateAgent = vendor.vendorType === 'estate-agent';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
   return (
     <article
@@ -131,6 +157,26 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
               <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
                 ICAEW Regulated
               </span>
+            )}
+            {isMortgageAdvisor && vendor.fcaNumber && (
+              <a
+                href={`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 flex-shrink-0 hover:bg-blue-100"
+              >
+                FCA Authorised
+              </a>
+            )}
+            {isEstateAgent && vendor.propertymarkNumber && (
+              <a
+                href="https://www.propertymark.co.uk/find-an-agent/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 flex-shrink-0 hover:bg-orange-100"
+              >
+                Propertymark Member
+              </a>
             )}
           </div>
 
@@ -188,7 +234,9 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
 function ActiveCard({ vendor }: { vendor: VendorCardData }) {
   const isSolicitor = vendor.vendorType === 'solicitor';
   const isAccountant = vendor.vendorType === 'accountant';
-  const isProfessional = isSolicitor || isAccountant;
+  const isMortgageAdvisor = vendor.vendorType === 'mortgage-advisor';
+  const isEstateAgent = vendor.vendorType === 'estate-agent';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
   return (
     <article className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
@@ -209,6 +257,26 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
               <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
                 ICAEW Regulated
               </span>
+            )}
+            {isMortgageAdvisor && vendor.fcaNumber && (
+              <a
+                href={`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 flex-shrink-0 hover:bg-blue-100"
+              >
+                FCA Authorised
+              </a>
+            )}
+            {isEstateAgent && vendor.propertymarkNumber && (
+              <a
+                href="https://www.propertymark.co.uk/find-an-agent/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 flex-shrink-0 hover:bg-orange-100"
+              >
+                Propertymark Member
+              </a>
             )}
           </div>
 
@@ -257,7 +325,9 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
 function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
   const isSolicitor = vendor.vendorType === 'solicitor';
   const isAccountant = vendor.vendorType === 'accountant';
-  const isProfessional = isSolicitor || isAccountant;
+  const isMortgageAdvisor = vendor.vendorType === 'mortgage-advisor';
+  const isEstateAgent = vendor.vendorType === 'estate-agent';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
   const profileUrl = getProfileUrl(vendor);
 
   return (
@@ -279,6 +349,26 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
                   ICAEW Regulated
                 </span>
               )}
+              {isMortgageAdvisor && vendor.fcaNumber && (
+                <a
+                  href={`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 flex-shrink-0 hover:bg-blue-200"
+                >
+                  FCA Authorised
+                </a>
+              )}
+              {isEstateAgent && vendor.propertymarkNumber && (
+                <a
+                  href="https://www.propertymark.co.uk/find-an-agent/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 flex-shrink-0 hover:bg-orange-200"
+                >
+                  Propertymark Member
+                </a>
+              )}
             </div>
 
             {/* SRA number */}
@@ -289,6 +379,16 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
             {/* ICAEW firm number */}
             {isAccountant && vendor.icaewFirmNumber && (
               <p className="text-xs text-gray-400 mb-2">ICAEW Firm: {vendor.icaewFirmNumber}</p>
+            )}
+
+            {/* FCA number */}
+            {isMortgageAdvisor && vendor.fcaNumber && (
+              <p className="text-xs text-gray-400 mb-2">FCA No: {vendor.fcaNumber}</p>
+            )}
+
+            {/* Propertymark number */}
+            {isEstateAgent && vendor.propertymarkNumber && (
+              <p className="text-xs text-gray-400 mb-2">Propertymark: {vendor.propertymarkNumber}</p>
             )}
 
             {/* Location */}

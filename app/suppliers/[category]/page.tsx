@@ -8,8 +8,12 @@ import {
   MAJOR_LOCATIONS,
   isSolicitorCategory,
   isAccountantCategory,
+  isMortgageAdvisorCategory,
+  isEstateAgentCategory,
   getPracticeAreaFromSlug,
   getAccountantServiceArea,
+  getMortgageServiceArea,
+  getEstateAgentServiceArea,
   getServiceFromSlug,
 } from '@/lib/constants';
 
@@ -29,16 +33,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const isSolicitor = service.group === 'solicitor';
   const isAccountant = service.group === 'accountant';
+  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+  const isEstateAgent = isEstateAgentCategory(category);
   const title = isSolicitor
     ? `${service.name} Solicitors UK | TendorAI`
     : isAccountant
       ? `${service.name} Accountants UK | TendorAI`
-      : `${service.name} Suppliers UK | TendorAI`;
+      : isMortgageAdvisor
+        ? `${service.name} Mortgage Advisors UK | TendorAI`
+        : isEstateAgent
+          ? `${service.name} Estate Agents UK | TendorAI`
+          : `${service.name} Suppliers UK | TendorAI`;
   const description = isSolicitor
     ? `Find verified ${service.name.toLowerCase()} solicitors across the UK. SRA-regulated firms with reviews, accreditations, and pricing on TendorAI.`
     : isAccountant
       ? `Find verified ${service.name.toLowerCase()} accountants across the UK. ICAEW-regulated firms with reviews, accreditations, and pricing on TendorAI.`
-      : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
+      : isMortgageAdvisor
+        ? `Find FCA-authorised ${service.name.toLowerCase()} mortgage advisors across the UK. Compare fees, lender panels and reviews on TendorAI.`
+        : isEstateAgent
+          ? `Find Propertymark-registered ${service.name.toLowerCase()} estate agents across the UK. Compare fees, coverage and reviews on TendorAI.`
+          : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
 
   return {
     title,
@@ -56,6 +70,8 @@ async function getCategoryData(category: string) {
 
   const isSolicitor = service.group === 'solicitor';
   const isAccountant = service.group === 'accountant';
+  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+  const isEstateAgent = isEstateAgentCategory(category);
 
   const statusFilter = {
     $or: [
@@ -72,13 +88,19 @@ async function getCategoryData(category: string) {
   } else if (isAccountant) {
     // practiceAreas not populated yet for accountants — show all accountant vendors
     vendorFilter = { ...statusFilter, vendorType: 'accountant' };
+  } else if (isMortgageAdvisor) {
+    const serviceArea = getMortgageServiceArea(category);
+    vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else if (isEstateAgent) {
+    const serviceArea = getEstateAgentServiceArea(category);
+    vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return null;
     vendorFilter = { ...statusFilter, services: serviceName };
   }
 
-  const groupByCity = isSolicitor || isAccountant;
+  const groupByCity = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
   const [vendorCount, locationStats] = await Promise.all([
     Vendor.countDocuments(vendorFilter),
@@ -100,7 +122,7 @@ async function getCategoryData(category: string) {
         ]),
   ]);
 
-  return { vendorCount, locationStats, isSolicitor, isAccountant };
+  return { vendorCount, locationStats, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent };
 }
 
 export default async function CategoryPage({ params }: PageProps) {
@@ -116,9 +138,9 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const { vendorCount, locationStats, isSolicitor, isAccountant } = data;
-  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
-  const isProfessional = isSolicitor || isAccountant;
+  const { vendorCount, locationStats, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent } = data;
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : isMortgageAdvisor ? 'Mortgage Advisors' : isEstateAgent ? 'Estate Agents' : 'Suppliers';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
   const categoryFaqs = isSolicitor
     ? [
@@ -150,7 +172,37 @@ export default async function CategoryPage({ params }: PageProps) {
             answer: `Yes — all accountancy firms listed on TendorAI are regulated by the Institute of Chartered Accountants in England and Wales (ICAEW). Each listing links to the firm's ICAEW directory entry for verification.`,
           },
         ]
-      : [
+      : isMortgageAdvisor
+        ? [
+            {
+              question: `How do I find ${service.name.toLowerCase()} mortgage advisors near me?`,
+              answer: `Use TendorAI to browse ${service.name.toLowerCase()} mortgage advisors by location. Select your city from the list below to see FCA-authorised advisors in your area.`,
+            },
+            {
+              question: `How many ${service.name.toLowerCase()} mortgage advisors are listed on TendorAI?`,
+              answer: `TendorAI currently lists ${vendorCount.toLocaleString()} ${service.name.toLowerCase()} mortgage advisory firms across England and Wales.`,
+            },
+            {
+              question: `Are these mortgage advisors regulated?`,
+              answer: `Yes — all mortgage advisors listed on TendorAI are authorised and regulated by the Financial Conduct Authority (FCA). Each listing links to the firm's FCA register entry for verification.`,
+            },
+          ]
+        : isEstateAgent
+          ? [
+              {
+                question: `How do I find ${service.name.toLowerCase()} estate agents near me?`,
+                answer: `Use TendorAI to browse ${service.name.toLowerCase()} estate agents by location. Select your city from the list below to see Propertymark-registered agents in your area.`,
+              },
+              {
+                question: `How many ${service.name.toLowerCase()} estate agents are listed on TendorAI?`,
+                answer: `TendorAI currently lists ${vendorCount.toLocaleString()} ${service.name.toLowerCase()} estate agency firms across England and Wales.`,
+              },
+              {
+                question: `Are these estate agents accredited?`,
+                answer: `TendorAI lists estate agents including those registered with Propertymark (NAEA/ARLA). Each listing shows the agent's accreditations so you can verify their status directly.`,
+              },
+            ]
+          : [
           {
             question: `How do I find ${service.name.toLowerCase()} suppliers near me?`,
             answer: `Use TendorAI to browse ${service.name.toLowerCase()} suppliers by location. Select your city or town from the list below to see local and national suppliers serving your area.`,
@@ -165,7 +217,7 @@ export default async function CategoryPage({ params }: PageProps) {
           },
         ];
 
-  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'Service';
+  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : isMortgageAdvisor ? 'FinancialService' : isEstateAgent ? 'RealEstateAgent' : 'Service';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -249,6 +301,22 @@ export default async function CategoryPage({ params }: PageProps) {
                 Data supplied by the{' '}
                 <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
                   ICAEW
+                </a>
+              </p>
+            )}
+            {isMortgageAdvisor && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by the{' '}
+                <a href="https://www.fca.org.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
+                  FCA
+                </a>
+              </p>
+            )}
+            {isEstateAgent && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by{' '}
+                <a href="https://www.propertymark.co.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
+                  Propertymark
                 </a>
               </p>
             )}

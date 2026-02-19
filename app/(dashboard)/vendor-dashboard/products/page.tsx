@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { hasTierAccess } from '@/app/components/dashboard/TierGate';
 
-type ServiceCategory = 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Solicitor' | 'Accountant';
+type ServiceCategory = 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Solicitor' | 'Accountant' | 'MortgageAdvisor' | 'EstateAgent';
 
 interface Product {
   _id: string;
@@ -269,6 +269,36 @@ const ACCOUNTANT_COMMON_INCLUSIONS = [
   'HMRC Correspondence', 'Year-End Advice', 'MTD Compliance',
 ];
 
+const MORTGAGE_ADVISOR_CATEGORIES = [
+  { value: 'Residential Mortgages', label: 'Residential Mortgages' },
+  { value: 'Buy-to-Let', label: 'Buy-to-Let' },
+  { value: 'Remortgage', label: 'Remortgage' },
+  { value: 'First-Time Buyer', label: 'First-Time Buyer' },
+  { value: 'Equity Release', label: 'Equity Release' },
+  { value: 'Commercial Mortgages', label: 'Commercial Mortgages' },
+  { value: 'Protection Insurance', label: 'Protection Insurance' },
+];
+const MORTGAGE_FEE_TYPES = [
+  { value: 'free', label: 'Free (Commission Only)' },
+  { value: 'fee-based', label: 'Fixed Fee' },
+  { value: 'percentage', label: 'Percentage of Loan' },
+];
+
+const ESTATE_AGENT_CATEGORIES = [
+  { value: 'Sales', label: 'Sales' },
+  { value: 'Lettings', label: 'Lettings' },
+  { value: 'Property Management', label: 'Property Management' },
+  { value: 'Block Management', label: 'Block Management' },
+  { value: 'Auctions', label: 'Auctions' },
+  { value: 'Commercial Property', label: 'Commercial Property' },
+  { value: 'Inventory', label: 'Inventory' },
+];
+const ESTATE_AGENT_FEE_TYPES = [
+  { value: 'percentage', label: 'Percentage of Sale' },
+  { value: 'fixed', label: 'Fixed Fee' },
+  { value: 'hybrid', label: 'Hybrid (Fixed + %)' },
+];
+
 const CATEGORIES_MAP: Record<ServiceCategory, { value: string; label: string }[]> = {
   Photocopiers: [
     { value: 'A4 Printers', label: 'A4 Printers' },
@@ -296,6 +326,8 @@ const CATEGORIES_MAP: Record<ServiceCategory, { value: string; label: string }[]
   ],
   Solicitor: SOLICITOR_PRACTICE_AREAS,
   Accountant: ACCOUNTANT_SERVICE_CATEGORIES,
+  MortgageAdvisor: MORTGAGE_ADVISOR_CATEGORIES,
+  EstateAgent: ESTATE_AGENT_CATEGORIES,
 };
 
 const MANUFACTURERS_MAP: Record<ServiceCategory, string[]> = {
@@ -305,6 +337,8 @@ const MANUFACTURERS_MAP: Record<ServiceCategory, string[]> = {
   IT: ['Microsoft', 'Dell', 'HP', 'Cisco', 'Sophos', 'Datto', 'SentinelOne', 'CrowdStrike', 'Veeam', 'Other'],
   Solicitor: [],
   Accountant: [],
+  MortgageAdvisor: [],
+  EstateAgent: [],
 };
 
 const COPIER_FEATURES = [
@@ -454,7 +488,10 @@ export default function ProductsPage() {
 
   const isSolicitor = vendorType === 'solicitor';
   const isAccountant = vendorType === 'accountant';
-  const isEquipment = !isSolicitor && !isAccountant;
+  const isMortgageAdvisor = vendorType === 'mortgage-advisor';
+  const isEstateAgent = vendorType === 'estate-agent';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+  const isEquipment = !isProfessional;
 
   const fetchProducts = useCallback(async () => {
     const token = getCurrentToken();
@@ -520,7 +557,7 @@ export default function ProductsPage() {
   const handleAddProduct = () => {
     if (hasReachedLimit) return;
     setEditingProduct(null);
-    const defaultSc: ServiceCategory = isSolicitor ? 'Solicitor' : isAccountant ? 'Accountant' : 'Photocopiers';
+    const defaultSc: ServiceCategory = isSolicitor ? 'Solicitor' : isAccountant ? 'Accountant' : isMortgageAdvisor ? 'MortgageAdvisor' : isEstateAgent ? 'EstateAgent' : 'Photocopiers';
     const defaultCategory = CATEGORIES_MAP[defaultSc][0]?.value || '';
     setFormData({ ...emptyFormData, serviceCategory: defaultSc, category: defaultCategory });
     setError(null);
@@ -1021,6 +1058,8 @@ export default function ProductsPage() {
     IT: 'IT',
     Solicitor: 'Solicitor',
     Accountant: 'Accountant',
+    MortgageAdvisor: 'Mortgage Advisor',
+    EstateAgent: 'Estate Agent',
   };
 
   if (loading) {

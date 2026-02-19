@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
-const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants'];
+const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants', 'Mortgage Advisors', 'Estate Agents'];
 
 export interface IVendor extends Document {
   _id: mongoose.Types.ObjectId;
@@ -105,6 +105,10 @@ export interface IVendor extends Document {
   }>;
   vendorType?: string;
   sraNumber?: string;
+  icaewFirmNumber?: string;
+  fcaNumber?: string;
+  propertymarkNumber?: string;
+  propertymarkQualification?: string;
   regulatoryBody?: string;
   practiceAreas?: string[];
   organisationType?: string;
@@ -308,8 +312,12 @@ const vendorSchema = new Schema<IVendor>(
       },
     ],
 
-    vendorType: { type: String, enum: ['office-equipment', 'solicitor', 'accountant'], default: 'office-equipment' },
+    vendorType: { type: String, enum: ['office-equipment', 'solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'], default: 'office-equipment' },
     sraNumber: { type: String, trim: true },
+    icaewFirmNumber: { type: String, trim: true },
+    fcaNumber: { type: String, trim: true },
+    propertymarkNumber: { type: String, trim: true },
+    propertymarkQualification: { type: String, trim: true },
     regulatoryBody: { type: String, trim: true },
     practiceAreas: [{ type: String, trim: true }],
     organisationType: { type: String, trim: true },

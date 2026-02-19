@@ -14,8 +14,12 @@ import {
   canShowPricing,
   isSolicitorCategory,
   isAccountantCategory,
+  isMortgageAdvisorCategory,
+  isEstateAgentCategory,
   getPracticeAreaFromSlug,
   getAccountantServiceArea,
+  getMortgageServiceArea,
+  getEstateAgentServiceArea,
   getServiceFromSlug,
 } from '@/lib/constants';
 import { LocationContent } from '@/lib/db/models/LocationContent';
@@ -37,13 +41,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const isSolicitor = service.group === 'solicitor';
   const isAccountant = service.group === 'accountant';
-  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
+  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+  const isEstateAgent = isEstateAgentCategory(category);
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : isMortgageAdvisor ? 'Mortgage Advisors' : isEstateAgent ? 'Estate Agents' : 'Suppliers';
   const title = `${service.name} ${suffix} in ${locationName} | TendorAI`;
   const description = isSolicitor
     ? `Compare verified ${service.name.toLowerCase()} solicitors in ${locationName}. SRA-regulated firms with reviews and accreditations on TendorAI.`
     : isAccountant
       ? `Compare verified ${service.name.toLowerCase()} accountants in ${locationName}. ICAEW-regulated firms with reviews and accreditations on TendorAI.`
-      : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
+      : isMortgageAdvisor
+        ? `Find FCA-authorised ${service.name.toLowerCase()} mortgage advisors in ${locationName}. Compare fees, lender panels and reviews on TendorAI.`
+        : isEstateAgent
+          ? `Find Propertymark-registered ${service.name.toLowerCase()} estate agents in ${locationName}. Compare fees, coverage and reviews on TendorAI.`
+          : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   return {
     title,
@@ -123,6 +133,8 @@ async function fetchVendors(category: string, location: string) {
 
   const isSolicitor = isSolicitorCategory(category);
   const isAccountant = isAccountantCategory(category);
+  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+  const isEstateAgent = isEstateAgentCategory(category);
   const normalizedLocation = location.replace(/-/g, ' ');
 
   let categoryFilter;
@@ -133,13 +145,19 @@ async function fetchVendors(category: string, location: string) {
   } else if (isAccountant) {
     // practiceAreas not populated yet for accountants — show all accountant vendors
     categoryFilter = { vendorType: 'accountant' };
+  } else if (isMortgageAdvisor) {
+    const serviceArea = getMortgageServiceArea(category);
+    categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else if (isEstateAgent) {
+    const serviceArea = getEstateAgentServiceArea(category);
+    categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
   } else {
     const serviceName = getServiceFromSlug(category);
     if (!serviceName) return [];
     categoryFilter = { services: serviceName };
   }
 
-  const isProfessional = isSolicitor || isAccountant;
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
   const locationFilter = isProfessional
     ? { 'location.city': { $regex: new RegExp(`^${normalizedLocation}$`, 'i') } }
     : {
@@ -209,8 +227,10 @@ export default async function CategoryLocationPage({ params }: PageProps) {
 
   const isSolicitor = service.group === 'solicitor';
   const isAccountant = service.group === 'accountant';
-  const isProfessional = isSolicitor || isAccountant;
-  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : 'Suppliers';
+  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+  const isEstateAgent = isEstateAgentCategory(category);
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+  const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : isMortgageAdvisor ? 'Mortgage Advisors' : isEstateAgent ? 'Estate Agents' : 'Suppliers';
 
   const [allVendors, locationContent] = await Promise.all([
     fetchVendors(category, location),
@@ -230,9 +250,9 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
   const totalCount = localVendors.length + nationalVendors.length;
 
-  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor, isAccountant);
+  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent);
 
-  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'Service';
+  const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : isMortgageAdvisor ? 'FinancialService' : isEstateAgent ? 'RealEstateAgent' : 'Service';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -244,7 +264,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           '@type': 'ListItem',
           position: index + 1,
           item: {
-            '@type': isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : 'LocalBusiness',
+            '@type': isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : isMortgageAdvisor ? 'FinancialService' : isEstateAgent ? 'RealEstateAgent' : 'LocalBusiness',
             name: vendor.company,
             description: vendor.businessProfile?.description || `${service.name} ${suffix.toLowerCase()}`,
             address: {
@@ -326,7 +346,11 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 ? `Compare ${totalCount} SRA-regulated ${service.name.toLowerCase()} solicitors in ${locationName}.`
                 : isAccountant
                   ? `Compare ${totalCount} ICAEW-regulated ${service.name.toLowerCase()} accountants in ${locationName}.`
-                  : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
+                  : isMortgageAdvisor
+                    ? `Compare ${totalCount} FCA-authorised ${service.name.toLowerCase()} mortgage advisors in ${locationName}.`
+                    : isEstateAgent
+                      ? `Compare ${totalCount} ${service.name.toLowerCase()} estate agents in ${locationName}.`
+                      : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
             </p>
             {isSolicitor && (
               <p className="text-sm text-purple-300 mt-2">
@@ -338,6 +362,18 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               <p className="text-sm text-purple-300 mt-2">
                 Data supplied by the{' '}
                 <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">ICAEW</a>
+              </p>
+            )}
+            {isMortgageAdvisor && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by the{' '}
+                <a href="https://www.fca.org.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">FCA</a>
+              </p>
+            )}
+            {isEstateAgent && (
+              <p className="text-sm text-purple-300 mt-2">
+                Data supplied by{' '}
+                <a href="https://www.propertymark.co.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">Propertymark</a>
               </p>
             )}
           </div>
@@ -403,7 +439,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               )}
             </>
           ) : (
-            <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} isAccountant={isAccountant} />
+            <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} isAccountant={isAccountant} isMortgageAdvisor={isMortgageAdvisor} isEstateAgent={isEstateAgent} />
           )}
         </section>
 
@@ -475,7 +511,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   );
 }
 
-function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean, isAccountant: boolean = false) {
+function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean, isAccountant: boolean = false, isMortgageAdvisor: boolean = false, isEstateAgent: boolean = false) {
   if (isSolicitor) {
     return [
       {
@@ -518,6 +554,48 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
     ];
   }
 
+  if (isMortgageAdvisor) {
+    return [
+      {
+        question: `How do I find the best ${serviceName.toLowerCase()} mortgage advisor in ${locationName}?`,
+        answer: `TendorAI lists ${vendorCount} FCA-authorised ${serviceName.toLowerCase()} mortgage advisors in ${locationName}. You can compare advisors by reviews, lender panels, and specialisms.`,
+      },
+      {
+        question: `How many ${serviceName.toLowerCase()} mortgage advisors are there in ${locationName}?`,
+        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} mortgage advisory firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area.`,
+      },
+      {
+        question: `Are these mortgage advisors regulated?`,
+        answer: `Yes — all mortgage advisors listed on TendorAI are authorised and regulated by the Financial Conduct Authority (FCA). Each profile links to the firm's FCA register entry so you can verify their status directly.`,
+      },
+      {
+        question: `How much do ${serviceName.toLowerCase()} mortgage advisors charge in ${locationName}?`,
+        answer: `Fees for ${serviceName.toLowerCase()} mortgage advisors in ${locationName} vary by firm and service. Some charge a flat fee, others work on commission from the lender. Advisors that have claimed their TendorAI profile may display indicative pricing.`,
+      },
+    ];
+  }
+
+  if (isEstateAgent) {
+    return [
+      {
+        question: `How do I find the best ${serviceName.toLowerCase()} estate agent in ${locationName}?`,
+        answer: `TendorAI lists ${vendorCount} ${serviceName.toLowerCase()} estate agents in ${locationName}. You can compare agents by reviews, fees, and coverage area.`,
+      },
+      {
+        question: `How many ${serviceName.toLowerCase()} estate agents are there in ${locationName}?`,
+        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} estate agency firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area.`,
+      },
+      {
+        question: `Are these estate agents accredited?`,
+        answer: `TendorAI lists estate agents including those registered with Propertymark (NAEA/ARLA). Each profile shows the agent's accreditations so you can verify their status directly.`,
+      },
+      {
+        question: `How much do ${serviceName.toLowerCase()} estate agents charge in ${locationName}?`,
+        answer: `Fees for ${serviceName.toLowerCase()} estate agents in ${locationName} vary by agency and service type. Agents that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact agents directly.`,
+      },
+    ];
+  }
+
   const categoryTips: Record<string, string[]> = {
     photocopiers: ['Check for manufacturer accreditations', 'Compare lease vs purchase options', 'Ask about managed print services'],
     telecoms: ['Verify cloud VoIP vs on-premise support', 'Check Teams/Zoom integration', 'Ask about call recording features'],
@@ -547,9 +625,9 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
   ];
 }
 
-function EmptyState({ service, location, category, isSolicitor, isAccountant }: { service: string; location: string; category: string; isSolicitor: boolean; isAccountant: boolean }) {
+function EmptyState({ service, location, category, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent }: { service: string; location: string; category: string; isSolicitor: boolean; isAccountant: boolean; isMortgageAdvisor: boolean; isEstateAgent: boolean }) {
   const nearbyLocations = getNearbyLocations(location.toLowerCase().replace(/\s+/g, '-'));
-  const suffix = isSolicitor ? 'solicitors' : isAccountant ? 'accountants' : 'suppliers';
+  const suffix = isSolicitor ? 'solicitors' : isAccountant ? 'accountants' : isMortgageAdvisor ? 'mortgage advisors' : isEstateAgent ? 'estate agents' : 'suppliers';
 
   return (
     <div className="text-center py-12 bg-white rounded-lg">

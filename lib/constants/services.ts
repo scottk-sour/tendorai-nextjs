@@ -200,13 +200,141 @@ export const SERVICES = {
     keywords: ['financial planning', 'wealth management', 'retirement', 'estate planning'],
     icon: '💰',
   },
+  // ─── Mortgage Advisor Categories ───────────────────────────────────
+  'residential-mortgages': {
+    name: 'Residential Mortgages',
+    value: 'Residential Mortgages',
+    slug: 'residential-mortgages',
+    group: 'mortgage-advisor' as const,
+    description: 'Home purchase mortgages, residential lending, first-time buyer advice',
+    keywords: ['mortgage', 'home loan', 'residential', 'house purchase', 'lending'],
+    icon: '🏠',
+  },
+  'buy-to-let': {
+    name: 'Buy-to-Let',
+    value: 'Buy-to-Let',
+    slug: 'buy-to-let',
+    group: 'mortgage-advisor' as const,
+    description: 'Investment property mortgages, landlord finance, portfolio lending',
+    keywords: ['buy to let', 'BTL', 'investment', 'landlord', 'rental property'],
+    icon: '🏘️',
+  },
+  remortgage: {
+    name: 'Remortgage',
+    value: 'Remortgage',
+    slug: 'remortgage',
+    group: 'mortgage-advisor' as const,
+    description: 'Switching lenders, rate reviews, equity release through remortgage',
+    keywords: ['remortgage', 'switch lender', 'rate review', 'refinance'],
+    icon: '🔄',
+  },
+  'first-time-buyer': {
+    name: 'First-Time Buyer',
+    value: 'First-Time Buyer',
+    slug: 'first-time-buyer',
+    group: 'mortgage-advisor' as const,
+    description: 'First-time buyer mortgages, Help to Buy, shared ownership',
+    keywords: ['first time buyer', 'FTB', 'help to buy', 'shared ownership', 'starter home'],
+    icon: '🔑',
+  },
+  'equity-release': {
+    name: 'Equity Release',
+    value: 'Equity Release',
+    slug: 'equity-release',
+    group: 'mortgage-advisor' as const,
+    description: 'Lifetime mortgages, home reversion plans, later life lending',
+    keywords: ['equity release', 'lifetime mortgage', 'home reversion', 'later life'],
+    icon: '🏡',
+  },
+  'commercial-mortgages': {
+    name: 'Commercial Mortgages',
+    value: 'Commercial Mortgages',
+    slug: 'commercial-mortgages',
+    group: 'mortgage-advisor' as const,
+    description: 'Business premises finance, commercial property loans, development finance',
+    keywords: ['commercial mortgage', 'business loan', 'commercial property', 'development finance'],
+    icon: '🏗️',
+  },
+  'protection-insurance': {
+    name: 'Protection Insurance',
+    value: 'Protection Insurance',
+    slug: 'protection-insurance',
+    group: 'mortgage-advisor' as const,
+    description: 'Life insurance, income protection, critical illness cover',
+    keywords: ['life insurance', 'income protection', 'critical illness', 'protection'],
+    icon: '🛡️',
+  },
+  // ─── Estate Agent Categories ────────────────────────────────────────
+  sales: {
+    name: 'Sales',
+    value: 'Sales',
+    slug: 'sales',
+    group: 'estate-agent' as const,
+    description: 'Residential property sales, valuations, marketing',
+    keywords: ['property sales', 'selling', 'valuation', 'estate agent', 'house sale'],
+    icon: '🏡',
+  },
+  lettings: {
+    name: 'Lettings',
+    value: 'Lettings',
+    slug: 'lettings',
+    group: 'estate-agent' as const,
+    description: 'Rental property management, tenant finding, letting services',
+    keywords: ['lettings', 'rental', 'tenant', 'landlord', 'letting agent'],
+    icon: '🔑',
+  },
+  'property-management': {
+    name: 'Property Management',
+    value: 'Property Management',
+    slug: 'property-management',
+    group: 'estate-agent' as const,
+    description: 'Full property management, maintenance, rent collection',
+    keywords: ['property management', 'maintenance', 'rent collection', 'managed'],
+    icon: '🏢',
+  },
+  'block-management': {
+    name: 'Block Management',
+    value: 'Block Management',
+    slug: 'block-management',
+    group: 'estate-agent' as const,
+    description: 'Leasehold block management, service charges, freeholder services',
+    keywords: ['block management', 'leasehold', 'service charge', 'freeholder'],
+    icon: '🏬',
+  },
+  auctions: {
+    name: 'Auctions',
+    value: 'Auctions',
+    slug: 'auctions',
+    group: 'estate-agent' as const,
+    description: 'Property auctions, auction house services, lot management',
+    keywords: ['auction', 'property auction', 'bidding', 'lot'],
+    icon: '🔨',
+  },
+  'commercial-property': {
+    name: 'Commercial Property',
+    value: 'Commercial Property',
+    slug: 'commercial-property',
+    group: 'estate-agent' as const,
+    description: 'Commercial sales and lettings, office space, retail units',
+    keywords: ['commercial property', 'office space', 'retail', 'industrial', 'warehouse'],
+    icon: '🏭',
+  },
+  inventory: {
+    name: 'Inventory',
+    value: 'Inventory',
+    slug: 'inventory',
+    group: 'estate-agent' as const,
+    description: 'Property inventory services, check-in/check-out reports',
+    keywords: ['inventory', 'check-in', 'check-out', 'property report', 'condition report'],
+    icon: '📋',
+  },
 } as const;
 
 export type ServiceKey = keyof typeof SERVICES;
 
 export const SERVICE_KEYS = Object.keys(SERVICES) as ServiceKey[];
 
-export const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants'] as const;
+export const VALID_SERVICES = ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software', 'Solicitors', 'Accountants', 'Mortgage Advisors', 'Estate Agents'] as const;
 
 // Accountant slug → practiceAreas value mapping
 export const ACCOUNTANT_SERVICE_AREA_MAP: Record<string, string> = {
@@ -221,6 +349,32 @@ export const ACCOUNTANT_SERVICE_AREA_MAP: Record<string, string> = {
 };
 
 export const ACCOUNTANT_SLUGS = Object.keys(ACCOUNTANT_SERVICE_AREA_MAP);
+
+// Mortgage Advisor slug → practiceAreas value mapping
+export const MORTGAGE_SERVICE_AREA_MAP: Record<string, string> = {
+  'residential-mortgages': 'Residential Mortgages',
+  'buy-to-let': 'Buy-to-Let',
+  remortgage: 'Remortgage',
+  'first-time-buyer': 'First-Time Buyer',
+  'equity-release': 'Equity Release',
+  'commercial-mortgages': 'Commercial Mortgages',
+  'protection-insurance': 'Protection Insurance',
+};
+
+export const MORTGAGE_SLUGS = Object.keys(MORTGAGE_SERVICE_AREA_MAP);
+
+// Estate Agent slug → practiceAreas value mapping
+export const ESTATE_AGENT_SERVICE_AREA_MAP: Record<string, string> = {
+  sales: 'Sales',
+  lettings: 'Lettings',
+  'property-management': 'Property Management',
+  'block-management': 'Block Management',
+  auctions: 'Auctions',
+  'commercial-property': 'Commercial Property',
+  inventory: 'Inventory',
+};
+
+export const ESTATE_AGENT_SLUGS = Object.keys(ESTATE_AGENT_SERVICE_AREA_MAP);
 
 export type ValidService = (typeof VALID_SERVICES)[number];
 
@@ -263,6 +417,14 @@ export function isAccountantCategory(slug: string): boolean {
   return slug in ACCOUNTANT_SERVICE_AREA_MAP;
 }
 
+export function isMortgageAdvisorCategory(slug: string): boolean {
+  return slug in MORTGAGE_SERVICE_AREA_MAP;
+}
+
+export function isEstateAgentCategory(slug: string): boolean {
+  return slug in ESTATE_AGENT_SERVICE_AREA_MAP;
+}
+
 export function getPracticeAreaFromSlug(slug: string): string | null {
   return SOLICITOR_PRACTICE_AREA_MAP[slug.toLowerCase()] || null;
 }
@@ -271,11 +433,19 @@ export function getAccountantServiceArea(slug: string): string | null {
   return ACCOUNTANT_SERVICE_AREA_MAP[slug.toLowerCase()] || null;
 }
 
+export function getMortgageServiceArea(slug: string): string | null {
+  return MORTGAGE_SERVICE_AREA_MAP[slug.toLowerCase()] || null;
+}
+
+export function getEstateAgentServiceArea(slug: string): string | null {
+  return ESTATE_AGENT_SERVICE_AREA_MAP[slug.toLowerCase()] || null;
+}
+
 export function getServiceFromSlug(slug: string): ValidService | null {
-  // Check solicitor categories first — they map to 'Solicitors' service
   if (isSolicitorCategory(slug)) return 'Solicitors';
-  // Check accountant categories — they map to 'Accountants' service
   if (isAccountantCategory(slug)) return 'Accountants';
+  if (isMortgageAdvisorCategory(slug)) return 'Mortgage Advisors';
+  if (isEstateAgentCategory(slug)) return 'Estate Agents';
   return SERVICE_SLUG_MAP[slug.toLowerCase()] || null;
 }
 

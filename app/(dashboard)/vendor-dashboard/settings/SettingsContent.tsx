@@ -31,6 +31,30 @@ const ACCOUNTANT_SERVICES = [
 
 const ACCOUNTANT_SOFTWARE = ['Xero', 'QuickBooks', 'Sage', 'FreeAgent'];
 
+// ─── Mortgage Advisor constants ──────────────────────────────────────
+const MORTGAGE_SERVICES = [
+  'Residential Mortgages', 'Buy-to-Let', 'Remortgage', 'First-Time Buyer',
+  'Equity Release', 'Commercial Mortgages', 'Protection Insurance',
+];
+
+const MORTGAGE_ACCREDITATIONS = [
+  'CeMAP', 'DipFA', 'CeRER (Equity Release)', 'CF6 (Mortgage Advice)',
+  'Chartered Financial Planner', 'Fellow of PFS',
+];
+
+// ─── Estate Agent constants ──────────────────────────────────────────
+const ESTATE_AGENT_SERVICES = [
+  'Sales', 'Lettings', 'Property Management', 'Block Management',
+  'Auctions', 'Commercial Property', 'Inventory',
+];
+
+const ESTATE_AGENT_ACCREDITATIONS = [
+  'NAEA Propertymark', 'ARLA Propertymark', 'RICS', 'NFOPP',
+  'NFoPP Level 3', 'TDS Insured', 'Client Money Protection',
+];
+
+const PORTAL_LISTINGS = ['Rightmove', 'Zoopla', 'OnTheMarket', 'Primelocation'];
+
 // ─── Types ────────────────────────────────────────────────────────────
 interface FixedFee {
   service: string;
@@ -75,6 +99,13 @@ interface ProfileData {
   softwareUsed: string[];
   industrySpecialisms: string[];
   mtdCompliant: boolean;
+  // Mortgage Advisor fields
+  fcaNumber: string;
+  // Estate Agent fields
+  propertymarkNumber: string;
+  propertymarkQualification: string;
+  portalListings: string[];
+  coveragePostcodes: string[];
 }
 
 interface SubscriptionData {
@@ -130,6 +161,8 @@ const DEFAULT_PROFILE: ProfileData = {
   legalAid: false, responseTime: '',
   icaewFirmNumber: '', softwareUsed: [], industrySpecialisms: [],
   mtdCompliant: false,
+  fcaNumber: '', propertymarkNumber: '', propertymarkQualification: '',
+  portalListings: [], coveragePostcodes: [],
 };
 
 export default function SettingsContent({ initialTab }: { initialTab?: string }) {
@@ -147,11 +180,15 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   const [newLenderPanel, setNewLenderPanel] = useState('');
   const [newLanguage, setNewLanguage] = useState('');
   const [newSpecialism, setNewSpecialism] = useState('');
+  const [newCoveragePostcode, setNewCoveragePostcode] = useState('');
 
   const vendorType = profile.vendorType || 'office-equipment';
   const isSolicitor = vendorType === 'solicitor';
   const isAccountant = vendorType === 'accountant';
-  const isEquipment = !isSolicitor && !isAccountant;
+  const isMortgageAdvisor = vendorType === 'mortgage-advisor';
+  const isEstateAgent = vendorType === 'estate-agent';
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+  const isEquipment = !isProfessional;
 
   const fetchProfile = useCallback(async () => {
     const token = getCurrentToken();
@@ -200,6 +237,11 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             softwareUsed: data.vendor.softwareUsed || [],
             industrySpecialisms: data.vendor.industrySpecialisms || [],
             mtdCompliant: data.vendor.mtdCompliant || false,
+            fcaNumber: data.vendor.fcaNumber || '',
+            propertymarkNumber: data.vendor.propertymarkNumber || '',
+            propertymarkQualification: data.vendor.propertymarkQualification || '',
+            portalListings: data.vendor.portalListings || [],
+            coveragePostcodes: data.vendor.coveragePostcodes || [],
           });
         }
       }
@@ -282,7 +324,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     });
   };
 
-  type TagField = 'brands' | 'certifications' | 'coverage' | 'lenderPanels' | 'languages' | 'industrySpecialisms';
+  type TagField = 'brands' | 'certifications' | 'coverage' | 'lenderPanels' | 'languages' | 'industrySpecialisms' | 'coveragePostcodes';
 
   const addTag = (field: TagField, value: string) => {
     if (!value.trim()) return;
@@ -293,6 +335,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     const setters: Record<string, (v: string) => void> = {
       brands: setNewBrand, certifications: setNewCertification, coverage: setNewCoverage,
       lenderPanels: setNewLenderPanel, languages: setNewLanguage, industrySpecialisms: setNewSpecialism,
+      coveragePostcodes: setNewCoveragePostcode,
     };
     setters[field]?.('');
   };
@@ -556,12 +599,12 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
           {/* Business Details */}
           <div className="card p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              {isSolicitor ? 'Firm Details' : isAccountant ? 'Practice Details' : 'Business Details'}
+              {isSolicitor ? 'Firm Details' : isAccountant ? 'Practice Details' : isMortgageAdvisor ? 'Brokerage Details' : isEstateAgent ? 'Agency Details' : 'Business Details'}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                  {isSolicitor || isAccountant ? 'Firm Name' : 'Company Name'}
+                  {isSolicitor || isAccountant ? 'Firm Name' : isMortgageAdvisor ? 'Brokerage Name' : isEstateAgent ? 'Agency Name' : 'Company Name'}
                 </label>
                 <input type="text" id="company" name="company" value={profile.company} onChange={handleChange} className="input" />
               </div>
@@ -599,6 +642,22 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">ICAEW/ACCA Firm Number</label>
                   <input type="text" value={profile.icaewFirmNumber} readOnly className="input bg-gray-50 text-gray-500 cursor-not-allowed" />
+                </div>
+              )}
+
+              {/* FCA Number (mortgage advisor) */}
+              {isMortgageAdvisor && (
+                <div>
+                  <label htmlFor="fcaNumber" className="block text-sm font-medium text-gray-700 mb-1">FCA Number</label>
+                  <input type="text" id="fcaNumber" name="fcaNumber" value={profile.fcaNumber} onChange={handleChange} placeholder="e.g. 123456" className="input" />
+                </div>
+              )}
+
+              {/* Propertymark Number (estate agent) */}
+              {isEstateAgent && (
+                <div>
+                  <label htmlFor="propertymarkNumber" className="block text-sm font-medium text-gray-700 mb-1">Propertymark Number</label>
+                  <input type="text" id="propertymarkNumber" name="propertymarkNumber" value={profile.propertymarkNumber} onChange={handleChange} placeholder="e.g. M012345" className="input" />
                 </div>
               )}
             </div>
@@ -885,6 +944,210 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
           )}
 
           {/* ═══════════════════════════════════════════════════════════════
+              MORTGAGE ADVISOR-SPECIFIC FIELDS
+              ═══════════════════════════════════════════════════════════════ */}
+          {isMortgageAdvisor && (
+            <>
+              {/* Service Areas */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Service Areas</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {MORTGAGE_SERVICES.map((svc) => (
+                    <label key={svc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.practiceAreas.includes(svc)
+                        ? 'border-purple-600 bg-purple-50 text-purple-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.practiceAreas.includes(svc)}
+                        onChange={() => handleArrayToggle('practiceAreas', svc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{svc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Fixed Fees */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Fixed Fees</h2>
+                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services (e.g. &quot;Remortgage advice from &pound;499&quot;)</p>
+                {profile.fixedFees.map((fee, i) => (
+                  <div key={i} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={fee.service}
+                      onChange={(e) => updateFixedFee(i, 'service', e.target.value)}
+                      placeholder="Service (e.g. Remortgage Advice)"
+                      className="input flex-1"
+                    />
+                    <input
+                      type="text"
+                      value={fee.fee}
+                      onChange={(e) => updateFixedFee(i, 'fee', e.target.value)}
+                      placeholder="Fee (e.g. from &pound;499)"
+                      className="input w-48"
+                    />
+                    <button type="button" onClick={() => removeFixedFee(i)} className="text-red-500 hover:text-red-700 px-2">&times;</button>
+                  </div>
+                ))}
+                <button type="button" onClick={addFixedFee} className="btn-secondary text-sm mt-2">+ Add fee</button>
+              </div>
+
+              {/* Accreditations */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Accreditations</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {MORTGAGE_ACCREDITATIONS.map((acc) => (
+                    <label key={acc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.accreditations.includes(acc)
+                        ? 'border-green-600 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.accreditations.includes(acc)}
+                        onChange={() => handleArrayToggle('accreditations', acc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{acc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Lender Panels */}
+              <div className="card p-6">
+                <TagInput
+                  label="Lender Panels"
+                  placeholder="e.g. Nationwide, Halifax, Barclays"
+                  value={newLenderPanel}
+                  onChange={setNewLenderPanel}
+                  onAdd={() => addTag('lenderPanels', newLenderPanel)}
+                  tags={profile.lenderPanels}
+                  onRemove={(i) => removeTag('lenderPanels', i)}
+                  color="blue"
+                />
+              </div>
+            </>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════════════
+              ESTATE AGENT-SPECIFIC FIELDS
+              ═══════════════════════════════════════════════════════════════ */}
+          {isEstateAgent && (
+            <>
+              {/* Service Areas */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Service Areas</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {ESTATE_AGENT_SERVICES.map((svc) => (
+                    <label key={svc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.practiceAreas.includes(svc)
+                        ? 'border-purple-600 bg-purple-50 text-purple-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.practiceAreas.includes(svc)}
+                        onChange={() => handleArrayToggle('practiceAreas', svc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{svc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Fixed Fees */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Fixed Fees</h2>
+                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services (e.g. &quot;Sales fee from 1% + VAT&quot;)</p>
+                {profile.fixedFees.map((fee, i) => (
+                  <div key={i} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={fee.service}
+                      onChange={(e) => updateFixedFee(i, 'service', e.target.value)}
+                      placeholder="Service (e.g. Sales Fee)"
+                      className="input flex-1"
+                    />
+                    <input
+                      type="text"
+                      value={fee.fee}
+                      onChange={(e) => updateFixedFee(i, 'fee', e.target.value)}
+                      placeholder="Fee (e.g. from 1% + VAT)"
+                      className="input w-48"
+                    />
+                    <button type="button" onClick={() => removeFixedFee(i)} className="text-red-500 hover:text-red-700 px-2">&times;</button>
+                  </div>
+                ))}
+                <button type="button" onClick={addFixedFee} className="btn-secondary text-sm mt-2">+ Add fee</button>
+              </div>
+
+              {/* Accreditations */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Accreditations</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {ESTATE_AGENT_ACCREDITATIONS.map((acc) => (
+                    <label key={acc} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.accreditations.includes(acc)
+                        ? 'border-green-600 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.accreditations.includes(acc)}
+                        onChange={() => handleArrayToggle('accreditations', acc)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{acc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Portal Listings */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Portal Listings</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {PORTAL_LISTINGS.map((portal) => (
+                    <label key={portal} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.portalListings.includes(portal)
+                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.portalListings.includes(portal)}
+                        onChange={() => handleArrayToggle('portalListings', portal)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{portal}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Coverage Postcodes */}
+              <div className="card p-6">
+                <TagInput
+                  label="Coverage Postcodes"
+                  placeholder="e.g. CF10, BS1, NP20"
+                  value={newCoveragePostcode}
+                  onChange={setNewCoveragePostcode}
+                  onAdd={() => addTag('coveragePostcodes', newCoveragePostcode)}
+                  tags={profile.coveragePostcodes}
+                  onRemove={(i) => removeTag('coveragePostcodes', i)}
+                  color="purple"
+                />
+              </div>
+            </>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════════════
               OFFICE EQUIPMENT FIELDS (existing)
               ═══════════════════════════════════════════════════════════════ */}
           {isEquipment && (
@@ -943,7 +1206,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
           {/* Description (all vendor types) */}
           <div className="card p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              {isSolicitor ? 'About the Firm' : isAccountant ? 'About the Practice' : 'About Your Business'}
+              {isSolicitor ? 'About the Firm' : isAccountant ? 'About the Practice' : isMortgageAdvisor ? 'About the Brokerage' : isEstateAgent ? 'About the Agency' : 'About Your Business'}
             </h2>
             <textarea
               id="description"
@@ -954,6 +1217,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               placeholder={
                 isSolicitor ? 'Tell potential clients about your firm, areas of expertise, and what sets you apart...'
                 : isAccountant ? 'Tell potential clients about your practice, specialisms, and approach...'
+                : isMortgageAdvisor ? 'Tell potential clients about your brokerage, specialist areas, and what sets you apart...'
+                : isEstateAgent ? 'Tell potential clients about your agency, local expertise, and what makes you different...'
                 : 'Tell potential customers about your business, experience, and what makes you different...'
               }
               className="input"

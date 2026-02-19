@@ -21,6 +21,43 @@ const CATEGORY_GROUPS = [
     ],
   },
   {
+    label: 'Accountants',
+    options: [
+      { value: 'tax-advisory', label: 'Tax Advisory' },
+      { value: 'audit-assurance', label: 'Audit & Assurance' },
+      { value: 'bookkeeping', label: 'Bookkeeping' },
+      { value: 'payroll', label: 'Payroll' },
+      { value: 'corporate-finance', label: 'Corporate Finance' },
+      { value: 'business-advisory', label: 'Business Advisory' },
+      { value: 'vat-services', label: 'VAT Services' },
+      { value: 'financial-planning', label: 'Financial Planning' },
+    ],
+  },
+  {
+    label: 'Mortgage Advisors',
+    options: [
+      { value: 'residential-mortgages', label: 'Residential Mortgages' },
+      { value: 'buy-to-let', label: 'Buy-to-Let' },
+      { value: 'remortgage', label: 'Remortgage' },
+      { value: 'first-time-buyer', label: 'First-Time Buyer' },
+      { value: 'equity-release', label: 'Equity Release' },
+      { value: 'commercial-mortgages', label: 'Commercial Mortgages' },
+      { value: 'protection-insurance', label: 'Protection Insurance' },
+    ],
+  },
+  {
+    label: 'Estate Agents',
+    options: [
+      { value: 'sales', label: 'Property Sales' },
+      { value: 'lettings', label: 'Lettings' },
+      { value: 'property-management', label: 'Property Management' },
+      { value: 'block-management', label: 'Block Management' },
+      { value: 'auctions', label: 'Auctions' },
+      { value: 'commercial-property', label: 'Commercial Property' },
+      { value: 'inventory', label: 'Inventory' },
+    ],
+  },
+  {
     label: 'Office Equipment',
     options: [
       { value: 'copiers', label: 'Copiers & Managed Print' },

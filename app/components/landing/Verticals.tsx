@@ -21,11 +21,18 @@ const verticals = [
     statusColor: 'bg-green-100 text-green-700',
   },
   {
+    number: '5,000+',
+    title: 'Mortgage Advisors',
+    description: 'FCA-authorised mortgage brokers, residential and commercial lending, protection advisors.',
+    status: 'Live',
+    statusColor: 'bg-green-100 text-green-700',
+  },
+  {
     number: '20,000+',
     title: 'Estate Agents',
     description: 'Residential and commercial estate agents, lettings agencies, and property managers.',
-    status: 'Coming Soon',
-    statusColor: 'bg-amber-100 text-amber-700',
+    status: 'Live',
+    statusColor: 'bg-green-100 text-green-700',
   },
   {
     number: '30,000+',

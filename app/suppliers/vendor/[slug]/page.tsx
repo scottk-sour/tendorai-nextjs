@@ -73,6 +73,7 @@ const SERVICE_COLORS: Record<string, string> = {
 };
 
 const PRACTICE_AREA_COLORS: Record<string, string> = {
+  // Solicitor
   Conveyancing: 'bg-blue-100 text-blue-800',
   'Family Law': 'bg-pink-100 text-pink-800',
   'Criminal Law': 'bg-red-100 text-red-800',
@@ -81,6 +82,22 @@ const PRACTICE_AREA_COLORS: Record<string, string> = {
   'Wills & Probate': 'bg-purple-100 text-purple-800',
   Immigration: 'bg-teal-100 text-teal-800',
   'Personal Injury': 'bg-orange-100 text-orange-800',
+  // Mortgage Advisor
+  'Residential Mortgages': 'bg-blue-100 text-blue-800',
+  'Buy-to-Let': 'bg-sky-100 text-sky-800',
+  Remortgage: 'bg-cyan-100 text-cyan-800',
+  'First-Time Buyer': 'bg-teal-100 text-teal-800',
+  'Equity Release': 'bg-indigo-100 text-indigo-800',
+  'Commercial Mortgages': 'bg-slate-100 text-slate-800',
+  'Protection Insurance': 'bg-blue-50 text-blue-700',
+  // Estate Agent
+  Sales: 'bg-orange-100 text-orange-800',
+  Lettings: 'bg-amber-100 text-amber-800',
+  'Property Management': 'bg-yellow-100 text-yellow-800',
+  'Block Management': 'bg-rose-100 text-rose-800',
+  Auctions: 'bg-red-100 text-red-800',
+  'Commercial Property': 'bg-amber-50 text-amber-700',
+  Inventory: 'bg-pink-100 text-pink-800',
 };
 
 // Map service names to category slugs for linking
@@ -95,6 +112,7 @@ const SERVICE_TO_SLUG: Record<string, string> = {
 
 // Map practice areas to category slugs
 const PRACTICE_AREA_TO_SLUG: Record<string, string> = {
+  // Solicitor
   Conveyancing: 'conveyancing',
   'Family Law': 'family-law',
   'Criminal Law': 'criminal-law',
@@ -103,6 +121,22 @@ const PRACTICE_AREA_TO_SLUG: Record<string, string> = {
   'Wills & Probate': 'wills-and-probate',
   Immigration: 'immigration',
   'Personal Injury': 'personal-injury',
+  // Mortgage Advisor
+  'Residential Mortgages': 'residential-mortgages',
+  'Buy-to-Let': 'buy-to-let',
+  Remortgage: 'remortgage',
+  'First-Time Buyer': 'first-time-buyer',
+  'Equity Release': 'equity-release',
+  'Commercial Mortgages': 'commercial-mortgages',
+  'Protection Insurance': 'protection-insurance',
+  // Estate Agent
+  Sales: 'sales',
+  Lettings: 'lettings',
+  'Property Management': 'property-management',
+  'Block Management': 'block-management',
+  Auctions: 'auctions',
+  'Commercial Property': 'commercial-property',
+  Inventory: 'inventory',
 };
 
 function postcodeToLocation(code: string): { name: string; region: string } | null {
@@ -151,6 +185,9 @@ async function getVendorBySlug(slug: string) {
         vendorType: 1,
         practiceAreas: 1,
         sraNumber: 1,
+        fcaNumber: 1,
+        propertymarkNumber: 1,
+        propertymarkQualification: 1,
         regulatoryBody: 1,
         contactInfo: 1,
         claimed: 1,
@@ -179,17 +216,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Supplier Not Found | TendorAI' };
   }
 
-  const isSolicitor = vendor.vendorType === 'solicitor';
-  const primaryService = isSolicitor
-    ? (vendor.practiceAreas?.[0] || 'Solicitors')
+  const isProfessional = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'].includes(vendor.vendorType || '');
+  const vendorTypeLabels: Record<string, string> = {
+    solicitor: 'Solicitors',
+    accountant: 'Accountants',
+    'mortgage-advisor': 'Mortgage Advisors',
+    'estate-agent': 'Estate Agents',
+  };
+  const vendorTypeLabel = vendorTypeLabels[vendor.vendorType || ''] || 'Supplier';
+  const primaryService = isProfessional
+    ? (vendor.practiceAreas?.[0] || vendorTypeLabel)
     : (vendor.services?.[0] || 'Office Equipment');
   const city = vendor.location?.city || 'the UK';
-  const suffix = isSolicitor ? 'Solicitors' : 'Supplier';
-  const title = `${vendor.company} | ${primaryService} ${suffix} in ${city} | TendorAI`;
+  const title = `${vendor.company} | ${primaryService} ${vendorTypeLabel} in ${city} | TendorAI`;
+
+  const regulatoryLabels: Record<string, string> = {
+    solicitor: `SRA-regulated ${vendor.practiceAreas?.join(', ') || 'solicitors'}`,
+    accountant: `${vendor.practiceAreas?.join(', ') || 'accountants'}`,
+    'mortgage-advisor': `FCA-authorised ${vendor.practiceAreas?.join(', ') || 'mortgage advisors'}`,
+    'estate-agent': `${vendor.practiceAreas?.join(', ') || 'estate agents'}`,
+  };
+
   const description =
     vendor.businessProfile?.description?.slice(0, 140) ||
-    (isSolicitor
-      ? `${vendor.company} — SRA-regulated ${vendor.practiceAreas?.join(', ') || 'solicitors'} in ${city}. View profile on TendorAI.`
+    (isProfessional
+      ? `${vendor.company} — ${regulatoryLabels[vendor.vendorType || ''] || vendor.practiceAreas?.join(', ') || vendorTypeLabel} in ${city}. View profile on TendorAI.`
       : `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare suppliers and request quotes on TendorAI.`);
 
   return {
@@ -263,12 +314,21 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   // Build location link (lowercase, hyphenated)
   const locationSlug = city ? city.toLowerCase().replace(/\s+/g, '-') : null;
 
-  const isSolicitor = vendor.vendorType === 'solicitor';
+  const isProfessional = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'].includes(vendor.vendorType || '');
 
-  // JSON-LD — LegalService for solicitors, LocalBusiness for equipment
+  // Schema.org type mapping
+  const schemaTypeMap: Record<string, string> = {
+    solicitor: 'LegalService',
+    accountant: 'AccountingService',
+    'mortgage-advisor': 'FinancialService',
+    'estate-agent': 'RealEstateAgent',
+  };
+  const schemaType = schemaTypeMap[vendor.vendorType || ''] || 'LocalBusiness';
+
+  // JSON-LD — professional service type or LocalBusiness for equipment
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': isSolicitor ? 'LegalService' : 'LocalBusiness',
+    '@type': schemaType,
     '@id': `https://www.tendorai.com/suppliers/vendor/${slug}`,
     name: vendor.company,
     description:
@@ -352,14 +412,24 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
 
             <div className="flex items-center gap-3">
               <h1 className="text-3xl md:text-4xl font-bold">{vendor.company}</h1>
-              {isSolicitor && (
+              {vendor.vendorType === 'solicitor' && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
                   SRA Regulated
                 </span>
               )}
+              {vendor.vendorType === 'mortgage-advisor' && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-500/80 text-white">
+                  FCA Authorised
+                </span>
+              )}
+              {vendor.vendorType === 'estate-agent' && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/80 text-white">
+                  Propertymark Member
+                </span>
+              )}
             </div>
 
-            {isSolicitor && vendor.sraNumber && (
+            {vendor.vendorType === 'solicitor' && vendor.sraNumber && (
               <p className="text-sm text-purple-200 mt-1">
                 SRA No:{' '}
                 <a
@@ -369,6 +439,34 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                   rel="noopener noreferrer"
                 >
                   {vendor.sraNumber}
+                </a>
+              </p>
+            )}
+
+            {vendor.vendorType === 'mortgage-advisor' && vendor.fcaNumber && (
+              <p className="text-sm text-purple-200 mt-1">
+                FCA No:{' '}
+                <a
+                  href={`https://register.fca.org.uk/s/`}
+                  className="underline hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {vendor.fcaNumber}
+                </a>
+              </p>
+            )}
+
+            {vendor.vendorType === 'estate-agent' && vendor.propertymarkNumber && (
+              <p className="text-sm text-purple-200 mt-1">
+                Propertymark No:{' '}
+                <a
+                  href={`https://www.propertymark.co.uk/find-an-agent/`}
+                  className="underline hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {vendor.propertymarkNumber}
                 </a>
               </p>
             )}
@@ -383,8 +481,8 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Practice areas for solicitors */}
-            {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+            {/* Practice areas for professional services */}
+            {isProfessional && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
                 {vendor.practiceAreas.map((area: string) => (
                   <Link
@@ -399,7 +497,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
             )}
 
             {/* Services for office equipment */}
-            {!isSolicitor && vendor.services && vendor.services.length > 0 && (
+            {!isProfessional && vendor.services && vendor.services.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
                 {vendor.services.map((service: string) => (
                   <Link
@@ -424,9 +522,11 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-5">At a Glance</h3>
                 <div className="space-y-5">
-                  {isSolicitor && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
+                  {isProfessional && vendor.practiceAreas && vendor.practiceAreas.length > 0 && (
                     <div>
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Practice Areas</p>
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                        {vendor.vendorType === 'estate-agent' ? 'Services' : vendor.vendorType === 'mortgage-advisor' ? 'Specialisms' : 'Practice Areas'}
+                      </p>
                       <div className="flex flex-wrap gap-1.5">
                         {vendor.practiceAreas.map((area: string) => (
                           <span
@@ -440,7 +540,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                     </div>
                   )}
 
-                  {!isSolicitor && vendor.services && vendor.services.length > 0 && (
+                  {!isProfessional && vendor.services && vendor.services.length > 0 && (
                     <div>
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Services</p>
                       <div className="flex flex-wrap gap-1.5">
