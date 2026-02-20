@@ -18,26 +18,57 @@ export const revalidate = 3600; // Revalidate every hour
 
 async function getCategoryCounts(): Promise<Record<string, number>> {
   await connectDB();
-  const stats = await Vendor.aggregate([
-    {
-      $match: {
-        'account.status': 'active',
-        'account.verificationStatus': 'verified',
-      },
-    },
-    { $unwind: '$services' },
-    {
-      $group: {
-        _id: '$services',
-        count: { $sum: 1 },
-      },
-    },
+
+  const statusFilter = {
+    $or: [
+      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+      { listingStatus: 'unclaimed' },
+    ],
+  };
+
+  const [equipmentStats, solicitorStats, accountantCount, mortgageStats, estateStats] = await Promise.all([
+    // Equipment: group by services field
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: { $nin: ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'] } } },
+      { $unwind: '$services' },
+      { $group: { _id: '$services', count: { $sum: 1 } } },
+    ]),
+    // Solicitors: group by practiceAreas
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: 'solicitor' } },
+      { $unwind: '$practiceAreas' },
+      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
+    ]),
+    // Accountants: total count (practiceAreas not populated yet)
+    Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' }),
+    // Mortgage advisors: group by practiceAreas
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: 'mortgage-advisor' } },
+      { $unwind: '$practiceAreas' },
+      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
+    ]),
+    // Estate agents: group by practiceAreas
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: 'estate-agent' } },
+      { $unwind: '$practiceAreas' },
+      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
+    ]),
   ]);
 
   const counts: Record<string, number> = {};
-  stats.forEach((stat: { _id: string; count: number }) => {
-    counts[stat._id] = stat.count;
-  });
+
+  // Equipment
+  equipmentStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
+  // Solicitors
+  solicitorStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
+  // Accountants — apply total to each subcategory
+  const accountantSubcategories = ['Tax Advisory', 'Audit & Assurance', 'Bookkeeping', 'Payroll', 'Corporate Finance', 'Business Advisory', 'VAT', 'Financial Planning'];
+  accountantSubcategories.forEach((name) => { counts[name] = accountantCount; });
+  // Mortgage advisors
+  mortgageStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
+  // Estate agents
+  estateStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
+
   return counts;
 }
 
