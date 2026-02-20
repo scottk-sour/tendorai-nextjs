@@ -32,9 +32,24 @@ const sectors = [
     iconColor: 'text-emerald-600',
   },
   {
+    title: 'Office Equipment',
+    description:
+      '1,300+ verified suppliers. Photocopiers, telecoms, CCTV, and IT services. The original TendorAI vertical \u2014 structured data for office equipment dealers across the UK.',
+    cta: 'Find Suppliers',
+    href: '/suppliers',
+    comingSoon: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+      </svg>
+    ),
+    iconBg: 'bg-slate-50',
+    iconColor: 'text-slate-600',
+  },
+  {
     title: 'Mortgage Advisors',
     description:
-      '5,000+ FCA-authorised mortgage brokers. Residential, buy-to-let, remortgage, first-time buyer, and commercial lending. AI visibility for every type of mortgage advice.',
+      'FCA-authorised mortgage brokers across the UK. Residential, buy-to-let, remortgage, first-time buyer, and commercial lending. AI visibility for every type of mortgage advice.',
     cta: 'Find Mortgage Advisors',
     href: '/suppliers?vendorType=mortgage-advisor',
     comingSoon: false,
@@ -49,7 +64,7 @@ const sectors = [
   {
     title: 'Estate Agents',
     description:
-      '20,000+ estate agents across the UK. Residential sales, lettings, property management, and commercial property. Structured profiles for AI-driven property recommendations.',
+      'Propertymark-registered estate agents across the UK. Residential sales, lettings, property management, and commercial property. Structured profiles for AI-driven property recommendations.',
     cta: 'Join Waitlist',
     href: '/vendor-signup',
     comingSoon: true,
@@ -74,7 +89,7 @@ export default function SectorBenefits() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           {sectors.map((sector) => (
             <div
               key={sector.title}
