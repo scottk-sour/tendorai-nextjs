@@ -438,25 +438,56 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
 
           {/* Pricing summary */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            {[
-              { name: 'Free', price: '\u00A30', desc: 'Basic profile, ranked last', url: '/vendor-signup' },
-              { name: 'Starter', price: '\u00A3149/mo', desc: 'Pricing visible to AI, monthly AEO report', subtext: 'Early adopter (was \u00A3299)', url: '/vendor-signup?plan=starter' },
-              { name: 'Pro', price: '\u00A3299/mo', desc: 'Ranked first, weekly AEO reports, Verified badge', subtext: 'Early adopter (was \u00A3499)', url: '/vendor-signup?plan=pro' },
-            ].map((plan, i) => (
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            {/* Free */}
+            <div className="rounded-xl p-6 bg-white/10 flex flex-col">
+              <p className="font-bold text-lg">Free</p>
+              <p className="text-2xl font-bold my-1">&pound;0<span className="text-sm font-normal text-blue-200">/forever</span></p>
+              <p className="text-xs text-blue-200 mt-2 flex-1">
+                Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.
+              </p>
               <a
-                key={i}
-                href={plan.url}
-                className={`rounded-lg p-4 block transition-transform hover:scale-105 ${
-                  i === 2 ? 'bg-white text-[#1B4F72] ring-2 ring-white' : 'bg-white/10'
-                }`}
+                href="https://www.tendorai.com/vendor-signup?tier=free"
+                className="mt-4 block text-center px-4 py-2 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors"
               >
-                <p className={`font-bold text-lg ${i === 2 ? 'text-[#1B4F72]' : ''}`}>{plan.name}</p>
-                <p className={`text-2xl font-bold my-1 ${i === 2 ? 'text-[#1B4F72]' : ''}`}>{plan.price}</p>
-                {plan.subtext && <p className={`text-[10px] mb-1 ${i === 2 ? 'text-gray-400' : 'text-blue-300'}`}>{plan.subtext}</p>}
-                <p className={`text-xs ${i === 2 ? 'text-gray-500' : 'text-blue-200'}`}>{plan.desc}</p>
+                Claim Your Free Profile
               </a>
-            ))}
+            </div>
+
+            {/* Starter */}
+            <div className="rounded-xl p-6 bg-white/10 flex flex-col">
+              <p className="font-bold text-lg">Starter</p>
+              <p className="text-2xl font-bold my-1">&pound;149<span className="text-sm font-normal text-blue-200">/month</span></p>
+              <p className="text-[10px] text-blue-300">Early adopter price (was &pound;299)</p>
+              <p className="text-xs text-blue-200 mt-2 flex-1">
+                Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.
+              </p>
+              <a
+                href="https://www.tendorai.com/vendor-signup?tier=starter"
+                className="mt-4 block text-center px-4 py-2 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors"
+              >
+                Start Starter
+              </a>
+            </div>
+
+            {/* Pro — Most Popular */}
+            <div className="rounded-xl p-6 bg-white text-[#1B4F72] ring-2 ring-white flex flex-col relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-[#1B4F72] text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wide">
+                Most Popular
+              </span>
+              <p className="font-bold text-lg text-[#1B4F72]">Pro</p>
+              <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
+              <p className="text-[10px] text-gray-400">Early adopter price (was &pound;499)</p>
+              <p className="text-xs text-gray-500 mt-2 flex-1">
+                Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.
+              </p>
+              <a
+                href="https://www.tendorai.com/vendor-signup?tier=pro"
+                className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"
+              >
+                Start Pro
+              </a>
+            </div>
           </div>
         </section>
 

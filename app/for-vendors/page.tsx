@@ -139,7 +139,7 @@ export default function ForVendorsPage() {
                   <span className="text-4xl font-bold text-gray-900">£0</span>
                   <span className="text-gray-500">/forever</span>
                 </div>
-                <p className="text-sm text-gray-500">Basic profile, ranked last</p>
+                <p className="text-sm text-gray-500">Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.</p>
               </div>
               <ul className="space-y-3 mb-8">
                 {['Basic company profile', 'Listed in directory', 'Public register data', 'No pricing visible to AI'].map((f, i) => (
@@ -151,8 +151,8 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/vendor-signup?plan=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
-                Claim Your Profile
+              <Link href="https://www.tendorai.com/vendor-signup?tier=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
+                Claim Your Free Profile
               </Link>
             </div>
 
@@ -167,8 +167,9 @@ export default function ForVendorsPage() {
                   <span className="text-4xl font-bold text-gray-900">£149</span>
                   <span className="text-gray-500">/month</span>
                 </div>
-                <p className="text-xs font-medium text-purple-600">Early Adopter Price</p>
+                <p className="text-xs font-medium text-purple-600">Early adopter price</p>
               </div>
+              <p className="text-sm text-gray-500 text-center mb-6">Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.</p>
               <ul className="space-y-3 mb-8">
                 {['Pricing visible to AI', 'Ranked above free profiles', 'Monthly AEO report', 'AI visibility score', 'Up to 10 products'].map((f, i) => (
                   <li key={i} className="flex items-start space-x-3">
@@ -179,7 +180,7 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/vendor-signup?plan=starter" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
+              <Link href="https://www.tendorai.com/vendor-signup?tier=starter" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
                 Start Starter
               </Link>
             </div>
@@ -202,8 +203,9 @@ export default function ForVendorsPage() {
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
                   </div>
-                  <p className="text-xs font-medium text-amber-600">Early Adopter Price</p>
+                  <p className="text-xs font-medium text-amber-600">Early adopter price</p>
                 </div>
+                <p className="text-sm text-gray-500 text-center mb-6">Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.</p>
                 <ul className="space-y-3 mb-8">
                   {['Ranked first in AI results', 'Full structured data to AI', 'AI mention tracking', 'Weekly AEO reports', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'].map((f, i) => (
                     <li key={i} className="flex items-start space-x-3">
@@ -214,7 +216,7 @@ export default function ForVendorsPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/vendor-signup?plan=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                <Link href="https://www.tendorai.com/vendor-signup?tier=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                   Start Pro
                 </Link>
               </div>

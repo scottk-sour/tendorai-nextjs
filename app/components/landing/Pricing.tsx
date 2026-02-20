@@ -5,7 +5,7 @@ const plans = [
     name: 'Free',
     price: '£0',
     period: '/forever',
-    description: 'Basic profile, ranked last',
+    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.',
     popular: false,
     highlight: false,
     features: [
@@ -17,16 +17,16 @@ const plans = [
       { text: 'AEO reports', included: false },
       { text: 'Priority ranking', included: false },
     ],
-    cta: 'Claim Your Profile',
+    cta: 'Claim Your Free Profile',
     ctaStyle: 'btn-secondary',
-    href: '/vendor-signup?plan=free',
+    href: 'https://www.tendorai.com/vendor-signup?tier=free',
   },
   {
     name: 'Starter',
     price: '£149',
     originalPrice: '£299',
     period: '/month',
-    description: 'Early Adopter Price',
+    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.',
     popular: false,
     highlight: false,
     features: [
@@ -40,14 +40,14 @@ const plans = [
     ],
     cta: 'Start Starter',
     ctaStyle: 'btn-secondary',
-    href: '/vendor-signup?plan=starter',
+    href: 'https://www.tendorai.com/vendor-signup?tier=starter',
   },
   {
     name: 'Pro',
     price: '£299',
     originalPrice: '£499',
     period: '/month',
-    description: 'Early Adopter Price',
+    description: 'Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.',
     popular: true,
     highlight: true,
     features: [
@@ -61,7 +61,7 @@ const plans = [
     ],
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
-    href: '/vendor-signup?plan=pro',
+    href: 'https://www.tendorai.com/vendor-signup?tier=pro',
   },
 ];
 
