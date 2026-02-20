@@ -83,7 +83,7 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Check if AI recommends your business. TendorAI provides free AI visibility reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.";
+const newDescription = "Check if AI recommends your business. TendorAI provides free AEO reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.";
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility Platform for UK Businesses | Free AEO Reports" },

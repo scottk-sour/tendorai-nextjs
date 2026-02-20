@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: '%s | TendorAI',
   },
   description:
-    "Check if AI recommends your business. TendorAI provides free AI visibility reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.",
+    "Check if AI recommends your business. TendorAI provides free AEO reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
