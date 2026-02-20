@@ -43,8 +43,8 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 The UK's AI Visibility Platform" },
-  description: "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for suppliers, structured data profiles, GEO audit, AEO report',
+  description: "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, GEO audit, AEO report',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.tendorai.com/',
     title: "TendorAI \u2014 The UK's AI Visibility Platform",
-    description: "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
+    description: "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
     siteName: 'TendorAI',
     locale: 'en_GB',
     images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
@@ -75,35 +75,15 @@ export const metadata: Metadata = {
 };
 
 // JSON-LD Schema
-const localBusinessSchema = {
+const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': 'https://www.tendorai.com/#business',
+  '@type': 'Organization',
   name: 'TendorAI',
-  description: "TendorAI is the UK's AI Visibility Platform. We help businesses get recommended by ChatGPT, Claude, and Perplexity through structured data profiles and AI visibility optimisation. 11,000+ UK businesses listed.",
   url: 'https://www.tendorai.com',
-  image: 'https://www.tendorai.com/logo.png',
-  address: {
-    '@type': 'PostalAddress',
-    addressRegion: 'Wales',
-    addressCountry: 'GB',
-  },
-  areaServed: [
-    {
-      '@type': 'Country',
-      name: 'United Kingdom',
-    },
-  ],
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'AI Visibility Services',
-    itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility Profiles' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AEO Reports' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Mention Tracking' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'GEO Audit' } },
-    ],
-  },
+  description: "The UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents.",
+  foundingDate: '2025',
+  areaServed: 'GB',
+  sameAs: ['https://www.linkedin.com/company/tendorai'],
 };
 
 const websiteSchema = {
@@ -111,7 +91,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'TendorAI',
   url: 'https://www.tendorai.com',
-  description: "The UK's AI Visibility Platform — helping businesses get recommended by ChatGPT, Claude, and Perplexity",
+  description: 'AI visibility platform for UK businesses. Free AEO reports, structured data profiles, and AI recommendation tracking.',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://www.tendorai.com/suppliers?q={search_term_string}',
@@ -158,7 +138,7 @@ export default async function HomePage() {
       {/* Schema.org JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <script
         type="application/ld+json"

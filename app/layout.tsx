@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: '%s | TendorAI',
   },
   description:
-    "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
+    "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: 'TendorAI',
     title: "TendorAI \u2014 The UK's AI Visibility Platform",
     description:
-      "Get your business recommended by AI. Free AI visibility reports and structured data profiles for UK solicitors, accountants, and office equipment suppliers.",
+      "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
     images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: "TendorAI - The UK's AI Visibility Platform" }],
   },
   twitter: {
