@@ -54,9 +54,36 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ? `Find Propertymark-registered ${service.name.toLowerCase()} estate agents across the UK. Compare fees, coverage and reviews on TendorAI.`
           : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
 
+  // Noindex thin pages with fewer than 3 results
+  await connectDB();
+  const statusFilter = {
+    $or: [
+      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+      { listingStatus: 'unclaimed' },
+    ],
+  };
+  let vendorFilter;
+  if (isSolicitor) {
+    const practiceArea = getPracticeAreaFromSlug(category);
+    vendorFilter = practiceArea ? { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea } : statusFilter;
+  } else if (isAccountant) {
+    vendorFilter = { ...statusFilter, vendorType: 'accountant' };
+  } else if (isMortgageAdvisor) {
+    const serviceArea = getMortgageServiceArea(category);
+    vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else if (isEstateAgent) {
+    const serviceArea = getEstateAgentServiceArea(category);
+    vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else {
+    const serviceName = getServiceFromSlug(category);
+    vendorFilter = serviceName ? { ...statusFilter, services: serviceName } : statusFilter;
+  }
+  const vendorCount = await Vendor.countDocuments(vendorFilter);
+
   return {
     title,
     description,
+    ...(vendorCount < 3 && { robots: { index: false, follow: true } }),
     openGraph: { title, description, url: `https://www.tendorai.com/suppliers/${category}` },
     alternates: { canonical: `https://www.tendorai.com/suppliers/${category}` },
   };

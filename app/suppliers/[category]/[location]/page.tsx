@@ -55,9 +55,51 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ? `Find Propertymark-registered ${service.name.toLowerCase()} estate agents in ${locationName}. Compare fees, coverage and reviews on TendorAI.`
           : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
+  // Noindex thin pages with fewer than 3 results
+  await connectDB();
+  const normalizedLoc = location.replace(/-/g, ' ');
+  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+
+  let categoryFilter;
+  if (isSolicitor) {
+    const practiceArea = getPracticeAreaFromSlug(category);
+    categoryFilter = practiceArea ? { vendorType: 'solicitor', practiceAreas: practiceArea } : {};
+  } else if (isAccountant) {
+    categoryFilter = { vendorType: 'accountant' };
+  } else if (isMortgageAdvisor) {
+    const serviceArea = getMortgageServiceArea(category);
+    categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else if (isEstateAgent) {
+    const serviceArea = getEstateAgentServiceArea(category);
+    categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+  } else {
+    const serviceName = getServiceFromSlug(category);
+    categoryFilter = serviceName ? { services: serviceName } : {};
+  }
+
+  const locationFilter = isProfessional
+    ? { 'location.city': { $regex: new RegExp(`^${normalizedLoc}$`, 'i') } }
+    : {
+        $or: [
+          { 'location.coverage': { $regex: new RegExp(normalizedLoc, 'i') } },
+          { 'location.city': { $regex: new RegExp(normalizedLoc, 'i') } },
+          { 'location.region': { $regex: new RegExp(normalizedLoc, 'i') } },
+          { postcodeAreas: { $regex: new RegExp(normalizedLoc.substring(0, 2), 'i') } },
+        ],
+      };
+
+  const vendorCount = await Vendor.countDocuments({
+    $and: [
+      { $or: [{ 'account.status': 'active', 'account.verificationStatus': 'verified' }, { listingStatus: 'unclaimed' }] },
+      categoryFilter,
+      locationFilter,
+    ],
+  });
+
   return {
     title,
     description,
+    ...(vendorCount < 3 && { robots: { index: false, follow: true } }),
     openGraph: {
       title,
       description,
