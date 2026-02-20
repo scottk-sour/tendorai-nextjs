@@ -144,7 +144,7 @@ const faqSchema = {
       name: 'What industries does TendorAI cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Solicitors (8,600+ firms), accountants (1,300+), mortgage advisors (5,000+), estate agents (20,000+), and office equipment suppliers (1,044). We cover conveyancing, family law, tax advisory, residential mortgages, and more.',
+        text: 'Solicitors (8,600+ firms), accountants (1,300+), mortgage advisors, estate agents, and office equipment suppliers (1,000+). We cover conveyancing, family law, tax advisory, residential mortgages, and more.',
       },
     },
     {
