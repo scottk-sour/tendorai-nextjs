@@ -52,7 +52,7 @@ const verticals = [
 
 export default function Verticals() {
   return (
-    <section className="py-20 md:py-24 bg-white">
+    <section aria-label="supported industries" className="py-20 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>Built for every B2B vertical</h2>

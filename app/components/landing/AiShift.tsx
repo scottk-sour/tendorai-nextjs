@@ -28,7 +28,7 @@ const rows = [
 
 export default function AiShift() {
   return (
-    <section className="py-20 md:py-24 bg-white">
+    <section aria-label="the AI shift" className="py-20 md:py-24 bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>The shift has already happened</h2>

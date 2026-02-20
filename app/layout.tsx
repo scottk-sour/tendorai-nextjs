@@ -22,11 +22,11 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.tendorai.com'),
   title: {
-    default: "TendorAI \u2014 The UK's AI Visibility Platform",
+    default: "TendorAI \u2014 The UK's AI Visibility Platform | Free AEO Reports",
     template: '%s | TendorAI',
   },
   description:
-    "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
+    "Check if AI recommends your business. TendorAI provides free AI visibility reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
@@ -91,7 +91,7 @@ const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
-  description: "The UK's AI Visibility Platform. Structured data profiles for solicitors, accountants, and office equipment suppliers \u2014 so AI recommends them by name.",
+  description: "The UK's AI Visibility Platform. Free AEO reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
     '@type': 'SearchAction',
@@ -108,13 +108,18 @@ const organisationJsonLd = {
   '@type': 'Organization',
   name: 'TendorAI',
   legalName: 'TendorAI Ltd',
-  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Self-service structured data profiles for solicitors, accountants, and office equipment suppliers.',
+  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers.',
   url: 'https://www.tendorai.com/',
-  logo: 'https://www.tendorai.com/tendorai.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.tendorai.com/tendorai.png',
+    width: 575,
+    height: 283,
+  },
   foundingDate: '2024',
   contactPoint: {
     '@type': 'ContactPoint',
-    contactType: 'Customer Service',
+    contactType: 'sales',
     email: 'scott.davies@tendorai.com',
     availableLanguage: 'en',
   },
@@ -133,16 +138,45 @@ const organisationJsonLd = {
 const softwareAppJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'TendorAI',
+  name: 'TendorAI AEO Report',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'Self-service AI visibility platform for UK businesses. Get recommended by ChatGPT, Claude, and Perplexity. Free AI visibility reports, structured data profiles, and GEO audits.',
+  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, GEO audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
   offers: [
-    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'GBP', description: 'Basic profile listed in directory' },
-    { '@type': 'Offer', name: 'Starter', price: '149', priceCurrency: 'GBP', description: 'Full AI visibility with pricing visible to AI platforms' },
-    { '@type': 'Offer', name: 'Pro', price: '299', priceCurrency: 'GBP', description: 'Priority ranking in AI responses with full structured data' },
-    { '@type': 'Offer', name: 'Enterprise', price: '499', priceCurrency: 'GBP', description: 'Multi-location with API analytics and custom Schema.org' },
+    {
+      '@type': 'Offer',
+      name: 'Free',
+      price: '0',
+      priceCurrency: 'GBP',
+      description: 'Free AEO report and basic directory listing',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Starter',
+      price: '149',
+      priceCurrency: 'GBP',
+      description: 'AI visibility with pricing visible to AI platforms and monthly AEO reports',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '149',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+      },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro',
+      price: '299',
+      priceCurrency: 'GBP',
+      description: 'Priority ranking in AI responses with full structured data and weekly AEO reports',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '299',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+      },
+    },
   ],
 };
 

@@ -1,15 +1,19 @@
 import Link from 'next/link';
 
-const stats = [
-  { value: '11,000+', label: 'UK Businesses Listed' },
-  { value: '6', label: 'AI Platforms Tracked' },
-  { value: '£149/mo', label: 'Not £5,000/month' },
-  { value: 'Self-Serve', label: 'No Agency Needed' },
-];
+interface HeroProps {
+  totalVendors?: number;
+}
 
-export default function Hero() {
+export default function Hero({ totalVendors = 11000 }: HeroProps) {
+  const stats = [
+    { value: `${totalVendors.toLocaleString()}+`, label: 'UK Businesses' },
+    { value: '5', label: 'AI Platforms Connected' },
+    { value: '3', label: 'Regulatory Registers' },
+    { value: 'Free', label: 'AEO Reports' },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden bg-white">
+    <section aria-label="hero" className="relative min-h-screen flex items-center justify-center text-center overflow-hidden bg-white">
       {/* Radial glow backgrounds */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(102,126,234,0.08)_0%,transparent_70%)]" />
@@ -34,10 +38,11 @@ export default function Hero() {
           UK businesses
         </h1>
 
-        {/* Subtitle */}
+        {/* Subtitle — long-tail keywords */}
         <p className="text-base md:text-lg text-[var(--text2)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          When someone asks ChatGPT or Claude for a solicitor, AI needs structured data to answer.
-          TendorAI is that data. The more you add, the more AI recommends you.
+          When someone asks ChatGPT for a solicitor in Cardiff or a mortgage advisor in Bristol,
+          AI needs structured data to answer. TendorAI provides AI visibility for UK solicitors,
+          accountants, mortgage advisors, and estate agents &mdash; so AI recommends you by name.
         </p>
 
         {/* CTA Buttons */}

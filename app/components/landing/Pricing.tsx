@@ -76,7 +76,7 @@ const comparisonRows = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 md:py-24 bg-[var(--surface)]">
+    <section id="pricing" aria-label="pricing" className="py-20 md:py-24 bg-[var(--surface)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>Simple, transparent pricing</h2>

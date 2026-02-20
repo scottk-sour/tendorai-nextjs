@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function AeoReportCTA() {
   return (
-    <section className="py-20 md:py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-[#2d1b4e]">
+    <section aria-label="free AI visibility check" className="py-20 md:py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-[#2d1b4e]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="inline-flex items-center gap-2 bg-red-500/15 text-red-300 px-4 py-1.5 rounded-full text-sm font-medium mb-8">
           <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />

@@ -552,7 +552,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
   };
 
   return (
-    <section className="py-20 md:py-24 bg-[var(--surface)]">
+    <section aria-label="services" className="py-20 md:py-24 bg-[var(--surface)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>Browse by service</h2>

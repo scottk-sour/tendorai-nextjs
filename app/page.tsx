@@ -3,6 +3,7 @@ import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
 import AiShift from './components/landing/AiShift';
 import Features from './components/landing/Features';
+import SectorBenefits from './components/landing/SectorBenefits';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
@@ -72,26 +73,38 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
   return counts;
 }
 
+async function getTotalVendorCount(): Promise<number> {
+  await connectDB();
+  return Vendor.countDocuments({
+    $or: [
+      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+      { listingStatus: 'unclaimed' },
+    ],
+  });
+}
+
+const newDescription = "Check if AI recommends your business. TendorAI provides free AI visibility reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.";
+
 export const metadata: Metadata = {
-  title: { absolute: "TendorAI \u2014 The UK's AI Visibility Platform" },
-  description: "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, GEO audit, AEO report',
+  title: { absolute: "TendorAI \u2014 AI Visibility Platform for UK Businesses | Free AEO Reports" },
+  description: newDescription,
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, GEO audit, AEO report, free AEO score',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/',
-    title: "TendorAI \u2014 The UK's AI Visibility Platform",
-    description: "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
+    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses | Free AEO Reports",
+    description: newDescription,
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - Get Found by AI' }],
+    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI Visibility Platform for UK Businesses' }],
   },
   twitter: {
     card: 'summary',
-    title: "TendorAI \u2014 The UK's AI Visibility Platform",
-    description: "Get your business recommended by ChatGPT, Claude, and Perplexity. Free AI visibility reports for UK businesses.",
+    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses | Free AEO Reports",
+    description: newDescription,
     images: ['/logo.png'],
   },
   robots: {
@@ -105,31 +118,7 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD Schema
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  description: "The UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents.",
-  foundingDate: '2025',
-  areaServed: 'GB',
-  sameAs: ['https://www.linkedin.com/company/tendorai'],
-};
-
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  description: 'AI visibility platform for UK businesses. Free AEO reports, structured data profiles, and AI recommendation tracking.',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: 'https://www.tendorai.com/suppliers?q={search_term_string}',
-    'query-input': 'required name=search_term_string',
-  },
-};
-
+// Keep only FAQ schema — Organization and WebSite are in layout.tsx
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -147,7 +136,7 @@ const faqSchema = {
       name: 'Is TendorAI free to use?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Free to be listed with a basic profile. Paid tiers from £149/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.',
+        text: 'Yes \u2014 free to be listed with a basic profile and a free AEO report. Paid tiers from \u00a3149/month give you priority ranking in AI results, pricing visibility, and weekly AI visibility reports.',
       },
     },
     {
@@ -155,26 +144,29 @@ const faqSchema = {
       name: 'What industries does TendorAI cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Solicitors (10,000+ firms), office equipment dealers (1,044), with accountants, estate agents, and recruitment agencies coming soon.',
+        text: 'Solicitors (8,600+ firms), accountants (1,300+), mortgage advisors (5,000+), estate agents (20,000+), and office equipment suppliers (1,044). We cover conveyancing, family law, tax advisory, residential mortgages, and more.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is an AEO report?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'An AEO (Answer Engine Optimisation) report checks whether AI platforms like ChatGPT, Claude, and Perplexity recommend your business. TendorAI provides free AEO reports that show your AI visibility score in 60 seconds.',
       },
     },
   ],
 };
 
 export default async function HomePage() {
-  const categoryCounts = await getCategoryCounts();
+  const [categoryCounts, totalVendorCount] = await Promise.all([
+    getCategoryCounts(),
+    getTotalVendorCount(),
+  ]);
 
   return (
     <>
-      {/* Schema.org JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
+      {/* FAQ Schema — Organization & WebSite schemas are in layout.tsx */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -182,7 +174,7 @@ export default async function HomePage() {
 
       <main>
         {/* Hero */}
-        <Hero />
+        <Hero totalVendors={totalVendorCount} />
 
         {/* Problem — Cost comparison cards */}
         <ProblemSection />
@@ -190,8 +182,11 @@ export default async function HomePage() {
         {/* AI Shift — Old vs New comparison */}
         <AiShift />
 
-        {/* How It Works — 4 steps */}
+        {/* How TendorAI Works — 3 steps */}
         <Features />
+
+        {/* Sector Benefits — 4 vertical cards */}
+        <SectorBenefits />
 
         {/* AEO Report CTA */}
         <AeoReportCTA />

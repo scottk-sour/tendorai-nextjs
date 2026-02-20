@@ -36,7 +36,7 @@ const cards = [
 
 export default function SeoAeoGeo() {
   return (
-    <section className="py-20 md:py-24 bg-white">
+    <article aria-label="SEO vs AEO vs GEO" className="py-20 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>SEO Got You Found on Google. GEO Gets You Recommended by AI.</h2>
@@ -77,6 +77,6 @@ export default function SeoAeoGeo() {
           ))}
         </div>
       </div>
-    </section>
+    </article>
   );
 }

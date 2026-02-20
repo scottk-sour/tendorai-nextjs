@@ -27,7 +27,7 @@ const costCards = [
 
 export default function ProblemSection() {
   return (
-    <section className="py-20 md:py-24 bg-[var(--surface)]">
+    <section aria-label="cost comparison" className="py-20 md:py-24 bg-[var(--surface)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>The current options are expensive,<br className="hidden md:block" /> slow, or built for Google — not AI</h2>

@@ -72,7 +72,7 @@ export default function AiTestimonials() {
   const rest = testimonials.slice(1);
 
   return (
-    <section className="py-20 md:py-24 bg-[var(--surface)]">
+    <section aria-label="testimonials" className="py-20 md:py-24 bg-[var(--surface)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>What AI Platforms Say About TendorAI</h2>
