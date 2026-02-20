@@ -30,6 +30,29 @@ interface PageProps {
 
 export const revalidate = 3600;
 
+function getVerticalInfo(category: string) {
+  const service = SERVICES[category as keyof typeof SERVICES];
+  if (!service) return { regulatoryBody: null, regulatoryAbbr: null, profession: 'supplier' };
+  if (service.group === 'solicitor') return { regulatoryBody: 'Solicitors Regulation Authority', regulatoryAbbr: 'SRA', profession: 'solicitor' };
+  if (service.group === 'accountant') return { regulatoryBody: 'Institute of Chartered Accountants', regulatoryAbbr: 'ICAEW', profession: 'accountant' };
+  if (isMortgageAdvisorCategory(category)) return { regulatoryBody: 'Financial Conduct Authority', regulatoryAbbr: 'FCA', profession: 'mortgage advisor' };
+  if (isEstateAgentCategory(category)) return { regulatoryBody: 'Propertymark', regulatoryAbbr: 'Propertymark', profession: 'agent' };
+  return { regulatoryBody: null, regulatoryAbbr: null, profession: 'supplier' };
+}
+
+function getTopPracticeAreas(vendors: { practiceAreas?: string[] }[], limit = 3): string[] {
+  const counts: Record<string, number> = {};
+  for (const v of vendors) {
+    for (const pa of v.practiceAreas || []) {
+      counts[pa] = (counts[pa] || 0) + 1;
+    }
+  }
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([pa]) => pa);
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, location } = await params;
   const service = SERVICES[category as keyof typeof SERVICES];
@@ -292,7 +315,10 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   const nationalCards = nationalVendors.map((v) => toVendorCardData(v));
   const totalCount = localVendors.length + nationalVendors.length;
 
-  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent);
+  const vendorNames = allVendors.slice(0, 3).map((v) => v.company || '').filter(Boolean);
+  const vertical = getVerticalInfo(category);
+  const topPracticeAreas = getTopPracticeAreas(allVendors);
+  const faqs = generateFAQs(service.name, locationName, totalCount, category, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent, vendorNames);
 
   const schemaType = isSolicitor ? 'LegalService' : isAccountant ? 'AccountingService' : isMortgageAdvisor ? 'FinancialService' : isEstateAgent ? 'RealEstateAgent' : 'Service';
   const jsonLd = {
@@ -394,6 +420,13 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                       ? `Compare ${totalCount} ${service.name.toLowerCase()} estate agents in ${locationName}.`
                       : `Compare ${totalCount} ${service.name.toLowerCase()} suppliers serving ${locationName}. Get instant quotes from local businesses.`}
             </p>
+            {totalCount >= 3 && (
+              <p className="text-base text-purple-200 max-w-3xl mt-3">
+                {vertical.regulatoryAbbr
+                  ? `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} ${vertical.regulatoryAbbr}-regulated firms in ${locationName}. Every firm is verified against the ${vertical.regulatoryBody} register. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`
+                  : `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} verified suppliers in ${locationName}. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`}
+              </p>
+            )}
             {isSolicitor && (
               <p className="text-sm text-purple-300 mt-2">
                 Data supplied by the{' '}
@@ -432,6 +465,23 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             </p>
           </div>
         </section>
+
+        {/* Thin Page Message */}
+        {totalCount < 3 && (
+          <section className="bg-purple-50 border-b">
+            <div className="section py-8 text-center">
+              <p className="text-gray-700 text-lg mb-4">
+                We&apos;re building our {service.name.toLowerCase()} directory in {locationName}. Check back soon or check your AI visibility score now.
+              </p>
+              <Link
+                href="/aeo-report"
+                className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Check Your AI Visibility — Free
+              </Link>
+            </div>
+          </section>
+        )}
 
         {/* Location Guide Content */}
         {locationContent?.content && (
@@ -484,6 +534,41 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             <EmptyState service={service.name} location={locationName} category={category} isSolicitor={isSolicitor} isAccountant={isAccountant} isMortgageAdvisor={isMortgageAdvisor} isEstateAgent={isEstateAgent} />
           )}
         </section>
+
+        {/* About Section (3+ vendors) */}
+        {totalCount >= 3 && (
+          <section className="bg-white py-12 mt-8">
+            <div className="section max-w-4xl">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                About {service.name} in {locationName}
+              </h2>
+              <div className="text-gray-600 leading-relaxed space-y-4">
+                <p>
+                  There are {totalCount} {service.name.toLowerCase()} {suffix.toLowerCase()} in {locationName} on TendorAI
+                  {vertical.regulatoryAbbr ? `, sourced from the ${vertical.regulatoryBody} register` : ''}.
+                  {topPracticeAreas.length > 0 && (
+                    <> The most common specialisms in {locationName} are {topPracticeAreas.join(', ')}.</>
+                  )}
+                  {' '}Firms range from sole practitioners to large multi-partner practices.
+                </p>
+                <p>
+                  When people ask AI assistants like ChatGPT or Perplexity for {service.name.toLowerCase()} {suffix.toLowerCase()} in {locationName}, AI recommends firms with the strongest structured data — verified profiles, clear fee information, client reviews, and regulatory accreditations. TendorAI helps {locationName} firms get this data right.
+                </p>
+                <p>
+                  {locationName} firms can check their current AI visibility score for free using our AEO report tool.
+                </p>
+              </div>
+              <div className="mt-6">
+                <Link
+                  href="/aeo-report"
+                  className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Check Your AI Visibility — Free
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FAQ Section */}
         <section className="bg-white py-12 mt-8">
@@ -553,7 +638,57 @@ export default async function CategoryLocationPage({ params }: PageProps) {
   );
 }
 
-function generateFAQs(serviceName: string, locationName: string, vendorCount: number, categorySlug: string, isSolicitor: boolean, isAccountant: boolean = false, isMortgageAdvisor: boolean = false, isEstateAgent: boolean = false) {
+function generateFAQs(
+  serviceName: string,
+  locationName: string,
+  vendorCount: number,
+  categorySlug: string,
+  isSolicitor: boolean,
+  isAccountant: boolean = false,
+  isMortgageAdvisor: boolean = false,
+  isEstateAgent: boolean = false,
+  vendorNames: string[] = [],
+) {
+  const vertical = getVerticalInfo(categorySlug);
+  const { regulatoryAbbr, profession } = vertical;
+  const suffix = isSolicitor ? 'solicitors' : isAccountant ? 'accountants' : isMortgageAdvisor ? 'mortgage advisors' : isEstateAgent ? 'estate agents' : 'suppliers';
+  const categoryLabel = `${serviceName.toLowerCase()} ${suffix}`;
+  const top3Names = vendorNames.slice(0, 3).join(', ') || `top ${suffix}`;
+  const now = new Date();
+  const currentMonthYear = `${now.toLocaleString('en-GB', { month: 'long' })} ${now.getFullYear()}`;
+
+  // Enhanced 5 FAQs for pages with 3+ vendors
+  if (vendorCount >= 3) {
+    const regText = regulatoryAbbr ? `${regulatoryAbbr}-registered and verified` : 'verified';
+    const regRegulated = regulatoryAbbr ? `${regulatoryAbbr}-regulated` : 'verified';
+
+    return [
+      {
+        question: `Who are the best ${categoryLabel} in ${locationName}?`,
+        answer: `TendorAI lists ${vendorCount} verified ${categoryLabel} in ${locationName}. Highly rated firms include ${top3Names}. All firms are ${regText}.`,
+      },
+      {
+        question: `How many ${categoryLabel} are there in ${locationName}?`,
+        answer: `There are ${vendorCount} ${regRegulated} ${categoryLabel} in ${locationName} listed on TendorAI as of ${currentMonthYear}.`,
+      },
+      {
+        question: `How do I choose a ${profession} in ${locationName}?`,
+        answer: regulatoryAbbr
+          ? `Check their ${regulatoryAbbr} registration status, read client reviews, compare fees and specialisms, and check their AI visibility score on TendorAI. Firms with higher AI visibility are more likely to be recommended by ChatGPT, Perplexity, and other AI assistants.`
+          : `Read client reviews, compare services and accreditations, and check their AI visibility score on TendorAI. Suppliers with higher AI visibility are more likely to be recommended by ChatGPT, Perplexity, and other AI assistants.`,
+      },
+      {
+        question: `What does a ${profession} in ${locationName} cost?`,
+        answer: `Fees vary by firm and service type. On TendorAI, firms with claimed profiles display their fee structures so you can compare before making contact. Check individual firm profiles for current pricing.`,
+      },
+      {
+        question: `Does AI recommend ${categoryLabel} in ${locationName}?`,
+        answer: `Yes. AI assistants like ChatGPT and Perplexity already recommend specific ${categoryLabel} in ${locationName} by name. TendorAI provides the structured data these AI systems use to make recommendations. Firms with verified TendorAI profiles appear more frequently in AI answers.`,
+      },
+    ];
+  }
+
+  // Fallback FAQs for thin pages (< 3 vendors)
   if (isSolicitor) {
     return [
       {
@@ -561,16 +696,8 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
         answer: `TendorAI lists ${vendorCount} SRA-regulated ${serviceName.toLowerCase()} solicitors in ${locationName}. You can compare firms by reviews, accreditations, and practice areas. All firms are authorised by the Solicitors Regulation Authority.`,
       },
       {
-        question: `How many ${serviceName.toLowerCase()} solicitors are there in ${locationName}?`,
-        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} solicitor firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area, all sourced from the SRA register.`,
-      },
-      {
         question: `Are these solicitors regulated?`,
         answer: `Yes — every solicitor firm listed on TendorAI is authorised and regulated by the SRA. Each profile links to the firm's SRA register entry so you can verify their status directly.`,
-      },
-      {
-        question: `How much do ${serviceName.toLowerCase()} solicitors cost in ${locationName}?`,
-        answer: `Fees for ${serviceName.toLowerCase()} solicitors in ${locationName} vary by firm and complexity. Firms that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact firms directly.`,
       },
     ];
   }
@@ -579,19 +706,11 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
     return [
       {
         question: `How do I find the best ${serviceName.toLowerCase()} accountant in ${locationName}?`,
-        answer: `TendorAI lists ${vendorCount} ICAEW-regulated ${serviceName.toLowerCase()} accountants in ${locationName}. You can compare firms by reviews, accreditations, and practice areas. All firms are regulated by the Institute of Chartered Accountants in England and Wales.`,
-      },
-      {
-        question: `How many ${serviceName.toLowerCase()} accountants are there in ${locationName}?`,
-        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} accountancy firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area, sourced from ICAEW data.`,
+        answer: `TendorAI lists ${vendorCount} ICAEW-regulated ${serviceName.toLowerCase()} accountants in ${locationName}. You can compare firms by reviews, accreditations, and practice areas.`,
       },
       {
         question: `Are these accountants regulated?`,
         answer: `Yes — every accountancy firm listed on TendorAI is regulated by the ICAEW. Each profile links to the firm's ICAEW directory entry so you can verify their status directly.`,
-      },
-      {
-        question: `How much do ${serviceName.toLowerCase()} accountants cost in ${locationName}?`,
-        answer: `Fees for ${serviceName.toLowerCase()} accountants in ${locationName} vary by firm and complexity. Firms that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact firms directly.`,
       },
     ];
   }
@@ -599,20 +718,12 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
   if (isMortgageAdvisor) {
     return [
       {
-        question: `How do I find the best ${serviceName.toLowerCase()} mortgage advisor in ${locationName}?`,
+        question: `How do I find ${serviceName.toLowerCase()} mortgage advisors in ${locationName}?`,
         answer: `TendorAI lists ${vendorCount} FCA-authorised ${serviceName.toLowerCase()} mortgage advisors in ${locationName}. You can compare advisors by reviews, lender panels, and specialisms.`,
       },
       {
-        question: `How many ${serviceName.toLowerCase()} mortgage advisors are there in ${locationName}?`,
-        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} mortgage advisory firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area.`,
-      },
-      {
         question: `Are these mortgage advisors regulated?`,
-        answer: `Yes — all mortgage advisors listed on TendorAI are authorised and regulated by the Financial Conduct Authority (FCA). Each profile links to the firm's FCA register entry so you can verify their status directly.`,
-      },
-      {
-        question: `How much do ${serviceName.toLowerCase()} mortgage advisors charge in ${locationName}?`,
-        answer: `Fees for ${serviceName.toLowerCase()} mortgage advisors in ${locationName} vary by firm and service. Some charge a flat fee, others work on commission from the lender. Advisors that have claimed their TendorAI profile may display indicative pricing.`,
+        answer: `Yes — all mortgage advisors listed on TendorAI are authorised and regulated by the Financial Conduct Authority (FCA).`,
       },
     ];
   }
@@ -620,49 +731,24 @@ function generateFAQs(serviceName: string, locationName: string, vendorCount: nu
   if (isEstateAgent) {
     return [
       {
-        question: `How do I find the best ${serviceName.toLowerCase()} estate agent in ${locationName}?`,
+        question: `How do I find ${serviceName.toLowerCase()} estate agents in ${locationName}?`,
         answer: `TendorAI lists ${vendorCount} ${serviceName.toLowerCase()} estate agents in ${locationName}. You can compare agents by reviews, fees, and coverage area.`,
       },
       {
-        question: `How many ${serviceName.toLowerCase()} estate agents are there in ${locationName}?`,
-        answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} estate agency firm${vendorCount !== 1 ? 's' : ''} in the ${locationName} area.`,
-      },
-      {
         question: `Are these estate agents accredited?`,
-        answer: `TendorAI lists estate agents including those registered with Propertymark (NAEA/ARLA). Each profile shows the agent's accreditations so you can verify their status directly.`,
-      },
-      {
-        question: `How much do ${serviceName.toLowerCase()} estate agents charge in ${locationName}?`,
-        answer: `Fees for ${serviceName.toLowerCase()} estate agents in ${locationName} vary by agency and service type. Agents that have claimed their TendorAI profile may display indicative pricing. The best way to get accurate quotes is to contact agents directly.`,
+        answer: `TendorAI lists estate agents including those registered with Propertymark (NAEA/ARLA). Each profile shows the agent's accreditations.`,
       },
     ];
   }
 
-  const categoryTips: Record<string, string[]> = {
-    photocopiers: ['Check for manufacturer accreditations', 'Compare lease vs purchase options', 'Ask about managed print services'],
-    telecoms: ['Verify cloud VoIP vs on-premise support', 'Check Teams/Zoom integration', 'Ask about call recording features'],
-    cctv: ['Look for NSI Gold or SSAIB accreditation', 'Check remote monitoring options', 'Ask about analytics features'],
-    it: ['Verify response time SLAs', 'Check managed vs co-managed options', 'Ask about cybersecurity provisions'],
-    security: ['Check for NSI or SSAIB accreditation', 'Ask about integrated systems', 'Verify monitoring capabilities'],
-    software: ['Ensure training and onboarding support', 'Check integration capabilities', 'Ask about data migration'],
-  };
-
-  const tips = categoryTips[categorySlug] || [];
-
   return [
     {
-      question: `How do I find the best ${serviceName.toLowerCase()} supplier in ${locationName}?`,
-      answer: `TendorAI makes it easy to compare ${serviceName.toLowerCase()} suppliers serving ${locationName}. You can compare services, check accreditations, and request quotes from multiple suppliers.`,
+      question: `How do I find ${serviceName.toLowerCase()} suppliers in ${locationName}?`,
+      answer: `TendorAI makes it easy to compare ${serviceName.toLowerCase()} suppliers serving ${locationName}. You can compare services, check accreditations, and request quotes.`,
     },
     {
       question: `How many ${serviceName.toLowerCase()} companies operate in ${locationName}?`,
       answer: `TendorAI currently lists ${vendorCount} ${serviceName.toLowerCase()} supplier${vendorCount !== 1 ? 's' : ''} serving the ${locationName} area.`,
-    },
-    {
-      question: `What should I look for when choosing a ${serviceName.toLowerCase()} supplier?`,
-      answer: tips.length > 0
-        ? `Key factors: ${tips.join('. ')}.`
-        : `Consider experience, accreditations, response times, and coverage area when choosing a ${serviceName.toLowerCase()} supplier.`,
     },
   ];
 }

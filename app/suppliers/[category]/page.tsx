@@ -360,6 +360,23 @@ export default async function CategoryPage({ params }: PageProps) {
           </div>
         </section>
 
+        {/* Thin Page Message */}
+        {vendorCount < 3 && (
+          <section className="bg-purple-50 border-b">
+            <div className="section py-8 text-center">
+              <p className="text-gray-700 text-lg mb-4">
+                We&apos;re building our {service.name.toLowerCase()} directory. Check back soon or check your AI visibility score now.
+              </p>
+              <Link
+                href="/aeo-report"
+                className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Check Your AI Visibility — Free
+              </Link>
+            </div>
+          </section>
+        )}
+
         {/* Locations Grid */}
         <section className="py-12">
           <div className="section">
