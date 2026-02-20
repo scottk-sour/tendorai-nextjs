@@ -20,8 +20,8 @@ export const PLANS: Plan[] = [
     id: 'free',
     name: 'Free',
     price: 0,
-    priceLabel: 'Free',
-    description: 'Basic listing for new vendors',
+    priceLabel: '£0/forever',
+    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.',
     features: [
       { text: 'Company listing', included: true },
       { text: 'Up to 3 products/services', included: true },
@@ -34,7 +34,7 @@ export const PLANS: Plan[] = [
       { text: '+15 visibility score points', included: false },
       { text: 'Verified badge', included: false },
     ],
-    cta: 'Current Plan',
+    cta: 'Claim Your Free Profile',
     popular: false,
   },
   {
@@ -43,7 +43,7 @@ export const PLANS: Plan[] = [
     price: 149,
     priceLabel: '£149/mo',
     originalPrice: 299,
-    description: 'Early adopter pricing — normally £299/mo',
+    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.',
     features: [
       { text: 'Company listing', included: true },
       { text: 'Up to 10 products/services', included: true },
@@ -56,8 +56,8 @@ export const PLANS: Plan[] = [
       { text: 'Monthly AEO visibility report', included: true },
       { text: 'Verified badge + priority ranking', included: false },
     ],
-    cta: 'Upgrade to Starter',
-    popular: true,
+    cta: 'Start Starter',
+    popular: false,
   },
   {
     id: 'pro',
@@ -65,7 +65,7 @@ export const PLANS: Plan[] = [
     price: 299,
     priceLabel: '£299/mo',
     originalPrice: 499,
-    description: 'Early adopter pricing — normally £499/mo',
+    description: 'Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.',
     features: [
       { text: 'Everything in Starter', included: true },
       { text: 'Unlimited products/services', included: true },
@@ -77,7 +77,7 @@ export const PLANS: Plan[] = [
       { text: 'Featured placement', included: true },
       { text: 'Priority support', included: true },
     ],
-    cta: 'Upgrade to Pro',
-    popular: false,
+    cta: 'Start Pro',
+    popular: true,
   },
 ];
