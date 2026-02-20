@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor, VendorProduct } from '@/lib/db/models';
-import { getServiceFromSlug, calculatePriorityScore, getDisplayTier } from '@/lib/constants';
+import {
+  getServiceFromSlug,
+  calculatePriorityScore,
+  getDisplayTier,
+  isSolicitorCategory,
+  isAccountantCategory,
+  isMortgageAdvisorCategory,
+  isEstateAgentCategory,
+  getPracticeAreaFromSlug,
+  getMortgageServiceArea,
+  getEstateAgentServiceArea,
+} from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,9 +38,22 @@ export async function GET(request: NextRequest) {
     ];
 
     if (category) {
-      const serviceName = getServiceFromSlug(category);
-      if (serviceName) {
-        conditions.push({ services: { $regex: new RegExp(serviceName, 'i') } });
+      if (isSolicitorCategory(category)) {
+        const practiceArea = getPracticeAreaFromSlug(category);
+        conditions.push({ vendorType: 'solicitor', ...(practiceArea && { practiceAreas: practiceArea }) });
+      } else if (isAccountantCategory(category)) {
+        conditions.push({ vendorType: 'accountant' });
+      } else if (isMortgageAdvisorCategory(category)) {
+        const serviceArea = getMortgageServiceArea(category);
+        conditions.push({ vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) });
+      } else if (isEstateAgentCategory(category)) {
+        const serviceArea = getEstateAgentServiceArea(category);
+        conditions.push({ vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) });
+      } else {
+        const serviceName = getServiceFromSlug(category);
+        if (serviceName) {
+          conditions.push({ services: { $regex: new RegExp(serviceName, 'i') } });
+        }
       }
     }
 
