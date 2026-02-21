@@ -45,6 +45,18 @@ const nextConfig = {
         destination: '/aeo-report',
         permanent: true,
       },
+      // Old /services/ routes → supplier directory
+      {
+        source: '/services/:path*',
+        destination: '/suppliers',
+        permanent: true,
+      },
+      // Old /suppliers/it-services/ location pages
+      {
+        source: '/suppliers/it-services/:path*',
+        destination: '/suppliers',
+        permanent: true,
+      },
     ];
   },
 
