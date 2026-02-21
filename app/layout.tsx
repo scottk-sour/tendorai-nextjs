@@ -133,6 +133,10 @@ const organisationJsonLd = {
     '@type': 'Country',
     name: 'United Kingdom',
   },
+  sameAs: [
+    'https://www.linkedin.com/company/tendorai',
+    'https://api.tendorai.com',
+  ],
 };
 
 const softwareAppJsonLd = {
