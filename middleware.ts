@@ -28,6 +28,11 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
+  // Skip middleware for paths handled by next.config.js redirects
+  if (pathname === '/admin-login') {
+    return NextResponse.next();
+  }
+
   // Check if accessing protected route without auth
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
