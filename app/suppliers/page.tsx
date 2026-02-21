@@ -93,11 +93,54 @@ export default async function SuppliersIndexPage() {
     })),
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What types of suppliers are listed on TendorAI?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'TendorAI lists solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers including photocopier dealers, telecoms providers, CCTV installers, and IT services companies across the UK.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Are the suppliers on TendorAI verified?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Professional service providers on TendorAI are regulated by bodies such as the SRA (solicitors), FCA (mortgage advisors), ICAEW (accountants), and Propertymark (estate agents). All listings are verified before being published.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is TendorAI free to use?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, searching and browsing the TendorAI supplier directory is completely free for anyone looking for professional services or office equipment suppliers.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I get my business listed on TendorAI?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can sign up for a free vendor profile at tendorai.com/vendor-signup. Once registered, you can add your business details, services, and coverage areas to start appearing in the directory.',
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <main className="min-h-screen bg-gray-50">
