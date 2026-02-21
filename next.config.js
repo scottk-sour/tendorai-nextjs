@@ -57,6 +57,12 @@ const nextConfig = {
         destination: '/suppliers',
         permanent: true,
       },
+      // Hyphenated admin login → actual route
+      {
+        source: '/admin-login',
+        destination: '/admin/login',
+        permanent: true,
+      },
     ];
   },
 
