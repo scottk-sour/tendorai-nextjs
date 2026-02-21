@@ -90,6 +90,11 @@ const nextConfig = {
         source: '/api/suggest-copiers',
         destination: `${expressBackend}/api/suggest-copiers`,
       },
+      // Admin login — proxy to avoid CORS issues in dev
+      {
+        source: '/api/admin/login',
+        destination: `${expressBackend}/api/admin/login`,
+      },
     ];
   },
 
