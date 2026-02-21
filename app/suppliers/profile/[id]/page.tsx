@@ -12,6 +12,7 @@ import {
 } from '@/lib/constants';
 import { detectAISource } from '@/lib/ai-detection';
 import VendorReviews from '@/app/components/VendorReviews';
+import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
   'https://ai-procurement-backend-q35u.onrender.com';
@@ -690,6 +691,9 @@ export default async function VendorProfilePage({ params }: PageProps) {
     ],
   };
 
+  const vendorFaqs = buildVendorFaqs(vendor);
+  const faqJsonLd = vendorFaqs.length > 0 ? buildFaqPageJsonLd(vendorFaqs) : null;
+
   return (
     <>
       <script
@@ -700,6 +704,12 @@ export default async function VendorProfilePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <main className="min-h-screen bg-gray-50">
         {/* ═══ HERO SECTION ═══ */}

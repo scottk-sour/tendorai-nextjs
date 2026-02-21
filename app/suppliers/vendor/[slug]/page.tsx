@@ -7,6 +7,7 @@ import {
   SERVICES,
   POSTCODE_AREAS,
 } from '@/lib/constants';
+import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
 
 const EXTENDED_POSTCODES: Record<string, { name: string; region: string }> = {
   B: { name: 'Birmingham', region: 'West Midlands' },
@@ -375,6 +376,9 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     ],
   };
 
+  const vendorFaqs = buildVendorFaqs(vendor);
+  const faqJsonLd = vendorFaqs.length > 0 ? buildFaqPageJsonLd(vendorFaqs) : null;
+
   return (
     <>
       <script
@@ -385,6 +389,12 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <main className="min-h-screen bg-gray-50">
         {/* ═══ HERO ═══ */}
