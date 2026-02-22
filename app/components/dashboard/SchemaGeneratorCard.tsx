@@ -161,7 +161,7 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
 
   const schema = useMemo(() => generateSchemaClientSide(vendorData), [vendorData]);
   const schemaJson = useMemo(() => JSON.stringify(schema, null, 2), [schema]);
-  const scriptTag = `<script src="https://api.tendorai.com/api/schema/${vendorId}.js"></script>`;
+  const scriptTag = `<script src="https://ai-procurement-backend-q35u.onrender.com/api/schema/${vendorId}.js"></script>`;
 
   // Fetch schema health from latest GEO audit
   useEffect(() => {
