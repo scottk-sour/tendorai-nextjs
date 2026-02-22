@@ -165,7 +165,7 @@ export default function GbpChecklistCard({
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-gray-900 text-lg">Google Business Profile Checklist</h3>
-          <p className="text-sm text-gray-500 mt-1">Optimise your GBP listing for AI discoverability</p>
+          <p className="text-sm text-gray-500 mt-1">Optimise your GBP listing for AI discoverability — included in your Pro subscription</p>
         </div>
       </div>
 

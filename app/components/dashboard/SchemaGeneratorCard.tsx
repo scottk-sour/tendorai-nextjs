@@ -149,19 +149,35 @@ function generateSchemaClientSide(v: VendorData): Record<string, unknown> {
   return stripEmpty(schema) as Record<string, unknown>;
 }
 
+const CMS_OPTIONS = [
+  { value: 'wordpress', label: 'WordPress' },
+  { value: 'wix', label: 'Wix' },
+  { value: 'squarespace', label: 'Squarespace' },
+  { value: 'shopify', label: 'Shopify' },
+  { value: 'custom', label: 'Custom / Other' },
+];
+
 export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData }: SchemaGeneratorCardProps) {
-  const [schemaCopied, setSchemaCopied] = useState(false);
-  const [scriptCopied, setScriptCopied] = useState(false);
-  const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
   const [validating, setValidating] = useState(false);
   const [validation, setValidation] = useState<ValidationResult | null>(null);
   const [validationError, setValidationError] = useState('');
   const [schemaHealth, setSchemaHealth] = useState<'green' | 'amber' | 'none'>('none');
-  const [emailCopied, setEmailCopied] = useState(false);
+
+  // Install request state
+  const [installStatus, setInstallStatus] = useState<string | null>(null);
+  const [installDate, setInstallDate] = useState<string | null>(null);
+  const [completedAt, setCompletedAt] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [cmsPlatform, setCmsPlatform] = useState('wordpress');
+  const [cmsLoginUrl, setCmsLoginUrl] = useState('');
+  const [cmsUsername, setCmsUsername] = useState('');
+  const [cmsPassword, setCmsPassword] = useState('');
+  const [additionalNotes, setAdditionalNotes] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const schema = useMemo(() => generateSchemaClientSide(vendorData), [vendorData]);
   const schemaJson = useMemo(() => JSON.stringify(schema, null, 2), [schema]);
-  const scriptTag = `<script src="https://ai-procurement-backend-q35u.onrender.com/api/schema/${vendorId}.js"></script>`;
 
   // Fetch schema health from latest GEO audit
   useEffect(() => {
@@ -181,41 +197,66 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
       .catch(() => {});
   }, [token, tier]);
 
-  const copySchema = async () => {
+  // Fetch latest install request status
+  useEffect(() => {
+    if (!token || tier !== 'verified') return;
+    fetch(`${API_URL}/api/schema/install-request/latest`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setInstallStatus(data.data.status);
+          setInstallDate(data.data.createdAt);
+          setCompletedAt(data.data.completedAt);
+        }
+      })
+      .catch(() => {});
+  }, [token, tier]);
+
+  const handleSubmitInstallRequest = async () => {
+    if (!cmsUsername || !cmsPassword || !cmsPlatform) {
+      setSubmitError('Please fill in all required fields.');
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError('');
+
     try {
-      await navigator.clipboard.writeText(schemaJson);
-      setSchemaCopied(true);
-      setTimeout(() => setSchemaCopied(false), 2000);
-    } catch { /* clipboard not available */ }
-  };
+      const res = await fetch(`${API_URL}/api/schema/install-request`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          websiteUrl: vendorData.website || cmsLoginUrl,
+          cmsPlatform,
+          cmsLoginUrl,
+          cmsUsername,
+          cmsPassword,
+          additionalNotes,
+        }),
+      });
 
-  const copyScript = async () => {
-    try {
-      await navigator.clipboard.writeText(scriptTag);
-      setScriptCopied(true);
-      setTimeout(() => setScriptCopied(false), 2000);
-    } catch { /* clipboard not available */ }
-  };
-
-  const copyEmail = async () => {
-    const email = `Hi,
-
-I'd like to add Schema.org structured data to our website to improve our visibility in AI search results.
-
-Please add the following script tag just before the closing </head> tag on our homepage:
-
-${scriptTag}
-
-This loads our verified TendorAI Schema.org data, which helps AI assistants like ChatGPT and Google find and recommend our business.
-
-You can verify it's working by checking Google's Rich Results Test after deployment.
-
-Thanks`;
-    try {
-      await navigator.clipboard.writeText(email);
-      setEmailCopied(true);
-      setTimeout(() => setEmailCopied(false), 2000);
-    } catch { /* clipboard not available */ }
+      const data = await res.json();
+      if (data.success) {
+        setInstallStatus('pending');
+        setInstallDate(data.data.createdAt);
+        setShowForm(false);
+        setCmsUsername('');
+        setCmsPassword('');
+        setCmsLoginUrl('');
+        setAdditionalNotes('');
+      } else {
+        setSubmitError(data.error || 'Failed to submit request');
+      }
+    } catch {
+      setSubmitError('Could not reach the server');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const runValidation = async () => {
@@ -239,10 +280,6 @@ Thanks`;
     }
   };
 
-  const togglePanel = (key: string) => {
-    setExpandedPanel(expandedPanel === key ? null : key);
-  };
-
   // Percentage ring SVG helper
   const PercentageRing = ({ value, size = 64 }: { value: number; size?: number }) => {
     const radius = (size - 8) / 2;
@@ -260,6 +297,10 @@ Thanks`;
         </text>
       </svg>
     );
+  };
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
   return (
@@ -294,17 +335,9 @@ Thanks`;
         featureDescription="Generate Schema.org structured data to boost your AI visibility. Pro vendors get a verified schema that AI assistants trust."
       >
         <div className="space-y-6">
-          {/* JSON-LD Preview */}
+          {/* JSON-LD Preview (read-only) */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-medium text-gray-700">Your JSON-LD Schema</h4>
-              <button
-                onClick={copySchema}
-                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-              >
-                {schemaCopied ? 'Copied!' : 'Copy Schema'}
-              </button>
-            </div>
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Your JSON-LD Schema</h4>
             <div className="bg-gray-900 rounded-xl p-4 max-h-80 overflow-auto">
               <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap break-words">
                 {schemaJson}
@@ -312,112 +345,174 @@ Thanks`;
             </div>
           </div>
 
-          {/* Script Tag */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-medium text-gray-700">Auto-Loading Script Tag</h4>
-              <button
-                onClick={copyScript}
-                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-              >
-                {scriptCopied ? 'Copied!' : 'Copy Script'}
-              </button>
-            </div>
-            <div className="bg-gray-900 rounded-xl p-4">
-              <code className="text-green-400 text-xs font-mono break-all">{scriptTag}</code>
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Add this before the closing &lt;/head&gt; tag. The script auto-injects your schema and stays in sync with your TendorAI profile.
-            </p>
-          </div>
+          {/* Installation Request Section */}
+          <div className="border-t border-gray-100 pt-4">
+            {/* No request yet */}
+            {installStatus === null && !showForm && (
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Get Your Schema Installed</h4>
+                <p className="text-sm text-gray-600 mb-4">
+                  Included in your Pro subscription — our team will add your schema markup within 48 hours.
+                </p>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                >
+                  Request Installation
+                </button>
+              </div>
+            )}
 
-          {/* Installation Instructions (Accordion) */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">How to Install</h4>
+            {/* Install Request Form */}
+            {showForm && (
+              <div className="space-y-4">
+                <h4 className="text-sm font-semibold text-gray-900">Request Schema Installation</h4>
 
-            {/* DIY */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden">
-              <button
-                onClick={() => togglePanel('diy')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-medium text-gray-900 text-sm">Do It Yourself</span>
-                <svg className={`w-5 h-5 text-gray-400 transition-transform ${expandedPanel === 'diy' ? 'rotate-180' : ''}`}
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {expandedPanel === 'diy' && (
-                <div className="px-4 pb-4 text-sm text-gray-600 space-y-3 border-t border-gray-100 pt-3">
-                  <p><strong>Option A — Script tag (easiest):</strong></p>
-                  <ol className="list-decimal list-inside space-y-1 ml-2">
-                    <li>Copy the script tag above</li>
-                    <li>Open your website&apos;s HTML (or CMS header section)</li>
-                    <li>Paste it before the closing <code className="bg-gray-100 px-1 rounded">&lt;/head&gt;</code> tag</li>
-                    <li>Save and publish</li>
-                  </ol>
-                  <p className="mt-2"><strong>Option B — Manual JSON-LD:</strong></p>
-                  <ol className="list-decimal list-inside space-y-1 ml-2">
-                    <li>Copy the JSON-LD schema above</li>
-                    <li>Wrap it in <code className="bg-gray-100 px-1 rounded">&lt;script type=&quot;application/ld+json&quot;&gt;...&lt;/script&gt;</code></li>
-                    <li>Paste in your page&apos;s <code className="bg-gray-100 px-1 rounded">&lt;head&gt;</code></li>
-                  </ol>
-                </div>
-              )}
-            </div>
-
-            {/* Send to Dev */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden">
-              <button
-                onClick={() => togglePanel('dev')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-medium text-gray-900 text-sm">Send to Your Developer</span>
-                <svg className={`w-5 h-5 text-gray-400 transition-transform ${expandedPanel === 'dev' ? 'rotate-180' : ''}`}
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {expandedPanel === 'dev' && (
-                <div className="px-4 pb-4 text-sm text-gray-600 space-y-3 border-t border-gray-100 pt-3">
-                  <p>Copy this pre-written email and send it to your web developer:</p>
-                  <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-700 whitespace-pre-line">
-                    {`Hi,\n\nI'd like to add Schema.org structured data to our website to improve our AI visibility.\n\nPlease add this script tag before </head> on our homepage:\n\n${scriptTag}\n\nThis loads our verified TendorAI schema data.\n\nThanks`}
-                  </div>
-                  <button
-                    onClick={copyEmail}
-                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">CMS Platform</label>
+                  <select
+                    value={cmsPlatform}
+                    onChange={(e) => setCmsPlatform(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                   >
-                    {emailCopied ? 'Copied!' : 'Copy Email'}
+                    {CMS_OPTIONS.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">CMS Login URL</label>
+                  <input
+                    type="text"
+                    value={cmsLoginUrl}
+                    onChange={(e) => setCmsLoginUrl(e.target.value)}
+                    placeholder="https://yoursite.com/wp-admin"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Username *</label>
+                  <input
+                    type="text"
+                    value={cmsUsername}
+                    onChange={(e) => setCmsUsername(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+                  <input
+                    type="password"
+                    value={cmsPassword}
+                    onChange={(e) => setCmsPassword(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
+                  <textarea
+                    value={additionalNotes}
+                    onChange={(e) => setAdditionalNotes(e.target.value)}
+                    placeholder="Any special instructions..."
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none"
+                  />
+                </div>
+
+                <p className="text-xs text-gray-500">
+                  Your credentials are encrypted with AES-256 and only accessible to the TendorAI team.
+                </p>
+
+                {submitError && (
+                  <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{submitError}</div>
+                )}
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleSubmitInstallRequest}
+                    disabled={submitting}
+                    className="px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors disabled:opacity-50"
+                  >
+                    {submitting ? 'Submitting...' : 'Submit Request'}
+                  </button>
+                  <button
+                    onClick={() => { setShowForm(false); setSubmitError(''); }}
+                    className="px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                  >
+                    Cancel
                   </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
-            {/* We'll Do It */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden">
-              <button
-                onClick={() => togglePanel('support')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-medium text-gray-900 text-sm">We&apos;ll Do It For You</span>
-                <svg className={`w-5 h-5 text-gray-400 transition-transform ${expandedPanel === 'support' ? 'rotate-180' : ''}`}
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {expandedPanel === 'support' && (
-                <div className="px-4 pb-4 text-sm text-gray-600 space-y-2 border-t border-gray-100 pt-3">
-                  <p>
-                    Email us at{' '}
-                    <a href="mailto:support@tendorai.com?subject=Schema Installation Request" className="text-purple-600 font-medium hover:underline">
-                      support@tendorai.com
-                    </a>{' '}
-                    with your website login details and we&apos;ll install it for you at no extra charge.
-                  </p>
-                </div>
-              )}
-            </div>
+            {/* Pending Status */}
+            {installStatus === 'pending' && !showForm && (
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500" />
+                  Installation Requested
+                </span>
+                <p className="text-sm text-gray-600">
+                  Submitted on {installDate ? formatDate(installDate) : 'recently'}. Our team will install your schema within 48 hours.
+                </p>
+              </div>
+            )}
+
+            {/* In Progress Status */}
+            {installStatus === 'in_progress' && (
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+                  Installation In Progress
+                </span>
+                <p className="text-sm text-gray-600">
+                  Our team is currently installing your schema.
+                </p>
+              </div>
+            )}
+
+            {/* Completed Status */}
+            {installStatus === 'completed' && (
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-green-500" />
+                  Schema Installed
+                </span>
+                <p className="text-sm text-gray-600 mb-3">
+                  Your schema was installed on {completedAt ? formatDate(completedAt) : 'recently'}.
+                </p>
+                <button
+                  onClick={runValidation}
+                  disabled={validating}
+                  className="px-4 py-2 text-sm font-medium rounded-lg bg-gray-900 text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
+                >
+                  {validating ? 'Checking...' : 'Run Test'}
+                </button>
+              </div>
+            )}
+
+            {/* Failed Status */}
+            {installStatus === 'failed' && !showForm && (
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-red-500" />
+                  Installation Failed
+                </span>
+                <p className="text-sm text-gray-600 mb-3">
+                  There was an issue. Please submit a new request or contact support.
+                </p>
+                <button
+                  onClick={() => { setShowForm(true); setInstallStatus(null); }}
+                  className="px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                >
+                  Request Again
+                </button>
+              </div>
+            )}
           </div>
 
           {/* What This Does */}
