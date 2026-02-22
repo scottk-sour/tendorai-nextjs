@@ -1332,6 +1332,16 @@ The complete dataset and methodology for this analysis are available to TendorAI
 [Check your firm's AI visibility — free →](/aeo-report)
 `,
   },
+  {
+    slug: 'geo-marketing-uk-businesses',
+    title: 'GEO Marketing for UK Businesses: Why AI Visibility Is Replacing SEO in 2026',
+    excerpt: 'GEO (Generative Engine Optimisation) is replacing traditional SEO. Learn how UK businesses can get recommended by ChatGPT, Gemini, and Perplexity in 2026.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 14,
+    publishedDate: '2026-02-22',
+    content: '',
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
