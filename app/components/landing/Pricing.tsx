@@ -47,15 +47,16 @@ const plans = [
     price: '£299',
     originalPrice: '£499',
     period: '/month',
-    description: 'Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.',
+    description: 'We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.',
     popular: true,
     highlight: true,
     features: [
-      { text: 'Ranked first in AI results', included: true },
-      { text: 'Full structured data to AI', included: true },
+      { text: 'We install AI visibility code on your website', included: true },
+      { text: 'Your website and TendorAI stay in sync automatically', included: true },
       { text: 'AI mention tracking', included: true },
-      { text: 'Weekly AEO reports', included: true },
+      { text: 'Weekly AI visibility reports', included: true },
       { text: 'TendorAI Verified badge', included: true },
+      { text: 'GBP optimisation checklist', included: true },
       { text: 'Unlimited products', included: true },
       { text: 'Priority support', included: true },
     ],
@@ -66,12 +67,15 @@ const plans = [
 ];
 
 const comparisonRows = [
-  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£149–£299' },
-  { label: 'Contract length', agency: '12 months', tendorai: 'Month-to-month' },
-  { label: 'Time to go live', agency: '3–6 months', tendorai: 'Profile live in 24 hours' },
-  { label: 'Self-service', agency: 'No', tendorai: 'Yes' },
-  { label: 'Built for AI platforms', agency: '1–2 platforms', tendorai: 'All major AI' },
-  { label: 'AI visibility score', agency: 'Manual audit', tendorai: 'Real-time dashboard' },
+  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299 (early adopter)' },
+  { label: 'Full price', agency: '—', tendorai: '£499/month' },
+  { label: 'Contract', agency: '12 months minimum', tendorai: 'Month-to-month, cancel anytime' },
+  { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
+  { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
+  { label: 'What gets installed', agency: 'Manual audit, maybe some schema', tendorai: 'AI-optimised data that syncs with your profile' },
+  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'All major AI (ChatGPT, Gemini, Claude, Perplexity)' },
+  { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'AI visibility code stops — keeps you paying' },
+  { label: 'Ongoing updates', agency: 'You pay for every change', tendorai: 'Automatic — update TendorAI, your website updates too' },
 ];
 
 export default function Pricing() {
@@ -138,7 +142,7 @@ export default function Pricing() {
 
         {/* Comparison Table */}
         <div className="max-w-3xl mx-auto">
-          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">TendorAI vs Agencies</h3>
+          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">How we compare to GEO agencies</h3>
           <div className="rounded-xl border border-[var(--border)] overflow-hidden bg-white">
             <table className="w-full">
               <thead>

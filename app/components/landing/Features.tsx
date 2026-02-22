@@ -16,7 +16,7 @@ const steps = [
     number: '02',
     title: 'Claim Your Profile',
     description:
-      'Add your services, fees, accreditations, and specialisms. The structured data AI platforms need to recommend you ahead of competitors.',
+      'Add your services, fees, accreditations, and specialisms. This is the data AI needs to recommend you ahead of competitors.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -25,7 +25,18 @@ const steps = [
   },
   {
     number: '03',
-    title: 'Get Recommended by AI',
+    title: 'We Install AI Data on Your Website',
+    description:
+      'Pro only — we log into your website and install a small piece of code that makes your business readable to AI. You don\u2019t touch anything. We do it for you.',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
+  },
+  {
+    number: '04',
+    title: 'AI Recommends You by Name',
     description:
       'When someone asks ChatGPT for a solicitor in Bristol or an accountant in Manchester, AI recommends you by name. No bidding. No shared leads.',
     icon: (
@@ -42,10 +53,10 @@ export default function Features() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
           <h2>How TendorAI Works</h2>
-          <p>Three steps from invisible to AI-recommended</p>
+          <p>Four steps from invisible to AI-recommended</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white">
+        <div className="grid md:grid-cols-4 gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white">
           {steps.map((step, i) => (
             <div
               key={step.number}

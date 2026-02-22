@@ -205,9 +205,9 @@ export default function ForVendorsPage() {
                   </div>
                   <p className="text-xs font-medium text-amber-600">Early adopter price</p>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-6">The full AI visibility package. We install Schema.org on your website, track your AI mentions, and give you a Verified badge. Everything you need to get recommended.</p>
+                <p className="text-sm text-gray-500 text-center mb-6">We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.</p>
                 <ul className="space-y-3 mb-8">
-                  {['We install Schema.org on your website', 'Two-way AI trust link to TendorAI', 'AI mention tracking', 'Weekly AEO reports', 'TendorAI Verified badge', 'GBP optimisation checklist', 'Auto-syncing structured data', 'Priority support'].map((f, i) => (
+                  {['We install AI visibility code on your website', 'Your website and TendorAI stay in sync automatically', 'AI mention tracking — see when AI talks about you', 'Weekly AI visibility reports', 'TendorAI Verified badge', 'GBP optimisation checklist', 'Unlimited products and services', 'Priority support'].map((f, i) => (
                     <li key={i} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -215,6 +215,12 @@ export default function ForVendorsPage() {
                       <span className="text-sm text-gray-700">{f}</span>
                     </li>
                   ))}
+                  <li className="flex items-start space-x-3">
+                    <svg className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <span className="text-sm text-gray-500">If you cancel, the AI visibility code stops working</span>
+                  </li>
                 </ul>
                 <Link href="https://www.tendorai.com/vendor-signup?tier=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                   Start Pro
@@ -225,25 +231,28 @@ export default function ForVendorsPage() {
           </div>
 
           {/* Comparison Table: TendorAI vs Agencies */}
-          <div className="mt-20 max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">TendorAI vs Agencies</h3>
+          <div className="mt-20 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">How we compare to GEO agencies</h3>
             <div className="bg-white rounded-2xl border border-[var(--border)] overflow-hidden">
               <table className="w-full">
                 <thead>
                   <tr className="bg-[var(--surface)]">
                     <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600"></th>
-                    <th className="text-center py-4 px-6 text-sm font-semibold text-gray-600">Agencies</th>
-                    <th className="text-center py-4 px-6 text-sm font-semibold text-[var(--purple-start)]">TendorAI</th>
+                    <th className="text-center py-4 px-6 text-sm font-semibold text-gray-600">GEO Agencies</th>
+                    <th className="text-center py-4 px-6 text-sm font-semibold text-[var(--purple-start)]">TendorAI Pro</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
-                    ['Monthly cost', '£1,500–£8,000', '£149–£299'],
-                    ['Contract length', '12 months', 'Month-to-month'],
-                    ['Time to go live', '3–6 months', 'Profile live in 24 hours'],
-                    ['Self-service', 'No', 'Yes'],
-                    ['Built for AI platforms', '1–2 platforms', 'All major AI'],
-                    ['AI visibility score', 'Manual audit', 'Real-time dashboard'],
+                    ['Monthly cost', '£1,500 — £8,000', '£299 (early adopter)'],
+                    ['Full price', '—', '£499/month'],
+                    ['Contract', '12 months minimum', 'Month-to-month, cancel anytime'],
+                    ['Time to go live', '3–6 months', 'Installed within 48 hours'],
+                    ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],
+                    ['What gets installed', 'Manual audit, maybe some schema', 'AI-optimised data that syncs with your profile'],
+                    ['AI platforms covered', 'Usually 1–2', 'All major AI (ChatGPT, Gemini, Claude, Perplexity)'],
+                    ['If you cancel', 'You keep whatever they built', 'AI visibility code stops — keeps you paying'],
+                    ['Ongoing updates', 'You pay for every change', 'Automatic — update TendorAI, your website updates too'],
                   ].map(([label, agency, tendorai], i) => (
                     <tr key={i}>
                       <td className="py-4 px-6 text-sm font-medium text-gray-900">{label}</td>
@@ -254,6 +263,9 @@ export default function ForVendorsPage() {
                 </tbody>
               </table>
             </div>
+            <p className="text-xs text-gray-400 text-center mt-4">
+              Agency pricing based on UK market averages for GEO/AEO services, 2024–2025.
+            </p>
           </div>
 
           {/* What to Expect */}
@@ -269,8 +281,66 @@ export default function ForVendorsPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* What happens when you upgrade to Pro */}
       <section className="py-20 lg:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              What happens when you upgrade to Pro?
+            </h2>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-[var(--border)] p-8 sm:p-10 mb-12">
+            <div className="prose prose-gray max-w-none">
+              <p className="text-gray-600 text-lg leading-relaxed mb-4">
+                We log into your website and install a small piece of code that tells AI everything about your business &mdash; your services, your location, your reviews, your accreditations.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                When ChatGPT or Google Gemini visits your website, instead of trying to guess what you do from your homepage copy, it reads this data and instantly knows:
+              </p>
+              <ul className="space-y-2 mb-6">
+                {['Who you are', 'What you do', 'Where you\u2019re based', 'That you\u2019re verified on TendorAI'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-700">
+                    <svg className="w-5 h-5 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                <strong>The clever bit:</strong> your website points to TendorAI, and TendorAI points to your website. AI sees both sources agreeing and trusts you more. That&apos;s what gets you recommended.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                It syncs automatically. When you update your TendorAI profile &mdash; new services, new reviews, new address &mdash; your website updates too. You never touch your site again.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                <strong>And if you cancel?</strong> The code stops working. Your AI visibility goes back to wherever it was before.
+              </p>
+            </div>
+          </div>
+
+          {/* 3-step visual */}
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { step: '1', title: 'You give us your website login', desc: 'Just your CMS login. Your credentials are encrypted and only accessible to the TendorAI team.' },
+              { step: '2', title: 'We install AI-optimised data', desc: 'Within 48 hours, our team installs the code on your website. You don\u2019t touch anything.' },
+              { step: '3', title: 'AI recommends you by name', desc: 'When someone asks AI for a supplier like you, it reads your data and recommends your business.' },
+            ].map((s) => (
+              <div key={s.step} className="text-center">
+                <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 font-bold text-xl flex items-center justify-center mx-auto mb-4">
+                  {s.step}
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">{s.title}</h3>
+                <p className="text-sm text-gray-600">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 lg:py-24 bg-[var(--surface)]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Frequently Asked Questions

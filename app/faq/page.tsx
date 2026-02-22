@@ -7,6 +7,45 @@ export const metadata: Metadata = {
   alternates: { canonical: '/faq' },
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What do you install on my website?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "A small piece of code that tells AI platforms about your business — your services, location, reviews, and that you're verified on TendorAI. It's invisible to visitors but makes your business readable to AI. We handle the installation — you don't need to do anything technical.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What happens if I cancel my Pro subscription?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "The code we installed on your website stops working. It won't break your site — it just stops telling AI about your business. Your TendorAI profile also reverts to the free tier.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is this different from hiring a GEO agency?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (rising to £499), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do I need to give you my website password?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes — we need temporary access to add the code to your site. Your credentials are encrypted with AES-256 encryption and only accessible to the TendorAI team. If you prefer, you can create a temporary admin account for us and remove it after installation.',
+      },
+    },
+  ],
+};
+
 export default function FAQPage() {
   const faqs = [
     {
@@ -41,10 +80,31 @@ export default function FAQPage() {
       question: 'How is this different from Trustpilot?',
       answer: "Trustpilot manages reviews. TendorAI manages your visibility across all AI platforms — structured data, pricing, accreditations, and ranking. Reviews are one input; we optimise the full picture.",
     },
+    {
+      question: 'What do you install on my website?',
+      answer: "A small piece of code that tells AI platforms about your business — your services, location, reviews, and that you're verified on TendorAI. It's invisible to visitors but makes your business readable to AI. We handle the installation — you don't need to do anything technical.",
+    },
+    {
+      question: 'What happens if I cancel my Pro subscription?',
+      answer: "The code we installed on your website stops working. It won't break your site — it just stops telling AI about your business. Your TendorAI profile also reverts to the free tier.",
+    },
+    {
+      question: 'How is this different from hiring a GEO agency?',
+      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (rising to £499), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
+    },
+    {
+      question: 'Do I need to give you my website password?',
+      answer: "Yes — we need temporary access to add the code to your site. Your credentials are encrypted with AES-256 encryption and only accessible to the TendorAI team. If you prefer, you can create a temporary admin account for us and remove it after installation.",
+    },
   ];
 
   return (
     <main className="pt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

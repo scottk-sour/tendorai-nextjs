@@ -115,9 +115,9 @@ const FEATURES = [
     icon: 'blog',
   },
   {
-    name: 'Schema Installation',
+    name: 'Website AI Installation (Pro)',
     description:
-      'Pro members get AI-optimised structured data installed directly on their website. It syncs automatically with your TendorAI profile — update once, reflected everywhere.',
+      'We install AI-optimised data directly on your website that syncs with your TendorAI profile. When AI visits your site, it can read exactly what you do. We handle everything — you just provide your website login.',
     icon: 'schema',
   },
 ];

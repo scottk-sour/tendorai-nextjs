@@ -413,6 +413,24 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
+        {/* Pro Callout */}
+        <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Want to improve this score?</h3>
+              <p className="text-gray-600">
+                TendorAI Pro includes AI-optimised data installed directly on your website. We handle everything &mdash; you just provide your login. Agencies charge &pound;1,500+/month for this.
+              </p>
+            </div>
+            <a
+              href="/for-vendors#pricing"
+              className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
+            >
+              Learn about Pro
+            </a>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="mt-8 bg-[#1B4F72] rounded-xl shadow-sm p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-3">Fix Your AI Visibility</h2>
@@ -479,7 +497,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
               <p className="text-[10px] text-gray-400">Early adopter price (was &pound;499)</p>
               <p className="text-xs text-gray-500 mt-2 flex-1">
-                Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.
+                We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>
               <a
                 href="https://www.tendorai.com/vendor-signup?tier=pro"
