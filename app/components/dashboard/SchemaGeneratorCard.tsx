@@ -123,7 +123,7 @@ function generateSchemaClientSide(v: VendorData): Record<string, unknown> {
       '@type': 'Organization',
       name: 'TendorAI',
       url: 'https://www.tendorai.com',
-      description: 'AI-powered professional services directory',
+      description: 'The UK\'s AI Visibility Platform — verified business profiles optimised for AI recommendations',
     },
     knowsAbout: knowsAbout.length > 0 ? knowsAbout : undefined,
     ...(v.yearsInBusiness && { foundingDate: new Date().getFullYear() - v.yearsInBusiness }),

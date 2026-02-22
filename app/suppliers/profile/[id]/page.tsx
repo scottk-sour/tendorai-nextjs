@@ -662,7 +662,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
       '@type': 'Organization',
       name: 'TendorAI',
       url: 'https://www.tendorai.com',
-      description: 'AI-powered professional services directory',
+      description: 'The UK\'s AI Visibility Platform — verified business profiles optimised for AI recommendations',
     },
     address: {
       '@type': 'PostalAddress',
