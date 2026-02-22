@@ -45,7 +45,7 @@ export default function ForVendorsPage() {
           </h1>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
             200M people now ask ChatGPT instead of Google. When they ask for a solicitor,
-            accountant, or copier dealer &mdash; is AI recommending you?
+            accountant, or mortgage advisor &mdash; is AI recommending you?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

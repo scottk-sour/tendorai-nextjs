@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import QuoteFlow from './QuoteFlow';
 
 export const metadata: Metadata = {
-  title: 'Get Free Quotes',
+  title: 'Find Verified Suppliers',
   description:
-    'Get instant quotes from verified UK office equipment suppliers. Compare pricing for photocopiers, printers, telecoms, CCTV, and IT services.',
+    'Find verified UK suppliers recommended by AI. Browse solicitors, accountants, mortgage advisors, estate agents, and more on TendorAI.',
   openGraph: {
-    title: 'Get Free Quotes | TendorAI',
-    description: 'Compare quotes from verified UK suppliers. Free, instant, no obligation.',
+    title: 'Find Verified Suppliers | TendorAI',
+    description: 'Find UK suppliers that AI recommends. Browse verified profiles on TendorAI.',
     url: 'https://www.tendorai.com/get-quotes',
     type: 'website',
   },

@@ -708,14 +708,14 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                 </p>
               </div>
 
-              {/* Compare Quotes */}
+              {/* AI Visibility CTA */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 text-center">
                 <h2 className="text-xl font-bold text-gray-900 mb-3">
-                  Looking for {vendor.services?.[0] || 'office equipment'} quotes?
+                  Is AI recommending your {vendor.services?.[0] || 'business'}?
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Compare prices from trusted {vendor.services?.[0] || 'office equipment'} suppliers
-                  {city ? ` in ${city}` : ''} and get the best deal for your business.
+                  Find out if AI assistants recommend your business
+                  {city ? ` in ${city}` : ''}. Get your free AI visibility report in 60 seconds.
                 </p>
                 <Link
                   href="/aeo-report"

@@ -3,11 +3,11 @@ import VendorSignupForm from './VendorSignupForm';
 
 export const metadata: Metadata = {
   title: 'Become a Vendor',
-  description: 'Join TendorAI to receive qualified leads from UK businesses looking for office equipment suppliers. Sign up for free.',
+  description: 'Join TendorAI so AI recommends your business. Free AI visibility profiles for UK solicitors, accountants, mortgage advisors, estate agents, and more.',
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Become a TendorAI Vendor',
-    description: 'Join our network of verified UK suppliers and receive qualified business leads.',
+    description: 'Join TendorAI so AI recommends your business by name. Free profiles for UK professional services.',
     url: 'https://www.tendorai.com/vendor-signup',
   },
 };

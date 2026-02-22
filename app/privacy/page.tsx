@@ -37,8 +37,8 @@ export default function PrivacyPolicyPage() {
                 our website at tendorai.com and our services.
               </p>
               <p className="text-gray-600 mb-4">
-                TendorAI is a trading name registered in England and Wales. We operate as a B2B procurement
-                platform connecting businesses with office equipment suppliers across the UK.
+                TendorAI is a trading name registered in England and Wales. We operate as an AI visibility
+                platform helping UK businesses get recommended by AI search engines and assistants.
               </p>
               <p className="text-gray-600">
                 By using our services, you agree to the collection and use of information in accordance with this policy.
