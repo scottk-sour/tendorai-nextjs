@@ -7,6 +7,8 @@ import TierGate, { hasTierAccess, getTierLabel } from '@/app/components/dashboar
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
 import AISearchTest from '@/app/components/dashboard/AISearchTest';
 import GeoAuditCard from '@/app/components/dashboard/GeoAuditCard';
+import SchemaGeneratorCard from '@/app/components/dashboard/SchemaGeneratorCard';
+import GbpChecklistCard from '@/app/components/dashboard/GbpChecklistCard';
 
 interface AnalyticsData {
   period: string;
@@ -51,6 +53,21 @@ export default function AnalyticsPage() {
   const [vendorType, setVendorType] = useState('office-equipment');
   const [vendorServices, setVendorServices] = useState<string[]>([]);
   const [vendorCoverage, setVendorCoverage] = useState<string[]>([]);
+  const [vendorPhone, setVendorPhone] = useState('');
+  const [vendorDescription, setVendorDescription] = useState('');
+  const [vendorPostcode, setVendorPostcode] = useState('');
+  const [vendorAddress, setVendorAddress] = useState('');
+  const [vendorLinkedIn, setVendorLinkedIn] = useState('');
+  const [vendorSraNumber, setVendorSraNumber] = useState('');
+  const [vendorFcaNumber, setVendorFcaNumber] = useState('');
+  const [vendorIcaewFirmNumber, setVendorIcaewFirmNumber] = useState('');
+  const [vendorPropertymarkNumber, setVendorPropertymarkNumber] = useState('');
+  const [vendorSpecializations, setVendorSpecializations] = useState<string[]>([]);
+  const [vendorPracticeAreas, setVendorPracticeAreas] = useState<string[]>([]);
+  const [vendorYearsInBusiness, setVendorYearsInBusiness] = useState<number | undefined>();
+  const [vendorRating, setVendorRating] = useState<number | undefined>();
+  const [vendorReviewCount, setVendorReviewCount] = useState<number | undefined>();
+  const [vendorBrands, setVendorBrands] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<'7d' | '30d'>('30d');
 
@@ -87,6 +104,21 @@ export default function AnalyticsPage() {
         setVendorWebsite(v?.contactInfo?.website || v?.website || '');
         setVendorServices(v?.services || []);
         setVendorCoverage(v?.location?.coverage || []);
+        setVendorPhone(v?.contactInfo?.phone || '');
+        setVendorDescription(v?.businessProfile?.description || '');
+        setVendorPostcode(v?.location?.postcode || '');
+        setVendorAddress(v?.location?.address || '');
+        setVendorLinkedIn(v?.contactInfo?.linkedIn || '');
+        setVendorSraNumber(v?.sraNumber || '');
+        setVendorFcaNumber(v?.fcaNumber || '');
+        setVendorIcaewFirmNumber(v?.icaewFirmNumber || '');
+        setVendorPropertymarkNumber(v?.propertymarkNumber || '');
+        setVendorSpecializations(v?.businessProfile?.specializations || []);
+        setVendorPracticeAreas(v?.practiceAreas || []);
+        setVendorYearsInBusiness(v?.businessProfile?.yearsInBusiness);
+        setVendorRating(v?.performance?.rating);
+        setVendorReviewCount(v?.performance?.reviewCount);
+        setVendorBrands(v?.brands || []);
 
         // Fetch analytics if vendor has access
         if (hasTierAccess(vendorTier, 'starter') && vId) {
@@ -349,6 +381,55 @@ export default function AnalyticsPage() {
         token={token || ''}
         tier={tier}
         vendorWebsite={vendorWebsite}
+      />
+
+      {/* Schema Generator */}
+      <SchemaGeneratorCard
+        token={token || ''}
+        tier={tier}
+        vendorId={vendorId}
+        vendorData={{
+          vendorId,
+          company: vendorName,
+          vendorType,
+          description: vendorDescription,
+          website: vendorWebsite,
+          phone: vendorPhone,
+          city: vendorLocation,
+          region: vendorLocation,
+          postcode: vendorPostcode,
+          address: vendorAddress,
+          linkedIn: vendorLinkedIn,
+          services: vendorServices,
+          practiceAreas: vendorPracticeAreas,
+          specializations: vendorSpecializations,
+          sraNumber: vendorSraNumber,
+          fcaNumber: vendorFcaNumber,
+          icaewFirmNumber: vendorIcaewFirmNumber,
+          propertymarkNumber: vendorPropertymarkNumber,
+          yearsInBusiness: vendorYearsInBusiness,
+          rating: vendorRating,
+          reviewCount: vendorReviewCount,
+          brands: vendorBrands,
+          coverage: vendorCoverage,
+          tier,
+        }}
+      />
+
+      {/* GBP Checklist */}
+      <GbpChecklistCard
+        vendorId={vendorId}
+        tier={tier}
+        company={vendorName}
+        vendorType={vendorType}
+        website={vendorWebsite}
+        phone={vendorPhone}
+        city={vendorLocation}
+        postcode={vendorPostcode}
+        address={vendorAddress}
+        description={vendorDescription}
+        services={vendorServices}
+        practiceAreas={vendorPracticeAreas}
       />
 
       {/* Stats Overview */}

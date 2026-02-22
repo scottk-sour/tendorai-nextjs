@@ -181,6 +181,9 @@ async function getVendor(id: string) {
         vendorType: 1,
         practiceAreas: 1,
         sraNumber: 1,
+        fcaNumber: 1,
+        icaewFirmNumber: 1,
+        propertymarkNumber: 1,
         regulatoryBody: 1,
         slug: 1,
         claimed: 1,
@@ -622,6 +625,27 @@ export default async function VendorProfilePage({ params }: PageProps) {
 
   const claimedIsSolicitor = vendor.vendorType === 'solicitor';
 
+  // Build sameAs links
+  const sameAsLinks: string[] = [];
+  if (vendor.contactInfo?.website) sameAsLinks.push(vendor.contactInfo.website);
+  sameAsLinks.push(`https://www.tendorai.com/suppliers/profile/${id}`);
+  if ((vendor.contactInfo as Record<string, unknown>)?.linkedIn) sameAsLinks.push((vendor.contactInfo as Record<string, unknown>).linkedIn as string);
+
+  // Build identifiers
+  const identifiers: Array<{ '@type': string; name: string; propertyID: string; value: string }> = [];
+  if (vendor.sraNumber) identifiers.push({ '@type': 'PropertyValue', name: 'SRA Number', propertyID: 'https://www.sra.org.uk', value: vendor.sraNumber });
+  if ((vendor as Record<string, unknown>).fcaNumber) identifiers.push({ '@type': 'PropertyValue', name: 'FCA Number', propertyID: 'https://www.fca.org.uk', value: (vendor as Record<string, unknown>).fcaNumber as string });
+  if ((vendor as Record<string, unknown>).icaewFirmNumber) identifiers.push({ '@type': 'PropertyValue', name: 'ICAEW Firm Number', propertyID: 'https://www.icaew.com', value: (vendor as Record<string, unknown>).icaewFirmNumber as string });
+  if ((vendor as Record<string, unknown>).propertymarkNumber) identifiers.push({ '@type': 'PropertyValue', name: 'Propertymark Number', propertyID: 'https://www.propertymark.co.uk', value: (vendor as Record<string, unknown>).propertymarkNumber as string });
+  if (displayTier === 'pro') identifiers.push({ '@type': 'PropertyValue', name: 'TendorAI Verified', propertyID: 'https://www.tendorai.com', value: id });
+
+  // Build knowsAbout
+  const knowsAbout = [
+    ...(vendor.services || []),
+    ...(vendor.practiceAreas || []),
+    ...((vendor.businessProfile as Record<string, unknown>)?.specializations as string[] || []),
+  ].filter(Boolean);
+
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -632,7 +656,14 @@ export default async function VendorProfilePage({ params }: PageProps) {
       vendor.businessProfile?.description ||
       `${vendor.company} - Office equipment supplier`,
     url: `https://www.tendorai.com/suppliers/profile/${id}`,
-    ...(vendor.contactInfo?.website && { sameAs: [vendor.contactInfo.website] }),
+    sameAs: sameAsLinks,
+    ...(identifiers.length > 0 && { identifier: identifiers }),
+    memberOf: {
+      '@type': 'Organization',
+      name: 'TendorAI',
+      url: 'https://www.tendorai.com',
+      description: 'AI-powered professional services directory',
+    },
     address: {
       '@type': 'PostalAddress',
       ...(vendor.location?.address && { streetAddress: vendor.location.address }),
@@ -646,6 +677,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
       '@type': 'City',
       name: loc,
     })),
+    ...(knowsAbout.length > 0 && { knowsAbout }),
     ...(rating > 0 && {
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -679,6 +711,12 @@ export default async function VendorProfilePage({ params }: PageProps) {
         reviewBody: r.content,
       })),
     }),
+    potentialAction: {
+      '@type': 'AskAction',
+      name: 'Request a Quote',
+      target: `https://www.tendorai.com/suppliers/profile/${id}`,
+      description: `Request a quote from ${vendor.company} via TendorAI`,
+    },
   };
 
   const breadcrumbJsonLd = {
