@@ -82,6 +82,8 @@ export default function AeoReportClient() {
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [source, setSource] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState('');
@@ -104,7 +106,7 @@ export default function AeoReportClient() {
       const res = await fetch(`${API_URL}/api/public/aeo-report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyName, category, city, email: email || undefined }),
+        body: JSON.stringify({ companyName, category, city, email: email || undefined, name: name || undefined, source: source || undefined }),
       });
 
       const data = await res.json();
@@ -264,6 +266,40 @@ export default function AeoReportClient() {
                 placeholder="you@company.com"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
               />
+            </div>
+
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                Your Name <span className="text-gray-400">(optional)</span>
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name (optional)"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-1">
+                What prompted you to check your AI visibility? <span className="text-gray-400">(optional)</span>
+              </label>
+              <select
+                id="source"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
+              >
+                <option value="">Select one (optional)</option>
+                <option value="competitor-in-ai">A competitor appears in AI results</option>
+                <option value="traffic-drop">Saw a drop in website traffic</option>
+                <option value="heard-about-geo">Heard about AI search / GEO</option>
+                <option value="recommendation">Someone recommended TendorAI</option>
+                <option value="curious">Just curious</option>
+                <option value="other">Other</option>
+              </select>
             </div>
 
             {error && (
