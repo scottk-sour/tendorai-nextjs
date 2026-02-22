@@ -114,6 +114,12 @@ const FEATURES = [
       'Publish content that boosts your authority signals. AI systems favour vendors with fresh, relevant content.',
     icon: 'blog',
   },
+  {
+    name: 'Schema Installation',
+    description:
+      'Pro members get AI-optimised structured data installed directly on their website. It syncs automatically with your TendorAI profile — update once, reflected everywhere.',
+    icon: 'schema',
+  },
 ];
 
 // ── Feature icon component ─────────────────────────────────────────
@@ -165,6 +171,11 @@ function FeatureIcon({ icon, className }: { icon: string; className?: string }) 
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
       </svg>
     ),
+    schema: (
+      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
   };
   return <>{map[icon] || null}</>;
 }
@@ -184,7 +195,7 @@ const STEPS = [
   {
     num: 3,
     title: 'Run a GEO Audit',
-    desc: 'Check how your website scores on the signals AI systems care about — schema, meta tags, content quality, and more.',
+    desc: 'Check how your website scores for AI visibility. Pro members get schema markup installed directly on their website.',
   },
   {
     num: 4,
@@ -322,6 +333,12 @@ export default function GettingStartedPage() {
           label: 'Get your first customer review',
           done: hasReviews,
           href: '/vendor-dashboard/reviews',
+        },
+        {
+          id: 'schema',
+          label: 'Request Schema Installation (Pro)',
+          done: false,
+          href: '/vendor-dashboard/analytics#schema-generator',
         },
       ]);
     } catch (err) {

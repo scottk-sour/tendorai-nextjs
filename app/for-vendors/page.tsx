@@ -205,9 +205,9 @@ export default function ForVendorsPage() {
                   </div>
                   <p className="text-xs font-medium text-amber-600">Early adopter price</p>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-6">Get recommended first. Full structured data, weekly AEO reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.</p>
+                <p className="text-sm text-gray-500 text-center mb-6">The full AI visibility package. We install Schema.org on your website, track your AI mentions, and give you a Verified badge. Everything you need to get recommended.</p>
                 <ul className="space-y-3 mb-8">
-                  {['Ranked first in AI results', 'Full structured data to AI', 'AI mention tracking', 'Weekly AEO reports', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'].map((f, i) => (
+                  {['We install Schema.org on your website', 'Two-way AI trust link to TendorAI', 'AI mention tracking', 'Weekly AEO reports', 'TendorAI Verified badge', 'GBP optimisation checklist', 'Auto-syncing structured data', 'Priority support'].map((f, i) => (
                     <li key={i} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
