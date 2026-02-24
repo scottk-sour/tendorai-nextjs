@@ -2,7 +2,7 @@ import mongoose, { Document, Model } from 'mongoose';
 
 export interface IAeoReport extends Document {
   companyName: string;
-  category: 'copiers' | 'telecoms' | 'cctv' | 'it';
+  category: string;
   city: string;
   email?: string;
   aiMentioned: boolean;
@@ -52,7 +52,7 @@ export interface IAeoReport extends Document {
 
 const aeoReportSchema = new mongoose.Schema<IAeoReport>({
   companyName: { type: String, required: true, trim: true },
-  category: { type: String, required: true, enum: ['copiers', 'telecoms', 'cctv', 'it'] },
+  category: { type: String, required: true },
   city: { type: String, required: true, trim: true },
   email: { type: String, trim: true, lowercase: true },
   aiMentioned: { type: Boolean, required: true },
