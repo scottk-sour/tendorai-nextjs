@@ -533,7 +533,7 @@ export default function ProductsPage() {
   const getProductLimit = (t: string) => {
     const normalized = t?.toLowerCase() || 'free';
     if (['verified', 'managed', 'pro', 'enterprise'].includes(normalized)) return Infinity;
-    if (['visible', 'basic', 'starter'].includes(normalized)) return 10;
+    if (['visible', 'basic', 'starter'].includes(normalized)) return Infinity;
     return 3;
   };
   const productLimit = getProductLimit(tier);
@@ -1094,7 +1094,7 @@ export default function ProductsPage() {
                   <p className="font-medium text-blue-800">{productsRemaining} {vendorType === 'office-equipment' ? 'product' : 'service'} slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
                   <p className="text-sm text-blue-600">
                     {!hasTierAccess(tier, 'starter')
-                      ? 'Upgrade to Starter for up to 10 products/services and AI visibility insights.'
+                      ? 'Upgrade to Starter for unlimited products/services and AI visibility insights.'
                       : 'Upgrade to Pro for unlimited products/services and maximum AI ranking.'}
                   </p>
                 </>

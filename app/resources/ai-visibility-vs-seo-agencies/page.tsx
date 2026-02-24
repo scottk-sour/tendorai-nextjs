@@ -128,7 +128,7 @@ function PricingCards() {
       name: 'Starter',
       price: '£149',
       priceLabel: '/month',
-      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly GEO Audits', 'Live AI Search Tests', 'Product listings (10)', 'Monthly AEO report'],
+      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly GEO Audits', 'Live AI Search Tests', 'Unlimited product listings', 'Monthly AEO report'],
       highlighted: false,
     },
     {

@@ -54,7 +54,7 @@ export const TIER_CONFIG = {
     features: [
       'Pricing & specialisms visible to AI',
       'Full profile with contact details',
-      'Up to 10 products/services',
+      'Unlimited products/services',
       'Quote request form',
       'Full analytics dashboard',
       'Monthly AEO visibility report',

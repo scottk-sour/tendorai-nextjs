@@ -564,7 +564,7 @@ export default function GeoMarketingPage() {
                 name: 'Starter',
                 price: '\u00a3149',
                 priceLabel: '/month',
-                features: ['Stand out from unclaimed profiles', 'Pricing visible to AI', 'Monthly AEO report', 'AI Visibility Score', 'Ranked above free profiles', 'Up to 10 products'],
+                features: ['Stand out from unclaimed profiles', 'Pricing visible to AI', 'Monthly AEO report', 'AI Visibility Score', 'Ranked above free profiles', 'Unlimited products'],
                 highlighted: false,
               },
               {

@@ -66,6 +66,12 @@ const CATEGORY_GROUPS = [
       { value: 'it', label: 'IT Support' },
     ],
   },
+  {
+    label: 'Other',
+    options: [
+      { value: 'other', label: 'Other (not listed above)' },
+    ],
+  },
 ];
 
 const LOADING_STEPS = [
@@ -80,6 +86,7 @@ export default function AeoReportClient() {
   const router = useRouter();
   const [companyName, setCompanyName] = useState('');
   const [category, setCategory] = useState('');
+  const [customIndustry, setCustomIndustry] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -91,6 +98,12 @@ export default function AeoReportClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (category === 'other' && !customIndustry.trim()) {
+      setError('Please describe your industry.');
+      return;
+    }
+
     setLoading(true);
     setLoadingStep(0);
 
@@ -106,7 +119,7 @@ export default function AeoReportClient() {
       const res = await fetch(`${API_URL}/api/public/aeo-report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyName, category, city, email: email || undefined, name: name || undefined, source: source || undefined }),
+        body: JSON.stringify({ companyName, category, city, email: email || undefined, name: name || undefined, source: source || undefined, customIndustry: category === 'other' ? customIndustry.trim() : undefined }),
       });
 
       const data = await res.json();
@@ -238,6 +251,24 @@ export default function AeoReportClient() {
                 ))}
               </select>
             </div>
+
+            {category === 'other' && (
+              <div>
+                <label htmlFor="customIndustry" className="block text-sm font-medium text-gray-700 mb-1">
+                  Describe your industry *
+                </label>
+                <input
+                  id="customIndustry"
+                  type="text"
+                  required
+                  maxLength={100}
+                  value={customIndustry}
+                  onChange={(e) => setCustomIndustry(e.target.value)}
+                  placeholder="e.g. Recruitment, IT Support, Dental Practice"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
+                />
+              </div>
+            )}
 
             <div>
               <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">

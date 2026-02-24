@@ -34,7 +34,7 @@ const plans = [
       { text: 'Ranked above free profiles', included: true },
       { text: 'Monthly AEO report', included: true },
       { text: 'AI visibility score', included: true },
-      { text: 'Up to 10 products', included: true },
+      { text: 'Unlimited products', included: true },
       { text: 'AI mention tracking', included: false },
       { text: 'Verified badge', included: false },
     ],

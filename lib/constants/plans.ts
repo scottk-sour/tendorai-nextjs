@@ -30,7 +30,7 @@ export const PLANS: Plan[] = [
       { text: 'AI Mentions tracking', included: false },
       { text: 'Visibility breakdown & tips', included: false },
       { text: 'Analytics dashboard', included: false },
-      { text: 'Up to 10 products/services', included: false },
+      { text: 'Unlimited products/services', included: false },
       { text: '+15 visibility score points', included: false },
       { text: 'Verified badge', included: false },
     ],
@@ -46,7 +46,7 @@ export const PLANS: Plan[] = [
     description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.',
     features: [
       { text: 'Company listing', included: true },
-      { text: 'Up to 10 products/services', included: true },
+      { text: 'Unlimited products/services', included: true },
       { text: 'Receive quote requests', included: true },
       { text: 'AI Visibility Score + breakdown', included: true },
       { text: 'AI Mentions tracking', included: true },

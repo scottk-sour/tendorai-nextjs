@@ -20,6 +20,7 @@ interface Report {
   _id: string;
   companyName: string;
   category: string;
+  customIndustry?: string | null;
   city: string;
   score: number;
   aiMentioned: boolean;
@@ -198,7 +199,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">AI Visibility Report</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{report.companyName}</h1>
           <p className="text-gray-500 mb-8">
-            {CATEGORY_LABELS[report.category] || report.category} &mdash; {report.city}
+            {report.category === 'other' ? (report.customIndustry || 'Other') : (CATEGORY_LABELS[report.category] || report.category)} &mdash; {report.city}
           </p>
 
           <ScoreGauge score={report.score} />
@@ -217,7 +218,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <p className="mt-2 text-sm text-gray-500 max-w-lg mx-auto">
             {report.aiMentioned
               ? `${report.competitors.length} competitors were found ranking alongside or ahead of you.`
-              : `When buyers ask AI for ${(CATEGORY_LABELS[report.category] || report.category).toLowerCase()} in ${report.city}, you don't appear.`}
+              : `When buyers ask AI for ${(report.category === 'other' ? (report.customIndustry || 'your industry') : (CATEGORY_LABELS[report.category] || report.category)).toLowerCase()} in ${report.city}, you don't appear.`}
           </p>
 
           {/* Quick stats */}
@@ -401,7 +402,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <p className="text-sm text-blue-100">
               With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
               When potential buyers use ChatGPT, Perplexity, or Claude to find{' '}
-              {(CATEGORY_LABELS[report.category] || report.category).toLowerCase()} in {report.city},
+              {(report.category === 'other' ? (report.customIndustry || 'your industry') : (CATEGORY_LABELS[report.category] || report.category)).toLowerCase()} in {report.city},
               they are being directed to your competitors.
             </p>
           </div>
@@ -461,23 +462,43 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* Pro Callout */}
-        <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex-1">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Want to improve this score?</h3>
-              <p className="text-gray-600">
-                TendorAI Pro includes AI-optimised data installed directly on your website. We handle everything &mdash; you just provide your login. Agencies charge &pound;1,500+/month for this.
-              </p>
+        {/* Pro Callout / Waitlist */}
+        {report.category === 'other' ? (
+          <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Your industry isn&apos;t on TendorAI yet</h3>
+                <p className="text-gray-600">
+                  TendorAI doesn&apos;t yet have a dedicated directory for your industry.
+                  Join the waitlist and we&apos;ll notify you when we launch.
+                </p>
+              </div>
+              <Link
+                href="/vendor-signup"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
+              >
+                Join the Waitlist
+              </Link>
             </div>
-            <a
-              href="/for-vendors#pricing"
-              className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
-            >
-              Learn about Pro
-            </a>
-          </div>
-        </section>
+          </section>
+        ) : (
+          <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Want to improve this score?</h3>
+                <p className="text-gray-600">
+                  TendorAI Pro includes AI-optimised data installed directly on your website. We handle everything &mdash; you just provide your login. Agencies charge &pound;1,500+/month for this.
+                </p>
+              </div>
+              <a
+                href="/for-vendors#pricing"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
+              >
+                Learn about Pro
+              </a>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="mt-8 bg-[#1B4F72] rounded-xl shadow-sm p-8 text-center text-white">
@@ -492,7 +513,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               href="/vendor-signup"
               className="inline-flex items-center px-6 py-3 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors"
             >
-              Claim Your Free Profile
+              {report.category === 'other' ? 'Join the Waitlist' : 'Claim Your Free Profile'}
             </Link>
             <a
               href={pdfUrl}
@@ -502,6 +523,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               Download PDF Report
             </a>
           </div>
+
+          {report.category === 'other' && (
+            <p className="mt-4 text-sm text-blue-200">
+              TendorAI doesn&apos;t yet have a dedicated directory for your industry. Join the waitlist and we&apos;ll notify you when we launch.
+            </p>
+          )}
 
           {/* Pricing summary */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
