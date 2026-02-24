@@ -129,6 +129,7 @@ export default function VendorDashboardLayout({
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
+      <meta name="robots" content="noindex, nofollow" />
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div

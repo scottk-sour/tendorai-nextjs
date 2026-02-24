@@ -107,6 +107,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <meta name="robots" content="noindex, nofollow" />
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
