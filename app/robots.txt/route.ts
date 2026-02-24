@@ -38,51 +38,83 @@ Disallow: /api/
 
 User-Agent: GPTBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: OAI-SearchBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: ChatGPT-User
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: ClaudeBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: PerplexityBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Perplexity-User
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Google-Extended
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Amazonbot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Applebot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: Applebot-Extended
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: FacebookBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: meta-externalagent
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: LinkedInBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 User-Agent: DeepSeekBot
 Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
 
 Sitemap: https://www.tendorai.com/sitemap.xml
 

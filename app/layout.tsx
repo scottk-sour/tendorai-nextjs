@@ -91,6 +91,8 @@ const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
+  datePublished: '2024-01-01',
+  dateModified: '2026-02-24',
   description: "The UK's AI Visibility Platform. Free AEO reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
