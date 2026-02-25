@@ -137,7 +137,7 @@ const organisationJsonLd = {
   },
   sameAs: [
     'https://www.linkedin.com/company/tendorai',
-    'https://api.tendorai.com',
+    'https://x.com/AiTendor95471',
   ],
 };
 

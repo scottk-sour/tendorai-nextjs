@@ -79,7 +79,7 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://linkedin.com/company/tendorai"
+                href="https://www.linkedin.com/company/tendorai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -90,7 +90,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://twitter.com/tendorai"
+                href="https://x.com/AiTendor95471"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"

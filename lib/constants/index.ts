@@ -14,8 +14,8 @@ export const SITE_CONFIG = {
   email: 'scott.davies@tendorai.com',
 
   // Social
-  twitter: '@tendorai',
-  linkedIn: 'https://linkedin.com/company/tendorai',
+  twitter: '@AiTendor95471',
+  linkedIn: 'https://www.linkedin.com/company/tendorai',
 
   // Geographic focus
   primaryRegion: 'United Kingdom',
