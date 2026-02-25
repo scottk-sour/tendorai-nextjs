@@ -15,34 +15,24 @@ const cards = [
     acronym: 'AEO',
     subtitle: 'Answer Engine Optimisation',
     description:
-      'Measuring your AI visibility. When someone asks ChatGPT for a solicitor, does it say your name? Your AEO score tells you.',
-    status: 'Your Score',
+      'Optimising your presence so AI recommends you first. Schema markup, structured data, verified profiles — TendorAI handles your Answer Engine Optimisation so you show up when businesses ask AI for help.',
+    status: 'What We Do',
     statusColor: 'bg-[var(--purple-start)]/10 text-[var(--purple-start)]',
     borderColor: 'border-[var(--purple-start)]',
     accentColor: 'text-[var(--purple-start)]',
     cta: { label: 'Check Your Score — Free', href: '/aeo-report' },
   },
-  {
-    acronym: 'GEO',
-    subtitle: 'Generative Engine Optimisation',
-    description:
-      'Structuring your data so AI recommends you first. Schema markup, verified profiles, structured fees. GEO builds on your SEO — TendorAI does it for you.',
-    status: 'What We Do',
-    statusColor: 'bg-[#1B4F72]/10 text-[#1B4F72]',
-    borderColor: 'border-[#1B4F72]',
-    accentColor: 'text-[#1B4F72]',
-  },
 ];
 
-export default function SeoAeoGeo() {
+export default function SeoAeo() {
   return (
-    <article aria-label="SEO vs AEO vs GEO" className="py-20 md:py-24 bg-white">
+    <article aria-label="SEO vs AEO" className="py-20 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
-          <h2>SEO Got You Found on Google. GEO Gets You Recommended by AI.</h2>
+          <h2>SEO Got You Found on Google. AEO Gets You Recommended by AI.</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {cards.map((card) => (
             <div
               key={card.acronym}

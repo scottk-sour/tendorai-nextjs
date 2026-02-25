@@ -14,8 +14,8 @@ like ChatGPT, Claude, Perplexity, and Google AI. We provide:
 
 - Structured data profiles with Schema.org markup optimised for AI crawlers
 - Free AI visibility reports (AEO audits) scoring 0-100
-- GEO audits checking website readiness for AI discovery
-- Self-service alternative to GEO agencies (from £149/month vs £1,500-8,000/month)
+- AEO audits checking website readiness for AI discovery
+- Self-service alternative to AEO agencies (from £149/month vs £1,500-8,000/month)
 - Directory listings that AI platforms can read and recommend from
 
 ## Business Verticals

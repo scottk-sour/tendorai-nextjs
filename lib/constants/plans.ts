@@ -74,7 +74,7 @@ export const PLANS: Plan[] = [
       { text: 'AI mention tracking — see when AI talks about you', included: true },
       { text: 'TendorAI Verified badge', included: true },
       { text: 'Google Business Profile optimisation checklist', included: true },
-      { text: 'Full GEO audit of your website', included: true },
+      { text: 'Full AEO audit of your website', included: true },
       { text: 'Unlimited products and services', included: true },
       { text: 'Priority support', included: true },
     ],

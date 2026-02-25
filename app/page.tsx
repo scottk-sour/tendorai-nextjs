@@ -7,7 +7,7 @@ import SectorBenefits from './components/landing/SectorBenefits';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
-import SeoAeoGeo from './components/landing/SeoAeoGeo';
+import SeoAeo from './components/landing/SeoAeo';
 import Pricing from './components/landing/Pricing';
 import Verticals from './components/landing/Verticals';
 import ServiceCategories from './components/landing/ServiceCategories';
@@ -89,7 +89,7 @@ const newDescription = "Check if AI recommends your business. Free AEO reports f
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility for UK Businesses" },
   description: newDescription,
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, GEO audit, AEO report, free AEO score',
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AEO audit, AEO report, free AEO score',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
@@ -248,7 +248,7 @@ export default async function HomePage() {
         <AiTestimonials />
 
         {/* SEO vs AEO vs GEO */}
-        <SeoAeoGeo />
+        <SeoAeo />
 
         {/* Pricing */}
         <Pricing />

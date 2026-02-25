@@ -161,9 +161,14 @@ export default function CompetitorLeaderboard({ token, tier, vendorName, vendorT
         </h3>
         <p className="text-xs text-gray-500 mb-4">
           {usingPlaceholder
-            ? 'These are your real local competitors — AI tools are already recommending them'
+            ? 'Example data — your real competitor rankings will appear after the next AI scan'
             : 'Based on AI mention scans in the last 30 days'}
         </p>
+        {usingPlaceholder && (
+          <div className="mb-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700">
+            This is sample data showing how rankings work. Your actual competitors will appear after scanning.
+          </div>
+        )}
         <div className="space-y-2">
           {data.topCompetitors.slice(0, 5).map((comp, i) => (
             <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -220,7 +225,7 @@ export default function CompetitorLeaderboard({ token, tier, vendorName, vendorT
       </h3>
       <p className="text-xs text-gray-500 mb-4">
         {usingPlaceholder
-          ? 'These are your real local competitors — AI tools are already recommending them'
+          ? 'Example data — your real competitor rankings will appear after the next AI scan'
           : 'Based on AI mention scans in the last 30 days'}
       </p>
 

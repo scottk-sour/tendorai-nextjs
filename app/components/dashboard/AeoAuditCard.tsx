@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { hasTierAccess } from './TierGate';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-interface GeoCheck {
+interface AeoCheck {
   name: string;
   key: string;
   score: number;
@@ -20,19 +21,19 @@ interface AuditResult {
   id: string;
   websiteUrl: string;
   overallScore: number;
-  checks: GeoCheck[];
+  checks: AeoCheck[];
   recommendations: string[];
   tendoraiSchemaDetected?: boolean;
   createdAt: string;
 }
 
-interface GeoAuditCardProps {
+interface AeoAuditCardProps {
   token: string;
   tier: string;
   vendorWebsite: string;
 }
 
-export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCardProps) {
+export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCardProps) {
   const [url, setUrl] = useState(vendorWebsite || '');
   const [loading, setLoading] = useState(false);
   const [fetchingLatest, setFetchingLatest] = useState(true);
@@ -43,14 +44,14 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
   const [rateLimitMsg, setRateLimitMsg] = useState<string | null>(null);
   const [expandedCheck, setExpandedCheck] = useState<string | null>(null);
 
-  const isPaid = tier === 'visible' || tier === 'verified';
+  const isPaid = hasTierAccess(tier, 'starter');
 
   // Fetch latest audit on mount
   const fetchLatest = useCallback(async () => {
     if (!token) return;
     setFetchingLatest(true);
     try {
-      const res = await fetch(`${API_URL}/api/geo-audit/latest`, {
+      const res = await fetch(`${API_URL}/api/aeo-audit/latest`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
@@ -82,7 +83,7 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
     setRateLimitMsg(null);
 
     try {
-      const res = await fetch(`${API_URL}/api/geo-audit`, {
+      const res = await fetch(`${API_URL}/api/aeo-audit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,7 +157,7 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
       <div className="card p-6">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
-          <span className="text-gray-600">Loading GEO Audit...</span>
+          <span className="text-gray-600">Loading AEO Audit...</span>
         </div>
       </div>
     );
@@ -167,7 +168,7 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h3 className="font-semibold text-gray-900 text-lg">GEO Audit</h3>
+          <h3 className="font-semibold text-gray-900 text-lg">AEO Audit</h3>
           <p className="text-sm text-gray-600 mt-1">
             Check how AI-ready your website is. AI assistants crawl your site for structured data, content, and trust signals.
           </p>
@@ -189,7 +190,7 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
           disabled={loading || !url.trim() || (!canRunAgain && !error)}
           className="px-6 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
         >
-          {loading ? 'Analysing...' : 'Run GEO Audit'}
+          {loading ? 'Analysing...' : 'Run AEO Audit'}
         </button>
       </div>
 
@@ -357,7 +358,7 @@ export default function GeoAuditCard({ token, tier, vendorWebsite }: GeoAuditCar
           <svg className="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <p className="font-medium text-gray-700">No GEO audit yet</p>
+          <p className="font-medium text-gray-700">No AEO audit yet</p>
           <p className="text-sm mt-1">Enter your website URL above and run your first audit.</p>
         </div>
       )}

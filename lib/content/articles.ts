@@ -1095,7 +1095,7 @@ TendorAI provides an AI visibility platform built specifically for UK profession
 
 - **AI Visibility Score** — See exactly where your firm stands (0-100) with specific improvement tips
 - **AI Mention Tracking** — Weekly scans showing whether AI tools recommend your firm
-- **GEO Audit** — Technical analysis of your website's AI readiness (schema, structure, content)
+- **AEO Audit** — Technical analysis of your website's AI readiness (schema, structure, content)
 - **Live AI Search Test** — Run real prompts against AI tools and see the results
 - **Competitor Analysis** — See which local firms AI tools are recommending instead of you
 

@@ -254,6 +254,11 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
           <p className="text-xs text-gray-400 mt-2">
             Last scanned: {formatDate(data.createdAt)}
           </p>
+          {data.score < 50 && (
+            <p className="text-xs text-amber-600 mt-1">
+              Most businesses in your category score 20-40. Paid vendors average 55+.
+            </p>
+          )}
         </div>
       </div>
 

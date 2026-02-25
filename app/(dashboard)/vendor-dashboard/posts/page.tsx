@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
+import { hasTierAccess } from '@/app/components/dashboard/TierGate';
 
 interface Post {
   _id: string;
@@ -76,14 +77,10 @@ export default function PostsPage() {
           if (profileRes.ok) {
             const profileData = await profileRes.json();
             const rawTier = profileData.vendor?.tier || profileData.tier || 'free';
-            const tierMap: Record<string, string> = {
-              free: 'listed', listed: 'listed',
-              basic: 'visible', visible: 'visible', standard: 'visible',
-              managed: 'verified', verified: 'verified', enterprise: 'verified',
-            };
-            const tier = tierMap[rawTier.toLowerCase()] || 'listed';
-            const limitMap: Record<string, number> = { listed: 0, visible: 2, verified: Infinity };
-            setTierInfo({ tier, postsThisMonth: thisMonth, limit: limitMap[tier] });
+            const isPaidTier = hasTierAccess(rawTier, 'starter');
+            const isProTier = hasTierAccess(rawTier, 'pro');
+            const limit = isProTier ? Infinity : isPaidTier ? 2 : 0;
+            setTierInfo({ tier: rawTier, postsThisMonth: thisMonth, limit });
           }
         }
       }
@@ -163,7 +160,7 @@ export default function PostsPage() {
   };
 
   const canPost = tierInfo && (tierInfo.limit === Infinity || tierInfo.postsThisMonth < tierInfo.limit);
-  const isFree = tierInfo?.tier === 'listed';
+  const isFree = tierInfo ? !hasTierAccess(tierInfo.tier, 'starter') : false;
 
   if (loading) {
     return (
@@ -197,10 +194,15 @@ export default function PostsPage() {
         <div className="card p-4">
           {isFree ? (
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-600">
-                Posting is available on Starter and Pro plans.
-              </p>
-              <a href="/vendor-dashboard/settings?tab=subscription" className="btn-primary px-3 py-1.5 text-sm">
+              <div>
+                <p className="text-sm font-medium text-gray-700">
+                  Posts help AI recommend you with context
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Share news, guides, and offers. AI tools use your posts to give richer recommendations. Available on Starter (2/month) and Pro (unlimited).
+                </p>
+              </div>
+              <a href="/vendor-dashboard/settings?tab=subscription" className="btn-primary px-3 py-1.5 text-sm ml-4 whitespace-nowrap">
                 Upgrade
               </a>
             </div>

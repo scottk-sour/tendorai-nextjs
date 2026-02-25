@@ -50,10 +50,20 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
             <span className="text-2xl">✨</span>
             <h3 className="font-semibold text-lg">You&apos;re on the Free Plan</h3>
           </div>
-          <p className="text-blue-100 text-sm max-w-xl">
-            Upgrade to get AI visibility insights, unlimited products, and priority ranking in search results.
-            Verified vendors get <span className="font-medium text-white">3x more leads</span> on average.
+          <p className="text-blue-100 text-sm max-w-xl mb-2">
+            Free profiles are ranked below paid vendors in AI results. Upgrade to unlock:
           </p>
+          <ul className="text-blue-100 text-sm space-y-0.5">
+            <li className="flex items-center gap-1.5">
+              <span className="text-white">&#10003;</span> AI mention tracking — see when ChatGPT recommends you
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="text-white">&#10003;</span> Unlimited products with pricing visible to AI
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="text-white">&#10003;</span> Monthly AEO visibility reports
+            </li>
+          </ul>
         </div>
 
         <div className="flex items-center gap-3">

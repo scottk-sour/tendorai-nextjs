@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: 'What does TendorAI actually do to improve my AI visibility?',
-    a: 'TendorAI provides an AI Visibility Score showing where you stand, monitors your mentions across AI tools, runs GEO audits on your website, tests real-time AI search results for your category, and gives specific recommendations to improve your visibility. Think of it as a dashboard for your AI presence.',
+    a: 'TendorAI provides an AI Visibility Score showing where you stand, monitors your mentions across AI tools, runs AEO audits on your website, tests real-time AI search results for your category, and gives specific recommendations to improve your visibility. Think of it as a dashboard for your AI presence.',
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
@@ -64,8 +64,8 @@ const faqs = [
     a: 'Not replacing, but rapidly supplementing. Studies show 25-40% of B2B buyers now use AI tools during their research process. This percentage is growing quarter on quarter. Businesses that ignore AI visibility now will find it harder to catch up later.',
   },
   {
-    q: 'What\'s a GEO audit and why do I need one?',
-    a: 'A GEO (Generative Engine Optimisation) audit checks whether your website is structured in a way that AI tools can easily understand. It looks at schema markup, meta descriptions, headings, FAQ sections, and other factors that influence how AI models interpret your content.',
+    q: 'What\'s an AEO audit and why do I need one?',
+    a: 'An AEO (Answer Engine Optimisation) audit checks whether your website is structured in a way that AI tools can easily understand. It looks at schema markup, meta descriptions, headings, FAQ sections, and other factors that influence how AI models interpret your content.',
   },
 ];
 
@@ -121,14 +121,14 @@ function PricingCards() {
       name: 'Free',
       price: '£0',
       priceLabel: '/forever',
-      features: ['Basic vendor profile', 'AI Visibility Score', '1 GEO Audit', 'Category listing'],
+      features: ['Basic vendor profile', 'AI Visibility Score', '1 AEO Audit', 'Category listing'],
       highlighted: false,
     },
     {
       name: 'Starter',
       price: '£149',
       priceLabel: '/month',
-      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly GEO Audits', 'Live AI Search Tests', 'Unlimited product listings', 'Monthly AEO report'],
+      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly AEO Audits', 'Live AI Search Tests', 'Unlimited product listings', 'Monthly AEO report'],
       highlighted: false,
     },
     {
@@ -497,7 +497,7 @@ export default function AIVisibilityVsSEOPage() {
               { title: 'AI Visibility Score', desc: 'A single score (0-100) showing how visible your business is to AI tools, with specific tips to improve.' },
               { title: 'AI Mention Tracking', desc: 'See how often AI tools mention your company when users ask about your category and location. Weekly scans across multiple AI models.' },
               { title: 'Live AI Search Test', desc: 'Run real-time queries against AI tools to see exactly what they say about your business category in your area.' },
-              { title: 'GEO Audit', desc: 'A technical audit of your website checking 10 factors that influence AI visibility, from schema markup to content structure.' },
+              { title: 'AEO Audit', desc: 'A technical audit of your website checking 10 factors that influence AI visibility, from schema markup to content structure.' },
               { title: 'Competitor Analysis', desc: 'See which competitors are being mentioned by AI tools and what they\'re doing differently.' },
               { title: 'Actionable Recommendations', desc: 'Specific, prioritised steps you can take to improve your AI visibility score and mentions.' },
             ].map((item) => (

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
+import { UpgradeNudge } from '@/app/components/dashboard/UpgradeBanner';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -70,6 +71,7 @@ export default function VendorReviewsPage() {
   const [respondingTo, setRespondingTo] = useState<string | null>(null);
   const [responseText, setResponseText] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [tier, setTier] = useState('free');
 
   const fetchReviews = async () => {
     const token = getCurrentToken();
@@ -92,6 +94,17 @@ export default function VendorReviewsPage() {
       } else {
         throw new Error(data.error || 'Failed to fetch reviews');
       }
+
+      // Fetch tier for upgrade nudge
+      try {
+        const profileRes = await fetch(`${API_URL}/api/vendors/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          setTier(profileData.vendor?.tier || 'free');
+        }
+      } catch { /* ignore tier fetch errors */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -241,6 +254,12 @@ export default function VendorReviewsPage() {
         </div>
       </div>
 
+      {/* Upgrade nudge for free tier */}
+      <UpgradeNudge
+        tier={tier}
+        message="Reviews boost your AI visibility score by up to 5 points. Upgrade to see your full score breakdown and get actionable tips."
+      />
+
       {/* Recommend percentage */}
       {stats && stats.totalReviews > 0 && (
         <div className="bg-white rounded-lg shadow p-4">
@@ -297,6 +316,12 @@ export default function VendorReviewsPage() {
             <p className="mt-2 text-sm text-gray-500">
               Reviews from your customers will appear here.
             </p>
+            <div className="mt-4 p-4 bg-purple-50 rounded-lg text-left max-w-md mx-auto">
+              <p className="text-sm font-medium text-purple-900 mb-2">Reviews boost your AI visibility</p>
+              <p className="text-xs text-purple-700">
+                Businesses with 3+ reviews score up to 5 extra visibility points. Ask your best clients to leave a review — it helps AI tools trust and recommend you.
+              </p>
+            </div>
           </div>
         ) : (
           reviews.map((review) => (

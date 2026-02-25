@@ -99,7 +99,7 @@ function generateSchemaClientSide(v: VendorData): Record<string, unknown> {
   if (v.fcaNumber) identifiers.push({ '@type': 'PropertyValue', name: 'FCA Number', propertyID: 'https://www.fca.org.uk', value: v.fcaNumber });
   if (v.icaewFirmNumber) identifiers.push({ '@type': 'PropertyValue', name: 'ICAEW Firm Number', propertyID: 'https://www.icaew.com', value: v.icaewFirmNumber });
   if (v.propertymarkNumber) identifiers.push({ '@type': 'PropertyValue', name: 'Propertymark Number', propertyID: 'https://www.propertymark.co.uk', value: v.propertymarkNumber });
-  if (v.tier === 'verified') identifiers.push({ '@type': 'PropertyValue', name: 'TendorAI Verified', propertyID: 'https://www.tendorai.com', value: v.vendorId });
+  if (['managed', 'pro', 'verified', 'gold', 'enterprise'].includes(v.tier || '')) identifiers.push({ '@type': 'PropertyValue', name: 'TendorAI Verified', propertyID: 'https://www.tendorai.com', value: v.vendorId });
 
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -179,10 +179,10 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
   const schema = useMemo(() => generateSchemaClientSide(vendorData), [vendorData]);
   const schemaJson = useMemo(() => JSON.stringify(schema, null, 2), [schema]);
 
-  // Fetch schema health from latest GEO audit
+  // Fetch schema health from latest AEO audit
   useEffect(() => {
-    if (!token || tier !== 'verified') return;
-    fetch(`${API_URL}/api/geo-audit/latest`, {
+    if (!token || !['managed', 'pro', 'verified', 'gold', 'enterprise'].includes(tier)) return;
+    fetch(`${API_URL}/api/aeo-audit/latest`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(r => r.json())
@@ -199,7 +199,7 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
 
   // Fetch latest install request status
   useEffect(() => {
-    if (!token || tier !== 'verified') return;
+    if (!token || !['managed', 'pro', 'verified', 'gold', 'enterprise'].includes(tier)) return;
     fetch(`${API_URL}/api/schema/install-request/latest`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -310,7 +310,7 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
           <h3 className="font-semibold text-gray-900 text-lg">Schema.org Generator</h3>
           <p className="text-sm text-gray-500 mt-1">Structured data for your website that AI crawlers can read</p>
         </div>
-        {tier === 'verified' && (
+        {['managed', 'pro', 'verified', 'gold', 'enterprise'].includes(tier) && (
           <div className="flex items-center gap-2">
             {schemaHealth === 'green' && (
               <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">

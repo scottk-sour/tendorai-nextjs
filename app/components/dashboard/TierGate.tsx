@@ -20,12 +20,16 @@ function normalizeTier(tier: string): VendorTier {
   const mapping: Record<string, VendorTier> = {
     free: 'free',
     listed: 'free',
+    standard: 'free',
     starter: 'starter',
     basic: 'starter',
     visible: 'starter',
+    silver: 'starter',
     pro: 'pro',
     managed: 'pro',
     verified: 'pro',
+    gold: 'pro',
+    enterprise: 'pro',
   };
   return mapping[t] || 'free';
 }
@@ -129,11 +133,11 @@ export default function TierGate({
 
           {/* Upgrade info */}
           <p className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 mb-3`}>
-            Upgrade to{' '}
+            Available on{' '}
             <span className="font-medium text-purple-600">
               {requiredTier === 'starter' ? 'Starter' : 'Pro'}
             </span>{' '}
-            to unlock
+            — {requiredTier === 'starter' ? '£149/mo' : '£299/mo'}
           </p>
 
           {/* CTA Button */}
@@ -152,6 +156,19 @@ export default function TierGate({
       </div>
     </div>
   );
+}
+
+// Convenience helpers
+export function isFreeTier(tier: string): boolean {
+  return !hasTierAccess(tier, 'starter');
+}
+
+export function isPaidTier(tier: string): boolean {
+  return hasTierAccess(tier, 'starter');
+}
+
+export function isProTier(tier: string): boolean {
+  return hasTierAccess(tier, 'pro');
 }
 
 // Smaller inline lock for feature hints

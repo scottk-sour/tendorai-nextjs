@@ -6,7 +6,7 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import TierGate, { hasTierAccess, getTierLabel } from '@/app/components/dashboard/TierGate';
 import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreCard';
 import AISearchTest from '@/app/components/dashboard/AISearchTest';
-import GeoAuditCard from '@/app/components/dashboard/GeoAuditCard';
+import AeoAuditCard from '@/app/components/dashboard/AeoAuditCard';
 import SchemaGeneratorCard from '@/app/components/dashboard/SchemaGeneratorCard';
 import GbpChecklistCard from '@/app/components/dashboard/GbpChecklistCard';
 
@@ -376,8 +376,8 @@ export default function AnalyticsPage() {
         vendorCoverage={vendorCoverage}
       />
 
-      {/* GEO Audit */}
-      <GeoAuditCard
+      {/* AEO Audit */}
+      <AeoAuditCard
         token={token || ''}
         tier={tier}
         vendorWebsite={vendorWebsite}

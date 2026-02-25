@@ -34,19 +34,19 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What does the AI Visibility Score measure?',
-    a: 'Your score (0–100) reflects how likely AI assistants are to recommend your business. It considers your profile completeness, product listings, GEO audit results, AI mentions, and reviews. Higher scores mean better chances of being recommended.',
+    a: 'Your score (0–100) reflects how likely AI assistants are to recommend your business. It considers your profile completeness, product listings, AEO audit results, AI mentions, and reviews. Higher scores mean better chances of being recommended.',
   },
   {
     q: 'How do AI Mentions work?',
     a: 'We run weekly scans across major AI platforms (ChatGPT, Gemini, Perplexity, Claude) using industry-specific prompts relevant to your services. We track when and where your business is mentioned, your position in results, and competitor comparisons.',
   },
   {
-    q: 'What is a GEO Audit?',
-    a: "GEO stands for Generative Engine Optimisation. Our audit checks your website for the specific signals that AI systems look for — structured data, meta tags, content quality, schema markup, and more. It's like an SEO audit, but for AI discovery.",
+    q: 'What is an AEO Audit?',
+    a: "AEO stands for Answer Engine Optimisation. Our audit checks your website for the specific signals that AI systems look for — structured data, meta tags, content quality, schema markup, and more. It's like an SEO audit, but for AI discovery.",
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, GEO audits, AEO reports, and higher visibility through tier-based score boosts.',
+    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, AEO audits, AEO reports, and higher visibility through tier-based score boosts.',
   },
   {
     q: 'How often should I check my dashboard?',
@@ -79,9 +79,9 @@ const FEATURES = [
     icon: 'search',
   },
   {
-    name: 'GEO Audit',
+    name: 'AEO Audit',
     description:
-      'Generative Engine Optimisation audit — checks your website for the signals AI systems look for.',
+      'Answer Engine Optimisation audit — checks your website for the signals AI systems look for.',
     icon: 'audit',
   },
   {
@@ -194,7 +194,7 @@ const STEPS = [
   },
   {
     num: 3,
-    title: 'Run a GEO Audit',
+    title: 'Run an AEO Audit',
     desc: 'Check how your website scores for AI visibility. Pro members get schema markup installed directly on their website.',
   },
   {
@@ -205,7 +205,7 @@ const STEPS = [
   {
     num: 5,
     title: 'Improve & Repeat',
-    desc: 'Use your visibility score tips and GEO recommendations to make targeted improvements. Watch your score climb week by week.',
+    desc: 'Use your visibility score tips and AEO recommendations to make targeted improvements. Watch your score climb week by week.',
   },
 ];
 
@@ -231,13 +231,13 @@ export default function GettingStartedPage() {
       // Parallel fetches
       const [profileRes, geoRes, searchTestRes] = await Promise.all([
         fetch(`${API_URL}/api/vendors/profile`, { headers }),
-        fetch(`${API_URL}/api/geo-audit/latest`, { headers }).catch(() => null),
+        fetch(`${API_URL}/api/aeo-audit/latest`, { headers }).catch(() => null),
         fetch(`${API_URL}/api/ai-search-test/history`, { headers }).catch(() => null),
       ]);
 
       let profileComplete = false;
       let hasProducts = false;
-      let hasGeoAudit = false;
+      let hasAeoAudit = false;
       let hasSearchTest = false;
       let hasReviews = false;
       let viewedScore = false;
@@ -271,11 +271,11 @@ export default function GettingStartedPage() {
         hasReviews = reviewCount > 0;
       }
 
-      // GEO audit
+      // AEO audit
       if (geoRes && geoRes.ok) {
         try {
           const geoData = await geoRes.json();
-          hasGeoAudit = !!(geoData && (geoData.overallScore !== undefined || geoData.audit));
+          hasAeoAudit = !!(geoData && (geoData.overallScore !== undefined || geoData.audit));
         } catch {
           // ignore
         }
@@ -317,9 +317,9 @@ export default function GettingStartedPage() {
           href: '/vendor-dashboard/analytics',
         },
         {
-          id: 'geo',
-          label: 'Run your first GEO Audit',
-          done: hasGeoAudit,
+          id: 'aeo',
+          label: 'Run your first AEO Audit',
+          done: hasAeoAudit,
           href: '/vendor-dashboard/analytics',
         },
         {

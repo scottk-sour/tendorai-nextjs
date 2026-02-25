@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     'AI visibility for accountants',
     'AI visibility for suppliers',
     'structured data profiles',
-    'GEO audit',
+    'AEO audit',
     'AEO report',
   ],
   icons: {
@@ -147,7 +147,7 @@ const softwareAppJsonLd = {
   name: 'TendorAI AEO Report',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, GEO audits, and AI mention tracking.',
+  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AEO audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
   offers: [
     {

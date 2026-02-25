@@ -156,11 +156,14 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
         {/* Empty state */}
         {aiMentions === 0 && (
           <div className="text-center py-2">
-            <p className="text-white/60 text-sm mb-2">No AI mentions yet. Improve your visibility:</p>
+            <p className="text-white/80 text-sm mb-2">No AI mentions found this period.</p>
+            <p className="text-white/50 text-xs mb-2">
+              AI mentions are scanned weekly. To improve your chances:
+            </p>
             <ul className="text-white/50 text-xs space-y-1">
-              <li>• Add more products with pricing</li>
-              <li>• Complete your company description</li>
-              <li>• Upgrade to increase AI visibility</li>
+              <li>• Add more products/services with pricing</li>
+              <li>• Complete your company description and specialisms</li>
+              <li>• Get client reviews (3+ reviews = +5 visibility points)</li>
             </ul>
           </div>
         )}
@@ -168,7 +171,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
     );
   };
 
-  // Mock data for locked preview
+  // Preview for locked state — shows what they'd see
   const MockContent = () => (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -181,28 +184,24 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
           <span className="px-3 py-1 text-sm text-white/80">30d</span>
         </div>
       </div>
-      <div className="mb-6">
-        <div className="flex items-baseline gap-3">
-          <span className="text-5xl font-bold text-white">12</span>
-          <span className="text-green-300 text-sm font-medium">AI recommendations</span>
-        </div>
-        <p className="text-white/60 text-sm mt-1">Times AI assistants mentioned your company</p>
+      <div className="mb-4">
+        <p className="text-white/80 text-sm">See how often AI assistants like ChatGPT, Claude, and Perplexity mention your business when people search for your services.</p>
       </div>
       <div className="grid grid-cols-4 gap-2">
         <div className="bg-white/10 rounded-lg p-3 text-center">
-          <div className="text-xl font-bold text-white">5</div>
+          <div className="text-xl font-bold text-white/30">—</div>
           <div className="text-xs text-white/60">ChatGPT</div>
         </div>
         <div className="bg-white/10 rounded-lg p-3 text-center">
-          <div className="text-xl font-bold text-white">4</div>
+          <div className="text-xl font-bold text-white/30">—</div>
           <div className="text-xs text-white/60">Claude</div>
         </div>
         <div className="bg-white/10 rounded-lg p-3 text-center">
-          <div className="text-xl font-bold text-white">2</div>
+          <div className="text-xl font-bold text-white/30">—</div>
           <div className="text-xs text-white/60">Perplexity</div>
         </div>
         <div className="bg-white/10 rounded-lg p-3 text-center">
-          <div className="text-xl font-bold text-white">1</div>
+          <div className="text-xl font-bold text-white/30">—</div>
           <div className="text-xs text-white/60">Other</div>
         </div>
       </div>
