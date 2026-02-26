@@ -4,9 +4,17 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+const industryLinks = [
+  { href: '/ai-visibility-for-solicitors', label: 'Solicitors' },
+  { href: '/ai-visibility-for-accountants', label: 'Accountants' },
+  { href: '/ai-visibility-for-mortgage-advisors', label: 'Mortgage Advisors' },
+  { href: '/ai-visibility-for-estate-agents', label: 'Estate Agents' },
+];
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isIndustriesOpen, setIsIndustriesOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -17,6 +25,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsIndustriesOpen(false);
   }, [pathname]);
 
   const navLinks = [
@@ -32,6 +41,8 @@ const Header = () => {
     if (path === '/') return pathname === '/';
     return pathname.startsWith(path);
   };
+
+  const isIndustriesActive = pathname.startsWith('/ai-visibility-for-');
 
   return (
     <header
@@ -66,6 +77,41 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
+
+            {/* Industries Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsIndustriesOpen(true)}
+              onMouseLeave={() => setIsIndustriesOpen(false)}
+            >
+              <button
+                className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                  isIndustriesActive ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600'
+                }`}
+              >
+                Industries
+                <svg className={`w-3.5 h-3.5 transition-transform ${isIndustriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {isIndustriesOpen && (
+                <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-lg border border-[var(--border)] py-2 z-50">
+                  {industryLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`block px-4 py-2.5 text-sm transition-colors ${
+                        pathname === link.href
+                          ? 'text-purple-600 bg-purple-50'
+                          : 'text-gray-600 hover:text-purple-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Desktop Auth + CTA */}
@@ -122,6 +168,39 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Mobile Industries Section */}
+              <button
+                onClick={() => setIsIndustriesOpen(!isIndustriesOpen)}
+                className={`text-sm font-medium px-3 py-2 rounded-lg transition-colors flex items-center justify-between w-full ${
+                  isIndustriesActive
+                    ? 'text-purple-600 bg-purple-50'
+                    : 'text-gray-600 hover:text-purple-600 hover:bg-gray-50'
+                }`}
+              >
+                Industries
+                <svg className={`w-4 h-4 transition-transform ${isIndustriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {isIndustriesOpen && (
+                <div className="pl-4 space-y-1">
+                  {industryLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`block text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
+                        pathname === link.href
+                          ? 'text-purple-600 bg-purple-50'
+                          : 'text-gray-500 hover:text-purple-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
               <div className="border-t border-gray-100 pt-3 mt-2">
                 <Link
                   href="/vendor-login"

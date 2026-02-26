@@ -44,6 +44,13 @@ const serviceCategories = [
   { name: 'Business Software', slug: 'software' },
 ];
 
+const industries = [
+  { name: 'AI Visibility for Solicitors', href: '/ai-visibility-for-solicitors' },
+  { name: 'AI Visibility for Accountants', href: '/ai-visibility-for-accountants' },
+  { name: 'AI Visibility for Mortgage Advisors', href: '/ai-visibility-for-mortgage-advisors' },
+  { name: 'AI Visibility for Estate Agents', href: '/ai-visibility-for-estate-agents' },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900" aria-labelledby="footer-heading" data-nosnippet>
@@ -104,7 +111,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation links */}
-          <div className="mt-12 grid grid-cols-3 gap-8 xl:col-span-3 xl:mt-0">
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 xl:col-span-3 xl:mt-0">
             <div>
               <h3 className="text-sm font-semibold text-white">Product</h3>
               <ul role="list" className="mt-4 space-y-3">
@@ -146,7 +153,21 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold text-white">Services</h3>
+              <h3 className="text-sm font-semibold text-white">Industries</h3>
+              <ul role="list" className="mt-4 space-y-3">
+                {industries.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <h3 className="text-sm font-semibold text-white mt-8">Services</h3>
               <ul role="list" className="mt-4 space-y-3">
                 {serviceCategories.map((cat) => (
                   <li key={cat.slug}>
@@ -161,9 +182,9 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div>
+            <div className="col-span-2 md:col-span-2">
               <h3 className="text-sm font-semibold text-white">Popular Locations</h3>
-              <ul role="list" className="mt-4 space-y-3">
+              <ul role="list" className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3">
                 {popularLocations.map((loc) => (
                   <li key={loc.slug}>
                     <Link
