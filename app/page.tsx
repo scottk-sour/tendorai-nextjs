@@ -3,6 +3,7 @@ import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
 import AiShift from './components/landing/AiShift';
 import Features from './components/landing/Features';
+import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
@@ -234,6 +235,9 @@ export default async function HomePage() {
 
         {/* How TendorAI Works — 4 steps */}
         <Features />
+
+        {/* Trust Bar — verified UK data sources */}
+        <TrustBar />
 
         {/* Sector Benefits — 4 vertical cards */}
         <SectorBenefits />

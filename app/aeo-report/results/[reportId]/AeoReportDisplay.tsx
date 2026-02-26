@@ -174,6 +174,19 @@ function BreakdownBar({ label, score, max = 17 }: { label: string; score: number
   );
 }
 
+function getRegulatoryBody(category: string): string {
+  const legal = ['conveyancing', 'family-law', 'criminal-law', 'commercial-law', 'employment-law', 'wills-and-probate', 'immigration', 'personal-injury'];
+  const accountants = ['tax-advisory', 'audit-assurance', 'bookkeeping', 'payroll', 'corporate-finance', 'business-advisory', 'vat-services', 'financial-planning'];
+  const mortgage = ['residential-mortgages', 'buy-to-let', 'remortgage', 'first-time-buyer', 'equity-release', 'commercial-mortgages', 'protection-insurance'];
+  const estate = ['sales', 'lettings', 'property-management', 'block-management', 'auctions', 'commercial-property', 'inventory'];
+
+  if (legal.includes(category)) return 'the SRA Solicitors Register';
+  if (accountants.includes(category)) return 'the ICAEW directory';
+  if (mortgage.includes(category)) return 'the FCA Financial Services Register';
+  if (estate.includes(category)) return 'public property directories';
+  return 'publicly available business data';
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 export default function AeoReportDisplay({ report, pdfUrl }: Props) {
@@ -499,6 +512,14 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             </div>
           </section>
         )}
+
+        {/* Trust note */}
+        <p className="mt-8 text-sm text-gray-500 text-center flex items-center justify-center gap-1.5">
+          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+          </svg>
+          This report was generated using data from {getRegulatoryBody(report.category)} and AI analysis of your online presence across ChatGPT, Claude, Perplexity, and Google AI Overviews.
+        </p>
 
         {/* CTA */}
         <section className="mt-8 bg-[#1B4F72] rounded-xl shadow-sm p-8 text-center text-white">
