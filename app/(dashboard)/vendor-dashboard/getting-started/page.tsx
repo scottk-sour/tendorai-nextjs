@@ -34,19 +34,19 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What does the AI Visibility Score measure?',
-    a: 'Your score (0–100) reflects how likely AI assistants are to recommend your business. It considers your profile completeness, product listings, AEO audit results, AI mentions, and reviews. Higher scores mean better chances of being recommended.',
+    a: 'Your score (0–100) reflects how likely AI assistants are to recommend your business. It considers your profile completeness, product listings, AI Visibility (AEO) audit results, AI mentions, and reviews. Higher scores mean better chances of being recommended.',
   },
   {
     q: 'How do AI Mentions work?',
     a: 'We run weekly scans across major AI platforms (ChatGPT, Gemini, Perplexity, Claude) using industry-specific prompts relevant to your services. We track when and where your business is mentioned, your position in results, and competitor comparisons.',
   },
   {
-    q: 'What is an AEO Audit?',
-    a: "AEO stands for Answer Engine Optimisation. Our audit checks your website for the specific signals that AI systems look for — structured data, meta tags, content quality, schema markup, and more. It's like an SEO audit, but for AI discovery.",
+    q: 'What is an AI Visibility (AEO) Audit?',
+    a: "AI Visibility (AEO) stands for Answer Engine Optimisation. Our audit checks your website for the specific signals that AI systems look for — structured data, meta tags, content quality, schema markup, and more. It's like an SEO audit, but for AI discovery.",
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, AEO audits, AEO reports, and higher visibility through tier-based score boosts.',
+    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, AI Visibility (AEO) audits, AI Visibility (AEO) reports, and higher visibility through tier-based score boosts.',
   },
   {
     q: 'How often should I check my dashboard?',
@@ -79,7 +79,7 @@ const FEATURES = [
     icon: 'search',
   },
   {
-    name: 'AEO Audit',
+    name: 'AI Visibility (AEO) Audit',
     description:
       'Answer Engine Optimisation audit — checks your website for the signals AI systems look for.',
     icon: 'audit',
@@ -194,7 +194,7 @@ const STEPS = [
   },
   {
     num: 3,
-    title: 'Run an AEO Audit',
+    title: 'Run an AI Visibility (AEO) Audit',
     desc: 'Check how your website scores for AI visibility. Pro members get schema markup installed directly on their website.',
   },
   {
@@ -205,7 +205,7 @@ const STEPS = [
   {
     num: 5,
     title: 'Improve & Repeat',
-    desc: 'Use your visibility score tips and AEO recommendations to make targeted improvements. Watch your score climb week by week.',
+    desc: 'Use your visibility score tips and AI Visibility (AEO) recommendations to make targeted improvements. Watch your score climb week by week.',
   },
 ];
 
@@ -318,7 +318,7 @@ export default function GettingStartedPage() {
         },
         {
           id: 'aeo',
-          label: 'Run your first AEO Audit',
+          label: 'Run your first AI Visibility (AEO) Audit',
           done: hasAeoAudit,
           href: '/vendor-dashboard/analytics',
         },
@@ -436,7 +436,7 @@ export default function GettingStartedPage() {
               <span className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-sm font-bold">
                 AI
               </span>
-              AI Search (AEO)
+              AI Search (AI Visibility / AEO)
             </h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start gap-2">

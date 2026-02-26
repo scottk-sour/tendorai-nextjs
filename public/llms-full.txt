@@ -13,9 +13,9 @@ TendorAI helps UK businesses become visible to AI recommendation engines
 like ChatGPT, Claude, Perplexity, and Google AI. We provide:
 
 - Structured data profiles with Schema.org markup optimised for AI crawlers
-- Free AI visibility reports (AEO audits) scoring 0-100
-- AEO audits checking website readiness for AI discovery
-- Self-service alternative to AEO agencies (from £149/month vs £1,500-8,000/month)
+- Free AI Visibility (AEO) reports scoring 0-100
+- AI Visibility (AEO) audits checking website readiness for AI discovery
+- Self-service alternative to AI Visibility (AEO) agencies (from £149/month vs £1,500-8,000/month)
 - Directory listings that AI platforms can read and recommend from
 
 ## Business Verticals
@@ -181,7 +181,7 @@ All vendor profiles include Schema.org JSON-LD markup:
 | Pro        | £299/mo  | Priority ranking in AI responses, full structured data |
 | Enterprise | £499/mo  | Multi-location, API analytics, custom Schema.org |
 
-## AI Visibility Reports (AEO Audits)
+## AI Visibility (AEO) Reports
 
 Free for any UK business. Reports include:
 - AI visibility score (0-100) with 6-category breakdown

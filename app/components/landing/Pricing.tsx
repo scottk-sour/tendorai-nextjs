@@ -14,7 +14,7 @@ const plans = [
       { text: 'Public register data', included: true },
       { text: 'No pricing visible to AI', included: true },
       { text: 'AI mention tracking', included: false },
-      { text: 'AEO reports', included: false },
+      { text: 'AI Visibility (AEO) reports', included: false },
       { text: 'Priority ranking', included: false },
     ],
     cta: 'Claim Your Free Profile',
@@ -26,13 +26,13 @@ const plans = [
     price: '£149',
     originalPrice: '£299',
     period: '/month',
-    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.',
+    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.',
     popular: false,
     highlight: false,
     features: [
       { text: 'Pricing visible to AI', included: true },
       { text: 'Ranked above free profiles', included: true },
-      { text: 'Monthly AEO report', included: true },
+      { text: 'Monthly AI Visibility (AEO) report', included: true },
       { text: 'AI visibility score', included: true },
       { text: 'Unlimited products', included: true },
       { text: 'AI mention tracking', included: false },
@@ -142,7 +142,7 @@ export default function Pricing() {
 
         {/* Comparison Table */}
         <div className="max-w-3xl mx-auto">
-          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">How we compare to AEO agencies</h3>
+          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">How we compare to AI Visibility (AEO) agencies</h3>
           <div className="rounded-xl border border-[var(--border)] overflow-hidden bg-white">
             <table className="w-full">
               <thead>
@@ -164,7 +164,7 @@ export default function Pricing() {
             </table>
           </div>
           <p className="text-xs text-[var(--text3)] text-center mt-4">
-            Agency pricing based on UK market averages for AEO services, 2024-2025.
+            Agency pricing based on UK market averages for AI Visibility (AEO) services, 2024-2025.
           </p>
         </div>
       </div>

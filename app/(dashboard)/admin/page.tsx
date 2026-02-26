@@ -164,7 +164,7 @@ export default function AdminOverviewPage() {
             </div>
             <div className="text-center p-3 bg-purple-50 rounded-lg">
               <p className="text-2xl font-bold text-purple-700">{leadCounts.aeo}</p>
-              <p className="text-sm text-purple-600">AEO Reports</p>
+              <p className="text-sm text-purple-600">AI Visibility (AEO) Reports</p>
             </div>
             <div className="text-center p-3 bg-blue-50 rounded-lg">
               <p className="text-2xl font-bold text-blue-700">{leadCounts.quote}</p>

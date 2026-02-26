@@ -58,7 +58,7 @@ export default function FAQPage() {
     },
     {
       question: 'How much does it cost?',
-      answer: "Free to be listed. Paid tiers start at £149/month for full AI visibility including priority ranking, AEO reports, and mention tracking.",
+      answer: "Free to be listed. Paid tiers start at £149/month for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
     },
     {
       question: 'What industries do you cover?',
@@ -69,7 +69,7 @@ export default function FAQPage() {
       answer: "Free to be listed with a basic profile. Paid tiers from £149/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
     },
     {
-      question: 'What is an AEO report?',
+      question: 'What is an AI Visibility (AEO) report?',
       answer: "An AI Engine Optimisation report that audits how AI platforms see your business. It shows what AI says about you, who it recommends instead, and what to fix.",
     },
     {

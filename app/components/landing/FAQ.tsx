@@ -15,7 +15,7 @@ const faqItems = [
   },
   {
     question: 'How is this different from SEO?',
-    answer: 'SEO optimises for Google search results. AI visibility (AEO/GEO) optimises for AI recommendations. When someone asks ChatGPT "find me a solicitor in Bristol", AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.',
+    answer: 'SEO optimises for Google search results. AI Visibility (AEO) optimises for AI recommendations. When someone asks ChatGPT "find me a solicitor in Bristol", AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.',
   },
   {
     question: 'What does a free AI visibility report show?',

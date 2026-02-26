@@ -61,7 +61,7 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
               <span className="text-white">&#10003;</span> Unlimited products with pricing visible to AI
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-white">&#10003;</span> Monthly AEO visibility reports
+              <span className="text-white">&#10003;</span> Monthly AI Visibility (AEO) reports
             </li>
           </ul>
         </div>

@@ -29,7 +29,7 @@ function getToken(): string {
 const sourceTabs = [
   { key: 'all', label: 'All' },
   { key: 'newsletter', label: 'Newsletter' },
-  { key: 'aeo', label: 'AEO Report' },
+  { key: 'aeo', label: 'AI Visibility (AEO) Report' },
   { key: 'quote', label: 'Quote Request' },
   { key: 'vendor-lead', label: 'Vendor Lead' },
 ];
@@ -43,7 +43,7 @@ const sourceBadgeColors: Record<string, string> = {
 
 const sourceLabels: Record<string, string> = {
   newsletter: 'Newsletter',
-  aeo: 'AEO Report',
+  aeo: 'AI Visibility (AEO) Report',
   quote: 'Quote Request',
   'vendor-lead': 'Vendor Lead',
 };

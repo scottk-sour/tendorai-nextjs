@@ -22,11 +22,11 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.tendorai.com'),
   title: {
-    default: "TendorAI \u2014 The UK's AI Visibility Platform | Free AEO Reports",
+    default: "TendorAI \u2014 The UK's AI Visibility Platform | Free AI Visibility (AEO) Reports",
     template: '%s | TendorAI',
   },
   description:
-    "Check if AI recommends your business. TendorAI provides free AEO reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AEO score in 60 seconds.",
+    "Check if AI recommends your business. TendorAI provides free AI Visibility (AEO) reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AI Visibility (AEO) score in 60 seconds.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
     'AI visibility for accountants',
     'AI visibility for suppliers',
     'structured data profiles',
-    'AEO audit',
-    'AEO report',
+    'AI Visibility AEO audit',
+    'AI Visibility AEO report',
   ],
   icons: {
     icon: '/logo.png',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: 'TendorAI',
     title: "TendorAI \u2014 The UK's AI Visibility Platform",
     description:
-      "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AEO reports and AI recommendation tracking.",
+      "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AI Visibility (AEO) reports and AI recommendation tracking.",
     images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: "TendorAI - The UK's AI Visibility Platform" }],
   },
   twitter: {
@@ -93,7 +93,7 @@ const websiteJsonLd = {
   name: 'TendorAI',
   datePublished: '2024-01-01',
   dateModified: '2026-02-24',
-  description: "The UK's AI Visibility Platform. Free AEO reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
+  description: "The UK's AI Visibility Platform. Free AI Visibility (AEO) reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
     '@type': 'SearchAction',
@@ -144,10 +144,10 @@ const organisationJsonLd = {
 const softwareAppJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'TendorAI AEO Report',
+  name: 'TendorAI AI Visibility (AEO) Report',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AEO audits, and AI mention tracking.',
+  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AI Visibility (AEO) audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
   offers: [
     {
@@ -155,14 +155,14 @@ const softwareAppJsonLd = {
       name: 'Free',
       price: '0',
       priceCurrency: 'GBP',
-      description: 'Free AEO report and basic directory listing',
+      description: 'Free AI Visibility (AEO) report and basic directory listing',
     },
     {
       '@type': 'Offer',
       name: 'Starter',
       price: '149',
       priceCurrency: 'GBP',
-      description: 'AI visibility with pricing visible to AI platforms and monthly AEO reports',
+      description: 'AI visibility with pricing visible to AI platforms and monthly AI Visibility (AEO) reports',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
         price: '149',
@@ -175,7 +175,7 @@ const softwareAppJsonLd = {
       name: 'Pro',
       price: '299',
       priceCurrency: 'GBP',
-      description: 'Priority ranking in AI responses with full structured data and weekly AEO reports',
+      description: 'Priority ranking in AI responses with full structured data and weekly AI Visibility (AEO) reports',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
         price: '299',

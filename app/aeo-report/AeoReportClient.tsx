@@ -343,7 +343,7 @@ export default function AeoReportClient() {
               type="submit"
               className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-6 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
             >
-              Run My Free AEO Report
+              Run My Free AI Visibility (AEO) Report
             </button>
           </form>
 
@@ -376,7 +376,7 @@ export default function AeoReportClient() {
 
           {/* Context box */}
           <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="font-semibold text-gray-900 mb-2">What is AEO?</h2>
+            <h2 className="font-semibold text-gray-900 mb-2">What is AI Visibility (AEO)?</h2>
             <p className="text-gray-600 text-sm leading-relaxed">
               <strong>Answer Engine Optimisation</strong> is the new SEO. As more people use AI
               assistants instead of Google, businesses that aren&apos;t in AI&apos;s training data become

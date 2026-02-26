@@ -12,7 +12,7 @@ const cards = [
     accentColor: 'text-gray-900',
   },
   {
-    acronym: 'AEO',
+    acronym: 'AI Visibility (AEO)',
     subtitle: 'Answer Engine Optimisation',
     description:
       'Optimising your presence so AI recommends you first. Schema markup, structured data, verified profiles — TendorAI handles your Answer Engine Optimisation so you show up when businesses ask AI for help.',
@@ -26,10 +26,10 @@ const cards = [
 
 export default function SeoAeo() {
   return (
-    <article aria-label="SEO vs AEO" className="py-20 md:py-24 bg-white">
+    <article aria-label="SEO vs AI Visibility (AEO)" className="py-20 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
-          <h2>SEO Got You Found on Google. AEO Gets You Recommended by AI.</h2>
+          <h2>SEO Got You Found on Google. AI Visibility (AEO) Gets You Recommended by AI.</h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

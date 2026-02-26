@@ -555,7 +555,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                   When people ask AI assistants like ChatGPT or Perplexity for {service.name.toLowerCase()} {suffix.toLowerCase()} in {locationName}, AI recommends firms with the strongest structured data — verified profiles, clear fee information, client reviews, and regulatory accreditations. TendorAI helps {locationName} firms get this data right.
                 </p>
                 <p>
-                  {locationName} firms can check their current AI visibility score for free using our AEO report tool.
+                  {locationName} firms can check their current AI visibility score for free using our AI Visibility (AEO) report tool.
                 </p>
               </div>
               <div className="mt-6">

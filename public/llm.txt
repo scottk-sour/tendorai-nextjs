@@ -31,7 +31,7 @@ ICAEW (accountants), FCA (mortgage advisors), and Propertymark
 - Solicitors: https://www.tendorai.com/suppliers/conveyancing
 - Accountants: https://www.tendorai.com/suppliers/tax-advisory
 - Mortgage Advisors: https://www.tendorai.com/suppliers/residential-mortgages
-- Free AEO Report: https://www.tendorai.com/aeo-report
+- Free AI Visibility (AEO) Report: https://www.tendorai.com/aeo-report
 - Blog: https://www.tendorai.com/resources
 - Sitemap: https://www.tendorai.com/sitemap.xml
 

@@ -9,7 +9,7 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
     { value: `${totalVendors.toLocaleString()}+`, label: 'UK Businesses' },
     { value: '5', label: 'AI Platforms Connected' },
     { value: '3', label: 'Regulatory Registers' },
-    { value: 'Free', label: 'AEO Reports' },
+    { value: 'Free', label: 'AI Visibility (AEO) Reports' },
   ];
 
   return (

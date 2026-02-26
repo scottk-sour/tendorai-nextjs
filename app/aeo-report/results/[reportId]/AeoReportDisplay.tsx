@@ -301,7 +301,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
             <p>
               Your website may perform well on traditional SEO audits &mdash; but that no longer guarantees
-              visibility. SEO measures how Google indexes your site. AEO (Answer Engine Optimisation) measures
+              visibility. SEO measures how Google indexes your site. AI Visibility (AEO) measures
               whether AI actually recommends you.
             </p>
             <p>
@@ -410,7 +410,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
         {/* The Shift */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AEO</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility (AEO)</h2>
           <div className="mt-4 space-y-6 text-sm text-gray-600">
             <div>
               <h3 className="font-bold text-gray-900 mb-2">Buyers Are Changing How They Search</h3>
@@ -422,11 +422,11 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </p>
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 mb-2">What is AEO?</h3>
+              <h3 className="font-bold text-gray-900 mb-2">What is AI Visibility (AEO)?</h3>
               <p>
-                Answer Engine Optimisation (AEO) is the process of making your business visible to AI
+                AI Visibility (AEO — Answer Engine Optimisation) is the process of making your business visible to AI
                 recommendation engines like ChatGPT, Perplexity, Claude, and Google AI Overviews. Unlike
-                SEO which optimises for search engine rankings, AEO focuses on structured data, authority
+                SEO which optimises for search engine rankings, AI Visibility (AEO) focuses on structured data, authority
                 signals, and verified profiles that AI tools use to make recommendations.
               </p>
             </div>
@@ -438,7 +438,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 font-semibold"></th>
                     <th className="p-3 font-semibold">Traditional SEO</th>
-                    <th className="p-3 font-semibold">AEO (AI Optimisation)</th>
+                    <th className="p-3 font-semibold">AI Visibility (AEO)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -553,7 +553,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-2xl font-bold my-1">&pound;149<span className="text-sm font-normal text-blue-200">/month</span></p>
               <p className="text-[10px] text-blue-300">Early adopter price (was &pound;299)</p>
               <p className="text-xs text-blue-200 mt-2 flex-1">
-                Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AEO visibility report.
+                Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.
               </p>
               <a
                 href="https://www.tendorai.com/vendor-signup?tier=starter"

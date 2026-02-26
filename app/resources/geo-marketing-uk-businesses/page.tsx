@@ -564,14 +564,14 @@ export default function GeoMarketingPage() {
                 name: 'Starter',
                 price: '\u00a3149',
                 priceLabel: '/month',
-                features: ['Stand out from unclaimed profiles', 'Pricing visible to AI', 'Monthly AEO report', 'AI Visibility Score', 'Ranked above free profiles', 'Unlimited products'],
+                features: ['Stand out from unclaimed profiles', 'Pricing visible to AI', 'Monthly AI Visibility (AEO) report', 'AI Visibility Score', 'Ranked above free profiles', 'Unlimited products'],
                 highlighted: false,
               },
               {
                 name: 'Pro',
                 price: '\u00a3299',
                 priceLabel: '/month',
-                features: ['Ranked first in AI results', 'Full structured data', 'Weekly AEO reports', 'AI mention tracking', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'],
+                features: ['Ranked first in AI results', 'Full structured data', 'Weekly AI Visibility (AEO) reports', 'AI mention tracking', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'],
                 highlighted: true,
               },
             ].map((plan) => (
@@ -677,7 +677,7 @@ export default function GeoMarketingPage() {
                 href="/aeo-report"
                 className="inline-flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
               >
-                Run Free AEO Report
+                Run Free AI Visibility (AEO) Report
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

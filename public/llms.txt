@@ -9,7 +9,7 @@
 - AI visibility platform for UK businesses
 - Structured data profiles for solicitors, accountants, and office equipment suppliers
 - Self-service alternative to GEO agencies (£149/month vs £1,500-8,000/month)
-- Free AI visibility reports (AEO audits) for any UK business
+- Free AI Visibility (AEO) reports for any UK business
 - Vendor profiles with Schema.org markup optimised for AI crawlers
 
 ## Businesses Listed

@@ -84,12 +84,12 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Check if AI recommends your business. Free AEO reports for UK solicitors, accountants, mortgage advisors & estate agents.";
+const newDescription = "Check if AI recommends your business. Free AI Visibility (AEO) reports for UK solicitors, accountants, mortgage advisors & estate agents.";
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility for UK Businesses" },
   description: newDescription,
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AEO audit, AEO report, free AEO score',
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },
@@ -127,7 +127,7 @@ const webPageSchema = {
   url: 'https://www.tendorai.com/',
   datePublished: '2024-01-01',
   dateModified: '2026-02-24',
-  description: 'Check if AI recommends your business. Free AEO reports for UK solicitors, accountants, mortgage advisors & estate agents.',
+  description: 'Check if AI recommends your business. Free AI Visibility (AEO) reports for UK solicitors, accountants, mortgage advisors & estate agents.',
 };
 
 // HowTo schema — matches the 4 steps in Features.tsx
@@ -137,7 +137,7 @@ const howToSchema = {
   name: 'How to Get Your Business Recommended by AI',
   description: 'Four steps from invisible to AI-recommended',
   step: [
-    { '@type': 'HowToStep', position: 1, name: 'Check Your AI Visibility', text: 'Run a free AEO report to see what ChatGPT, Claude, and Perplexity say about your business. Get your AI visibility score in 60 seconds.' },
+    { '@type': 'HowToStep', position: 1, name: 'Check Your AI Visibility', text: 'Run a free AI Visibility (AEO) report to see what ChatGPT, Claude, and Perplexity say about your business. Get your AI visibility score in 60 seconds.' },
     { '@type': 'HowToStep', position: 2, name: 'Claim Your Profile', text: 'Add your services, fees, accreditations, and specialisms. This is the data AI needs to recommend you ahead of competitors.' },
     { '@type': 'HowToStep', position: 3, name: 'We Install AI Data on Your Website', text: "Pro only — we log into your website and install a small piece of code that makes your business readable to AI. You don\u2019t touch anything. We do it for you." },
     { '@type': 'HowToStep', position: 4, name: 'AI Recommends You by Name', text: 'When someone asks ChatGPT for a solicitor in Bristol or an accountant in Manchester, AI recommends you by name. No bidding. No shared leads.' },
@@ -178,7 +178,7 @@ const faqSchema = {
       name: 'How is this different from SEO?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "SEO optimises for Google search results. AI visibility (AEO/GEO) optimises for AI recommendations. When someone asks ChatGPT \u201cfind me a solicitor in Bristol\u201d, AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.",
+        text: "SEO optimises for Google search results. AI Visibility (AEO) optimises for AI recommendations. When someone asks ChatGPT \u201cfind me a solicitor in Bristol\u201d, AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.",
       },
     },
     {
