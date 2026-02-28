@@ -20,6 +20,14 @@ const verticalSlugs = [
   'ai-visibility-for-estate-agents',
 ];
 
+const citySlugs = [
+  'cardiff', 'bristol', 'swansea', 'newport', 'london', 'manchester',
+  'birmingham', 'leeds', 'liverpool', 'sheffield', 'newcastle', 'nottingham',
+  'leicester', 'edinburgh', 'glasgow', 'brighton', 'oxford', 'cambridge',
+  'reading', 'southampton', 'plymouth', 'exeter', 'bath', 'york',
+  'chester', 'cheltenham', 'gloucester',
+];
+
 const serviceSlugs = [
   'photocopiers', 'telecoms', 'cctv', 'it', 'security', 'software',
   'conveyancing', 'family-law', 'criminal-law', 'commercial-law',
@@ -42,9 +50,14 @@ function entry(loc: string, changefreq: string, priority: number) {
 }
 
 export function GET() {
+  const cityVerticalUrls = verticalSlugs.flatMap((v) =>
+    citySlugs.map((c) => entry(`${baseUrl}/${v}/${c}`, 'monthly', 0.7))
+  );
+
   const urls = [
     ...staticPages.map((p) => entry(`${baseUrl}${p.url}`, p.changeFrequency, p.priority)),
     ...verticalSlugs.map((s) => entry(`${baseUrl}/${s}`, 'monthly', 0.8)),
+    ...cityVerticalUrls,
     ...serviceSlugs.map((s) => entry(`${baseUrl}/suppliers/${s}`, 'weekly', 0.7)),
   ];
 
