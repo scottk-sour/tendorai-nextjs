@@ -2,27 +2,27 @@ import { Metadata } from 'next';
 import AeoReportClient from './AeoReportClient';
 
 export const metadata: Metadata = {
-  title: 'Free AI Visibility (AEO) Report — Is AI Recommending Your Business?',
+  title: 'Free AI Visibility Tool — Is AI Recommending Your Business?',
   description:
-    'Find out if ChatGPT, Perplexity and Claude recommend your business when customers search for suppliers. Free instant AI visibility report for UK businesses.',
+    'Free AI visibility checker for UK businesses. Find out if ChatGPT, Perplexity and Claude recommend you. Instant AI visibility report — enter your company name and get results in 60 seconds.',
   alternates: {
     canonical: 'https://www.tendorai.com/aeo-report',
   },
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/aeo-report',
-    title: 'Free AI Visibility (AEO) Report — Is AI Recommending Your Business?',
+    title: 'Free AI Visibility Tool — Is AI Recommending Your Business?',
     description:
-      'Find out if ChatGPT, Perplexity and Claude recommend your business. Free instant AI visibility report for UK businesses.',
+      'Free AI visibility checker for UK businesses. Find out if ChatGPT, Perplexity and Claude recommend you. Instant AI visibility report in 60 seconds.',
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 873, height: 873, alt: 'TendorAI AI Visibility (AEO) Report' }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: 'TendorAI AI Visibility Tool' }],
   },
   twitter: {
     card: 'summary',
-    title: 'Free AI Visibility (AEO) Report — Is AI Recommending Your Business?',
+    title: 'Free AI Visibility Tool — Is AI Recommending Your Business?',
     description:
-      'Find out if ChatGPT, Perplexity and Claude recommend your business. Free AI visibility check.',
+      'Free AI visibility checker for UK businesses. Find out if ChatGPT, Perplexity and Claude recommend you.',
     images: ['/logo.png'],
   },
   robots: {
