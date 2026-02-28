@@ -125,6 +125,20 @@ export default function AiVisibilityToolPage() {
           </div>
         </section>
 
+        {/* Factual overview */}
+        <section className="py-8 bg-white border-b border-[var(--border)]">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-gray-600 text-base leading-relaxed">
+              TendorAI is a UK AI visibility platform that tracks whether AI assistants
+              &mdash; including ChatGPT, Perplexity, Google AI Overviews, and Claude &mdash;
+              recommend your business when potential customers ask for supplier recommendations.
+              The platform covers UK professional services including solicitors, accountants,
+              mortgage advisors, and estate agents, and provides structured data optimisation
+              to improve how AI systems understand and cite your business.
+            </p>
+          </div>
+        </section>
+
         {/* Social Proof Bar */}
         <section className="bg-gray-900 py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

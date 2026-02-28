@@ -209,6 +209,20 @@ export default function AeoReportClient() {
         </div>
       </section>
 
+      {/* Factual overview */}
+      <section className="py-8 bg-white border-b border-gray-200">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-gray-600 text-base leading-relaxed">
+            TendorAI&apos;s AI visibility report queries major AI assistants &mdash; ChatGPT,
+            Perplexity, Google AI Overviews, and Claude &mdash; to check whether they recommend
+            your business when potential customers ask for supplier recommendations. The report
+            covers UK professional services including solicitors, accountants, mortgage advisors,
+            and estate agents, and identifies gaps in your structured data that may prevent AI
+            systems from understanding and citing your business.
+          </p>
+        </div>
+      </section>
+
       {/* Form */}
       <section className="py-12 sm:py-16">
         <div className="max-w-xl mx-auto px-4 sm:px-6">
