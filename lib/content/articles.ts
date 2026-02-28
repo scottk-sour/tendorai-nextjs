@@ -1482,6 +1482,154 @@ The firms being surfaced today are not necessarily the best. They are the most s
 
 That distinction is now commercially significant.`,
   },
+  {
+    slug: 'ai-recommends-accountants-uk-cities',
+    title: 'We Asked AI to Recommend Accountants in 10 Major UK Cities \u2014 Here\u2019s What It Said',
+    excerpt: 'We tested ChatGPT, Perplexity and Claude \u2014 asking each to recommend accountants in London, Manchester, Birmingham, Bristol and 6 more UK cities. The results reveal which firms AI knows about and which are completely invisible.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-02-28',
+    content: `## What We Did
+
+We used TendorAI\u2019s AI visibility testing system to ask three leading AI assistants \u2014 ChatGPT, Perplexity and Claude \u2014 the same question:
+
+**"Can you recommend a small business accountant in [city]?"**
+
+We repeated the query across 10 major UK cities: London, Manchester, Birmingham, Bristol, Leeds, Edinburgh, Glasgow, Cardiff, Nottingham and Liverpool.
+
+Each assistant was prompted in a clean session to avoid memory bias. We did not ask for \u201ccheapest\u201d or \u201ctop-rated\u201d firms \u2014 just straightforward recommendations for a small business accountant.
+
+The goal was simple: identify which firms AI systems surface when a business owner asks for a local accountant.
+
+## What We Found
+
+### 1. The Same 5 Firms Per City
+
+Across all three AI systems, recommendations clustered heavily around the same 5 firms in each city.
+
+In London, the overlap was striking. In Manchester and Birmingham, the pattern repeated almost identically. AI would name five firms with minor variation in ordering, but rarely introduce lesser-known practices.
+
+These firms shared common characteristics:
+
+- ICAEW or ACCA chartered status prominently displayed
+- Structured data on their websites
+- Xero or QuickBooks partner badges
+- Detailed service pages for tax, bookkeeping and payroll
+- Listings on accountancy directories and Google Business
+- Published pricing or clear fee structures
+
+The pattern was not random.
+
+### 2. Smaller Local Firms Were Invisible
+
+In nearly every city, there were well-reviewed local accountants with competitive fees that were not mentioned at all.
+
+Many had:
+
+- 4.8+ star Google reviews
+- Dozens of recent client testimonials
+- Fixed-fee packages clearly listed on their websites
+
+Yet they did not appear in AI recommendations.
+
+Visibility in traditional search results does not automatically translate into visibility in AI-generated answers.
+
+### 3. Data Quality Beats Reputation
+
+The strongest predictor of recommendation was not review volume or even pricing transparency. It was data consistency and structured presence.
+
+Firms that were:
+
+- Listed on the ICAEW or ACCA member directories
+- Marked up with schema.org/AccountingService structured data
+- Present on recognised accountancy directories
+- Cited in authoritative publications or industry awards
+
+Were significantly more likely to appear.
+
+This led to a clear conclusion:
+
+**"AI doesn\u2019t recommend the best accountant. It recommends the accountant it has the best data for."**
+
+That distinction matters.
+
+### 4. Cloud Accounting Partnerships Carried Weight
+
+Firms displaying Xero Partner or QuickBooks ProAdvisor status were disproportionately represented in AI recommendations.
+
+These partnerships create structured, verifiable data points that AI systems can easily extract. A firm listed as a Xero Platinum Partner appears in Xero\u2019s own directory, which feeds into the datasets AI models are trained on.
+
+By contrast, a firm that uses Xero but does not display the partnership badge is invisible to this signal chain.
+
+## Why This Happens
+
+AI systems like ChatGPT do not crawl the web in real time in the way Google Search does.
+
+Instead, they rely on:
+
+- Structured datasets
+- Training corpora compiled from authoritative sources
+- Professional body registers (ICAEW, ACCA, AAT)
+- Public databases
+- High-trust publications
+
+If your firm has:
+
+- ICAEW or ACCA chartered status with an up-to-date directory listing
+- Published fee transparency or fixed-fee packages
+- Structured schema markup on your website
+- Cloud accounting partner badges (Xero, QuickBooks, FreeAgent)
+- Consistent NAP (Name, Address, Phone) data across directories
+
+You are far easier for AI systems to identify and confidently recommend.
+
+By contrast, a firm with a basic five-page website and no structured data may exist online \u2014 but it exists as unstructured text. That makes it harder for AI systems to extract and validate.
+
+AI prioritises clarity, consistency and verifiability.
+
+It does not interpret reputation the way humans do. It processes signals.
+
+## What It Means for UK Accountants
+
+### If You\u2019re Not in the Data, You Don\u2019t Exist
+
+If your firm is not present in the datasets AI systems rely on, you are unlikely to be recommended \u2014 regardless of how good your service is.
+
+This is not a reflection of accounting quality. It is a reflection of data visibility.
+
+### The Gap Will Widen
+
+As AI-driven discovery grows, the firms currently being recommended will accumulate more mentions, more citations and more secondary references.
+
+That compounds advantage.
+
+The firms AI already \u201cknows\u201d will become more embedded in its responses. Firms outside that loop risk long-term invisibility.
+
+### Structured Advantage Is Time-Sensitive
+
+There is still a window.
+
+AI recommendation systems are not fully locked. Visibility patterns can shift. But as models retrain and reinforce existing citation networks, it becomes harder to break in later.
+
+Waiting means competing against firms that have already built structured authority.
+
+## How to Check If AI Recommends Your Firm
+
+Most accountants have no idea whether they appear in AI-generated recommendations.
+
+You can check in 60 seconds.
+
+Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+
+It shows whether ChatGPT and other AI systems recognise your firm \u2014 and where your visibility gaps are.
+
+AI recommendations are already influencing how business owners shortlist accountants.
+
+The firms being surfaced today are not necessarily the best. They are the most structured, the most cited, and the most machine-readable.
+
+That distinction is now commercially significant.`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
