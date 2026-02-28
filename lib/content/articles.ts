@@ -1786,6 +1786,163 @@ The brokers being surfaced today are not necessarily the best. They are the most
 
 That distinction is now commercially significant.`,
   },
+  {
+    slug: 'ai-recommends-estate-agents-uk-cities',
+    title: 'We Asked AI to Recommend Estate Agents in 10 Major UK Cities \u2014 Here\u2019s What It Said',
+    excerpt: 'We tested ChatGPT, Perplexity and Claude \u2014 asking each to recommend estate agents in London, Manchester, Birmingham, Bristol and 6 more UK cities. The results reveal which agencies AI knows about and which are completely invisible.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-02-28',
+    content: `## What We Did
+
+We used TendorAI\u2019s AI visibility testing system to ask three leading AI assistants \u2014 ChatGPT, Perplexity and Claude \u2014 the same question:
+
+**"Can you recommend an estate agent in [city]?"**
+
+We repeated the query across 10 major UK cities: London, Manchester, Birmingham, Bristol, Leeds, Edinburgh, Glasgow, Cardiff, Liverpool and Nottingham.
+
+Each assistant was prompted in a clean session to avoid memory bias. We did not ask for \u201ccheapest fees\u201d or \u201chighest-rated\u201d agents \u2014 just straightforward recommendations for a local estate agent.
+
+The goal was simple: identify which agencies AI systems surface when a homeowner asks for a local estate agent.
+
+## What We Found
+
+### 1. The Same 5 Agencies Per City
+
+Across all three AI systems, recommendations clustered heavily around the same 5 agencies in each city.
+
+In London, the overlap was striking. In Manchester and Birmingham, the pattern repeated almost identically. AI would name five agencies with minor variation in ordering, but rarely introduce lesser-known independents.
+
+These agencies shared common characteristics:
+
+- Propertymark or NAEA membership displayed on their website
+- Active Rightmove and Zoopla listings
+- Google Business profiles with high review volume
+- Structured data on their websites
+- Area guides, sold price data or market reports published online
+- Clear fee or commission disclosure
+
+The pattern was not random.
+
+### 2. Smaller Independent Agents Were Invisible
+
+In nearly every city, there were well-reviewed independent estate agents with strong local reputations that were not mentioned at all.
+
+Many had:
+
+- 4.8+ star Google reviews
+- Hundreds of recent client testimonials
+- Competitive commission rates and local market knowledge
+
+Yet they did not appear in AI recommendations.
+
+Visibility in traditional search results does not automatically translate into visibility in AI-generated answers.
+
+### 3. Data Quality Beats Reputation
+
+The strongest predictor of recommendation was not review volume or even commission transparency. It was data consistency and structured presence.
+
+Agencies that were:
+
+- Members of Propertymark with up-to-date directory listings
+- Marked up with schema.org/RealEstateAgent structured data
+- Listed on Rightmove, Zoopla and OnTheMarket with active stock
+- Cited in local press, property market reports or industry awards
+
+Were significantly more likely to appear.
+
+This led to a clear conclusion:
+
+**"AI doesn\u2019t recommend the best estate agent. It recommends the agent it has the best data for."**
+
+That distinction matters.
+
+### 4. Portal Presence Was the Strongest Signal
+
+Agencies with active listings on Rightmove and Zoopla were disproportionately represented in AI recommendations.
+
+Property portals are structured, authoritative data sources that AI systems can easily parse. Each listing contains the agency name, location, contact details and property data in a consistent format. That structured footprint feeds directly into the datasets AI models are trained on.
+
+An agency that lists on portals generates hundreds of structured data points per month. An agency that relies on its own website alone generates almost none.
+
+### 5. Corporate Brands Dominated Over Independents
+
+National and regional chains \u2014 such as Purplebricks, Foxtons, Connells or Savills \u2014 appeared more frequently than independent local agents, even in cities where independents dominate the market.
+
+This was not because they offer better service. It was because corporate brands generate vastly more structured data: press coverage, franchise directory listings, portal volume and regulatory citations. Each of these feeds into the datasets AI systems are trained on.
+
+An independent agent with deeper local expertise and better client reviews was consistently less visible.
+
+## Why This Happens
+
+AI systems like ChatGPT do not crawl the web in real time in the way Google Search does.
+
+Instead, they rely on:
+
+- Structured datasets
+- Training corpora compiled from authoritative sources
+- Property portal data (Rightmove, Zoopla, OnTheMarket)
+- Industry body directories (Propertymark, RICS)
+- High-trust publications
+
+If your agency has:
+
+- Propertymark or NAEA membership clearly displayed
+- Active listings on Rightmove, Zoopla and OnTheMarket
+- Published sold prices or market track record data
+- Structured schema markup on your website
+- Consistent NAP (Name, Address, Phone) data across directories
+- Area guides or local market reports on your website
+
+You are far easier for AI systems to identify and confidently recommend.
+
+By contrast, an agency with a basic website and no portal presence may exist online \u2014 but it exists as unstructured text. That makes it harder for AI systems to extract and validate.
+
+AI prioritises clarity, consistency and verifiability.
+
+It does not interpret reputation the way humans do. It processes signals.
+
+## What It Means for UK Estate Agents
+
+### If You\u2019re Not in the Data, You Don\u2019t Exist
+
+If your agency is not present in the datasets AI systems rely on, you are unlikely to be recommended \u2014 regardless of how many properties you sell.
+
+This is not a reflection of service quality. It is a reflection of data visibility.
+
+### The Gap Will Widen
+
+As AI-driven discovery grows, the agencies currently being recommended will accumulate more mentions, more citations and more secondary references.
+
+That compounds advantage.
+
+The agencies AI already \u201cknows\u201d will become more embedded in its responses. Agents outside that loop risk long-term invisibility.
+
+### Structured Advantage Is Time-Sensitive
+
+There is still a window.
+
+AI recommendation systems are not fully locked. Visibility patterns can shift. But as models retrain and reinforce existing citation networks, it becomes harder to break in later.
+
+Waiting means competing against agencies that have already built structured authority.
+
+## How to Check If AI Recommends Your Agency
+
+Most estate agents have no idea whether they appear in AI-generated recommendations.
+
+You can check in 60 seconds.
+
+Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+
+It shows whether ChatGPT and other AI systems recognise your agency \u2014 and where your visibility gaps are.
+
+AI recommendations are already influencing how homeowners shortlist estate agents.
+
+The agencies being surfaced today are not necessarily the best. They are the most structured, the most cited, and the most machine-readable.
+
+That distinction is now commercially significant.`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
