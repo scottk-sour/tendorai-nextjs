@@ -30,6 +30,11 @@ export async function connectDB(): Promise<typeof mongoose> {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      maxPoolSize: 5,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+      retryReads: true,
+      retryWrites: true,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
@@ -38,14 +43,34 @@ export async function connectDB(): Promise<typeof mongoose> {
     });
   }
 
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      cached.conn = await cached.promise;
+      return cached.conn;
+    } catch (e) {
+      cached.promise = null;
+      cached.conn = null;
+      if (attempt < 2) {
+        console.warn(`MongoDB connection attempt ${attempt + 1} failed, retrying...`);
+        const opts = {
+          bufferCommands: false,
+          maxPoolSize: 5,
+          serverSelectionTimeoutMS: 30000,
+          socketTimeoutMS: 45000,
+          retryReads: true,
+          retryWrites: true,
+        };
+        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+          console.log('MongoDB connected successfully');
+          return mongoose;
+        });
+      } else {
+        throw e;
+      }
+    }
   }
 
-  return cached.conn;
+  return cached.conn!;
 }
 
 export default connectDB;
