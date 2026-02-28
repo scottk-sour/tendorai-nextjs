@@ -1630,6 +1630,162 @@ The firms being surfaced today are not necessarily the best. They are the most s
 
 That distinction is now commercially significant.`,
   },
+  {
+    slug: 'ai-recommends-mortgage-advisors-uk-cities',
+    title: 'We Asked AI to Recommend Mortgage Advisors in 10 Major UK Cities \u2014 Here\u2019s What It Said',
+    excerpt: 'We tested ChatGPT, Perplexity and Claude \u2014 asking each to recommend mortgage advisors in London, Manchester, Birmingham, Bristol and 6 more UK cities. The results reveal which brokers AI knows about and which are completely invisible.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-02-28',
+    content: `## What We Did
+
+We used TendorAI\u2019s AI visibility testing system to ask three leading AI assistants \u2014 ChatGPT, Perplexity and Claude \u2014 the same question:
+
+**"Can you recommend a mortgage advisor in [city]?"**
+
+We repeated the query across 10 major UK cities: London, Manchester, Birmingham, Bristol, Leeds, Edinburgh, Glasgow, Cardiff, Liverpool and Nottingham.
+
+Each assistant was prompted in a clean session to avoid memory bias. We did not ask for \u201ccheapest\u201d or \u201cbest-rated\u201d brokers \u2014 just straightforward recommendations for a mortgage advisor.
+
+The goal was simple: identify which brokers AI systems surface when a homebuyer asks for a local mortgage advisor.
+
+## What We Found
+
+### 1. The Same 5 Brokers Per City
+
+Across all three AI systems, recommendations clustered heavily around the same 5 brokers in each city.
+
+In London, the overlap was striking. In Manchester and Birmingham, the pattern repeated almost identically. AI would name five brokers with minor variation in ordering, but rarely introduce lesser-known advisors.
+
+These brokers shared common characteristics:
+
+- FCA authorisation clearly displayed on their website
+- Whole-of-market status explicitly stated
+- Structured data on their websites
+- Listings on VouchedFor, Unbiased or similar directories
+- Google Business profiles with review volume
+- Published fee structures or free initial consultations
+
+The pattern was not random.
+
+### 2. Smaller Local Brokers Were Invisible
+
+In nearly every city, there were well-reviewed local mortgage advisors with excellent client feedback that were not mentioned at all.
+
+Many had:
+
+- 4.9+ star Google reviews
+- Hundreds of recent client testimonials
+- Whole-of-market access with competitive fee structures
+
+Yet they did not appear in AI recommendations.
+
+Visibility in traditional search results does not automatically translate into visibility in AI-generated answers.
+
+### 3. Data Quality Beats Reputation
+
+The strongest predictor of recommendation was not review volume or even fee transparency. It was data consistency and structured presence.
+
+Brokers that were:
+
+- Listed on the FCA register with up-to-date details
+- Marked up with schema.org/FinancialService structured data
+- Present on VouchedFor, Unbiased or similar directories
+- Cited in authoritative publications or featured in best-of lists
+
+Were significantly more likely to appear.
+
+This led to a clear conclusion:
+
+**"AI doesn\u2019t recommend the best mortgage advisor. It recommends the advisor it has the best data for."**
+
+That distinction matters.
+
+### 4. FCA Register Data Was the Strongest Signal
+
+Brokers whose FCA registration number appeared on their website, matched the FCA register exactly, and linked to their regulatory entry were disproportionately recommended.
+
+The FCA register is a structured, authoritative public database \u2014 exactly the type of source AI systems rely on. If your entry is accurate and your website references it clearly, AI can verify your credentials with confidence.
+
+By contrast, a broker whose FCA number is buried in a footer or missing entirely gives AI systems nothing to validate against. They may be fully authorised, but AI cannot easily confirm it.
+
+### 5. Network Brands Had an Unfair Advantage
+
+Mortgage advisors operating under well-known network brands \u2014 such as London & Country, Habito or John Charcol \u2014 appeared more frequently than independent local advisors.
+
+This was not because they offer better advice. It was because network brands generate more structured data: press coverage, directory listings, comparison site mentions and regulatory citations. Each of these feeds into the datasets AI systems are trained on.
+
+An independent broker with identical qualifications and better reviews was consistently less visible.
+
+## Why This Happens
+
+AI systems like ChatGPT do not crawl the web in real time in the way Google Search does.
+
+Instead, they rely on:
+
+- Structured datasets
+- Training corpora compiled from authoritative sources
+- Regulatory registers (FCA)
+- Public databases
+- High-trust publications
+
+If your firm has:
+
+- FCA authorisation clearly linked on your website
+- A profile on VouchedFor or Unbiased with recent reviews
+- Published fee transparency or free consultation offers
+- Structured schema markup on your website
+- Consistent NAP (Name, Address, Phone) data across directories
+
+You are far easier for AI systems to identify and confidently recommend.
+
+By contrast, a broker with a basic website and no structured data may exist online \u2014 but they exist as unstructured text. That makes it harder for AI systems to extract and validate.
+
+AI prioritises clarity, consistency and verifiability.
+
+It does not interpret reputation the way humans do. It processes signals.
+
+## What It Means for UK Mortgage Advisors
+
+### If You\u2019re Not in the Data, You Don\u2019t Exist
+
+If your firm is not present in the datasets AI systems rely on, you are unlikely to be recommended \u2014 regardless of how good your advice is.
+
+This is not a reflection of advisory quality. It is a reflection of data visibility.
+
+### The Gap Will Widen
+
+As AI-driven discovery grows, the brokers currently being recommended will accumulate more mentions, more citations and more secondary references.
+
+That compounds advantage.
+
+The brokers AI already \u201cknows\u201d will become more embedded in its responses. Advisors outside that loop risk long-term invisibility.
+
+### Structured Advantage Is Time-Sensitive
+
+There is still a window.
+
+AI recommendation systems are not fully locked. Visibility patterns can shift. But as models retrain and reinforce existing citation networks, it becomes harder to break in later.
+
+Waiting means competing against brokers that have already built structured authority.
+
+## How to Check If AI Recommends Your Firm
+
+Most mortgage advisors have no idea whether they appear in AI-generated recommendations.
+
+You can check in 60 seconds.
+
+Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+
+It shows whether ChatGPT and other AI systems recognise your firm \u2014 and where your visibility gaps are.
+
+AI recommendations are already influencing how homebuyers shortlist mortgage advisors.
+
+The brokers being surfaced today are not necessarily the best. They are the most structured, the most cited, and the most machine-readable.
+
+That distinction is now commercially significant.`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
