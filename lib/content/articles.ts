@@ -1342,6 +1342,146 @@ The complete dataset and methodology for this analysis are available to TendorAI
     publishedDate: '2026-02-22',
     content: '',
   },
+  {
+    slug: 'ai-recommends-solicitors-uk-cities',
+    title: 'We Asked AI to Recommend Solicitors in 10 Major UK Cities — Here\u2019s What It Said',
+    excerpt: 'We tested ChatGPT, Perplexity and Claude \u2014 asking each to recommend solicitors in Cardiff, London, Manchester, Bristol and 6 more UK cities. The results reveal which firms AI knows about and which are completely invisible.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-02-28',
+    content: `## What We Did
+
+We used TendorAI\u2019s AI visibility testing system to ask three leading AI assistants \u2014 ChatGPT, Perplexity and Claude \u2014 the same question:
+
+**"Can you recommend a conveyancing solicitor in [city]?"**
+
+We repeated the query across 10 major UK cities: Cardiff, London, Manchester, Birmingham, Bristol, Leeds, Edinburgh, Glasgow, Exeter and Swansea.
+
+Each assistant was prompted in a clean session to avoid memory bias. We did not ask for \u201ctop-rated\u201d firms or \u201ccheapest\u201d options \u2014 just straightforward recommendations for a conveyancing solicitor.
+
+The goal was simple: identify which firms AI systems surface when a user asks for a local conveyancer.
+
+## What We Found
+
+### 1. The Same 5 Firms Per City
+
+Across all three AI systems, recommendations clustered heavily around the same 5 firms in each city.
+
+In London, for example, the overlap was significant. In Cardiff and Manchester, the pattern repeated. Typically, AI would name five firms with minor variation in ordering, but rarely introduce new or lesser-known practices.
+
+These firms shared common characteristics:
+
+- Strong domain authority
+- Structured data on their websites
+- Clear SRA registration information
+- Published pricing pages
+- Mentions in Legal 500 or similar directories
+- Occasionally, Wikipedia presence
+
+The pattern was not random.
+
+### 2. Smaller Local Firms Were Invisible
+
+In nearly every city, there were well-reviewed local firms with competitive fees that were not mentioned at all.
+
+Many had:
+
+- 4.8+ star Google reviews
+- Dozens of recent testimonials
+- Lower advertised conveyancing fees
+
+Yet they did not appear in AI recommendations.
+
+Visibility in traditional search results does not automatically translate into visibility in AI-generated answers.
+
+### 3. Data Quality Beats Reputation
+
+The strongest predictor of recommendation was not review volume or even pricing transparency. It was data consistency and structured presence.
+
+Firms that were:
+
+- Properly registered and indexed with regulatory bodies
+- Marked up with schema.org structured data
+- Listed in recognised legal directories
+- Cited in authoritative publications
+
+Were significantly more likely to appear.
+
+This led to a clear conclusion:
+
+**"AI doesn\u2019t recommend the best solicitor. It recommends the solicitor it has the best data for."**
+
+That distinction matters.
+
+## Why This Happens
+
+AI systems like ChatGPT do not crawl the web in real time in the way Google Search does.
+
+Instead, they rely on:
+
+- Structured datasets
+- Training corpora compiled from authoritative sources
+- Regulatory registers
+- Public databases
+- High-trust publications
+
+If your firm has:
+
+- CQS accreditation
+- Accurate and accessible SRA registration data
+- Published fee transparency
+- Structured schema markup on your website
+- Consistent NAP (Name, Address, Phone) data
+
+You are far easier for AI systems to identify and confidently recommend.
+
+By contrast, a firm with a basic five-page website and no structured data may exist online \u2014 but it exists as unstructured text. That makes it harder for AI systems to extract and validate.
+
+AI prioritises clarity, consistency and verifiability.
+
+It does not interpret reputation the way humans do. It processes signals.
+
+## What It Means for UK Solicitors
+
+### If You\u2019re Not in the Data, You Don\u2019t Exist
+
+If your firm is not present in the datasets AI systems rely on, you are unlikely to be recommended \u2014 regardless of how good your service is.
+
+This is not a reflection of legal quality. It is a reflection of data visibility.
+
+### The Gap Will Widen
+
+As AI-driven discovery grows, the firms currently being recommended will accumulate more mentions, more citations and more secondary references.
+
+That compounds advantage.
+
+The firms AI already \u201cknows\u201d will become more embedded in its responses. Firms outside that loop risk long-term invisibility.
+
+### Structured Advantage Is Time-Sensitive
+
+There is still a window.
+
+AI recommendation systems are not fully locked. Visibility patterns can shift. But as models retrain and reinforce existing citation networks, it becomes harder to break in later.
+
+Waiting means competing against firms that have already built structured authority.
+
+## How to Check If AI Recommends Your Firm
+
+Most solicitors have no idea whether they appear in AI-generated recommendations.
+
+You can check in 60 seconds.
+
+Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+
+It shows whether ChatGPT and other AI systems recognise your firm \u2014 and where your visibility gaps are.
+
+AI recommendations are already influencing how consumers shortlist solicitors.
+
+The firms being surfaced today are not necessarily the best. They are the most structured, the most cited, and the most machine-readable.
+
+That distinction is now commercially significant.`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
