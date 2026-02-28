@@ -85,10 +85,10 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Check if AI recommends your business. Free AI Visibility (AEO) reports for UK solicitors, accountants, mortgage advisors & estate agents.";
+const newDescription = "Check if AI recommends your business. Free AI Visibility reports for UK solicitors, accountants, mortgage advisors & estate agents. Results in 60 seconds.";
 
 export const metadata: Metadata = {
-  title: { absolute: "TendorAI \u2014 AI Visibility for UK Businesses" },
+  title: { absolute: "TendorAI \u2014 AI Visibility Platform for UK Businesses" },
   description: newDescription,
   keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
   alternates: {
@@ -97,7 +97,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/',
-    title: "TendorAI \u2014 AI Visibility for UK Businesses",
+    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses",
     description: newDescription,
     siteName: 'TendorAI',
     locale: 'en_GB',
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: "TendorAI \u2014 AI Visibility for UK Businesses",
+    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses",
     description: newDescription,
     images: ['/logo.png'],
   },
