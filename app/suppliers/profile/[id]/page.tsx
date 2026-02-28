@@ -570,6 +570,132 @@ export default async function VendorProfilePage({ params }: PageProps) {
               )}
             </div>
 
+            {/* About */}
+            {vendor.businessProfile?.description && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-3">About {vendor.company}</h3>
+                <p className="text-gray-600 leading-relaxed">{vendor.businessProfile.description}</p>
+              </div>
+            )}
+
+            {/* Published Fees */}
+            {vendor.fixedFees && vendor.fixedFees.length > 0 && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Published Fees</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 pr-4 font-semibold text-gray-700">Service</th>
+                        <th className="text-right py-3 pl-4 font-semibold text-gray-700">Fee</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {vendor.fixedFees.map((item: { service: string; fee: string }, i: number) => (
+                        <tr key={i} className={i % 2 === 0 ? 'bg-gray-50/50' : ''}>
+                          <td className="py-2.5 pr-4 text-gray-600">{item.service}</td>
+                          <td className="py-2.5 pl-4 text-right font-medium text-gray-900 whitespace-nowrap">{item.fee}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-gray-400 mt-4">Fees are indicative and may vary depending on complexity. Contact the firm for a personalised quote.</p>
+              </div>
+            )}
+
+            {/* Our Team */}
+            {vendor.individualSolicitors && vendor.individualSolicitors.length > 0 && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Our Team</h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {vendor.individualSolicitors.map((sol: { name: string; role: string; specialisms: string; qualifications: string }, i: number) => (
+                    <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <span className="text-purple-700 font-semibold text-sm">{sol.name?.charAt(0) || '?'}</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 text-sm">{sol.name}</p>
+                        {sol.role && <p className="text-xs text-purple-600 font-medium">{sol.role}</p>}
+                        {sol.specialisms && <p className="text-xs text-gray-500 mt-1">{Array.isArray(sol.specialisms) ? sol.specialisms.join(', ') : sol.specialisms}</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Additional Info: Languages, Legal Aid, Lender Panels */}
+            {((vendor.languages && vendor.languages.length > 0) || vendor.legalAid || (vendor.lenderPanels && vendor.lenderPanels.length > 0)) && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Additional Information</h3>
+                <dl className="space-y-4">
+                  {vendor.languages && vendor.languages.length > 0 && (
+                    <div>
+                      <dt className="text-sm font-semibold text-gray-700 mb-1">Languages</dt>
+                      <dd className="flex flex-wrap gap-2">
+                        {vendor.languages.map((lang: string) => (
+                          <span key={lang} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{lang}</span>
+                        ))}
+                      </dd>
+                    </div>
+                  )}
+                  {vendor.legalAid && (
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                      <span className="text-sm font-medium text-gray-700">Legal Aid Available</span>
+                    </div>
+                  )}
+                  {vendor.lenderPanels && vendor.lenderPanels.length > 0 && (
+                    <div>
+                      <dt className="text-sm font-semibold text-gray-700 mb-1">Lender Panels</dt>
+                      <dd className="flex flex-wrap gap-2">
+                        {vendor.lenderPanels.map((lender: string) => (
+                          <span key={lender} className="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">{lender}</span>
+                        ))}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
+
+            {/* Accreditations */}
+            {((vendor.accreditations && vendor.accreditations.length > 0) || (vendor.businessProfile?.accreditations && vendor.businessProfile.accreditations.length > 0)) && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Accreditations</h3>
+                <ul className="space-y-2.5">
+                  {(vendor.accreditations || vendor.businessProfile?.accreditations || []).map((acc: string) => (
+                    <li key={acc} className="flex items-center gap-2.5 text-sm text-gray-700">
+                      <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                      {acc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Claim Banner (bottom) */}
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 text-center">
+              <p className="text-gray-700 font-medium mb-3">
+                {unclaimedIsSolicitor ? 'Is this your firm?' : 'Is this your business?'}
+              </p>
+              <Link
+                href={claimUrl}
+                className="inline-block bg-purple-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-purple-700 transition-colors"
+              >
+                Claim This Profile &mdash; Free
+              </Link>
+            </div>
+
             {/* SRA attribution for solicitors */}
             {unclaimedIsSolicitor && (
               <p className="text-xs text-gray-400 text-center">
