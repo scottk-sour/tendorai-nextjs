@@ -19,9 +19,12 @@ export default function VerticalLandingPage({ config }: { config: VerticalConfig
   const webPageJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
+    '@id': `https://www.tendorai.com/${config.slug}`,
     name: config.meta.title,
     description: config.meta.description,
     url: `https://www.tendorai.com/${config.slug}`,
+    datePublished: '2024-01-01',
+    dateModified: new Date().toISOString().split('T')[0],
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',

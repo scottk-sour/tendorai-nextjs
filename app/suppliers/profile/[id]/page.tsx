@@ -667,48 +667,52 @@ export default async function VendorProfilePage({ params }: PageProps) {
     address: {
       '@type': 'PostalAddress',
       ...(vendor.location?.address && { streetAddress: vendor.location.address }),
-      addressLocality: vendor.location?.city,
-      addressRegion: vendor.location?.region,
+      ...(vendor.location?.city && { addressLocality: vendor.location.city }),
+      ...(vendor.location?.region && { addressRegion: vendor.location.region }),
       ...(vendor.location?.postcode && { postalCode: vendor.location.postcode }),
       addressCountry: 'GB',
     },
     ...(vendor.contactInfo?.phone && { telephone: vendor.contactInfo.phone }),
-    areaServed: coverageData?.locations?.map((loc) => ({
-      '@type': 'City',
-      name: loc,
-    })),
+    ...(coverageData?.locations?.length && {
+      areaServed: coverageData.locations.map((loc) => ({
+        '@type': 'City',
+        name: loc,
+      })),
+    }),
     ...(knowsAbout.length > 0 && { knowsAbout }),
-    ...(rating > 0 && {
+    ...(rating > 0 && reviewCount > 0 && {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: rating,
-        reviewCount: reviewCount || 1,
+        reviewCount,
         bestRating: 5,
         worstRating: 1,
       },
     }),
-    ...(establishedYear && { foundingDate: establishedYear }),
-    makesOffer: products.slice(0, 10).map((product) => ({
-      '@type': 'Offer',
-      itemOffered: {
-        '@type': 'Product',
-        name: `${product.manufacturer} ${product.productModel}`,
-        description: product.description || `${product.category} - ${product.speed}ppm`,
-        category: product.category,
-      },
-      ...(showPricing && product.costs?.totalMachineCost && {
-        price: product.costs.totalMachineCost,
-        priceCurrency: 'GBP',
-      }),
-    })),
+    ...(establishedYear && { foundingDate: `${establishedYear}-01-01` }),
+    ...(products.length > 0 && {
+      makesOffer: products.slice(0, 10).map((product) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Product',
+          name: [product.manufacturer, product.productModel].filter(Boolean).join(' ') || 'Product',
+          ...(product.description && { description: product.description }),
+          ...(product.category && { category: product.category }),
+        },
+        ...(showPricing && product.costs?.totalMachineCost && {
+          price: product.costs.totalMachineCost,
+          priceCurrency: 'GBP',
+        }),
+      })),
+    }),
     ...(approvedReviews.length > 0 && {
-      review: approvedReviews.slice(0, 10).map((r) => ({
+      review: approvedReviews.slice(0, 10).filter((r) => r.rating).map((r) => ({
         '@type': 'Review',
         author: { '@type': 'Person', name: r.reviewer?.name || 'Anonymous' },
         datePublished: new Date(r.createdAt).toISOString().split('T')[0],
-        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
-        name: r.title,
-        reviewBody: r.content,
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+        ...(r.title && { name: r.title }),
+        ...(r.content && { reviewBody: r.content }),
       })),
     }),
     potentialAction: {
@@ -725,7 +729,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
       { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-      { '@type': 'ListItem', position: 3, name: vendor.company },
+      { '@type': 'ListItem', position: 3, name: vendor.company, item: `https://www.tendorai.com/suppliers/profile/${id}` },
     ],
   };
 

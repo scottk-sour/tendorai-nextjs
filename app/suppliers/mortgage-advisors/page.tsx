@@ -161,9 +161,12 @@ export default async function MortgageAdvisorsPage() {
     '@graph': [
       {
         '@type': 'CollectionPage',
+        '@id': 'https://www.tendorai.com/suppliers/mortgage-advisors',
         name: 'Mortgage Advisors UK',
         description: 'Find FCA-authorised mortgage advisors across the UK.',
         url: 'https://www.tendorai.com/suppliers/mortgage-advisors',
+        datePublished: '2024-01-01',
+        dateModified: new Date().toISOString().split('T')[0],
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'FinancialService',
@@ -176,7 +179,7 @@ export default async function MortgageAdvisorsPage() {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
           { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: 'Mortgage Advisors' },
+          { '@type': 'ListItem', position: 3, name: 'Mortgage Advisors', item: 'https://www.tendorai.com/suppliers/mortgage-advisors' },
         ],
       },
       {

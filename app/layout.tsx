@@ -87,12 +87,14 @@ export const metadata: Metadata = {
 };
 
 // JSON-LD schemas
+const today = new Date().toISOString().split('T')[0];
+
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'TendorAI',
   datePublished: '2024-01-01',
-  dateModified: '2026-02-24',
+  dateModified: today,
   description: "The UK's AI Visibility Platform. Free AI Visibility (AEO) reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
@@ -118,7 +120,7 @@ const organisationJsonLd = {
     width: 575,
     height: 283,
   },
-  foundingDate: '2024',
+  foundingDate: '2024-01-01',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
@@ -199,6 +201,8 @@ const serviceJsonLd = {
       { '@type': 'OfferCatalog', name: 'Solicitors', description: 'Conveyancing, Family Law, Criminal Law, Commercial, Employment, Wills & Probate, Immigration, Personal Injury' },
       { '@type': 'OfferCatalog', name: 'Office Equipment', description: 'Photocopiers, Telecoms, CCTV, IT Services' },
       { '@type': 'OfferCatalog', name: 'Accountants', description: 'Tax, Bookkeeping, Payroll, Advisory, Audit, R&D Tax Credits' },
+      { '@type': 'OfferCatalog', name: 'Mortgage Advisors', description: 'Residential Mortgages, Buy to Let, Remortgage, First Time Buyer, Equity Release, Commercial Mortgages, Protection Insurance' },
+      { '@type': 'OfferCatalog', name: 'Estate Agents', description: 'Sales, Lettings, Property Management, Block Management, Auctions, Commercial Property, Inventory' },
     ],
   },
 };

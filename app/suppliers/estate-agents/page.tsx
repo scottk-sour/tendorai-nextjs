@@ -161,9 +161,12 @@ export default async function EstateAgentsPage() {
     '@graph': [
       {
         '@type': 'CollectionPage',
+        '@id': 'https://www.tendorai.com/suppliers/estate-agents',
         name: 'Estate Agents UK',
         description: 'Find estate agents across the UK.',
         url: 'https://www.tendorai.com/suppliers/estate-agents',
+        datePublished: '2024-01-01',
+        dateModified: new Date().toISOString().split('T')[0],
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'RealEstateAgent',
@@ -176,7 +179,7 @@ export default async function EstateAgentsPage() {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
           { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: 'Estate Agents' },
+          { '@type': 'ListItem', position: 3, name: 'Estate Agents', item: 'https://www.tendorai.com/suppliers/estate-agents' },
         ],
       },
       {

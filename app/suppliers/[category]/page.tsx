@@ -251,9 +251,12 @@ export default async function CategoryPage({ params }: PageProps) {
     '@graph': [
       {
         '@type': 'CollectionPage',
+        '@id': `https://www.tendorai.com/suppliers/${category}`,
         name: `${service.name} ${suffix} UK`,
         description: `Find verified ${service.name.toLowerCase()} ${suffix.toLowerCase()} across the UK.`,
         url: `https://www.tendorai.com/suppliers/${category}`,
+        datePublished: '2024-01-01',
+        dateModified: new Date().toISOString().split('T')[0],
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': schemaType,
@@ -268,7 +271,7 @@ export default async function CategoryPage({ params }: PageProps) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
           { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
-          { '@type': 'ListItem', position: 3, name: `${service.name} ${suffix}` },
+          { '@type': 'ListItem', position: 3, name: `${service.name} ${suffix}`, item: `https://www.tendorai.com/suppliers/${category}` },
         ],
       },
       {

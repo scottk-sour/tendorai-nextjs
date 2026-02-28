@@ -124,10 +124,11 @@ export const metadata: Metadata = {
 const webPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
+  '@id': 'https://www.tendorai.com/#webpage',
   name: 'TendorAI — AI Visibility for UK Businesses',
   url: 'https://www.tendorai.com/',
   datePublished: '2024-01-01',
-  dateModified: '2026-02-24',
+  dateModified: new Date().toISOString().split('T')[0],
   description: 'Check if AI recommends your business. Free AI Visibility (AEO) reports for UK solicitors, accountants, mortgage advisors & estate agents.',
 };
 

@@ -327,7 +327,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
       {
         '@type': 'ItemList',
         name: `${service.name} ${suffix} in ${locationName}`,
-        numberOfItems: totalCount,
+        numberOfItems: Math.min(totalCount, 10),
         itemListElement: allVendors.slice(0, 10).map((vendor, index) => ({
           '@type': 'ListItem',
           position: index + 1,
@@ -340,11 +340,13 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               addressLocality: vendor.location?.city || locationName,
               addressCountry: 'GB',
             },
-            ...(vendor.performance?.rating && {
+            ...(vendor.performance?.rating && vendor.performance?.reviewCount && {
               aggregateRating: {
                 '@type': 'AggregateRating',
                 ratingValue: vendor.performance.rating,
-                reviewCount: vendor.performance.reviewCount || 1,
+                reviewCount: vendor.performance.reviewCount,
+                bestRating: 5,
+                worstRating: 1,
               },
             }),
             url: vendor.slug
@@ -359,7 +361,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
           { '@type': 'ListItem', position: 2, name: 'Suppliers', item: 'https://www.tendorai.com/suppliers' },
           { '@type': 'ListItem', position: 3, name: `${service.name} ${suffix}`, item: `https://www.tendorai.com/suppliers/${category}` },
-          { '@type': 'ListItem', position: 4, name: locationName },
+          { '@type': 'ListItem', position: 4, name: locationName, item: `https://www.tendorai.com/suppliers/${category}/${location}` },
         ],
       },
       {

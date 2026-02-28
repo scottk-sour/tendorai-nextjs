@@ -348,7 +348,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         name: loc,
       })),
     }),
-    ...(establishedYear && { foundingDate: String(establishedYear) }),
+    ...(establishedYear && { foundingDate: `${establishedYear}-01-01` }),
     ...(vendor.brands?.length && {
       brand: vendor.brands.map((b: string) => ({ '@type': 'Brand', name: b })),
     }),
@@ -372,6 +372,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         '@type': 'ListItem',
         position: serviceLinks.length > 0 ? 4 : 3,
         name: vendor.company,
+        item: `https://www.tendorai.com/suppliers/vendor/${slug}`,
       },
     ],
   };

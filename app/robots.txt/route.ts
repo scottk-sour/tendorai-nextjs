@@ -56,6 +56,16 @@ Allow: /
 Disallow: /admin/
 Disallow: /vendor-dashboard/
 
+User-Agent: Claude-User
+Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
+
+User-Agent: Claude-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /vendor-dashboard/
+
 User-Agent: PerplexityBot
 Allow: /
 Disallow: /admin/

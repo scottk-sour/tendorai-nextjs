@@ -158,6 +158,8 @@ export default async function ArticlePage({ params }: PageProps) {
       logo: {
         '@type': 'ImageObject',
         url: 'https://www.tendorai.com/logo.png',
+        width: 575,
+        height: 283,
       },
     },
     datePublished: article.publishedDate,
@@ -176,7 +178,7 @@ export default async function ArticlePage({ params }: PageProps) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
       { '@type': 'ListItem', position: 2, name: 'Resources', item: 'https://www.tendorai.com/resources' },
-      { '@type': 'ListItem', position: 3, name: article.title },
+      { '@type': 'ListItem', position: 3, name: article.title, item: `https://www.tendorai.com/resources/${slug}` },
     ],
   };
 

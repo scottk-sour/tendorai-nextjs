@@ -46,9 +46,12 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
   const webPageJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
+    '@id': `https://www.tendorai.com/${config.slug}/${city.slug}`,
     name: `AI Visibility for ${config.name} in ${city.name}`,
     description: `AI visibility for ${config.name.toLowerCase()} in ${city.name}. Check your firm\u2019s AI Visibility (AEO) score for free.`,
     url: `https://www.tendorai.com/${config.slug}/${city.slug}`,
+    datePublished: '2024-01-01',
+    dateModified: new Date().toISOString().split('T')[0],
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
@@ -59,7 +62,7 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
         { '@type': 'ListItem', position: 2, name: `AI Visibility for ${config.name}`, item: `https://www.tendorai.com/${config.slug}` },
-        { '@type': 'ListItem', position: 3, name: city.name },
+        { '@type': 'ListItem', position: 3, name: city.name, item: `https://www.tendorai.com/${config.slug}/${city.slug}` },
       ],
     },
     about: {
