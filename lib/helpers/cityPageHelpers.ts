@@ -29,7 +29,7 @@ export function buildCityMetadata(config: VerticalConfig, city: CityConfig): Met
       title,
       description,
       url: `https://www.tendorai.com/${config.slug}/${city.slug}`,
-      images: [{ url: '/logo.png', width: 575, height: 283, alt: title }],
+      images: [{ url: '/logo.png', width: 873, height: 873, alt: title }],
     },
     twitter: {
       card: 'summary',

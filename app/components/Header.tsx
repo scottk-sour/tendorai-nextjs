@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const industryLinks = [
@@ -54,9 +55,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">T</span>
-            </div>
+            <Image src="/logo.png" alt="TendorAI" width={40} height={40} className="h-10 w-auto" priority />
             <span className="text-xl font-bold text-gray-900">
               Tendor<span className="text-purple-600">AI</span>
             </span>

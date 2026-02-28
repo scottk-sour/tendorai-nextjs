@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: config.meta.title,
     description: config.meta.description,
     url: `https://www.tendorai.com/${config.slug}`,
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: config.meta.title }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: config.meta.title }],
   },
   twitter: {
     card: 'summary',

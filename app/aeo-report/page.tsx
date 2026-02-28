@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       'Find out if ChatGPT, Perplexity and Claude recommend your business. Free instant AI visibility report for UK businesses.',
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI AI Visibility (AEO) Report' }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: 'TendorAI AI Visibility (AEO) Report' }],
   },
   twitter: {
     card: 'summary',

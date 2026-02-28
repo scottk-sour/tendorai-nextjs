@@ -101,7 +101,7 @@ export const metadata: Metadata = {
     description: newDescription,
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 575, height: 283, alt: 'TendorAI - AI Visibility for UK Businesses' }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: 'TendorAI - AI Visibility for UK Businesses' }],
   },
   twitter: {
     card: 'summary',

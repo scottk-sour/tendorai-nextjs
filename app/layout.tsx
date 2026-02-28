@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: '/logo.png',
-    apple: '/logo.png',
+    apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.json',
   authors: [{ name: 'TendorAI' }],
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "TendorAI \u2014 The UK's AI Visibility Platform",
     description:
       "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AI Visibility (AEO) reports and AI recommendation tracking.",
-    images: [{ url: 'https://www.tendorai.com/logo.png', width: 575, height: 283, alt: "TendorAI - The UK's AI Visibility Platform" }],
+    images: [{ url: 'https://www.tendorai.com/logo.png', width: 873, height: 873, alt: "TendorAI - The UK's AI Visibility Platform" }],
   },
   twitter: {
     card: 'summary',
@@ -116,9 +116,9 @@ const organisationJsonLd = {
   url: 'https://www.tendorai.com/',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://www.tendorai.com/tendorai.png',
-    width: 575,
-    height: 283,
+    url: 'https://www.tendorai.com/logo.png',
+    width: 873,
+    height: 873,
   },
   foundingDate: '2024-01-01',
   contactPoint: {
