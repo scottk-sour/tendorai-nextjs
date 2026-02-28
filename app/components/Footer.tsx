@@ -37,12 +37,12 @@ const popularLocations = [
 ];
 
 const serviceCategories = [
-  { name: 'Photocopier Suppliers', slug: 'photocopiers' },
-  { name: 'Telecoms Providers', slug: 'telecoms' },
-  { name: 'CCTV Installers', slug: 'cctv' },
-  { name: 'IT Services', slug: 'it' },
-  { name: 'Security Systems', slug: 'security' },
-  { name: 'Business Software', slug: 'software' },
+  { name: 'Conveyancing Solicitors', slug: 'conveyancing' },
+  { name: 'Wills & Probate', slug: 'wills-and-probate' },
+  { name: 'Family Law', slug: 'family-law' },
+  { name: 'Immigration Solicitors', slug: 'immigration' },
+  { name: 'Personal Injury', slug: 'personal-injury' },
+  { name: 'Employment Law', slug: 'employment-law' },
 ];
 
 const industries = [
@@ -175,10 +175,10 @@ export default function Footer() {
                 {popularLocations.map((loc) => (
                   <li key={loc.slug}>
                     <Link
-                      href={`/suppliers/photocopiers/${loc.slug}`}
+                      href={`/suppliers/solicitors/${loc.slug}`}
                       className="text-sm text-gray-400 hover:text-white transition-colors"
                     >
-                      Suppliers in {loc.name}
+                      Solicitors in {loc.name}
                     </Link>
                   </li>
                 ))}
@@ -190,7 +190,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 border-t border-gray-800 pt-8">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} TendorAI Ltd &middot; The UK&apos;s AI Visibility Platform &middot; Bristol, UK
+            &copy; {new Date().getFullYear()} TendorAI Ltd &middot; The UK&apos;s AI Visibility Platform &middot; Wales, UK
           </p>
         </div>
       </div>
