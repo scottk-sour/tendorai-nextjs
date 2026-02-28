@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { connectDB } from '@/lib/db/connection';
+import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorProduct } from '@/lib/db/models';
 import VendorCard from '@/app/components/VendorCard';
 import type { VendorCardData } from '@/app/components/VendorCard';
@@ -79,44 +79,46 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   // Noindex thin pages with fewer than 3 results
-  await connectDB();
-  const normalizedLoc = location.replace(/-/g, ' ');
-  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+  const vendorCount = await withRetry(async () => {
+    await connectDB();
+    const normalizedLoc = location.replace(/-/g, ' ');
+    const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
-  let categoryFilter;
-  if (isSolicitor) {
-    const practiceArea = getPracticeAreaFromSlug(category);
-    categoryFilter = practiceArea ? { vendorType: 'solicitor', practiceAreas: practiceArea } : {};
-  } else if (isAccountant) {
-    categoryFilter = { vendorType: 'accountant' };
-  } else if (isMortgageAdvisor) {
-    const serviceArea = getMortgageServiceArea(category);
-    categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else if (isEstateAgent) {
-    const serviceArea = getEstateAgentServiceArea(category);
-    categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else {
-    const serviceName = getServiceFromSlug(category);
-    categoryFilter = serviceName ? { services: serviceName } : {};
-  }
+    let categoryFilter;
+    if (isSolicitor) {
+      const practiceArea = getPracticeAreaFromSlug(category);
+      categoryFilter = practiceArea ? { vendorType: 'solicitor', practiceAreas: practiceArea } : {};
+    } else if (isAccountant) {
+      categoryFilter = { vendorType: 'accountant' };
+    } else if (isMortgageAdvisor) {
+      const serviceArea = getMortgageServiceArea(category);
+      categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else if (isEstateAgent) {
+      const serviceArea = getEstateAgentServiceArea(category);
+      categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else {
+      const serviceName = getServiceFromSlug(category);
+      categoryFilter = serviceName ? { services: serviceName } : {};
+    }
 
-  const locationFilter = isProfessional
-    ? { 'location.city': { $regex: new RegExp(`^${normalizedLoc}$`, 'i') } }
-    : {
-        $or: [
-          { 'location.coverage': { $regex: new RegExp(normalizedLoc, 'i') } },
-          { 'location.city': { $regex: new RegExp(normalizedLoc, 'i') } },
-          { 'location.region': { $regex: new RegExp(normalizedLoc, 'i') } },
-          { postcodeAreas: { $regex: new RegExp(normalizedLoc.substring(0, 2), 'i') } },
-        ],
-      };
+    const locationFilter = isProfessional
+      ? { 'location.city': { $regex: new RegExp(`^${normalizedLoc}$`, 'i') } }
+      : {
+          $or: [
+            { 'location.coverage': { $regex: new RegExp(normalizedLoc, 'i') } },
+            { 'location.city': { $regex: new RegExp(normalizedLoc, 'i') } },
+            { 'location.region': { $regex: new RegExp(normalizedLoc, 'i') } },
+            { postcodeAreas: { $regex: new RegExp(normalizedLoc.substring(0, 2), 'i') } },
+          ],
+        };
 
-  const vendorCount = await Vendor.countDocuments({
-    $and: [
-      { $or: [{ 'account.status': 'active', 'account.verificationStatus': 'verified' }, { listingStatus: 'unclaimed' }] },
-      categoryFilter,
-      locationFilter,
-    ],
+    return await Vendor.countDocuments({
+      $and: [
+        { $or: [{ 'account.status': 'active', 'account.verificationStatus': 'verified' }, { listingStatus: 'unclaimed' }] },
+        categoryFilter,
+        locationFilter,
+      ],
+    });
   });
 
   return {
@@ -194,91 +196,93 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
 }
 
 async function fetchVendors(category: string, location: string) {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  const isSolicitor = isSolicitorCategory(category);
-  const isAccountant = isAccountantCategory(category);
-  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
-  const isEstateAgent = isEstateAgentCategory(category);
-  const normalizedLocation = location.replace(/-/g, ' ');
+    const isSolicitor = isSolicitorCategory(category);
+    const isAccountant = isAccountantCategory(category);
+    const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+    const isEstateAgent = isEstateAgentCategory(category);
+    const normalizedLocation = location.replace(/-/g, ' ');
 
-  let categoryFilter;
-  if (isSolicitor) {
-    const practiceArea = getPracticeAreaFromSlug(category);
-    if (!practiceArea) return [];
-    categoryFilter = { vendorType: 'solicitor', practiceAreas: practiceArea };
-  } else if (isAccountant) {
-    // practiceAreas not populated yet for accountants — show all accountant vendors
-    categoryFilter = { vendorType: 'accountant' };
-  } else if (isMortgageAdvisor) {
-    const serviceArea = getMortgageServiceArea(category);
-    categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else if (isEstateAgent) {
-    const serviceArea = getEstateAgentServiceArea(category);
-    categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else {
-    const serviceName = getServiceFromSlug(category);
-    if (!serviceName) return [];
-    categoryFilter = { services: serviceName };
-  }
+    let categoryFilter;
+    if (isSolicitor) {
+      const practiceArea = getPracticeAreaFromSlug(category);
+      if (!practiceArea) return [];
+      categoryFilter = { vendorType: 'solicitor', practiceAreas: practiceArea };
+    } else if (isAccountant) {
+      // practiceAreas not populated yet for accountants — show all accountant vendors
+      categoryFilter = { vendorType: 'accountant' };
+    } else if (isMortgageAdvisor) {
+      const serviceArea = getMortgageServiceArea(category);
+      categoryFilter = { vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else if (isEstateAgent) {
+      const serviceArea = getEstateAgentServiceArea(category);
+      categoryFilter = { vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else {
+      const serviceName = getServiceFromSlug(category);
+      if (!serviceName) return [];
+      categoryFilter = { services: serviceName };
+    }
 
-  const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
-  const locationFilter = isProfessional
-    ? { 'location.city': { $regex: new RegExp(`^${normalizedLocation}$`, 'i') } }
-    : {
-        $or: [
-          { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
-          { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
-        ],
-      };
+    const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+    const locationFilter = isProfessional
+      ? { 'location.city': { $regex: new RegExp(`^${normalizedLocation}$`, 'i') } }
+      : {
+          $or: [
+            { 'location.coverage': { $regex: new RegExp(normalizedLocation, 'i') } },
+            { 'location.city': { $regex: new RegExp(normalizedLocation, 'i') } },
+            { 'location.region': { $regex: new RegExp(normalizedLocation, 'i') } },
+            { postcodeAreas: { $regex: new RegExp(normalizedLocation.substring(0, 2), 'i') } },
+          ],
+        };
 
-  const query = {
-    $and: [
-      {
-        $or: [
-          { 'account.status': 'active', 'account.verificationStatus': 'verified' },
-          { listingStatus: 'unclaimed' },
-        ],
-      },
-      categoryFilter,
-      locationFilter,
-    ],
-  };
+    const query = {
+      $and: [
+        {
+          $or: [
+            { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+            { listingStatus: 'unclaimed' },
+          ],
+        },
+        categoryFilter,
+        locationFilter,
+      ],
+    };
 
-  const vendors = await Vendor.find(query)
-    .select({
-      company: 1, services: 1, location: 1, performance: 1, businessProfile: 1,
-      brands: 1, tier: 1, contactInfo: 1, showPricing: 1, listingStatus: 1,
-      'account.loginCount': 1, vendorType: 1, practiceAreas: 1, sraNumber: 1, icaewFirmNumber: 1, slug: 1,
-    })
-    .lean()
-    .exec();
+    const vendors = await Vendor.find(query)
+      .select({
+        company: 1, services: 1, location: 1, performance: 1, businessProfile: 1,
+        brands: 1, tier: 1, contactInfo: 1, showPricing: 1, listingStatus: 1,
+        'account.loginCount': 1, vendorType: 1, practiceAreas: 1, sraNumber: 1, icaewFirmNumber: 1, slug: 1,
+      })
+      .lean()
+      .exec();
 
-  const vendorIds = vendors.map((v) => v._id);
-  const productCounts = await VendorProduct.aggregate([
-    { $match: { vendorId: { $in: vendorIds }, isActive: { $ne: false } } },
-    { $group: { _id: '$vendorId', count: { $sum: 1 } } },
-  ]);
+    const vendorIds = vendors.map((v) => v._id);
+    const productCounts = await VendorProduct.aggregate([
+      { $match: { vendorId: { $in: vendorIds }, isActive: { $ne: false } } },
+      { $group: { _id: '$vendorId', count: { $sum: 1 } } },
+    ]);
 
-  const productCountMap: Record<string, number> = {};
-  productCounts.forEach((p: { _id: { toString(): string }; count: number }) => {
-    productCountMap[p._id.toString()] = p.count;
+    const productCountMap: Record<string, number> = {};
+    productCounts.forEach((p: { _id: { toString(): string }; count: number }) => {
+      productCountMap[p._id.toString()] = p.count;
+    });
+
+    return vendors
+      .map((v) => ({
+        ...v,
+        _id: v._id.toString(),
+        productCount: productCountMap[v._id.toString()] || 0,
+        priorityScore: calculatePriorityScore({
+          tier: v.tier, company: v.company, contactInfo: v.contactInfo, email: '',
+          businessProfile: v.businessProfile, brands: v.brands, location: v.location,
+          hasProducts: (productCountMap[v._id.toString()] || 0) > 0,
+        }),
+      }))
+      .sort((a, b) => b.priorityScore - a.priorityScore);
   });
-
-  return vendors
-    .map((v) => ({
-      ...v,
-      _id: v._id.toString(),
-      productCount: productCountMap[v._id.toString()] || 0,
-      priorityScore: calculatePriorityScore({
-        tier: v.tier, company: v.company, contactInfo: v.contactInfo, email: '',
-        businessProfile: v.businessProfile, brands: v.brands, location: v.location,
-        hasProducts: (productCountMap[v._id.toString()] || 0) > 0,
-      }),
-    }))
-    .sort((a, b) => b.priorityScore - a.priorityScore);
 }
 
 export default async function CategoryLocationPage({ params }: PageProps) {

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { connectDB } from '@/lib/db/connection';
+import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 import {
   SERVICES,
@@ -169,47 +169,49 @@ interface PageProps {
 export const revalidate = 3600;
 
 async function getVendorBySlug(slug: string) {
-  await connectDB();
-  try {
-    const vendor = await Vendor.findOne({ slug })
-      .select({
-        company: 1,
-        slug: 1,
-        services: 1,
-        location: 1,
-        businessProfile: 1,
-        brands: 1,
-        tier: 1,
-        listingStatus: 1,
-        'account.status': 1,
-        'account.verificationStatus': 1,
-        vendorType: 1,
-        practiceAreas: 1,
-        sraNumber: 1,
-        fcaNumber: 1,
-        propertymarkNumber: 1,
-        propertymarkQualification: 1,
-        regulatoryBody: 1,
-        contactInfo: 1,
-        claimed: 1,
-        fixedFees: 1,
-        languages: 1,
-        legalAid: 1,
-        lenderPanels: 1,
-        individualSolicitors: 1,
-      })
-      .lean()
-      .exec();
+  return withRetry(async () => {
+    await connectDB();
+    try {
+      const vendor = await Vendor.findOne({ slug })
+        .select({
+          company: 1,
+          slug: 1,
+          services: 1,
+          location: 1,
+          businessProfile: 1,
+          brands: 1,
+          tier: 1,
+          listingStatus: 1,
+          'account.status': 1,
+          'account.verificationStatus': 1,
+          vendorType: 1,
+          practiceAreas: 1,
+          sraNumber: 1,
+          fcaNumber: 1,
+          propertymarkNumber: 1,
+          propertymarkQualification: 1,
+          regulatoryBody: 1,
+          contactInfo: 1,
+          claimed: 1,
+          fixedFees: 1,
+          languages: 1,
+          legalAid: 1,
+          lenderPanels: 1,
+          individualSolicitors: 1,
+        })
+        .lean()
+        .exec();
 
-    if (!vendor) return null;
+      if (!vendor) return null;
 
-    return {
-      ...vendor,
-      _id: vendor._id.toString(),
-    };
-  } catch {
-    return null;
-  }
+      return {
+        ...vendor,
+        _id: vendor._id.toString(),
+      };
+    } catch {
+      return null;
+    }
+  });
 }
 
 // ─── Metadata ───────────────────────────────────────────────────────

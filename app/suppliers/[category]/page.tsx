@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { connectDB } from '@/lib/db/connection';
+import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 import {
   SERVICES,
@@ -55,30 +55,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           : `Find trusted ${service.name.toLowerCase()} suppliers across the UK. ${service.description}. Compare vendors and get instant quotes.`;
 
   // Noindex thin pages with fewer than 3 results
-  await connectDB();
-  const statusFilter = {
-    $or: [
-      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
-      { listingStatus: 'unclaimed' },
-    ],
-  };
-  let vendorFilter;
-  if (isSolicitor) {
-    const practiceArea = getPracticeAreaFromSlug(category);
-    vendorFilter = practiceArea ? { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea } : statusFilter;
-  } else if (isAccountant) {
-    vendorFilter = { ...statusFilter, vendorType: 'accountant' };
-  } else if (isMortgageAdvisor) {
-    const serviceArea = getMortgageServiceArea(category);
-    vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else if (isEstateAgent) {
-    const serviceArea = getEstateAgentServiceArea(category);
-    vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else {
-    const serviceName = getServiceFromSlug(category);
-    vendorFilter = serviceName ? { ...statusFilter, services: serviceName } : statusFilter;
-  }
-  const vendorCount = await Vendor.countDocuments(vendorFilter);
+  const vendorCount = await withRetry(async () => {
+    await connectDB();
+    const statusFilter = {
+      $or: [
+        { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+        { listingStatus: 'unclaimed' },
+      ],
+    };
+    let vendorFilter;
+    if (isSolicitor) {
+      const practiceArea = getPracticeAreaFromSlug(category);
+      vendorFilter = practiceArea ? { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea } : statusFilter;
+    } else if (isAccountant) {
+      vendorFilter = { ...statusFilter, vendorType: 'accountant' };
+    } else if (isMortgageAdvisor) {
+      const serviceArea = getMortgageServiceArea(category);
+      vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else if (isEstateAgent) {
+      const serviceArea = getEstateAgentServiceArea(category);
+      vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else {
+      const serviceName = getServiceFromSlug(category);
+      vendorFilter = serviceName ? { ...statusFilter, services: serviceName } : statusFilter;
+    }
+    return await Vendor.countDocuments(vendorFilter);
+  });
 
   return {
     title,
@@ -90,66 +92,68 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function getCategoryData(category: string) {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  const service = SERVICES[category as keyof typeof SERVICES];
-  if (!service) return null;
+    const service = SERVICES[category as keyof typeof SERVICES];
+    if (!service) return null;
 
-  const isSolicitor = service.group === 'solicitor';
-  const isAccountant = service.group === 'accountant';
-  const isMortgageAdvisor = isMortgageAdvisorCategory(category);
-  const isEstateAgent = isEstateAgentCategory(category);
+    const isSolicitor = service.group === 'solicitor';
+    const isAccountant = service.group === 'accountant';
+    const isMortgageAdvisor = isMortgageAdvisorCategory(category);
+    const isEstateAgent = isEstateAgentCategory(category);
 
-  const statusFilter = {
-    $or: [
-      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
-      { listingStatus: 'unclaimed' },
-    ],
-  };
+    const statusFilter = {
+      $or: [
+        { 'account.status': 'active', 'account.verificationStatus': 'verified' },
+        { listingStatus: 'unclaimed' },
+      ],
+    };
 
-  let vendorFilter;
-  if (isSolicitor) {
-    const practiceArea = getPracticeAreaFromSlug(category);
-    if (!practiceArea) return null;
-    vendorFilter = { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea };
-  } else if (isAccountant) {
-    // practiceAreas not populated yet for accountants — show all accountant vendors
-    vendorFilter = { ...statusFilter, vendorType: 'accountant' };
-  } else if (isMortgageAdvisor) {
-    const serviceArea = getMortgageServiceArea(category);
-    vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else if (isEstateAgent) {
-    const serviceArea = getEstateAgentServiceArea(category);
-    vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
-  } else {
-    const serviceName = getServiceFromSlug(category);
-    if (!serviceName) return null;
-    vendorFilter = { ...statusFilter, services: serviceName };
-  }
+    let vendorFilter;
+    if (isSolicitor) {
+      const practiceArea = getPracticeAreaFromSlug(category);
+      if (!practiceArea) return null;
+      vendorFilter = { ...statusFilter, vendorType: 'solicitor', practiceAreas: practiceArea };
+    } else if (isAccountant) {
+      // practiceAreas not populated yet for accountants — show all accountant vendors
+      vendorFilter = { ...statusFilter, vendorType: 'accountant' };
+    } else if (isMortgageAdvisor) {
+      const serviceArea = getMortgageServiceArea(category);
+      vendorFilter = { ...statusFilter, vendorType: 'mortgage-advisor', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else if (isEstateAgent) {
+      const serviceArea = getEstateAgentServiceArea(category);
+      vendorFilter = { ...statusFilter, vendorType: 'estate-agent', ...(serviceArea && { practiceAreas: serviceArea }) };
+    } else {
+      const serviceName = getServiceFromSlug(category);
+      if (!serviceName) return null;
+      vendorFilter = { ...statusFilter, services: serviceName };
+    }
 
-  const groupByCity = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+    const groupByCity = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
 
-  const [vendorCount, locationStats] = await Promise.all([
-    Vendor.countDocuments(vendorFilter),
-    // For solicitors/accountants, group by city; for equipment, group by coverage
-    groupByCity
-      ? Vendor.aggregate([
-          { $match: vendorFilter },
-          { $group: { _id: '$location.city', count: { $sum: 1 } } },
-          { $match: { _id: { $nin: [null, ''] } } },
-          { $sort: { count: -1 } },
-          { $limit: 30 },
-        ])
-      : Vendor.aggregate([
-          { $match: vendorFilter },
-          { $unwind: '$location.coverage' },
-          { $group: { _id: '$location.coverage', count: { $sum: 1 } } },
-          { $sort: { count: -1 } },
-          { $limit: 20 },
-        ]),
-  ]);
+    const [vendorCount, locationStats] = await Promise.all([
+      Vendor.countDocuments(vendorFilter),
+      // For solicitors/accountants, group by city; for equipment, group by coverage
+      groupByCity
+        ? Vendor.aggregate([
+            { $match: vendorFilter },
+            { $group: { _id: '$location.city', count: { $sum: 1 } } },
+            { $match: { _id: { $nin: [null, ''] } } },
+            { $sort: { count: -1 } },
+            { $limit: 30 },
+          ])
+        : Vendor.aggregate([
+            { $match: vendorFilter },
+            { $unwind: '$location.coverage' },
+            { $group: { _id: '$location.coverage', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 20 },
+          ]),
+    ]);
 
-  return { vendorCount, locationStats, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent };
+    return { vendorCount, locationStats, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent };
+  });
 }
 
 export default async function CategoryPage({ params }: PageProps) {

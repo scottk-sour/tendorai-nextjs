@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
-import { connectDB } from '@/lib/db/connection';
+import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorProduct, Review } from '@/lib/db/models';
 import {
   getDisplayTier,
@@ -159,123 +159,129 @@ interface PageProps {
 export const revalidate = 3600;
 
 async function getVendor(id: string) {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  try {
-    const vendor = await Vendor.findById(id)
-      .select({
-        company: 1,
-        name: 1,
-        services: 1,
-        location: 1,
-        performance: 1,
-        businessProfile: 1,
-        brands: 1,
-        tier: 1,
-        contactInfo: 1,
-        showPricing: 1,
-        postcodeAreas: 1,
-        listingStatus: 1,
-        'account.status': 1,
-        'account.verificationStatus': 1,
-        vendorType: 1,
-        practiceAreas: 1,
-        sraNumber: 1,
-        fcaNumber: 1,
-        icaewFirmNumber: 1,
-        propertymarkNumber: 1,
-        regulatoryBody: 1,
-        slug: 1,
-        claimed: 1,
-        fixedFees: 1,
-        languages: 1,
-        legalAid: 1,
-        lenderPanels: 1,
-        individualSolicitors: 1,
-        accreditations: 1,
-        officeCount: 1,
-      })
-      .lean()
-      .exec();
+    try {
+      const vendor = await Vendor.findById(id)
+        .select({
+          company: 1,
+          name: 1,
+          services: 1,
+          location: 1,
+          performance: 1,
+          businessProfile: 1,
+          brands: 1,
+          tier: 1,
+          contactInfo: 1,
+          showPricing: 1,
+          postcodeAreas: 1,
+          listingStatus: 1,
+          'account.status': 1,
+          'account.verificationStatus': 1,
+          vendorType: 1,
+          practiceAreas: 1,
+          sraNumber: 1,
+          fcaNumber: 1,
+          icaewFirmNumber: 1,
+          propertymarkNumber: 1,
+          regulatoryBody: 1,
+          slug: 1,
+          claimed: 1,
+          fixedFees: 1,
+          languages: 1,
+          legalAid: 1,
+          lenderPanels: 1,
+          individualSolicitors: 1,
+          accreditations: 1,
+          officeCount: 1,
+        })
+        .lean()
+        .exec();
 
-    if (!vendor) return null;
+      if (!vendor) return null;
 
-    const isUnclaimed = vendor.listingStatus === 'unclaimed';
+      const isUnclaimed = vendor.listingStatus === 'unclaimed';
 
-    if (
-      !isUnclaimed &&
-      (vendor.account?.status !== 'active' ||
-        vendor.account?.verificationStatus !== 'verified')
-    ) {
+      if (
+        !isUnclaimed &&
+        (vendor.account?.status !== 'active' ||
+          vendor.account?.verificationStatus !== 'verified')
+      ) {
+        return null;
+      }
+
+      return {
+        ...vendor,
+        _id: vendor._id.toString(),
+      };
+    } catch {
       return null;
     }
-
-    return {
-      ...vendor,
-      _id: vendor._id.toString(),
-    };
-  } catch {
-    return null;
-  }
+  });
 }
 
 async function getProducts(vendorId: string) {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  try {
-    const products = await VendorProduct.find({
-      vendorId,
-      isActive: { $ne: false },
-      status: 'active',
-    })
-      .select({
-        manufacturer: 1,
-        productModel: 1,
-        description: 1,
-        category: 1,
-        speed: 1,
-        features: 1,
-        costs: 1,
-        volumeRange: 1,
-        paperSizes: 1,
-        availability: 1,
+    try {
+      const products = await VendorProduct.find({
+        vendorId,
+        isActive: { $ne: false },
+        status: 'active',
       })
-      .sort({ 'costs.totalMachineCost': 1 })
-      .lean()
-      .exec();
+        .select({
+          manufacturer: 1,
+          productModel: 1,
+          description: 1,
+          category: 1,
+          speed: 1,
+          features: 1,
+          costs: 1,
+          volumeRange: 1,
+          paperSizes: 1,
+          availability: 1,
+        })
+        .sort({ 'costs.totalMachineCost': 1 })
+        .lean()
+        .exec();
 
-    return products.map((p) => ({
-      ...p,
-      _id: p._id.toString(),
-      vendorId: p.vendorId.toString(),
-    }));
-  } catch {
-    return [];
-  }
+      return products.map((p) => ({
+        ...p,
+        _id: p._id.toString(),
+        vendorId: p.vendorId.toString(),
+      }));
+    } catch {
+      return [];
+    }
+  });
 }
 
 async function getApprovedReviews(vendorId: string) {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  try {
-    const reviews = await Review.find({
-      vendor: vendorId,
-      status: 'approved',
-    })
-      .select('reviewer.name rating title content createdAt')
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .lean()
-      .exec();
+    try {
+      const reviews = await Review.find({
+        vendor: vendorId,
+        status: 'approved',
+      })
+        .select('reviewer.name rating title content createdAt')
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .lean()
+        .exec();
 
-    return reviews.map((r) => ({
-      ...r,
-      _id: r._id.toString(),
-      vendor: r.vendor.toString(),
-    }));
-  } catch {
-    return [];
-  }
+      return reviews.map((r) => ({
+        ...r,
+        _id: r._id.toString(),
+        vendor: r.vendor.toString(),
+      }));
+    } catch {
+      return [];
+    }
+  });
 }
 
 // ─── Metadata ───────────────────────────────────────────────────────

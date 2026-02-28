@@ -22,25 +22,29 @@ if (!global.mongoose) {
   global.mongoose = cached;
 }
 
+const CONNECT_OPTS = {
+  bufferCommands: false,
+  maxPoolSize: 1,
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 45000,
+  retryReads: true,
+  retryWrites: true,
+};
+
+function createConnection() {
+  return mongoose.connect(MONGODB_URI, CONNECT_OPTS).then((m) => {
+    console.log('MongoDB connected successfully');
+    return m;
+  });
+}
+
 export async function connectDB(): Promise<typeof mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-      maxPoolSize: 5,
-      serverSelectionTimeoutMS: 30000,
-      socketTimeoutMS: 45000,
-      retryReads: true,
-      retryWrites: true,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log('MongoDB connected successfully');
-      return mongoose;
-    });
+    cached.promise = createConnection();
   }
 
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -52,18 +56,7 @@ export async function connectDB(): Promise<typeof mongoose> {
       cached.conn = null;
       if (attempt < 2) {
         console.warn(`MongoDB connection attempt ${attempt + 1} failed, retrying...`);
-        const opts = {
-          bufferCommands: false,
-          maxPoolSize: 5,
-          serverSelectionTimeoutMS: 30000,
-          socketTimeoutMS: 45000,
-          retryReads: true,
-          retryWrites: true,
-        };
-        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-          console.log('MongoDB connected successfully');
-          return mongoose;
-        });
+        cached.promise = createConnection();
       } else {
         throw e;
       }
@@ -71,6 +64,36 @@ export async function connectDB(): Promise<typeof mongoose> {
   }
 
   return cached.conn!;
+}
+
+/**
+ * Retry wrapper for database operations that may fail due to
+ * transient pool/SSL errors during static generation.
+ */
+export async function withRetry<T>(fn: () => Promise<T>, maxAttempts = 3): Promise<T> {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err: unknown) {
+      const isRetryable =
+        err instanceof Error &&
+        (err.name === 'MongoPoolClearedError' ||
+         err.name === 'MongoNetworkError' ||
+         err.message.includes('pool was cleared') ||
+         err.message.includes('tlsv1 alert'));
+
+      if (isRetryable && attempt < maxAttempts - 1) {
+        console.warn(`[DB] Retryable error (attempt ${attempt + 1}/${maxAttempts}): ${err instanceof Error ? err.message : err}`);
+        // Reset connection so next connectDB() re-establishes
+        cached.conn = null;
+        cached.promise = null;
+        await connectDB();
+      } else {
+        throw err;
+      }
+    }
+  }
+  throw new Error('withRetry: unreachable');
 }
 
 export default connectDB;

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { connectDB } from '@/lib/db/connection';
+import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorProduct } from '@/lib/db/models';
 import VendorCard from '@/app/components/VendorCard';
 import type { VendorCardData } from '@/app/components/VendorCard';
@@ -29,32 +29,36 @@ const STATUS_FILTER = {
 };
 
 export async function generateStaticParams() {
-  await connectDB();
-  const cities = await Vendor.aggregate([
-    {
-      $match: {
-        vendorType: 'solicitor',
-        ...STATUS_FILTER,
+  return withRetry(async () => {
+    await connectDB();
+    const cities = await Vendor.aggregate([
+      {
+        $match: {
+          vendorType: 'solicitor',
+          ...STATUS_FILTER,
+        },
       },
-    },
-    { $group: { _id: '$location.city', count: { $sum: 1 } } },
-    { $match: { _id: { $nin: [null, ''] }, count: { $gte: 3 } } },
-  ]);
-  return cities.map((c: { _id: string }) => ({
-    city: c._id.toLowerCase().replace(/\s+/g, '-'),
-  }));
+      { $group: { _id: '$location.city', count: { $sum: 1 } } },
+      { $match: { _id: { $nin: [null, ''] }, count: { $gte: 3 } } },
+    ]);
+    return cities.map((c: { _id: string }) => ({
+      city: c._id.toLowerCase().replace(/\s+/g, '-'),
+    }));
+  });
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { city } = await params;
   const cityName = formatLocationName(city);
 
-  await connectDB();
   const normalizedCity = city.replace(/-/g, ' ');
-  const vendorCount = await Vendor.countDocuments({
-    vendorType: 'solicitor',
-    'location.city': { $regex: new RegExp(`^${normalizedCity}$`, 'i') },
-    ...STATUS_FILTER,
+  const vendorCount = await withRetry(async () => {
+    await connectDB();
+    return Vendor.countDocuments({
+      vendorType: 'solicitor',
+      'location.city': { $regex: new RegExp(`^${normalizedCity}$`, 'i') },
+      ...STATUS_FILTER,
+    });
   });
 
   const title = `Solicitors in ${cityName}`;
@@ -133,6 +137,7 @@ function toVendorCardData(v: Record<string, unknown>): VendorCardData {
 }
 
 async function fetchVendors(city: string) {
+  return withRetry(async () => {
   await connectDB();
   const normalizedCity = city.replace(/-/g, ' ');
 
@@ -172,6 +177,7 @@ async function fetchVendors(city: string) {
       }),
     }))
     .sort((a, b) => b.priorityScore - a.priorityScore);
+  });
 }
 
 function getTopPracticeAreas(vendors: { practiceAreas?: string[] }[], limit = 5): string[] {
