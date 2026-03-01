@@ -206,6 +206,15 @@ const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
   enterprise: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
 };
 
+// Which tier unlocks each platform (for upsell labels on locked cards)
+const PLATFORM_UNLOCK_TIER: Record<string, { tier: string; label: string; price: string }> = {
+  chatgpt: { tier: 'starter', label: 'Starter', price: '\u00A3149/month' },
+  claude:  { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
+  gemini:  { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
+  grok:    { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
+  meta:    { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
+};
+
 const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   perplexity: { color: '#20B8CD', icon: '\uD83D\uDD0D' },
   chatgpt: { color: '#10A37F', icon: '\uD83D\uDCAC' },
@@ -219,6 +228,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
 
   if (locked) {
+    const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'starter', label: 'Starter', price: '\u00A3149/month' };
     return (
       <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
         {/* Blurred fake content */}
@@ -234,12 +244,14 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
           <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
           </svg>
-          <p className="text-sm font-semibold text-gray-600 mb-1">Upgrade to see this</p>
+          <p className="text-sm font-semibold text-gray-600 mb-1">
+            Unlock with {unlock.label} &mdash; {unlock.price}
+          </p>
           <a
-            href="/for-vendors#pricing"
+            href={`/for-vendors?tier=${unlock.tier}#pricing`}
             className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline"
           >
-            View plans &rarr;
+            View {unlock.label} plan &rarr;
           </a>
         </div>
       </div>
@@ -384,7 +396,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         {report.platformResults && report.platformResults.length > 0 && (() => {
           const tier = report.tier || 'free';
           const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
-          const mentionedCount = report.platformResults.filter(r => r.mentioned).length;
+          const unlockedResults = report.platformResults.filter(r => unlocked.includes(r.platform));
+          const mentionedCount = unlockedResults.filter(r => r.mentioned).length;
           const totalCount = report.platformResults.length;
 
           // Order results: show all 6 platforms (fill missing ones)
