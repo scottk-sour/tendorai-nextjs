@@ -398,7 +398,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
           const unlockedResults = report.platformResults.filter(r => unlocked.includes(r.platform));
           const mentionedCount = unlockedResults.filter(r => r.mentioned).length;
-          const totalCount = report.platformResults.length;
+
 
           // Order results: show all 6 platforms (fill missing ones)
           const ALL_PLATFORMS = ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'];
@@ -423,7 +423,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
                 <div className="flex-1">
                   <p className="text-lg font-bold text-gray-900">
-                    Mentioned by {mentionedCount} of {totalCount} AI platforms
+                    Mentioned by {mentionedCount} of 6 AI platforms
                   </p>
                   <p className="text-sm text-gray-500">
                     {mentionedCount === 0
