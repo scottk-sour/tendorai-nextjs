@@ -16,6 +16,16 @@ interface Gap {
   explanation: string;
 }
 
+interface PlatformResult {
+  platform: string;
+  platformLabel: string;
+  mentioned: boolean;
+  position: number | null;
+  snippet: string | null;
+  competitors: string[];
+  error: string | null;
+}
+
 interface Report {
   _id: string;
   companyName: string;
@@ -48,6 +58,8 @@ interface Report {
   gaps: Gap[];
   competitorsOnTendorAI: number;
   createdAt: string;
+  platformResults?: PlatformResult[];
+  tier?: string | null;
 }
 
 interface Props {
@@ -187,6 +199,122 @@ function getRegulatoryBody(category: string): string {
   return 'publicly available business data';
 }
 
+const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
+  free: ['perplexity'],
+  starter: ['perplexity', 'chatgpt'],
+  pro: ['perplexity', 'chatgpt', 'claude'],
+  enterprise: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
+};
+
+const PLATFORM_META: Record<string, { color: string; icon: string }> = {
+  perplexity: { color: '#20B8CD', icon: '\uD83D\uDD0D' },
+  chatgpt: { color: '#10A37F', icon: '\uD83D\uDCAC' },
+  claude: { color: '#D97706', icon: '\uD83E\uDD16' },
+  gemini: { color: '#4285F4', icon: '\u2728' },
+  grok: { color: '#1D9BF0', icon: '\u26A1' },
+  meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
+};
+
+function PlatformCard({ result, locked }: { result: PlatformResult; locked: boolean }) {
+  const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
+
+  if (locked) {
+    return (
+      <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
+        {/* Blurred fake content */}
+        <div className="filter blur-[6px] pointer-events-none select-none">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">{meta.icon}</span>
+            <span className="font-bold text-gray-900">{result.platformLabel}</span>
+          </div>
+          <p className="text-sm text-gray-500">AI platform analysis result placeholder text that is blurred out for this tier.</p>
+        </div>
+        {/* Lock overlay */}
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center">
+          <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+          </svg>
+          <p className="text-sm font-semibold text-gray-600 mb-1">Upgrade to see this</p>
+          <a
+            href="/for-vendors#pricing"
+            className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline"
+          >
+            View plans &rarr;
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">{meta.icon}</span>
+          <span className="font-bold text-gray-900">{result.platformLabel}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {result.mentioned && result.position && (
+            <span
+              className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
+              style={{ backgroundColor: meta.color }}
+            >
+              #{result.position}
+            </span>
+          )}
+          {result.mentioned ? (
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 text-sm font-bold">
+              &#10003;
+            </span>
+          ) : (
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 text-sm font-bold">
+              &#10007;
+            </span>
+          )}
+        </div>
+      </div>
+
+      {result.error ? (
+        <p className="text-xs text-gray-400 italic">Unable to query this platform</p>
+      ) : result.mentioned ? (
+        <>
+          {result.snippet && (
+            <p className="text-sm text-gray-600 mb-2 line-clamp-3">{result.snippet}</p>
+          )}
+          {result.competitors.length > 0 && (
+            <div className="mt-2">
+              <p className="text-xs text-gray-400 mb-1">Also mentioned:</p>
+              <div className="flex flex-wrap gap-1">
+                {result.competitors.slice(0, 4).map((c) => (
+                  <span key={c} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <p className="text-sm text-red-600 font-medium mb-2">Not mentioned by {result.platformLabel}</p>
+          {result.competitors.length > 0 && (
+            <div className="mt-1">
+              <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
+              <div className="flex flex-wrap gap-1">
+                {result.competitors.slice(0, 4).map((c) => (
+                  <span key={c} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 export default function AeoReportDisplay({ report, pdfUrl }: Props) {
@@ -252,6 +380,90 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       </section>
 
       <div className="max-w-3xl mx-auto px-4">
+        {/* Platform Results */}
+        {report.platformResults && report.platformResults.length > 0 && (() => {
+          const tier = report.tier || 'free';
+          const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
+          const mentionedCount = report.platformResults.filter(r => r.mentioned).length;
+          const totalCount = report.platformResults.length;
+
+          // Order results: show all 6 platforms (fill missing ones)
+          const ALL_PLATFORMS = ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'];
+          const ALL_LABELS: Record<string, string> = {
+            perplexity: 'Perplexity', chatgpt: 'ChatGPT', claude: 'Claude',
+            gemini: 'Gemini', grok: 'Grok', meta: 'Meta AI',
+          };
+          const resultMap = new Map(report.platformResults.map(r => [r.platform, r]));
+          const orderedResults = ALL_PLATFORMS.map(p => resultMap.get(p) || {
+            platform: p, platformLabel: ALL_LABELS[p], mentioned: false,
+            position: null, snippet: null, competitors: [], error: 'Not queried',
+          });
+
+          return (
+            <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-1">AI Platform Results</h2>
+              <p className="text-sm text-gray-500 mb-4">
+                We asked 6 major AI platforms to recommend a business like yours in {report.city}.
+              </p>
+
+              {/* Summary bar */}
+              <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
+                <div className="flex-1">
+                  <p className="text-lg font-bold text-gray-900">
+                    Mentioned by {mentionedCount} of {totalCount} AI platforms
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {mentionedCount === 0
+                      ? 'No AI platform currently recommends your business.'
+                      : mentionedCount <= 2
+                        ? 'Your AI visibility is limited. Most platforms don\'t recommend you yet.'
+                        : mentionedCount <= 4
+                          ? 'Good progress. Some platforms recommend you but there\'s room to grow.'
+                          : 'Strong AI visibility across most platforms.'}
+                  </p>
+                </div>
+                <div className="flex gap-1">
+                  {orderedResults.map((r, i) => (
+                    <div
+                      key={i}
+                      className={`w-3 h-8 rounded-full ${
+                        r.mentioned ? 'bg-green-500' : 'bg-red-300'
+                      }`}
+                      title={r.platformLabel}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Platform cards grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {orderedResults.map((result) => (
+                  <PlatformCard
+                    key={result.platform}
+                    result={result as PlatformResult}
+                    locked={!unlocked.includes(result.platform)}
+                  />
+                ))}
+              </div>
+
+              {/* Upgrade nudge for free tier */}
+              {tier === 'free' && (
+                <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
+                  <p className="text-sm text-purple-800 font-medium mb-2">
+                    You&apos;re seeing 1 of 6 platform results. Upgrade to unlock all AI platform data.
+                  </p>
+                  <a
+                    href="/for-vendors#pricing"
+                    className="inline-block px-5 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    See Plans
+                  </a>
+                </div>
+              )}
+            </section>
+          );
+        })()}
+
         {/* What AI Knows */}
         <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-1">What AI Knows About You</h2>

@@ -49,6 +49,16 @@ export interface IAeoReport extends Document {
     explanation: string;
   }>;
   pdfBuffer?: Buffer | null;
+  platformResults?: Array<{
+    platform: string;
+    platformLabel: string;
+    mentioned: boolean;
+    position?: number | null;
+    snippet?: string | null;
+    competitors: string[];
+    error?: string | null;
+  }>;
+  tier?: string | null;
 }
 
 const aeoReportSchema = new mongoose.Schema<IAeoReport>({
@@ -106,6 +116,16 @@ const aeoReportSchema = new mongoose.Schema<IAeoReport>({
     },
   ],
   pdfBuffer: { type: Buffer, default: null },
+  platformResults: [{
+    platform: { type: String, enum: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'] },
+    platformLabel: String,
+    mentioned: Boolean,
+    position: { type: Number, default: null },
+    snippet: { type: String, default: null },
+    competitors: [String],
+    error: { type: String, default: null },
+  }],
+  tier: { type: String, enum: ['free', 'starter', 'pro', 'enterprise', null], default: null },
 });
 
 aeoReportSchema.index({ createdAt: -1 });

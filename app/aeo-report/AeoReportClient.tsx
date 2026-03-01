@@ -119,13 +119,19 @@ export default function AeoReportClient() {
       const res = await fetch(`${API_URL}/api/public/aeo-report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyName, category, city, email: email || undefined, name: name || undefined, source: source || undefined, customIndustry: category === 'other' ? customIndustry.trim() : undefined }),
+        body: JSON.stringify({ companyName, category, city, email, name: name || undefined, source: source || undefined, customIndustry: category === 'other' ? customIndustry.trim() : undefined }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         setError(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      // If an existing report was found for this email, redirect to it
+      if (data.existing) {
+        router.push(`/aeo-report/results/${data.reportId}`);
         return;
       }
 
@@ -301,16 +307,18 @@ export default function AeoReportClient() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email <span className="text-gray-400">(optional — get a copy of your report)</span>
+                Email *
               </label>
               <input
                 id="email"
                 type="email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
               />
+              <p className="mt-1 text-xs text-gray-400">We&apos;ll send your report to this address</p>
             </div>
 
             <div>
