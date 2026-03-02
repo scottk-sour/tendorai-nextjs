@@ -85,10 +85,10 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Check if AI recommends your business. Free AI Visibility reports for UK solicitors, accountants, mortgage advisors & estate agents. Results in 60 seconds.";
+const newDescription = "The UK's AI Visibility Platform for professional services. Free AI Visibility reports for solicitors, accountants, mortgage advisors & estate agents. See if ChatGPT, Perplexity and Claude recommend your business.";
 
 export const metadata: Metadata = {
-  title: { absolute: "TendorAI \u2014 AI Visibility Platform for UK Businesses" },
+  title: { absolute: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services" },
   description: newDescription,
   keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
   alternates: {
@@ -97,15 +97,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/',
-    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses",
+    title: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
     description: newDescription,
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 873, height: 873, alt: 'TendorAI - AI Visibility for UK Businesses' }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services" }],
   },
   twitter: {
     card: 'summary',
-    title: "TendorAI \u2014 AI Visibility Platform for UK Businesses",
+    title: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
     description: newDescription,
     images: ['/logo.png'],
   },
@@ -120,16 +120,27 @@ export const metadata: Metadata = {
   },
 };
 
+// Organization schema
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'TendorAI',
+  url: 'https://www.tendorai.com',
+  description: "The UK's AI Visibility Platform for professional services. Helping solicitors, accountants, mortgage advisors and estate agents get recommended by ChatGPT, Perplexity and Claude.",
+  areaServed: 'GB',
+  knowsAbout: ['AI Visibility', 'Answer Engine Optimisation', 'AEO', 'UK Professional Services'],
+};
+
 // WebPage schema — homepage-specific dates
 const webPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': 'https://www.tendorai.com/#webpage',
-  name: 'TendorAI — AI Visibility for UK Businesses',
+  name: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
   url: 'https://www.tendorai.com/',
   datePublished: '2024-01-01',
   dateModified: new Date().toISOString().split('T')[0],
-  description: 'Check if AI recommends your business. Free AI Visibility (AEO) reports for UK solicitors, accountants, mortgage advisors & estate agents.',
+  description: "The UK's AI Visibility Platform for professional services. Free AI Visibility reports for solicitors, accountants, mortgage advisors and estate agents.",
 };
 
 // HowTo schema — matches the 4 steps in Features.tsx
@@ -210,7 +221,11 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* JSON-LD schemas — Organization & WebSite schemas are in layout.tsx */}
+      {/* JSON-LD schemas */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
