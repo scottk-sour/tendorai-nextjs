@@ -63,12 +63,6 @@ const nextConfig = {
         destination: '/admin/login',
         permanent: true,
       },
-      // /blog → /resources
-      {
-        source: '/blog/:slug',
-        destination: '/resources/:slug',
-        permanent: true,
-      },
     ];
   },
 
