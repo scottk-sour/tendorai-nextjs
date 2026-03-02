@@ -13,12 +13,16 @@ const categoryColors: Record<string, string> = {
   'AI & Visibility': 'bg-indigo-100 text-indigo-700',
   'AI Visibility': 'bg-teal-100 text-teal-700',
   Research: 'bg-rose-100 text-rose-700',
+  Legal: 'bg-amber-100 text-amber-700',
+  Tools: 'bg-cyan-100 text-cyan-700',
+  'How-To': 'bg-emerald-100 text-emerald-700',
+  Financial: 'bg-violet-100 text-violet-700',
 };
 
 function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
-      href={`/resources/${article.slug}`}
+      href={article.href || `/resources/${article.slug}`}
       className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-purple-200 transition-all"
     >
       <div className="p-6">

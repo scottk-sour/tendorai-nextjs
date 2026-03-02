@@ -2,14 +2,81 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research';
+  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research' | 'Legal' | 'Tools' | 'How-To' | 'Financial';
   author?: string;
   readTime: number;
   publishedDate: string;
   content: string;
+  href?: string;
 }
 
 export const articles: Article[] = [
+  {
+    slug: 'how-to-get-your-law-firm-visible-to-ai-assistants',
+    title: 'How to Get Your Law Firm Visible to AI Assistants (2026 Guide)',
+    excerpt: 'A step-by-step guide to getting your law firm recommended by ChatGPT, Perplexity, Claude and Google AI.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-03-01',
+    href: '/blog/how-to-get-your-law-firm-visible-to-ai-assistants',
+    content: '',
+  },
+  {
+    slug: 'best-ai-visibility-tools-uk-professional-services',
+    title: '7 Best AI Visibility Tools for UK Professional Services Firms (2026)',
+    excerpt: 'An honest ranked comparison of the best AI visibility tools available to UK solicitors, accountants and mortgage advisors.',
+    category: 'Tools',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-03-01',
+    href: '/blog/best-ai-visibility-tools-uk-professional-services',
+    content: '',
+  },
+  {
+    slug: 'how-to-check-if-business-appears-in-ai-recommendations',
+    title: 'How to Check if Your Business Appears in AI Recommendations (Free)',
+    excerpt: 'The exact manual test to run right now — and how TendorAI automates it across all 6 major AI platforms.',
+    category: 'How-To',
+    author: 'Scott Davies',
+    readTime: 6,
+    publishedDate: '2026-03-01',
+    href: '/blog/how-to-check-if-business-appears-in-ai-recommendations',
+    content: '',
+  },
+  {
+    slug: 'how-to-get-solicitor-profile-into-ai-search-results',
+    title: 'How to Get Your Solicitor Profile into AI Search Results',
+    excerpt: 'Six steps to get your SRA-regulated firm appearing in ChatGPT, Perplexity and Google AI recommendations.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-03-01',
+    href: '/blog/how-to-get-solicitor-profile-into-ai-search-results',
+    content: '',
+  },
+  {
+    slug: 'why-business-not-showing-up-chatgpt-recommendations',
+    title: "Why Your Business Isn't Showing Up in ChatGPT Recommendations",
+    excerpt: 'The 6 most common reasons UK businesses are invisible to ChatGPT — and the specific fix for each one.',
+    category: 'How-To',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-03-01',
+    href: '/blog/why-business-not-showing-up-chatgpt-recommendations',
+    content: '',
+  },
+  {
+    slug: 'ai-visibility-mortgage-advisors-uk',
+    title: 'How to Improve AI Visibility for Mortgage Advisors in the UK',
+    excerpt: 'How FCA-registered mortgage advisors can get recommended by AI platforms — using the same data AI already trusts.',
+    category: 'Financial',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-03-01',
+    href: '/blog/ai-visibility-mortgage-advisors-uk',
+    content: '',
+  },
   {
     slug: 'ai-recommends-solicitors-uk-cities',
     title: 'We Asked AI to Recommend Solicitors in 10 Major UK Cities — Here\u2019s What It Said',
@@ -1954,4 +2021,4 @@ export function getArticlesByCategory(category: string): Article[] {
   return articles.filter(a => a.category === category);
 }
 
-export const articleCategories = ['All', 'AI Visibility', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
+export const articleCategories = ['All', 'AI Visibility', 'Legal', 'How-To', 'Tools', 'Financial', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
