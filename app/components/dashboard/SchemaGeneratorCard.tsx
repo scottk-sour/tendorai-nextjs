@@ -163,6 +163,11 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
   const [validationError, setValidationError] = useState('');
   const [schemaHealth, setSchemaHealth] = useState<'green' | 'amber' | 'none'>('none');
 
+  // Self-install copy state
+  const [copiedScript, setCopiedScript] = useState(false);
+  const [copiedDiv, setCopiedDiv] = useState(false);
+  const [showPlatformGuides, setShowPlatformGuides] = useState(false);
+
   // Install request state
   const [installStatus, setInstallStatus] = useState<string | null>(null);
   const [installDate, setInstallDate] = useState<string | null>(null);
@@ -513,6 +518,109 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
                 </button>
               </div>
             )}
+          </div>
+
+          {/* Install It Yourself */}
+          <div className="border-t border-gray-100 pt-4 space-y-4">
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900">Install It Yourself</h4>
+              <p className="text-sm text-gray-500 mt-1">Copy and paste — updates automatically when you update your profile</p>
+            </div>
+
+            {/* Block 1: Script tag */}
+            <div>
+              <p className="text-xs font-medium text-gray-600 mb-1.5">{`Step 1: Add this before </body>`}</p>
+              <div className="relative bg-gray-900 rounded-lg p-3 pr-12">
+                <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap break-words">
+{`<script src="https://www.tendorai.com/api/schema/${vendorId}.js"></script>`}
+                </pre>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`<script src="https://www.tendorai.com/api/schema/${vendorId}.js"></script>`);
+                    setCopiedScript(true);
+                    setTimeout(() => setCopiedScript(false), 2000);
+                  }}
+                  className="absolute top-2.5 right-2.5 p-1.5 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors"
+                  title="Copy to clipboard"
+                >
+                  {copiedScript ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-green-400"><path d="M20 6L9 17l-5-5" /></svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" /></svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Block 2: Badge div */}
+            <div>
+              <p className="text-xs font-medium text-gray-600 mb-1.5">Step 2: Add this where you want the badge in your footer</p>
+              <div className="relative bg-gray-900 rounded-lg p-3 pr-12">
+                <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap break-words">
+{`<div id="tendorai-badge"></div>`}
+                </pre>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`<div id="tendorai-badge"></div>`);
+                    setCopiedDiv(true);
+                    setTimeout(() => setCopiedDiv(false), 2000);
+                  }}
+                  className="absolute top-2.5 right-2.5 p-1.5 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors"
+                  title="Copy to clipboard"
+                >
+                  {copiedDiv ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-green-400"><path d="M20 6L9 17l-5-5" /></svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" /></svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Expandable platform guides */}
+            <div>
+              <button
+                onClick={() => setShowPlatformGuides(!showPlatformGuides)}
+                className="flex items-center gap-1.5 text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+              >
+                <svg
+                  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  className={`transition-transform duration-200 ${showPlatformGuides ? 'rotate-90' : ''}`}
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+                How to install on your platform
+              </button>
+
+              {showPlatformGuides && (
+                <div className="mt-3 space-y-3 text-sm text-gray-700">
+                  <div>
+                    <p className="font-medium text-gray-900">WordPress</p>
+                    <p className="text-gray-600">{`Appearance → Theme Editor → footer.php → paste Step 1 before </body>`}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Wix</p>
+                    <p className="text-gray-600">{`Settings → Custom Code → Add Code to All Pages → Body (end) → paste Step 1. Add Step 2 where you want the badge.`}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Squarespace</p>
+                    <p className="text-gray-600">{`Settings → Advanced → Code Injection → Footer → paste both steps`}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Shopify</p>
+                    <p className="text-gray-600">{`Online Store → Themes → Edit Code → theme.liquid → paste Step 1 before </body>`}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Custom / Other</p>
+                    <p className="text-gray-600">{`Paste Step 1 before </body> on every page. Add Step 2 anywhere in your footer HTML.`}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <p className="text-sm text-green-600 font-medium">
+              &#10003; Your schema updates automatically every time you save changes to your TendorAI profile
+            </p>
           </div>
 
           {/* What This Does */}
