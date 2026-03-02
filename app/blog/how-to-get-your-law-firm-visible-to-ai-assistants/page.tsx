@@ -55,39 +55,39 @@ const faqs = [
 const steps = [
   {
     number: 1,
-    title: 'Optimise Your Google Business Profile',
+    title: 'Claim and Complete Your Google Business Profile',
     content:
-      'Your Google Business Profile (GBP) is one of the first data sources AI assistants check when recommending local businesses. Complete every field: practice areas, office photos, opening hours, phone number, website URL, and a detailed business description that includes your key specialisms. Add all your office locations if you have more than one. AI tools like Gemini and Google AI Overviews pull directly from GBP data, so a half-finished profile means half the visibility.',
+      'Your Google Business Profile (GBP) is one of the first data sources AI assistants check when recommending local businesses. If you have not claimed yours, do so immediately at business.google.com. Once claimed, complete every field: primary category (Solicitor), secondary categories (e.g. Conveyancing Service, Immigration Attorney), a detailed business description that includes your key practice areas and locations, office photos, opening hours, phone number, and website URL. Add all your office locations if you have more than one. AI tools like Gemini and Google AI Overviews pull directly from GBP data, so a half-finished profile means half the visibility. Make sure your firm name on GBP matches your SRA register name exactly \u2014 inconsistencies between platforms reduce AI confidence in your data.',
   },
   {
     number: 2,
-    title: 'Install Schema.org Markup on Your Website',
+    title: 'Add LegalService Schema Markup to Your Website',
     content:
-      'Schema.org markup is structured code added to your website that tells AI exactly what your firm does. For law firms, the two most important schema types are LegalService and LocalBusiness. Your markup should include your firm name, SRA number, practice areas (conveyancing, family law, commercial litigation, etc.), office addresses, opening hours, and aggregate review data. This is not visible to visitors — it sits in your page code — but it is the single most important signal for AI platforms. Without it, AI tools have to guess what your firm does based on unstructured text, and they often guess wrong or skip you entirely.',
+      'Schema.org markup is structured code added to your website that tells AI exactly what your firm does. For law firms, the most important schema type is LegalService. Your markup should include your firm name, SRA number, practice areas (conveyancing, family law, commercial litigation, immigration, employment, wills and probate), office addresses with postcodes, opening hours, aggregate review data, and a sameAs property linking to your SRA register entry and other authoritative profiles. This markup is invisible to visitors \u2014 it sits in your page code \u2014 but it is the single most important signal for AI platforms. Without it, AI tools have to guess what your firm does based on unstructured text, and they often guess wrong or skip you entirely. If you do not have a developer, TendorAI Pro installs this markup on your website automatically as part of the subscription.',
   },
   {
     number: 3,
-    title: 'Keep Your SRA Listing Complete and Current',
+    title: 'Audit Your NAP Consistency Across SRA, Google, and Directories',
     content:
-      'AI platforms like ChatGPT and Perplexity cross-reference the SRA Solicitors Register when verifying law firms. If your SRA listing is missing practice areas, has an outdated email address, or does not include all your office locations, AI tools may not trust your firm enough to recommend it. Log in to mySRA and ensure every field is filled: practice areas, contact details, regulated individuals, office addresses, and any specialisms. This is free to update and takes ten minutes, but the impact on AI visibility is significant.',
+      'NAP stands for Name, Address, and Phone number. AI tools cross-reference your business details across multiple sources \u2014 your website, Google Business Profile, SRA Solicitors Register, directories, social media profiles, and review platforms. If your firm name is \u201cSmith & Jones Solicitors\u201d on your website but \u201cSmith and Jones Solicitors LLP\u201d on Google and \u201cS&J Legal\u201d on LinkedIn, AI tools cannot confidently match these as the same entity. Audit every platform where your firm appears and ensure the name, address format, and phone number are identical. Check your SRA listing, Google Business Profile, ReviewSolicitors, Law Society Find a Solicitor, Trustpilot, and any local directories. Even small differences such as \u201cSt.\u201d versus \u201cStreet\u201d or a missing postcode can cause problems. Inconsistent NAP data is one of the most common reasons law firms are invisible to AI assistants.',
   },
   {
     number: 4,
-    title: 'Get Listed on ReviewSolicitors and Verified Directories',
+    title: 'Claim Your TendorAI Profile',
     content:
-      'AI assistants prioritise businesses with verified reviews from trusted platforms. ReviewSolicitors is the leading review platform for UK law firms, and its data feeds into AI recommendations. Claim your profile, respond to existing reviews, and actively ask satisfied clients to leave feedback. Beyond ReviewSolicitors, ensure your firm is listed on structured directories like TendorAI, which creates AI-readable profiles with your SRA details, practice areas, and location data built in. The more verified sources that confirm your firm exists and is reputable, the more confident AI tools are in recommending you.',
+      'TendorAI creates AI-readable structured data profiles specifically for UK professional services firms. Claim your free profile and fill in every detail: your SRA number, practice areas, specialisms, office locations, fee ranges, and client types. Unlike a standard website, which AI has to interpret from unstructured text, a TendorAI profile presents your firm\u2019s data in a format AI tools are built to consume. TendorAI pulls directly from SRA regulatory data, so your profile starts with verified information that AI platforms already trust. Include your client sectors (individuals, SMEs, corporates), languages spoken, and any accreditations such as Lexcel or Conveyancing Quality Scheme. The free profile gets you listed; the paid plans add schema markup installation on your website and weekly AI mention tracking so you can monitor which platforms recommend you.',
   },
   {
     number: 5,
-    title: 'Add FAQ Content to Your Website',
+    title: 'Publish FAQ Content That Answers Real Client Questions',
     content:
-      'AI assistants answer questions — so your website needs to contain the answers. Write FAQ pages that match how real people phrase queries to AI tools. Instead of generic headings like "Our Services", write specific questions: "What does a conveyancing solicitor do?", "How much does a divorce solicitor cost in 2026?", "Do I need a solicitor to buy a house?". Mark up your FAQs with FAQPage schema so AI tools can parse them directly. This content serves double duty: it helps your traditional SEO and feeds directly into AI-generated answers.',
+      'AI assistants answer questions \u2014 so your website needs to contain the answers. Write FAQ pages that match how real people phrase queries to AI tools. Instead of generic headings like \u201cOur Services\u201d, write specific questions your clients actually ask: \u201cWhat does a conveyancing solicitor do?\u201d, \u201cHow much does a divorce solicitor cost in 2026?\u201d, \u201cDo I need a solicitor to buy a house?\u201d, \u201cHow long does probate take in England and Wales?\u201d. Mark up your FAQs with FAQPage schema so AI tools can parse them directly. This content serves double duty: it helps your traditional SEO and feeds directly into AI-generated answers. Aim for at least one FAQ page per practice area, with five to ten questions each. Write in plain English that a member of the public would understand \u2014 not legal jargon.',
   },
   {
     number: 6,
-    title: 'Ensure NAP Consistency Across All Platforms',
+    title: 'Add Pricing or Fee Structure Information to Your Service Pages',
     content:
-      'NAP stands for Name, Address, and Phone number. AI tools cross-reference your business details across multiple sources — your website, Google Business Profile, SRA register, directories, social media profiles, and review platforms. If your firm name is "Smith & Jones Solicitors" on your website but "Smith and Jones Solicitors LLP" on Google and "S&J Legal" on LinkedIn, AI tools cannot confidently match these as the same entity. Pick one consistent format for your firm name, address, and phone number, and use it identically everywhere. Inconsistent NAP data is one of the most common reasons law firms are invisible to AI assistants.',
+      'AI platforms strongly favour businesses that are transparent about pricing. When someone asks ChatGPT \u201cHow much does conveyancing cost in Bristol?\u201d, AI looks for firms that publish fee information. Add clear pricing or fee ranges to each practice area page on your website: fixed fees for conveyancing, hourly rates for litigation, estimated costs for divorce proceedings, and disbursement breakdowns where relevant. You do not need to publish exact figures if that does not suit your practice \u2014 fee ranges and \u201cstarting from\u201d prices are effective. Include pricing in your Schema.org markup using the priceRange property. SRA transparency rules already require solicitors to publish pricing for certain services (conveyancing, employment tribunals, immigration, probate, motoring offences, debt recovery), so this aligns with your regulatory obligations. Firms that publish fees are consistently recommended more often by AI assistants than those that require a phone call to discuss costs.',
   },
 ];
 

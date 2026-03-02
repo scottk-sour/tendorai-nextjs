@@ -46,7 +46,7 @@ const tools = [
       'Focused on professional services, not designed for e-commerce or retail',
     ],
     pricing: 'Free AEO report, Starter from \u00a3149/month, Pro from \u00a3299/month',
-    bestFor: 'UK solicitors, accountants, mortgage advisors, and estate agents',
+    bestFor: 'UK solicitors, accountants, mortgage advisers, and estate agents',
     color: 'purple',
   },
   {
@@ -127,39 +127,39 @@ const tools = [
   },
   {
     rank: 6,
-    name: 'BrandRank',
-    summary:
-      'An AI brand monitoring platform focused on understanding how large language models perceive and represent brands. BrandRank provides competitive analysis and perception tracking at an enterprise level.',
-    pros: [
-      'Deep brand perception tracking showing how AI models describe your brand',
-      'Competitive analysis comparing your AI presence to direct competitors',
-    ],
-    cons: [
-      'Enterprise pricing — not accessible to SMBs or individual firms',
-      'No structured data creation or Schema.org markup tools',
-      'Not UK-specific and lacks regulatory data integration',
-    ],
-    pricing: 'Enterprise (contact for pricing)',
-    bestFor: 'Large brands tracking how AI models perceive and recommend their brand',
-    color: 'rose',
-  },
-  {
-    rank: 7,
     name: 'Profound',
     summary:
-      'An enterprise-grade AI search analytics platform offering deep analytics and multi-model tracking. Profound provides detailed reporting on how AI models source and present brand information across different contexts.',
+      'An enterprise-grade AI search analytics platform offering deep analytics and multi-model tracking. Profound provides detailed reporting on how AI models source and present brand information across different contexts and query types.',
     pros: [
       'Deep analytics with granular data on AI model responses',
       'Multi-model tracking across ChatGPT, Claude, Gemini, and others',
     ],
     cons: [
-      'Enterprise only — no plans available for SMBs or small firms',
+      'Enterprise only \u2014 no plans available for SMBs or small firms',
       'Expensive with no self-serve pricing or free trial',
       'Analytics-focused with no tools to actively improve your AI visibility',
     ],
     pricing: 'Enterprise (contact for pricing)',
     bestFor: 'Enterprise marketing teams with dedicated budgets for AI analytics',
     color: 'slate',
+  },
+  {
+    rank: 7,
+    name: 'BrandRank.ai',
+    summary:
+      'An AI brand monitoring platform focused on understanding how large language models perceive and represent brands. BrandRank.ai provides share of voice tracking and competitive analysis at an enterprise level.',
+    pros: [
+      'Share of voice tracking showing your brand\u2019s presence relative to competitors',
+      'Competitive analysis comparing your AI presence to direct competitors',
+    ],
+    cons: [
+      'Enterprise pricing \u2014 not accessible to SMBs or individual firms',
+      'No structured data creation or Schema.org markup tools',
+      'Not UK-specific and lacks regulatory data integration',
+    ],
+    pricing: 'Enterprise (contact for pricing)',
+    bestFor: 'Large brands tracking share of voice across AI recommendation platforms',
+    color: 'rose',
   },
 ];
 
@@ -476,7 +476,7 @@ export default function BestAIVisibilityToolsPage() {
           <ul className="list-disc pl-6 space-y-2 text-gray-600 mb-6">
             <li>
               <strong>UK professional services firms</strong> (solicitors, accountants,
-              mortgage advisors, estate agents) &mdash; TendorAI is the only tool
+              mortgage advisers, estate agents) &mdash; TendorAI is the only tool
               built for your specific market with regulatory data integration.
             </li>
             <li>
@@ -492,8 +492,8 @@ export default function BestAIVisibilityToolsPage() {
               industry-leading SEO suite with emerging AI visibility features.
             </li>
             <li>
-              <strong>Large brands with dedicated budgets</strong> &mdash; BrandRank
-              and Profound offer enterprise-grade analytics and perception tracking.
+              <strong>Large brands with dedicated budgets</strong> &mdash; Profound
+              and BrandRank.ai offer enterprise-grade analytics and share of voice tracking.
             </li>
           </ul>
 

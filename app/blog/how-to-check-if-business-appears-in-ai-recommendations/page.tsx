@@ -247,7 +247,7 @@ export default function HowToCheckAIRecommendationsPage() {
             Perplexity searches the web in real time and cites sources. Use the
             same style of prompt:
           </p>
-          <PromptBox prompt="Who are the best mortgage advisors in Manchester?" />
+          <PromptBox prompt="Who are the best mortgage advisers in Manchester?" />
           <p className="text-gray-600 leading-relaxed mb-4">
             Perplexity shows source links alongside its answer. Check whether your
             business is mentioned in the text and whether any of the cited sources
@@ -274,15 +274,41 @@ export default function HowToCheckAIRecommendationsPage() {
             Search Google for a service query and look for the AI Overview panel at
             the top. You can also test Gemini directly at gemini.google.com:
           </p>
-          <PromptBox prompt="Find me a financial advisor in Edinburgh" />
+          <PromptBox prompt="Find me a financial adviser in Edinburgh" />
+
+          <h3 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+            Microsoft Copilot (copilot.microsoft.com)
+          </h3>
+          <p className="text-gray-600 leading-relaxed mb-2">
+            Microsoft Copilot uses Bing search data combined with AI to generate
+            recommendations. Open Copilot and try:
+          </p>
+          <PromptBox prompt="Who are the best estate agents in Liverpool?" />
+          <p className="text-gray-600 leading-relaxed mb-4">
+            Copilot often includes links to sources alongside its recommendations.
+            Check whether your business is mentioned by name and whether any of the
+            linked sources are your website, directory listings, or review profiles.
+          </p>
 
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 my-6">
+            <h4 className="font-semibold text-amber-900 mb-2">Why Manual Testing Is Inconsistent</h4>
+            <p className="text-sm text-amber-800 mb-2">
+              Testing manually across all five platforms takes 20&ndash;30 minutes
+              per platform. You should test multiple prompt variations for each,
+              which means a thorough manual check takes 2+ hours.
+            </p>
+            <p className="text-sm text-amber-800 mb-2">
+              More importantly, AI responses are non-deterministic &mdash; the
+              same prompt can produce different answers in different sessions, at
+              different times of day, and from different locations. A single
+              manual test is not definitive. Your business might appear in one
+              session and not the next. This makes manual testing unreliable for
+              tracking your visibility over time.
+            </p>
             <p className="text-sm text-amber-800">
-              <strong>Note:</strong> Testing manually across all platforms takes
-              20&ndash;30 minutes per platform. You should test multiple prompt
-              variations for each, which means a thorough manual check takes 2+
-              hours. AI responses also vary between sessions, so a single test is
-              not definitive.
+              For a reliable picture, you need to test dozens of prompt
+              variations across all platforms simultaneously &mdash; which is
+              exactly what automated tools do.
             </p>
           </div>
 
@@ -306,7 +332,7 @@ export default function HowToCheckAIRecommendationsPage() {
           <div className="space-y-2 mb-6">
             <PromptBox prompt="Who is the best estate agent in Liverpool?" />
             <PromptBox prompt="Find me a family solicitor near Brighton" />
-            <PromptBox prompt="I need a tax advisor in London. Any suggestions?" />
+            <PromptBox prompt="I need a tax adviser in London. Any suggestions?" />
             <PromptBox prompt="Which accounting firms in Cardiff have good reviews?" />
           </div>
 
@@ -393,11 +419,14 @@ export default function HowToCheckAIRecommendationsPage() {
           </h2>
 
           <p className="text-gray-600 leading-relaxed mb-4">
-            The manual method works, but it is time-consuming and inconsistent.{' '}
+            The manual method works, but it is time-consuming and inconsistent.
+            You would need to test dozens of prompt variations across multiple
+            platforms to get a reliable picture.{' '}
             <Link href="/aeo-report" className="text-purple-600 underline hover:text-purple-800">
               TendorAI&apos;s free AEO report
             </Link>{' '}
-            automates the entire process. Here is what it does:
+            automates this across 50+ prompt variations and 6 AI platforms
+            simultaneously. Here is what it does:
           </p>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-6">
@@ -464,8 +493,10 @@ export default function HowToCheckAIRecommendationsPage() {
 
           <p className="text-gray-600 leading-relaxed mb-4">
             The whole process takes about 60 seconds compared to 2+ hours of manual
-            testing. You enter your business name, service type, and location, and
-            TendorAI handles the rest.
+            testing. TendorAI runs 50+ prompt variations across all 6 platforms,
+            giving you a far more reliable picture than any manual test could. You
+            enter your business name, service type, and location, and TendorAI
+            handles the rest.
           </p>
 
           <p className="text-gray-600 leading-relaxed mb-6">

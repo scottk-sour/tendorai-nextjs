@@ -35,45 +35,45 @@ export const metadata: Metadata = {
 const reasons = [
   {
     number: 1,
-    title: "You Don't Have Structured Data on Your Website",
+    title: 'No Structured Data on Your Website',
     problem:
-      "ChatGPT can't parse unstructured web pages reliably. When your website is just paragraphs of text without machine-readable markup, AI models have to guess what your business does, where you're located, and what services you offer. That guesswork usually means you get skipped entirely in favour of a competitor whose data is clear and structured.",
-    fix: 'Install Schema.org markup on your website. Use the appropriate types for your business — LocalBusiness, LegalService, FinancialService, AccountingService, RealEstateAgent, or InsuranceAgency — and include your services, service areas, contact details, opening hours, and pricing where applicable. TendorAI Pro creates and installs this structured data for you automatically, formatted exactly how AI models expect to read it.',
+      'ChatGPT cannot parse unstructured web pages reliably. When your website is just paragraphs of text without machine-readable markup, AI models have to guess what your business does, where you are located, and what services you offer. That guesswork usually means you get skipped entirely in favour of a competitor whose data is clear and structured. Most business websites were built for human visitors, not AI consumption \u2014 and AI needs a different kind of information architecture to understand you.',
+    fix: 'Install Schema.org markup on your website. Use the appropriate types for your business \u2014 LocalBusiness, LegalService, FinancialService, AccountingService, RealEstateAgent, or ProfessionalService \u2014 and include your services, service areas, contact details, opening hours, and pricing where applicable. This markup is invisible to visitors but gives AI models a structured, machine-readable description of your business. TendorAI Pro creates and installs this structured data for you automatically, formatted exactly how AI models expect to read it.',
   },
   {
     number: 2,
-    title: 'Your Directory Listings Are Incomplete or Inconsistent',
+    title: 'No Visible Client Reviews',
     problem:
-      "AI models cross-reference multiple sources when deciding whether to recommend a business. If your Google Business Profile says you're in \"Cardiff\" but your website says \"South Wales\", and your SRA listing has a different phone number, AI loses confidence in your data. Inconsistency is a trust killer — AI would rather recommend nobody than recommend unreliable information.",
-    fix: 'Audit every directory listing your business appears on. Ensure your Name, Address, and Phone number (NAP) are identical everywhere — your website, Google Business Profile, SRA/FCA register, industry directories, and social media profiles. Even small differences like "St." versus "Street" can cause problems. Use the exact same formatting everywhere.',
+      'AI uses reviews as a trust signal. A business with zero reviews gives ChatGPT nothing to assess quality or reliability against. When someone asks \u201cWho is the best conveyancing solicitor in Leeds?\u201d, AI needs evidence to justify a recommendation. No reviews means no evidence, which means no recommendation. Even a handful of mediocre reviews is better than none at all \u2014 at least they prove you have real clients.',
+    fix: 'Actively collect reviews on Google, Trustpilot, and industry-specific platforms like ReviewSolicitors, VouchedFor, or unbiased.co.uk. Aim for at least five to ten genuine reviews with an average rating above 4.0. Send a simple follow-up email to satisfied clients after completing their matter or engagement. Respond to every review professionally, positive or negative \u2014 AI models can read your responses too, and they contribute to the overall trust picture. Recent reviews carry more weight than old ones, so make review collection an ongoing habit rather than a one-off effort.',
   },
   {
     number: 3,
-    title: 'You Have No Reviews or Very Few Reviews',
+    title: 'Missing or Incomplete Google Business Profile',
     problem:
-      'AI uses reviews as a trust signal. A business with zero reviews gives ChatGPT nothing to assess quality or reliability against. When someone asks "Who is the best conveyancing solicitor in Leeds?", AI needs evidence to justify a recommendation. No reviews means no evidence, which means no recommendation.',
-    fix: 'Actively collect reviews on Google, Trustpilot, and industry-specific platforms like ReviewSolicitors, VouchedFor, Feefo, or unbiased.co.uk. Aim for at least 5-10 genuine reviews with an average rating above 4.0. Respond to reviews professionally — AI models can read your responses too, and they contribute to the overall trust picture.',
+      'Google Business Profile (GBP) is one of the most heavily crawled data sources for AI platforms, including Google\u2019s own Gemini and AI Overviews. If your GBP is unclaimed, half-finished, or has the wrong categories, AI tools either cannot find you or do not have enough confidence to recommend you. A GBP with no photos, no opening hours, a generic business description, and a single category tells AI you are not a serious business worth recommending.',
+    fix: 'Claim your Google Business Profile at business.google.com if you have not already. Set the correct primary category (e.g. Solicitor, Mortgage Broker, Accountant) and add relevant secondary categories. Write a detailed business description that includes your key services, specialisms, and the areas you serve. Add high-quality photos of your office and team, accurate opening hours, your phone number, and your website URL. If you have multiple offices, create a separate listing for each. Keep your GBP information consistent with your website and regulatory register \u2014 AI cross-references these sources and penalises inconsistencies.',
   },
   {
     number: 4,
-    title: "Your Website Content Doesn't Match How People Ask AI",
+    title: 'No Pricing Transparency',
     problem:
-      'AI answers conversational questions. People ask ChatGPT things like "What does a conveyancing solicitor do?" and "How much does a divorce solicitor cost in Birmingham?". If your website only has formal, jargon-heavy service descriptions that nobody would naturally say out loud, your content doesn\'t match the query patterns AI models are trying to answer.',
-    fix: 'Add FAQ pages and conversational content to your website that directly answers the questions people ask AI. Write in plain English. Include pages that answer "What does [your service] cost?", "How long does [your service] take?", "What is the difference between [service A] and [service B]?", and "Do I need a [your profession] for [common situation]?". Structure these as proper FAQ markup with Schema.org FAQPage schema.',
+      'AI platforms favour businesses that publish pricing information. When someone asks ChatGPT \u201cHow much does conveyancing cost in Manchester?\u201d, it looks for businesses that provide clear fee data. If your website says \u201cContact us for a quote\u201d without any indication of costs, AI has nothing to reference and will recommend a competitor who publishes their fees instead. Pricing transparency is also a trust signal \u2014 it suggests confidence in your service and respect for the client\u2019s time.',
+    fix: 'Add clear pricing or fee ranges to your service pages. You do not need to publish exact figures \u2014 ranges work well (\u201cConveyancing fees from \u00a3850 + VAT\u201d, \u201cDivorce proceedings typically \u00a35,000\u2013\u00a315,000\u201d). Include pricing in your Schema.org markup using the priceRange property. For regulated professions, this often aligns with existing transparency requirements \u2014 the SRA requires solicitors to publish pricing for certain services, and the FCA expects clear fee disclosure. Firms that publish fees are consistently recommended more often by AI assistants than those that hide their costs behind a phone call.',
   },
   {
     number: 5,
-    title: "You're Not Listed on Verified Industry Directories",
+    title: 'Inconsistent NAP Data Across Platforms',
     problem:
-      'AI trusts verified sources more than unverified ones. Regulatory registers like the SRA Solicitors Register, FCA Financial Services Register, and ICAEW directory carry significant weight because their data is verified. Industry platforms like TendorAI, Checkatrade, and sector-specific directories provide structured, verified data that AI can trust. If you only exist on your own website, AI has a single unverified source — and that is not enough.',
-    fix: 'Claim and complete your profile on every relevant verified directory. Start with your regulatory register (SRA, FCA, ICAEW, CILEx, or equivalent). Then claim your Google Business Profile, and sign up to industry directories including TendorAI, which structures your data specifically for AI consumption. The more verified sources that confirm your business details, the more confident AI becomes in recommending you.',
+      'AI models cross-reference multiple sources when deciding whether to recommend a business. If your Google Business Profile says you are in \u201cCardiff\u201d but your website says \u201cSouth Wales\u201d, and your SRA listing has a different phone number, AI loses confidence in your data. Even small discrepancies \u2014 \u201cSt.\u201d versus \u201cStreet\u201d, \u201c& \u201d versus \u201cand\u201d, a missing postcode \u2014 can cause problems. Inconsistency is a trust killer. AI would rather recommend nobody than recommend unreliable information.',
+    fix: 'Audit every platform where your business appears: your website, Google Business Profile, regulatory register (SRA, FCA, ICAEW), industry directories, Trustpilot, ReviewSolicitors, social media profiles, and Companies House. Ensure your Name, Address, and Phone number (NAP) are identical everywhere. Choose one format for your business name, one format for your address, and one phone number, and use them consistently across every platform without exception. If you have rebranded, moved offices, or changed phone numbers recently, update every listing immediately. A TendorAI profile helps by creating a single structured source of truth that AI platforms can reference.',
   },
   {
     number: 6,
-    title: 'Your Business Is Too New or Has Changed Recently',
+    title: 'Thin or Generic Website Content',
     problem:
-      "AI knowledge has a time lag. ChatGPT's base training data is not updated in real-time, and even its browsing feature needs time to discover and index new information. If your business launched recently, rebranded, moved offices, or changed its service offering, there may not be enough of a data footprint for AI to work with yet.",
-    fix: "Be patient but proactive. Get your structured data, directory listings, and review presence in place now. ChatGPT's browsing feature accesses current web data, so properly structured information can be picked up within 2-4 weeks. The base model's training data updates on a longer cycle, but having consistent structured data across multiple sources means you'll be included when the next update happens. The worst thing you can do is wait — start building your data presence today.",
+      'AI answers conversational questions. People ask ChatGPT things like \u201cWhat does a conveyancing solicitor do?\u201d and \u201cHow much does a divorce solicitor cost in Birmingham?\u201d. If your website only has brief, generic service descriptions \u2014 \u201cWe offer a range of legal services\u201d \u2014 or formal jargon that nobody would naturally say aloud, your content does not match the query patterns AI models are trying to answer. AI needs specific, detailed, plain-English content to work with.',
+    fix: 'Add FAQ pages and detailed service content to your website that directly answers the questions people ask AI. Write in plain English that your clients would understand. Create pages that answer: \u201cWhat does [your service] cost?\u201d, \u201cHow long does [your service] take?\u201d, \u201cWhat is the difference between [service A] and [service B]?\u201d, and \u201cDo I need a [your profession] for [common situation]?\u201d. Structure these with Schema.org FAQPage markup so AI can parse them directly. Aim for at least 500 words per service page and five to ten FAQ questions per practice area. This content serves double duty: it helps your traditional SEO and feeds directly into AI-generated answers.',
   },
 ];
 

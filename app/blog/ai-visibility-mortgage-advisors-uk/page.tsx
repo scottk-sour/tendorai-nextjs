@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-const TITLE = 'How to Improve AI Visibility for Mortgage Advisors in the UK';
+const TITLE = 'How to Improve AI Visibility for Mortgage Advisers in the UK';
 const DESCRIPTION =
-  'A complete guide for UK mortgage advisors to improve AI visibility. Covers FCA register data, structured data profiles, and how to get recommended by ChatGPT and Perplexity.';
+  'A complete guide for UK mortgage advisers to improve AI visibility. Covers FCA register data, structured data profiles, and how to get recommended by ChatGPT and Perplexity.';
 const CANONICAL =
   'https://www.tendorai.com/blog/ai-visibility-mortgage-advisors-uk';
 const PUBLISHED = '2026-03-01';
@@ -35,20 +35,20 @@ const faqs = [
     a: 'Ensure your FCA register entry is complete, create structured data profiles on TendorAI and Google Business Profile, and install Schema.org markup on your website. AI needs verifiable data about your authorisations and specialisms.',
   },
   {
-    q: 'Does the FCA register affect AI visibility for mortgage advisors?',
-    a: 'Yes. AI platforms cross-reference the FCA Financial Services Register to verify firms and advisors. Having complete permissions, principal details, and contact information on the FCA register directly impacts whether AI recommends you.',
+    q: 'Does the FCA register affect AI visibility for mortgage advisers?',
+    a: 'Yes. AI platforms cross-reference the FCA Financial Services Register to verify firms and advisers. Having complete permissions, principal details, and contact information on the FCA register directly impacts whether AI recommends you.',
   },
   {
-    q: 'What prompts do AI platforms use to recommend mortgage advisors?',
-    a: 'Common prompts include "Can you recommend a mortgage advisor in [city]?", "Who is the best mortgage broker near me?", "Find a first-time buyer mortgage advisor in [area]". AI answers based on structured data it can find about local advisors.',
+    q: 'What prompts do AI platforms use to recommend mortgage advisers?',
+    a: 'Common prompts include "Can you recommend a mortgage adviser in [city]?", "Who is the best mortgage broker near me?", "Find a first-time buyer mortgage adviser in [area]". AI answers based on structured data it can find about local advisers.',
   },
   {
     q: 'How is AI visibility different from mortgage lead generation?',
     a: 'Traditional lead gen involves paying for leads from comparison sites. AI visibility means appearing in organic AI recommendations when people ask ChatGPT or Perplexity for advice. It\u2019s free organic traffic, not paid leads.',
   },
   {
-    q: 'Can independent mortgage advisors compete with networks in AI results?',
-    a: 'Absolutely. AI doesn\u2019t favour large networks over independents. It recommends based on data quality, local presence, and specialisms. A well-optimised independent advisor can outrank a national network in their local area.',
+    q: 'Can independent mortgage advisers compete with networks in AI results?',
+    a: 'Absolutely. AI doesn\u2019t favour large networks over independents. It recommends based on data quality, local presence, and specialisms. A well-optimised independent adviser can outrank a national network in their local area.',
   },
 ];
 
@@ -57,7 +57,7 @@ const steps = [
     number: 1,
     title: 'Complete Your FCA Register Entry',
     content:
-      'Your FCA register entry is the single most important data source AI platforms check when verifying mortgage advisors. Log into FCA Connect and ensure every field is accurate and complete: all permissions (mortgage advising, mortgage arranging, insurance mediation), principal details, trading names, and every office address where you practise. AI platforms like ChatGPT and Perplexity cross-reference the FCA Financial Services Register before recommending any financial services firm. If your permissions are missing, your trading name is outdated, or your office addresses are incomplete, AI tools either skip your firm entirely or lack the confidence to recommend you. This step is free, takes fifteen minutes, and has the highest impact on your AI visibility of anything on this list.',
+      'Your FCA register entry is the single most important data source AI platforms check when verifying mortgage advisers. Log into FCA Connect and ensure every field is accurate and complete: all permissions (mortgage advising, mortgage arranging, insurance mediation), principal details, trading names, and every office address where you practise. AI platforms like ChatGPT and Perplexity cross-reference the FCA Financial Services Register before recommending any financial services firm. If your permissions are missing, your trading name is outdated, or your office addresses are incomplete, AI tools either skip your firm entirely or lack the confidence to recommend you. This step is free, takes fifteen minutes, and has the highest impact on your AI visibility of anything on this list.',
   },
   {
     number: 2,
@@ -69,19 +69,19 @@ const steps = [
     number: 3,
     title: 'Install Structured Data on Your Website',
     content:
-      'Schema.org markup is structured code embedded in your website that tells AI exactly what your firm does. For mortgage advisors, the key schema type is FinancialService. The fields that matter most are: name (your firm\u2019s trading name), address (each office location), areaServed (the towns, cities, and regions you cover), knowsAbout (your specialisms \u2014 residential mortgages, buy-to-let, equity release, protection), and hasCredential (your FCA number and any professional qualifications). This markup is invisible to visitors but is the single most important technical signal for AI platforms. Without it, AI tools have to guess what you do by reading your website copy, and they frequently guess wrong. TendorAI Pro installs this markup on your website automatically as part of the subscription, so you do not need a developer.',
+      'Schema.org markup is structured code embedded in your website that tells AI exactly what your firm does. For mortgage advisers, the key schema type is FinancialService. The fields that matter most are: name (your firm\u2019s trading name), address (each office location), areaServed (the towns, cities, and regions you cover), knowsAbout (your specialisms \u2014 residential mortgages, buy-to-let, equity release, protection), and hasCredential (your FCA number and any professional qualifications). This markup is invisible to visitors but is the single most important technical signal for AI platforms. Without it, AI tools have to guess what you do by reading your website copy, and they frequently guess wrong. TendorAI Pro installs this markup on your website automatically as part of the subscription, so you do not need a developer.',
   },
   {
     number: 4,
-    title: 'Build Your Review Presence',
+    title: 'Publish FAQ Content Around Mortgage Queries Buyers Ask AI',
     content:
-      'AI platforms use reviews as a confidence signal when deciding which mortgage advisors to recommend. Get listed on VouchedFor, the leading review platform for UK financial advisors, and claim your Google Reviews and Trustpilot profiles. Mortgage clients trust reviews heavily \u2014 a recommendation from a friend carries weight, but twenty verified five-star reviews carry more. Actively encourage satisfied clients to leave reviews after completion: a simple follow-up email works well. AI tools weigh both the volume and recency of reviews. A firm with fifteen reviews from the last three months will rank higher in AI recommendations than a firm with fifty reviews that are all two years old. The combination of verified reviews across multiple platforms gives AI strong social proof that your firm delivers quality advice.',
+      'Write clear, detailed answers to the questions your clients actually ask AI tools: \u201cHow much deposit do I need for a first home?\u201d, \u201cWhat\u2019s the difference between fixed and variable rate mortgages?\u201d, \u201cCan I get a mortgage with bad credit?\u201d, \u201cHow does buy-to-let mortgage criteria work?\u201d, \u201cWhat happens if my fixed rate is ending?\u201d, \u201cCan I get a mortgage if I\u2019m self-employed?\u201d. Publish these as a dedicated FAQ page or blog posts on your website and mark them up with FAQPage schema so AI can parse them directly. When someone asks ChatGPT \u201cCan I get a mortgage with CCJs?\u201d and your website has a detailed, expert answer to that exact question, AI is far more likely to reference your firm. Write in plain English, not financial jargon. Structure each answer with the question as an H2 or H3 heading followed by a clear explanation. This content also drives organic search traffic, so you benefit twice.',
   },
   {
     number: 5,
-    title: 'Create FAQ Content That Matches AI Queries',
+    title: 'Build Google Reviews and Trustpilot Presence',
     content:
-      'Write clear, detailed answers to the questions your clients actually ask: "How much deposit do I need for a first home?", "What\u2019s the difference between fixed and variable rate mortgages?", "Can I get a mortgage with bad credit?", "How does buy-to-let mortgage criteria work?", "What happens if my fixed rate is ending?". Publish these as an FAQ page or blog posts on your website. This helps AI understand your expertise and match your firm with relevant queries. When someone asks ChatGPT "Can I get a mortgage with CCJs?" and your website has a detailed, expert answer to that exact question, AI is far more likely to reference your firm. Structure each answer with the question as an H2 or H3 heading followed by a clear, jargon-free explanation. This content also drives organic search traffic, so you benefit twice.',
+      'AI platforms use reviews as a confidence signal when deciding which mortgage advisers to recommend. Claim your Google Reviews and Trustpilot profiles, and get listed on VouchedFor, the leading review platform for UK financial advisers. Mortgage clients trust reviews heavily \u2014 a recommendation from a friend carries weight, but twenty verified five-star reviews carry more. Actively encourage satisfied clients to leave a review after completion: a simple follow-up email works well. AI tools weigh both the volume and recency of reviews. A firm with fifteen reviews from the last three months will rank higher in AI recommendations than a firm with fifty reviews that are all two years old. Respond to every review, positive or negative, as this signals active engagement. The combination of verified reviews across Google, Trustpilot, and VouchedFor gives AI strong social proof that your firm delivers quality mortgage advice.',
   },
 ];
 
@@ -182,7 +182,7 @@ export default function AiVisibilityMortgageAdvisorsUkPage() {
                 Blog
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-white">AI Visibility for Mortgage Advisors</span>
+              <span className="text-white">AI Visibility for Mortgage Advisers</span>
             </nav>
 
             <div className="flex items-center gap-3 mb-4">
@@ -210,7 +210,7 @@ export default function AiVisibilityMortgageAdvisorsUkPage() {
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
           {/* Opening */}
           <p className="text-lg text-gray-600 leading-relaxed mb-4">
-            Mortgage advisors face a unique AI visibility challenge. First-time
+            Mortgage advisers face a unique AI visibility challenge. First-time
             buyers, remortgagers, and buy-to-let investors are increasingly
             asking AI for recommendations before checking comparison sites.
             Here&apos;s how to make sure AI recommends you.
@@ -219,22 +219,22 @@ export default function AiVisibilityMortgageAdvisorsUkPage() {
           {/* Section: Why AI Visibility Matters */}
           <section className="mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Why AI Visibility Matters for Mortgage Advisors
+              Why AI Visibility Matters for Mortgage Advisers
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              The way people find mortgage advisors is shifting. For years,
+              The way people find mortgage advisers is shifting. For years,
               comparison sites like Unbiased and VouchedFor dominated lead
               generation. Now, a growing number of borrowers &mdash; especially
               first-time buyers &mdash; are turning to ChatGPT, Perplexity, and
               Google&apos;s AI Overviews to ask questions like &quot;Can you
-              recommend a mortgage advisor in Manchester?&quot; or &quot;Who is
+              recommend a mortgage adviser in Manchester?&quot; or &quot;Who is
               the best broker for first-time buyers near me?&quot;.
             </p>
             <p className="text-gray-600 leading-relaxed">
               AI doesn&apos;t return a list of links. It names specific firms and
-              advisors. Perplexity cites FCA data when making recommendations.
+              advisers. Perplexity cites FCA data when making recommendations.
               ChatGPT references structured profiles and review platforms. The
-              advisors AI knows about get the warm leads &mdash; people who have
+              advisers AI knows about get the warm leads &mdash; people who have
               already decided they want advice and are looking for a specific
               recommendation. If AI doesn&apos;t know you exist, those leads go
               to your competitors.
@@ -244,7 +244,7 @@ export default function AiVisibilityMortgageAdvisorsUkPage() {
           {/* Section: What AI Looks For */}
           <section className="mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              What AI Platforms Look for When Recommending Mortgage Advisors
+              What AI Platforms Look for When Recommending Mortgage Advisers
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
               AI platforms need to be confident before recommending a financial
@@ -259,7 +259,7 @@ export default function AiVisibilityMortgageAdvisorsUkPage() {
             <p className="text-gray-600 leading-relaxed">
               AI wants to verify you are authorised before recommending you.
               This is not optional &mdash; it&apos;s the foundation of mortgage
-              advisor AI visibility. If your FCA data is incomplete or your
+              adviser AI visibility. If your FCA data is incomplete or your
               website doesn&apos;t have structured markup, AI cannot verify your
               credentials and will recommend someone else.
             </p>
