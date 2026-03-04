@@ -42,8 +42,15 @@ export default function AboutPage() {
               accreditations, specialisms, and reviews. AI crawlers index our platform.
               When someone asks AI for a recommendation, our data powers the answer.
             </p>
-            <p className="text-[var(--text)] font-semibold text-xl mb-6">
-              Free to list. Pay to rank first.
+            <p className="text-[var(--text2)] mb-4">
+              Every firm gets a free profile and AI Visibility Score &mdash; no technical knowledge
+              required. You&apos;ll see exactly how leading AI platforms currently interpret your firm,
+              where you appear, and where competitors are being recommended instead.
+            </p>
+            <p className="text-[var(--text2)] mb-6">
+              Paid plans give you everything needed to close those gaps: AI-readable structured data,
+              a verified profile badge for your website, monthly tracking across six AI platforms, and
+              a clear, prioritised action plan. No jargon. No agencies. No long contracts.
             </p>
             <p className="text-[var(--text2)]">
               Founded in Cwmbran, Wales. Built for every UK professional services vertical.
