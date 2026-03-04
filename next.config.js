@@ -27,8 +27,10 @@ const nextConfig = {
       { source: '/services/:path*', destination: '/suppliers', permanent: true },
       // Hyphenated admin login → actual route
       { source: '/admin-login', destination: '/admin/login', permanent: true },
+      // British spelling → American spelling redirect
+      { source: '/suppliers/mortgage-advisers', destination: '/suppliers/mortgage-advisors', permanent: true },
 
-      // === Office equipment pages → /suppliers/solicitors ===
+      // === Office equipment pages → /suppliers ===
       // Category pages
       { source: '/photocopiers', destination: '/suppliers', permanent: true },
       { source: '/suppliers/photocopiers', destination: '/suppliers', permanent: true },

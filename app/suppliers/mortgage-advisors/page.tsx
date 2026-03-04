@@ -240,6 +240,30 @@ export default async function MortgageAdvisorsPage() {
           </div>
         </section>
 
+        {/* Static Intro — server-rendered for AI crawlers */}
+        <section className="py-12 bg-white">
+          <div className="section max-w-4xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">About Our Mortgage Adviser Directory</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              TendorAI lists FCA-regulated mortgage advisers across England and Wales. Our directory covers
+              residential mortgages, buy-to-let, remortgages, first-time buyer advice, equity release,
+              commercial mortgages, and protection insurance. Every adviser is verified against the Financial
+              Conduct Authority register.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Homebuyers and property investors increasingly use AI assistants like ChatGPT, Perplexity, and
+              Claude to find local mortgage advisers. TendorAI provides structured data profiles that help AI
+              platforms recommend specific advisory firms by name, specialism, and location. If you are a
+              mortgage adviser, claiming your free profile is the first step to being recommended by AI.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Browse mortgage advisers by specialism below, or select a city to find FCA-authorised advisers
+              near you. Each listing includes the firm&apos;s FCA number, lender panel details, fee structure,
+              client reviews, and contact information &mdash; all verified and kept up to date.
+            </p>
+          </div>
+        </section>
+
         {/* Service Categories */}
         <section className="py-12">
           <div className="section">

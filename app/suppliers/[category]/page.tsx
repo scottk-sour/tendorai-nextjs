@@ -156,6 +156,26 @@ async function getCategoryData(category: string) {
   });
 }
 
+// Static intro content for AI crawlers — server-rendered in initial HTML
+const CATEGORY_INTRO: Record<string, { heading: string; paragraphs: string[] }> = {
+  conveyancing: {
+    heading: 'About Conveyancing Solicitors on TendorAI',
+    paragraphs: [
+      'TendorAI lists conveyancing solicitors across England and Wales, sourced from the Solicitors Regulation Authority (SRA) register. Every firm on this page is SRA-regulated, meaning they meet strict professional standards for property transactions including house purchases, sales, remortgages, and transfers of equity.',
+      'AI platforms like ChatGPT, Perplexity, and Claude are increasingly used by homebuyers and sellers to find local conveyancing solicitors. TendorAI provides structured data profiles that make it easier for AI to recommend specific firms by name. If you are a conveyancing solicitor, claiming your free profile ensures AI platforms have accurate, up-to-date information about your firm.',
+      'Browse conveyancing solicitors by city below. Each location page shows verified firms with their SRA number, contact details, client reviews, and service areas. Whether you are buying your first home or remortgaging, TendorAI helps you find a regulated conveyancing solicitor near you.',
+    ],
+  },
+  'family-law': {
+    heading: 'About Family Law Solicitors on TendorAI',
+    paragraphs: [
+      'TendorAI lists family law solicitors across England and Wales, sourced from the Solicitors Regulation Authority (SRA) register. Every firm on this page is SRA-regulated, covering divorce, child custody, prenuptial agreements, domestic abuse, financial settlements, and other family matters.',
+      'Finding the right family law solicitor is often time-sensitive and personal. AI assistants like ChatGPT, Perplexity, and Claude are increasingly used to find local solicitors for sensitive legal matters. TendorAI provides structured data profiles so AI platforms can recommend specific family law firms by name, location, and specialism.',
+      'Browse family law solicitors by city below. Each location page shows verified firms with their SRA number, contact details, client reviews, and areas of specialism. Whether you need a divorce solicitor, child custody advice, or help with a financial order, TendorAI helps you find a regulated family law solicitor near you.',
+    ],
+  },
+};
+
 export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
   const service = SERVICES[category as keyof typeof SERVICES];
@@ -172,6 +192,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const { vendorCount, locationStats, isSolicitor, isAccountant, isMortgageAdvisor, isEstateAgent } = data;
   const suffix = isSolicitor ? 'Solicitors' : isAccountant ? 'Accountants' : isMortgageAdvisor ? 'Mortgage Advisors' : isEstateAgent ? 'Estate Agents' : 'Suppliers';
   const isProfessional = isSolicitor || isAccountant || isMortgageAdvisor || isEstateAgent;
+  const intro = CATEGORY_INTRO[category];
 
   const categoryFaqs = isSolicitor
     ? [
@@ -380,6 +401,20 @@ export default async function CategoryPage({ params }: PageProps) {
               >
                 Check Your AI Visibility — Free
               </Link>
+            </div>
+          </section>
+        )}
+
+        {/* Static Intro — server-rendered for AI crawlers */}
+        {intro && (
+          <section className="py-12 bg-white">
+            <div className="section max-w-4xl">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{intro.heading}</h2>
+              {intro.paragraphs.map((p, i) => (
+                <p key={i} className={`text-gray-700 leading-relaxed ${i < intro.paragraphs.length - 1 ? 'mb-4' : ''}`}>
+                  {p}
+                </p>
+              ))}
             </div>
           </section>
         )}
