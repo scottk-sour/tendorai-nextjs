@@ -40,19 +40,30 @@ export default function ForVendorsPage() {
             <span className="text-sm font-medium">12,000+ businesses already listed</span>
           </div>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            AI is recommending your competitors.<br />
-            We fix that.
+            You control what AI says<br />
+            about your firm.
           </h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
-            200M people now ask ChatGPT instead of Google. When they ask for a solicitor,
-            accountant, or mortgage advisor &mdash; is AI recommending you?
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-6">
+            Most firms are invisible to AI not because they&apos;re unknown &mdash; but because
+            AI can&apos;t verify them. TendorAI fixes that.
+          </p>
+          <p className="text-base text-white/70 max-w-3xl mx-auto mb-4">
+            TendorAI creates a verified entity record for your firm &mdash; structured,
+            regulatory-linked, and embedded directly onto your website. When ChatGPT,
+            Perplexity or Claude looks for a solicitor to recommend, they find a closed
+            trust loop: your website, your TendorAI profile, your SRA registration, all
+            cross-referenced and machine-readable.
+          </p>
+          <p className="text-base text-white/70 max-w-3xl mx-auto mb-10">
+            Every update you make to your TendorAI profile automatically restructures your
+            schema. Pro plan pushes it live onto your website. No code. No agency. No waiting.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/aeo-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-[var(--purple-start)] hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
-              Run Your Free AI Visibility Report
+              Check Your AI Visibility &mdash; Free
             </Link>
             <a
               href="#pricing"
@@ -61,9 +72,6 @@ export default function ForVendorsPage() {
               See Pricing
             </a>
           </div>
-          <p className="mt-6 text-sm text-white/70">
-            Your free profile is already live. Claim it to control what AI says about you.
-          </p>
         </div>
       </section>
 
