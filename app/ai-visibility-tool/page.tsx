@@ -144,7 +144,7 @@ export default function AiVisibilityToolPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap justify-center gap-8 text-center">
               <div>
-                <span className="text-2xl font-bold text-white">11,000+</span>
+                <span className="text-2xl font-bold text-white">12,000+</span>
                 <span className="text-gray-400 text-sm ml-2">Businesses listed</span>
               </div>
               <div className="hidden sm:block text-gray-600">|</div>

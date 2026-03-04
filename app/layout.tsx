@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: '%s | TendorAI',
   },
   description:
-    "Check if AI recommends your business. TendorAI provides free AI Visibility (AEO) reports and structured data profiles for UK solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Get your AI Visibility (AEO) score in 60 seconds.",
+    "Check if AI recommends your business. TendorAI provides free AI Visibility (AEO) reports and structured data profiles for UK solicitors, accountants, mortgage advisers and estate agents. Get your AI Visibility (AEO) score in 60 seconds.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
@@ -95,7 +95,7 @@ const websiteJsonLd = {
   name: 'TendorAI',
   datePublished: '2024-01-01',
   dateModified: today,
-  description: "The UK's AI Visibility Platform. Free AI Visibility (AEO) reports and structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers \u2014 so AI recommends them by name.",
+  description: "The UK's AI Visibility Platform. Free AI Visibility (AEO) reports and structured data profiles for solicitors, accountants, mortgage advisers and estate agents \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
     '@type': 'SearchAction',
@@ -112,7 +112,7 @@ const organisationJsonLd = {
   '@type': 'Organization',
   name: 'TendorAI',
   legalName: 'TendorAI Ltd',
-  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Structured data profiles for solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers.',
+  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Structured data profiles for solicitors, accountants, mortgage advisers and estate agents.',
   url: 'https://www.tendorai.com/',
   logo: {
     '@type': 'ImageObject',
@@ -130,8 +130,8 @@ const organisationJsonLd = {
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'GB',
-    addressLocality: 'Bristol',
-    addressRegion: 'England',
+    addressLocality: 'Cwmbran',
+    addressRegion: 'Wales',
   },
   areaServed: {
     '@type': 'Country',

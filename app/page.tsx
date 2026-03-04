@@ -175,7 +175,7 @@ const faqSchema = {
       name: 'Which industries does TendorAI cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We currently cover solicitors, office equipment suppliers (photocopiers, telecoms, CCTV, IT), and are adding accountants soon. Our directory includes 10,000+ solicitor firms and 1,044 office equipment dealers across the UK.',
+        text: 'We cover solicitors (10,000+ SRA-registered firms), accountants (ICAEW-registered), mortgage advisers (FCA-regulated), and estate agents across England and Wales. Over 12,000 UK professional services firms are listed.',
       },
     },
     {

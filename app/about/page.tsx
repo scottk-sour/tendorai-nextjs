@@ -38,7 +38,7 @@ export default function AboutPage() {
             </p>
             <p className="text-[var(--text2)] mb-6">
               We build verified profiles for every UK solicitor firm, accountancy
-              practice, and office equipment supplier &mdash; enriched with pricing,
+              practice, mortgage adviser and estate agent &mdash; enriched with pricing,
               accreditations, specialisms, and reviews. AI crawlers index our platform.
               When someone asks AI for a recommendation, our data powers the answer.
             </p>
@@ -46,7 +46,7 @@ export default function AboutPage() {
               Free to list. Pay to rank first.
             </p>
             <p className="text-[var(--text2)]">
-              Founded in Bristol, UK. Built for every B2B service vertical in the country.
+              Founded in Cwmbran, Wales. Built for every UK professional services vertical.
             </p>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="gradient-text text-4xl font-bold mb-2">11,000+</div>
+              <div className="gradient-text text-4xl font-bold mb-2">12,000+</div>
               <div className="text-[var(--text2)]">UK Businesses Listed</div>
             </div>
             <div>

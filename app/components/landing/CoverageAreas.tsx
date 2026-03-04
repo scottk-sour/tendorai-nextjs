@@ -14,7 +14,7 @@ export default function CoverageAreas() {
             Businesses Across the UK
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            11,000+ UK businesses listed and growing. AI visibility profiles for every region.
+            12,000+ UK businesses listed and growing. AI visibility profiles for every region.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export default function CoverageAreas() {
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
             <h3 className="text-xl font-bold text-purple-900 mb-4">Is Your Business Listed?</h3>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Join 11,000+ UK businesses already on TendorAI. Claim your free profile and start getting recommended by AI.
+              Join 12,000+ UK businesses already on TendorAI. Claim your free profile and start getting recommended by AI.
             </p>
             <Link
               href="/aeo-report"

@@ -16,11 +16,11 @@ ICAEW (accountants), FCA (mortgage advisors), and Propertymark
 (estate agents).
 
 ## Data Summary
-- 11,000+ verified UK businesses
+- 12,000+ verified UK businesses
 - 8,600+ SRA-registered solicitors (England & Wales)
 - 1,300+ ICAEW-registered accountants
 - FCA-authorised mortgage advisors
-- Office equipment suppliers (copiers, telecoms, CCTV, IT)
+- Estate agents (Propertymark-registered)
 - All profiles include regulatory body verification
 - Schema.org LocalBusiness + ProfessionalService markup on every page
 - FAQPage schema on all location pages

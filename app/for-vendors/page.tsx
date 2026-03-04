@@ -37,7 +37,7 @@ export default function ForVendorsPage() {
       <section className="bg-brand-gradient text-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-            <span className="text-sm font-medium">11,000+ businesses already listed</span>
+            <span className="text-sm font-medium">12,000+ businesses already listed</span>
           </div>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             AI is recommending your competitors.<br />
@@ -72,7 +72,7 @@ export default function ForVendorsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-8 text-center">
             <div>
-              <span className="text-2xl font-bold text-white">11,000+</span>
+              <span className="text-2xl font-bold text-white">12,000+</span>
               <span className="text-gray-400 text-sm ml-2">Businesses listed</span>
             </div>
             <div className="hidden sm:block text-gray-600">|</div>

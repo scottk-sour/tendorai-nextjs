@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: 'What does TendorAI do?',
-    a: 'TendorAI is a UK SaaS platform that scans AI platforms weekly, tracks your AI mention rate, provides a visibility score out of 100, shows who AI recommends instead of you, structures your business data automatically, and helps you improve AI readability. We currently list 11,745+ UK businesses across solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers. Our goal is simple: give UK businesses control over how AI sees them.',
+    a: 'TendorAI is a UK SaaS platform that scans AI platforms weekly, tracks your AI mention rate, provides a visibility score out of 100, shows who AI recommends instead of you, structures your business data automatically, and helps you improve AI readability. We currently list 12,000+ UK businesses across solicitors, accountants, mortgage advisers and estate agents. Our goal is simple: give UK businesses control over how AI sees them.',
   },
 ];
 
@@ -530,7 +530,7 @@ export default function GeoMarketingPage() {
               { title: 'Weekly AI Scanning', desc: 'We scan major AI platforms weekly. You can see if you\'re mentioned, who AI recommends instead, and changes over time.' },
               { title: 'AI Visibility Score (Out of 100)', desc: 'A clear metric. No vanity stats. Just a number that tracks how understandable and recommendable your business is to AI.' },
               { title: 'Structured Profiles', desc: 'When you claim your profile, you input your services in plain English. TendorAI structures it properly. Your business becomes AI-readable automatically. No coding required.' },
-              { title: '11,745+ UK Businesses Listed', desc: 'We\'re building a structured ecosystem of UK service providers that AI can understand clearly. Solicitors, accountants, mortgage advisors, estate agents, office equipment suppliers, and more.' },
+              { title: '12,000+ UK Businesses Listed', desc: 'We\'re building a structured ecosystem of UK service providers that AI can understand clearly. Solicitors, accountants, mortgage advisers, estate agents and more.' },
             ].map((item) => (
               <div key={item.title} className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
                 <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0 mt-0.5">

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Supplier Posts | News, Guides & Offers',
-  description: 'Read the latest news, product updates, guides, and offers from UK office equipment suppliers on TendorAI.',
+  description: 'Read the latest news, product updates, guides, and offers from UK professional services firms on TendorAI.',
   openGraph: {
     title: 'Supplier Posts | TendorAI',
     url: 'https://www.tendorai.com/posts',
@@ -68,7 +68,7 @@ export default async function PostsFeedPage() {
           </nav>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Supplier Posts</h1>
           <p className="text-lg text-purple-100">
-            News, guides, product updates and offers from UK office equipment suppliers.
+            News, guides, product updates and offers from UK professional services firms.
           </p>
         </div>
       </section>

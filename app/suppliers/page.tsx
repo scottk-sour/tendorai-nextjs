@@ -6,9 +6,9 @@ import { SERVICES, MAJOR_LOCATIONS, SITE_CONFIG } from '@/lib/constants';
 import VendorSearchBar from '@/app/components/VendorSearchBar';
 
 export const metadata: Metadata = {
-  title: 'Supplier Directory — Solicitors, Accountants, Mortgage Advisors, Estate Agents & Office Equipment | TendorAI',
+  title: 'Find UK Professional Services — Solicitors, Accountants, Mortgage Advisers, Estate Agents | TendorAI',
   description:
-    'Browse verified UK suppliers on TendorAI. Find solicitors, accountants, mortgage advisors, estate agents, and office equipment dealers including photocopiers, telecoms, CCTV, and IT services.',
+    'Browse verified UK professional services firms on TendorAI. Find solicitors, accountants, mortgage advisers and estate agents with AI visibility profiles, regulatory verification and client reviews.',
   alternates: {
     canonical: 'https://www.tendorai.com/suppliers',
   },
@@ -78,8 +78,8 @@ export default async function SuppliersIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'UK Supplier Directory — Solicitors, Accountants, Mortgage Advisors, Estate Agents & Office Equipment',
-    description: 'Directory of verified UK suppliers including solicitors, accountants, mortgage advisors, estate agents, and office equipment dealers',
+    name: 'Find UK Professional Services — Solicitors, Accountants, Mortgage Advisers, Estate Agents',
+    description: 'Directory of verified UK professional services firms including solicitors, accountants, mortgage advisers and estate agents',
     numberOfItems: totalCount,
     itemListElement: Object.values(SERVICES).map((service, index) => ({
       '@type': 'ListItem',
@@ -102,7 +102,7 @@ export default async function SuppliersIndexPage() {
         name: 'What types of suppliers are listed on TendorAI?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'TendorAI lists solicitors, accountants, mortgage advisors, estate agents, and office equipment suppliers including photocopier dealers, telecoms providers, CCTV installers, and IT services companies across the UK.',
+          text: 'TendorAI lists solicitors, accountants, mortgage advisers and estate agents across the UK. All firms are verified against their respective regulatory bodies including the SRA, ICAEW, FCA and Propertymark.',
         },
       },
       {
@@ -118,7 +118,7 @@ export default async function SuppliersIndexPage() {
         name: 'Is TendorAI free to use?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes, searching and browsing the TendorAI supplier directory is completely free for anyone looking for professional services or office equipment suppliers.',
+          text: 'Yes, searching and browsing the TendorAI directory is completely free for anyone looking for UK professional services firms.',
         },
       },
       {

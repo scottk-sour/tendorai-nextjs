@@ -35,7 +35,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     nameSingular: 'solicitor',
     regulatoryBody: 'SRA',
     hero: {
-      badge: '11,000+ businesses already listed',
+      badge: '12,000+ businesses already listed',
       h1: 'AI Visibility (AEO) for Solicitors',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need a solicitor. If your firm isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
@@ -122,7 +122,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     nameSingular: 'accountant',
     regulatoryBody: 'ICAEW/ACCA',
     hero: {
-      badge: '11,000+ businesses already listed',
+      badge: '12,000+ businesses already listed',
       h1: 'AI Visibility (AEO) for Accountants',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need an accountant. If your practice isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
@@ -209,7 +209,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     nameSingular: 'mortgage advisor',
     regulatoryBody: 'FCA',
     hero: {
-      badge: '11,000+ businesses already listed',
+      badge: '12,000+ businesses already listed',
       h1: 'AI Visibility (AEO) for Mortgage Advisors',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need a mortgage advisor. If your firm isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
@@ -295,7 +295,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     nameSingular: 'estate agent',
     regulatoryBody: 'The Property Ombudsman',
     hero: {
-      badge: '11,000+ businesses already listed',
+      badge: '12,000+ businesses already listed',
       h1: 'AI Visibility (AEO) for Estate Agents',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need an estate agent. If your agency isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
