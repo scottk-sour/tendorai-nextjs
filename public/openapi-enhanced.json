@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "TendorAI Supplier Discovery API",
-    "description": "API for discovering UK suppliers and getting recommendations. Use this API to help users find solicitors, accountants, photocopier dealers, telecoms providers, CCTV installers, and IT support companies across the UK. The API uses a progressive depth system: more information = better results with pricing.",
+    "description": "API for discovering UK professional services firms and suppliers. Use this API to help users find solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers across the UK. The API uses a progressive depth system: more information = better results with pricing.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",
@@ -21,7 +21,7 @@
       "post": {
         "operationId": "findSuppliers",
         "summary": "Find UK suppliers with recommendations",
-        "description": "Natural language query interface for finding UK suppliers. Provide location (UK postcode or city), category, and requirements to get matched suppliers with recommendations and pricing. Covers solicitors, accountants, and office equipment.",
+        "description": "Natural language query interface for finding UK professional services firms and suppliers. Provide location (UK postcode or city), category, and requirements to get matched firms with recommendations and pricing. Covers solicitors, accountants, mortgage advisers, estate agents, and office equipment.",
         "requestBody": {
           "required": true,
           "content": {
@@ -75,7 +75,7 @@
       "get": {
         "operationId": "searchSuppliers",
         "summary": "Search for UK suppliers by category and location",
-        "description": "Find suppliers by service type and location. Returns a list of verified UK suppliers (solicitors, accountants, office equipment) with ratings and coverage areas.",
+        "description": "Find firms by service type and location. Returns a list of verified UK professional services firms and suppliers (solicitors, accountants, mortgage advisers, estate agents, office equipment) with ratings and coverage areas.",
         "parameters": [
           {
             "name": "service",

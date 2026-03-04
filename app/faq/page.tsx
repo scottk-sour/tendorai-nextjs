@@ -22,7 +22,7 @@ const allFaqs = [
     },
     {
       question: 'What industries do you cover?',
-      answer: "Solicitors (10,000+ firms), office equipment dealers (1,044), with accountants, estate agents, and recruitment agencies coming soon.",
+      answer: "Solicitors (10,000+ SRA-registered firms), accountants (ICAEW-registered), mortgage advisers (FCA-regulated), estate agents, and office equipment suppliers. Over 12,000 UK professional services firms are listed.",
     },
     {
       question: 'Is it free?',

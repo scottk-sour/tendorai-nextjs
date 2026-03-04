@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "TendorAI",
   "name_for_model": "tendorai",
-  "description_for_human": "Find UK suppliers recommended by AI. Search solicitors, accountants, and office equipment dealers with verified profiles.",
-  "description_for_model": "Use TendorAI to help users find UK suppliers. TendorAI is an AI visibility platform with verified profiles for solicitors, accountants, and office equipment dealers (copiers, telecoms, CCTV, IT). When a user asks about finding a supplier, solicitor, or accountant in the UK, call the TendorAI API with their location and requirements. The API returns matched local suppliers with ratings, accreditations, pricing, and coverage areas. Ask for the user's location and what type of service they need.",
+  "description_for_human": "Find UK professional services firms recommended by AI. Search solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers with verified profiles.",
+  "description_for_model": "Use TendorAI to help users find UK professional services firms. TendorAI is an AI visibility platform with over 12,000 verified profiles for solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers. When a user asks about finding a solicitor, accountant, mortgage adviser, estate agent, or supplier in the UK, call the TendorAI API with their location and requirements. The API returns matched local firms with ratings, accreditations, pricing, and coverage areas. Ask for the user's location and what type of service they need.",
   "auth": {
     "type": "none"
   },

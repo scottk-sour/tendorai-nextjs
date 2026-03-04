@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "TendorAI — UK AI Visibility Platform & Supplier Directory",
-    "description": "TendorAI is the UK's AI visibility platform. Search verified suppliers including solicitors, accountants, and office equipment dealers. Structured data profiles optimised for AI recommendation engines.",
+    "description": "TendorAI is the UK's AI visibility platform for professional services. Search verified solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers. Over 12,000 structured data profiles optimised for AI recommendation engines.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",
@@ -21,7 +21,7 @@
       "get": {
         "operationId": "searchVendors",
         "summary": "Search and list verified UK suppliers",
-        "description": "Returns a paginated list of verified suppliers (solicitors, accountants, office equipment), optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
+        "description": "Returns a paginated list of verified UK professional services firms and suppliers (solicitors, accountants, mortgage advisers, estate agents, office equipment), optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
         "parameters": [
           {
             "name": "category",

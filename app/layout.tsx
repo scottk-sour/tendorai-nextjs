@@ -199,10 +199,10 @@ const serviceJsonLd = {
     name: 'UK Business Verticals',
     itemListElement: [
       { '@type': 'OfferCatalog', name: 'Solicitors', description: 'Conveyancing, Family Law, Criminal Law, Commercial, Employment, Wills & Probate, Immigration, Personal Injury' },
-      { '@type': 'OfferCatalog', name: 'Office Equipment', description: 'Photocopiers, Telecoms, CCTV, IT Services' },
-      { '@type': 'OfferCatalog', name: 'Accountants', description: 'Tax, Bookkeeping, Payroll, Advisory, Audit, R&D Tax Credits' },
+      { '@type': 'OfferCatalog', name: 'Accountants', description: 'Tax Advisory, Audit & Assurance, Bookkeeping, Payroll, Corporate Finance, Business Advisory, VAT, Financial Planning' },
       { '@type': 'OfferCatalog', name: 'Mortgage Advisors', description: 'Residential Mortgages, Buy to Let, Remortgage, First Time Buyer, Equity Release, Commercial Mortgages, Protection Insurance' },
       { '@type': 'OfferCatalog', name: 'Estate Agents', description: 'Sales, Lettings, Property Management, Block Management, Auctions, Commercial Property, Inventory' },
+      { '@type': 'OfferCatalog', name: 'Office Equipment', description: 'Photocopiers, Telecoms, CCTV, IT Services, Security, Software' },
     ],
   },
 };

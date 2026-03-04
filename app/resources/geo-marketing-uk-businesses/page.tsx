@@ -338,7 +338,7 @@ export default function GeoMarketingPage() {
           <p className="text-gray-600 leading-relaxed mb-4">That includes:</p>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 my-6">
-            {['Solicitors', 'Accountants', 'Estate agents', 'Mortgage brokers', 'Office equipment suppliers', 'Copier dealers', 'Telecoms providers', 'IT support companies', 'Cyber security firms', 'CCTV installers', 'Facilities management companies'].map((item) => (
+            {['Solicitors', 'Accountants', 'Mortgage advisers', 'Estate agents', 'Telecoms providers', 'IT support companies', 'Cyber security firms', 'CCTV installers', 'Copier dealers', 'Facilities management companies'].map((item) => (
               <div key={item} className="bg-gray-50 rounded-lg px-3 py-2 text-sm text-gray-700 font-medium">
                 {item}
               </div>
