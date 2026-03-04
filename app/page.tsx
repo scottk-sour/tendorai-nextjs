@@ -126,9 +126,45 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'TendorAI',
   url: 'https://www.tendorai.com',
-  description: "The UK's AI Visibility Platform for professional services. Helping solicitors, accountants, mortgage advisors and estate agents get recommended by ChatGPT, Perplexity and Claude.",
-  areaServed: 'GB',
-  knowsAbout: ['AI Visibility', 'Answer Engine Optimisation', 'AEO', 'UK Professional Services'],
+  foundingDate: '2025',
+  founder: {
+    '@type': 'Person',
+    name: 'Scott Davies',
+  },
+  description: "The UK's AI Visibility Platform for professional services",
+  areaServed: 'United Kingdom',
+  knowsAbout: [
+    'AI Visibility',
+    'Answer Engine Optimisation',
+    'Structured Data',
+    'UK Professional Services',
+    'Schema.org markup',
+  ],
+};
+
+// LocalBusiness schema
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'TendorAI',
+  url: 'https://www.tendorai.com',
+  email: 'scott.davies@tendorai.com',
+  description: "The UK's AI Visibility Platform for professional services firms. Helping UK solicitors, accountants, mortgage advisers and estate agents get recommended by ChatGPT, Perplexity and Claude.",
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Cwmbran',
+    addressRegion: 'Wales',
+    addressCountry: 'GB',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'United Kingdom',
+  },
+  sameAs: [
+    'https://www.linkedin.com/company/tendorai',
+    'https://twitter.com/tendorai',
+    'https://www.trustpilot.com/review/tendorai.com',
+  ],
 };
 
 // WebPage schema — homepage-specific dates
@@ -225,6 +261,10 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       <script
         type="application/ld+json"
