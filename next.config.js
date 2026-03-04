@@ -13,56 +13,56 @@ const nextConfig = {
     ],
   },
 
-  // Redirects for old URLs (Google-cached sitelinks from old React app)
+  // Redirects for old URLs and removed pages
   async redirects() {
     return [
       // Auth routes → vendor login
-      {
-        source: '/login',
-        destination: '/vendor-login',
-        permanent: true,
-      },
-      {
-        source: '/signup',
-        destination: '/vendor-login',
-        permanent: true,
-      },
-      // Old category pages → new supplier directory
-      {
-        source: '/photocopiers',
-        destination: '/suppliers/photocopiers',
-        permanent: true,
-      },
+      { source: '/login', destination: '/vendor-login', permanent: true },
+      { source: '/signup', destination: '/vendor-login', permanent: true },
       // Old /dashboard → vendor-dashboard
-      {
-        source: '/dashboard/:path*',
-        destination: '/vendor-dashboard/:path*',
-        permanent: true,
-      },
+      { source: '/dashboard/:path*', destination: '/vendor-dashboard/:path*', permanent: true },
       // Old /get-quotes → /aeo-report
-      {
-        source: '/get-quotes',
-        destination: '/aeo-report',
-        permanent: true,
-      },
+      { source: '/get-quotes', destination: '/aeo-report', permanent: true },
       // Old /services/ routes → supplier directory
-      {
-        source: '/services/:path*',
-        destination: '/suppliers',
-        permanent: true,
-      },
-      // Old /suppliers/it-services/ location pages
-      {
-        source: '/suppliers/it-services/:path*',
-        destination: '/suppliers',
-        permanent: true,
-      },
+      { source: '/services/:path*', destination: '/suppliers', permanent: true },
       // Hyphenated admin login → actual route
-      {
-        source: '/admin-login',
-        destination: '/admin/login',
-        permanent: true,
-      },
+      { source: '/admin-login', destination: '/admin/login', permanent: true },
+
+      // === Office equipment pages → /suppliers/solicitors ===
+      // Category pages
+      { source: '/photocopiers', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/photocopiers', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/photocopiers/:city', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/telecoms', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/telecoms/:city', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/cctv', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/cctv/:city', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/it', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/it/:city', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/it-services/:path*', destination: '/suppliers/solicitors', permanent: true },
+      // Office equipment vendor profiles
+      { source: '/suppliers/vendor/1-radio-structures-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/4d-interactive-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/a-solo-fire-and-security-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/a2b-technology-uk-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/able-security-concepts-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/absolute-security-systems-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/aepic-partners', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/alphabyte-it', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/apogee-corporation', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/ascari-office-limited-2', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/aurora-cymru-blue-sky-digital', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/digital-direct-tec', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/extrascope-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/flotek-group', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/itopsec', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/kick-ict-group', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/lima', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/pc-express', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/pisys-net', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/premier-copier-solutions-ltd', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/print-logic-cardiff', destination: '/suppliers/solicitors', permanent: true },
+      { source: '/suppliers/vendor/team-metalogic', destination: '/suppliers/solicitors', permanent: true },
     ];
   },
 
