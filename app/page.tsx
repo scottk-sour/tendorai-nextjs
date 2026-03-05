@@ -85,10 +85,10 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "The UK's AI Visibility Platform for professional services. Free AI Visibility reports for solicitors, accountants, mortgage advisors & estate agents. See if ChatGPT, Perplexity and Claude recommend your business.";
+const newDescription = "Free AI Visibility reports for UK solicitors, accountants and mortgage advisers. See if ChatGPT, Perplexity and Claude recommend your firm.";
 
 export const metadata: Metadata = {
-  title: { absolute: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services" },
+  title: { absolute: "TendorAI \u2014 AI Visibility for UK Professional Services" },
   description: newDescription,
   keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
   alternates: {
@@ -97,15 +97,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.tendorai.com/',
-    title: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
+    title: "TendorAI \u2014 AI Visibility for UK Professional Services",
     description: newDescription,
     siteName: 'TendorAI',
     locale: 'en_GB',
-    images: [{ url: '/logo.png', width: 873, height: 873, alt: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services" }],
+    images: [{ url: '/logo.png', width: 873, height: 873, alt: "TendorAI \u2014 AI Visibility for UK Professional Services" }],
   },
   twitter: {
     card: 'summary',
-    title: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
+    title: "TendorAI \u2014 AI Visibility for UK Professional Services",
     description: newDescription,
     images: ['/logo.png'],
   },
@@ -172,7 +172,7 @@ const webPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': 'https://www.tendorai.com/#webpage',
-  name: "TendorAI \u2014 The UK's AI Visibility Platform for Professional Services",
+  name: "TendorAI \u2014 AI Visibility for UK Professional Services",
   url: 'https://www.tendorai.com/',
   datePublished: '2024-01-01',
   dateModified: new Date().toISOString().split('T')[0],
