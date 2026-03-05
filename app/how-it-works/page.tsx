@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'How It Works',
+  title: 'How TendorAI Works — From Invisible to AI-Recommended | TendorAI',
   description: "Learn how TendorAI helps UK businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity. Four simple steps to AI visibility.",
   alternates: { canonical: '/how-it-works' },
 };
