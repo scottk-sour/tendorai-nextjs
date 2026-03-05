@@ -156,15 +156,12 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
         {/* Empty state */}
         {aiMentions === 0 && (
           <div className="text-center py-2">
-            <p className="text-white/80 text-sm mb-2">No AI mentions found this period.</p>
-            <p className="text-white/50 text-xs mb-2">
-              AI mentions are scanned weekly. To improve your chances:
+            <p className="text-white/80 text-sm">
+              No AI mentions tracked yet. TendorAI scans ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI weekly for mentions of your firm.
             </p>
-            <ul className="text-white/50 text-xs space-y-1">
-              <li>• Add more products/services with pricing</li>
-              <li>• Complete your company description and specialisms</li>
-              <li>• Get client reviews (3+ reviews = +5 visibility points)</li>
-            </ul>
+            <p className="text-white/50 text-xs mt-2">
+              Your first automated scan runs within 7 days of completing your profile.
+            </p>
           </div>
         )}
       </>

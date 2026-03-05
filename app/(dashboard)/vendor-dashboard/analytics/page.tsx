@@ -160,35 +160,39 @@ export default function AnalyticsPage() {
   // Chart component for AI mentions over time
   const MentionsChart = () => {
     const dailyData = data?.dailyActivity || [];
+    const hasMentionData = dailyData.some(d => d.aiMentions > 0);
+
+    if (!hasMentionData) {
+      return (
+        <div className="py-8 text-center">
+          <p className="text-gray-500 text-sm">
+            Your AI visibility trend will appear here once scanning begins.
+          </p>
+        </div>
+      );
+    }
+
     const maxMentions = Math.max(...dailyData.map(d => d.aiMentions), 1);
 
     return (
       <div className="h-48">
-        {dailyData.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-gray-500">
-            No data for this period
-          </div>
-        ) : (
-          <div className="h-full flex items-end gap-1">
-            {dailyData.map((day, i) => {
-              const height = (day.aiMentions / maxMentions) * 100;
-              return (
-                <div
-                  key={day.date || i}
-                  className="flex-1 bg-purple-500 rounded-t hover:bg-purple-600 transition-colors min-h-[4px]"
-                  style={{ height: `${Math.max(height, 2)}%` }}
-                  title={`${new Date(day.date).toLocaleDateString('en-GB')}: ${day.aiMentions} AI mentions`}
-                />
-              );
-            })}
-          </div>
-        )}
-        {dailyData.length > 0 && (
-          <div className="flex justify-between mt-2 text-xs text-gray-500">
-            <span>{new Date(dailyData[0]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
-            <span>{new Date(dailyData[dailyData.length - 1]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
-          </div>
-        )}
+        <div className="h-full flex items-end gap-1">
+          {dailyData.map((day, i) => {
+            const height = (day.aiMentions / maxMentions) * 100;
+            return (
+              <div
+                key={day.date || i}
+                className="flex-1 bg-purple-500 rounded-t hover:bg-purple-600 transition-colors min-h-[4px]"
+                style={{ height: `${Math.max(height, 2)}%` }}
+                title={`${new Date(day.date).toLocaleDateString('en-GB')}: ${day.aiMentions} AI mentions`}
+              />
+            );
+          })}
+        </div>
+        <div className="flex justify-between mt-2 text-xs text-gray-500">
+          <span>{new Date(dailyData[0]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
+          <span>{new Date(dailyData[dailyData.length - 1]?.date).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })}</span>
+        </div>
       </div>
     );
   };
@@ -211,6 +215,16 @@ export default function AnalyticsPage() {
     const sources = data?.aiMentionsBySource || { chatgpt: 0, claude: 0, perplexity: 0, other: 0 };
     const total = Object.values(sources).reduce((a, b) => a + b, 0);
 
+    if (total === 0) {
+      return (
+        <div className="py-8 text-center">
+          <p className="text-gray-500 text-sm">
+            Waiting for first scan results. We&apos;ll show you exactly which AI platforms are recommending you — and which aren&apos;t.
+          </p>
+        </div>
+      );
+    }
+
     const sourceData = [
       { name: 'ChatGPT', value: sources.chatgpt, icon: '🤖', color: 'bg-green-500' },
       { name: 'Claude', value: sources.claude, icon: '🧠', color: 'bg-orange-500' },
@@ -227,19 +241,17 @@ export default function AnalyticsPage() {
               <span className="font-medium text-gray-900">{source.name}</span>
             </div>
             <div className="text-2xl font-bold text-gray-900">{source.value}</div>
-            {total > 0 && (
-              <div className="mt-2">
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full ${source.color} transition-all`}
-                    style={{ width: `${(source.value / total) * 100}%` }}
-                  />
-                </div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {total > 0 ? Math.round((source.value / total) * 100) : 0}% of mentions
-                </div>
+            <div className="mt-2">
+              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${source.color} transition-all`}
+                  style={{ width: `${(source.value / total) * 100}%` }}
+                />
               </div>
-            )}
+              <div className="text-xs text-gray-500 mt-1">
+                {Math.round((source.value / total) * 100)}% of mentions
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -252,9 +264,13 @@ export default function AnalyticsPage() {
 
     if (queries.length === 0) {
       return (
-        <div className="text-center py-8 text-gray-500">
-          <p>No recent AI queries</p>
-          <p className="text-sm mt-1">Queries will appear here when AI assistants mention your company</p>
+        <div className="text-center py-8">
+          <p className="text-gray-500 text-sm">
+            Your recent AI query results will appear here after your first weekly scan.
+          </p>
+          <p className="text-gray-400 text-xs mt-3 italic">
+            Example queries we test: Best conveyancing solicitor in Cardiff — Recommend a family lawyer in South Wales — Conveyancing solicitor near me
+          </p>
         </div>
       );
     }
@@ -443,7 +459,10 @@ export default function AnalyticsPage() {
         >
           <div className="card p-4">
             <div className="text-2xl font-bold text-purple-600">{data?.aiMentions || 0}</div>
-            <div className="text-sm text-gray-600">AI Mentions</div>
+            <div className="text-sm font-medium text-gray-700">AI Mentions</div>
+            {(data?.aiMentions || 0) === 0 && (
+              <div className="text-xs text-gray-400 mt-1">Scanning begins within 7 days</div>
+            )}
           </div>
         </TierGate>
 
@@ -456,7 +475,8 @@ export default function AnalyticsPage() {
         >
           <div className="card p-4">
             <div className="text-2xl font-bold text-blue-600">{data?.profileViews || 0}</div>
-            <div className="text-sm text-gray-600">Profile Views</div>
+            <div className="text-sm font-medium text-gray-700">Profile Views</div>
+            <div className="text-xs text-gray-400 mt-1">Times your TendorAI profile was viewed this month</div>
           </div>
         </TierGate>
 
@@ -469,7 +489,8 @@ export default function AnalyticsPage() {
         >
           <div className="card p-4">
             <div className="text-2xl font-bold text-green-600">{data?.websiteClicks || 0}</div>
-            <div className="text-sm text-gray-600">Website Clicks</div>
+            <div className="text-sm font-medium text-gray-700">Website Clicks</div>
+            <div className="text-xs text-gray-400 mt-1">Times someone clicked through to your website from TendorAI</div>
           </div>
         </TierGate>
 
@@ -482,24 +503,24 @@ export default function AnalyticsPage() {
         >
           <div className="card p-4">
             <div className="text-2xl font-bold text-orange-600">{data?.quoteRequests || 0}</div>
-            <div className="text-sm text-gray-600">Quote Requests</div>
+            <div className="text-sm font-medium text-gray-700">Quote Requests</div>
           </div>
         </TierGate>
       </div>
 
-      {/* AI Mentions Over Time */}
-      <div className="card p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
-        <TierGate
-          currentTier={tier}
-          requiredTier="starter"
-          featureName="AI Mentions Chart"
-          featureDescription="Visualise your AI mention trends over time."
-        >
+      {/* AI Mentions Over Time — only show when there's data */}
+      {hasVisibleAccess && (data?.dailyActivity || []).some(d => d.aiMentions > 0) && (
+        <div className="card p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
           <MentionsChart />
-        </TierGate>
-        {!hasVisibleAccess && <MockChart />}
-      </div>
+        </div>
+      )}
+      {!hasVisibleAccess && (
+        <div className="card p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
+          <MockChart />
+        </div>
+      )}
 
       {/* Two column layout */}
       <div className="grid lg:grid-cols-2 gap-6">
