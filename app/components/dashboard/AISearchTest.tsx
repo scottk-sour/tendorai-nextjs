@@ -431,7 +431,7 @@ export default function AISearchTest({
           {/* Tests Remaining (inline, non-prominent) */}
           {!exhausted && (
             <div className="flex items-center justify-between text-xs text-gray-500 pt-2">
-              <span>Tests remaining: {result.testsRemaining}</span>
+              <span>{result.testsRemaining >= 999 ? 'Unlimited tests' : `Tests remaining: ${result.testsRemaining}`}</span>
               {!result.isPaid && result.testsRemaining <= 1 && (
                 <a
                   href="/vendor-dashboard/settings?tab=subscription"
@@ -494,7 +494,7 @@ export default function AISearchTest({
       {/* Tests Remaining Footer (when no result shown, not exhausted) */}
       {!result && !exhausted && testsRemaining !== null && (
         <div className="text-xs text-gray-400 text-center">
-          {testsRemaining} test{testsRemaining !== 1 ? 's' : ''} remaining
+          {testsRemaining >= 999 ? 'Unlimited tests' : `${testsRemaining} test${testsRemaining !== 1 ? 's' : ''} remaining`}
         </div>
       )}
     </div>
