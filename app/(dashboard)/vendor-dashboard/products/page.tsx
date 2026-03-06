@@ -11,6 +11,7 @@ interface Product {
   _id: string;
   manufacturer: string;
   model: string;
+  name?: string;
   description?: string;
   category: string;
   serviceCategory?: ServiceCategory;
@@ -118,6 +119,7 @@ interface Product {
     keyTeamMember?: { name?: string; role?: string };
   };
   status: string;
+  isActive?: boolean;
 }
 
 interface ProductFormData {
@@ -508,15 +510,30 @@ export default function ProductsPage() {
         }),
       ]);
 
-      if (productsRes.ok) {
-        const data = await productsRes.json();
-        setProducts(data.data || data.products || []);
-      }
-
+      let vType = 'office-equipment';
       if (profileRes.ok) {
         const profileData = await profileRes.json();
+        vType = profileData.vendor?.vendorType || 'office-equipment';
         setTier(profileData.vendor?.tier || 'free');
-        setVendorType(profileData.vendor?.vendorType || 'office-equipment');
+        setVendorType(vType);
+      }
+
+      if (productsRes.ok) {
+        const data = await productsRes.json();
+        const raw = data.data || data.products || [];
+        // Normalize field names: handle name→model, active→status, missing serviceCategory
+        const defaultSc = vType === 'solicitor' ? 'Solicitor'
+          : vType === 'accountant' ? 'Accountant'
+          : vType === 'mortgage-advisor' ? 'MortgageAdvisor'
+          : vType === 'estate-agent' ? 'EstateAgent'
+          : 'Photocopiers';
+        const normalized = raw.map((p: Product) => ({
+          ...p,
+          model: p.model || p.name || '',
+          status: p.status || (p.isActive !== undefined ? (p.isActive ? 'active' : 'inactive') : 'active'),
+          serviceCategory: p.serviceCategory || defaultSc,
+        }));
+        setProducts(normalized);
       }
     } catch (err) {
       console.error('Failed to fetch products:', err);
@@ -568,12 +585,17 @@ export default function ProductsPage() {
   // Open modal for editing
   const handleEditProduct = (product: Product) => {
     setEditingProduct(product);
-    const sc = (product.serviceCategory || 'Photocopiers') as ServiceCategory;
+    const defaultSc: ServiceCategory = isSolicitor ? 'Solicitor'
+      : isAccountant ? 'Accountant'
+      : isMortgageAdvisor ? 'MortgageAdvisor'
+      : isEstateAgent ? 'EstateAgent'
+      : 'Photocopiers';
+    const sc = (product.serviceCategory || defaultSc) as ServiceCategory;
     setFormData({
       ...emptyFormData,
       serviceCategory: sc,
       manufacturer: product.manufacturer || '',
-      model: product.model || '',
+      model: product.model || product.name || '',
       description: product.description || '',
       category: product.category || CATEGORIES_MAP[sc][0]?.value || '',
       // Copier fields
@@ -1215,8 +1237,9 @@ export default function ProductsPage() {
                 <div>
                   <h3 className="font-medium text-gray-900">
                     {product.serviceCategory === 'Solicitor' || product.serviceCategory === 'Accountant'
-                      ? product.model
-                      : `${product.manufacturer} ${product.model}`}
+                      || product.serviceCategory === 'MortgageAdvisor' || product.serviceCategory === 'EstateAgent'
+                      ? (product.model || product.name || product.category || 'Untitled Service')
+                      : `${product.manufacturer || ''} ${product.model || ''}`.trim() || 'Untitled Product'}
                   </h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <p className="text-sm text-gray-500">{product.category}</p>
