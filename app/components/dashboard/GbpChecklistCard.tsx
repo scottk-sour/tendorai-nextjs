@@ -50,6 +50,7 @@ export default function GbpChecklistCard({
   const storageKey = `gbp-checklist-${vendorId}`;
 
   const [manualChecks, setManualChecks] = useState<Record<string, boolean>>({});
+  const [showConnectModal, setShowConnectModal] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -165,8 +166,41 @@ export default function GbpChecklistCard({
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-gray-900 text-lg">Google Business Profile Checklist</h3>
-          <p className="text-sm text-gray-500 mt-1">Optimise your GBP listing for AI discoverability — included in your Pro subscription</p>
+          <p className="text-sm text-gray-500 mt-1">Manual checklist — tick items as you complete them in Google Business Profile</p>
         </div>
+      </div>
+
+      {/* Connect GBP button */}
+      <div className="relative">
+        <button
+          onClick={() => setShowConnectModal(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101" />
+          </svg>
+          Connect Google Business Profile
+        </button>
+
+        {showConnectModal && (
+          <div className="absolute left-0 top-full mt-2 z-10 w-80 bg-white border border-gray-200 rounded-xl shadow-lg p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h4 className="font-semibold text-gray-900 text-sm">Coming Soon</h4>
+              <button onClick={() => setShowConnectModal(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <p className="text-sm text-gray-600">
+              Google Business Profile integration is coming soon. You&apos;ll be able to connect your GBP account to auto-sync your business details and track review performance directly from TendorAI.
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              For now, use the checklist below to manually optimise your listing.
+            </p>
+          </div>
+        )}
       </div>
 
       <TierGate
