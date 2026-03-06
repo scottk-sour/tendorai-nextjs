@@ -9,6 +9,9 @@ interface AIMentionsData {
     chatgpt: number;
     claude: number;
     perplexity: number;
+    gemini: number;
+    grok: number;
+    metaai: number;
     other: number;
   };
   recentAiQueries: Array<{
@@ -84,7 +87,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
     if (error) return <p className="text-white/70">{error}</p>;
 
     const aiMentions = data?.aiMentions || 0;
-    const bySource = data?.aiMentionsBySource || { chatgpt: 0, claude: 0, perplexity: 0, other: 0 };
+    const bySource = data?.aiMentionsBySource || { chatgpt: 0, claude: 0, perplexity: 0, gemini: 0, grok: 0, metaai: 0, other: 0 };
 
     return (
       <>
@@ -133,22 +136,30 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
 
         {/* Source breakdown */}
         {aiMentions > 0 && (
-          <div className="grid grid-cols-4 gap-2 mb-4">
+          <div className="grid grid-cols-3 gap-2 mb-4">
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-white">{bySource.chatgpt}</div>
               <div className="text-xs text-white/60">ChatGPT</div>
-            </div>
-            <div className="bg-white/10 rounded-lg p-3 text-center">
-              <div className="text-xl font-bold text-white">{bySource.claude}</div>
-              <div className="text-xs text-white/60">Claude</div>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-white">{bySource.perplexity}</div>
               <div className="text-xs text-white/60">Perplexity</div>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
-              <div className="text-xl font-bold text-white">{bySource.other}</div>
-              <div className="text-xs text-white/60">Other</div>
+              <div className="text-xl font-bold text-white">{bySource.claude}</div>
+              <div className="text-xs text-white/60">Claude</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-white">{bySource.gemini}</div>
+              <div className="text-xs text-white/60">Gemini</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-white">{bySource.grok}</div>
+              <div className="text-xs text-white/60">Grok</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-white">{bySource.metaai}</div>
+              <div className="text-xs text-white/60">Meta AI</div>
             </div>
           </div>
         )}
@@ -184,14 +195,10 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
       <div className="mb-4">
         <p className="text-white/80 text-sm">See how often AI assistants like ChatGPT, Claude, and Perplexity mention your business when people search for your services.</p>
       </div>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <div className="bg-white/10 rounded-lg p-3 text-center">
           <div className="text-xl font-bold text-white/30">—</div>
           <div className="text-xs text-white/60">ChatGPT</div>
-        </div>
-        <div className="bg-white/10 rounded-lg p-3 text-center">
-          <div className="text-xl font-bold text-white/30">—</div>
-          <div className="text-xs text-white/60">Claude</div>
         </div>
         <div className="bg-white/10 rounded-lg p-3 text-center">
           <div className="text-xl font-bold text-white/30">—</div>
@@ -199,7 +206,19 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
         </div>
         <div className="bg-white/10 rounded-lg p-3 text-center">
           <div className="text-xl font-bold text-white/30">—</div>
-          <div className="text-xs text-white/60">Other</div>
+          <div className="text-xs text-white/60">Claude</div>
+        </div>
+        <div className="bg-white/10 rounded-lg p-3 text-center">
+          <div className="text-xl font-bold text-white/30">—</div>
+          <div className="text-xs text-white/60">Gemini</div>
+        </div>
+        <div className="bg-white/10 rounded-lg p-3 text-center">
+          <div className="text-xl font-bold text-white/30">—</div>
+          <div className="text-xs text-white/60">Grok</div>
+        </div>
+        <div className="bg-white/10 rounded-lg p-3 text-center">
+          <div className="text-xl font-bold text-white/30">—</div>
+          <div className="text-xs text-white/60">Meta AI</div>
         </div>
       </div>
     </>
