@@ -201,18 +201,17 @@ function getRegulatoryBody(category: string): string {
 
 const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
   free: ['perplexity'],
-  starter: ['perplexity', 'chatgpt'],
-  pro: ['perplexity', 'chatgpt', 'claude'],
-  enterprise: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
+  starter: ['perplexity', 'chatgpt', 'claude'],
+  pro: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
 };
 
 // Which tier unlocks each platform (for upsell labels on locked cards)
 const PLATFORM_UNLOCK_TIER: Record<string, { tier: string; label: string; price: string }> = {
   chatgpt: { tier: 'starter', label: 'Starter', price: '\u00A3149/month' },
-  claude:  { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
-  gemini:  { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
-  grok:    { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
-  meta:    { tier: 'enterprise', label: 'Enterprise', price: '\u00A3499/month' },
+  claude:  { tier: 'starter', label: 'Starter', price: '\u00A3149/month' },
+  gemini:  { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
+  grok:    { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
+  meta:    { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
 };
 
 const PLATFORM_META: Record<string, { color: string; icon: string }> = {
@@ -452,11 +451,11 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 ))}
               </div>
 
-              {/* Upgrade nudge for free tier */}
-              {tier === 'free' && (
+              {/* Upgrade nudge when not on Pro */}
+              {tier !== 'pro' && (
                 <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
                   <p className="text-sm text-purple-800 font-medium mb-2">
-                    You&apos;re seeing 1 of 6 platform results. Upgrade to unlock all AI platform data.
+                    You&apos;re seeing {unlocked.length} of 6 platform results. Upgrade to unlock all AI platform data.
                   </p>
                   <a
                     href="/for-vendors#pricing"
