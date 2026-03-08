@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'why-wont-chatgpt-recommend-my-law-firm',
+    title: "Why Won't ChatGPT Recommend My Law Firm? (And What to Do About It)",
+    excerpt: "Your competitors appear in ChatGPT recommendations but your law firm doesn't. Here's exactly why — and the specific fixes that get solicitors visible to AI assistants.",
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 6,
+    publishedDate: '2026-03-08',
+    href: '/blog/why-wont-chatgpt-recommend-my-law-firm',
+    content: '',
+  },
+  {
     slug: 'how-to-get-your-law-firm-visible-to-ai-assistants',
     title: 'How to Get Your Law Firm Visible to AI Assistants (2026 Guide)',
     excerpt: 'A step-by-step guide to getting your law firm recommended by ChatGPT, Perplexity, Claude and Google AI.',
