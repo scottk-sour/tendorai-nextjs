@@ -380,6 +380,14 @@ export default function WhyWontChatGPTRecommendMyLawFirmPage() {
             <ul className="space-y-3">
               <li>
                 <Link
+                  href="/blog/how-to-get-recommended-by-ai"
+                  className="text-purple-600 hover:text-purple-700 underline"
+                >
+                  How to Get Your Business Recommended by AI Assistants
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/blog/why-business-not-showing-up-chatgpt-recommendations"
                   className="text-purple-600 hover:text-purple-700 underline"
                 >

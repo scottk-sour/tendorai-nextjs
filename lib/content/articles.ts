@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-get-recommended-by-ai',
+    title: 'How to Get Your Business Recommended by AI Assistants',
+    excerpt: 'A step-by-step guide for UK professional services firms on how to get recommended by ChatGPT, Gemini and Perplexity — and the exact signals AI uses to decide who to suggest.',
+    category: 'How-To',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-03-08',
+    href: '/blog/how-to-get-recommended-by-ai',
+    content: '',
+  },
+  {
     slug: 'why-wont-chatgpt-recommend-my-law-firm',
     title: "Why Won't ChatGPT Recommend My Law Firm? (And What to Do About It)",
     excerpt: "Your competitors appear in ChatGPT recommendations but your law firm doesn't. Here's exactly why — and the specific fixes that get solicitors visible to AI assistants.",
