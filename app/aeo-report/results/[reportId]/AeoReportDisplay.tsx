@@ -266,14 +266,6 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
           <span className="font-bold text-gray-900">{result.platformLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {result.mentioned && result.position && (
-            <span
-              className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
-              style={{ backgroundColor: meta.color }}
-            >
-              #{result.position}
-            </span>
-          )}
           {result.mentioned ? (
             <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 text-sm font-bold">
               &#10003;
@@ -397,8 +389,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           const tier = report.tier || 'free';
           const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
           const unlockedResults = report.platformResults.filter(r => unlocked.includes(r.platform));
-          const mentionedCount = unlockedResults.filter(r => r.mentioned).length;
-
 
           // Order results: show all 6 platforms (fill missing ones)
           const ALL_PLATFORMS = ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'];
@@ -411,6 +401,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             platform: p, platformLabel: ALL_LABELS[p], mentioned: false,
             position: null, snippet: null, competitors: [], error: 'Not queried',
           });
+
+          // Count mentions across ALL platforms (same source as the bar chart)
+          const mentionedCount = orderedResults.filter(r => r.mentioned && !r.error).length;
 
           return (
             <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
