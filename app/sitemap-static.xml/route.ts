@@ -28,6 +28,16 @@ const citySlugs = [
   'chester', 'cheltenham', 'gloucester',
 ];
 
+const blogSlugs = [
+  'why-wont-chatgpt-recommend-my-law-firm',
+  'why-business-not-showing-up-chatgpt-recommendations',
+  'how-to-get-your-law-firm-visible-to-ai-assistants',
+  'how-to-get-solicitor-profile-into-ai-search-results',
+  'best-ai-visibility-tools-uk-professional-services',
+  'ai-visibility-mortgage-advisors-uk',
+  'how-to-check-if-business-appears-in-ai-recommendations',
+];
+
 const serviceSlugs = [
   'photocopiers', 'telecoms', 'cctv', 'it', 'security', 'software',
   'conveyancing', 'family-law', 'criminal-law', 'commercial-law',
@@ -58,6 +68,7 @@ export function GET() {
     ...staticPages.map((p) => entry(`${baseUrl}${p.url}`, p.changeFrequency, p.priority)),
     ...verticalSlugs.map((s) => entry(`${baseUrl}/${s}`, 'monthly', 0.8)),
     ...cityVerticalUrls,
+    ...blogSlugs.map((s) => entry(`${baseUrl}/blog/${s}`, 'monthly', 0.7)),
     ...serviceSlugs.map((s) => entry(`${baseUrl}/suppliers/${s}`, 'weekly', 0.7)),
   ];
 
