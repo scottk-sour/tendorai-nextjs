@@ -49,11 +49,17 @@ const categoryColors: Record<string, string> = {
   'AI & Visibility': 'bg-indigo-100 text-indigo-700',
   'AI Visibility': 'bg-teal-100 text-teal-700',
   Research: 'bg-rose-100 text-rose-700',
+  Legal: 'bg-amber-100 text-amber-700',
+  Tools: 'bg-cyan-100 text-cyan-700',
+  'How-To': 'bg-emerald-100 text-emerald-700',
+  Financial: 'bg-violet-100 text-violet-700',
 };
 
 function parseMarkdown(content: string): string {
   // Simple markdown to HTML conversion
   let html = content
+    // Horizontal rules
+    .replace(/^---$/gm, '<hr class="my-8 border-gray-200" />')
     // Headers
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">$1</h2>')
@@ -63,8 +69,8 @@ function parseMarkdown(content: string): string {
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-purple-600 hover:text-purple-700 underline">$1</a>')
     // Tables
     .replace(/\|(.+)\|/g, (match) => {
-      const cells = match.split('|').filter(c => c.trim());
-      if (cells.every(c => c.trim().match(/^-+$/))) {
+      const cells = match.split('|').slice(1, -1);
+      if (cells.every(c => c.trim().match(/^-+$/) || c.trim() === '')) {
         return ''; // Skip separator rows
       }
       const isHeader = match.includes('---');
