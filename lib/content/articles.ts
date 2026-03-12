@@ -12,6 +12,143 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'ai-visibility-crucial-solicitors-uk',
+    title: 'Why AI Visibility Is Now Critical for UK Solicitors',
+    excerpt: 'AI assistants are replacing Google as the first place clients look for a solicitor. If your firm isn\'t visible to ChatGPT, Perplexity, and Gemini, you\'re losing enquiries you\'ll never know about.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 14,
+    publishedDate: '2026-03-12',
+    content: `When a potential client asks ChatGPT, Perplexity, or Google's AI Overview to recommend a solicitor, **your firm either appears or it doesn't**. There is no page two. No scroll. No second chance. **AI visibility for solicitors** determines whether your practice gets cited in these AI-generated responses — and right now, most UK law firms are completely invisible to them.
+
+That invisibility is already costing firms instructions.
+
+---
+
+## How Clients Are Finding Solicitors in 2026
+
+### The Shift from Google Search to AI Assistants
+
+The way people search for professional services has fundamentally changed. **An estimated 40% of online searches now involve an AI-generated answer** before a user ever clicks a traditional link. Gartner predicted a 25% drop in traditional search traffic by 2026 — and for high-intent queries like "best solicitor for commercial lease near me," AI assistants are increasingly providing the answer directly.
+
+For solicitors, this means the battleground has moved. A strong Google ranking still matters, but if an AI assistant doesn't mention your firm, you're losing enquiries you'll never even know about.
+
+### What "AI Visibility" Actually Means for Law Firms
+
+**AI visibility is the likelihood that AI assistants cite, recommend, or reference your firm** when responding to relevant legal queries. It is shaped by your firm's structured data, online authority, review profile, regulatory standing, and the quality of content associated with your practice.
+
+Unlike traditional SEO, you cannot simply bid for placement. AI models synthesise information from dozens of sources — the **SRA register**, legal directories, review platforms, your website's schema markup, and published content — to decide which firms to surface. If your data is thin, inconsistent, or absent, the AI skips you entirely.
+
+---
+
+## Why AI Assistants Recommend Some Solicitors and Not Others
+
+### Structured Data and the SRA Register
+
+AI models rely heavily on **structured, verified data sources**. The SRA register is one of the most authoritative datasets for solicitors in England and Wales, covering over **160,000 practising solicitors** across thousands of firms. Firms whose online profiles align cleanly with their SRA registration — correct practice areas, office addresses, and regulatory status — are far more likely to be cited.
+
+Discrepancies between your website, directory listings, and the SRA register create confusion for AI systems. Consistency is not optional; it is a ranking factor.
+
+### Review Signals and Online Authority
+
+**88% of consumers trust online reviews as much as personal recommendations**, according to BrightLocal research. AI assistants weigh review volume, recency, and average rating when deciding which solicitors to recommend. A firm with 30+ Google reviews averaging 4.7 stars will almost always be cited ahead of a firm with two reviews from 2021.
+
+Reviews also generate the kind of natural language patterns that AI models use to understand what a firm does well. A review mentioning "brilliant with our house purchase in Bristol" gives the AI a direct signal about specialism and location.
+
+### Local Relevance and Specialism Matching
+
+When someone asks an AI assistant for a "family solicitor in Manchester," the model cross-references **location data, stated specialisms, and contextual authority**. Firms that clearly declare their practice areas and geographic focus — through schema markup, landing pages, and directory profiles — are matched more accurately.
+
+Vague positioning hurts. If your website says "we handle all legal matters," the AI has no strong signal to match you against specific queries. **Specificity wins citations.**
+
+---
+
+## The Cost of Being Invisible to AI
+
+### Lost Instructions and Shrinking Enquiry Pipelines
+
+A **2025 study by the Law Society found that 72% of individuals now research solicitors online before making contact**. As AI assistants capture a growing share of that research, firms without AI visibility face a compounding problem: fewer enquiries today, and an even steeper decline tomorrow.
+
+The firms losing out rarely realise it. Unlike a drop in Google rankings — which you can track — AI invisibility is silent. You simply never appear in the conversation.
+
+### Competitors Who Act First Win the Citation
+
+AI visibility has a **first-mover advantage**. Models learn from patterns of authority over time. A competitor who optimises their structured data, builds a strong review profile, and publishes citation-worthy content now will be harder to displace in six months.
+
+In a market where the SRA lists over **10,000 law firms** in England and Wales, early movers are already pulling ahead. The window to act without competing against dozens of optimised rivals is narrowing.
+
+---
+
+## How UK Solicitors Can Improve AI Visibility
+
+### Audit Your Current AI Presence
+
+**Start by discovering whether AI assistants currently mention your firm.** Ask ChatGPT, Perplexity, and Gemini questions your clients would ask — "best solicitor for employment law in Leeds," for example. Record whether your firm appears, how it's described, and which competitors are cited instead.
+
+This manual audit reveals your baseline. Most firms are shocked to find they are entirely absent, even for queries directly relevant to their practice.
+
+### Optimise Your Firm's Structured Data
+
+**Ensure your website uses proper schema markup** (Organization, LocalBusiness, LegalService) with accurate details matching your SRA registration. Verify that your practice areas, office locations, and contact details are consistent across every platform — Google Business Profile, legal directories, and your own site.
+
+AI models treat inconsistency as a trust signal. **One mismatched address can suppress your firm's visibility** across multiple AI platforms.
+
+### Build Citation-Worthy Content
+
+AI assistants cite content that **directly answers specific questions with authority**. Publish guides, FAQs, and articles that address the exact queries your prospective clients type into AI tools. Structure content with clear headings, short paragraphs, and concrete data points.
+
+A 1,500-word guide on "What to expect from a commercial property solicitor in Birmingham" is more citable than a generic "About Us" page. **Answer the question in the first two sentences** of each section — that's what the AI extracts.
+
+---
+
+## Measuring AI Visibility: What to Track
+
+### AI Mention Scans and Competitor Benchmarking
+
+**Tracking your AI mentions weekly reveals whether your optimisation efforts are working.** Monitor which prompts surface your firm, how your position compares to competitors, and whether your mention frequency is trending up or down.
+
+Manual checking doesn't scale. Automated AI mention scanning — across ChatGPT, Perplexity, and other platforms — gives you a consistent, comparable dataset. Firms on TendorAI's Pro plan receive **weekly AI mention reports** with competitor benchmarking built in.
+
+### Visibility Scores and GEO Audits
+
+A **GEO audit (Generative Engine Optimisation)** analyses your website against the specific factors AI models use to evaluate authority: schema markup, page speed, structured content, social proof, and regulatory data. It produces a score out of 100 and flags the highest-impact improvements.
+
+Tracking your visibility score over time — combining profile completeness, product data, AI mentions, and GEO audit results — gives your firm a single metric to benchmark progress. **Most solicitors score below 40 out of 100** before optimisation.
+
+---
+
+## FAQ — AI Visibility for Solicitors
+
+**What is AI visibility for solicitors?**
+AI visibility is the measure of how often and how prominently AI assistants — such as ChatGPT, Perplexity, and Google AI Overviews — cite or recommend your law firm when users ask relevant legal queries. It depends on your structured data, reviews, content quality, and regulatory standing.
+
+**Do solicitors really need to worry about AI search?**
+Yes. With an estimated 40% of searches now involving AI-generated answers, clients are increasingly choosing solicitors based on AI recommendations rather than traditional search results. Firms that are invisible to AI are losing enquiries to competitors who are not.
+
+**How do AI assistants decide which solicitor to recommend?**
+AI models synthesise data from regulatory registers (like the SRA), review platforms, directory listings, website schema markup, and published content. Firms with consistent, structured, authoritative data across these sources are prioritised.
+
+**Can small law firms compete for AI visibility?**
+Absolutely. AI visibility favours **data quality over firm size**. A two-partner firm with excellent reviews, accurate SRA data, clear specialisms, and well-structured content can outperform a large firm with an outdated website and no schema markup.
+
+**How do I check if AI assistants mention my firm?**
+You can manually query AI platforms with prompts your clients would use. For systematic tracking, TendorAI's platform runs automated AI mention scans across major AI assistants and provides weekly reports with competitor comparisons.
+
+**What is a GEO audit?**
+A GEO (Generative Engine Optimisation) audit evaluates your website against the factors AI models use to assess authority and relevance. It checks schema markup, page speed, content structure, social signals, and more, producing a score out of 100 with prioritised recommendations.
+
+---
+
+## Take Control of Your Firm's AI Visibility
+
+The solicitors who act now will dominate AI-generated recommendations for years to come. Those who wait will find it increasingly difficult — and expensive — to catch up.
+
+**[TendorAI](https://www.tendorai.com)** is built specifically for UK professional services firms. It connects to the SRA register, runs automated AI mention scans, provides GEO audits, and gives your firm a clear visibility score with actionable recommendations to improve it.
+
+**[Check whether AI assistants already recommend your firm →](https://www.tendorai.com)**
+`,
+  },
+  {
     slug: 'ai-visibility-for-solicitors-uk',
     title: 'AI Visibility for Solicitors: How to Get Your Law Firm Recommended by AI',
     excerpt: 'Most UK solicitors are invisible to ChatGPT, Perplexity and Gemini. Here\'s exactly how to fix it — the 6 steps that get your law firm recommended by AI assistants.',
