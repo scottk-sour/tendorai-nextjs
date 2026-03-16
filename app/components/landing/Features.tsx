@@ -5,7 +5,7 @@ const steps = [
     number: '01',
     title: 'Check Your AI Visibility',
     description:
-      'Run a free AI Visibility (AEO) report to see what ChatGPT, Claude, and Perplexity say about your business. Get your AI visibility score in 60 seconds.',
+      'Your firm is already in our system \u2014 built from SRA, ICAEW, or FCA register data. Run a free AI Visibility report to see what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -14,9 +14,9 @@ const steps = [
   },
   {
     number: '02',
-    title: 'Claim Your Profile',
+    title: 'Claim and Complete Your Profile',
     description:
-      'Add your services, fees, accreditations, and specialisms. This is the data AI needs to recommend you ahead of competitors.',
+      'Add your fees, specialisms, accreditations, and services through a simple dashboard. This is the structured data AI needs to recommend you by name \u2014 not just mention you generically.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -27,7 +27,7 @@ const steps = [
     number: '03',
     title: 'We Install AI Data on Your Website',
     description:
-      'Pro only — we log into your website and install a small piece of code that makes your business readable to AI. You don\u2019t touch anything. We do it for you.',
+      'Pro only \u2014 we log into your website and install schema markup using your dashboard data. You give us the login. We handle everything. No developer needed. Live within 48 hours.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -36,9 +36,9 @@ const steps = [
   },
   {
     number: '04',
-    title: 'AI Recommends You by Name',
+    title: 'One Update. Everywhere in Sync.',
     description:
-      'When someone asks ChatGPT for a solicitor in Bristol or an accountant in Manchester, AI recommends you by name. No bidding. No shared leads.',
+      'Every time you update your dashboard, your TendorAI directory profile and your website schema update simultaneously. AI platforms crawl both. You do nothing technical. Ever.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />

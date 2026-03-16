@@ -31,18 +31,18 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
 
         {/* Title */}
         <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[var(--text)] mb-6 leading-[1.15] tracking-tight">
-          The database AI uses to{' '}
+          Your firm is already listed.{' '}
           <em className="gradient-text not-italic font-bold" style={{ fontStyle: 'italic' }}>
-            find and recommend
+            Claim it
           </em>{' '}
-          UK businesses
+          and AI will recommend you by name.
         </h1>
 
         {/* Subtitle — long-tail keywords */}
         <p className="text-base md:text-lg text-[var(--text2)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          When someone asks ChatGPT for a solicitor in Cardiff or a mortgage advisor in Bristol,
-          AI needs structured data to answer. TendorAI provides AI visibility for UK solicitors,
-          accountants, mortgage advisors, and estate agents &mdash; so AI recommends you by name.
+          When someone asks ChatGPT for a solicitor in Cardiff or a mortgage adviser in Bristol,
+          AI needs verified, structured data to give a specific answer. TendorAI has already built
+          your profile from SRA, ICAEW, and FCA register data. Claim it &mdash; we handle the rest.
         </p>
 
         {/* CTA Buttons */}

@@ -186,10 +186,10 @@ const howToSchema = {
   name: 'How to Get Your Business Recommended by AI',
   description: 'Four steps from invisible to AI-recommended',
   step: [
-    { '@type': 'HowToStep', position: 1, name: 'Check Your AI Visibility', text: 'Run a free AI Visibility (AEO) report to see what ChatGPT, Claude, and Perplexity say about your business. Get your AI visibility score in 60 seconds.' },
-    { '@type': 'HowToStep', position: 2, name: 'Claim Your Profile', text: 'Add your services, fees, accreditations, and specialisms. This is the data AI needs to recommend you ahead of competitors.' },
-    { '@type': 'HowToStep', position: 3, name: 'We Install AI Data on Your Website', text: "Pro only — we log into your website and install a small piece of code that makes your business readable to AI. You don\u2019t touch anything. We do it for you." },
-    { '@type': 'HowToStep', position: 4, name: 'AI Recommends You by Name', text: 'When someone asks ChatGPT for a solicitor in Bristol or an accountant in Manchester, AI recommends you by name. No bidding. No shared leads.' },
+    { '@type': 'HowToStep', position: 1, name: 'Check Your AI Visibility', text: 'Your firm is already in our system — built from SRA, ICAEW, or FCA register data. Run a free AI Visibility report to see what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds.' },
+    { '@type': 'HowToStep', position: 2, name: 'Claim and Complete Your Profile', text: 'Add your fees, specialisms, accreditations, and services through a simple dashboard. This is the structured data AI needs to recommend you by name — not just mention you generically.' },
+    { '@type': 'HowToStep', position: 3, name: 'We Install AI Data on Your Website', text: 'Pro only — we log into your website and install schema markup using your dashboard data. You give us the login. We handle everything. No developer needed. Live within 48 hours.' },
+    { '@type': 'HowToStep', position: 4, name: 'One Update. Everywhere in Sync.', text: 'Every time you update your dashboard, your TendorAI directory profile and your website schema update simultaneously. AI platforms crawl both. You do nothing technical. Ever.' },
   ],
 };
 
@@ -219,7 +219,7 @@ const faqSchema = {
       name: 'Is TendorAI free to use?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3149/month for full AI visibility with structured data profiles.',
+        text: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3299/month for full AI visibility with structured data profiles.',
       },
     },
     {

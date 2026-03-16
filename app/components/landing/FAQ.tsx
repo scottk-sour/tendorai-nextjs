@@ -11,7 +11,7 @@ const faqItems = [
   },
   {
     question: 'Is TendorAI free to use?',
-    answer: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3149/month for full AI visibility with structured data profiles.',
+    answer: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3299/month for full AI visibility with structured data profiles.',
   },
   {
     question: 'How is this different from SEO?',

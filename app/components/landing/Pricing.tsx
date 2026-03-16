@@ -5,56 +5,37 @@ const plans = [
     name: 'Free',
     price: '£0',
     period: '/forever',
-    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.',
+    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your verified SRA/FCA/ICAEW details.',
     popular: false,
     highlight: false,
     features: [
       { text: 'Basic company profile', included: true },
       { text: 'Listed in directory', included: true },
       { text: 'Public register data', included: true },
+      { text: 'Visible to AI crawlers', included: true },
       { text: 'No pricing visible to AI', included: true },
-      { text: 'AI mention tracking', included: false },
-      { text: 'AI Visibility (AEO) reports', included: false },
-      { text: 'Priority ranking', included: false },
+      { text: 'No AI mention tracking', included: false },
+      { text: 'No AI Visibility reports', included: false },
+      { text: 'No priority ranking', included: false },
     ],
     cta: 'Claim Your Free Profile',
     ctaStyle: 'btn-secondary',
     href: 'https://www.tendorai.com/vendor-signup?tier=free',
   },
   {
-    name: 'Starter',
-    price: '£149',
-    originalPrice: '£299',
-    period: '/month',
-    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.',
-    popular: false,
-    highlight: false,
-    features: [
-      { text: 'Pricing visible to AI', included: true },
-      { text: 'Ranked above free profiles', included: true },
-      { text: 'Monthly AI Visibility (AEO) report', included: true },
-      { text: 'AI visibility score', included: true },
-      { text: 'Unlimited products', included: true },
-      { text: 'AI mention tracking', included: false },
-      { text: 'Verified badge', included: false },
-    ],
-    cta: 'Start Starter',
-    ctaStyle: 'btn-secondary',
-    href: 'https://www.tendorai.com/vendor-signup?tier=starter',
-  },
-  {
     name: 'Pro',
     price: '£299',
-    originalPrice: '£499',
     period: '/month',
-    description: 'We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.',
+    description: 'We install AI-optimised data on your website, keep it in sync automatically, and track your AI mentions. Agencies charge £1,500+/month for this.',
     popular: true,
     highlight: true,
     features: [
       { text: 'We install AI visibility code on your website', included: true },
       { text: 'Your website and TendorAI stay in sync automatically', included: true },
+      { text: 'Pricing and accreditations visible to AI', included: true },
+      { text: 'Ranked above free profiles', included: true },
       { text: 'AI mention tracking', included: true },
-      { text: 'Weekly AI visibility reports', included: true },
+      { text: 'Weekly AI Visibility reports', included: true },
       { text: 'TendorAI Verified badge', included: true },
       { text: 'GBP optimisation checklist', included: true },
       { text: 'Unlimited products', included: true },
@@ -88,11 +69,11 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-3 gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white mb-16">
+        <div className="grid md:grid-cols-2 max-w-3xl mx-auto gap-0 border border-[var(--border)] rounded-2xl overflow-hidden bg-white mb-16">
           {plans.map((plan, i) => (
             <div
               key={plan.name}
-              className={`relative p-7 ${i > 0 ? 'border-t lg:border-t-0 lg:border-l border-[var(--border)]' : ''} ${plan.highlight ? 'bg-[#f8f6fd]' : ''}`}
+              className={`relative p-7 ${i > 0 ? 'border-t md:border-t-0 md:border-l border-[var(--border)]' : ''} ${plan.highlight ? 'bg-[#f8f6fd]' : ''}`}
             >
               {plan.popular && (
                 <div className="absolute -top-0 left-0 right-0 bg-[var(--gradient-hero)] text-white text-center py-1.5 text-xs font-bold uppercase tracking-wider" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -102,10 +83,6 @@ export default function Pricing() {
 
               <div className={plan.popular ? 'pt-6' : ''}>
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">{plan.name}</h3>
-
-                {plan.originalPrice && (
-                  <div className="text-sm text-gray-400 line-through mb-0.5">{plan.originalPrice}</div>
-                )}
 
                 <div className="mb-1">
                   <span className="text-3xl font-bold text-[var(--text)]">{plan.price}</span>
