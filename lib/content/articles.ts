@@ -482,7 +482,6 @@ Because TendorAI profiles are built from **live SRA register data**, your regula
 
 **Pricing:**
 - **Free** — Instant AI visibility report, basic profile
-- **Starter £149/mo** — Monthly AEO reports, pricing visible to AI
 - **Pro £299/mo** — Weekly reports, schema installation, AI mention tracking, Verified badge
 
 The solicitors doing this now are the ones who'll own AI recommendations in their area. The window is still open — but it's closing fast.
@@ -1829,7 +1828,7 @@ Take your most important practice area page. Rewrite it with specific services, 
 
 ## Full Report
 
-The complete dataset and methodology for this analysis are available to TendorAI subscribers. Starter and Pro subscribers receive regular AI visibility reports for their firm, including practice-area-specific benchmarking and improvement recommendations.
+The complete dataset and methodology for this analysis are available to TendorAI subscribers. Pro subscribers receive regular AI visibility reports for their firm, including practice-area-specific benchmarking and improvement recommendations.
 
 [Check your firm's AI visibility — free →](/aeo-report)
 `,

@@ -5,8 +5,7 @@ export const TIER_PRIORITY: Record<string, number> = {
   verified: 100,
   pro: 100,
 
-  // Starter tiers (medium priority) - £149/mo
-  starter: 50,
+  // Mid tiers (mapped to pro for display)
   basic: 50,
   visible: 50,
   standard: 50,
@@ -29,7 +28,6 @@ export const TIER_CONFIG = {
   pro: {
     name: 'Pro',
     price: 299,
-    originalPrice: 499,
     color: 'green',
     badge: 'Verified',
     description: 'Get recommended first. Full structured data, weekly AI Visibility (AEO) reports, AI mention tracking, TendorAI Verified badge, and priority ranking in AI results.',
@@ -42,22 +40,6 @@ export const TIER_CONFIG = {
       'Unlimited product/service listings',
       'Full analytics dashboard',
       'Priority support',
-    ],
-  },
-  starter: {
-    name: 'Starter',
-    price: 149,
-    originalPrice: 299,
-    color: 'blue',
-    badge: 'Starter',
-    description: 'Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.',
-    features: [
-      'Pricing & specialisms visible to AI',
-      'Full profile with contact details',
-      'Unlimited products/services',
-      'Quote request form',
-      'Full analytics dashboard',
-      'Monthly AI Visibility (AEO) report',
     ],
   },
   free: {
@@ -82,12 +64,8 @@ export function getDisplayTier(tier?: string): DisplayTier {
 
   const normalised = tier.toLowerCase();
 
-  if (['enterprise', 'managed', 'verified', 'gold', 'platinum', 'pro'].includes(normalised)) {
+  if (['enterprise', 'managed', 'verified', 'gold', 'platinum', 'pro', 'basic', 'visible', 'standard', 'silver', 'bronze', 'starter'].includes(normalised)) {
     return 'pro';
-  }
-
-  if (['basic', 'visible', 'standard', 'silver', 'bronze', 'starter'].includes(normalised)) {
-    return 'starter';
   }
 
   return 'free';
@@ -96,7 +74,7 @@ export function getDisplayTier(tier?: string): DisplayTier {
 // Check if tier can show pricing/contact details
 export function canShowPricing(tier?: string): boolean {
   const displayTier = getDisplayTier(tier);
-  return displayTier === 'pro' || displayTier === 'starter';
+  return displayTier === 'pro';
 }
 
 // Check if tier can receive quotes

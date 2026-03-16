@@ -161,19 +161,6 @@ const softwareAppJsonLd = {
     },
     {
       '@type': 'Offer',
-      name: 'Starter',
-      price: '149',
-      priceCurrency: 'GBP',
-      description: 'AI visibility with pricing visible to AI platforms and monthly AI Visibility (AEO) reports',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: '149',
-        priceCurrency: 'GBP',
-        billingDuration: 'P1M',
-      },
-    },
-    {
-      '@type': 'Offer',
       name: 'Pro',
       price: '299',
       priceCurrency: 'GBP',

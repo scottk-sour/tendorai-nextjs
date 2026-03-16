@@ -71,7 +71,7 @@ export function hasTierAccess(currentTier: string, requiredTier: 'starter' | 'pr
 
 // Pricing for upgrade CTAs
 const tierPricing: Record<string, string> = {
-  starter: '£149/mo',
+  starter: '£299/mo',
   pro: '£299/mo',
 };
 
@@ -135,9 +135,9 @@ export default function TierGate({
           <p className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 mb-3`}>
             Available on{' '}
             <span className="font-medium text-purple-600">
-              {requiredTier === 'starter' ? 'Starter' : 'Pro'}
+              Pro
             </span>{' '}
-            — {requiredTier === 'starter' ? '£149/mo' : '£299/mo'}
+            — £299/mo
           </p>
 
           {/* CTA Button */}

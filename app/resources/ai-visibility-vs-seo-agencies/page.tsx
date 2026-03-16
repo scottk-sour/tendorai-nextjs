@@ -125,23 +125,16 @@ function PricingCards() {
       highlighted: false,
     },
     {
-      name: 'Starter',
-      price: '£149',
-      priceLabel: '/month',
-      features: ['Enhanced profile', 'AI Mention Tracking', 'Weekly AI Visibility (AEO) Audits', 'Live AI Search Tests', 'Unlimited product listings', 'Monthly AI Visibility (AEO) report'],
-      highlighted: false,
-    },
-    {
       name: 'Pro',
       price: '£299',
       priceLabel: '/month',
-      features: ['Everything in Starter', 'Unlimited products', 'Priority AI ranking', 'Weekly AI Visibility (AEO) reports', 'Verified badge', 'Priority support'],
+      features: ['AI-optimised structured data on your website', 'AI Mention Tracking', 'Weekly AI Visibility (AEO) reports', 'Verified badge', 'Unlimited products', 'Priority AI ranking', 'Priority support'],
       highlighted: true,
     },
   ];
 
   return (
-    <div className="grid md:grid-cols-3 gap-6 my-8">
+    <div className="grid md:grid-cols-2 max-w-2xl mx-auto gap-6 my-8">
       {plans.map((plan) => (
         <div
           key={plan.name}
@@ -172,7 +165,7 @@ function PricingCards() {
             ))}
           </ul>
           <Link
-            href={plan.highlighted ? '/vendor-signup?plan=pro' : plan.price === 'Free' ? '/vendor-signup' : '/vendor-signup?plan=starter'}
+            href={plan.highlighted ? '/vendor-signup?tier=pro' : '/vendor-signup?tier=free'}
             className={`block text-center mt-6 py-2.5 px-4 rounded-lg text-sm font-medium transition-colors ${
               plan.highlighted
                 ? 'bg-purple-600 text-white hover:bg-purple-700'

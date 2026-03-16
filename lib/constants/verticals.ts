@@ -18,7 +18,6 @@ export interface VerticalConfig {
   services: { name: string; slug: string }[];
   pricingCallout: {
     free: string;
-    starter: string;
     pro: string;
   };
   faqs: { question: string; answer: string }[];
@@ -79,7 +78,6 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     ],
     pricingCallout: {
       free: 'Claim your SRA-verified profile and get listed in the TendorAI directory.',
-      starter: 'Add your fee ranges and specialisms so AI recommends you with detail.',
       pro: 'We install AI-optimised structured data on your firm\u2019s website.',
     },
     faqs: [
@@ -112,7 +110,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     meta: {
       title: 'AI Visibility for Solicitors \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find solicitors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free SRA-verified profile. Plans from \u00A3149/month.',
+        'AI is how people find solicitors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free SRA-verified profile. Plans from \u00A3299/month.',
     },
   },
 
@@ -166,7 +164,6 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     ],
     pricingCallout: {
       free: 'Claim your verified profile and get listed in the TendorAI directory.',
-      starter: 'Add your fee ranges and service areas so AI recommends you with detail.',
       pro: 'We install AI-optimised structured data on your practice\u2019s website.',
     },
     faqs: [
@@ -199,7 +196,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     meta: {
       title: 'AI Visibility for Accountants \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find accountants now. TendorAI structures your practice\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3149/month.',
+        'AI is how people find accountants now. TendorAI structures your practice\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3299/month.',
     },
   },
 
@@ -252,7 +249,6 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     ],
     pricingCallout: {
       free: 'Claim your FCA-verified profile and get listed in the TendorAI directory.',
-      starter: 'Add your mortgage types and fee structure so AI recommends you with detail.',
       pro: 'We install AI-optimised structured data on your firm\u2019s website.',
     },
     faqs: [
@@ -285,7 +281,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     meta: {
       title: 'AI Visibility for Mortgage Advisors \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find mortgage advisors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free FCA-verified profile. Plans from \u00A3149/month.',
+        'AI is how people find mortgage advisors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free FCA-verified profile. Plans from \u00A3299/month.',
     },
   },
 
@@ -338,7 +334,6 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     ],
     pricingCallout: {
       free: 'Claim your verified profile and get listed in the TendorAI directory.',
-      starter: 'Add your services and coverage areas so AI recommends you with detail.',
       pro: 'We install AI-optimised structured data on your agency\u2019s website.',
     },
     faqs: [
@@ -371,7 +366,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     meta: {
       title: 'AI Visibility for Estate Agents \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find estate agents now. TendorAI structures your agency\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3149/month.',
+        'AI is how people find estate agents now. TendorAI structures your agency\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3299/month.',
     },
   },
 };

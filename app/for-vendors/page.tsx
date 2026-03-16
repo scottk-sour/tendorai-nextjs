@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
-  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, paid tiers from £149/month. No agency required.",
+  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month. No agency required.",
   alternates: { canonical: '/for-vendors' },
 };
 
@@ -27,7 +27,7 @@ export default function ForVendorsPage() {
     },
     {
       q: 'How is this different from SEO agencies?',
-      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £149/month, not £5,000.",
+      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £299/month, not £5,000.",
     },
   ];
 
@@ -162,7 +162,7 @@ export default function ForVendorsPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto items-start">
             {/* Free */}
             <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
               <div className="text-center mb-6">
@@ -188,35 +188,6 @@ export default function ForVendorsPage() {
               </Link>
             </div>
 
-            {/* Starter */}
-            <div className="bg-white rounded-2xl p-8 border border-[var(--border)]">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Starter</h3>
-                <div className="mb-1">
-                  <span className="text-sm text-gray-400 line-through">£299</span>
-                </div>
-                <div className="mb-2">
-                  <span className="text-4xl font-bold text-gray-900">£149</span>
-                  <span className="text-gray-500">/month</span>
-                </div>
-                <p className="text-xs font-medium text-purple-600">Early adopter price</p>
-              </div>
-              <p className="text-sm text-gray-500 text-center mb-6">Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.</p>
-              <ul className="space-y-3 mb-8">
-                {['Pricing visible to AI', 'Ranked above free profiles', 'Monthly AI Visibility (AEO) report', 'AI visibility score', 'Unlimited products'].map((f, i) => (
-                  <li key={i} className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-sm text-gray-700">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link href="https://www.tendorai.com/vendor-signup?tier=starter" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all">
-                Start Starter
-              </Link>
-            </div>
-
             {/* Pro — MOST POPULAR */}
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 rounded-3xl blur-lg opacity-50 animate-pulse" />
@@ -228,14 +199,10 @@ export default function ForVendorsPage() {
                 </div>
                 <div className="text-center mb-6 pt-2">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Pro</h3>
-                  <div className="mb-1">
-                    <span className="text-sm text-gray-400 line-through">£499</span>
-                  </div>
                   <div className="mb-2">
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
                   </div>
-                  <p className="text-xs font-medium text-amber-600">Early adopter price</p>
                 </div>
                 <p className="text-sm text-gray-500 text-center mb-6">We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.</p>
                 <ul className="space-y-3 mb-8">
@@ -276,8 +243,7 @@ export default function ForVendorsPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
-                    ['Monthly cost', '£1,500 — £8,000', '£299 (early adopter)'],
-                    ['Full price', '—', '£499/month'],
+                    ['Monthly cost', '£1,500 — £8,000', '£299/month'],
                     ['Contract', '12 months minimum', 'Month-to-month, cancel anytime'],
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],

@@ -916,11 +916,6 @@ export default async function VendorProfilePage({ params }: PageProps) {
                       Verified
                     </span>
                   )}
-                  {displayTier === 'starter' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold bg-blue-500 text-white">
-                      {TIER_CONFIG.starter.badge}
-                    </span>
-                  )}
                   {claimedIsSolicitor && (
                     <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
                       SRA Regulated
@@ -1133,10 +1128,6 @@ export default async function VendorProfilePage({ params }: PageProps) {
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
                           <CheckBadgeIcon className="w-3.5 h-3.5" />
                           Verified
-                        </span>
-                      ) : displayTier === 'starter' ? (
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                          {TIER_CONFIG.starter.badge}
                         </span>
                       ) : (
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">

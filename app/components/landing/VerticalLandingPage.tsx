@@ -150,14 +150,10 @@ export default function VerticalLandingPage({ config }: { config: VerticalConfig
       {/* Pricing Callout Strip */}
       <section className="py-12 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 text-center">
+          <div className="grid md:grid-cols-2 max-w-3xl mx-auto gap-6 text-center">
             <div className="p-4">
               <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Free</span>
               <p className="text-sm text-[var(--text2)] mt-2">{config.pricingCallout.free}</p>
-            </div>
-            <div className="p-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-purple-600">Starter</span>
-              <p className="text-sm text-[var(--text2)] mt-2">{config.pricingCallout.starter}</p>
             </div>
             <div className="p-4">
               <span className="text-xs font-bold uppercase tracking-wider text-orange-500">Pro</span>

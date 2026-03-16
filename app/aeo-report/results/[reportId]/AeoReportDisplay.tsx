@@ -201,17 +201,17 @@ function getRegulatoryBody(category: string): string {
 
 const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
   free: ['perplexity'],
-  starter: ['perplexity', 'chatgpt', 'claude'],
+  starter: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
   pro: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
 };
 
 // Which tier unlocks each platform (for upsell labels on locked cards)
 const PLATFORM_UNLOCK_TIER: Record<string, { tier: string; label: string; price: string }> = {
-  chatgpt: { tier: 'starter', label: 'Starter', price: '\u00A3149/month' },
-  claude:  { tier: 'starter', label: 'Starter', price: '\u00A3149/month' },
-  gemini:  { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
-  grok:    { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
-  meta:    { tier: 'pro',     label: 'Pro',     price: '\u00A3299/month' },
+  chatgpt: { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
+  claude:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
+  gemini:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
+  grok:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
+  meta:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
 };
 
 const PLATFORM_META: Record<string, { color: string; icon: string }> = {
@@ -227,7 +227,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
 
   if (locked) {
-    const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'starter', label: 'Starter', price: '\u00A3149/month' };
+    const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'pro', label: 'Pro', price: '\u00A3299/month' };
     return (
       <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
         {/* Blurred fake content */}
@@ -769,7 +769,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           )}
 
           {/* Pricing summary */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {/* Free */}
             <div className="rounded-xl p-6 bg-white/10 flex flex-col">
               <p className="font-bold text-lg">Free</p>
@@ -782,22 +782,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 className="mt-4 block text-center px-4 py-2 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors"
               >
                 Claim Your Free Profile
-              </a>
-            </div>
-
-            {/* Starter */}
-            <div className="rounded-xl p-6 bg-white/10 flex flex-col">
-              <p className="font-bold text-lg">Starter</p>
-              <p className="text-2xl font-bold my-1">&pound;149<span className="text-sm font-normal text-blue-200">/month</span></p>
-              <p className="text-[10px] text-blue-300">Early adopter price (was &pound;299)</p>
-              <p className="text-xs text-blue-200 mt-2 flex-1">
-                Stand out from unclaimed profiles. Add your pricing, specialisms, and services so AI can recommend you with detail. Includes monthly AI Visibility (AEO) report.
-              </p>
-              <a
-                href="https://www.tendorai.com/vendor-signup?tier=starter"
-                className="mt-4 block text-center px-4 py-2 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors"
-              >
-                Start Starter
               </a>
             </div>
 

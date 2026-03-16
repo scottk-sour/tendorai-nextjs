@@ -199,7 +199,7 @@ export default function PostsPage() {
                   Posts help AI recommend you with context
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Share news, guides, and offers. AI tools use your posts to give richer recommendations. Available on Starter (2/month) and Pro (unlimited).
+                  Share news, guides, and offers. AI tools use your posts to give richer recommendations. Available on the Pro plan.
                 </p>
               </div>
               <a href="/vendor-dashboard/settings?tab=subscription" className="btn-primary px-3 py-1.5 text-sm ml-4 whitespace-nowrap">

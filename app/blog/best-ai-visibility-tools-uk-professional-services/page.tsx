@@ -45,7 +45,7 @@ const tools = [
       'UK-only — not suitable for international firms',
       'Focused on professional services, not designed for e-commerce or retail',
     ],
-    pricing: 'Free AEO report, Starter from \u00a3149/month, Pro from \u00a3299/month',
+    pricing: 'Free AEO report, Pro from \u00a3299/month',
     bestFor: 'UK solicitors, accountants, mortgage advisers, and estate agents',
     color: 'purple',
   },
@@ -170,7 +170,7 @@ const faqs = [
   },
   {
     q: 'How much do AI visibility tools cost?',
-    a: 'Ranges from free (TendorAI free report, Semrush limited) to \u00a399\u2013499/month for full features. TendorAI starts at \u00a3149/month, Semrush from $139.95/month, SE Ranking from $65/month.',
+    a: 'Ranges from free (TendorAI free report, Semrush limited) to \u00a399\u2013499/month for full features. TendorAI starts at \u00a3299/month, Semrush from $139.95/month, SE Ranking from $65/month.',
   },
   {
     q: 'Do I need an AI visibility tool if I already use Semrush?',

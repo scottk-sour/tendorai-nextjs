@@ -14,11 +14,11 @@ const allFaqs = [
     },
     {
       question: 'How does it work?',
-      answer: "Every UK business in our verticals gets a free profile built from public register data. You claim your profile, add pricing and accreditations, and AI crawlers index your enriched data. Paid tiers rank you higher when AI recommends suppliers.",
+      answer: "Every UK business in our verticals gets a free profile built from public register data. You claim your profile, add pricing and accreditations, and AI crawlers index your enriched data. Paid plans rank you higher when AI recommends suppliers.",
     },
     {
       question: 'How much does it cost?',
-      answer: "Free to be listed. Paid tiers start at £149/month for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
+      answer: "Free to be listed. Paid plans start at £299/month for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
     },
     {
       question: 'What industries do you cover?',
@@ -26,7 +26,7 @@ const allFaqs = [
     },
     {
       question: 'Is it free?',
-      answer: "Free to be listed with a basic profile. Paid tiers from £149/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
+      answer: "Free to be listed with a basic profile. Paid plans from £299/month give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
     },
     {
       question: 'What is an AI Visibility (AEO) report?',
@@ -50,7 +50,7 @@ const allFaqs = [
     },
     {
       question: 'How is this different from hiring a GEO agency?',
-      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (rising to £499), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
+      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month, has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
     },
     {
       question: 'Do I need to give you my website password?',

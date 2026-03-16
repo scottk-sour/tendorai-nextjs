@@ -627,7 +627,7 @@ export default function AnalyticsPage() {
               href="/vendor-dashboard/settings?tab=subscription"
               className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Upgrade to Starter — £149/mo
+              Upgrade to Pro — £299/mo
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

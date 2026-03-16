@@ -46,7 +46,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'The free plan gives you a basic profile and visibility score. Paid plans (Starter at £149/mo, Pro at £299/mo) unlock AI mention tracking, detailed analytics, AI Visibility (AEO) audits, AI Visibility (AEO) reports, and higher visibility through tier-based score boosts.',
+    a: 'The free plan gives you a basic profile and visibility score. Pro plan at £299/mo unlocks AI mention tracking, detailed analytics, AI Visibility (AEO) audits, AI Visibility (AEO) reports, and higher visibility through tier-based score boosts.',
   },
   {
     q: 'How often should I check my dashboard?',
@@ -646,7 +646,7 @@ export default function GettingStartedPage() {
           <div>
             <h4 className="font-semibold text-gray-900">Blog Posts Add-on</h4>
             <p className="text-sm text-gray-600">
-              Available on Starter and Pro plans. Publish articles to
+              Available on the Pro plan. Publish articles to
               build authority signals that AI systems recognise. Manage your posts
               from the Posts section in the sidebar.
             </p>

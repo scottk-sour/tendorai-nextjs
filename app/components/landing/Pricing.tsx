@@ -48,8 +48,7 @@ const plans = [
 ];
 
 const comparisonRows = [
-  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299 (early adopter)' },
-  { label: 'Full price', agency: '—', tendorai: '£499/month' },
+  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month' },
   { label: 'Contract', agency: '12 months minimum', tendorai: 'Month-to-month, cancel anytime' },
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },

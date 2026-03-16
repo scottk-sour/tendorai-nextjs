@@ -314,7 +314,7 @@ export default function AISearchTest({
             href="/vendor-dashboard/settings?tab=subscription"
             className="inline-block px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
           >
-            Upgrade to Starter &mdash; &pound;149/mo
+            Upgrade to Pro &mdash; &pound;299/mo
           </a>
         </div>
       )}
@@ -366,7 +366,7 @@ export default function AISearchTest({
               href="/vendor-dashboard/settings?tab=subscription"
               className="inline-block mt-2 px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
             >
-              Upgrade to Starter &mdash; &pound;149/mo
+              Upgrade to Pro &mdash; &pound;299/mo
             </a>
           )}
         </div>
