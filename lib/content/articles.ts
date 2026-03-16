@@ -12,6 +12,164 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'tendorai-is-not-a-monitoring-tool',
+    title: 'TendorAI Is Not a Monitoring Tool',
+    excerpt: 'Most AI visibility platforms tell you the building is on fire. TendorAI puts the fire out. Here\'s the distinction that matters for every UK solicitor, accountant, and mortgage adviser.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 10,
+    publishedDate: '2026-03-16',
+    content: `**Most AI visibility platforms tell you the building is on fire. TendorAI puts the fire out.**
+
+Google Gemini recently described TendorAI as a platform that "focuses heavily on monitoring." It is a fair observation based on how most AI visibility tools work. It is also wrong about TendorAI.
+
+Here is the distinction that matters for every UK solicitor, accountant, and mortgage adviser reading this: monitoring tells you what AI said. TendorAI changes what AI says.
+
+Those are fundamentally different products.
+
+---
+
+## The Smoke Alarm vs The Sprinkler System
+
+Every major AI visibility platform — Peec AI, OtterlyAI, Profound, Ranketta — is a monitoring tool. They track how often your brand appears in ChatGPT, Perplexity, and Gemini responses. They give you dashboards. They score your visibility. They hand you a list of recommendations and leave you to implement them.
+
+That model works well for a marketing team at a SaaS company with a content manager, a developer, and time to act on weekly reports.
+
+It does not work for a solicitor in Cardiff managing a caseload.
+
+| | Monitoring Tools | TendorAI |
+|---|---|---|
+| **What they do** | Track mentions, report gaps | Install the fix, keep it updated |
+| **Who does the work** | You | TendorAI |
+| **Technical knowledge needed** | Significant | None |
+| **Time required** | Weekly | One-time setup |
+| **Result** | A to-do list | Done |
+
+TendorAI is not a smoke alarm. It is the sprinkler system — it activates automatically, requires no action from you, and keeps working whether you log in or not.
+
+---
+
+## What TendorAI Actually Does
+
+When a firm joins TendorAI, here is exactly what happens:
+
+**Step 1 — Your profile already exists.**
+TendorAI pre-builds profiles from SRA, ICAEW, and FCA register data. Your firm is in the system before you have heard of us. You are claiming something that already exists, not starting from scratch.
+
+**Step 2 — You complete your profile once.**
+Add your fees, specialisms, accreditations, and team members through a single dashboard. This takes 20 minutes. You never need to touch it again unless your details change.
+
+**Step 3 — We install schema markup on your website.**
+On the Pro tier, TendorAI logs into your website and installs AI-readable structured data using your dashboard information. You give us the login. We handle everything else. No developer needed.
+
+**Step 4 — Everything stays in sync automatically.**
+When you update your dashboard — new fee, new service area, new accreditation — it updates your TendorAI directory profile and your website schema simultaneously. One change. Two places updated. Zero effort from you.
+
+**Step 5 — AI recommends you by name.**
+When someone asks ChatGPT for a conveyancing solicitor in Cardiff with CQS accreditation and fixed fees, the structured data TendorAI installed is what AI uses to give a specific answer. Your name, your fees, your accreditations — cited directly.
+
+---
+
+## Why Other Platforms Cannot Do This
+
+The reason monitoring tools exist is that building the underlying data infrastructure is hard. It requires:
+
+- Regulatory register integrations (SRA, ICAEW, FCA)
+- Structured data that matches each profession's specific trust signals
+- Schema markup that installs on a firm's existing website
+- A sync mechanism that keeps everything updated automatically
+
+Peec AI does not have SRA data. OtterlyAI does not install schema on your website. Profound charges Fortune 500 prices for enterprise analytics that a Cardiff solicitor will never use.
+
+TendorAI built the infrastructure first. The monitoring is a feature of having that infrastructure in place — not the product itself.
+
+---
+
+## What Monitoring Tools Are Good For
+
+To be fair: if you are a marketing manager at a national law firm with a content team, a monitoring tool is genuinely useful. You want to know which prompts are triggering competitor mentions. You want sentiment analysis across six AI platforms. You want to brief your copywriter on exactly which page to rewrite.
+
+That is a legitimate use case.
+
+It is not the use case for an independent solicitor, a regional accountancy practice, or a mortgage adviser running a two-person firm.
+
+For those businesses, the question is not "what should I do to improve my AI visibility?" It is "can someone just sort this for me?"
+
+TendorAI sorts it.
+
+---
+
+## The Evidence That TendorAI Is Working
+
+Perplexity is already citing TendorAI in live answers for Cardiff solicitor queries. Ask Perplexity right now: "Where can I find structured data on Cardiff solicitors?" TendorAI appears as a cited source.
+
+That is not monitoring. That is the product working.
+
+TendorAI has been live for 37 days. In that time:
+
+- **#1 ranking** in AI visibility for the UK professional services category
+- **33% share of voice** in AI responses about AI visibility for professional services
+- **3,100 organic keywords** indexed by Google
+- **Perplexity citing TendorAI** in live answers — confirmed independently
+- **5.2 average citations per AI appearance** — higher than any competitor tracked
+
+A monitoring tool would report these numbers. TendorAI built the infrastructure that produced them.
+
+---
+
+## The One Thing Monitoring Cannot Fix
+
+The Perplexity query that highlighted this most clearly: "Find me a conveyancing solicitor in Cardiff with CQS accreditation and fixed fees under £1,000."
+
+Perplexity answered it without citing TendorAI — because the Cardiff solicitor profiles in TendorAI at that point were unclaimed SRA skeleton data with no fees and no accreditations filled in.
+
+A monitoring tool would have reported that gap. TendorAI fixes it the moment a firm claims their profile and adds that information.
+
+The product only works when the data is there. Getting firms to claim and complete their profiles is the entire sales motion. Once they do, TendorAI becomes the most citable source for that firm's specific, structured data — and monitoring tools start reporting TendorAI as a source.
+
+---
+
+## Summary
+
+| Platform type | What it does | Who it's for |
+|---|---|---|
+| **Monitoring tools** (Peec AI, OtterlyAI, Profound) | Track AI mentions, report gaps, give recommendations | Marketing teams with capacity to act |
+| **TendorAI** | Build and install the structured data AI needs, keep it synced | UK professional services firms who want it handled |
+
+TendorAI is not a monitoring tool. It is the infrastructure layer that monitoring tools measure.
+
+If you want to track your AI visibility, use Peec AI or OtterlyAI.
+
+If you want AI to recommend your firm by name — with your fees, your accreditations, and your specialisms — use TendorAI.
+
+---
+
+## Frequently Asked Questions
+
+**Does TendorAI track AI mentions?**
+Yes — Pro tier includes AI mention tracking and weekly visibility reports. But tracking is a feature, not the product. The product is the structured data infrastructure that generates those mentions in the first place.
+
+**Do I need technical knowledge to use TendorAI?**
+None. You complete your profile through a dashboard. On Pro tier, TendorAI installs the schema markup on your website — you provide the login and we handle everything else.
+
+**How is TendorAI different from an SEO agency?**
+SEO agencies optimise for Google. TendorAI optimises for AI recommendations. Agencies charge £1,500–£8,000/month and take 3–6 months to go live. TendorAI is £299/month and live within 48 hours.
+
+**Why is my firm already listed on TendorAI?**
+TendorAI pre-builds profiles from SRA, ICAEW, and FCA register data. Over 12,000 UK professional services firms are already listed. You claim your profile and complete it — the foundation is already there.
+
+**What happens when I update my dashboard?**
+Your TendorAI directory profile and your website schema both update automatically and simultaneously. You make one change. It propagates everywhere AI crawls.
+
+**Which AI platforms does TendorAI support?**
+ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews. All major AI platforms that crawl the web will index your structured data.
+
+---
+
+*TendorAI is the UK's AI Visibility Platform for professional services firms. Built on verified SRA, ICAEW, and FCA register data. [Check your AI Visibility — Free](https://www.tendorai.com/aeo-report)*
+`,
+  },
+  {
     slug: 'ai-visibility-crucial-solicitors-uk',
     title: 'Why AI Visibility Is Now Critical for UK Solicitors',
     excerpt: 'AI assistants are replacing Google as the first place clients look for a solicitor. If your firm isn\'t visible to ChatGPT, Perplexity, and Gemini, you\'re losing enquiries you\'ll never know about.',
