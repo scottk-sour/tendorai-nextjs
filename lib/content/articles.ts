@@ -12,6 +12,157 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-get-found-on-chatgpt-as-a-solicitor',
+    title: 'How to Get Found on ChatGPT as a Solicitor',
+    excerpt: 'Most solicitors are invisible to AI search. Learn how to get your firm recommended by ChatGPT, Perplexity and Gemini with seven practical steps.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 9,
+    publishedDate: '2026-03-16',
+    content: `**When a potential client types "recommend a family law solicitor in Manchester" into ChatGPT, the tool generates a list of firms it considers authoritative, well-reviewed, and relevant.** It does not search Google. It draws from training data, web browsing results, and sources it deems trustworthy — legal directories, regulatory registers, published articles, and structured website content.
+
+The response typically includes three to five firm names, a brief description of each, and sometimes a link. There is no paid placement. No ads. No map pack. **The AI decides who gets recommended based on the strength and clarity of your digital footprint.**
+
+A 2025 survey by the Legal Services Consumer Panel found that **33% of UK adults under 45 had used an AI tool to research a legal issue** in the previous twelve months. That number is climbing. If your firm does not appear in these responses, you are invisible to a growing share of your market.
+
+The difference between Google and AI search is simple. Google shows ten blue links and lets the user choose. **ChatGPT chooses for them.** It names specific firms. That makes visibility here extraordinarily valuable — and the absence of it a real commercial problem.
+
+---
+
+## Why Most Solicitors Are Invisible to AI Search
+
+The vast majority of UK law firms have websites built to rank on Google. That is a different job from getting cited by an AI assistant. Here is where the gap opens up.
+
+### Your Website Talks to Google, Not to AI
+
+Most solicitor websites are optimised for keywords, meta tags, and backlinks. That works for traditional search. But **AI tools prioritise content that directly answers questions** in clear, structured language. A page full of vague marketing copy about "our experienced team" gives ChatGPT nothing to cite.
+
+AI models favour content that reads like a reference source — specific, factual, and organised under clear headings. If your service pages do not explain what you do, where you do it, and who you do it for in plain terms, they get skipped.
+
+### Thin Directory Listings and Missing Structured Data
+
+Being listed on The Law Society's Find a Solicitor page is a start, but most solicitor directory profiles contain a firm name, address, and two lines of boilerplate. **AI tools weigh the depth and consistency of your mentions across directories.** A thin listing on five directories is worth less than a detailed, complete profile on two.
+
+Structured data (schema markup) on your own website helps AI tools understand your practice areas, locations, and credentials. Fewer than **15% of UK solicitor websites use structured data correctly**, according to a 2025 audit by BrightLocal.
+
+### No Authoritative Third-Party Mentions
+
+ChatGPT places significant weight on **third-party validation** — articles in legal press, mentions in guides, citations in professional publications. If the only place your firm name appears is your own website, AI tools have no independent signal to trust.
+
+A firm mentioned in a Legal 500 editorial, a Law Gazette article, or a local news story about a landmark case carries far more weight in AI recommendations than one with a polished website but no external footprint.
+
+---
+
+## How to Check if ChatGPT Already Recommends Your Firm
+
+Before changing anything, find out where you stand. **This takes five minutes and costs nothing.**
+
+Open ChatGPT (free version works) and enter these prompts:
+
+1. **"Recommend a [practice area] solicitor in [your city]"** — e.g. "Recommend a conveyancing solicitor in Cardiff"
+2. **"Who are the best solicitors for [practice area] in [region]?"** — e.g. "Who are the best employment law solicitors in Wales?"
+3. **"I need a solicitor for [specific problem] in [location]"** — e.g. "I need a solicitor for a disputed will in Birmingham"
+
+Run the same prompts in **Perplexity** (perplexity.ai) and **Google Gemini**. Each tool uses different sources and will give you a broader picture.
+
+**What to look for:**
+- Is your firm named? If yes, is the description accurate?
+- Which competitors appear instead of you?
+- Are the sources cited directories, articles, or websites you could influence?
+
+If your firm does not appear in any of these results, you have an AI visibility gap. That gap is where clients are going instead of coming to you.
+
+---
+
+## Seven Ways to Get Your Firm Recommended by AI
+
+### 1. Structure Your Website Content as Direct Answers
+
+Rewrite your key service pages so the first paragraph directly answers the question a client would ask. "What does a conveyancing solicitor do?" should be answered in the first two sentences of your conveyancing page — not buried under a paragraph about your firm's history.
+
+Use clear H2 and H3 headings that mirror natural questions. AI tools scan heading structures to identify relevant content. A page titled "Our Services" tells ChatGPT nothing. A page titled "Conveyancing Solicitors in Leeds — What We Do and What It Costs" tells it everything.
+
+### 2. Build Authority on Legal Directories and the SRA Register
+
+Complete every field on your Solicitors Regulation Authority profile. Add practice areas, languages spoken, and office locations. Do the same on The Law Society, Chambers, Legal 500, and any specialist directories for your practice areas.
+
+Consistency matters. Your firm name, address, and phone number must be identical across every listing. AI tools cross-reference these details. Discrepancies reduce confidence in your data and make recommendations less likely.
+
+### 3. Publish Practice-Area Guides That AI Tools Want to Cite
+
+Write long-form guides (1,500–2,500 words) on the specific legal issues your clients face. "How to Contest a Will in England and Wales" is the kind of content ChatGPT draws from when a user asks that exact question.
+
+Include current statistics, reference relevant legislation by name, and keep the language accessible. AI tools favour content that is both authoritative and readable — legal accuracy without legal jargon. Firms that publish one in-depth guide per month build topical authority faster than those running weekly 400-word news posts.
+
+### 4. Get Mentioned in Third-Party Articles and Legal Press
+
+Pitch commentary to the Law Gazette, local press, and legal blogs. Offer quotes on cases in the news. Write guest articles for professional publications. Each third-party mention creates an independent signal that AI tools use to validate your expertise.
+
+Digital PR for solicitors does not need to be complicated. One well-placed quote in a regional news story about changes to probate rules can carry more AI visibility weight than a year of social media posts.
+
+### 5. Add Structured Data to Your Key Pages
+
+Implement Article, LegalService, and Organization schema on your website. This markup helps AI tools parse your content accurately — identifying your practice areas, office locations, and professional credentials without ambiguity.
+
+Your web developer can add this in a few hours. If you use WordPress, plugins like Yoast or Rank Math handle the basics. The goal is to make your website machine-readable, not just human-readable.
+
+### 6. Optimise Your Google Business Profile for Local AI Results
+
+Your Google Business Profile feeds into Gemini's recommendations directly. Keep it updated with correct opening hours, practice areas listed as services, and regular posts about your work.
+
+Respond to every client review. A firm with 40 reviews and a 4.7 rating is significantly more likely to be cited by AI tools than one with 3 reviews and no responses. Reviews are social proof that AI models weigh heavily for local recommendations.
+
+### 7. Monitor Your AI Visibility and Track Changes
+
+AI recommendations change as models update and new content enters their training data. What ChatGPT says about your firm today may differ from what it says next month. You need a system for tracking this.
+
+Manual checks work at the start — run your test prompts monthly and record the results. But as AI search grows, manual monitoring becomes unsustainable across multiple tools and practice areas. This is where a purpose-built platform like [TendorAI](https://www.tendorai.com) saves time, tracking your firm's visibility across ChatGPT, Perplexity, and Gemini automatically.
+
+---
+
+## What Is Answer Engine Optimisation (AEO)?
+
+**Answer engine optimisation is the practice of structuring your online presence so AI tools recommend you by name.** It sits alongside traditional SEO but targets a different set of systems — ChatGPT, Perplexity, Gemini, and Copilot rather than Google's organic results.
+
+Where SEO focuses on ranking a webpage in a list of ten results, **AEO focuses on being the answer**. When someone asks an AI tool to recommend a solicitor, AEO determines whether your firm is one of the three or four names that come back.
+
+For solicitors, this distinction matters because **AI tools do not show ten options and let the user decide. They recommend specific firms.** Being recommended is a binary outcome — you are either named or you are not. There is no position seven.
+
+The techniques overlap with good SEO — clear content, structured data, authoritative backlinks — but the emphasis shifts. AEO prioritises **direct answers, entity recognition, and third-party validation** over keyword density and link volume. A firm that ranks fifth on Google for "divorce solicitor Leeds" might be the only firm ChatGPT recommends for the same query, or it might not appear at all. The two systems reward different signals.
+
+---
+
+## Frequently Asked Questions
+
+**Do I need to pay ChatGPT to recommend my firm?**
+No. There is no paid placement in ChatGPT's responses. Recommendations are based on the AI's assessment of your authority, relevance, and the quality of information available about your firm online. You cannot buy your way in.
+
+**How long does it take to appear in AI search results?**
+It depends on your starting position. Firms with strong directory profiles and published content can see changes within 4–8 weeks as AI tools crawl updated sources. Firms starting from scratch should expect 3–6 months of consistent work before reliable visibility.
+
+**Does this replace SEO for solicitors?**
+No. AEO complements SEO. Google still drives the majority of search traffic to solicitor websites. But the share going to AI tools is growing rapidly, and firms that ignore it now will face a harder catch-up later. The best strategy runs both in parallel.
+
+**Can I control what ChatGPT says about my firm?**
+Not directly. You can influence it by ensuring the information available about your firm online is accurate, detailed, and consistent. If ChatGPT is pulling incorrect details, improving your directory listings and website content is the most effective fix.
+
+**Which AI tools do clients actually use to find solicitors?**
+ChatGPT is the most widely used, followed by Google Gemini (built into Google search) and Perplexity. Microsoft Copilot also generates recommendations. Younger clients are more likely to use these tools, but adoption is broadening across all age groups.
+
+---
+
+## Start Tracking Your AI Visibility Today
+
+You now know how AI search works for solicitors and what it takes to get recommended. The gap between knowing and doing is where most firms stall.
+
+**[TendorAI](https://www.tendorai.com)** is built specifically for UK professional services firms that want to track and improve their AI visibility. It monitors how your firm appears across ChatGPT, Perplexity, and Gemini — across every practice area and location you serve — and tells you exactly where to focus.
+
+No guesswork. No manual prompt checking. Just a clear view of where you stand in AI search and what to do next.
+
+**[Check your firm's AI visibility free at tendorai.com →](https://www.tendorai.com)**`,
+    href: '/blog/how-to-get-found-on-chatgpt-as-a-solicitor',
+  },
+  {
     slug: 'tendorai-is-not-a-monitoring-tool',
     title: 'TendorAI Is Not a Monitoring Tool',
     excerpt: 'Most AI visibility platforms tell you the building is on fire. TendorAI puts the fire out. Here\'s the distinction that matters for every UK solicitor, accountant, and mortgage adviser.',
