@@ -324,13 +324,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const sc = report.searchedCompany || {};
   const breakdown = report.scoreBreakdown || {};
 
-  const [industryAvg, setIndustryAvg] = useState<{ vendorTypeLabel: string; average: number } | null>(null);
+  const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string } | null>(null);
 
   useEffect(() => {
     fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.success) setIndustryAvg({ vendorTypeLabel: data.vendorTypeLabel, average: data.average });
+        if (data.success) setIndustryAvg({ average: data.average, sampleSize: data.sampleSize, category: data.category });
       })
       .catch(() => {});
   }, [report.category]);
@@ -350,7 +350,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
           {industryAvg && (
             <p className="text-sm text-gray-500 mt-2">
-              The average UK {industryAvg.vendorTypeLabel} scores {industryAvg.average}. Top-performing businesses score 70+.
+              {industryAvg.average !== null
+                ? `The average score in your category is ${industryAvg.average}/100 (based on ${industryAvg.sampleSize} reports). Top-performing businesses score 70+.`
+                : 'Insufficient data for your category — average not yet available.'}
             </p>
           )}
 
