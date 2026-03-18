@@ -19,7 +19,8 @@ interface Gap {
 interface PlatformResult {
   platform: string;
   platformLabel: string;
-  mentioned: boolean;
+  mentioned: boolean | null;
+  status?: 'checked' | 'timeout' | 'error';
   position: number | null;
   snippet: string | null;
   competitors: string[];
@@ -223,8 +224,9 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, locked }: { result: PlatformResult; locked: boolean }) {
+function PlatformCard({ result, locked, onRetry, retrying }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean }) {
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
+  const isTimeout = result.status === 'timeout' || result.status === 'error';
 
   if (locked) {
     const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'pro', label: 'Pro', price: '\u00A3299/month' };
@@ -257,6 +259,50 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
     );
   }
 
+  // Timeout / error state — amber
+  if (isTimeout) {
+    return (
+      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">{meta.icon}</span>
+            <span className="font-bold text-gray-900">{result.platformLabel}</span>
+          </div>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">
+            !
+          </span>
+        </div>
+        <p className="text-sm text-amber-700 font-medium mb-2">
+          Check failed &mdash; {result.platformLabel} did not respond in time
+        </p>
+        {onRetry && (
+          <button
+            onClick={onRetry}
+            disabled={retrying}
+            className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {retrying ? (
+              <>
+                <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Retrying&hellip;
+              </>
+            ) : (
+              <>
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182" />
+                </svg>
+                Retry
+              </>
+            )}
+          </button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="flex items-center justify-between mb-3">
@@ -277,9 +323,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
         </div>
       </div>
 
-      {result.error ? (
-        <p className="text-xs text-gray-400 italic">Unable to query this platform</p>
-      ) : result.mentioned ? (
+      {result.mentioned ? (
         <>
           {result.snippet && (
             <p className="text-sm text-gray-600 mb-2 line-clamp-3">{result.snippet}</p>
@@ -299,7 +343,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
         </>
       ) : (
         <>
-          <p className="text-sm text-red-600 font-medium mb-2">Not mentioned by {result.platformLabel}</p>
+          <p className="text-sm text-red-600 font-medium mb-2">Not recommended by {result.platformLabel}</p>
           {result.competitors.length > 0 && (
             <div className="mt-1">
               <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
@@ -325,6 +369,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const breakdown = report.scoreBreakdown || {};
 
   const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string } | null>(null);
+  const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
+  const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
@@ -334,6 +380,25 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       })
       .catch(() => {});
   }, [report.category]);
+
+  const handleRetryPlatform = async (platform: string) => {
+    setRetryingPlatforms(prev => ({ ...prev, [platform]: true }));
+    try {
+      const resp = await fetch(`${API_URL}/api/public/aeo-report/${report._id}/retry-platform`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ platform }),
+      });
+      const data = await resp.json();
+      if (data.success && data.result) {
+        setPlatformOverrides(prev => ({ ...prev, [platform]: data.result }));
+      }
+    } catch {
+      // Retry failed silently — card stays in timeout state
+    } finally {
+      setRetryingPlatforms(prev => ({ ...prev, [platform]: false }));
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16 pb-20">
@@ -398,13 +463,20 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             gemini: 'Gemini', grok: 'Grok', meta: 'Meta AI',
           };
           const resultMap = new Map(report.platformResults.map(r => [r.platform, r]));
-          const orderedResults = ALL_PLATFORMS.map(p => resultMap.get(p) || {
-            platform: p, platformLabel: ALL_LABELS[p], mentioned: false,
-            position: null, snippet: null, competitors: [], error: 'Not queried',
+          const orderedResults = ALL_PLATFORMS.map(p => {
+            const override = platformOverrides[p];
+            if (override) return override;
+            return resultMap.get(p) || {
+              platform: p, platformLabel: ALL_LABELS[p], mentioned: false, status: 'checked' as const,
+              position: null, snippet: null, competitors: [], error: null,
+            };
           });
 
-          // Count mentions across ALL platforms (same source as the bar chart)
-          const mentionedCount = orderedResults.filter(r => r.mentioned && !r.error).length;
+          // Count only platforms that were successfully checked (exclude timeouts/errors)
+          const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
+          const mentionedCount = checkedResults.filter(r => r.mentioned).length;
+          const checkedCount = checkedResults.length;
+          const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
 
           return (
             <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
@@ -417,10 +489,15 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
                 <div className="flex-1">
                   <p className="text-lg font-bold text-gray-900">
-                    Mentioned by {mentionedCount} of 6 AI platforms
+                    Mentioned by {mentionedCount} of {checkedCount} platform{checkedCount !== 1 ? 's' : ''} checked
+                    {timeoutCount > 0 && (
+                      <span className="text-sm font-normal text-amber-600 ml-2">
+                        ({timeoutCount} did not respond)
+                      </span>
+                    )}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {mentionedCount === 0
+                    {mentionedCount === 0 && checkedCount > 0
                       ? 'No AI platform currently recommends your business.'
                       : mentionedCount <= 2
                         ? 'Your AI visibility is limited. Most platforms don\'t recommend you yet.'
@@ -430,15 +507,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   </p>
                 </div>
                 <div className="flex gap-1">
-                  {orderedResults.map((r, i) => (
-                    <div
-                      key={i}
-                      className={`w-3 h-8 rounded-full ${
-                        r.mentioned ? 'bg-green-500' : 'bg-red-300'
-                      }`}
-                      title={r.platformLabel}
-                    />
-                  ))}
+                  {orderedResults.map((r, i) => {
+                    const isTimeout = r.status === 'timeout' || r.status === 'error';
+                    return (
+                      <div
+                        key={i}
+                        className={`w-3 h-8 rounded-full ${
+                          isTimeout ? 'bg-amber-400' : r.mentioned ? 'bg-green-500' : 'bg-red-300'
+                        }`}
+                        title={r.platformLabel}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
@@ -449,6 +529,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     key={result.platform}
                     result={result as PlatformResult}
                     locked={!unlocked.includes(result.platform)}
+                    onRetry={
+                      (result.status === 'timeout' || result.status === 'error') && unlocked.includes(result.platform)
+                        ? () => handleRetryPlatform(result.platform)
+                        : undefined
+                    }
+                    retrying={retryingPlatforms[result.platform]}
                   />
                 ))}
               </div>
