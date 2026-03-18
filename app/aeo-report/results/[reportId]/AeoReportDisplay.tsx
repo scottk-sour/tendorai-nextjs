@@ -19,7 +19,8 @@ interface Gap {
 interface PlatformResult {
   platform: string;
   platformLabel: string;
-  mentioned: boolean;
+  mentioned: boolean | null;
+  status?: 'checked' | 'timeout' | 'error';
   position: number | null;
   snippet: string | null;
   competitors: string[];
@@ -60,6 +61,20 @@ interface Report {
   createdAt: string;
   platformResults?: PlatformResult[];
   tier?: string | null;
+  profileGaps?: {
+    gaps: Array<{
+      field: string;
+      label: string;
+      impact: string;
+      tier: 'free' | 'starter' | 'pro';
+    }>;
+    totalGaps: number;
+    totalFields: number;
+    completeFields: number;
+    hasProfile: boolean;
+    vendorType: string;
+    isClaimed: boolean;
+  };
 }
 
 interface Props {
@@ -117,7 +132,7 @@ function ScoreGauge({ score }: { score: number }) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg ref={ref} width="200" height="200" viewBox="0 0 200 200">
+      <svg ref={ref} className="w-full max-w-[200px]" viewBox="0 0 200 200" aria-label="AI visibility score gauge">
         {/* Background circle */}
         <circle
           cx="100" cy="100" r={radius}
@@ -223,11 +238,11 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, locked }: { result: PlatformResult; locked: boolean }) {
+function PlatformCard({ result, locked, onRetry, retrying, companyName }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean; companyName?: string }) {
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
+  const isTimeout = result.status === 'timeout' || result.status === 'error';
 
   if (locked) {
-    const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'pro', label: 'Pro', price: '\u00A3299/month' };
     return (
       <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
         {/* Blurred fake content */}
@@ -239,20 +254,64 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
           <p className="text-sm text-gray-500">AI platform analysis result placeholder text that is blurred out for this tier.</p>
         </div>
         {/* Lock overlay */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center">
-          <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-          </svg>
-          <p className="text-sm font-semibold text-gray-600 mb-1">
-            Unlock with {unlock.label} &mdash; {unlock.price}
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center px-4 text-center">
+          <span className="text-2xl mb-2">{meta.icon}</span>
+          <p className="text-sm font-bold text-gray-900 mb-1">
+            Is {companyName || 'your business'} recommended on {result.platformLabel}?
           </p>
+          <p className="text-xs text-gray-500 mb-3">Unlock to find out &mdash; &pound;299/month</p>
           <a
-            href={`/for-vendors?tier=${unlock.tier}#pricing`}
-            className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline"
+            href="/for-vendors#pricing"
+            className="inline-flex items-center px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors"
           >
-            View {unlock.label} plan &rarr;
+            Unlock
           </a>
+          <p className="text-[10px] text-gray-400 mt-2">Most firms recover this in a single client instruction.</p>
         </div>
+      </div>
+    );
+  }
+
+  // Timeout / error state — amber
+  if (isTimeout) {
+    return (
+      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">{meta.icon}</span>
+            <span className="font-bold text-gray-900">{result.platformLabel}</span>
+          </div>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">
+            !
+          </span>
+        </div>
+        <p className="text-sm text-amber-700 font-medium mb-2">
+          Check failed &mdash; {result.platformLabel} did not respond in time
+        </p>
+        {onRetry && (
+          <button
+            onClick={onRetry}
+            disabled={retrying}
+            className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {retrying ? (
+              <>
+                <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Retrying&hellip;
+              </>
+            ) : (
+              <>
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182" />
+                </svg>
+                Retry
+              </>
+            )}
+          </button>
+        )}
       </div>
     );
   }
@@ -277,9 +336,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
         </div>
       </div>
 
-      {result.error ? (
-        <p className="text-xs text-gray-400 italic">Unable to query this platform</p>
-      ) : result.mentioned ? (
+      {result.mentioned ? (
         <>
           {result.snippet && (
             <p className="text-sm text-gray-600 mb-2 line-clamp-3">{result.snippet}</p>
@@ -299,7 +356,7 @@ function PlatformCard({ result, locked }: { result: PlatformResult; locked: bool
         </>
       ) : (
         <>
-          <p className="text-sm text-red-600 font-medium mb-2">Not mentioned by {result.platformLabel}</p>
+          <p className="text-sm text-red-600 font-medium mb-2">Not recommended by {result.platformLabel}</p>
           {result.competitors.length > 0 && (
             <div className="mt-1">
               <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
@@ -324,21 +381,77 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const sc = report.searchedCompany || {};
   const breakdown = report.scoreBreakdown || {};
 
-  const [industryAvg, setIndustryAvg] = useState<{ vendorTypeLabel: string; average: number } | null>(null);
+  const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string } | null>(null);
+  const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
+  const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  const isFree = !report.tier || report.tier === 'free';
 
   useEffect(() => {
     fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.success) setIndustryAvg({ vendorTypeLabel: data.vendorTypeLabel, average: data.average });
+        if (data.success) setIndustryAvg({ average: data.average, sampleSize: data.sampleSize, category: data.category });
       })
       .catch(() => {});
   }, [report.category]);
 
+  useEffect(() => {
+    if (!isFree || !heroRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, [isFree]);
+
+  const handleRetryPlatform = async (platform: string) => {
+    setRetryingPlatforms(prev => ({ ...prev, [platform]: true }));
+    try {
+      const resp = await fetch(`${API_URL}/api/public/aeo-report/${report._id}/retry-platform`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ platform }),
+      });
+      const data = await resp.json();
+      if (data.success && data.result) {
+        setPlatformOverrides(prev => ({ ...prev, [platform]: data.result }));
+      }
+    } catch {
+      // Retry failed silently — card stays in timeout state
+    } finally {
+      setRetryingPlatforms(prev => ({ ...prev, [platform]: false }));
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 pt-16 pb-20">
+      {/* Sticky upgrade bar — free tier only, visible after scrolling past hero */}
+      {isFree && (
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 bg-purple-700 text-white transition-transform duration-300 ${
+            showStickyBar ? 'translate-y-0' : '-translate-y-full'
+          }`}
+        >
+          <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
+            <p className="text-sm font-medium">
+              Unlock all 6 AI platforms + weekly tracking &mdash; &pound;299/month
+            </p>
+            <a
+              href="/for-vendors#pricing"
+              className="flex-shrink-0 inline-flex items-center px-4 py-1.5 bg-white text-purple-700 text-sm font-bold rounded-lg hover:bg-purple-50 transition-colors"
+            >
+              Upgrade to Pro
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* Hero / Score Section */}
-      <section className="bg-white border-b">
+      <section ref={heroRef} className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">AI Visibility Report</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{report.companyName}</h1>
@@ -350,7 +463,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
           {industryAvg && (
             <p className="text-sm text-gray-500 mt-2">
-              The average UK {industryAvg.vendorTypeLabel} scores {industryAvg.average}. Top-performing businesses score 70+.
+              {industryAvg.average !== null
+                ? `The average score in your category is ${industryAvg.average}/100 (based on ${industryAvg.sampleSize} reports). Top-performing businesses score 70+.`
+                : 'Insufficient data for your category — average not yet available.'}
             </p>
           )}
 
@@ -373,7 +488,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
               { label: 'Gaps Identified', value: String(report.gaps.length) },
             ].map((stat) => (
-              <div key={stat.label} className="bg-gray-50 rounded-lg p-3">
+              <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4">
                 <p className="text-xl font-bold text-[#1B4F72]">{stat.value}</p>
                 <p className="text-xs text-gray-500">{stat.label}</p>
               </div>
@@ -396,17 +511,24 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             gemini: 'Gemini', grok: 'Grok', meta: 'Meta AI',
           };
           const resultMap = new Map(report.platformResults.map(r => [r.platform, r]));
-          const orderedResults = ALL_PLATFORMS.map(p => resultMap.get(p) || {
-            platform: p, platformLabel: ALL_LABELS[p], mentioned: false,
-            position: null, snippet: null, competitors: [], error: 'Not queried',
+          const orderedResults = ALL_PLATFORMS.map(p => {
+            const override = platformOverrides[p];
+            if (override) return override;
+            return resultMap.get(p) || {
+              platform: p, platformLabel: ALL_LABELS[p], mentioned: false, status: 'checked' as const,
+              position: null, snippet: null, competitors: [], error: null,
+            };
           });
 
-          // Count mentions across ALL platforms (same source as the bar chart)
-          const mentionedCount = orderedResults.filter(r => r.mentioned && !r.error).length;
+          // Count only platforms that were successfully checked (exclude timeouts/errors)
+          const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
+          const mentionedCount = checkedResults.filter(r => r.mentioned).length;
+          const checkedCount = checkedResults.length;
+          const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
 
           return (
-            <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-1">AI Platform Results</h2>
+            <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">AI Platform Results</h2>
               <p className="text-sm text-gray-500 mb-4">
                 We asked 6 major AI platforms to recommend a business like yours in {report.city}.
               </p>
@@ -415,10 +537,15 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
                 <div className="flex-1">
                   <p className="text-lg font-bold text-gray-900">
-                    Mentioned by {mentionedCount} of 6 AI platforms
+                    Mentioned by {mentionedCount} of {checkedCount} platform{checkedCount !== 1 ? 's' : ''} checked
+                    {timeoutCount > 0 && (
+                      <span className="text-sm font-normal text-amber-600 ml-2">
+                        ({timeoutCount} did not respond)
+                      </span>
+                    )}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {mentionedCount === 0
+                    {mentionedCount === 0 && checkedCount > 0
                       ? 'No AI platform currently recommends your business.'
                       : mentionedCount <= 2
                         ? 'Your AI visibility is limited. Most platforms don\'t recommend you yet.'
@@ -428,15 +555,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   </p>
                 </div>
                 <div className="flex gap-1">
-                  {orderedResults.map((r, i) => (
-                    <div
-                      key={i}
-                      className={`w-3 h-8 rounded-full ${
-                        r.mentioned ? 'bg-green-500' : 'bg-red-300'
-                      }`}
-                      title={r.platformLabel}
-                    />
-                  ))}
+                  {orderedResults.map((r, i) => {
+                    const isTimeout = r.status === 'timeout' || r.status === 'error';
+                    return (
+                      <div
+                        key={i}
+                        className={`w-3 h-8 rounded-full ${
+                          isTimeout ? 'bg-amber-400' : r.mentioned ? 'bg-green-500' : 'bg-red-300'
+                        }`}
+                        title={r.platformLabel}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
@@ -447,31 +577,47 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     key={result.platform}
                     result={result as PlatformResult}
                     locked={!unlocked.includes(result.platform)}
+                    companyName={report.companyName}
+                    onRetry={
+                      (result.status === 'timeout' || result.status === 'error') && unlocked.includes(result.platform)
+                        ? () => handleRetryPlatform(result.platform)
+                        : undefined
+                    }
+                    retrying={retryingPlatforms[result.platform]}
                   />
                 ))}
               </div>
 
-              {/* Upgrade nudge when not on Pro */}
-              {tier !== 'pro' && (
-                <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
-                  <p className="text-sm text-purple-800 font-medium mb-2">
-                    You&apos;re seeing {unlocked.length} of 6 platform results. Upgrade to unlock all AI platform data.
-                  </p>
-                  <a
-                    href="/for-vendors#pricing"
-                    className="inline-block px-5 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    See Plans
-                  </a>
-                </div>
-              )}
             </section>
           );
         })()}
 
+        {/* Pro CTA — immediately after platform results (highest-value upgrade moment) */}
+        {isFree && report.category !== 'other' && (
+          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">
+              You&apos;re only seeing 1 of 6 AI platforms
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
+              Grok and Meta AI right now. Pro shows you all of them, plus weekly tracking so you
+              know the moment your visibility changes.
+            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <a
+                href="/for-vendors#pricing"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Upgrade to Pro &mdash; &pound;299/month
+              </a>
+              <p className="text-xs text-gray-500">Most firms recover this in a single client instruction.</p>
+            </div>
+          </section>
+        )}
+
         {/* What AI Knows */}
-        <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">What AI Knows About You</h2>
+        <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">What AI Knows About You</h2>
           <p className="text-sm text-gray-500 mb-6">
             {sc.summary || 'Limited information was found about your company online.'}
           </p>
@@ -521,7 +667,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         </section>
 
         {/* SEO vs AEO Education */}
-        <section className="mt-8 bg-blue-50 rounded-xl border border-blue-100 p-6 sm:p-8">
+        <section className="mt-8 bg-blue-50 rounded-xl border border-blue-100 p-4 sm:p-6">
           <div className="flex items-start gap-3 mb-3">
             <svg className="w-6 h-6 text-[#1B4F72] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
@@ -550,7 +696,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         </section>
 
         {/* Score Breakdown */}
-        <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Score Breakdown</h3>
           <BreakdownBar label="Website Optimisation" score={breakdown.websiteOptimisation || 0} />
           <BreakdownBar label="Content Authority" score={breakdown.contentAuthority || 0} />
@@ -561,8 +707,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         </section>
 
         {/* Who AI Recommends Instead */}
-        <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Who AI Recommends Instead</h2>
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Who AI Recommends Instead</h2>
           <p className="text-sm text-gray-500 mb-6">
             {report.aiMentioned
               ? `These companies appear alongside or ahead of you when buyers ask AI for ${report.category} suppliers in ${report.city}.`
@@ -571,8 +717,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
           <div className="space-y-6">
             {report.competitors.map((comp, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm">
+              <div key={i} className="flex gap-4 p-3 sm:p-4">
+                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm">
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -604,8 +750,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         </section>
 
         {/* Your Gaps */}
-        <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
           <p className="text-sm text-gray-500 mb-6">
             These are the specific reasons AI tools are not recommending your business.
           </p>
@@ -638,9 +784,115 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
+        {/* Profile Gaps */}
+        {report.profileGaps?.hasProfile && report.profileGaps.totalGaps > 0 && (() => {
+          const pg = report.profileGaps;
+          const pct = Math.round((pg.completeFields / pg.totalFields) * 100);
+          const VERTICAL_LABELS: Record<string, string> = {
+            solicitor: 'solicitor', accountant: 'accountant',
+            'mortgage-advisor': 'mortgage adviser', 'estate-agent': 'estate agent',
+            'office-equipment': 'office equipment',
+          };
+          const verticalLabel = VERTICAL_LABELS[pg.vendorType] || pg.vendorType;
+          const freeGapCount = pg.gaps.filter(g => g.tier === 'free').length;
+
+          return (
+            <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-start justify-between gap-4 mb-1">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">Profile Gaps &mdash; Why AI Can&apos;t Fully Recommend You</h2>
+                  <span className="flex-shrink-0 text-sm font-semibold text-gray-500">
+                    {pg.completeFields}/{pg.totalFields} fields complete
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mb-5">
+                  Your TendorAI profile is missing {pg.totalGaps} field{pg.totalGaps !== 1 ? 's' : ''} that AI uses to recommend {verticalLabel} firms.
+                </p>
+
+                {/* Progress bar */}
+                <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden mb-6">
+                  <div
+                    className="h-full rounded-full bg-[#1B4F72] transition-all duration-700"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+
+                {/* Gap list */}
+                <div className="space-y-4">
+                  {pg.gaps.map((gap, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-500 text-xs font-bold">
+                        &#10007;
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-gray-900 text-sm">{gap.label}</p>
+                          {gap.tier === 'free' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">
+                              Fix free
+                            </span>
+                          )}
+                          {gap.tier === 'pro' && (
+                            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700">
+                              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                              </svg>
+                              Pro
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-0.5">{gap.impact}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="bg-blue-50 border-t border-blue-100 p-6 sm:px-8">
+                {!pg.isClaimed ? (
+                  <>
+                    <p className="text-sm text-gray-700 mb-4">
+                      Claim your free profile to fix {freeGapCount} free gap{freeGapCount !== 1 ? 's' : ''} now.
+                      Upgrade to Pro and we install everything on your website within 48 hours.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/vendor-signup"
+                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#1B4F72] text-white text-sm font-semibold rounded-lg hover:bg-[#163d5a] transition-colors"
+                      >
+                        Claim Your Profile &mdash; Free
+                      </Link>
+                      <a
+                        href="/for-vendors#pricing"
+                        className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                      >
+                        Upgrade to Pro &mdash; &pound;299/month
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-700 mb-4">
+                      You&apos;ve completed {pg.completeFields} of {pg.totalFields} fields.
+                      Fix the remaining {pg.totalGaps} to maximise your AI recommendations.
+                    </p>
+                    <Link
+                      href="/vendor-dashboard/settings"
+                      className="inline-flex items-center justify-center px-5 py-2.5 bg-[#1B4F72] text-white text-sm font-semibold rounded-lg hover:bg-[#163d5a] transition-colors"
+                    >
+                      Complete Your Profile
+                    </Link>
+                  </>
+                )}
+              </div>
+            </section>
+          );
+        })()}
+
         {/* The Shift */}
-        <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility (AEO)</h2>
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility (AEO)</h2>
           <div className="mt-4 space-y-6 text-sm text-gray-600">
             <div>
               <h3 className="font-bold text-gray-900 mb-2">Buyers Are Changing How They Search</h3>
@@ -681,9 +933,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     ['Timeline', 'Established since 1990s', 'Emerging since 2023'],
                   ].map(([label, seo, aeo], i) => (
                     <tr key={i} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                      <td className="p-3 font-semibold text-gray-900">{label}</td>
-                      <td className="p-3 text-gray-500">{seo}</td>
-                      <td className="p-3 font-semibold text-[#1B4F72]">{aeo}</td>
+                      <td className="p-3 text-xs sm:text-sm font-semibold text-gray-900">{label}</td>
+                      <td className="p-3 text-xs sm:text-sm text-gray-500">{seo}</td>
+                      <td className="p-3 text-xs sm:text-sm font-semibold text-[#1B4F72]">{aeo}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -715,16 +967,20 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Want to improve this score?</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  See all 6 AI platforms + weekly tracking
+                </h3>
                 <p className="text-gray-600">
-                  TendorAI Pro includes AI-optimised data installed directly on your website. We handle everything &mdash; you just provide your login. Agencies charge &pound;1,500+/month for this.
+                  {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
+                  Grok and Meta AI right now. Pro shows you all of them and tracks changes weekly.
                 </p>
+                <p className="text-xs text-gray-500 mt-2">Most firms recover this in a single client instruction.</p>
               </div>
               <a
                 href="/for-vendors#pricing"
                 className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
               >
-                Learn about Pro
+                Upgrade to Pro &mdash; &pound;299/mo
               </a>
             </div>
           </section>
