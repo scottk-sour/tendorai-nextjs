@@ -119,30 +119,24 @@ function SpeedFixWizard({
       {/* Fix steps */}
       <div className="bg-purple-50 rounded-lg p-3">
         <p className="text-xs font-semibold text-purple-900 mb-2">How to reduce HTML size:</p>
-        <ol className="space-y-2">
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">1.</span>
-            <span><strong>Remove inline CSS</strong> and move styles to a separate stylesheet. Inline CSS means style rules written directly in your HTML tags (e.g. <code className="text-[11px] bg-white px-1 rounded">style=&quot;color:red&quot;</code>) — these bloat the HTML file.</span>
+        <ol className="space-y-2 list-decimal list-inside marker:font-bold marker:text-purple-500">
+          <li className="text-xs text-purple-800">
+            <strong>Remove inline CSS</strong> and move styles to a separate stylesheet. Inline CSS means style rules written directly in your HTML tags (e.g. <code className="text-[11px] bg-white px-1 rounded">style=&quot;color:red&quot;</code>) — these bloat the HTML file.
           </li>
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">2.</span>
-            <span><strong>Remove inline JavaScript</strong> and move scripts to external .js files. Large script blocks inside your HTML add significant weight.</span>
+          <li className="text-xs text-purple-800">
+            <strong>Remove inline JavaScript</strong> and move scripts to external .js files. Large script blocks inside your HTML add significant weight.
           </li>
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">3.</span>
-            <span><strong>Minify your HTML</strong> — remove comments, extra whitespace, and line breaks. Use a free tool like <a href="https://www.willpeavy.com/tools/minifier/" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">willpeavy.com/tools/minifier</a>.</span>
+          <li className="text-xs text-purple-800">
+            <strong>Minify your HTML</strong> — remove comments, extra whitespace, and line breaks. Use a free tool like <a href="https://www.willpeavy.com/tools/minifier/" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">willpeavy.com/tools/minifier</a>.
           </li>
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">4.</span>
-            <span><strong>Check for tracking script bloat</strong> — tag managers (Google Tag Manager, HubSpot, etc.) often inject large blocks of HTML. Review what&apos;s being pasted directly into your page.</span>
+          <li className="text-xs text-purple-800">
+            <strong>Check for tracking script bloat</strong> — tag managers (Google Tag Manager, HubSpot, etc.) often inject large blocks of HTML. Review what&apos;s being pasted directly into your page.
           </li>
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">5.</span>
-            <span><strong>If on WordPress</strong>, install <strong>WP Rocket</strong> or <strong>Autoptimize</strong> — both can minify and defer HTML/CSS/JS automatically.</span>
+          <li className="text-xs text-purple-800">
+            <strong>If on WordPress</strong>, install <strong>WP Rocket</strong> or <strong>Autoptimize</strong> — both can minify and defer HTML/CSS/JS automatically.
           </li>
-          <li className="text-xs text-purple-800 flex gap-2">
-            <span className="font-bold text-purple-500 flex-shrink-0">6.</span>
-            <span>Run a full page speed test at <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">pagespeed.web.dev</a> to identify the biggest issues across your whole page.</span>
+          <li className="text-xs text-purple-800">
+            Run a full page speed test at <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">pagespeed.web.dev</a> to identify the biggest issues across your whole page.
           </li>
         </ol>
       </div>
