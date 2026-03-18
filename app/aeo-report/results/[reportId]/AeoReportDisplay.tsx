@@ -224,12 +224,11 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, locked, onRetry, retrying }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean }) {
+function PlatformCard({ result, locked, onRetry, retrying, companyName }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean; companyName?: string }) {
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
   const isTimeout = result.status === 'timeout' || result.status === 'error';
 
   if (locked) {
-    const unlock = PLATFORM_UNLOCK_TIER[result.platform] || { tier: 'pro', label: 'Pro', price: '\u00A3299/month' };
     return (
       <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
         {/* Blurred fake content */}
@@ -241,19 +240,19 @@ function PlatformCard({ result, locked, onRetry, retrying }: { result: PlatformR
           <p className="text-sm text-gray-500">AI platform analysis result placeholder text that is blurred out for this tier.</p>
         </div>
         {/* Lock overlay */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center">
-          <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-          </svg>
-          <p className="text-sm font-semibold text-gray-600 mb-1">
-            Unlock with {unlock.label} &mdash; {unlock.price}
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center px-4 text-center">
+          <span className="text-2xl mb-2">{meta.icon}</span>
+          <p className="text-sm font-bold text-gray-900 mb-1">
+            Is {companyName || 'your business'} recommended on {result.platformLabel}?
           </p>
+          <p className="text-xs text-gray-500 mb-3">Unlock to find out &mdash; &pound;299/month</p>
           <a
-            href={`/for-vendors?tier=${unlock.tier}#pricing`}
-            className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline"
+            href="/for-vendors#pricing"
+            className="inline-flex items-center px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors"
           >
-            View {unlock.label} plan &rarr;
+            Unlock
           </a>
+          <p className="text-[10px] text-gray-400 mt-2">Most firms recover this in a single client instruction.</p>
         </div>
       </div>
     );
@@ -371,6 +370,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string } | null>(null);
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  const isFree = !report.tier || report.tier === 'free';
 
   useEffect(() => {
     fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
@@ -380,6 +383,16 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       })
       .catch(() => {});
   }, [report.category]);
+
+  useEffect(() => {
+    if (!isFree || !heroRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, [isFree]);
 
   const handleRetryPlatform = async (platform: string) => {
     setRetryingPlatforms(prev => ({ ...prev, [platform]: true }));
@@ -402,8 +415,29 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16 pb-20">
+      {/* Sticky upgrade bar — free tier only, visible after scrolling past hero */}
+      {isFree && (
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 bg-purple-700 text-white transition-transform duration-300 ${
+            showStickyBar ? 'translate-y-0' : '-translate-y-full'
+          }`}
+        >
+          <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
+            <p className="text-sm font-medium">
+              Unlock all 6 AI platforms + weekly tracking &mdash; &pound;299/month
+            </p>
+            <a
+              href="/for-vendors#pricing"
+              className="flex-shrink-0 inline-flex items-center px-4 py-1.5 bg-white text-purple-700 text-sm font-bold rounded-lg hover:bg-purple-50 transition-colors"
+            >
+              Upgrade to Pro
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* Hero / Score Section */}
-      <section className="bg-white border-b">
+      <section ref={heroRef} className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">AI Visibility Report</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{report.companyName}</h1>
@@ -529,6 +563,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     key={result.platform}
                     result={result as PlatformResult}
                     locked={!unlocked.includes(result.platform)}
+                    companyName={report.companyName}
                     onRetry={
                       (result.status === 'timeout' || result.status === 'error') && unlocked.includes(result.platform)
                         ? () => handleRetryPlatform(result.platform)
@@ -539,23 +574,32 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 ))}
               </div>
 
-              {/* Upgrade nudge when not on Pro */}
-              {tier !== 'pro' && (
-                <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
-                  <p className="text-sm text-purple-800 font-medium mb-2">
-                    You&apos;re seeing {unlocked.length} of 6 platform results. Upgrade to unlock all AI platform data.
-                  </p>
-                  <a
-                    href="/for-vendors#pricing"
-                    className="inline-block px-5 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    See Plans
-                  </a>
-                </div>
-              )}
             </section>
           );
         })()}
+
+        {/* Pro CTA — immediately after platform results (highest-value upgrade moment) */}
+        {isFree && report.category !== 'other' && (
+          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">
+              You&apos;re only seeing 1 of 6 AI platforms
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
+              Grok and Meta AI right now. Pro shows you all of them, plus weekly tracking so you
+              know the moment your visibility changes.
+            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <a
+                href="/for-vendors#pricing"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Upgrade to Pro &mdash; &pound;299/month
+              </a>
+              <p className="text-xs text-gray-500">Most firms recover this in a single client instruction.</p>
+            </div>
+          </section>
+        )}
 
         {/* What AI Knows */}
         <section className="mt-10 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
@@ -803,16 +847,20 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Want to improve this score?</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  See all 6 AI platforms + weekly tracking
+                </h3>
                 <p className="text-gray-600">
-                  TendorAI Pro includes AI-optimised data installed directly on your website. We handle everything &mdash; you just provide your login. Agencies charge &pound;1,500+/month for this.
+                  {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
+                  Grok and Meta AI right now. Pro shows you all of them and tracks changes weekly.
                 </p>
+                <p className="text-xs text-gray-500 mt-2">Most firms recover this in a single client instruction.</p>
               </div>
               <a
                 href="/for-vendors#pricing"
                 className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
               >
-                Learn about Pro
+                Upgrade to Pro &mdash; &pound;299/mo
               </a>
             </div>
           </section>
