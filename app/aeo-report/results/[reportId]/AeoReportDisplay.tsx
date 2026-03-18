@@ -1228,7 +1228,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>
               <p className="text-xs text-gray-500 mt-1">Most firms recover this in a single client instruction.</p>
-              <p className="text-[10px] text-gray-400 mt-1 italic">30-day guarantee &mdash; if your AI visibility score doesn&apos;t improve, we&apos;ll refund you in full. No questions asked.</p>
+              <p className="text-[10px] text-gray-400 mt-1 italic">90-day guarantee &mdash; if your AI visibility score doesn&apos;t improve, we&apos;ll refund you in full. No questions asked.</p>
               <a
                 href="https://www.tendorai.com/vendor-signup?tier=pro"
                 className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"
