@@ -33,6 +33,268 @@ interface AeoAuditCardProps {
   vendorWebsite: string;
 }
 
+const ALL_SOCIALS = ['Facebook', 'Twitter/X', 'LinkedIn', 'Instagram', 'YouTube'];
+
+function parseMissingSocials(details: string): string[] {
+  if (!details || details === 'No social media links detected') return ALL_SOCIALS;
+  const foundMatch = details.match(/^Found:\s*(.+)$/i);
+  if (!foundMatch) return ALL_SOCIALS;
+  const found = foundMatch[1].split(',').map(s => s.trim().toLowerCase());
+  return ALL_SOCIALS.filter(s => !found.some(f => f === s.toLowerCase()));
+}
+
+const SOCIAL_PLACEHOLDER_URLS: Record<string, string> = {
+  Facebook: 'https://facebook.com/YOUR_PAGE',
+  'Twitter/X': 'https://x.com/YOUR_HANDLE',
+  LinkedIn: 'https://linkedin.com/company/YOUR_COMPANY',
+  Instagram: 'https://instagram.com/YOUR_HANDLE',
+  YouTube: 'https://youtube.com/@YOUR_CHANNEL',
+};
+
+const PLATFORM_INSTRUCTIONS: Record<string, string[]> = {
+  WordPress: [
+    'Log in to your WordPress admin dashboard.',
+    'Go to Appearance > Widgets (or Appearance > Customize > Widgets).',
+    'Find the footer widget area and add a "Social Icons" or "Custom HTML" widget.',
+    'If your theme has a social media settings page (many do), check Appearance > Theme Options or Customize > Social Links.',
+    'Add the URL for each missing platform and save.',
+  ],
+  Wix: [
+    'Open the Wix Editor for your site.',
+    'Click Add (+) in the left toolbar.',
+    'Search for "Social Bar" and drag it into your footer or header.',
+    'Click the social bar to edit — add icons for each missing platform.',
+    'Paste your profile URLs and publish.',
+  ],
+  Squarespace: [
+    'Log in to your Squarespace dashboard.',
+    'Go to Pages and click the footer area (or Design > Site Styles > Footer).',
+    'Add a Social Links block — click Add Block > Social Links.',
+    'In the block settings, add each missing platform with your profile URL.',
+    'Save and publish your changes.',
+  ],
+  Webflow: [
+    'Open your site in the Webflow Designer.',
+    'Navigate to your footer section (or the global symbol if you use one).',
+    'Add a Link Block or Text Link element for each missing platform.',
+    'Set the URL to your profile page and add an aria-label for accessibility.',
+    'Publish your site to make the changes live.',
+  ],
+};
+
+function SpeedFixWizard({
+  details,
+  score,
+  onRerun,
+  loading,
+}: {
+  details: string;
+  score: number;
+  onRerun: () => void;
+  loading: boolean;
+}) {
+  const kbMatch = details.match(/(\d+)KB/);
+  const sizeKb = kbMatch ? parseInt(kbMatch[1], 10) : null;
+
+  const severity = score >= 8
+    ? "You're close — minor tweaks will get you to 10/10"
+    : score >= 5
+      ? "Acceptable but improvable — here's what to do"
+      : 'Your HTML is heavy — this needs attention';
+
+  const severityColour = score >= 8 ? 'text-green-700 bg-green-50' : score >= 5 ? 'text-amber-700 bg-amber-50' : 'text-red-700 bg-red-50';
+
+  return (
+    <div className="mt-3 space-y-3">
+      {/* Size + target */}
+      {sizeKb !== null && (
+        <p className="text-sm font-semibold text-gray-900">
+          Your page HTML is {sizeKb}KB &mdash; the target is under 100KB
+        </p>
+      )}
+
+      {/* Severity */}
+      <p className={`text-xs font-medium rounded p-2 ${severityColour}`}>{severity}</p>
+
+      {/* Fix steps */}
+      <div className="bg-purple-50 rounded-lg p-3">
+        <p className="text-xs font-semibold text-purple-900 mb-2">How to reduce HTML size:</p>
+        <ol className="space-y-2">
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">1.</span>
+            <span><strong>Remove inline CSS</strong> and move styles to a separate stylesheet. Inline CSS means style rules written directly in your HTML tags (e.g. <code className="text-[11px] bg-white px-1 rounded">style=&quot;color:red&quot;</code>) — these bloat the HTML file.</span>
+          </li>
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">2.</span>
+            <span><strong>Remove inline JavaScript</strong> and move scripts to external .js files. Large script blocks inside your HTML add significant weight.</span>
+          </li>
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">3.</span>
+            <span><strong>Minify your HTML</strong> — remove comments, extra whitespace, and line breaks. Use a free tool like <a href="https://www.willpeavy.com/tools/minifier/" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">willpeavy.com/tools/minifier</a>.</span>
+          </li>
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">4.</span>
+            <span><strong>Check for tracking script bloat</strong> — tag managers (Google Tag Manager, HubSpot, etc.) often inject large blocks of HTML. Review what&apos;s being pasted directly into your page.</span>
+          </li>
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">5.</span>
+            <span><strong>If on WordPress</strong>, install <strong>WP Rocket</strong> or <strong>Autoptimize</strong> — both can minify and defer HTML/CSS/JS automatically.</span>
+          </li>
+          <li className="text-xs text-purple-800 flex gap-2">
+            <span className="font-bold text-purple-500 flex-shrink-0">6.</span>
+            <span>Run a full page speed test at <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700">pagespeed.web.dev</a> to identify the biggest issues across your whole page.</span>
+          </li>
+        </ol>
+      </div>
+
+      {/* Note */}
+      <p className="text-[10px] text-gray-500">
+        Note: this score only measures your HTML file size. Images, CSS and JavaScript are not included in this check.
+      </p>
+
+      {/* Re-run button */}
+      <button
+        onClick={onRerun}
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        {loading ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            Re-running audit...
+          </>
+        ) : (
+          'Mark as done & re-run audit'
+        )}
+      </button>
+    </div>
+  );
+}
+
+function SocialFixWizard({
+  details,
+  platform,
+  setPlatform,
+  onRerun,
+  loading,
+}: {
+  details: string;
+  platform: string | null;
+  setPlatform: (p: string | null) => void;
+  onRerun: () => void;
+  loading: boolean;
+}) {
+  const [snippetCopied, setSnippetCopied] = useState(false);
+  const missing = parseMissingSocials(details);
+
+  if (missing.length === 0) return null;
+
+  const snippet = missing
+    .map(s => `<a href="${SOCIAL_PLACEHOLDER_URLS[s]}" target="_blank" rel="noopener noreferrer">${s}</a>`)
+    .join('\n');
+
+  const copySnippet = async () => {
+    try {
+      await navigator.clipboard.writeText(snippet);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = snippet;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setSnippetCopied(true);
+    setTimeout(() => setSnippetCopied(false), 2000);
+  };
+
+  return (
+    <div className="mt-3 space-y-3">
+      {/* Missing platforms */}
+      <div>
+        <p className="text-xs font-semibold text-gray-700 mb-1.5">Missing from your site:</p>
+        <div className="flex flex-wrap gap-1.5">
+          {missing.map(s => (
+            <span key={s} className="px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-700">{s}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Platform selection */}
+      <div>
+        <p className="text-xs font-semibold text-gray-700 mb-1.5">What platform is your website built on?</p>
+        <div className="flex flex-wrap gap-2">
+          {['WordPress', 'Wix', 'Squarespace', 'Webflow', 'Other'].map(p => (
+            <button
+              key={p}
+              onClick={() => setPlatform(platform === p ? null : p)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+                platform === p
+                  ? 'bg-purple-600 text-white border-purple-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              {p === 'Other' ? 'Other / Send to developer' : p}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Instructions for CMS platforms */}
+      {platform && platform !== 'Other' && PLATFORM_INSTRUCTIONS[platform] && (
+        <div className="bg-purple-50 rounded-lg p-3">
+          <p className="text-xs font-semibold text-purple-900 mb-2">How to add social links in {platform}:</p>
+          <ol className="space-y-1.5">
+            {PLATFORM_INSTRUCTIONS[platform].map((step, i) => (
+              <li key={i} className="text-xs text-purple-800 flex gap-2">
+                <span className="font-bold text-purple-500 flex-shrink-0">{i + 1}.</span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      {/* HTML snippet for Other / developer */}
+      {platform === 'Other' && (
+        <div className="bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-semibold text-gray-700">Copy this HTML and send to your developer:</p>
+            <button
+              onClick={copySnippet}
+              className="text-xs text-purple-600 hover:text-purple-700 font-medium"
+            >
+              {snippetCopied ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+          <pre className="text-xs bg-white border border-gray-200 rounded p-2 overflow-x-auto font-mono text-gray-800 whitespace-pre-wrap">
+            {snippet}
+          </pre>
+          <p className="text-[10px] text-gray-500 mt-1.5">Replace the placeholder URLs with your actual profile links. Add this to your website footer.</p>
+        </div>
+      )}
+
+      {/* Re-run button */}
+      {platform && (
+        <button
+          onClick={onRerun}
+          disabled={loading}
+          className="w-full px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Re-running audit...
+            </>
+          ) : (
+            'Mark as done & re-run audit'
+          )}
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCardProps) {
   const [url, setUrl] = useState(vendorWebsite || '');
   const [loading, setLoading] = useState(false);
@@ -43,6 +305,7 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
   const [error, setError] = useState<string | null>(null);
   const [rateLimitMsg, setRateLimitMsg] = useState<string | null>(null);
   const [expandedCheck, setExpandedCheck] = useState<string | null>(null);
+  const [socialPlatform, setSocialPlatform] = useState<string | null>(null);
 
   const isPaid = hasTierAccess(tier, 'starter');
 
@@ -323,11 +586,26 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
                   {expandedCheck === check.key && (
                     <div className="px-3 pb-3 border-t border-gray-100">
                       <p className="text-sm text-gray-600 mt-2">{check.details}</p>
-                      {check.recommendation && (
+                      {check.key === 'speed' && check.score < 10 ? (
+                        <SpeedFixWizard
+                          details={check.details}
+                          score={check.score}
+                          onRerun={() => { runAudit(); setExpandedCheck(null); }}
+                          loading={loading}
+                        />
+                      ) : check.key === 'social' && check.score < 10 ? (
+                        <SocialFixWizard
+                          details={check.details}
+                          platform={socialPlatform}
+                          setPlatform={setSocialPlatform}
+                          onRerun={() => { runAudit(); setExpandedCheck(null); setSocialPlatform(null); }}
+                          loading={loading}
+                        />
+                      ) : check.recommendation ? (
                         <p className="text-sm text-purple-700 mt-2 bg-purple-50 rounded p-2">
                           {check.recommendation}
                         </p>
-                      )}
+                      ) : null}
                     </div>
                   )}
                 </div>
