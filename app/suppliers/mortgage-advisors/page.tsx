@@ -170,7 +170,14 @@ export default async function MortgageAdvisorsPage() {
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'FinancialService',
-          name: 'Mortgage Advisors',
+          name: 'Mortgage Advisors UK',
+          description: 'Find FCA-authorised mortgage advisors across the UK. Compare fees, lender panels, and reviews for residential, buy-to-let, and commercial mortgages on TendorAI.',
+          serviceType: 'Mortgage Advice',
+          provider: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
       },
