@@ -61,6 +61,20 @@ interface Report {
   createdAt: string;
   platformResults?: PlatformResult[];
   tier?: string | null;
+  profileGaps?: {
+    gaps: Array<{
+      field: string;
+      label: string;
+      impact: string;
+      tier: 'free' | 'starter' | 'pro';
+    }>;
+    totalGaps: number;
+    totalFields: number;
+    completeFields: number;
+    hasProfile: boolean;
+    vendorType: string;
+    isClaimed: boolean;
+  };
 }
 
 interface Props {
@@ -769,6 +783,112 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             </p>
           </div>
         </section>
+
+        {/* Profile Gaps */}
+        {report.profileGaps?.hasProfile && report.profileGaps.totalGaps > 0 && (() => {
+          const pg = report.profileGaps;
+          const pct = Math.round((pg.completeFields / pg.totalFields) * 100);
+          const VERTICAL_LABELS: Record<string, string> = {
+            solicitor: 'solicitor', accountant: 'accountant',
+            'mortgage-advisor': 'mortgage adviser', 'estate-agent': 'estate agent',
+            'office-equipment': 'office equipment',
+          };
+          const verticalLabel = VERTICAL_LABELS[pg.vendorType] || pg.vendorType;
+          const freeGapCount = pg.gaps.filter(g => g.tier === 'free').length;
+
+          return (
+            <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="p-6 sm:p-8">
+                <div className="flex items-start justify-between gap-4 mb-1">
+                  <h2 className="text-xl font-bold text-gray-900">Profile Gaps &mdash; Why AI Can&apos;t Fully Recommend You</h2>
+                  <span className="flex-shrink-0 text-sm font-semibold text-gray-500">
+                    {pg.completeFields}/{pg.totalFields} fields complete
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mb-5">
+                  Your TendorAI profile is missing {pg.totalGaps} field{pg.totalGaps !== 1 ? 's' : ''} that AI uses to recommend {verticalLabel} firms.
+                </p>
+
+                {/* Progress bar */}
+                <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden mb-6">
+                  <div
+                    className="h-full rounded-full bg-[#1B4F72] transition-all duration-700"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+
+                {/* Gap list */}
+                <div className="space-y-4">
+                  {pg.gaps.map((gap, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-500 text-xs font-bold">
+                        &#10007;
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-gray-900 text-sm">{gap.label}</p>
+                          {gap.tier === 'free' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">
+                              Fix free
+                            </span>
+                          )}
+                          {gap.tier === 'pro' && (
+                            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700">
+                              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                              </svg>
+                              Pro
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-0.5">{gap.impact}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="bg-blue-50 border-t border-blue-100 p-6 sm:px-8">
+                {!pg.isClaimed ? (
+                  <>
+                    <p className="text-sm text-gray-700 mb-4">
+                      Claim your free profile to fix {freeGapCount} free gap{freeGapCount !== 1 ? 's' : ''} now.
+                      Upgrade to Pro and we install everything on your website within 48 hours.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/vendor-signup"
+                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#1B4F72] text-white text-sm font-semibold rounded-lg hover:bg-[#163d5a] transition-colors"
+                      >
+                        Claim Your Profile &mdash; Free
+                      </Link>
+                      <a
+                        href="/for-vendors#pricing"
+                        className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                      >
+                        Upgrade to Pro &mdash; &pound;299/month
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-700 mb-4">
+                      You&apos;ve completed {pg.completeFields} of {pg.totalFields} fields.
+                      Fix the remaining {pg.totalGaps} to maximise your AI recommendations.
+                    </p>
+                    <Link
+                      href="/vendor-dashboard/settings"
+                      className="inline-flex items-center justify-center px-5 py-2.5 bg-[#1B4F72] text-white text-sm font-semibold rounded-lg hover:bg-[#163d5a] transition-colors"
+                    >
+                      Complete Your Profile
+                    </Link>
+                  </>
+                )}
+              </div>
+            </section>
+          );
+        })()}
 
         {/* The Shift */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-6 sm:p-8">
