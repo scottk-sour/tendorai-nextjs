@@ -55,6 +55,8 @@ const ESTATE_AGENT_ACCREDITATIONS = [
 
 const PORTAL_LISTINGS = ['Rightmove', 'Zoopla', 'OnTheMarket', 'Primelocation'];
 
+const PROPERTY_TYPES = ['Residential', 'Commercial', 'HMO', 'New Build', 'Shared Ownership'];
+
 // ─── Types ────────────────────────────────────────────────────────────
 interface FixedFee {
   service: string;
@@ -94,18 +96,40 @@ interface ProfileData {
   languages: string[];
   legalAid: boolean;
   responseTime: string;
+  noWinNoFee: boolean;
+  courtCoverageAreas: string[];
   // Accountant fields
   icaewFirmNumber: string;
   softwareUsed: string[];
   industrySpecialisms: string[];
   mtdCompliant: boolean;
+  accaNumber: string;
+  practiceCertificateNumber: string;
+  minimumFeeThreshold: number;
+  rdTaxCreditsSpecialist: boolean;
+  feeStructureType: string;
   // Mortgage Advisor fields
   fcaNumber: string;
+  wholeOfMarket: boolean;
+  numberOfLenders: number;
+  typicalCompletionTime: string;
+  feeModel: string;
+  maximumLoanSize: number;
   // Estate Agent fields
   propertymarkNumber: string;
   propertymarkQualification: string;
   portalListings: string[];
   coveragePostcodes: string[];
+  averageSaleTime: string;
+  achievedVsAskingPercent: number;
+  managementFeePercent: number;
+  tenantFindOrFullManagement: string;
+  epcAssessor: boolean;
+  propertyTypesHandled: string[];
+  // Office Equipment fields
+  leaseVsPurchase: string;
+  managedPrintService: boolean;
+  monthlyCostRange: string;
 }
 
 interface SubscriptionData {
@@ -159,10 +183,19 @@ const DEFAULT_PROFILE: ProfileData = {
   sraNumber: '', practiceAreas: [], accreditations: [], fixedFees: [],
   lenderPanels: [], individualSolicitors: [], languages: [],
   legalAid: false, responseTime: '',
+  noWinNoFee: false, courtCoverageAreas: [],
   icaewFirmNumber: '', softwareUsed: [], industrySpecialisms: [],
   mtdCompliant: false,
-  fcaNumber: '', propertymarkNumber: '', propertymarkQualification: '',
+  accaNumber: '', practiceCertificateNumber: '', minimumFeeThreshold: 0,
+  rdTaxCreditsSpecialist: false, feeStructureType: '',
+  fcaNumber: '',
+  wholeOfMarket: false, numberOfLenders: 0, typicalCompletionTime: '',
+  feeModel: '', maximumLoanSize: 0,
+  propertymarkNumber: '', propertymarkQualification: '',
   portalListings: [], coveragePostcodes: [],
+  averageSaleTime: '', achievedVsAskingPercent: 0, managementFeePercent: 0,
+  tenantFindOrFullManagement: '', epcAssessor: false, propertyTypesHandled: [],
+  leaseVsPurchase: '', managedPrintService: false, monthlyCostRange: '',
 };
 
 export default function SettingsContent({ initialTab }: { initialTab?: string }) {
@@ -181,6 +214,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   const [newLanguage, setNewLanguage] = useState('');
   const [newSpecialism, setNewSpecialism] = useState('');
   const [newCoveragePostcode, setNewCoveragePostcode] = useState('');
+  const [newCourtArea, setNewCourtArea] = useState('');
 
   const vendorType = profile.vendorType || 'office-equipment';
   const isSolicitor = vendorType === 'solicitor';
@@ -233,15 +267,36 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             languages: data.vendor.languages || [],
             legalAid: data.vendor.legalAid || false,
             responseTime: data.vendor.responseTime || '',
+            noWinNoFee: data.vendor.noWinNoFee || false,
+            courtCoverageAreas: data.vendor.courtCoverageAreas || [],
             icaewFirmNumber: data.vendor.icaewFirmNumber || '',
             softwareUsed: data.vendor.softwareUsed || [],
             industrySpecialisms: data.vendor.industrySpecialisms || [],
             mtdCompliant: data.vendor.mtdCompliant || false,
+            accaNumber: data.vendor.accaNumber || '',
+            practiceCertificateNumber: data.vendor.practiceCertificateNumber || '',
+            minimumFeeThreshold: data.vendor.minimumFeeThreshold || 0,
+            rdTaxCreditsSpecialist: data.vendor.rdTaxCreditsSpecialist || false,
+            feeStructureType: data.vendor.feeStructureType || '',
             fcaNumber: data.vendor.fcaNumber || '',
+            wholeOfMarket: data.vendor.wholeOfMarket || false,
+            numberOfLenders: data.vendor.numberOfLenders || 0,
+            typicalCompletionTime: data.vendor.typicalCompletionTime || '',
+            feeModel: data.vendor.feeModel || '',
+            maximumLoanSize: data.vendor.maximumLoanSize || 0,
             propertymarkNumber: data.vendor.propertymarkNumber || '',
             propertymarkQualification: data.vendor.propertymarkQualification || '',
             portalListings: data.vendor.portalListings || [],
             coveragePostcodes: data.vendor.coveragePostcodes || [],
+            averageSaleTime: data.vendor.averageSaleTime || '',
+            achievedVsAskingPercent: data.vendor.achievedVsAskingPercent || 0,
+            managementFeePercent: data.vendor.managementFeePercent || 0,
+            tenantFindOrFullManagement: data.vendor.tenantFindOrFullManagement || '',
+            epcAssessor: data.vendor.epcAssessor || false,
+            propertyTypesHandled: data.vendor.propertyTypesHandled || [],
+            leaseVsPurchase: data.vendor.leaseVsPurchase || '',
+            managedPrintService: data.vendor.managedPrintService || false,
+            monthlyCostRange: data.vendor.monthlyCostRange || '',
           });
         }
       }
@@ -324,7 +379,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     });
   };
 
-  type TagField = 'brands' | 'certifications' | 'coverage' | 'lenderPanels' | 'languages' | 'industrySpecialisms' | 'coveragePostcodes';
+  type TagField = 'brands' | 'certifications' | 'coverage' | 'lenderPanels' | 'languages' | 'industrySpecialisms' | 'coveragePostcodes' | 'courtCoverageAreas';
 
   const addTag = (field: TagField, value: string) => {
     if (!value.trim()) return;
@@ -335,7 +390,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     const setters: Record<string, (v: string) => void> = {
       brands: setNewBrand, certifications: setNewCertification, coverage: setNewCoverage,
       lenderPanels: setNewLenderPanel, languages: setNewLanguage, industrySpecialisms: setNewSpecialism,
-      coveragePostcodes: setNewCoveragePostcode,
+      coveragePostcodes: setNewCoveragePostcode, courtCoverageAreas: setNewCourtArea,
     };
     setters[field]?.('');
   };
@@ -831,7 +886,32 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                       ))}
                     </select>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="noWinNoFee"
+                      name="noWinNoFee"
+                      checked={profile.noWinNoFee}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="noWinNoFee" className="text-sm font-medium text-gray-700">No Win No Fee offered</label>
+                  </div>
                 </div>
+              </div>
+
+              {/* Court Coverage Areas */}
+              <div className="card p-6">
+                <TagInput
+                  label="Courts covered"
+                  placeholder="e.g. Cardiff Crown Court, Bristol Magistrates"
+                  value={newCourtArea}
+                  onChange={setNewCourtArea}
+                  onAdd={() => addTag('courtCoverageAreas', newCourtArea)}
+                  tags={profile.courtCoverageAreas}
+                  onRemove={(i) => removeTag('courtCoverageAreas', i)}
+                  color="purple"
+                />
               </div>
             </>
           )}
@@ -925,19 +1005,54 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                 />
               </div>
 
-              {/* MTD Compliant */}
+              {/* Additional Details */}
               <div className="card p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    id="mtdCompliant"
-                    name="mtdCompliant"
-                    checked={profile.mtdCompliant}
-                    onChange={handleCheckboxChange}
-                    className="h-4 w-4 text-purple-600 border-gray-300 rounded"
-                  />
-                  <label htmlFor="mtdCompliant" className="text-sm font-medium text-gray-700">Making Tax Digital (MTD) compliant</label>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="mtdCompliant"
+                      name="mtdCompliant"
+                      checked={profile.mtdCompliant}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="mtdCompliant" className="text-sm font-medium text-gray-700">Making Tax Digital (MTD) compliant</label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="rdTaxCreditsSpecialist"
+                      name="rdTaxCreditsSpecialist"
+                      checked={profile.rdTaxCreditsSpecialist}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="rdTaxCreditsSpecialist" className="text-sm font-medium text-gray-700">R&D Tax Credits specialist</label>
+                  </div>
+                  <div>
+                    <label htmlFor="accaNumber" className="block text-sm font-medium text-gray-700 mb-1">ACCA Registration Number</label>
+                    <input type="text" id="accaNumber" name="accaNumber" value={profile.accaNumber} onChange={handleChange} placeholder="e.g. 1234567" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="practiceCertificateNumber" className="block text-sm font-medium text-gray-700 mb-1">Practice Certificate Number</label>
+                    <input type="text" id="practiceCertificateNumber" name="practiceCertificateNumber" value={profile.practiceCertificateNumber} onChange={handleChange} className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="minimumFeeThreshold" className="block text-sm font-medium text-gray-700 mb-1">Minimum fee (&pound;)</label>
+                    <input type="number" id="minimumFeeThreshold" name="minimumFeeThreshold" value={profile.minimumFeeThreshold || ''} onChange={handleChange} min="0" placeholder="e.g. 250" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="feeStructureType" className="block text-sm font-medium text-gray-700 mb-1">Fee structure</label>
+                    <select id="feeStructureType" name="feeStructureType" value={profile.feeStructureType} onChange={handleChange} className="input">
+                      <option value="">Select...</option>
+                      <option value="fixed">Fixed</option>
+                      <option value="hourly">Hourly</option>
+                      <option value="retainer">Monthly Retainer</option>
+                      <option value="mixed">Mixed</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </>
@@ -1030,6 +1145,45 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                   onRemove={(i) => removeTag('lenderPanels', i)}
                   color="blue"
                 />
+              </div>
+
+              {/* Mortgage Additional Details */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="wholeOfMarket"
+                      name="wholeOfMarket"
+                      checked={profile.wholeOfMarket}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="wholeOfMarket" className="text-sm font-medium text-gray-700">Whole of market adviser</label>
+                  </div>
+                  <div>
+                    <label htmlFor="numberOfLenders" className="block text-sm font-medium text-gray-700 mb-1">Lenders on panel</label>
+                    <input type="number" id="numberOfLenders" name="numberOfLenders" value={profile.numberOfLenders || ''} onChange={handleChange} min="0" placeholder="e.g. 90" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="typicalCompletionTime" className="block text-sm font-medium text-gray-700 mb-1">Typical completion time (e.g. 6-8 weeks)</label>
+                    <input type="text" id="typicalCompletionTime" name="typicalCompletionTime" value={profile.typicalCompletionTime} onChange={handleChange} placeholder="e.g. 6-8 weeks" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="feeModel" className="block text-sm font-medium text-gray-700 mb-1">Fee model</label>
+                    <select id="feeModel" name="feeModel" value={profile.feeModel} onChange={handleChange} className="input">
+                      <option value="">Select...</option>
+                      <option value="fee">Fee-based</option>
+                      <option value="fee-free">Fee-free</option>
+                      <option value="both">Both</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="maximumLoanSize" className="block text-sm font-medium text-gray-700 mb-1">Maximum loan size (&pound;)</label>
+                    <input type="number" id="maximumLoanSize" name="maximumLoanSize" value={profile.maximumLoanSize || ''} onChange={handleChange} min="0" placeholder="e.g. 2000000" className="input" />
+                  </div>
+                </div>
               </div>
             </>
           )}
@@ -1144,6 +1298,67 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                   color="purple"
                 />
               </div>
+
+              {/* Property Types */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Property types</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {PROPERTY_TYPES.map((pt) => (
+                    <label key={pt} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      profile.propertyTypesHandled.includes(pt)
+                        ? 'border-purple-600 bg-purple-50 text-purple-700'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    }`}>
+                      <input
+                        type="checkbox"
+                        checked={profile.propertyTypesHandled.includes(pt)}
+                        onChange={() => handleArrayToggle('propertyTypesHandled', pt)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{pt}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Estate Agent Additional Details */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="averageSaleTime" className="block text-sm font-medium text-gray-700 mb-1">Average sale time (e.g. 8 weeks)</label>
+                    <input type="text" id="averageSaleTime" name="averageSaleTime" value={profile.averageSaleTime} onChange={handleChange} placeholder="e.g. 8 weeks" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="achievedVsAskingPercent" className="block text-sm font-medium text-gray-700 mb-1">Average achieved vs asking price (%)</label>
+                    <input type="number" id="achievedVsAskingPercent" name="achievedVsAskingPercent" value={profile.achievedVsAskingPercent || ''} onChange={handleChange} min="0" max="200" placeholder="e.g. 98" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="managementFeePercent" className="block text-sm font-medium text-gray-700 mb-1">Management fee (%)</label>
+                    <input type="number" id="managementFeePercent" name="managementFeePercent" value={profile.managementFeePercent || ''} onChange={handleChange} min="0" max="100" placeholder="e.g. 10" className="input" />
+                  </div>
+                  <div>
+                    <label htmlFor="tenantFindOrFullManagement" className="block text-sm font-medium text-gray-700 mb-1">Lettings service type</label>
+                    <select id="tenantFindOrFullManagement" name="tenantFindOrFullManagement" value={profile.tenantFindOrFullManagement} onChange={handleChange} className="input">
+                      <option value="">Select...</option>
+                      <option value="tenant-find">Tenant Find Only</option>
+                      <option value="full-management">Full Management</option>
+                      <option value="both">Both</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="epcAssessor"
+                      name="epcAssessor"
+                      checked={profile.epcAssessor}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="epcAssessor" className="text-sm font-medium text-gray-700">EPC assessments offered</label>
+                  </div>
+                </div>
+              </div>
             </>
           )}
 
@@ -1198,6 +1413,37 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     onRemove={(i) => removeTag('certifications', i)}
                     color="green"
                   />
+                </div>
+              </div>
+
+              {/* Equipment Additional Details */}
+              <div className="card p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Additional Details</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="leaseVsPurchase" className="block text-sm font-medium text-gray-700 mb-1">Equipment available on</label>
+                    <select id="leaseVsPurchase" name="leaseVsPurchase" value={profile.leaseVsPurchase} onChange={handleChange} className="input">
+                      <option value="">Select...</option>
+                      <option value="lease">Lease</option>
+                      <option value="purchase">Purchase</option>
+                      <option value="both">Both</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="monthlyCostRange" className="block text-sm font-medium text-gray-700 mb-1">Typical monthly cost range (e.g. &pound;50-&pound;200/month)</label>
+                    <input type="text" id="monthlyCostRange" name="monthlyCostRange" value={profile.monthlyCostRange} onChange={handleChange} placeholder="e.g. £50-£200/month" className="input" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="managedPrintService"
+                      name="managedPrintService"
+                      checked={profile.managedPrintService}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="managedPrintService" className="text-sm font-medium text-gray-700">Managed Print Service offered</label>
+                  </div>
                 </div>
               </div>
             </>
