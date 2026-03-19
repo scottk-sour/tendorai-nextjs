@@ -709,44 +709,72 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         {/* Who AI Recommends Instead */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Who AI Recommends Instead</h2>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 mb-2">
             {report.aiMentioned
               ? `These companies appear alongside or ahead of you when buyers ask AI for ${report.category} suppliers in ${report.city}.`
               : `These are the companies AI recommends instead of you in ${report.city}.`}
           </p>
 
-          <div className="space-y-6">
-            {report.competitors.map((comp, i) => (
-              <div key={i} className="flex gap-4 p-3 sm:p-4">
-                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm">
-                  {i + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-gray-900">{comp.name}</p>
-                  {comp.website && (
-                    <a
-                      href={comp.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-[#1B4F72] hover:underline break-all"
-                    >
-                      {comp.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                    </a>
-                  )}
-                  <p className="text-sm text-gray-600 mt-1">{comp.description}</p>
-                  {comp.strengths.length > 0 && (
-                    <ul className="mt-2 space-y-1">
-                      {comp.strengths.map((s, j) => (
-                        <li key={j} className="text-xs text-gray-500 flex items-start gap-1.5">
-                          <span className="text-[#1B4F72] mt-0.5">&#8226;</span> {s}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+          {report.competitors.length > 0 ? (
+            <>
+              <p className="text-sm text-gray-500 mb-4">
+                These businesses appear when someone asks AI to recommend a{' '}
+                {report.category === 'other' ? (report.customIndustry || 'business') : (CATEGORY_LABELS[report.category] || report.category).toLowerCase()} in {report.city}.
+                Every time AI recommends them instead of you, that&apos;s a potential client you lose.
+              </p>
+
+              <div className="space-y-6">
+                {report.competitors.map((comp, i) => (
+                  <div key={i} className="flex gap-4 p-3 sm:p-4">
+                    <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm">
+                      {i + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-bold text-gray-900">{comp.name}</p>
+                        {/* Platform pills — green for Perplexity (web search), grey for LLMs */}
+                        {comp.strengths.map((s, j) => {
+                          const isPerplexity = s.toLowerCase().includes('perplexity');
+                          return (
+                            <span
+                              key={j}
+                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                                isPerplexity
+                                  ? 'bg-emerald-100 text-emerald-700'
+                                  : 'bg-gray-100 text-gray-600'
+                              }`}
+                            >
+                              {s.replace('Mentioned by ', '')}
+                            </span>
+                          );
+                        })}
+                      </div>
+                      {comp.website && (
+                        <a
+                          href={comp.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-[#1B4F72] hover:underline break-all"
+                        >
+                          {comp.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        </a>
+                      )}
+                      <p className="text-sm text-gray-600 mt-1">{comp.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            <div className="p-6 text-center bg-gray-50 rounded-xl border border-gray-200">
+              <p className="text-gray-600 font-medium">No direct competitors identified in your area</p>
+              <p className="text-gray-400 text-sm mt-1">
+                This could mean you have a strong local position &mdash; or that AI platforms
+                don&apos;t yet have enough data about {report.city}.
+                A TendorAI Pro profile helps AI platforms find and recommend you.
+              </p>
+            </div>
+          )}
         </section>
 
         {/* Your Gaps */}
