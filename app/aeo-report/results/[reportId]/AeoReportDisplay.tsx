@@ -6,7 +6,7 @@ import Link from 'next/link';
 interface Competitor {
   name: string;
   description: string;
-  reason: string;
+  reason?: string | null;
   website?: string | null;
   strengths: string[];
 }
@@ -16,6 +16,11 @@ interface Gap {
   explanation: string;
 }
 
+interface PlatformCompetitor {
+  name: string;
+  reason?: string | null;
+}
+
 interface PlatformResult {
   platform: string;
   platformLabel: string;
@@ -23,7 +28,7 @@ interface PlatformResult {
   status?: 'checked' | 'timeout' | 'error';
   position: number | null;
   snippet: string | null;
-  competitors: string[];
+  competitors: (string | PlatformCompetitor)[];
   error: string | null;
 }
 
@@ -345,11 +350,14 @@ function PlatformCard({ result, locked, onRetry, retrying, companyName }: { resu
             <div className="mt-2">
               <p className="text-xs text-gray-400 mb-1">Also mentioned:</p>
               <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => (
-                  <span key={c} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                    {c}
-                  </span>
-                ))}
+                {result.competitors.slice(0, 4).map((c) => {
+                  const cName = typeof c === 'string' ? c : c.name;
+                  return (
+                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                      {cName}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -361,11 +369,14 @@ function PlatformCard({ result, locked, onRetry, retrying, companyName }: { resu
             <div className="mt-1">
               <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
               <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => (
-                  <span key={c} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                    {c}
-                  </span>
-                ))}
+                {result.competitors.slice(0, 4).map((c) => {
+                  const cName = typeof c === 'string' ? c : c.name;
+                  return (
+                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                      {cName}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -881,6 +892,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                           );
                         })}
                       </div>
+                      {comp.reason && (
+                        <p className="text-xs text-gray-500 mt-0.5">{comp.reason}</p>
+                      )}
                       {comp.website && (
                         <a
                           href={comp.website}
