@@ -81,7 +81,14 @@ export default async function AccountantsPage() {
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'AccountingService',
-          name: 'Accountants',
+          name: 'Accountants UK',
+          description: 'Find ICAEW-registered accountants across England and Wales. Browse verified accountancy firms by service type and location on TendorAI.',
+          serviceType: 'Accounting Services',
+          provider: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
       },

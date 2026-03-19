@@ -194,6 +194,40 @@ const serviceJsonLd = {
   },
 };
 
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'TendorAI',
+  description: "The UK's AI Visibility Platform for professional services firms. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Perplexity, Gemini, and Claude.",
+  url: 'https://www.tendorai.com',
+  logo: 'https://www.tendorai.com/logo.png',
+  foundingDate: '2026',
+  areaServed: {
+    '@type': 'Country',
+    name: 'United Kingdom',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'GB',
+    addressRegion: 'Wales',
+  },
+  sameAs: [
+    'https://www.linkedin.com/company/tendorai',
+    'https://x.com/AiTendor95471',
+  ],
+  knowsAbout: [
+    'AI Visibility',
+    'Answer Engine Optimisation',
+    'Generative Engine Optimisation',
+    'Schema Markup',
+    'UK Professional Services',
+    'Solicitors',
+    'Accountants',
+    'Mortgage Advisers',
+    'Estate Agents',
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -219,6 +253,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
       </head>
       <body className="font-sans antialiased min-h-screen flex flex-col">

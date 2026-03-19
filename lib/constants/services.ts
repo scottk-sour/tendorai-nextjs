@@ -35,6 +35,7 @@ export const SERVICES = {
     description: 'Managed IT services, support, infrastructure, cloud solutions',
     keywords: ['it', 'support', 'network', 'computer', 'server', 'cloud', 'managed services'],
     icon: '💻',
+    painPoint: 'IT problems cost businesses time and money. Finding a managed IT provider who responds fast, understands your size and sector, and charges fairly shouldn\u2019t require weeks of searching.',
   },
   security: {
     name: 'Security Systems',
@@ -63,6 +64,7 @@ export const SERVICES = {
     description: 'Residential property solicitors for buying, selling, and remortgaging',
     keywords: ['conveyancing', 'property', 'house', 'buying', 'selling', 'remortgage'],
     icon: '🏠',
+    painPoint: 'Conveyancing delays cost buyers and sellers time and money. Finding a CQS-accredited firm with fixed fees and a track record in your area shouldn\u2019t take hours of research.',
   },
   'family-law': {
     name: 'Family Law',
@@ -72,6 +74,7 @@ export const SERVICES = {
     description: 'Divorce, child custody, prenuptial agreements, and family disputes',
     keywords: ['divorce', 'custody', 'family', 'matrimonial', 'children', 'prenuptial'],
     icon: '👨‍👩‍👧‍👦',
+    painPoint: 'Going through a family law matter is stressful enough without struggling to find the right solicitor. Most people don\u2019t know where to start \u2014 or whether a firm specialises in their specific situation.',
   },
   'criminal-law': {
     name: 'Criminal Law',
@@ -81,6 +84,7 @@ export const SERVICES = {
     description: 'Criminal defence solicitors for arrests, charges, and court representation',
     keywords: ['criminal', 'defence', 'court', 'arrest', 'magistrates', 'crown court'],
     icon: '⚖️',
+    painPoint: 'When facing criminal proceedings, choosing the right defence solicitor is one of the most important decisions you\u2019ll make. You need someone with the right experience, fast.',
   },
   'commercial-law': {
     name: 'Commercial Law',
@@ -90,6 +94,7 @@ export const SERVICES = {
     description: 'Business law, contracts, mergers, acquisitions, and corporate advice',
     keywords: ['commercial', 'corporate', 'business', 'contracts', 'mergers', 'acquisitions'],
     icon: '🏢',
+    painPoint: 'Commercial legal disputes move fast. Finding a solicitor who understands your sector and can act quickly is critical \u2014 the wrong choice costs more than the legal fees.',
   },
   'employment-law': {
     name: 'Employment Law',
@@ -99,6 +104,7 @@ export const SERVICES = {
     description: 'Workplace disputes, unfair dismissal, employment tribunals, and HR law',
     keywords: ['employment', 'dismissal', 'tribunal', 'workplace', 'redundancy', 'discrimination'],
     icon: '💼',
+    painPoint: 'Employment disputes are time-sensitive. Whether you\u2019re an employer or employee, finding a solicitor who specialises in your specific situation quickly can make all the difference.',
   },
   'wills-and-probate': {
     name: 'Wills & Probate',
@@ -108,6 +114,7 @@ export const SERVICES = {
     description: 'Will writing, probate administration, estate planning, and trusts',
     keywords: ['wills', 'probate', 'estate', 'trusts', 'inheritance', 'power of attorney'],
     icon: '📜',
+    painPoint: 'Most people put off writing a will until it\u2019s too late. Finding a firm that makes the process straightforward, fairly priced, and completed without delay shouldn\u2019t be complicated.',
   },
   immigration: {
     name: 'Immigration',
@@ -117,6 +124,7 @@ export const SERVICES = {
     description: 'Visa applications, asylum, citizenship, and immigration appeals',
     keywords: ['immigration', 'visa', 'asylum', 'citizenship', 'right to remain', 'deportation'],
     icon: '🌍',
+    painPoint: 'Immigration applications have strict deadlines and complex requirements. A mistake can cost months or years. Finding a specialist solicitor with the right experience is essential.',
   },
   'personal-injury': {
     name: 'Personal Injury',
@@ -126,6 +134,7 @@ export const SERVICES = {
     description: 'Accident claims, clinical negligence, and compensation solicitors',
     keywords: ['personal injury', 'accident', 'compensation', 'clinical negligence', 'no win no fee'],
     icon: '🩹',
+    painPoint: 'After an accident, the last thing you want is to spend hours finding the right solicitor. You need a firm that specialises in your type of claim and offers a no-win no-fee arrangement.',
   },
   // ─── Accountant Categories ─────────────────────────────────────────
   'tax-advisory': {
@@ -136,6 +145,7 @@ export const SERVICES = {
     description: 'Personal tax, corporation tax, inheritance tax, self-assessment',
     keywords: ['tax', 'corporation tax', 'self-assessment', 'inheritance tax', 'HMRC'],
     icon: '📋',
+    painPoint: 'Tax rules change constantly. Finding an accountant who understands your specific tax situation \u2014 whether personal, business, or inheritance \u2014 and keeps you compliant without overpaying is harder than it should be.',
   },
   'audit-assurance': {
     name: 'Audit & Assurance',

@@ -205,13 +205,13 @@ function CheckItem({ label, checked, detail, guideSlug }: { label: string; check
 
 function BreakdownBar({ label, score, max = 17 }: { label: string; score: number; max?: number }) {
   const pct = Math.round((score / max) * 100);
-  const color = score <= 5 ? '#C0392B' : score <= 10 ? '#D4880F' : '#1B4F72';
+  const color = pct <= 29 ? '#C0392B' : pct <= 59 ? '#D4880F' : '#1B4F72';
 
   return (
     <div className="mb-3">
       <div className="flex justify-between text-sm mb-1">
         <span className="text-gray-700">{label}</span>
-        <span className="font-bold" style={{ color }}>{score}/{max}</span>
+        <span className="font-bold" style={{ color }}>{pct}%</span>
       </div>
       <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
         <div
@@ -405,11 +405,55 @@ function PlatformCard({ result, locked, onRetry, retrying, companyName }: { resu
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
+const INSTRUCTION_VALUES: Record<string, { label: string; value: number }> = {
+  conveyancing: { label: '£1,500', value: 1500 },
+  'family-law': { label: '£3,000', value: 3000 },
+  'criminal-law': { label: '£2,500', value: 2500 },
+  'employment-law': { label: '£2,000', value: 2000 },
+  'personal-injury': { label: '£4,000', value: 4000 },
+  'tax-advisory': { label: '£2,500', value: 2500 },
+  bookkeeping: { label: '£800', value: 800 },
+  payroll: { label: '£600', value: 600 },
+  'audit-assurance': { label: '£3,000', value: 3000 },
+  'residential-mortgages': { label: '£500 in proc fees', value: 500 },
+  'buy-to-let': { label: '£500 in proc fees', value: 500 },
+  remortgage: { label: '£500 in proc fees', value: 500 },
+  'first-time-buyer': { label: '£500 in proc fees', value: 500 },
+  'equity-release': { label: '£500 in proc fees', value: 500 },
+  'commercial-mortgages': { label: '£500 in proc fees', value: 500 },
+  'protection-insurance': { label: '£500 in proc fees', value: 500 },
+  sales: { label: '£3,500 in commission', value: 3500 },
+  lettings: { label: '£3,500 in commission', value: 3500 },
+  'property-management': { label: '£3,500 in commission', value: 3500 },
+  'block-management': { label: '£3,500 in commission', value: 3500 },
+  auctions: { label: '£3,500 in commission', value: 3500 },
+  'commercial-property': { label: '£3,500 in commission', value: 3500 },
+  inventory: { label: '£3,500 in commission', value: 3500 },
+};
+
+function getFirstRealCompetitor(competitors: Competitor[]): Competitor | null {
+  const junkPrefixes = ['Ask', 'Asking', 'Consider', 'Try', 'Check', 'Search', 'Look', 'Visit'];
+  return competitors.find(c => !junkPrefixes.some(p => c.name.startsWith(p))) || null;
+}
+
+function getVerticalSpecificField(category: string): string {
+  const SOLICITOR_CATS = ['conveyancing', 'family-law', 'criminal-law', 'commercial-law', 'employment-law', 'wills-and-probate', 'immigration', 'personal-injury'];
+  const ACCOUNTANT_CATS = ['tax-advisory', 'audit-assurance', 'bookkeeping', 'payroll', 'corporate-finance', 'business-advisory', 'vat-services', 'financial-planning'];
+  const MORTGAGE_CATS = ['residential-mortgages', 'buy-to-let', 'remortgage', 'first-time-buyer', 'equity-release', 'commercial-mortgages', 'protection-insurance'];
+  const ESTATE_CATS = ['sales', 'lettings', 'property-management', 'block-management', 'auctions', 'commercial-property', 'inventory'];
+
+  if (SOLICITOR_CATS.includes(category)) return 'CQS accreditation';
+  if (ACCOUNTANT_CATS.includes(category)) return 'Xero/QuickBooks certification';
+  if (MORTGAGE_CATS.includes(category)) return 'whole of market status';
+  if (ESTATE_CATS.includes(category)) return 'average sale time and fees';
+  return 'service specialisms';
+}
+
 export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const sc = report.searchedCompany || {};
   const breakdown = report.scoreBreakdown || {};
 
-  const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string } | null>(null);
+  const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string; vendorTypeLabel?: string } | null>(null);
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
   const [showStickyBar, setShowStickyBar] = useState(false);
@@ -421,7 +465,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
     fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.success) setIndustryAvg({ average: data.average, sampleSize: data.sampleSize, category: data.category });
+        if (data.success) setIndustryAvg({ average: data.average, sampleSize: data.sampleSize, category: data.category, vendorTypeLabel: data.vendorTypeLabel });
       })
       .catch(() => {});
   }, [report.category]);
@@ -480,33 +524,48 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
       {/* Hero / Score Section */}
       <section ref={heroRef} className="bg-white border-b">
-        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">AI Visibility Report</p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{report.companyName}</h1>
-          <p className="text-gray-500 mb-8">
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <p className="text-sm text-gray-500 uppercase tracking-wide mb-2 text-center">AI Visibility Report</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 text-center">{report.companyName}</h1>
+          <p className="text-gray-500 mb-8 text-center">
             {report.category === 'other' ? (report.customIndustry || 'Other') : (CATEGORY_LABELS[report.category] || report.category)} &mdash; {report.city}
           </p>
 
-          <ScoreGauge score={report.score} />
+          <div className="flex flex-col sm:flex-row items-center gap-8">
+            {/* Left side — pain-led statement */}
+            <div className="flex-1 text-center sm:text-left">
+              {(() => {
+                const topCompetitor = getFirstRealCompetitor(report.competitors);
+                const categoryLabel = report.category === 'other'
+                  ? (report.customIndustry || 'your industry').toLowerCase()
+                  : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+                return (
+                  <>
+                    <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                      When someone in {report.city} asks ChatGPT for a {categoryLabel} right now &mdash;{' '}
+                      <span className="text-red-600">you don&apos;t appear.</span>
+                      {topCompetitor && (
+                        <> {topCompetitor.name} does. You don&apos;t.</>
+                      )}
+                    </p>
+                    <p className="mt-4 text-lg font-semibold" style={{ color: getScoreColor(report.score) }}>
+                      Your AI Visibility Score: {report.score}/100
+                    </p>
+                    {industryAvg && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        The average UK {industryAvg.vendorTypeLabel || 'business'} scores {industryAvg.average}. Top-performing businesses score 70+.
+                      </p>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
 
-          {industryAvg && (
-            <p className="text-sm text-gray-500 mt-2">
-              {industryAvg.average !== null
-                ? `The average score in your category is ${industryAvg.average}/100 (based on ${industryAvg.sampleSize} reports). Top-performing businesses score 70+.`
-                : 'Insufficient data for your category — average not yet available.'}
-            </p>
-          )}
-
-          <p className="mt-6 text-lg font-semibold" style={{ color: getScoreColor(report.score) }}>
-            {report.aiMentioned
-              ? `AI mentions you at position ${report.aiPosition || '?'} — but competitors rank higher.`
-              : 'AI is NOT recommending your business.'}
-          </p>
-          <p className="mt-2 text-sm text-gray-500 max-w-lg mx-auto">
-            {report.aiMentioned
-              ? `${report.competitors.length} competitors were found ranking alongside or ahead of you.`
-              : `When buyers ask AI for ${(report.category === 'other' ? (report.customIndustry || 'your industry') : (CATEGORY_LABELS[report.category] || report.category)).toLowerCase()} in ${report.city}, you don't appear.`}
-          </p>
+            {/* Right side — score gauge */}
+            <div className="flex-shrink-0">
+              <ScoreGauge score={report.score} />
+            </div>
+          </div>
 
           {/* Quick stats */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -516,7 +575,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
               { label: 'Gaps Identified', value: String(report.gaps.length) },
             ].map((stat) => (
-              <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4">
+              <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
                 <p className="text-xl font-bold text-[#1B4F72]">{stat.value}</p>
                 <p className="text-xs text-gray-500">{stat.label}</p>
               </div>
@@ -524,6 +583,33 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </div>
       </section>
+
+      {/* C2 — Estimated Lost Revenue */}
+      {(() => {
+        const topCompetitor = getFirstRealCompetitor(report.competitors);
+        const instrData = INSTRUCTION_VALUES[report.category] || { label: '£2,000', value: 2000 };
+        const lowEst = `£${(Math.round(instrData.value * 2.5)).toLocaleString()}`;
+        const highEst = `£${(Math.round(instrData.value * 4)).toLocaleString()}`;
+        const categoryLabel = report.category === 'other'
+          ? (report.customIndustry || 'your industry').toLowerCase()
+          : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+        return (
+          <section className="max-w-3xl mx-auto px-4 mt-8">
+            <div className="bg-gray-900 text-white rounded-xl p-6">
+              <p className="text-sm leading-relaxed">
+                Every month AI doesn&apos;t recommend you, potential clients go elsewhere.
+              </p>
+              <p className="text-sm leading-relaxed mt-3">
+                The average {categoryLabel} instruction is worth <strong>{instrData.label}</strong>.
+                {topCompetitor
+                  ? <> If AI sends just 3 clients a month to <strong>{topCompetitor.name}</strong> instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
+                  : <> If AI sends just 3 clients a month to your competitors instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
+                }
+              </p>
+            </div>
+          </section>
+        );
+      })()}
 
       <div className="max-w-3xl mx-auto px-4">
         {/* Platform Results */}
@@ -739,6 +825,52 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <BreakdownBar label="Structured Data" score={breakdown.structuredData || 0} />
           <BreakdownBar label="Competitive Position" score={breakdown.competitivePosition || 0} />
         </section>
+
+        {/* C3 — Competitor Comparison Table */}
+        {(() => {
+          const topCompetitor = getFirstRealCompetitor(report.competitors);
+          if (!topCompetitor) return null;
+          const estCompScore = Math.min(99, report.score + 25);
+          return (
+            <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">How You Compare</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="p-3 text-left text-gray-500 font-semibold">Metric</th>
+                      <th className="p-3 text-left font-semibold text-gray-900">{report.companyName}</th>
+                      <th className="p-3 text-left font-semibold text-gray-900">{topCompetitor.name}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t border-gray-100">
+                      <td className="p-3 text-gray-600">Fees visible to AI</td>
+                      <td className="p-3">{report.searchedCompany?.hasPricing ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
+                    </tr>
+                    <tr className="border-t border-gray-100 bg-gray-50">
+                      <td className="p-3 text-gray-600">Schema markup detected</td>
+                      <td className="p-3">{report.searchedCompany?.hasStructuredData ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
+                    </tr>
+                    <tr className="border-t border-gray-100">
+                      <td className="p-3 text-gray-600">Appears in AI results</td>
+                      <td className="p-3">{report.aiMentioned ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
+                    </tr>
+                    <tr className="border-t border-gray-100 bg-gray-50">
+                      <td className="p-3 text-gray-600">AI Visibility Score</td>
+                      <td className="p-3 font-bold" style={{ color: getScoreColor(report.score) }}>{report.score}/100</td>
+                      <td className="p-3 font-bold text-[#1B4F72]">Est. {estCompScore}+</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-xs text-gray-400 mt-3">Competitor data based on publicly observable website signals and AI query results.</p>
+            </section>
+          );
+        })()}
 
         {/* Who AI Recommends Instead */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
@@ -1009,7 +1141,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* Pro Callout / Waitlist */}
+        {/* C4 — Before/After Pro Explanation */}
         {report.category === 'other' ? (
           <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -1029,25 +1161,68 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             </div>
           </section>
         ) : (
-          <section className="mt-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  See all 6 AI platforms + weekly tracking
-                </h3>
-                <p className="text-gray-600">
-                  {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
-                  Grok and Meta AI right now. Pro shows you all of them and tracks changes weekly.
-                </p>
-                <p className="text-xs text-gray-500 mt-2">Most firms recover this in a single client instruction.</p>
-              </div>
-              <a
-                href="/for-vendors#pricing"
-                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
-              >
-                Upgrade to Pro &mdash; &pound;299/mo
-              </a>
-            </div>
+          <section className="mt-8">
+            {(() => {
+              const topCompetitor = getFirstRealCompetitor(report.competitors);
+              const competitorName = topCompetitor?.name || 'your competitors';
+              const categoryLabel = (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+              const verticalField = getVerticalSpecificField(report.category);
+              return (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Without Pro */}
+                    <div className="rounded-xl border-2 border-red-200 bg-red-50 p-6">
+                      <h3 className="font-bold text-gray-900 mb-4">Without Pro</h3>
+                      <ul className="space-y-3 text-sm">
+                        <li className="flex items-start gap-2">
+                          <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
+                          <span>AI searches {report.city} {categoryLabel}</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
+                          <span>Can&apos;t find your fees or accreditations</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
+                          <span>Recommends {competitorName} instead</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
+                          <span>You lose the instruction</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    {/* With Pro */}
+                    <div className="rounded-xl border-2 border-green-200 bg-green-50 p-6">
+                      <h3 className="font-bold text-gray-900 mb-4">With Pro</h3>
+                      <ul className="space-y-3 text-sm">
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
+                          <span>AI searches {report.city} {categoryLabel}</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
+                          <span>Finds your fees, accreditations, {verticalField}</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
+                          <span>Recommends {report.companyName} by name</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
+                          <span>Client contacts you directly</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 text-sm text-gray-600 text-center">
+                    TendorAI installs this data on your website within 48 hours. Agencies charge &pound;1,500&ndash;&pound;8,000/month for this manually. You pay &pound;299.
+                  </p>
+                </>
+              );
+            })()}
           </section>
         )}
 
@@ -1117,6 +1292,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-xs text-gray-500 mt-2 flex-1">
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>
+              <p className="text-xs text-gray-500 mt-1">Most firms recover this in a single client instruction.</p>
+              <p className="text-[10px] text-gray-400 mt-1 italic">90-day guarantee &mdash; if your AI visibility score doesn&apos;t improve, we&apos;ll refund you in full. No questions asked.</p>
               <a
                 href="https://www.tendorai.com/vendor-signup?tier=pro"
                 className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"

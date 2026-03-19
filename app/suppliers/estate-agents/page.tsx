@@ -170,7 +170,14 @@ export default async function EstateAgentsPage() {
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'RealEstateAgent',
-          name: 'Estate Agents',
+          name: 'Estate Agents UK',
+          description: 'Find estate agents across the UK. Compare fees, portal listings, and reviews for residential sales, lettings, property management, and commercial property on TendorAI.',
+          serviceType: 'Estate Agency Services',
+          provider: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
       },

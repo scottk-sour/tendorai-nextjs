@@ -285,9 +285,14 @@ export default async function CategoryPage({ params }: PageProps) {
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': schemaType,
-          name: `${service.name} ${suffix}`,
-          description: service.description,
-          ...(isSolicitor && { serviceType: service.name }),
+          name: `${service.name} ${suffix} UK`,
+          description: `Find verified ${service.name.toLowerCase()} ${suffix.toLowerCase()} across the UK on TendorAI. Compare firms, read reviews, and check AI visibility scores.`,
+          serviceType: isSolicitor ? 'Legal Services' : isAccountant ? 'Accounting Services' : isMortgageAdvisor ? 'Mortgage Advice' : isEstateAgent ? 'Estate Agency Services' : service.name,
+          provider: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
       },

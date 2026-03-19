@@ -92,7 +92,14 @@ export default async function SolicitorsPage() {
         isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
         about: {
           '@type': 'LegalService',
-          name: 'Solicitors',
+          name: 'Solicitors UK',
+          description: 'Find SRA-registered solicitors across England and Wales. Browse verified law firms by practice area and location on TendorAI.',
+          serviceType: 'Legal Services',
+          provider: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
           areaServed: { '@type': 'Country', name: 'United Kingdom' },
         },
       },
