@@ -213,14 +213,21 @@ export default async function AeoGuidePage({
           {showDoneForYouCta && (
             <div className="p-5 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm font-semibold text-green-900 mb-2">
-                Not sure how to fix this? Our done-for-you Website AI
-                Optimisation service fixes everything for £395.
+                Not confident fixing this yourself? Our done-for-you Website AI
+                Optimisation service fixes this and everything else on your audit
+                for a one-off &pound;395. We handle it all &mdash; you just send us your
+                website login.
+              </p>
+              <p className="text-xs text-gray-500 mb-3">
+                Includes meta titles, H1 headings, FAQ section, contact
+                information, social links, image compression, and content
+                expansion across your key service pages.
               </p>
               <Link
                 href="/for-vendors"
                 className="inline-flex items-center px-5 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition-colors"
               >
-                Get in touch
+                Book Website Optimisation &mdash; &pound;395
               </Link>
             </div>
           )}
