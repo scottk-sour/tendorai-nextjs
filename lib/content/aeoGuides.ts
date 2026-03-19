@@ -1,0 +1,365 @@
+export interface AeoGuide {
+  slug: string
+  checkKey: string
+  title: string
+  metaTitle: string
+  metaDescription: string
+  whatItIs: string
+  whyItMatters: string
+  difficulty: 'Easy' | 'Medium' | 'Needs developer' | 'TendorAI fixes this'
+  timeToFix: string
+  howToFix: {
+    platform: string
+    steps: string[]
+  }[]
+  tendoraiFixesThis: boolean
+  tendoraiHowItHelps: string
+}
+
+export const AEO_GUIDES: AeoGuide[] = [
+  {
+    slug: 'schema-markup',
+    checkKey: 'schema',
+    title: 'Schema.org Structured Data',
+    metaTitle: 'What is Schema Markup and Why Does AI Need It? | TendorAI',
+    metaDescription: 'Schema markup tells AI assistants exactly what your business does. Learn what it is, why it matters, and how TendorAI installs it automatically.',
+    whatItIs: 'Schema markup is invisible code added to your website that tells AI assistants — like ChatGPT, Perplexity, and Google AI — exactly what your business is, what services you offer, where you are located, and how much you charge. Without it, AI has to guess based on your page text, which means it often gets it wrong or skips your firm entirely.',
+    whyItMatters: 'AI recommendation engines rely on structured data to confidently recommend specific businesses. A firm with schema markup telling AI "this is a CQS-accredited conveyancing solicitor in Cardiff charging £895 fixed fee" is far more likely to be recommended than a firm with no structured data. This is the single highest-impact change you can make for AI visibility.',
+    difficulty: 'TendorAI fixes this',
+    timeToFix: 'Automatic on Pro — live within 48 hours',
+    howToFix: [
+      {
+        platform: 'TendorAI Pro (recommended)',
+        steps: [
+          'Upgrade to TendorAI Pro',
+          'Complete your profile in the dashboard — add your services, fees, and accreditations',
+          'TendorAI automatically installs the correct schema markup on your website within 48 hours',
+          'Every time you update your profile, your website schema updates automatically',
+        ],
+      },
+      {
+        platform: 'WordPress (manual)',
+        steps: [
+          'Install the "Schema & Structured Data for WP & AMP" plugin',
+          'Go to Schema > All Schema Markup > Add New',
+          'Select your business type (LegalService, AccountingService etc.)',
+          'Fill in your business name, address, phone, and services',
+          'Save and verify at schema.org/validator',
+        ],
+      },
+      {
+        platform: 'Any website (manual)',
+        steps: [
+          'Generate your schema at technicalseo.com/tools/schema-markup-generator/',
+          'Select your business type',
+          'Fill in your details',
+          'Copy the JSON-LD code generated',
+          'Paste it into your website before the closing </head> tag',
+          'Ask your web developer if you are unsure how to do this',
+        ],
+      },
+    ],
+    tendoraiFixesThis: true,
+    tendoraiHowItHelps: 'TendorAI Pro automatically generates and installs the correct Schema.org markup for your vertical — LegalService for solicitors, AccountingService for accountants, FinancialService for mortgage advisers. It updates automatically every time you change your profile. No developer needed.',
+  },
+  {
+    slug: 'meta-titles',
+    checkKey: 'metaTags',
+    title: 'Meta Title & Description',
+    metaTitle: 'How to Fix Your Meta Title and Description for AI Visibility | TendorAI',
+    metaDescription: 'Your meta title and description are what AI reads first about your business. Learn how to write them for AI recommendations.',
+    whatItIs: 'Your meta title is the headline that appears in Google search results. Your meta description is the short summary beneath it. Both are read by AI assistants when they research your business. They tell AI what your firm does, where you are, and why someone should choose you.',
+    whyItMatters: 'A meta title like "Welcome to Our Website" tells AI nothing useful. A meta title like "Cardiff Conveyancing Solicitors — Fixed Fees from £895 — CQS Accredited" tells AI exactly what to say when recommending you. This is one of the quickest fixes with immediate impact.',
+    difficulty: 'Easy',
+    timeToFix: '15-20 minutes',
+    howToFix: [
+      {
+        platform: 'WordPress',
+        steps: [
+          'Install the free Yoast SEO plugin if not already installed',
+          'Go to your homepage in the WordPress editor',
+          'Scroll down to the Yoast SEO section at the bottom',
+          'Click "Edit snippet"',
+          'Write your meta title: [City] [Service] — [Key Benefit] — [Firm Name]. Example: Cardiff Conveyancing Solicitors — Fixed Fees from £895 — Lucas Law',
+          'Write your meta description in 150 characters: what you do, where you are, what makes you different',
+          'Save the page',
+        ],
+      },
+      {
+        platform: 'Wix',
+        steps: [
+          'Go to your Wix dashboard',
+          'Click on your page in the Pages menu',
+          'Click the three dots next to the page name',
+          'Select SEO Settings',
+          'Update the title tag and meta description',
+          'Save',
+        ],
+      },
+      {
+        platform: 'Squarespace',
+        steps: [
+          'Go to Pages in your Squarespace dashboard',
+          'Click the gear icon next to your homepage',
+          'Click SEO',
+          'Update the SEO title and description',
+          'Save',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'TendorAI Pro installs schema markup that reinforces your meta title signals. When both work together, AI has two sources confirming what your business does.',
+  },
+  {
+    slug: 'h1-heading',
+    checkKey: 'h1',
+    title: 'H1 Heading',
+    metaTitle: 'Why Your H1 Heading Matters for AI Recommendations | TendorAI',
+    metaDescription: 'Your H1 heading is the first thing AI reads on your website. Learn what it should say and how to fix it in under 10 minutes.',
+    whatItIs: 'Your H1 heading is the main headline on your webpage — the largest text at the top of the page. Every page should have exactly one H1. AI assistants read it first to understand what your page and business is about.',
+    whyItMatters: 'An H1 that says "Welcome" or uses your firm name only tells AI nothing about what you do. An H1 that says "Conveyancing Solicitors in Cardiff — Fixed Fees, No Hidden Costs" immediately tells AI your service, location, and value proposition. AI uses this to decide whether to recommend you for relevant queries.',
+    difficulty: 'Easy',
+    timeToFix: '10 minutes',
+    howToFix: [
+      {
+        platform: 'WordPress',
+        steps: [
+          'Go to your homepage in the WordPress editor',
+          'Find the main headline text at the top of the page',
+          'Make sure it is set as Heading 1 (H1) in the paragraph dropdown',
+          'Rewrite it to include: your service, your city, and your key benefit',
+          'Example: "Conveyancing Solicitors in Cardiff — Fixed Fees, No Surprises"',
+          'Update the page',
+        ],
+      },
+      {
+        platform: 'Wix / Squarespace / Webflow',
+        steps: [
+          'Open the page editor',
+          'Click on your main headline',
+          'Check it is set as Heading 1 in the text formatting options',
+          'Rewrite it to include your service, city, and key benefit',
+          'Save and publish',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'TendorAI Pro schema markup reinforces your H1 by providing structured data that confirms your service and location to AI independently of your page text.',
+  },
+  {
+    slug: 'mobile-viewport',
+    checkKey: 'mobileViewport',
+    title: 'Mobile Viewport',
+    metaTitle: 'Why Mobile Optimisation Affects AI Visibility | TendorAI',
+    metaDescription: 'AI assistants check whether your website works on mobile. Learn what mobile viewport means and how to fix it.',
+    whatItIs: 'The mobile viewport setting tells browsers how to display your website on phones and tablets. Without it, your website may appear tiny and unreadable on mobile devices. AI platforms check for this as a basic trust signal — websites that do not work on mobile are considered low quality.',
+    whyItMatters: 'Over 60% of searches now happen on mobile. Google and AI platforms deprioritise websites that are not mobile-friendly. If your website fails this check it signals to AI that your online presence is outdated, which reduces recommendation confidence.',
+    difficulty: 'Needs developer',
+    timeToFix: '30 minutes for a developer — free on modern website builders',
+    howToFix: [
+      {
+        platform: 'WordPress',
+        steps: [
+          'Most modern WordPress themes are mobile-responsive automatically',
+          'If failing, your theme is outdated — consider switching to a free modern theme like Astra or GeneratePress',
+          'Alternatively ask your web developer to add this to your <head> section:',
+          '<meta name="viewport" content="width=device-width, initial-scale=1">',
+          'This takes a developer about 5 minutes',
+        ],
+      },
+      {
+        platform: 'Wix / Squarespace / Webflow',
+        steps: [
+          'These platforms handle mobile viewport automatically',
+          'If failing, contact the platform support — this should not fail on modern builders',
+          'Check you have not disabled mobile view in the editor settings',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'This is a website infrastructure issue TendorAI cannot fix directly. However our done-for-you Website AI Optimisation service includes checking and fixing your mobile viewport as part of the setup.',
+  },
+  {
+    slug: 'ssl-certificate',
+    checkKey: 'ssl',
+    title: 'SSL Certificate (HTTPS)',
+    metaTitle: 'What is an SSL Certificate and Why Does AI Require It? | TendorAI',
+    metaDescription: 'AI assistants will not recommend websites without SSL certificates. Learn how to get one free in under 24 hours.',
+    whatItIs: 'An SSL certificate creates a secure encrypted connection between your website and visitors. You can tell a website has one because the address starts with https:// and shows a padlock in the browser. Without it your address starts with http:// and browsers show a "Not Secure" warning.',
+    whyItMatters: 'AI platforms will not recommend unsecure websites. A missing SSL certificate is an immediate disqualifier for AI recommendations. It also damages trust with human visitors — most people will leave a website that shows "Not Secure." This is a critical fix.',
+    difficulty: 'Easy',
+    timeToFix: '24 hours — usually free',
+    howToFix: [
+      {
+        platform: 'Any hosting provider',
+        steps: [
+          'Log into your hosting control panel (cPanel, Plesk, or your host\'s dashboard)',
+          'Look for "SSL/TLS" or "Let\'s Encrypt" in the security section',
+          'Install a free Let\'s Encrypt certificate — most hosts offer this one click',
+          'If you cannot find it, contact your hosting provider and ask them to install a free SSL certificate',
+          'Allow 24 hours for the certificate to activate',
+          'After activation, set up a redirect from http:// to https:// — ask your host to do this',
+        ],
+      },
+      {
+        platform: 'Wix / Squarespace / Webflow',
+        steps: [
+          'These platforms include SSL automatically',
+          'If showing as failed, your custom domain may not be connected correctly',
+          'Go to your domain settings and ensure SSL is enabled for your custom domain',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'SSL is a hosting issue outside TendorAI\'s control. However our done-for-you Website AI Optimisation service includes verifying and fixing your SSL setup.',
+  },
+  {
+    slug: 'page-weight',
+    checkKey: 'pageWeight',
+    title: 'Page Weight (Load Speed)',
+    metaTitle: 'How Page Speed Affects AI Visibility and How to Fix It | TendorAI',
+    metaDescription: 'Slow websites get deprioritised by AI and Google. Learn how to speed up your website in under 30 minutes without a developer.',
+    whatItIs: 'Page weight is how much data your website downloads when someone visits it. A heavy page — usually caused by large images or videos — loads slowly. Slow websites frustrate visitors and signal to AI that the website is poorly maintained.',
+    whyItMatters: 'Google uses page speed as a ranking factor and AI platforms follow suit. A website that takes more than 3 seconds to load loses visitors and loses AI recommendation opportunities. Large images are the most common cause — a photo straight from a phone camera can be 5-10MB when it should be under 200KB.',
+    difficulty: 'Easy',
+    timeToFix: '20-30 minutes',
+    howToFix: [
+      {
+        platform: 'Any website',
+        steps: [
+          'Go to tinypng.com — it is free',
+          'Upload all the images on your homepage and key service pages',
+          'Download the compressed versions — typically 60-80% smaller',
+          'Replace the images on your website with the compressed versions',
+          'Remove any videos that play automatically on page load',
+          'Test your speed at pagespeed.web.dev — aim for green on mobile',
+        ],
+      },
+      {
+        platform: 'WordPress',
+        steps: [
+          'Install the free Smush plugin',
+          'It automatically compresses all images on your site',
+          'Also install WP Super Cache for faster page loading',
+          'Both are free and take 5 minutes to set up',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'Our done-for-you Website AI Optimisation service includes compressing your images and basic speed optimisation as part of the setup.',
+  },
+  {
+    slug: 'social-media-links',
+    checkKey: 'socialLinks',
+    title: 'Social Media Links',
+    metaTitle: 'Why Social Media Links Improve AI Visibility | TendorAI',
+    metaDescription: 'AI assistants look for social media links to verify your business is active and legitimate. Learn how to add them in 5 minutes.',
+    whatItIs: 'Social media links on your website connect your site to your LinkedIn, Facebook, and other profiles. AI assistants use these links to verify your business is real, active, and legitimate. They also use your social profiles as additional sources of information about what you do.',
+    whyItMatters: 'LinkedIn is cited in over 44% of AI responses about professional services firms. A solicitor or accountant with an active LinkedIn profile linked from their website gives AI an additional trusted source to draw from when making recommendations. This is a 5-minute fix with meaningful impact.',
+    difficulty: 'Easy',
+    timeToFix: '5 minutes',
+    howToFix: [
+      {
+        platform: 'Any website',
+        steps: [
+          'Find your LinkedIn company page URL — it looks like linkedin.com/company/your-firm-name',
+          'Find your Facebook page URL if you have one',
+          'Add these links to your website footer',
+          'Use recognisable icons — most website builders have social media icon blocks',
+          'Make sure the links open in a new tab',
+          'If you do not have a LinkedIn company page, create one at linkedin.com/company/setup/new — it takes 10 minutes and is free',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'TendorAI Pro publishes your blog posts to LinkedIn and Facebook automatically, keeping your social profiles active and giving AI fresh content to cite. Your LinkedIn URL is stored in your TendorAI profile and included in your schema markup.',
+  },
+  {
+    slug: 'contact-information',
+    checkKey: 'contactInfo',
+    title: 'Contact Information',
+    metaTitle: 'Why Contact Information is Critical for AI Recommendations | TendorAI',
+    metaDescription: 'AI assistants use your contact details to verify you are a real local business. Learn what to publish and where.',
+    whatItIs: 'Contact information means your full business address, phone number, and email address published clearly on your website. AI assistants use this to confirm you are a real, legitimate business operating in a specific location.',
+    whyItMatters: 'When someone asks AI for a solicitor in Cardiff, AI needs to confirm you are actually in Cardiff. If your address is not clearly published on your website, AI cannot make this confirmation and will recommend a competitor whose address is visible. This is one of the easiest fixes with immediate impact.',
+    difficulty: 'Easy',
+    timeToFix: '5 minutes',
+    howToFix: [
+      {
+        platform: 'Any website',
+        steps: [
+          'Add your full business address to your website footer — every page should show it',
+          'Add your main phone number to the footer and your contact page',
+          'Add your email address to the contact page',
+          'Make sure your address matches exactly what is on Google Business Profile and Companies House',
+          'Add a Google Maps embed to your contact page — this reinforces location signals for AI',
+          'Check your contact page is linked in your main navigation',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'Your full address and contact details are stored in your TendorAI profile and included in your schema markup, giving AI a structured, verified source for your location data.',
+  },
+  {
+    slug: 'faq-section',
+    checkKey: 'faqSection',
+    title: 'FAQ Section',
+    metaTitle: 'How to Add an FAQ Section That AI Will Cite | TendorAI',
+    metaDescription: 'FAQ sections are the most cited content format in AI responses. Learn how to write and add one to your website in 30 minutes.',
+    whatItIs: 'A FAQ section is a list of questions and answers on your website. It directly mirrors how people ask AI assistants for information — "how much does conveyancing cost?" or "how long does remortgaging take?" — making it the most likely content to be cited in AI responses.',
+    whyItMatters: 'AI assistants are essentially FAQ machines. When someone asks ChatGPT "how much does a solicitor charge for conveyancing in Cardiff?" it looks for websites that directly answer that question. A firm with a FAQ that says "Our conveyancing fees start from £895 including VAT for properties up to £250,000" is far more likely to be cited and recommended than a firm that says "contact us for a quote."',
+    difficulty: 'Easy',
+    timeToFix: '30 minutes',
+    howToFix: [
+      {
+        platform: 'Any website',
+        steps: [
+          'Create a FAQ page or add a FAQ section to your homepage and service pages',
+          'Write 5-10 questions your clients actually ask — think about what people ask on the phone',
+          'For solicitors: How much does conveyancing cost? How long does it take? Do you offer fixed fees? Are you CQS accredited? What areas do you cover?',
+          'For accountants: How much do you charge? Do you use Xero? Are you MTD compliant? What industries do you specialise in?',
+          'Answer each question in 2-4 sentences — be specific with numbers and timescales',
+          'Add FAQPage schema markup to the page — this tells AI the content is a FAQ and increases citation likelihood significantly',
+          'TendorAI Pro blog writer automatically creates FAQ content for your profile',
+        ],
+      },
+      {
+        platform: 'WordPress',
+        steps: [
+          'Install the free "Accordion FAQ" plugin',
+          'Add your questions and answers',
+          'The plugin automatically adds FAQPage schema markup',
+          'Place the FAQ block on your homepage and key service pages',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'TendorAI Pro includes an AI blog writer that automatically generates FAQ-rich content for your TendorAI profile twice a week. This content is indexed by AI platforms and improves your citation frequency. Our done-for-you setup service writes and installs a FAQ section on your own website as part of the £395 package.',
+  },
+  {
+    slug: 'content-length',
+    checkKey: 'contentLength',
+    title: 'Content Length',
+    metaTitle: 'How Much Content Does Your Website Need for AI Visibility? | TendorAI',
+    metaDescription: 'AI assistants need enough content to understand what your business does. Learn the minimum content requirements and how to fix thin pages.',
+    whatItIs: 'Content length refers to how much useful text is on your website pages. Thin pages with very little text — a few sentences or just a contact form — give AI very little to work with. AI needs enough text to understand your services, your expertise, and your location before it can confidently recommend you.',
+    whyItMatters: 'A service page that says "We offer conveyancing services. Contact us for more information." gives AI nothing to cite. A service page that explains what conveyancing involves, how long it takes, what it costs, what accreditations you hold, and what areas you cover gives AI everything it needs to recommend you specifically. The minimum is 300 words per key service page.',
+    difficulty: 'Medium',
+    timeToFix: '30-45 minutes per page',
+    howToFix: [
+      {
+        platform: 'Any website',
+        steps: [
+          'Identify your key service pages — conveyancing, family law, tax advisory etc.',
+          'Check each page has at least 300 words of useful content',
+          'For each thin page, add: what the service is, who needs it, how the process works step by step, how long it takes, what it costs, what accreditations or qualifications you hold for this service',
+          'Be specific — "we handle conveyancing transactions typically completing in 8-12 weeks with fixed fees from £895" is far better than "we offer professional conveyancing services"',
+          'Use the TendorAI AI blog writer to generate properly structured content for your service pages',
+          'Each piece of content should answer a specific question someone might ask AI',
+        ],
+      },
+    ],
+    tendoraiFixesThis: false,
+    tendoraiHowItHelps: 'TendorAI Pro blog writer generates 600-800 word AI-optimised articles about your services twice a week, automatically published to your TendorAI profile. Our done-for-you setup service writes and installs expanded content on your key service pages as part of the £395 package.',
+  },
+]
