@@ -8,6 +8,7 @@ import AIVisibilityScoreCard from '@/app/components/dashboard/AIVisibilityScoreC
 import CompetitorLeaderboard from '@/app/components/dashboard/CompetitorLeaderboard';
 import LeadTeaser from '@/app/components/dashboard/LeadTeaser';
 import UpgradeBanner from '@/app/components/dashboard/UpgradeBanner';
+import ScoreTrendCard from '@/app/components/dashboard/ScoreTrendCard';
 import { getTierLabel, hasTierAccess } from '@/app/components/dashboard/TierGate';
 
 interface Lead {
@@ -172,6 +173,9 @@ export default function VendorDashboardOverview() {
           compact={true}
         />
       </div>
+
+      {/* Score Trend */}
+      <ScoreTrendCard token={token || ''} />
 
       {/* Competitor Leaderboard (after AI Insights Row) */}
       <CompetitorLeaderboard
