@@ -157,8 +157,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-gray-900">{score}</span>
-          <span className="text-xs text-gray-500">/100</span>
+          <span className="text-2xl font-bold text-gray-900">{score}%</span>
         </div>
       </div>
     );
@@ -273,7 +272,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
               <div key={key}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-medium text-gray-600">{lbl}</span>
-                  <span className="text-xs font-semibold text-gray-700">{val}/20</span>
+                  <span className="text-xs font-semibold text-gray-700">{Math.round((val / 20) * 100)}%</span>
                 </div>
                 <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
                   <div
