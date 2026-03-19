@@ -48,7 +48,7 @@ const plans = [
 ];
 
 const comparisonRows = [
-  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month' },
+  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month (early adopter)' },
   { label: 'Contract', agency: '12 months minimum', tendorai: 'Month-to-month, cancel anytime' },
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
@@ -83,10 +83,19 @@ export default function Pricing() {
               <div className={plan.popular ? 'pt-6' : ''}>
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">{plan.name}</h3>
 
-                <div className="mb-1">
+                {plan.popular && (
+                  <div className="mb-0.5">
+                    <s className="text-sm text-gray-400 font-semibold">£599/month</s>
+                  </div>
+                )}
+                <div className="mb-0.5">
                   <span className="text-3xl font-bold text-[var(--text)]">{plan.price}</span>
                   <span className="text-[var(--text2)] text-sm">{plan.period}</span>
+                  {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">Early adopter price</span>}
                 </div>
+                {plan.popular && (
+                  <p className="text-[10px] text-gray-400 italic mb-1">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
+                )}
 
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>
 

@@ -171,8 +171,9 @@ export default async function AeoGuidePage({
                 href="/for-vendors#pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Upgrade to Pro — £299/month
+                Upgrade to Pro — <s>£599</s> £299/month
               </a>
+              <p className="text-xs text-blue-700 italic mt-2">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
             </div>
           )}
 
@@ -205,8 +206,9 @@ export default async function AeoGuidePage({
                 href="/for-vendors#pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Upgrade to Pro — £299/month
+                Upgrade to Pro — <s>£599</s> £299/month
               </a>
+              <p className="text-xs text-blue-700 italic mt-2">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
             </div>
           )}
 
@@ -249,7 +251,7 @@ export default async function AeoGuidePage({
               href="/for-vendors#pricing"
               className="inline-flex items-center px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
             >
-              Upgrade to Pro — £299/month
+              Upgrade to Pro — <s>£599</s> £299/month
             </a>
           </div>
         </section>

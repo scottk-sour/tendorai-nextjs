@@ -199,7 +199,7 @@ All vendor profiles include Schema.org JSON-LD markup:
 |------------|----------|----------|
 | Free       | £0/mo    | Basic directory listing |
 | Starter    | £149/mo  | Full AI visibility, pricing visible to AI platforms |
-| Pro        | £299/mo  | Priority ranking in AI responses, full structured data |
+| Pro        | ~~£599/mo~~ £299/mo (early adopter price) | Priority ranking in AI responses, full structured data |
 | Enterprise | £499/mo  | Multi-location, API analytics, custom Schema.org |
 
 ## AI Visibility (AEO) Reports

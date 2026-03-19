@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
-    a: 'TendorAI plans start from free up to £299/month (Pro tier). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
+    a: 'TendorAI plans start from free up to £299/month at our early adopter price (rising to £599). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
   },
   {
     q: 'Is AI search actually replacing Google?',
@@ -86,7 +86,7 @@ function ComparisonTable() {
     { factor: 'Traffic source', seo: 'Google/Bing organic clicks', aeo: 'AI-generated answers with citations' },
     { factor: 'Key ranking factors', seo: 'Backlinks, keywords, site speed', aeo: 'Structured data, reviews, mentions, schema' },
     { factor: 'Time to results', seo: '3-6 months', aeo: '4-8 weeks for initial mentions' },
-    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI' },
+    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI (early adopter price)' },
     { factor: 'Measurability', seo: 'Google Search Console, rankings', aeo: 'AI mention tracking, visibility scores' },
     { factor: 'Competition awareness', seo: 'Keyword difficulty scores', aeo: 'Most businesses aren\'t doing this yet' },
   ];
@@ -150,10 +150,19 @@ function PricingCards() {
             </span>
           )}
           <h4 className="text-lg font-semibold text-gray-900">{plan.name}</h4>
-          <div className="mt-2 mb-4">
+          {plan.highlighted && (
+            <div className="mt-2 mb-0.5">
+              <s className="text-sm text-gray-400 font-semibold">£599/month</s>
+            </div>
+          )}
+          <div className={plan.highlighted ? 'mb-0.5' : 'mt-2 mb-4'}>
             <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
             <span className="text-sm text-gray-500 ml-1">{plan.priceLabel}</span>
+            {plan.highlighted && <span className="ml-2 text-xs font-semibold text-purple-600">Early adopter price</span>}
           </div>
+          {plan.highlighted && (
+            <p className="text-[10px] text-gray-400 italic mb-4">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
+          )}
           <ul className="space-y-2">
             {plan.features.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm text-gray-600">
