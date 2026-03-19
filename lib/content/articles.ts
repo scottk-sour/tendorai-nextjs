@@ -2988,6 +2988,17 @@ Ready to explore your options? Whether your contract is ending soon or you're ju
 [Compare suppliers in your area →](/aeo-report)
 `,
   },
+  {
+    slug: 'schema-markup-why-ai-recommends-your-competitor',
+    title: 'Schema Markup Is Why AI Recommends Your Competitor Instead of You',
+    excerpt: "Firms with properly implemented structured data are cited in AI responses 3.2 times more often than those without. Here's what UK solicitors and accountants need to know.",
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-03-19',
+    content: '',
+    href: '/blog/schema-markup-why-ai-recommends-your-competitor',
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
