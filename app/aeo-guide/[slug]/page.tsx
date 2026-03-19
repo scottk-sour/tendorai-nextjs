@@ -65,7 +65,7 @@ function Accordion({
         </svg>
       </summary>
       <div className="px-4 py-3 border-t border-gray-100">
-        <ol className="space-y-2">
+        <ul className="space-y-2">
           {steps.map((step, i) => (
             <li key={i} className="flex gap-3 text-sm text-gray-700">
               <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">
@@ -74,7 +74,7 @@ function Accordion({
               <span className="pt-0.5">{step}</span>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </details>
   )
@@ -90,7 +90,7 @@ export default async function AeoGuidePage({
   if (!guide) notFound()
 
   const showDoneForYouCta =
-    !guide.tendoraiFixesThis && guide.difficulty !== 'Easy'
+    !guide.tendoraiFixesThis
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16 pb-20">
