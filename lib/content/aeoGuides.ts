@@ -108,7 +108,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro installs schema markup that reinforces your meta title signals. When both work together, AI has two sources confirming what your business does. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'TendorAI Pro installs schema markup that reinforces your meta title signals. When both work together, AI has two sources confirming what your business does.',
   },
   {
     slug: 'h1-heading',
@@ -144,7 +144,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro schema markup reinforces your H1 by providing structured data that confirms your service and location to AI independently of your page text. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'TendorAI Pro schema markup reinforces your H1 by providing structured data that confirms your service and location to AI independently of your page text.',
   },
   {
     slug: 'mobile-viewport',
@@ -177,7 +177,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'This is a website infrastructure issue TendorAI cannot fix directly. However our done-for-you Website AI Optimisation service includes checking and fixing your mobile viewport as part of the setup. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'This is a website infrastructure issue TendorAI cannot fix directly. However our done-for-you Website AI Optimisation service includes checking and fixing your mobile viewport as part of the setup.',
   },
   {
     slug: 'ssl-certificate',
@@ -211,7 +211,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'SSL is a hosting issue outside TendorAI\'s control. However our done-for-you Website AI Optimisation service includes verifying and fixing your SSL setup. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'SSL is a hosting issue outside TendorAI\'s control. However our done-for-you Website AI Optimisation service includes verifying and fixing your SSL setup.',
   },
   {
     slug: 'page-weight',
@@ -246,7 +246,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'Our done-for-you Website AI Optimisation service includes compressing your images and basic speed optimisation as part of the setup. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'Our done-for-you Website AI Optimisation service includes compressing your images and basic speed optimisation as part of the setup.',
   },
   {
     slug: 'social-media-links',
@@ -272,7 +272,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro publishes your blog posts to LinkedIn and Facebook automatically, keeping your social profiles active and giving AI fresh content to cite. Your LinkedIn URL is stored in your TendorAI profile and included in your schema markup. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'TendorAI Pro publishes your blog posts to LinkedIn and Facebook automatically, keeping your social profiles active and giving AI fresh content to cite. Your LinkedIn URL is stored in your TendorAI profile and included in your schema markup.',
   },
   {
     slug: 'contact-information',
@@ -298,7 +298,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'Your full address and contact details are stored in your TendorAI profile and included in your schema markup, giving AI a structured, verified source for your location data. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'Your full address and contact details are stored in your TendorAI profile and included in your schema markup, giving AI a structured, verified source for your location data.',
   },
   {
     slug: 'faq-section',
@@ -334,7 +334,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro includes an AI blog writer that automatically generates FAQ-rich content for your TendorAI profile twice a week. This content is indexed by AI platforms and improves your citation frequency. Our done-for-you setup service writes and installs a FAQ section on your own website as part of the £395 package. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'TendorAI Pro includes an AI blog writer that automatically generates FAQ-rich content for your TendorAI profile twice a week. This content is indexed by AI platforms and improves your citation frequency. Our done-for-you setup service writes and installs a FAQ section on your own website as part of the £395 package.',
   },
   {
     slug: 'content-length',
@@ -360,6 +360,6 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro blog writer generates 600-800 word AI-optimised articles about your services twice a week, automatically published to your TendorAI profile. Our done-for-you setup service writes and installs expanded content on your key service pages as part of the £395 package. Our done-for-you Website AI Optimisation service fixes this for you as part of a one-off £395 setup — we handle everything, you just provide your website login.',
+    tendoraiHowItHelps: 'TendorAI Pro blog writer generates 600-800 word AI-optimised articles about your services twice a week, automatically published to your TendorAI profile. Our done-for-you setup service writes and installs expanded content on your key service pages as part of the £395 package.',
   },
 ]
