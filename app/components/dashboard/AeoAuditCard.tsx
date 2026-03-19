@@ -4,6 +4,19 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { hasTierAccess } from './TierGate';
 
+const CHECK_TO_GUIDE: Record<string, string> = {
+  schema: 'schema-markup',
+  meta: 'meta-titles',
+  h1: 'h1-heading',
+  viewport: 'mobile-viewport',
+  ssl: 'ssl-certificate',
+  speed: 'page-weight',
+  social: 'social-media-links',
+  contact: 'contact-information',
+  faq: 'faq-section',
+  content: 'content-length',
+};
+
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -1323,6 +1336,14 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
                           {check.recommendation}
                         </p>
                       ) : null}
+                      {CHECK_TO_GUIDE[check.key] && (
+                        <Link
+                          href={`/aeo-guide/${CHECK_TO_GUIDE[check.key]}`}
+                          className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-2 font-medium"
+                        >
+                          Learn how to fix this &rarr;
+                        </Link>
+                      )}
                     </div>
                   )}
                 </div>

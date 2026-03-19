@@ -168,7 +168,16 @@ function ScoreGauge({ score }: { score: number }) {
   );
 }
 
-function CheckItem({ label, checked, detail }: { label: string; checked: boolean; detail: string }) {
+const REPORT_CHECK_TO_GUIDE: Record<string, string> = {
+  pricingInformation: 'faq-section',
+  structuredData: 'schema-markup',
+  socialMediaPresence: 'social-media-links',
+  googleBusinessProfile: 'contact-information',
+  detailedServicePages: 'content-length',
+  customerReviews: 'faq-section',
+};
+
+function CheckItem({ label, checked, detail, guideSlug }: { label: string; checked: boolean; detail: string; guideSlug?: string }) {
   return (
     <div className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
       <span
@@ -181,6 +190,14 @@ function CheckItem({ label, checked, detail }: { label: string; checked: boolean
       <div>
         <p className="font-semibold text-gray-900 text-sm">{label}</p>
         <p className="text-gray-500 text-xs mt-0.5">{detail}</p>
+        {!checked && guideSlug && (
+          <Link
+            href={`/aeo-guide/${guideSlug}`}
+            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1 font-medium"
+          >
+            How to fix this &rarr;
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -729,11 +746,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               label="Customer Reviews Visible"
               checked={!!sc.hasReviews}
               detail={sc.hasReviews ? 'Reviews found online' : 'No reviews found on Google, Trustpilot, etc.'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.customerReviews}
             />
             <CheckItem
               label="Pricing Information"
               checked={!!sc.hasPricing}
               detail={sc.hasPricing ? 'Pricing visible on website' : 'No pricing information found'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.pricingInformation}
             />
             <CheckItem
               label="Brand Partnerships Listed"
@@ -744,21 +763,25 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               label="Structured Data (Schema.org)"
               checked={!!sc.hasStructuredData}
               detail={sc.hasStructuredData ? 'Schema markup detected' : 'No structured data — AI cannot easily parse your site'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.structuredData}
             />
             <CheckItem
               label="Detailed Service Pages"
               checked={!!sc.hasDetailedServices}
               detail={sc.hasDetailedServices ? 'Service pages with detail' : 'Vague or missing service descriptions'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.detailedServicePages}
             />
             <CheckItem
               label="Social Media Presence"
               checked={!!sc.hasSocialMedia}
               detail={sc.hasSocialMedia ? 'Active social profiles found' : 'No active social media found'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.socialMediaPresence}
             />
             <CheckItem
               label="Google Business Profile"
               checked={!!sc.hasGoogleBusiness}
               detail={sc.hasGoogleBusiness ? 'Google Business listing found' : 'No Google Business Profile detected'}
+              guideSlug={REPORT_CHECK_TO_GUIDE.googleBusinessProfile}
             />
           </div>
         </section>
