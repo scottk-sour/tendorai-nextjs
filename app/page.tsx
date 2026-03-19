@@ -14,6 +14,7 @@ import Verticals from './components/landing/Verticals';
 import ServiceCategories from './components/landing/ServiceCategories';
 import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
+import ProofSection from './components/homepage/ProofSection';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
@@ -306,6 +307,9 @@ export default async function HomePage() {
 
         {/* What AI Platforms Say */}
         <AiTestimonials />
+
+        {/* Proof — TendorAI's own AI visibility stats */}
+        <ProofSection />
 
         {/* SEO vs AEO vs GEO */}
         <SeoAeo />
