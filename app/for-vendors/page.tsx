@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
-  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month. No agency required.",
+  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (early adopter price). No agency required.",
   alternates: { canonical: '/for-vendors' },
 };
 
@@ -27,7 +27,7 @@ export default function ForVendorsPage() {
     },
     {
       q: 'How is this different from SEO agencies?',
-      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £299/month, not £5,000.",
+      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £299/month (early adopter price, rising to £599), not £5,000.",
     },
   ];
 
@@ -199,10 +199,15 @@ export default function ForVendorsPage() {
                 </div>
                 <div className="text-center mb-6 pt-2">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Pro</h3>
-                  <div className="mb-2">
+                  <div className="mb-1">
+                    <s className="text-lg text-gray-400 font-semibold">£599/month</s>
+                  </div>
+                  <div className="mb-1">
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
+                    <span className="ml-2 text-sm font-semibold text-amber-600">Early adopter price</span>
                   </div>
+                  <p className="text-xs text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
                 </div>
                 <p className="text-sm text-gray-500 text-center mb-6">We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.</p>
                 <ul className="space-y-3 mb-8">
@@ -243,7 +248,7 @@ export default function ForVendorsPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
-                    ['Monthly cost', '£1,500 — £8,000', '£299/month'],
+                    ['Monthly cost', '£1,500 — £8,000', '£299/month (early adopter)'],
                     ['Contract', '12 months minimum', 'Month-to-month, cancel anytime'],
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],

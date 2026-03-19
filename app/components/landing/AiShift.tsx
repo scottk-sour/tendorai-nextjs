@@ -17,7 +17,7 @@ const rows = [
   {
     label: 'Cost',
     old: '£500–£8,000/mo for SEO and lead gen',
-    now: 'From £299/mo for full AI visibility',
+    now: 'From £299/mo — early adopter price (rising to £599)',
   },
   {
     label: 'What you need',
