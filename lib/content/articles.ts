@@ -423,7 +423,7 @@ Yes — Pro tier includes AI mention tracking and weekly visibility reports. But
 None. You complete your profile through a dashboard. On Pro tier, TendorAI installs the schema markup on your website — you provide the login and we handle everything else.
 
 **How is TendorAI different from an SEO agency?**
-SEO agencies optimise for Google. TendorAI optimises for AI recommendations. Agencies charge £1,500–£8,000/month and take 3–6 months to go live. TendorAI is £299/month and live within 48 hours.
+SEO agencies optimise for Google. TendorAI optimises for AI recommendations. Agencies charge £1,500–£8,000/month and take 3–6 months to go live. TendorAI is ~~£599/month~~ **£299/month** (early adopter price) and live within 48 hours. *Lock in this price forever — we're raising to £599 when we reach 50 customers.*
 
 **Why is my firm already listed on TendorAI?**
 TendorAI pre-builds profiles from SRA, ICAEW, and FCA register data. Over 12,000 UK professional services firms are already listed. You claim your profile and complete it — the foundation is already there.
@@ -752,7 +752,7 @@ Because TendorAI profiles are built from **live SRA register data**, your regula
 
 **Pricing:**
 - **Free** — Instant AI visibility report, basic profile
-- **Pro £299/mo** — Weekly reports, schema installation, AI mention tracking, Verified badge
+- **Pro ~~£599/mo~~ £299/mo (early adopter price)** — Weekly reports, schema installation, AI mention tracking, Verified badge
 
 The solicitors doing this now are the ones who'll own AI recommendations in their area. The window is still open — but it's closing fast.
 

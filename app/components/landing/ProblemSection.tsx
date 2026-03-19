@@ -67,7 +67,8 @@ export default function ProblemSection() {
           <p className="text-[var(--text2)] text-sm leading-relaxed">
             Even Trustpilot charges <strong className="text-[var(--text)]">£299/month</strong> just
             for review management — and that doesn&apos;t include AI visibility, structured data,
-            or ranking in AI results.
+            or ranking in AI results. TendorAI Pro is <s className="text-gray-400">£599/month</s>{' '}
+            <strong className="text-[var(--text)]">£299/month</strong> at our early adopter price.
           </p>
         </div>
       </div>

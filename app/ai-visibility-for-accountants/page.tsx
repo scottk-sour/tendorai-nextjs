@@ -555,14 +555,23 @@ export default function Page() {
                       {plan.name}
                     </h3>
 
-                    <div className="mb-1">
+                    {plan.popular && (
+                      <div className="mb-0.5">
+                        <s className="text-sm text-gray-400 font-semibold">£599/month</s>
+                      </div>
+                    )}
+                    <div className="mb-0.5">
                       <span className="text-3xl font-bold text-[var(--text)]">
                         {plan.price}
                       </span>
                       <span className="text-[var(--text2)] text-sm">
                         {plan.period}
                       </span>
+                      {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">Early adopter price</span>}
                     </div>
+                    {plan.popular && (
+                      <p className="text-[10px] text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
+                    )}
 
                     <ul className="space-y-2.5 mb-7 mt-5">
                       {plan.features.map((f, j) => (
