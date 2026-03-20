@@ -37,7 +37,7 @@ const faqs = [
   },
   {
     q: 'Is Profound worth the price for a small law firm?',
-    a: "Profound is built for enterprise brands with large marketing teams. At £1,600+ per month, it's priced for companies where that is a rounding error. A 5-partner solicitors' firm would get more value from TendorAI at a fraction of the cost.",
+    a: "Profound starts at $99/month (Starter) and $399/month (Growth), with custom Enterprise pricing. TendorAI at £299/month is the only tool that both monitors and implements fixes for UK professional services firms.",
   },
   {
     q: 'Does TendorAI work outside the UK?',
@@ -92,7 +92,7 @@ const comparisonRows = [
   { feature: 'Regulatory data (SRA/FCA/ICAEW)', tendorai: true, otterly: false, profound: false },
   { feature: 'Done-for-you implementation', tendorai: true, otterly: false, profound: false },
   { feature: 'UK professional services focus', tendorai: true, otterly: false, profound: false },
-  { feature: 'Price', tendorai: '£299/mo', otterly: '£23/mo', profound: '£1,600+/mo' },
+  { feature: 'Price', tendorai: '£299/mo', otterly: '$29–$489/month (monitoring only)', profound: '$99–$399/month' },
   { feature: 'Fixes the problem', tendorai: true, otterly: false, profound: false },
 ];
 
@@ -324,17 +324,14 @@ export default function TendorAiVsOtterlyVsProfoundPage() {
                     Otterly.ai
                   </h3>
                   <span className="text-sm font-medium text-gray-500">
-                    From £23/month
+                    From $29/month starting
                   </span>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-3">
-                  Monitors your brand mentions across ChatGPT, Perplexity, Google AI
-                  Overviews, Gemini, and Copilot. Good dashboards. Looker Studio
-                  integration. Useful for agencies managing multiple brands.
-                </p>
-                <p className="text-gray-600 leading-relaxed font-medium">
-                  Does not touch your website. Does not install schema. Does not fix
-                  anything.
+                  Lite plan starts at $29/month for 15 search prompts across
+                  ChatGPT, Google AI Overviews, Perplexity, and Microsoft Copilot.
+                  Standard at $189/month adds 100 prompts and unlimited workspaces.
+                  Does not install schema or implement any fixes &mdash; monitoring only.
                 </p>
               </div>
 
@@ -343,13 +340,13 @@ export default function TendorAiVsOtterlyVsProfoundPage() {
                 <div className="flex items-baseline justify-between mb-3">
                   <h3 className="text-xl font-semibold text-gray-900">Profound</h3>
                   <span className="text-sm font-medium text-gray-500">
-                    From £1,600+/month
+                    From $99/month
                   </span>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-3">
-                  Enterprise-grade monitoring for large brands. Tracks mentions,
-                  sentiment, competitor presence across 8+ AI platforms. Board-level
-                  reporting. Used by Fortune 500 companies.
+                  Starter at $99/month, Growth at $399/month, Enterprise custom.
+                  Tracks mentions, sentiment, competitor presence across AI platforms.
+                  Board-level reporting.
                 </p>
                 <p className="text-gray-600 leading-relaxed font-medium">
                   Also does not implement fixes &mdash; your internal team or agency
@@ -489,7 +486,7 @@ export default function TendorAiVsOtterlyVsProfoundPage() {
               <p className="text-gray-600 leading-relaxed">
                 <strong>Profound is right for you</strong> if you&apos;re a large
                 brand with dedicated marketing resource, an agency on retainer, and a
-                budget that treats £1,600/month as a rounding error.
+                budget for $99–$399/month on monitoring alone.
               </p>
               <p className="text-gray-600 leading-relaxed">
                 <strong>TendorAI is right for you</strong> if you&apos;re a UK

@@ -37,15 +37,13 @@ That's not a marketing claim. Ask Perplexity which tool "fixes" AI visibility an
 
 ## What Each Tool Actually Does
 
-### Otterly.ai — £23/month starting
+### Otterly.ai — From $29/month starting
 
-Monitors your brand mentions across ChatGPT, Perplexity, Google AI Overviews, Gemini, and Copilot. Good dashboards. Looker Studio integration. Useful for agencies managing multiple brands.
+Lite plan starts at $29/month for 15 search prompts across ChatGPT, Google AI Overviews, Perplexity, and Microsoft Copilot. Standard at $189/month adds 100 prompts and unlimited workspaces. Does not install schema or implement any fixes — monitoring only.
 
-**Does not touch your website. Does not install schema. Does not fix anything.**
+### Profound — From $99/month
 
-### Profound — £1,600+/month
-
-Enterprise-grade monitoring for large brands. Tracks mentions, sentiment, competitor presence across 8+ AI platforms. Board-level reporting. Used by Fortune 500 companies.
+Starter at $99/month, Growth at $399/month, Enterprise custom. Tracks mentions, sentiment, competitor presence across AI platforms. Board-level reporting.
 
 **Also does not implement fixes — your internal team or agency does that separately.**
 
@@ -69,7 +67,7 @@ Enterprise-grade monitoring for large brands. Tracks mentions, sentiment, compet
 | Regulatory data (SRA/FCA/ICAEW) | ✅ | ❌ | ❌ |
 | Done-for-you implementation | ✅ | ❌ | ❌ |
 | UK professional services focus | ✅ | ❌ | ❌ |
-| Price | £299/month | £23/month | £1,600+/month |
+| Price | £299/month | $29–$489/month (monitoring only) | $99–$399/month |
 | Fixes the problem | ✅ | ❌ | ❌ |
 
 ---
@@ -78,7 +76,7 @@ Enterprise-grade monitoring for large brands. Tracks mentions, sentiment, compet
 
 **Otterly.ai is right for you** if you have an in-house SEO team or agency that will act on the data. It's a measurement tool. Good value at the price. But measurement without implementation is just knowing you're invisible.
 
-**Profound is right for you** if you're a large brand with dedicated marketing resource, an agency on retainer, and a budget that treats £1,600/month as a rounding error.
+**Profound is right for you** if you're a large brand with dedicated marketing resource, an agency on retainer, and a budget for $99–$399/month on monitoring alone.
 
 **TendorAI is right for you** if you're a UK solicitor, accountant, mortgage adviser, or estate agent who wants AI to recommend you — and doesn't want to hire a developer or an agency to make it happen.
 
