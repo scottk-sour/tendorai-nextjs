@@ -210,23 +210,111 @@ export default function ForVendorsPage() {
                   </div>
                   <p className="text-xs text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-6">Schema markup, AI blog content, social publishing, weekly tracking, and a 10-point website audit. Agencies charge £1,500+/month for less.</p>
-                <ul className="space-y-3 mb-8">
-                  {['We install AI visibility code on your website', 'Schema auto-sync — update your profile, website updates too', 'AI blog writer — 2 posts/week published automatically', 'Social publishing to LinkedIn and Facebook', 'Weekly AI visibility tracking across 6 platforms', '10-point website AI audit with fix guides', 'TendorAI Verified badge', 'Export your schema — your data stays with you', 'Priority support'].map((f, i) => (
-                    <li key={i} className="flex items-start space-x-3">
+                <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
+
+                {/* Schema & Website */}
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Schema &amp; Website</p>
+                <ul className="space-y-2.5 mb-5">
+                  {[
+                    'AI-optimised schema markup installed on your website within 48 hours',
+                    'Auto-sync \u2014 every dashboard update updates your website schema automatically',
+                    'Fees, accreditations, and practice areas visible to AI',
+                    'Export your schema any time \u2014 your data stays with you if you ever leave',
+                    'Done-for-you installation \u2014 just send us your website login',
+                  ].map((f, i) => (
+                    <li key={`schema-${i}`} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       <span className="text-sm text-gray-700">{f}</span>
                     </li>
                   ))}
-                  <li className="flex items-start space-x-3">
+                </ul>
+
+                {/* AI Blog Writer */}
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">AI Blog Writer</p>
+                <ul className="space-y-2.5 mb-5">
+                  {[
+                    'Write two AI-optimised blog posts per week automatically',
+                    'Enter a topic, Claude writes it in Yadav format \u2014 the structure AI loves to cite',
+                    'One click publishes to your TendorAI profile',
+                    'Copy to LinkedIn and Facebook with one click',
+                    'Blog content published to your own website via script tag',
+                  ].map((f, i) => (
+                    <li key={`blog-${i}`} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Tracking & Visibility */}
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tracking &amp; Visibility</p>
+                <ul className="space-y-2.5 mb-5">
+                  {[
+                    'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
+                    'Email alert when Perplexity recommends you',
+                    'Weekly AI Visibility Score with trend tracking',
+                    'Competitor comparison \u2014 see who AI recommends instead',
+                    'Profile gaps report \u2014 exact fields missing and why they matter',
+                  ].map((f, i) => (
+                    <li key={`tracking-${i}`} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Directory & Profile */}
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Directory &amp; Profile</p>
+                <ul className="space-y-2.5 mb-5">
+                  {[
+                    'Ranked above free profiles in TendorAI directory',
+                    'TendorAI Verified badge on your profile',
+                    'Pre-built profile from SRA, ICAEW, or FCA register data',
+                    'Unlimited products and services listed',
+                    'Team members with individual specialisms',
+                  ].map((f, i) => (
+                    <li key={`directory-${i}`} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Reports & Support */}
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Reports &amp; Support</p>
+                <ul className="space-y-2.5 mb-5">
+                  {[
+                    'Weekly AI Visibility Report emailed every Monday',
+                    '10-point Website AI Audit with fix guides',
+                    'Google Business Profile optimisation checklist',
+                    'Priority support',
+                    '90-day guarantee \u2014 score improves or full refund',
+                  ].map((f, i) => (
+                    <li key={`reports-${i}`} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="border-t border-gray-100 pt-4 mb-6">
+                  <div className="flex items-start space-x-3">
                     <svg className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                     <span className="text-sm text-gray-500">If you cancel, the AI visibility code stops working</span>
-                  </li>
-                </ul>
+                  </div>
+                </div>
                 <Link href="https://www.tendorai.com/vendor-signup?tier=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                   Start Pro
                 </Link>
