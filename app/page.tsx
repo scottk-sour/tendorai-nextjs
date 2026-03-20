@@ -308,7 +308,7 @@ export default async function HomePage() {
         {/* What AI Platforms Say */}
         <AiTestimonials />
 
-        {/* Proof — Our own AI visibility stats */}
+        {/* Proof — TendorAI's own AI visibility stats */}
         <ProofSection />
 
         {/* SEO vs AEO vs GEO */}
