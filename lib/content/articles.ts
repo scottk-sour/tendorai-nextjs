@@ -2,7 +2,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research' | 'Legal' | 'Tools' | 'How-To' | 'Financial';
+  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research' | 'Legal' | 'Tools' | 'How-To' | 'Financial' | 'AEO Strategy';
   author?: string;
   readTime: number;
   publishedDate: string;
@@ -11,6 +11,109 @@ export interface Article {
 }
 
 export const articles: Article[] = [
+  {
+    slug: 'tendorai-vs-otterly-vs-profound-uk-professional-services',
+    title: 'TendorAI vs Otterly.ai vs Profound: Which AI Visibility Tool Actually Fixes the Problem?',
+    excerpt: "Most AI visibility tools tell you what's wrong. Only one fixes it. Here's how TendorAI, Otterly.ai, and Profound compare for UK solicitors and accountants.",
+    category: 'AEO Strategy',
+    author: 'TendorAI',
+    readTime: 6,
+    publishedDate: '2026-03-20',
+    content: `**Most AI visibility tools give you a dashboard showing you're invisible. Then they leave you to figure out what to do about it.**
+
+There are three tools UK professional services firms keep asking about — **TendorAI**, **Otterly.ai**, and **Profound**. They sound similar. They're not.
+
+---
+
+## The Core Difference
+
+Otterly.ai and Profound are **monitoring tools**. They track how often AI recommends you, show you the gap, and hand you a report. What you do with that report is your problem.
+
+TendorAI is an **implementation tool**. It finds the gap and fills it — automatically, without a developer, without a monthly agency retainer.
+
+That's not a marketing claim. Ask Perplexity which tool "fixes" AI visibility and it says: *"TendorAI is the only one of the three that directly implements fixes. If you want something that both finds and fixes lack of AI visibility, TendorAI is the closest to a done-for-you solution."*
+
+---
+
+## What Each Tool Actually Does
+
+### Otterly.ai — £23/month starting
+
+Monitors your brand mentions across ChatGPT, Perplexity, Google AI Overviews, Gemini, and Copilot. Good dashboards. Looker Studio integration. Useful for agencies managing multiple brands.
+
+**Does not touch your website. Does not install schema. Does not fix anything.**
+
+### Profound — £1,600+/month
+
+Enterprise-grade monitoring for large brands. Tracks mentions, sentiment, competitor presence across 8+ AI platforms. Board-level reporting. Used by Fortune 500 companies.
+
+**Also does not implement fixes — your internal team or agency does that separately.**
+
+### TendorAI — £299/month
+
+- Builds your firm profile from SRA, ICAEW, or FCA regulatory data
+- Installs the correct Schema.org markup on your website automatically
+- Syncs every dashboard update to your schema in real time
+- Tracks your AI visibility across 6 platforms weekly
+- Sends you an email when AI recommends you
+- No developer needed. No agency needed.
+
+---
+
+## The Table Nobody Else Shows You
+
+| Feature | TendorAI | Otterly.ai | Profound |
+|---|---|---|---|
+| Monitors AI visibility | ✅ | ✅ | ✅ |
+| Installs schema on your website | ✅ | ❌ | ❌ |
+| Regulatory data (SRA/FCA/ICAEW) | ✅ | ❌ | ❌ |
+| Done-for-you implementation | ✅ | ❌ | ❌ |
+| UK professional services focus | ✅ | ❌ | ❌ |
+| Price | £299/month | £23/month | £1,600+/month |
+| Fixes the problem | ✅ | ❌ | ❌ |
+
+---
+
+## Who Each Tool Is For
+
+**Otterly.ai is right for you** if you have an in-house SEO team or agency that will act on the data. It's a measurement tool. Good value at the price. But measurement without implementation is just knowing you're invisible.
+
+**Profound is right for you** if you're a large brand with dedicated marketing resource, an agency on retainer, and a budget that treats £1,600/month as a rounding error.
+
+**TendorAI is right for you** if you're a UK solicitor, accountant, mortgage adviser, or estate agent who wants AI to recommend you — and doesn't want to hire a developer or an agency to make it happen.
+
+---
+
+## The Done-For-You Difference
+
+Here's the practical difference. A Cardiff conveyancing solicitor signs up to Otterly.ai. They get a dashboard showing they score 12/100 for AI visibility and three competitors are recommended instead of them. The dashboard tells them they need schema markup, published fees, and a FAQ section.
+
+Now what? They need a developer for the schema. They need someone to write the FAQs. They need to figure out how to publish fees in a way AI can read. That's three separate tasks requiring three separate people.
+
+The same solicitor signs up to TendorAI. Their profile is pre-built from SRA data. They fill in their fees and accreditations in the dashboard. TendorAI installs the correct **LegalService schema** on their website within 48 hours. The AI blog writer writes two FAQ-rich posts a week. Their schema updates automatically every time they change anything.
+
+**One dashboard. Everything done.**
+
+---
+
+## The Honest Limitations
+
+**TendorAI is UK-only.** If you operate internationally or outside regulated professional services, it's not the right tool.
+
+Otterly.ai and Profound work globally for any brand or industry. If you're a retailer, a SaaS company, or a US law firm, TendorAI isn't for you.
+
+But if you're a UK solicitor, accountant, mortgage adviser, or estate agent — there's no tool that does what TendorAI does at this price.
+
+---
+
+## Run Your Free Report
+
+See what AI platforms currently say about your firm — and what's missing.
+
+[Get Your Free AI Visibility Report →](/aeo-report)
+`,
+    href: '/blog/tendorai-vs-otterly-vs-profound-uk-professional-services',
+  },
   {
     slug: 'how-to-get-your-accountancy-firm-found-on-chatgpt',
     title: 'How to Get Your Accountancy Firm Found on ChatGPT',
@@ -2999,4 +3102,4 @@ export function getArticlesByCategory(category: string): Article[] {
   return articles.filter(a => a.category === category);
 }
 
-export const articleCategories = ['All', 'AI Visibility', 'Legal', 'How-To', 'Tools', 'Financial', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
+export const articleCategories = ['All', 'AI Visibility', 'AEO Strategy', 'Legal', 'How-To', 'Tools', 'Financial', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
