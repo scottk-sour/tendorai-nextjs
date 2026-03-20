@@ -27,7 +27,7 @@ export default function ForVendorsPage() {
     },
     {
       q: 'How is this different from SEO agencies?',
-      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience. And we cost £299/month (early adopter price, rising to £599), not £5,000.",
+      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI — and writes AI-optimised blog content, publishes to social media, and audits your website. Different technology, different audience. And we cost £299/month (early adopter price, rising to £599), not £5,000.",
     },
   ];
 
@@ -49,10 +49,10 @@ export default function ForVendorsPage() {
           </p>
           <p className="text-base text-white/70 max-w-3xl mx-auto mb-4">
             TendorAI creates a verified entity record for your firm &mdash; structured,
-            regulatory-linked, and embedded directly onto your website. When ChatGPT,
-            Perplexity or Claude looks for a solicitor to recommend, they find a closed
-            trust loop: your website, your TendorAI profile, your SRA registration, all
-            cross-referenced and machine-readable.
+            data-linked, and embedded directly onto your website. When ChatGPT,
+            Perplexity or Claude looks for a firm to recommend, they find a closed
+            trust loop: your website, your TendorAI profile, your regulatory or business
+            data, all cross-referenced and machine-readable.
           </p>
           <p className="text-base text-white/70 max-w-3xl mx-auto mb-10">
             Every update you make to your TendorAI profile automatically restructures your
@@ -109,7 +109,7 @@ export default function ForVendorsPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
             {[
-              { step: '1', title: 'We list you', description: 'Your business gets a free profile built from public register data (SRA, Companies House).' },
+              { step: '1', title: 'We list you', description: 'Your business gets a free profile built from public data — regulatory registers (SRA, ICAEW, FCA) or Companies House.' },
               { step: '2', title: 'You claim & enrich', description: 'Add pricing, accreditations, and specialisms — the structured data AI needs.' },
               { step: '3', title: 'AI crawlers index us', description: 'ChatGPT, Claude, Perplexity, and Google AI all crawl your enriched profile.' },
               { step: '4', title: 'You get the client', description: 'AI recommends you by name. Customer comes direct. No bidding. No shared leads.' },
@@ -143,9 +143,10 @@ export default function ForVendorsPage() {
             />
           </svg>
           <p className="text-gray-600 text-base leading-relaxed max-w-2xl mx-auto">
-            Your TendorAI profile starts with verified data from your regulatory body — SRA number,
-            practice areas, office locations, and contact details. You&apos;re not starting from scratch.
-            Claim your profile, add your pricing and services, and AI starts recommending you.
+            Your TendorAI profile starts with verified data &mdash; regulatory numbers, practice areas,
+            office locations, and contact details for regulated firms, or Companies House data for B2B
+            suppliers. You&apos;re not starting from scratch. Claim your profile, add your pricing and
+            services, and AI starts recommending you.
           </p>
         </div>
       </section>
@@ -171,7 +172,7 @@ export default function ForVendorsPage() {
                   <span className="text-4xl font-bold text-gray-900">£0</span>
                   <span className="text-gray-500">/forever</span>
                 </div>
-                <p className="text-sm text-gray-500">Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.</p>
+                <p className="text-sm text-gray-500">Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic business details.</p>
               </div>
               <ul className="space-y-3 mb-8">
                 {['Basic company profile', 'Listed in directory', 'Public register data', 'No pricing visible to AI'].map((f, i) => (
@@ -209,9 +210,9 @@ export default function ForVendorsPage() {
                   </div>
                   <p className="text-xs text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-6">We install AI-optimised data on your website, track your AI mentions, and give you a Verified badge. Agencies charge £1,500+/month for this.</p>
+                <p className="text-sm text-gray-500 text-center mb-6">Schema markup, AI blog content, social publishing, weekly tracking, and a 10-point website audit. Agencies charge £1,500+/month for less.</p>
                 <ul className="space-y-3 mb-8">
-                  {['We install AI visibility code on your website', 'Your website and TendorAI stay in sync automatically', 'AI mention tracking — see when AI talks about you', 'Weekly AI visibility reports', 'TendorAI Verified badge', 'GBP optimisation checklist', 'Unlimited products and services', 'Priority support'].map((f, i) => (
+                  {['We install AI visibility code on your website', 'Schema auto-sync — update your profile, website updates too', 'AI blog writer — 2 posts/week published automatically', 'Social publishing to LinkedIn and Facebook', 'Weekly AI visibility tracking across 6 platforms', '10-point website AI audit with fix guides', 'TendorAI Verified badge', 'Export your schema — your data stays with you', 'Priority support'].map((f, i) => (
                     <li key={i} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -255,6 +256,7 @@ export default function ForVendorsPage() {
                     ['What gets installed', 'Manual audit, maybe some schema', 'AI-optimised data that syncs with your profile'],
                     ['AI platforms covered', 'Usually 1–2', 'All major AI (ChatGPT, Gemini, Claude, Perplexity)'],
                     ['If you cancel', 'You keep whatever they built', 'AI visibility code stops — keeps you paying'],
+                    ['Content & reputation', 'Manual, £800–£2,000/month extra', 'AI blog writer, social publishing, review collection — included'],
                     ['Ongoing updates', 'You pay for every change', 'Automatic — update TendorAI, your website updates too'],
                   ].map(([label, agency, tendorai], i) => (
                     <tr key={i}>

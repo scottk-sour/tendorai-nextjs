@@ -39,10 +39,14 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
         </h1>
 
         {/* Subtitle — long-tail keywords */}
-        <p className="text-base md:text-lg text-[var(--text2)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          When someone asks ChatGPT for a solicitor in Cardiff or a mortgage adviser in Bristol,
-          AI needs verified, structured data to give a specific answer. TendorAI has already built
-          your profile from SRA, ICAEW, and FCA register data. Claim it &mdash; we handle the rest.
+        <p className="text-base md:text-lg text-[var(--text2)] mb-4 max-w-2xl mx-auto leading-relaxed">
+          Schema markup, AI blog content, social publishing, and weekly tracking &mdash; all automatic.
+          Built for UK professional services and B2B firms.
+        </p>
+        <p className="text-sm md:text-base text-[var(--text3)] mb-10 max-w-2xl mx-auto leading-relaxed">
+          When someone asks ChatGPT for a solicitor in Cardiff, an IT supplier in Manchester, or a mortgage
+          adviser in Bristol, AI needs verified, structured data to give a specific answer. TendorAI has
+          already built your profile &mdash; from regulatory registers and public business data. Claim it &mdash; we handle the rest.
         </p>
 
         {/* CTA Buttons */}
