@@ -86,12 +86,12 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Free AI Visibility reports for UK solicitors, accountants and mortgage advisers. See if ChatGPT, Perplexity and Claude recommend your firm.";
+const newDescription = "Free AI Visibility reports for UK professional services and B2B firms — solicitors, accountants, mortgage advisers, and office equipment suppliers. See if ChatGPT, Perplexity and Claude recommend your firm.";
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility for UK Professional Services" },
   description: newDescription,
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, AI visibility for office equipment suppliers, AI visibility for B2B firms, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },

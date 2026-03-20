@@ -83,9 +83,9 @@ export default function SectorBenefits() {
     <section aria-label="sector benefits" className="py-20 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="section-header">
-          <h2>Built for UK Professional Services</h2>
+          <h2>Built for UK Professional Services and B2B Firms</h2>
           <p>
-            Structured data profiles tailored to each sector &mdash; so AI recommends the right professional for every query.
+            Structured data profiles tailored to each sector &mdash; from regulated professions to office equipment suppliers. AI recommends the right firm for every query.
           </p>
         </div>
 

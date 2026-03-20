@@ -5,7 +5,7 @@ const steps = [
     number: '01',
     title: 'Check Your AI Visibility',
     description:
-      'Your firm is already in our system \u2014 built from SRA, ICAEW, or FCA register data. Run a free AI Visibility report to see what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds.',
+      'Your firm may already be in our system \u2014 we pull from SRA, ICAEW, FCA registers and public business data. Run a free AI Visibility report to see what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -70,6 +70,50 @@ export default function Features() {
               <p className="text-sm text-[var(--text2)] leading-relaxed">{step.description}</p>
             </div>
           ))}
+        </div>
+
+        {/* What's Included */}
+        <div className="mt-16">
+          <div className="section-header">
+            <h2>Everything You Get</h2>
+            <p>Schema is just the start. TendorAI handles content, social, tracking, and auditing &mdash; automatically.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: 'AI Blog Writer',
+                text: 'Publish two AI-optimised blog posts a week automatically. Enter a topic, Claude writes it in the format AI loves, publishes to your TendorAI profile, LinkedIn, Facebook, and your own website. No writer needed.',
+              },
+              {
+                title: 'Social Publishing',
+                text: 'Every blog post syncs to LinkedIn and Facebook automatically. LinkedIn is cited in 48% of AI responses \u2014 consistent publishing builds the citation signals AI uses to recommend you.',
+              },
+              {
+                title: 'Schema Auto-Sync',
+                text: 'Every dashboard update syncs to your website schema automatically. Fees change? Schema updates in minutes. New accreditation? Live the same day. No developer ever needed.',
+              },
+              {
+                title: 'Website AI Audit',
+                text: "10-point technical audit of your website. Each failing item links to a plain English fix guide. We show you exactly what\u2019s stopping AI from recommending you \u2014 and how to fix it.",
+              },
+              {
+                title: 'AI Visibility Tracking',
+                text: 'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Get an email the moment Perplexity recommends you. Track your score trend week by week.',
+              },
+              {
+                title: 'Export Your Schema',
+                text: 'Download your complete JSON-LD schema as a static file any time. If you ever leave TendorAI, your structured data stays with you \u2014 self-host it and it keeps working forever.',
+              },
+            ].map((feature) => (
+              <div
+                key={feature.title}
+                className="bg-white rounded-xl border border-[var(--border)] p-6 hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-all"
+              >
+                <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-2">{feature.title}</h3>
+                <p className="text-sm text-[var(--text2)] leading-relaxed">{feature.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="text-center mt-8">
