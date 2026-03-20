@@ -30,7 +30,7 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
         </div>
 
         {/* Title */}
-        <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[var(--text)] mb-6 leading-[1.15] tracking-tight">
+        <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gray-900 mb-6 leading-[1.15] tracking-tight">
           Your firm is already listed.{' '}
           <em className="gradient-text not-italic font-bold" style={{ fontStyle: 'italic' }}>
             Claim it

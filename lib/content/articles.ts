@@ -115,6 +115,17 @@ See what AI platforms currently say about your firm — and what's missing.
     href: '/blog/tendorai-vs-otterly-vs-profound-uk-professional-services',
   },
   {
+    slug: 'schema-markup-why-ai-recommends-your-competitor',
+    title: 'Schema Markup Is Why AI Recommends Your Competitor Instead of You',
+    excerpt: "Firms with properly implemented structured data are cited in AI responses 3.2 times more often than those without. Here's what UK solicitors and accountants need to know.",
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-03-19',
+    content: '',
+    href: '/blog/schema-markup-why-ai-recommends-your-competitor',
+  },
+  {
     slug: 'how-to-get-your-accountancy-firm-found-on-chatgpt',
     title: 'How to Get Your Accountancy Firm Found on ChatGPT',
     excerpt: 'Most UK accountancy firms are invisible to AI search. 87% of accounting professionals use ChatGPT \u2014 your clients are using it too. Here\u2019s how to get recommended.',
