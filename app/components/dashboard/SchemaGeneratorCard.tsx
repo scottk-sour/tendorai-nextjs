@@ -163,6 +163,9 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
   const [validationError, setValidationError] = useState('');
   const [schemaHealth, setSchemaHealth] = useState<'green' | 'amber' | 'none'>('none');
 
+  // Schema export state
+  const [copiedJson, setCopiedJson] = useState(false);
+
   // Self-install copy state
   const [copiedScript, setCopiedScript] = useState(false);
   const [copiedDiv, setCopiedDiv] = useState(false);
@@ -342,12 +345,51 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
         <div className="space-y-6">
           {/* JSON-LD Preview (read-only) */}
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Your JSON-LD Schema</h4>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-medium text-gray-700">Your JSON-LD Schema</h4>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
+                    setCopiedJson(true);
+                    setTimeout(() => setCopiedJson(false), 2000);
+                  }}
+                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  {copiedJson ? '\u2713 Copied' : 'Copy JSON'}
+                </button>
+                <button
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(
+                        `${API_URL}/api/schema/${vendorId}/export`,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      );
+                      const blob = await res.blob();
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'tendorai-schema.json';
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    } catch (err) {
+                      console.error('Export failed:', err);
+                    }
+                  }}
+                  className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  {'\u2193'} Download Schema
+                </button>
+              </div>
+            </div>
             <div className="bg-gray-900 rounded-xl p-4 max-h-80 overflow-auto">
               <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap break-words">
                 {schemaJson}
               </pre>
             </div>
+            <p className="text-xs text-gray-400 mt-2">
+              Download your schema as a static JSON-LD file. If you ever leave TendorAI, you can self-host this file and add it manually to your website — your structured data stays with you.
+            </p>
           </div>
 
           {/* Installation Request Section */}
