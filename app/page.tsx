@@ -86,7 +86,7 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "Free AI Visibility reports for UK professional services and B2B firms — solicitors, accountants, mortgage advisers, and office equipment suppliers. See if ChatGPT, Perplexity and Claude recommend your firm.";
+const newDescription = "TendorAI gets UK solicitors, accountants and mortgage advisers recommended by ChatGPT and Perplexity. Free AI visibility report \u2014 30-second results.";
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility for UK Professional Services" },
