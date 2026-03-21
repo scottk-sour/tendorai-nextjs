@@ -269,7 +269,7 @@ export default function AnalyticsPage() {
             Your recent AI query results will appear here after your first weekly scan.
           </p>
           <p className="text-gray-400 text-xs mt-3 italic">
-            Example queries we test: Best conveyancing solicitor in Cardiff — Recommend a family lawyer in South Wales — Conveyancing solicitor near me
+            Example queries we test: {getMockQueries().slice(0, 3).map(q => q.query).join(' — ')}
           </p>
         </div>
       );
@@ -299,29 +299,50 @@ export default function AnalyticsPage() {
     );
   };
 
-  // Derive mock queries from vendor data
+  // Derive mock queries from vendor data — vertical-specific
   const getMockQueries = () => {
     const loc = vendorLocation || 'your area';
+    const pa = vendorPracticeAreas?.[0]?.toLowerCase() || '';
     const cat = vendorCategory || 'supplier';
-    // vendorType-aware mock queries
-    if (vendorCategory === 'Solicitors' || vendorName.toLowerCase().includes('solicitor') || vendorName.toLowerCase().includes('law')) {
-      return [
-        { query: `Best solicitors in ${loc}`, position: 2, source: 'ChatGPT' },
-        { query: `Family law solicitors ${loc}`, position: 1, source: 'Claude' },
-        { query: `Conveyancing solicitors near ${loc}`, position: 3, source: 'Perplexity' },
-      ];
-    }
-    if (vendorCategory === 'Accountants' || vendorName.toLowerCase().includes('accountant')) {
-      return [
-        { query: `Best accountants in ${loc}`, position: 2, source: 'ChatGPT' },
-        { query: `Small business accountants ${loc}`, position: 1, source: 'Claude' },
-        { query: `Tax advisors near ${loc}`, position: 3, source: 'Perplexity' },
-      ];
-    }
-    return [
-      { query: `Best ${cat.toLowerCase()} suppliers in ${loc}`, position: 2, source: 'ChatGPT' },
-      { query: `${cat} companies ${loc}`, position: 1, source: 'Claude' },
-      { query: `${cat} suppliers UK`, position: 3, source: 'Perplexity' },
+
+    const MOCK_QUERIES: Record<string, { query: string; position: number; source: string }[]> = {
+      solicitor: [
+        { query: `Best ${pa || 'conveyancing'} solicitors in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `${pa || 'Conveyancing'} solicitor fees in ${loc}`, position: 1, source: 'Claude' },
+        { query: `SRA regulated ${pa || 'conveyancing'} solicitor ${loc}`, position: 3, source: 'Perplexity' },
+        { query: `Fixed fee ${pa || 'conveyancing'} solicitor near me`, position: 4, source: 'Gemini' },
+      ],
+      accountant: [
+        { query: `Best ${pa || 'tax advisory'} accountants in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `${pa || 'Small business'} accountant ${loc}`, position: 1, source: 'Claude' },
+        { query: `Xero accountant near ${loc}`, position: 3, source: 'Perplexity' },
+        { query: `MTD compliant accountant ${loc}`, position: 4, source: 'Gemini' },
+      ],
+      'mortgage-advisor': [
+        { query: `Best mortgage advisers in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `Whole of market mortgage adviser ${loc}`, position: 1, source: 'Claude' },
+        { query: `Fee free mortgage adviser near ${loc}`, position: 3, source: 'Perplexity' },
+        { query: `First time buyer mortgage adviser ${loc}`, position: 4, source: 'Gemini' },
+      ],
+      'estate-agent': [
+        { query: `Best estate agents in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `Estate agent fees in ${loc}`, position: 1, source: 'Claude' },
+        { query: `Letting agents in ${loc}`, position: 3, source: 'Perplexity' },
+        { query: `Property management ${loc}`, position: 4, source: 'Gemini' },
+      ],
+      'office-equipment': [
+        { query: `Best photocopier suppliers in ${loc}`, position: 2, source: 'ChatGPT' },
+        { query: `Managed print service ${loc}`, position: 1, source: 'Claude' },
+        { query: `Business telecoms provider ${loc}`, position: 3, source: 'Perplexity' },
+        { query: `CCTV installation company ${loc}`, position: 4, source: 'Gemini' },
+      ],
+    };
+
+    return MOCK_QUERIES[vendorType] || [
+      { query: `Best ${cat.toLowerCase()} in ${loc}`, position: 2, source: 'ChatGPT' },
+      { query: `${cat} near ${loc}`, position: 1, source: 'Claude' },
+      { query: `Recommended ${cat.toLowerCase()} ${loc}`, position: 3, source: 'Perplexity' },
+      { query: `Top rated ${cat.toLowerCase()} in ${loc}`, position: 4, source: 'Gemini' },
     ];
   };
 
