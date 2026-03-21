@@ -1288,7 +1288,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </span>
               <p className="font-bold text-lg text-[#1B4F72]">Pro</p>
               <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
-              <p className="text-[10px] text-gray-400">Early adopter price (was &pound;499)</p>
+              <p className="text-[10px] text-gray-400">3/50 early adopter spots remaining</p>
               <p className="text-xs text-gray-500 mt-2 flex-1">
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>

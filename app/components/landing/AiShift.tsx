@@ -17,7 +17,7 @@ const rows = [
   {
     label: 'Cost',
     old: '£500–£8,000/mo for SEO and lead gen',
-    now: 'From £299/mo — early adopter price (rising to £599)',
+    now: 'From £299/mo — 3/50 early adopter spots remaining',
   },
   {
     label: 'What you need',

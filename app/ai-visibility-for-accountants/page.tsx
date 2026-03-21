@@ -567,10 +567,10 @@ export default function Page() {
                       <span className="text-[var(--text2)] text-sm">
                         {plan.period}
                       </span>
-                      {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">Early adopter price</span>}
+                      {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}
                     </div>
                     {plan.popular && (
-                      <p className="text-[10px] text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
+                      <p className="text-[10px] text-gray-400 italic">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
                     )}
 
                     <ul className="space-y-2.5 mb-7 mt-5">
