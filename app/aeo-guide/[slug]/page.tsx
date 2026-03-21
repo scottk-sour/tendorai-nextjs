@@ -173,7 +173,7 @@ export default async function AeoGuidePage({
               >
                 Upgrade to Pro — <s>£599</s> £299/month
               </a>
-              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
+              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
             </div>
           )}
 
@@ -208,7 +208,7 @@ export default async function AeoGuidePage({
               >
                 Upgrade to Pro — <s>£599</s> £299/month
               </a>
-              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
+              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
             </div>
           )}
 

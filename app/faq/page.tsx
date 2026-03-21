@@ -18,7 +18,7 @@ const allFaqs = [
     },
     {
       question: 'How much does it cost?',
-      answer: "Free to be listed. Paid plans start at £299/month (3/50 early adopter spots remaining) for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
+      answer: "Free to be listed. Paid plans start at £299/month (3 of 50 early adopter spots taken) for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
     },
     {
       question: 'What industries do you cover?',
@@ -26,7 +26,7 @@ const allFaqs = [
     },
     {
       question: 'Is it free?',
-      answer: "Free to be listed with a basic profile. Paid plans from £299/month (3/50 early adopter spots remaining) give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
+      answer: "Free to be listed with a basic profile. Paid plans from £299/month (3 of 50 early adopter spots taken) give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
     },
     {
       question: 'What is an AI Visibility (AEO) report?',
@@ -50,7 +50,7 @@ const allFaqs = [
     },
     {
       question: 'How is this different from hiring a GEO agency?',
-      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (3/50 early adopter spots remaining), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
+      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (3 of 50 early adopter spots taken), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
     },
     {
       question: 'Do I need to give you my website password?',
