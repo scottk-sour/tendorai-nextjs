@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
-    a: 'TendorAI plans start from free up to £299/month (3/50 early adopter spots remaining). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
+    a: 'TendorAI plans start from free up to £299/month (3 of 50 early adopter spots taken). A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
   },
   {
     q: 'Is AI search actually replacing Google?',
@@ -86,7 +86,7 @@ function ComparisonTable() {
     { factor: 'Traffic source', seo: 'Google/Bing organic clicks', aeo: 'AI-generated answers with citations' },
     { factor: 'Key ranking factors', seo: 'Backlinks, keywords, site speed', aeo: 'Structured data, reviews, mentions, schema' },
     { factor: 'Time to results', seo: '3-6 months', aeo: '4-8 weeks for initial mentions' },
-    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI (3/50 spots left)' },
+    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI (47 spots remaining)' },
     { factor: 'Measurability', seo: 'Google Search Console, rankings', aeo: 'AI mention tracking, visibility scores' },
     { factor: 'Competition awareness', seo: 'Keyword difficulty scores', aeo: 'Most businesses aren\'t doing this yet' },
   ];
@@ -161,7 +161,7 @@ function PricingCards() {
             {plan.highlighted && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}
           </div>
           {plan.highlighted && (
-            <p className="text-[10px] text-gray-400 italic mb-4">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
+            <p className="text-[10px] text-gray-400 italic mb-4">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
           )}
           <ul className="space-y-2">
             {plan.features.map((feature) => (

@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: 'Is the AI visibility tool free?',
-    a: 'Yes. The instant AI visibility report is completely free — no signup required. You get a one-off snapshot of how AI sees your business. For ongoing AI visibility tracking with weekly reports and mention alerts, see our paid plans starting at £299/month (3/50 early adopter spots remaining).',
+    a: 'Yes. The instant AI visibility report is completely free — no signup required. You get a one-off snapshot of how AI sees your business. For ongoing AI visibility tracking with weekly reports and mention alerts, see our paid plans starting at £299/month (3 of 50 early adopter spots taken).',
   },
   {
     q: 'Which AI platforms does TendorAI track?',
@@ -304,7 +304,7 @@ export default function AiVisibilityToolPage() {
                 </ul>
                 <p className="text-gray-600 leading-relaxed">
                   Ongoing AI visibility tracking is available on Pro (weekly reports, <s className="text-gray-400">£599/month</s>{' '}
-                  <strong>£299/month</strong> — 3/50 early adopter spots remaining).
+                  <strong>£299/month</strong> — 3 of 50 early adopter spots taken).
                 </p>
               </div>
               <div className="mt-8 text-center">

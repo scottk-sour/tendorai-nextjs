@@ -61,7 +61,7 @@ const plans = [
 ];
 
 const comparisonRows = [
-  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month (3/50 spots left)' },
+  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month (47 spots remaining)' },
   { label: 'Contract', agency: '12 months minimum', tendorai: 'Month-to-month, cancel anytime' },
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
@@ -108,7 +108,7 @@ export default function Pricing() {
                   {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}
                 </div>
                 {plan.popular && (
-                  <p className="text-[10px] text-gray-400 italic mb-1">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
+                  <p className="text-[10px] text-gray-400 italic mb-1">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
                 )}
 
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>
