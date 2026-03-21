@@ -495,9 +495,13 @@ const estateAgentCategories = [
   },
 ];
 
+const plural = (count: number, singular: string, pluralForm: string) =>
+  count === 1 ? singular : pluralForm;
+
 const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
-  const renderCategory = (label: string) => (category: typeof officeEquipmentCategories[0]) => {
+  const renderCategory = (singular: string, pluralForm: string) => (category: typeof officeEquipmentCategories[0]) => {
     const count = categoryCounts[category.dbValue] || 0;
+    const label = plural(count, singular, pluralForm);
     const isActive = count >= 3;
     const isThin = count >= 1 && count <= 2;
 
@@ -562,31 +566,31 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
         {/* Office Equipment */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Office Equipment</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {officeEquipmentCategories.map(renderCategory('suppliers'))}
+          {officeEquipmentCategories.map(renderCategory('supplier', 'suppliers'))}
         </div>
 
         {/* Legal Services */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Legal Services</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {legalCategories.map(renderCategory('firms'))}
+          {legalCategories.map(renderCategory('firm', 'firms'))}
         </div>
 
         {/* Accounting Services */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Accounting Services</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {accountantCategories.map(renderCategory('firms'))}
+          {accountantCategories.map(renderCategory('firm', 'firms'))}
         </div>
 
         {/* Mortgage Advisors */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Mortgage Advisors</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {mortgageCategories.map(renderCategory('advisors'))}
+          {mortgageCategories.map(renderCategory('adviser', 'advisers'))}
         </div>
 
         {/* Estate Agents */}
         <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Estate Agents</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {estateAgentCategories.map(renderCategory('agents'))}
+          {estateAgentCategories.map(renderCategory('agent', 'agents'))}
         </div>
       </div>
     </section>

@@ -43,8 +43,12 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
       { $unwind: '$practiceAreas' },
       { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
     ]),
-    // Accountants: total count (practiceAreas not populated yet)
-    Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' }),
+    // Accountants: try practiceAreas aggregation, fall back to total
+    Vendor.aggregate([
+      { $match: { ...statusFilter, vendorType: 'accountant' } },
+      { $unwind: '$practiceAreas' },
+      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
+    ]),
     // Mortgage advisors: group by practiceAreas
     Vendor.aggregate([
       { $match: { ...statusFilter, vendorType: 'mortgage-advisor' } },
@@ -65,9 +69,14 @@ async function getCategoryCounts(): Promise<Record<string, number>> {
   equipmentStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
   // Solicitors
   solicitorStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-  // Accountants — apply total to each subcategory
-  const accountantSubcategories = ['Tax Advisory', 'Audit & Assurance', 'Bookkeeping', 'Payroll', 'Corporate Finance', 'Business Advisory', 'VAT', 'Financial Planning'];
-  accountantSubcategories.forEach((name) => { counts[name] = accountantCount; });
+  // Accountants — use per-subcategory counts if practiceAreas populated, else total
+  if (accountantCount.length > 0) {
+    accountantCount.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
+  } else {
+    // practiceAreas not populated — show total at parent level only via 'Accountants' key
+    const totalAccountants = await Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' });
+    counts['Accountants'] = totalAccountants;
+  }
   // Mortgage advisors
   mortgageStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
   // Estate agents
