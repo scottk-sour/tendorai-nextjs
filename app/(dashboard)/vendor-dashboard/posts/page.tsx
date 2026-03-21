@@ -41,6 +41,111 @@ const categoryColors: Record<string, string> = {
 
 type EditorTab = 'blog' | 'linkedin' | 'facebook';
 
+const CONTENT_IDEAS: Record<string, { category: string; ideas: { topic: string; stats?: string; type: string }[] }[]> = {
+  solicitor: [
+    { category: 'Using Your Own Data', ideas: [
+      { topic: 'How many conveyancing transactions did we complete last year \u2014 and what we learned', stats: 'Insert your actual transaction count and any interesting patterns you noticed', type: 'data' },
+      { topic: 'The most common questions we get asked about [practice area] \u2014 answered', stats: 'List the top 5 questions clients actually ask you on the phone', type: 'faq' },
+      { topic: 'Why we became [practice area] specialists \u2014 our story', stats: 'Years in practice, number of cases handled, notable achievements', type: 'story' },
+      { topic: 'What our [practice area] clients wish they had known before instructing a solicitor', stats: 'Common mistakes or surprises clients encounter \u2014 use real examples', type: 'insight' },
+    ]},
+    { category: 'Rewrite Industry Articles', ideas: [
+      { topic: 'What the latest Law Society guidance means for [practice area] clients in [city]', stats: 'Reference the specific guidance document and add your local perspective', type: 'news' },
+      { topic: 'How recent property market changes affect conveyancing timelines', stats: 'UK Finance or HMRC transaction data \u2014 add your firm\'s experience', type: 'market' },
+      { topic: 'CQS accreditation \u2014 what it means and why it matters when choosing a solicitor', stats: 'Number of CQS-accredited firms in your area vs total SRA firms', type: 'guide' },
+    ]},
+    { category: 'AI Visibility Content', ideas: [
+      { topic: 'Fixed fee conveyancing in [city] \u2014 what\'s included and what to watch out for', stats: 'Your actual fee structure and what competitors charge', type: 'seo' },
+      { topic: 'How to choose a conveyancing solicitor in [city] \u2014 7 questions to ask', stats: 'Include your CQS accreditation, review count, and completion time', type: 'seo' },
+      { topic: 'How long does conveyancing take in [city] in 2026?', stats: 'Your average completion time and what causes delays', type: 'seo' },
+    ]},
+  ],
+  accountant: [
+    { category: 'Using Your Own Data', ideas: [
+      { topic: 'How we helped [X] local businesses reduce their tax bill last year', stats: 'Aggregate saving amount, number of clients, most common tax relief used', type: 'data' },
+      { topic: 'The most common accounting mistakes we see small businesses make', stats: 'Your top 5 from real client experience \u2014 anonymised', type: 'insight' },
+      { topic: 'Why we specialise in [practice area] accounting \u2014 and what we\'ve learned', stats: 'Number of clients in this industry, years of experience', type: 'story' },
+      { topic: 'MTD for Income Tax \u2014 what our clients are doing now to prepare', stats: 'How many of your clients are already MTD compliant vs still preparing', type: 'data' },
+    ]},
+    { category: 'Rewrite Industry Articles', ideas: [
+      { topic: 'What the latest HMRC changes mean for small businesses in [city]', stats: 'Reference specific HMRC guidance \u2014 add local business context', type: 'news' },
+      { topic: 'R&D tax credits \u2014 who qualifies and how much could you claim?', stats: 'HMRC R&D statistics for your industry sector', type: 'guide' },
+      { topic: 'Xero vs QuickBooks vs Sage \u2014 which is right for your business?', stats: 'Your experience across all three platforms with real client examples', type: 'comparison' },
+    ]},
+    { category: 'AI Visibility Content', ideas: [
+      { topic: 'How much does an accountant cost in [city] in 2026?', stats: 'Your actual pricing tiers and what\'s included', type: 'seo' },
+      { topic: 'Finding a Xero accountant in [city] \u2014 what to look for', stats: 'Your Xero certification level and client results', type: 'seo' },
+      { topic: 'Small business accountant in [city] \u2014 monthly vs annual packages explained', stats: 'Your package options and typical client savings', type: 'seo' },
+    ]},
+  ],
+  'mortgage-advisor': [
+    { category: 'Using Your Own Data', ideas: [
+      { topic: 'How many mortgages we arranged last year \u2014 and what the data showed', stats: 'Total mortgage value, average loan size, most common property type', type: 'data' },
+      { topic: 'The most common first-time buyer mistakes we see in [city]', stats: 'Your top 5 from real client experience', type: 'insight' },
+      { topic: 'Why whole of market advice matters \u2014 our access to [X] lenders explained', stats: 'Your exact lender count and how it benefits clients vs restricted advisers', type: 'story' },
+      { topic: 'How long does a mortgage application take? Our [city] completion times', stats: 'Your average completion time broken down by mortgage type', type: 'data' },
+    ]},
+    { category: 'Rewrite Industry Articles', ideas: [
+      { topic: 'What the latest Bank of England rate decision means for mortgage holders in [city]', stats: 'Current base rate, impact on tracker vs fixed mortgages', type: 'news' },
+      { topic: 'Buy-to-let mortgages in 2026 \u2014 what landlords need to know', stats: 'Current BTL rates, tax changes, rental yield data for your area', type: 'guide' },
+      { topic: 'Remortgaging in [city] \u2014 when is the right time and what are your options?', stats: 'Current fixed vs variable rate comparison, average savings from remortgaging', type: 'guide' },
+    ]},
+    { category: 'AI Visibility Content', ideas: [
+      { topic: 'Fee free mortgage adviser in [city] \u2014 how it works and what to expect', stats: 'How you get paid, what clients pay, your lender panel size', type: 'seo' },
+      { topic: 'First time buyer mortgage in [city] \u2014 a complete 2026 guide', stats: 'Current rates, deposit requirements, schemes available', type: 'seo' },
+      { topic: 'Whole of market mortgage adviser vs bank \u2014 the real difference', stats: 'Your lender count vs typical high street bank access', type: 'seo' },
+    ]},
+  ],
+  'estate-agent': [
+    { category: 'Using Your Own Data', ideas: [
+      { topic: 'How many properties did we sell in [city] last year \u2014 and at what price?', stats: 'Your actual transaction count, average sale price, achieved vs asking %', type: 'data' },
+      { topic: 'The most common reasons properties fail to sell in [city] \u2014 and how we fix them', stats: 'Your experience from actual unsold properties you\'ve relisted', type: 'insight' },
+      { topic: 'Our average sale time in [city] vs the national average', stats: 'Your average completion time, Rightmove national average for comparison', type: 'data' },
+      { topic: 'What our landlords wish they had known before letting their first property', stats: 'Common mistakes from real landlord clients \u2014 anonymised', type: 'story' },
+    ]},
+    { category: 'Rewrite Industry Articles', ideas: [
+      { topic: 'Property market in [city] \u2014 what the latest data shows for buyers and sellers', stats: 'Land Registry HPI data for your area, your own transaction data', type: 'market' },
+      { topic: 'New EPC requirements for landlords in 2026 \u2014 what you need to do now', stats: 'Current EPC requirements, timeline for changes, cost of upgrades', type: 'news' },
+      { topic: 'Rightmove vs Zoopla vs OnTheMarket \u2014 where [city] properties sell fastest', stats: 'Your experience across portals, average days to offer per portal', type: 'comparison' },
+    ]},
+    { category: 'AI Visibility Content', ideas: [
+      { topic: 'How much do estate agents charge in [city] in 2026?', stats: 'Your exact fee structure and what\'s included', type: 'seo' },
+      { topic: 'Selling a house in [city] \u2014 a complete guide for 2026', stats: 'Your average timeline, typical costs, local market conditions', type: 'seo' },
+      { topic: 'Letting agents in [city] \u2014 full management vs tenant find only explained', stats: 'Your fee structures for both services', type: 'seo' },
+    ]},
+  ],
+  'office-equipment': [
+    { category: 'Using Your Own Data', ideas: [
+      { topic: 'How much are [city] businesses spending on printing \u2014 and how to cut it', stats: 'Average print spend from your managed print clients, typical savings', type: 'data' },
+      { topic: 'The most common office equipment mistakes businesses make in [city]', stats: 'Top 5 from your actual client experience \u2014 wrong equipment, bad contracts', type: 'insight' },
+      { topic: 'Lease vs buy \u2014 what we recommend to [city] businesses in 2026', stats: 'Your actual breakdown of lease vs purchase clients and outcomes', type: 'guide' },
+      { topic: 'How we saved [X] businesses money on their telecoms last year', stats: 'Average saving per client, total clients helped, most common switch', type: 'data' },
+    ]},
+    { category: 'Rewrite Industry Articles', ideas: [
+      { topic: 'Managed print service vs buying a printer \u2014 the real cost comparison in 2026', stats: 'Total cost of ownership comparison over 3-5 years', type: 'comparison' },
+      { topic: 'VoIP vs traditional phone systems for [city] businesses in 2026', stats: 'Cost comparison, features, reliability data', type: 'comparison' },
+      { topic: 'CCTV requirements for UK businesses in 2026 \u2014 what the law says', stats: 'ICO guidance, GDPR requirements, typical installation costs', type: 'guide' },
+    ]},
+    { category: 'AI Visibility Content', ideas: [
+      { topic: 'Photocopier leasing in [city] \u2014 prices, contracts, and what to watch out for', stats: 'Your actual lease pricing and contract terms', type: 'seo' },
+      { topic: 'Business telecoms providers in [city] \u2014 how to choose the right one', stats: 'Your service coverage, brands you supply, typical costs', type: 'seo' },
+      { topic: 'Managed print service in [city] \u2014 how it works and what it costs', stats: 'Your MPS pricing, typical client savings, setup process', type: 'seo' },
+    ]},
+  ],
+};
+
+const TYPE_LABELS: Record<string, { label: string; colour: string }> = {
+  data: { label: 'Your Data', colour: 'bg-blue-100 text-blue-700' },
+  faq: { label: 'FAQ', colour: 'bg-purple-100 text-purple-700' },
+  story: { label: 'Your Story', colour: 'bg-green-100 text-green-700' },
+  insight: { label: 'Insight', colour: 'bg-amber-100 text-amber-700' },
+  news: { label: 'Industry News', colour: 'bg-red-100 text-red-700' },
+  market: { label: 'Market Data', colour: 'bg-orange-100 text-orange-700' },
+  guide: { label: 'Guide', colour: 'bg-teal-100 text-teal-700' },
+  comparison: { label: 'Comparison', colour: 'bg-pink-100 text-pink-700' },
+  seo: { label: 'AI Visibility', colour: 'bg-indigo-100 text-indigo-700' },
+};
+
 export default function PostsPage() {
   const { auth, getCurrentToken } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -51,10 +156,15 @@ export default function PostsPage() {
   const [error, setError] = useState('');
   const [tierInfo, setTierInfo] = useState<{ tier: string; postsThisMonth: number; limit: number } | null>(null);
   const [vendorType, setVendorType] = useState('');
+  const [vendorCity, setVendorCity] = useState('');
+  const [practiceAreas, setPracticeAreas] = useState<string[]>([]);
+  const [companyName, setCompanyName] = useState('');
 
   // AI writer state
   const [topic, setTopic] = useState('');
   const [stats, setStats] = useState('');
+  const [showIdeas, setShowIdeas] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   // Editor state
   const [showEditor, setShowEditor] = useState(false);
@@ -100,6 +210,9 @@ export default function PostsPage() {
             const limit = isProTier ? Infinity : isPaidTier ? 2 : 0;
             setTierInfo({ tier: rawTier, postsThisMonth: thisMonth, limit });
             setVendorType(profileData.vendor?.vendorType || '');
+            setVendorCity(profileData.vendor?.location?.city || '');
+            setPracticeAreas(profileData.vendor?.practiceAreas || []);
+            setCompanyName(profileData.vendor?.company || '');
           }
         }
       }
@@ -358,7 +471,7 @@ export default function PostsPage() {
                     What do you want to write about?
                   </label>
                   <textarea
-                    id="topic"
+                    id="topic-field"
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
                     placeholder="e.g. Why Cardiff homeowners should use a CQS-accredited conveyancer"
@@ -379,6 +492,89 @@ export default function PostsPage() {
                     rows={2}
                     className="input resize-y"
                   />
+                </div>
+
+                {/* Content Ideas Panel */}
+                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => setShowIdeas(!showIdeas)}
+                    className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+                  >
+                    <span className="text-sm font-medium text-gray-700">
+                      Need inspiration? View content ideas for your industry
+                    </span>
+                    <span className="text-gray-400 text-xs">
+                      {showIdeas ? '\u25B2 Hide' : '\u25BC Show'}
+                    </span>
+                  </button>
+
+                  {showIdeas && (
+                    <div className="p-4">
+                      {/* Category tabs */}
+                      <div className="flex gap-2 mb-4 flex-wrap">
+                        {(CONTENT_IDEAS[vendorType] || CONTENT_IDEAS['solicitor']).map((cat, i) => (
+                          <button
+                            key={i}
+                            onClick={() => setSelectedCategory(i)}
+                            className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
+                              selectedCategory === i
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}
+                          >
+                            {cat.category}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Ideas list */}
+                      <div className="space-y-3">
+                        {(CONTENT_IDEAS[vendorType] || CONTENT_IDEAS['solicitor'])[selectedCategory]?.ideas.map((idea, i) => {
+                          const typeInfo = TYPE_LABELS[idea.type] || { label: idea.type, colour: 'bg-gray-100 text-gray-600' };
+                          const ideaTopic = idea.topic
+                            .replace(/\[city\]/g, vendorCity || 'your area')
+                            .replace(/\[practice area\]/g, practiceAreas[0] || 'your speciality')
+                            .replace(/\[X\]/g, 'many');
+                          const ideaStats = idea.stats
+                            ?.replace(/\[city\]/g, vendorCity || 'your area')
+                            .replace(/\[practice area\]/g, practiceAreas[0] || 'your speciality');
+
+                          return (
+                            <div key={i} className="border border-gray-100 rounded-lg p-3 hover:border-blue-200 transition-colors">
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${typeInfo.colour}`}>
+                                      {typeInfo.label}
+                                    </span>
+                                  </div>
+                                  <p className="text-sm font-medium text-gray-800">{ideaTopic}</p>
+                                  {ideaStats && (
+                                    <p className="text-xs text-gray-500 mt-1">{ideaStats}</p>
+                                  )}
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    setTopic(ideaTopic);
+                                    if (ideaStats) setStats(ideaStats);
+                                    setShowIdeas(false);
+                                    setTimeout(() => document.getElementById('topic-field')?.focus(), 100);
+                                  }}
+                                  className="flex-shrink-0 text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
+                                >
+                                  Use this
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        Click &quot;Use this&quot; to load any idea into the writer. Add your own stats and data to make it unique to your firm.
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <button
