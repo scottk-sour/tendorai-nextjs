@@ -1,0 +1,1 @@
+printjson(db.vendors.aggregate([{$group:{_id:"$vendorType",total:{$sum:1},hasWebsite:{$sum:{$cond:[{$and:[{$ne:["$contactInfo.website",null]},{$ne:["$contactInfo.website",""]}]},1,0]}}}}]).toArray())

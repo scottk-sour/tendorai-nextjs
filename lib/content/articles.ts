@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'ai-visibility-report-uk-solicitors-2025',
+    title: 'AI Visibility Report: UK Solicitors 2025',
+    excerpt: '1,458 SRA-registered law firms have no website. Every single one is invisible to ChatGPT, Gemini, and Perplexity. TendorAI\'s data on 8,625 solicitors reveals the AI visibility gap — and what it means for every firm in the UK.',
+    category: 'Research',
+    author: 'TendorAI',
+    readTime: 12,
+    publishedDate: '2026-03-21',
+    content: '',
+    href: '/blog/ai-visibility-report-uk-solicitors-2025',
+  },
+  {
     slug: 'tendorai-vs-otterly-vs-profound-uk-professional-services',
     title: 'TendorAI vs Otterly.ai vs Profound: Which AI Visibility Tool Actually Fixes the Problem?',
     excerpt: "Most AI visibility tools tell you what's wrong. Only one fixes it. Here's how TendorAI, Otterly.ai, and Profound compare for UK solicitors and accountants.",

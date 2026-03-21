@@ -1,0 +1,1 @@
+db.vendors.aggregate([{$group:{_id:"$vertical",total:{$sum:1},hasWebsite:{$sum:{$cond:[{$and:[{$ne:["$website",null]},{$ne:["$website",""]}]},1,0]}},hasSchema:{$sum:{$cond:["$schemaInstalled",1,0]}}}}]).toArray()

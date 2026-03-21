@@ -1,0 +1,1 @@
+print(db.vendors.countDocuments()); printjson(db.vendors.findOne());
