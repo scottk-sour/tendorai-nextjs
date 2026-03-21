@@ -12,7 +12,7 @@ interface StatItem {
 const stats: StatItem[] = [
   { number: 11000, suffix: '+', label: 'UK Businesses Listed' },
   { number: 6, suffix: '', label: 'AI Platforms Tracked' },
-  { displayText: 'From £299/mo', label: 'Early adopter price (rising to £599)' },
+  { displayText: 'From £299/mo', label: '3/50 early adopter spots remaining' },
   { displayText: 'Self-Serve', label: 'No Agency' },
 ];
 

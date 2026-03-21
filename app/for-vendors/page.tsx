@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
-  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (early adopter price). No agency required.",
+  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (3/50 spots left). No agency required.",
   alternates: { canonical: '/for-vendors' },
 };
 
@@ -27,7 +27,7 @@ export default function ForVendorsPage() {
     },
     {
       q: 'How is this different from SEO agencies?',
-      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI — and writes AI-optimised blog content, publishes to social media, and audits your website. Different technology, different audience. And we cost £299/month (early adopter price, rising to £599), not £5,000.",
+      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI — and writes AI-optimised blog content, publishes to social media, and audits your website. Different technology, different audience. And we cost £299/month (3/50 early adopter spots remaining), not £5,000.",
     },
   ];
 
@@ -206,9 +206,9 @@ export default function ForVendorsPage() {
                   <div className="mb-1">
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
-                    <span className="ml-2 text-sm font-semibold text-amber-600">Early adopter price</span>
+                    <span className="ml-2 text-sm font-semibold text-amber-600">3 of 50 spots taken</span>
                   </div>
-                  <p className="text-xs text-gray-400 italic">Lock in this price forever — we&apos;re raising to £599 when we reach 50 customers.</p>
+                  <p className="text-xs text-gray-400 italic">The first 50 firms lock in at &pound;299/month forever. We&apos;re at 3/50 &mdash; claim your spot before the price rises.</p>
                 </div>
                 <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
 
@@ -337,7 +337,7 @@ export default function ForVendorsPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
-                    ['Monthly cost', '£1,500 — £8,000', '£299/month (early adopter)'],
+                    ['Monthly cost', '£1,500 — £8,000', '£299/month (3/50 spots left)'],
                     ['Contract', '12 months minimum', 'Month-to-month, cancel anytime'],
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],

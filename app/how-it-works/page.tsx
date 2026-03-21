@@ -34,7 +34,7 @@ export default function HowItWorksPage() {
   const benefits = [
     { title: 'Built for AI', description: 'Structured data optimised for ChatGPT, Claude, Perplexity, and Google AI' },
     { title: 'Self-Serve', description: 'No agency needed — manage your AI visibility from your dashboard' },
-    { title: 'From £299/mo', description: 'Early adopter price (rising to £599). Month-to-month, cancel anytime' },
+    { title: 'From £299/mo', description: '3/50 early adopter spots remaining. Month-to-month, cancel anytime' },
     { title: 'Live in 24hrs', description: 'Your profile goes live immediately, not in 3-6 months' },
   ];
 
