@@ -208,8 +208,10 @@ const localBusinessJsonLd = {
   },
   address: {
     '@type': 'PostalAddress',
-    addressCountry: 'GB',
+    addressLocality: 'Cwmbran',
     addressRegion: 'Wales',
+    postalCode: 'NP44',
+    addressCountry: 'GB',
   },
   sameAs: [
     'https://www.linkedin.com/company/tendorai',

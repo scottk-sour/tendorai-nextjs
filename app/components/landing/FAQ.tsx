@@ -25,6 +25,10 @@ const faqItems = [
     question: 'What areas does TendorAI cover?',
     answer: 'TendorAI covers all of England and Wales, including London, Birmingham, Manchester, Bristol, Cardiff, Leeds, Liverpool, Sheffield, Newcastle, and hundreds more cities and towns.',
   },
+  {
+    question: 'What happens if I cancel TendorAI Pro?',
+    answer: 'If you cancel, your TendorAI profile remains on the free tier \u2014 still listed and AI-crawlable. Your website schema stops auto-updating but continues to work until you remove it. You can also download your complete schema as a static JSON-LD file from your dashboard any time \u2014 self-host it and it keeps working forever. There is no lock-in.',
+  },
 ];
 
 export default function FAQ() {

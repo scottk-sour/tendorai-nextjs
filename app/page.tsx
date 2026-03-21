@@ -121,52 +121,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Organization schema
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  foundingDate: '2025',
-  founder: {
-    '@type': 'Person',
-    name: 'Scott Davies',
-  },
-  description: "The UK's AI Visibility Platform for professional services",
-  areaServed: 'United Kingdom',
-  knowsAbout: [
-    'AI Visibility',
-    'Answer Engine Optimisation',
-    'Structured Data',
-    'UK Professional Services',
-    'Schema.org markup',
-  ],
-};
-
-// LocalBusiness schema
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: 'TendorAI',
-  url: 'https://www.tendorai.com',
-  email: 'scott.davies@tendorai.com',
-  description: "The UK's AI Visibility Platform for professional services firms. Helping UK solicitors, accountants, mortgage advisers and estate agents get recommended by ChatGPT, Perplexity and Claude.",
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Cwmbran',
-    addressRegion: 'Wales',
-    addressCountry: 'GB',
-  },
-  areaServed: {
-    '@type': 'Country',
-    name: 'United Kingdom',
-  },
-  sameAs: [
-    'https://www.linkedin.com/company/tendorai',
-    'https://twitter.com/tendorai',
-    'https://www.trustpilot.com/review/tendorai.com',
-  ],
-};
+// Organization and LocalBusiness schemas are in layout.tsx — not duplicated here
 
 // WebPage schema — homepage-specific dates
 const webPageSchema = {
@@ -247,6 +202,14 @@ const faqSchema = {
         text: 'TendorAI covers all of England and Wales, including London, Birmingham, Manchester, Bristol, Cardiff, Leeds, Liverpool, Sheffield, Newcastle, and hundreds more cities and towns.',
       },
     },
+    {
+      '@type': 'Question',
+      name: 'What happens if I cancel TendorAI Pro?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'If you cancel, your TendorAI profile remains on the free tier \u2014 still listed and AI-crawlable. Your website schema stops auto-updating but continues to work until you remove it. You can also download your complete schema as a static JSON-LD file from your dashboard any time \u2014 self-host it and it keeps working forever. There is no lock-in.',
+      },
+    },
   ],
 };
 
@@ -258,15 +221,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* JSON-LD schemas */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
+      {/* JSON-LD schemas (Organization + LocalBusiness are in layout.tsx) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
@@ -292,6 +247,13 @@ export default async function HomePage() {
 
         {/* How TendorAI Works — 4 steps */}
         <Features />
+
+        {/* Results timeline */}
+        <div className="bg-gray-50 py-6">
+          <p className="text-center text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
+            Most firms see their first AI recommendation within <strong className="text-gray-900">2&ndash;4 weeks</strong> of completing their profile.
+          </p>
+        </div>
 
         {/* Trust Bar — verified UK data sources */}
         <TrustBar />
