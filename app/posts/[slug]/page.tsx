@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 import { connectDB } from '@/lib/db/connection';
 import { VendorPost, Vendor } from '@/lib/db/models';
 
@@ -162,8 +163,8 @@ export default async function PostPage({ params }: PageProps) {
         {/* Content */}
         <section className="section max-w-3xl py-8">
           <article className="bg-white rounded-lg shadow-sm p-6 md:p-8">
-            <div className="prose prose-purple max-w-none whitespace-pre-line text-gray-700 leading-relaxed">
-              {post.body}
+            <div className="prose prose-gray max-w-none text-gray-700 leading-relaxed">
+              <ReactMarkdown>{post.body}</ReactMarkdown>
             </div>
 
             {/* Tags */}
