@@ -23,6 +23,16 @@ interface Post {
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
+const stripMarkdown = (text: string): string => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '$1')  // bold
+    .replace(/\*(.*?)\*/g, '$1')       // italic
+    .replace(/#{1,6}\s/g, '')          // headings
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
+    .replace(/`([^`]+)`/g, '$1')       // inline code
+    .trim();
+};
+
 const CATEGORIES = [
   { value: 'news', label: 'News' },
   { value: 'product', label: 'Product' },
@@ -818,8 +828,8 @@ export default function PostsPage() {
                           )}
                         </div>
                         <p className="text-xs text-gray-600 line-clamp-2">
-                          {post.body.substring(0, 120).replace(/\n/g, ' ')}
-                          {post.body.length > 120 ? '...' : ''}
+                          {stripMarkdown(post.body).substring(0, 120)}
+                          {stripMarkdown(post.body).length > 120 ? '...' : ''}
                         </p>
                         <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
                           <span>
