@@ -26,6 +26,7 @@ Allow: /suppliers/auctions/
 Allow: /suppliers/commercial-property/
 Allow: /suppliers/inventory/
 Allow: /suppliers/profile/
+Allow: /posts/
 Allow: /aeo-report/
 Allow: /for-vendors/
 Disallow: /_next/data/
