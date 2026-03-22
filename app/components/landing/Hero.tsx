@@ -40,8 +40,7 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
 
         {/* Subtitle — long-tail keywords */}
         <p className="text-base md:text-lg text-[var(--text2)] mb-4 max-w-2xl mx-auto leading-relaxed">
-          <strong>TendorAI is the UK&apos;s AI visibility platform for professional services firms.</strong>{' '}
-          Schema markup, AI blog content, social publishing, and weekly tracking &mdash; all automatic.
+          <strong>TendorAI is an AI visibility platform</strong> that installs schema markup, publishes AI-optimised content, and tracks your brand across ChatGPT, Perplexity, and Gemini &mdash; automatically. Built for UK professional services firms.
         </p>
         <p className="text-sm md:text-base text-[var(--text3)] mb-10 max-w-2xl mx-auto leading-relaxed">
           When someone asks ChatGPT for a solicitor in Cardiff, an IT supplier in Manchester, or a mortgage

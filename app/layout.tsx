@@ -198,7 +198,7 @@ const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'TendorAI',
-  description: "The UK's AI Visibility Platform for professional services firms. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Perplexity, Gemini, and Claude.",
+  description: "AI visibility platform for UK professional services. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Perplexity, Gemini, and Claude.",
   url: 'https://www.tendorai.com',
   logo: 'https://www.tendorai.com/logo.png',
   foundingDate: '2026',
