@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-much-conveyancing-cost-cardiff-2026',
+    title: 'How Much Does Conveyancing Cost in Cardiff in 2026?',
+    excerpt: 'Conveyancing in Cardiff costs £895–£1,500 for fixed-fee solicitors in 2026, plus £300–£700 in disbursements.',
+    category: 'Legal',
+    author: 'TendorAI',
+    readTime: 7,
+    publishedDate: '2026-03-22',
+    content: '',
+    href: '/blog/how-much-conveyancing-cost-cardiff-2026',
+  },
+  {
     slug: 'ai-visibility-report-solicitors-london',
     title: 'AI Visibility Report: London Solicitors 2025',
     excerpt: 'TendorAI tracks 2,331 SRA-registered solicitors in London. 17% have no website. Here\'s what the data shows about AI visibility for London law firms.',

@@ -238,8 +238,8 @@ export default function ForVendorsPage() {
                     'Write two AI-optimised blog posts per week automatically',
                     'Enter a topic, Claude writes it in Yadav format \u2014 the structure AI loves to cite',
                     'One click publishes to your TendorAI profile',
-                    'Copy to LinkedIn and Facebook with one click',
-                    'Blog content published to your own website via script tag',
+                    'LinkedIn and Facebook copy — post in one click from your dashboard',
+                    'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook',
                   ].map((f, i) => (
                     <li key={`blog-${i}`} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
