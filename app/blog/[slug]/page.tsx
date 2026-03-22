@@ -11,6 +11,7 @@ interface PageProps {
 // that don't already have a static directory
 const STATIC_BLOG_DIRS = new Set([
   'ai-visibility-mortgage-advisors-uk',
+  'how-much-conveyancing-cost-cardiff-2026',
   'ai-visibility-report-uk-solicitors-2025',
   'best-ai-visibility-tools-uk-professional-services',
   'how-to-check-if-business-appears-in-ai-recommendations',

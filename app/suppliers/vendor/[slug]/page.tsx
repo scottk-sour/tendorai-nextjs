@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { connectDB, withRetry } from '@/lib/db/connection';
-import { Vendor } from '@/lib/db/models';
+import { Vendor, VendorPost } from '@/lib/db/models';
 import {
   SERVICES,
   POSTCODE_AREAS,
@@ -214,6 +214,29 @@ async function getVendorBySlug(slug: string) {
   });
 }
 
+async function getVendorPosts(vendorId: string) {
+  return withRetry(async () => {
+    await connectDB();
+    try {
+      const posts = await VendorPost.find({ vendor: vendorId, status: 'published' })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .select({ title: 1, slug: 1, body: 1, category: 1, createdAt: 1 })
+        .lean()
+        .exec();
+      return posts.map((p) => ({
+        title: p.title as string,
+        slug: p.slug as string,
+        body: p.body as string,
+        category: p.category as string,
+        createdAt: (p.createdAt as Date).toISOString(),
+      }));
+    } catch {
+      return [];
+    }
+  });
+}
+
 // ─── Metadata ───────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -303,6 +326,8 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     notFound();
   }
 
+  const vendorPosts = await getVendorPosts(vendor._id);
+
   const city = vendor.location?.city || '';
   const region = vendor.location?.region || '';
   const coverageData = vendor.location?.coverage?.length
@@ -358,6 +383,14 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     ...(establishedYear && { foundingDate: `${establishedYear}-01-01` }),
     ...(vendor.brands?.length && {
       brand: vendor.brands.map((b: string) => ({ '@type': 'Brand', name: b })),
+    }),
+    ...(vendorPosts.length > 0 && {
+      hasPart: vendorPosts.map((p) => ({
+        '@type': 'BlogPosting',
+        headline: p.title,
+        url: `https://www.tendorai.com/posts/${p.slug}`,
+        datePublished: p.createdAt,
+      })),
     }),
   };
 
@@ -776,6 +809,50 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Latest Posts */}
+              {vendorPosts.length > 0 && (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Latest from {vendor.company}</h2>
+                  <div className="space-y-4">
+                    {vendorPosts.map((post) => (
+                      <Link
+                        key={post.slug}
+                        href={`/posts/${post.slug}`}
+                        className="block group p-4 rounded-xl border border-gray-100 hover:border-purple-200 hover:shadow-sm transition-all"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                            post.category === 'news' ? 'bg-blue-100 text-blue-700' :
+                            post.category === 'guide' ? 'bg-emerald-100 text-emerald-700' :
+                            post.category === 'offer' ? 'bg-amber-100 text-amber-700' :
+                            post.category === 'product' ? 'bg-purple-100 text-purple-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                            {post.category}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {new Date(post.createdAt).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })}
+                          </span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-1">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 line-clamp-2">
+                          {post.body.slice(0, 120)}{post.body.length > 120 ? '...' : ''}
+                        </p>
+                        <span className="inline-block mt-2 text-sm text-purple-600 font-medium group-hover:translate-x-1 transition-transform">
+                          Read more &rarr;
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
 
