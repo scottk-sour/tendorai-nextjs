@@ -99,6 +99,26 @@ export default function ResourcesPage() {
         </div>
       </section>
 
+      {/* Featured: AI Visibility Platform */}
+      <section className="section pt-12 pb-0">
+        <Link
+          href="/ai-visibility-platform"
+          className="group block bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 hover:border-purple-400 hover:shadow-md transition-all"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-700">
+              Platform
+            </span>
+          </div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-purple-600 transition-colors">
+            AI Visibility Platform &mdash; Monitor, Implement and Publish
+          </h2>
+          <p className="text-gray-600 text-sm">
+            See how TendorAI compares to monitoring-only tools. Schema installation, AI blog content, social publishing, and weekly tracking &mdash; all automatic.
+          </p>
+        </Link>
+      </section>
+
       {/* Articles Grid */}
       <section className="section py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
