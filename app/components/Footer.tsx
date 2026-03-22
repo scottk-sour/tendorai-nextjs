@@ -5,6 +5,7 @@ const footerNavigation = {
   product: [
     { name: 'Find Suppliers', href: '/suppliers' },
     { name: 'AI Visibility Report', href: '/aeo-report' },
+    { name: 'AI Visibility Platform', href: '/ai-visibility-platform' },
     { name: 'For Vendors', href: '/for-vendors' },
     { name: 'Pricing', href: '/for-vendors#pricing' },
     { name: 'Resources', href: '/resources' },

@@ -34,6 +34,7 @@ const Header = () => {
     { href: '/suppliers', label: 'Find Suppliers' },
     { href: '/aeo-report', label: 'AI Visibility Report' },
     { href: '/for-vendors', label: 'For Vendors' },
+    { href: '/ai-visibility-platform', label: 'The Platform' },
     { href: '/for-vendors#pricing', label: 'Pricing' },
     { href: '/resources', label: 'Resources' },
   ];
