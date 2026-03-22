@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import mongoose from 'mongoose';
 import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorPost } from '@/lib/db/models';
 import {
@@ -218,7 +219,7 @@ async function getVendorPosts(vendorId: string) {
   return withRetry(async () => {
     await connectDB();
     try {
-      const posts = await VendorPost.find({ vendor: vendorId, status: 'published' })
+      const posts = await VendorPost.find({ vendor: new mongoose.Types.ObjectId(vendorId), status: 'published' })
         .sort({ createdAt: -1 })
         .limit(3)
         .select({ title: 1, slug: 1, body: 1, category: 1, createdAt: 1 })
