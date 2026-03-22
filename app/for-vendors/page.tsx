@@ -72,6 +72,11 @@ export default function ForVendorsPage() {
               See Pricing
             </a>
           </div>
+          <div className="mt-4 text-center">
+            <Link href="/ai-visibility-platform" className="text-sm text-white/60 hover:text-white underline underline-offset-2 transition-colors">
+              What is an AI visibility platform? &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 

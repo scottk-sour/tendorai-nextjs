@@ -165,6 +165,11 @@ export default function Pricing() {
           <p className="text-xs text-[var(--text3)] text-center mt-4">
             Agency pricing based on UK market averages for AI Visibility (AEO) services, 2024-2025.
           </p>
+          <div className="text-center mt-3">
+            <Link href="/ai-visibility-platform" className="text-xs text-[var(--purple-start)] hover:underline">
+              See how TendorAI compares to monitoring-only tools &rarr;
+            </Link>
+          </div>
         </div>
       </div>
     </section>

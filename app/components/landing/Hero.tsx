@@ -50,12 +50,17 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex justify-center gap-4 flex-wrap mb-14">
+        <div className="flex justify-center gap-4 flex-wrap mb-6">
           <Link href="/aeo-report" className="btn-primary">
             Check Your AI Visibility — Free
           </Link>
           <Link href="/vendor-signup" className="btn-secondary">
             Claim Your Profile
+          </Link>
+        </div>
+        <div className="text-center mb-14">
+          <Link href="/ai-visibility-platform" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors">
+            See what an AI visibility platform actually does &rarr;
           </Link>
         </div>
 

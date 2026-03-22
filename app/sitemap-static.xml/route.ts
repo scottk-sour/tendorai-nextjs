@@ -5,6 +5,7 @@ const staticPages = [
   { url: '/suppliers', changeFrequency: 'daily', priority: 0.9 },
   { url: '/aeo-report', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/for-vendors', changeFrequency: 'monthly', priority: 0.8 },
+  { url: '/ai-visibility-platform', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/resources', changeFrequency: 'weekly', priority: 0.7 },
   { url: '/about', changeFrequency: 'monthly', priority: 0.5 },
   { url: '/contact', changeFrequency: 'monthly', priority: 0.5 },
