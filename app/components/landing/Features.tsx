@@ -98,7 +98,7 @@ export default function Features() {
               },
               {
                 title: 'AI Visibility Tracking',
-                text: 'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Get an email the moment Perplexity recommends you. Track your score trend week by week.',
+                text: 'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Get an email the moment any AI platform recommends you. Track your score trend week by week.',
               },
               {
                 title: 'Export Your Schema',

@@ -22,7 +22,7 @@ const verticals = [
   },
   {
     number: '5,000+',
-    title: 'Mortgage Advisors',
+    title: 'Mortgage Advisers',
     description: 'FCA-authorised mortgage brokers, residential and commercial lending, protection advisors.',
     status: 'Live',
     statusColor: 'bg-green-100 text-green-700',

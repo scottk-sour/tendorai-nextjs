@@ -47,10 +47,10 @@ const sectors = [
     iconColor: 'text-slate-600',
   },
   {
-    title: 'Mortgage Advisors',
+    title: 'Mortgage Advisers',
     description:
       'FCA-authorised mortgage brokers across the UK. Residential, buy-to-let, remortgage, first-time buyer, and commercial lending. AI visibility for every type of mortgage advice.',
-    cta: 'Find Mortgage Advisors',
+    cta: 'Find Mortgage Advisers',
     href: '/suppliers?vendorType=mortgage-advisor',
     comingSoon: false,
     icon: (
