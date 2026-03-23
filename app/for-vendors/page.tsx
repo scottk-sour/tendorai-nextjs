@@ -347,8 +347,8 @@ export default function ForVendorsPage() {
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],
                     ['What gets installed', 'Manual audit, maybe some schema', 'AI-optimised data that syncs with your profile'],
-                    ['AI platforms covered', 'Usually 1–2', 'All major AI (ChatGPT, Gemini, Claude, Perplexity)'],
-                    ['If you cancel', 'You keep whatever they built', 'AI visibility code stops — keeps you paying'],
+                    ['AI platforms covered', 'Usually 1–2', 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI'],
+                    ['If you cancel', 'You keep whatever they built', 'Download your schema file and self-host it — your data stays yours forever'],
                     ['Content & reputation', 'Manual, £800–£2,000/month extra', 'AI blog writer, social publishing, review collection — included'],
                     ['Ongoing updates', 'You pay for every change', 'Automatic — update TendorAI, your website updates too'],
                   ].map(([label, agency, tendorai], i) => (

@@ -9,6 +9,7 @@ const footerNavigation = {
     { name: 'For Vendors', href: '/for-vendors' },
     { name: 'Pricing', href: '/for-vendors#pricing' },
     { name: 'Resources', href: '/resources' },
+    { name: 'Blog', href: '/resources' },
   ],
   company: [
     { name: 'About', href: '/about' },
@@ -49,7 +50,7 @@ const serviceCategories = [
 const industries = [
   { name: 'AI Visibility for Solicitors', href: '/ai-visibility-for-solicitors' },
   { name: 'AI Visibility for Accountants', href: '/ai-visibility-for-accountants' },
-  { name: 'AI Visibility for Mortgage Advisors', href: '/ai-visibility-for-mortgage-advisors' },
+  { name: 'AI Visibility for Mortgage Advisers', href: '/ai-visibility-for-mortgage-advisors' },
   { name: 'AI Visibility for Estate Agents', href: '/ai-visibility-for-estate-agents' },
 ];
 
