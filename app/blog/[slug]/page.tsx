@@ -12,6 +12,7 @@ interface PageProps {
 const STATIC_BLOG_DIRS = new Set([
   'ai-visibility-mortgage-advisors-uk',
   'how-much-conveyancing-cost-cardiff-2026',
+  'will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know',
   'ai-visibility-report-uk-solicitors-2025',
   'best-ai-visibility-tools-uk-professional-services',
   'how-to-check-if-business-appears-in-ai-recommendations',

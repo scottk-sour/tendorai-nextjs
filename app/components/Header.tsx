@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 const industryLinks = [
   { href: '/ai-visibility-for-solicitors', label: 'Solicitors' },
   { href: '/ai-visibility-for-accountants', label: 'Accountants' },
-  { href: '/ai-visibility-for-mortgage-advisors', label: 'Mortgage Advisors' },
+  { href: '/ai-visibility-for-mortgage-advisors', label: 'Mortgage Advisers' },
   { href: '/ai-visibility-for-estate-agents', label: 'Estate Agents' },
 ];
 

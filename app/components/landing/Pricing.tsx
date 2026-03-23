@@ -66,8 +66,8 @@ const comparisonRows = [
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
   { label: 'What gets installed', agency: 'Manual audit, maybe some schema', tendorai: 'AI-optimised data that syncs with your profile' },
-  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'All major AI (ChatGPT, Gemini, Claude, Perplexity)' },
-  { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'AI visibility code stops — keeps you paying' },
+  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI' },
+  { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'Download your schema file and self-host it — your data stays yours forever' },
   { label: 'Content & reputation', agency: 'Manual, £800–£2,000/month extra', tendorai: 'AI blog writer, social publishing, review collection — included' },
   { label: 'Ongoing updates', agency: 'You pay for every change', tendorai: 'Automatic — update TendorAI, your website updates too' },
 ];
