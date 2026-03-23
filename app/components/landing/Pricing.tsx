@@ -39,7 +39,7 @@ const plans = [
       { text: 'LinkedIn and Facebook copy — post in one click from your dashboard', included: true },
       { text: 'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook', included: true },
       { text: 'Weekly AI scans across ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI', included: true },
-      { text: 'Email alert when Perplexity recommends you', included: true },
+      { text: 'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI', included: true },
       { text: 'Weekly AI Visibility Score with trend tracking', included: true },
       { text: 'Competitor comparison \u2014 see who AI recommends instead', included: true },
       { text: 'Profile gaps report \u2014 exact fields missing and why they matter', included: true },

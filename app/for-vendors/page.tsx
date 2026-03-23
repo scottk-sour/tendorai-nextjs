@@ -255,7 +255,7 @@ export default function ForVendorsPage() {
                 <ul className="space-y-2.5 mb-5">
                   {[
                     'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
-                    'Email alert when Perplexity recommends you',
+                    'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
                     'Weekly AI Visibility Score with trend tracking',
                     'Competitor comparison \u2014 see who AI recommends instead',
                     'Profile gaps report \u2014 exact fields missing and why they matter',

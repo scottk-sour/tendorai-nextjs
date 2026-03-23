@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know',
+    title: 'Will AI Make SEO Obsolete? What UK Solicitors and Accountants Need to Know',
+    excerpt: 'AI won\u2019t kill SEO \u2014 but it has created a new channel SEO can\u2019t reach. See how UK solicitors and accountants can be visible in both Google and AI recommendations.',
+    category: 'AEO Strategy',
+    author: 'TendorAI',
+    readTime: 7,
+    publishedDate: '2026-03-22',
+    content: '',
+    href: '/blog/will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know',
+  },
+  {
     slug: 'how-much-conveyancing-cost-cardiff-2026',
     title: 'How Much Does Conveyancing Cost in Cardiff in 2026?',
     excerpt: 'Conveyancing in Cardiff costs £895–£1,500 for fixed-fee solicitors in 2026, plus £300–£700 in disbursements.',

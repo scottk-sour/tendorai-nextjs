@@ -7,7 +7,7 @@ interface HeroProps {
 export default function Hero({ totalVendors = 11000 }: HeroProps) {
   const stats = [
     { value: `${totalVendors.toLocaleString()}+`, label: 'UK Businesses' },
-    { value: '5', label: 'AI Platforms Connected' },
+    { value: '6', label: 'AI Platforms Tracked' },
     { value: '3', label: 'Regulatory Registers' },
     { value: 'Free', label: 'AI Visibility (AEO) Reports' },
   ];
@@ -37,6 +37,11 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
           </em>{' '}
           and AI will recommend you by name.
         </h1>
+
+        {/* AI discovery hook */}
+        <p className="text-base md:text-lg text-gray-700 mb-6 max-w-2xl mx-auto leading-relaxed font-medium">
+          When someone asks ChatGPT to recommend a solicitor, accountant, or mortgage adviser in your town &mdash; AI gives them three names. Those firms get the call. Every other firm is invisible. That is happening right now across every town in the UK.
+        </p>
 
         {/* Subtitle — long-tail keywords */}
         <p className="text-base md:text-lg text-[var(--text2)] mb-4 max-w-2xl mx-auto leading-relaxed">
