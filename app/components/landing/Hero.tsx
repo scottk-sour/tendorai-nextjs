@@ -40,10 +40,21 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
 
         {/* Subtitle */}
         <p className="text-base md:text-lg text-gray-700 mb-4 max-w-2xl mx-auto leading-relaxed font-medium">
-          When someone in your town asks ChatGPT for a solicitor, accountant, or mortgage adviser &mdash; AI recommends three firms. Those firms get the call. Everyone else is invisible.
+          When someone asks ChatGPT for a solicitor in your city, your firm is either recommended &mdash; or it doesn&apos;t exist. AI doesn&apos;t rank firms like Google. It selects a small number it can understand, verify, and cite with confidence.
+        </p>
+        <p className="text-sm md:text-base text-[var(--text2)] mb-2 max-w-2xl mx-auto leading-relaxed">
+          To appear in AI recommendations, a firm needs three things:
+        </p>
+        <ol className="text-sm md:text-base text-[var(--text2)] max-w-md mx-auto mb-4 space-y-1 text-left list-decimal list-inside">
+          <li>A crawlable website</li>
+          <li>Structured schema markup</li>
+          <li>Third-party citations &mdash; directories, reviews, regulatory registers</li>
+        </ol>
+        <p className="text-sm md:text-base text-[var(--text2)] mb-2 max-w-2xl mx-auto leading-relaxed font-semibold">
+          TendorAI installs all three automatically.
         </p>
         <p className="text-sm md:text-base text-[var(--text3)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          TendorAI gets you into that answer. Schema markup installed on your website within 48 hours, weekly tracking across 6 AI platforms, AI content published automatically. Built from SRA, ICAEW, and FCA data. Done for you.
+          Schema markup on your website within 48 hours. Weekly tracking across 6 AI platforms. AI-optimised content published automatically. Built from SRA, ICAEW, and FCA register data. No developer needed. No ongoing maintenance.
         </p>
 
         {/* CTA Buttons */}
