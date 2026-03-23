@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 const industryLinks = [
   { href: '/ai-visibility-for-solicitors', label: 'Solicitors' },
   { href: '/ai-visibility-for-accountants', label: 'Accountants' },
-  { href: '/ai-visibility-for-mortgage-advisors', label: 'Mortgage Advisors' },
+  { href: '/ai-visibility-for-mortgage-advisors', label: 'Mortgage Advisers' },
   { href: '/ai-visibility-for-estate-agents', label: 'Estate Agents' },
 ];
 
@@ -34,6 +34,7 @@ const Header = () => {
     { href: '/suppliers', label: 'Find Suppliers' },
     { href: '/aeo-report', label: 'AI Visibility Report' },
     { href: '/for-vendors', label: 'For Vendors' },
+    { href: '/ai-visibility-platform', label: 'The Platform' },
     { href: '/for-vendors#pricing', label: 'Pricing' },
     { href: '/resources', label: 'Resources' },
   ];

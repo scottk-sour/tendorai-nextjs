@@ -51,7 +51,7 @@ export default function ProofSection() {
             </span>
           </h2>
           <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-            These are our own live AI visibility stats — not a client case study.
+            These stats are independently tracked by Searchable.com — not self-reported.
             We proved the method works on ourselves first.
           </p>
         </div>
@@ -97,8 +97,7 @@ export default function ProofSection() {
 
         {/* Disclaimer */}
         <p className="text-xs text-gray-400 text-center mt-2">
-          Screenshot taken 19 March 2026 from our live AI visibility tracking
-          dashboard. Data covers the previous 7 days.
+          Data sourced from Searchable.com — independent third-party AI visibility tracking. Screenshots taken 19 March 2026. TendorAI is not affiliated with Searchable.
         </p>
 
         {/* CTA */}

@@ -72,6 +72,11 @@ export default function ForVendorsPage() {
               See Pricing
             </a>
           </div>
+          <div className="mt-4 text-center">
+            <Link href="/ai-visibility-platform" className="text-sm text-white/60 hover:text-white underline underline-offset-2 transition-colors">
+              What is an AI visibility platform? &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -255,7 +260,7 @@ export default function ForVendorsPage() {
                 <ul className="space-y-2.5 mb-5">
                   {[
                     'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
-                    'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
+                    'Email alert when any AI platform recommends you — ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
                     'Weekly AI Visibility Score with trend tracking',
                     'Competitor comparison \u2014 see who AI recommends instead',
                     'Profile gaps report \u2014 exact fields missing and why they matter',
@@ -342,8 +347,8 @@ export default function ForVendorsPage() {
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],
                     ['What gets installed', 'Manual audit, maybe some schema', 'AI-optimised data that syncs with your profile'],
-                    ['AI platforms covered', 'Usually 1–2', 'All major AI (ChatGPT, Gemini, Claude, Perplexity)'],
-                    ['If you cancel', 'You keep whatever they built', 'AI visibility code stops — keeps you paying'],
+                    ['AI platforms covered', 'Usually 1–2', 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI'],
+                    ['If you cancel', 'You keep whatever they built', 'Download your schema file and self-host it — your data stays yours forever'],
                     ['Content & reputation', 'Manual, £800–£2,000/month extra', 'AI blog writer, social publishing, review collection — included'],
                     ['Ongoing updates', 'You pay for every change', 'Automatic — update TendorAI, your website updates too'],
                   ].map(([label, agency, tendorai], i) => (

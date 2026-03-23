@@ -39,7 +39,7 @@ const plans = [
       { text: 'LinkedIn and Facebook copy — post in one click from your dashboard', included: true },
       { text: 'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook', included: true },
       { text: 'Weekly AI scans across ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI', included: true },
-      { text: 'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI', included: true },
+      { text: 'Email alert when any AI platform recommends you — ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI', included: true },
       { text: 'Weekly AI Visibility Score with trend tracking', included: true },
       { text: 'Competitor comparison \u2014 see who AI recommends instead', included: true },
       { text: 'Profile gaps report \u2014 exact fields missing and why they matter', included: true },
@@ -66,8 +66,8 @@ const comparisonRows = [
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
   { label: 'What gets installed', agency: 'Manual audit, maybe some schema', tendorai: 'AI-optimised data that syncs with your profile' },
-  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'All major AI (ChatGPT, Gemini, Claude, Perplexity)' },
-  { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'AI visibility code stops — keeps you paying' },
+  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI' },
+  { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'Download your schema file and self-host it — your data stays yours forever' },
   { label: 'Content & reputation', agency: 'Manual, £800–£2,000/month extra', tendorai: 'AI blog writer, social publishing, review collection — included' },
   { label: 'Ongoing updates', agency: 'You pay for every change', tendorai: 'Automatic — update TendorAI, your website updates too' },
 ];
@@ -165,6 +165,11 @@ export default function Pricing() {
           <p className="text-xs text-[var(--text3)] text-center mt-4">
             Agency pricing based on UK market averages for AI Visibility (AEO) services, 2024-2025.
           </p>
+          <div className="text-center mt-3">
+            <Link href="/ai-visibility-platform" className="text-xs text-[var(--purple-start)] hover:underline">
+              See how TendorAI compares to monitoring-only tools &rarr;
+            </Link>
+          </div>
         </div>
       </div>
     </section>

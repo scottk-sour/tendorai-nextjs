@@ -95,7 +95,7 @@ async function getTotalVendorCount(): Promise<number> {
   });
 }
 
-const newDescription = "TendorAI gets UK solicitors, accountants and mortgage advisers recommended by ChatGPT and Perplexity. Free AI visibility report \u2014 30-second results.";
+const newDescription = "TendorAI is an AI visibility platform for UK solicitors, accountants and mortgage advisers. Free AI visibility report \u2014 30-second results.";
 
 export const metadata: Metadata = {
   title: { absolute: "TendorAI \u2014 AI Visibility for UK Professional Services" },
