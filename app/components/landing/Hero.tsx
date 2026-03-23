@@ -21,13 +21,10 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-28 md:py-36">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#f0eef8] text-[var(--purple-start)] px-5 py-2 rounded-full text-sm font-semibold mb-8 border border-[#e0daf0]">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-          The UK&apos;s AI Visibility Platform
-        </div>
+        {/* Eyebrow */}
+        <p className="text-xs md:text-sm text-[var(--text3)] mb-6 max-w-2xl mx-auto leading-relaxed">
+          According to TendorAI&apos;s database of 12,793 UK professional services firms &mdash; 17% of solicitors, 48% of mortgage advisers, and 57% of office equipment suppliers have no website. Every one of them is invisible to AI recommendations.
+        </p>
 
         {/* Title */}
         <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gray-900 mb-6 leading-[1.15] tracking-tight">
@@ -37,6 +34,16 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
           </em>{' '}
           and AI will recommend you by name.
         </h1>
+
+        {/* Badge */}
+        <div className="flex justify-center mb-8">
+          <span className="inline-flex items-center gap-2 bg-[#1B4F72] text-white px-5 py-2 rounded-full text-sm font-semibold">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            The UK&apos;s AI Visibility Platform
+          </span>
+        </div>
 
         {/* Subtitle */}
         <p className="text-base md:text-lg text-gray-700 mb-4 max-w-2xl mx-auto leading-relaxed font-medium">
