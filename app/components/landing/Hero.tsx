@@ -38,19 +38,12 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
           and AI will recommend you by name.
         </h1>
 
-        {/* AI discovery hook */}
-        <p className="text-base md:text-lg text-gray-700 mb-6 max-w-2xl mx-auto leading-relaxed font-medium">
-          When someone asks ChatGPT to recommend a solicitor, accountant, or mortgage adviser in your town &mdash; AI gives them three names. Those firms get the call. Every other firm is invisible. That is happening right now across every town in the UK.
-        </p>
-
-        {/* Subtitle — long-tail keywords */}
-        <p className="text-base md:text-lg text-[var(--text2)] mb-4 max-w-2xl mx-auto leading-relaxed">
-          <strong>TendorAI is an AI visibility platform</strong> that installs schema markup, publishes AI-optimised content, and tracks your brand across ChatGPT, Perplexity, and Gemini &mdash; automatically. Built for UK professional services firms.
+        {/* Subtitle */}
+        <p className="text-base md:text-lg text-gray-700 mb-4 max-w-2xl mx-auto leading-relaxed font-medium">
+          When someone in your town asks ChatGPT for a solicitor, accountant, or mortgage adviser &mdash; AI recommends three firms. Those firms get the call. Everyone else is invisible.
         </p>
         <p className="text-sm md:text-base text-[var(--text3)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          When someone asks ChatGPT for a solicitor in Cardiff, an IT supplier in Manchester, or a mortgage
-          adviser in Bristol, AI needs verified, structured data to give a specific answer. TendorAI has
-          already built your profile &mdash; from regulatory registers and public business data. Claim it &mdash; we handle the rest.
+          TendorAI gets you into that answer. Schema markup installed on your website within 48 hours, weekly tracking across 6 AI platforms, AI content published automatically. Built from SRA, ICAEW, and FCA data. Done for you.
         </p>
 
         {/* CTA Buttons */}

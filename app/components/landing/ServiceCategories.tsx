@@ -501,6 +501,7 @@ const plural = (count: number, singular: string, pluralForm: string) =>
 const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
   const renderCategory = (singular: string, pluralForm: string) => (category: typeof officeEquipmentCategories[0]) => {
     const count = categoryCounts[category.dbValue] || 0;
+    if (count <= 1) return null;
     const label = plural(count, singular, pluralForm);
     const isActive = count >= 3;
     const isThin = count >= 1 && count <= 2;
@@ -581,8 +582,8 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
           {accountantCategories.map(renderCategory('firm', 'firms'))}
         </div>
 
-        {/* Mortgage Advisors */}
-        <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Mortgage Advisors</h3>
+        {/* Mortgage Advisers */}
+        <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-4">Mortgage Advisers</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {mortgageCategories.map(renderCategory('adviser', 'advisers'))}
         </div>
