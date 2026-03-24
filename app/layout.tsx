@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -264,6 +265,19 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased min-h-screen flex flex-col">
+        {/* Google Analytics 4 — replace G-0D3RVTRZY9 with your real measurement ID */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-0D3RVTRZY9"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0D3RVTRZY9');
+          `}
+        </Script>
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>
