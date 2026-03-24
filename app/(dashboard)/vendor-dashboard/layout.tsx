@@ -13,6 +13,7 @@ function getNavigation(vendorType: string) {
   return [
     { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
     { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
+    { name: 'Enquiries', href: '/vendor-dashboard/leads', icon: 'inbox' },
     { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
     { name: isEquipment ? 'Products' : 'Services', href: '/vendor-dashboard/products', icon: 'package' },
     { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
@@ -63,6 +64,11 @@ function NavIcon({ icon, className }: { icon: string; className?: string }) {
     rocket: (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-6.233 0c-1.296 1.296-1.296 3.441.011 5.751 1.308-1.308 3.453-1.308 5.751.011a4.493 4.493 0 000-6.233" />
+      </svg>
+    ),
+    inbox: (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
       </svg>
     ),
   };
