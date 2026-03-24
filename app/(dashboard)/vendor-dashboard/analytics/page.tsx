@@ -70,6 +70,11 @@ export default function AnalyticsPage() {
   const [vendorBrands, setVendorBrands] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<'7d' | '30d'>('30d');
+  const [aiReferrals, setAiReferrals] = useState<{
+    total: number;
+    byPlatform: Record<string, number>;
+    recent: Array<{ source: string; timestamp: string; page: string }>;
+  } | null>(null);
 
   const fetchAnalytics = useCallback(async () => {
     const token = getCurrentToken();
@@ -120,16 +125,29 @@ export default function AnalyticsPage() {
         setVendorReviewCount(v?.performance?.reviewCount);
         setVendorBrands(v?.brands || []);
 
-        // Fetch analytics if vendor has access
+        // Fetch analytics and AI referrals if vendor has access
         if (hasTierAccess(vendorTier, 'starter') && vId) {
-          const analyticsRes = await fetch(
-            `${API_URL}/api/analytics/vendor/${vId}?period=${period}`,
-            { headers: { 'Authorization': `Bearer ${token}` } }
-          );
+          const [analyticsRes, referralsRes] = await Promise.all([
+            fetch(
+              `${API_URL}/api/analytics/vendor/${vId}?period=${period}`,
+              { headers: { 'Authorization': `Bearer ${token}` } }
+            ),
+            fetch(
+              `${API_URL}/api/analytics/ai-referrals/me`,
+              { headers: { 'Authorization': `Bearer ${token}` } }
+            ),
+          ]);
 
           if (analyticsRes.ok) {
             const analyticsData = await analyticsRes.json();
             setData(analyticsData);
+          }
+
+          if (referralsRes.ok) {
+            const referralsData = await referralsRes.json();
+            if (referralsData.success) {
+              setAiReferrals(referralsData);
+            }
           }
         }
       }
@@ -587,6 +605,45 @@ export default function AnalyticsPage() {
           {!hasVerifiedAccess && <MockQueries />}
         </div>
       </div>
+
+      {/* AI Platform Referrals */}
+      {aiReferrals && aiReferrals.total > 0 && (
+        <div className="card p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">AI Platform Referrals This Month</h3>
+          <p className="text-sm text-gray-500 mb-4">
+            People who visited your profile after clicking through from an AI platform.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+            {Object.entries(aiReferrals.byPlatform)
+              .filter(([, count]) => count > 0)
+              .sort(([, a], [, b]) => b - a)
+              .map(([platform, count]) => (
+                <div key={platform} className="bg-purple-50 rounded-lg p-3 text-center">
+                  <div className="text-xl font-bold text-purple-700">{count}</div>
+                  <div className="text-xs text-purple-600 font-medium capitalize">{platform}</div>
+                </div>
+              ))}
+            {Object.values(aiReferrals.byPlatform).every((c) => c === 0) && (
+              <p className="text-sm text-gray-400 col-span-full">No AI referrals this month yet.</p>
+            )}
+          </div>
+          {aiReferrals.recent.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Recent referrals</h4>
+              <div className="space-y-2">
+                {aiReferrals.recent.slice(0, 5).map((r, i) => (
+                  <div key={i} className="flex items-center justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="font-medium text-gray-900 capitalize">{r.source}</span>
+                    <span className="text-gray-400">
+                      {new Date(r.timestamp).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Improvement Tips */}
       <div className="card p-6 bg-gradient-to-r from-purple-50 to-indigo-50">
