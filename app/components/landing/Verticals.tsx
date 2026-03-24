@@ -66,7 +66,7 @@ export default function Verticals() {
           {verticals.map((v) => (
             <div
               key={v.title}
-              className="rounded-xl border border-[var(--border)] p-6 bg-white hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 group"
+              className="rounded-xl border border-[var(--border)] p-6 bg-white hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-[transform,box-shadow,border-color] duration-200 group"
             >
               <div className="gradient-text text-4xl font-bold mb-2">{v.number}</div>
               <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-2">{v.title}</h3>

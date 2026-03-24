@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
@@ -11,10 +12,10 @@ import AiTestimonials from './components/landing/AiTestimonials';
 import SeoAeo from './components/landing/SeoAeo';
 import Pricing from './components/landing/Pricing';
 import Verticals from './components/landing/Verticals';
-import ServiceCategories from './components/landing/ServiceCategories';
 import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
 import ProofSection from './components/homepage/ProofSection';
+import ServiceCategoriesClient from './components/landing/ServiceCategoriesClient';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
@@ -280,25 +281,35 @@ export default async function HomePage() {
         <AiTestimonials />
 
         {/* Proof — TendorAI's own AI visibility stats */}
-        <ProofSection />
+        <Suspense fallback={<div className="py-8" />}>
+          <ProofSection />
+        </Suspense>
 
         {/* SEO vs AEO vs GEO */}
         <SeoAeo />
 
         {/* Pricing */}
-        <Pricing />
+        <Suspense fallback={<div className="py-8" />}>
+          <Pricing />
+        </Suspense>
 
         {/* Verticals */}
         <Verticals />
 
         {/* FAQ */}
-        <FAQ />
+        <Suspense fallback={<div className="py-8" />}>
+          <FAQ />
+        </Suspense>
 
         {/* Browse by Service (SEO value) */}
-        <ServiceCategories categoryCounts={categoryCounts} />
+        <Suspense fallback={<div className="py-8" />}>
+          <ServiceCategoriesClient categoryCounts={categoryCounts} />
+        </Suspense>
 
         {/* Final CTA */}
-        <FinalCTA />
+        <Suspense fallback={<div className="py-8" />}>
+          <FinalCTA />
+        </Suspense>
       </main>
     </>
   );

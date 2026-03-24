@@ -107,7 +107,7 @@ export default function Features() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="bg-white rounded-xl border border-[var(--border)] p-6 hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-all"
+                className="bg-white rounded-xl border border-[var(--border)] p-6 hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-[transform,box-shadow,border-color]"
               >
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-2">{feature.title}</h3>
                 <p className="text-sm text-[var(--text2)] leading-relaxed">{feature.text}</p>

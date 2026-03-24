@@ -22,7 +22,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.tendorai.com'),
   title: {
-    default: "TendorAI \u2014 The UK's AI Visibility Platform | Free AI Visibility (AEO) Reports",
+    default: "TendorAI \u2014 AI Visibility for UK Professional Services",
     template: '%s | TendorAI',
   },
   description:
@@ -178,6 +178,8 @@ const softwareAppJsonLd = {
 const serviceJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
+  name: 'AI Visibility Platform for UK Professional Services',
+  description: 'TendorAI installs schema markup on professional services websites, tracks brand mentions across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI weekly, and publishes AI-optimised content automatically. Built for UK solicitors, accountants, mortgage advisers, and estate agents.',
   serviceType: 'AI Visibility Platform',
   provider: { '@type': 'Organization', name: 'TendorAI' },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },

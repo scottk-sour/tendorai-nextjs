@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorProduct, Review } from '@/lib/db/models';
 import {
@@ -307,17 +308,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? `${vendor.company} — SRA-regulated ${vendor.practiceAreas?.join(', ') || 'solicitors'} in ${city}. View profile on TendorAI.`
       : `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare pricing, read reviews, and request quotes on TendorAI.`);
 
+  const canonicalUrl = vendor.slug
+    ? `https://www.tendorai.com/suppliers/vendor/${vendor.slug}`
+    : `https://www.tendorai.com/suppliers/profile/${id}`;
+
   return {
     title,
     description: description.slice(0, 160),
     openGraph: {
       title,
       description: description.slice(0, 160),
-      url: `https://www.tendorai.com/suppliers/profile/${id}`,
+      url: canonicalUrl,
       type: 'website',
     },
     alternates: {
-      canonical: `https://www.tendorai.com/suppliers/profile/${id}`,
+      canonical: canonicalUrl,
     },
   };
 }
@@ -377,6 +382,11 @@ function BuildingIcon({ className = 'w-5 h-5' }: { className?: string }) {
 export default async function VendorProfilePage({ params }: PageProps) {
   const { id } = await params;
   const vendor = await getVendor(id);
+
+  // Canonical redirect: if vendor has a slug, permanently redirect to slug URL
+  if (vendor?.slug) {
+    redirect(`/suppliers/vendor/${vendor.slug}`);
+  }
 
   if (!vendor) {
     return (

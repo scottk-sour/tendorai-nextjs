@@ -23,16 +23,19 @@ const screenshots = [
   {
     src: '/images/proof-visibility-ranking.jpg',
     alt: 'TendorAI #1 in AI visibility industry ranking',
+    title: 'TendorAI #1 in AI visibility industry ranking — independently tracked by Searchable.com',
     caption: 'Industry ranking — TendorAI #1 with 46 mentions',
   },
   {
     src: '/images/proof-share-of-voice.jpg',
     alt: 'TendorAI 41% share of voice in AI responses',
+    title: 'TendorAI 41% share of voice in AI responses — ahead of Peec AI, OtterlyAI, and Rankscale',
     caption: 'Share of voice — 41.4% vs all competitors',
   },
   {
     src: '/images/proof-source-domains.jpg',
     alt: 'TendorAI appearing in 48.8% of AI responses',
+    title: 'TendorAI appearing in 48.8% of AI responses — third highest cited domain in category',
     caption: 'Source domains — tendorai.com cited in 48.8% of responses',
   },
 ];
@@ -84,6 +87,7 @@ export default function ProofSection() {
               <Image
                 src={shot.src}
                 alt={shot.alt}
+                title={shot.title}
                 width={600}
                 height={400}
                 className="w-full h-auto"
@@ -107,7 +111,7 @@ export default function ProofSection() {
           </p>
           <Link
             href="/aeo-report"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-[#1B4F72] text-white hover:bg-[#163d5a] transition-all shadow-lg text-lg"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-[#1B4F72] text-white hover:bg-[#163d5a] transition-colors shadow-lg text-lg"
           >
             Run Your Free AI Visibility Report
           </Link>

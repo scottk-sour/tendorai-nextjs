@@ -93,7 +93,7 @@ export default function SectorBenefits() {
           {sectors.map((sector) => (
             <div
               key={sector.title}
-              className={`rounded-xl border border-[var(--border)] p-6 bg-white flex flex-col ${sector.comingSoon ? 'opacity-80' : 'hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-all'}`}
+              className={`rounded-xl border border-[var(--border)] p-6 bg-white flex flex-col ${sector.comingSoon ? 'opacity-80' : 'hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-[transform,box-shadow,border-color]'}`}
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className={`${sector.iconBg} ${sector.iconColor} p-2.5 rounded-lg`}>

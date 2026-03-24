@@ -539,7 +539,7 @@ const ServiceCategories = ({ categoryCounts = {} }: ServiceCategoriesProps) => {
         <Link
           key={category.slug}
           href={`/suppliers/${category.slug}`}
-          className="bg-white rounded-xl p-5 border border-[var(--border)] hover:border-[var(--purple-start)] hover:shadow-md transition-all group"
+          className="bg-white rounded-xl p-5 border border-[var(--border)] hover:border-[var(--purple-start)] hover:shadow-md transition-[box-shadow,border-color] group"
         >
           {content}
         </Link>
