@@ -111,7 +111,7 @@ export default function ProofSection() {
           </p>
           <Link
             href="/aeo-report"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-[#1B4F72] text-white hover:bg-[#163d5a] transition-all shadow-lg text-lg"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-[#1B4F72] text-white hover:bg-[#163d5a] transition-colors shadow-lg text-lg"
           >
             Run Your Free AI Visibility Report
           </Link>

@@ -48,7 +48,7 @@ export default function FAQ() {
           {faqItems.map((faq, index) => (
             <div
               key={index}
-              className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:-translate-y-1 hover:shadow-md hover:border-purple-600 transition-all duration-300"
+              className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:-translate-y-1 hover:shadow-md hover:border-purple-600 transition-[transform,box-shadow,border-color] duration-300"
             >
               <h3 className="text-lg font-bold text-purple-700 mb-3 leading-snug">
                 {faq.question}
@@ -63,7 +63,7 @@ export default function FAQ() {
         <div className="text-center mt-12">
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 text-purple-700 font-semibold border-2 border-purple-600 px-6 py-3 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
+            className="inline-flex items-center gap-2 text-purple-700 font-semibold border-2 border-purple-600 px-6 py-3 rounded-lg hover:bg-purple-600 hover:text-white transition-colors"
           >
             View All FAQs
           </Link>
