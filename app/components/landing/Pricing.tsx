@@ -134,6 +134,11 @@ export default function Pricing() {
                 >
                   {plan.cta}
                 </Link>
+                {plan.popular && (
+                  <p className="text-[11px] text-gray-400 text-center mt-3 leading-relaxed">
+                    Your data is stored securely. TendorAI uses 256-bit SSL encryption. Payments handled by Stripe &mdash; we never store card details. Cancel any time from your dashboard.
+                  </p>
+                )}
               </div>
             </div>
           ))}
