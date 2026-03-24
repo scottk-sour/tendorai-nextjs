@@ -21,7 +21,7 @@ export default function FinalCTA() {
 
         <Link
           href="/aeo-report"
-          className="inline-block bg-white text-[var(--primary-blue)] font-bold py-4 px-10 rounded-lg hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-lg transition-all text-lg"
+          className="inline-block bg-white text-[var(--primary-blue)] font-bold py-4 px-10 rounded-lg hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-lg transition-[transform,box-shadow,background-color] text-lg"
         >
           Check Your AI Visibility — Free
         </Link>
