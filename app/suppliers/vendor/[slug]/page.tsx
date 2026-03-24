@@ -9,6 +9,8 @@ import {
   POSTCODE_AREAS,
 } from '@/lib/constants';
 import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
+import AiReferralTracker from '@/app/components/tracking/AiReferralTracker';
+import ContactForm from '@/app/components/vendor/ContactForm';
 
 const EXTENDED_POSTCODES: Record<string, { name: string; region: string }> = {
   B: { name: 'Birmingham', region: 'West Midlands' },
@@ -337,6 +339,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   }
 
   const vendorPosts = await getVendorPosts(vendor._id);
+  const isPro = ['pro', 'managed', 'verified', 'enterprise'].includes((vendor.tier || '').toLowerCase());
 
   const city = vendor.location?.city || '';
   const region = vendor.location?.region || '';
@@ -447,6 +450,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         />
       )}
 
+      <AiReferralTracker vendorId={vendor._id} />
       <main className="min-h-screen bg-gray-50">
         {/* ═══ HERO ═══ */}
         <section className="bg-brand-gradient text-white py-10 md:py-14">
@@ -865,6 +869,12 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                   </div>
                 </div>
               )}
+
+              {/* Contact This Firm */}
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Contact {vendor.company}</h2>
+                <ContactForm vendorId={vendor._id} vendorName={vendor.company} isPro={isPro} />
+              </div>
 
               {/* Claim CTA */}
               <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-8 md:p-10 text-center">

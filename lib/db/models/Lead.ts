@@ -53,7 +53,15 @@ const leadSchema = new Schema<ILead>(
     service: {
       type: String,
       required: true,
-      enum: ['CCTV', 'Photocopiers', 'IT', 'Telecoms', 'Security', 'Software'],
+      enum: [
+        'Conveyancing', 'Family Law', 'Criminal Law', 'Commercial Law',
+        'Wills & Probate', 'Employment Law', 'Immigration', 'Personal Injury',
+        'Tax Advisory', 'Bookkeeping', 'Payroll', 'Audit',
+        'Residential Mortgage', 'Buy-to-Let', 'Remortgage', 'First-Time Buyer',
+        'Property Sales', 'Lettings',
+        'Photocopiers', 'Telecoms', 'CCTV', 'IT Services',
+        'General Enquiry',
+      ],
     },
     timeline: {
       type: String,
