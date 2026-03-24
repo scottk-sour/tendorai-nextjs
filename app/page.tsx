@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
 import AiShift from './components/landing/AiShift';
@@ -16,18 +15,7 @@ import Verticals from './components/landing/Verticals';
 import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
 import ProofSection from './components/homepage/ProofSection';
-
-const ServiceCategories = dynamic(
-  () => import('./components/landing/ServiceCategories'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="py-16 text-center text-gray-400 text-sm">
-        Loading services...
-      </div>
-    ),
-  }
-);
+import ServiceCategoriesClient from './components/landing/ServiceCategoriesClient';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
@@ -315,7 +303,7 @@ export default async function HomePage() {
 
         {/* Browse by Service (SEO value) */}
         <Suspense fallback={<div className="py-8" />}>
-          <ServiceCategories categoryCounts={categoryCounts} />
+          <ServiceCategoriesClient categoryCounts={categoryCounts} />
         </Suspense>
 
         {/* Final CTA */}
