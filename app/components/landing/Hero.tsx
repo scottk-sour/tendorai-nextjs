@@ -23,7 +23,7 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-28 md:py-36">
         {/* Eyebrow */}
         <p className="text-xs md:text-sm text-[var(--text3)] mb-6 max-w-2xl mx-auto leading-relaxed">
-          According to TendorAI&apos;s database of 12,793 UK professional services firms &mdash; 17% of solicitors, 48% of mortgage advisers, and 57% of office equipment suppliers have no website. Every one of them is invisible to AI recommendations.
+          Fewer than 1 in 10 UK solicitors appear consistently in AI recommendations &mdash; according to TendorAI&apos;s weekly scans across ChatGPT, Perplexity, and Gemini.
         </p>
 
         {/* Title */}
