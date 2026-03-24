@@ -23,7 +23,7 @@ export async function GET() {
       { slug: 1, updatedAt: 1 }
     )
       .sort({ updatedAt: -1 })
-      .limit(1000)
+      .limit(5000)
       .lean();
 
     vendorUrls = vendors.map((v) => {

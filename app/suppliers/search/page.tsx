@@ -1,4 +1,11 @@
+import { Metadata } from 'next';
 import SearchResults from './SearchResults';
+
+export const metadata: Metadata = {
+  title: 'Search UK Professional Services Firms | TendorAI',
+  description:
+    'Search 12,793+ UK solicitors, accountants, mortgage advisers, and estate agents. Verified profiles from SRA, ICAEW, and FCA register data.',
+};
 
 function SearchLoading() {
   return (

@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Resources — AI Visibility Guides & Insights',
+  title: 'AI Visibility Resources for UK Professional Services | TendorAI',
   description:
-    'Expert guides on AI Visibility (AEO) and getting your business recommended by ChatGPT, Claude, and Perplexity. For UK solicitors, suppliers, and professional services.',
+    'Guides, data reports, and strategies for UK solicitors, accountants, and mortgage advisers on getting recommended by ChatGPT and Perplexity.',
   openGraph: {
-    title: 'AI Visibility Resources | TendorAI',
+    title: 'AI Visibility Resources for UK Professional Services | TendorAI',
     description:
-      'Expert guides on AI visibility and getting recommended by AI platforms.',
+      'Guides, data reports, and strategies for UK solicitors, accountants, and mortgage advisers on getting recommended by ChatGPT and Perplexity.',
     url: '/resources',
   },
   alternates: {

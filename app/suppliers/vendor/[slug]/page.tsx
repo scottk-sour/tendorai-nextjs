@@ -269,11 +269,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     'estate-agent': `${vendor.practiceAreas?.join(', ') || 'estate agents'}`,
   };
 
+  const fallbackDescription = isProfessional
+    ? `${vendor.company} is ${
+        vendor.vendorType === 'solicitor'
+          ? 'an SRA-registered solicitor'
+          : vendor.vendorType === 'accountant'
+          ? 'an ICAEW-registered accountant'
+          : vendor.vendorType === 'mortgage-advisor'
+          ? 'an FCA-authorised mortgage adviser'
+          : 'a verified professional services firm'
+      } in ${city}. View their AI visibility profile, fees, and accreditations on TendorAI.`
+    : `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare suppliers and request quotes on TendorAI.`;
+
   const description =
-    vendor.businessProfile?.description?.slice(0, 140) ||
-    (isProfessional
-      ? `${vendor.company} — ${regulatoryLabels[vendor.vendorType || ''] || vendor.practiceAreas?.join(', ') || vendorTypeLabel} in ${city}. View profile on TendorAI.`
-      : `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'} in ${city}. Compare suppliers and request quotes on TendorAI.`);
+    vendor.businessProfile?.description?.substring(0, 150) || fallbackDescription;
 
   return {
     title,
