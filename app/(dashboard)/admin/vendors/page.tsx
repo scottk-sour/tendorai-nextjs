@@ -35,6 +35,7 @@ function getToken(): string {
 
 const tierOptions = ['free', 'basic', 'starter', 'pro', 'visible', 'verified', 'listed', 'managed', 'enterprise'];
 const statusOptions = ['active', 'pending', 'suspended', 'inactive', 'unclaimed'];
+const API_URL_OUTREACH = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 const tierBadgeColors: Record<string, string> = {
   free: 'bg-gray-100 text-gray-700',
@@ -586,6 +587,28 @@ export default function AdminVendorsPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
+                      <button
+                        onClick={async () => {
+                          const token = getToken();
+                          await fetch(`${API_URL_OUTREACH}/api/outreach`, {
+                            method: 'POST',
+                            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              firmName: vendor.company,
+                              contactEmail: vendor.email,
+                              reportCity: vendor.city,
+                              vendorId: vendor.id,
+                            }),
+                          });
+                          alert(`${vendor.company} added to outreach`);
+                        }}
+                        className="p-1 text-gray-400 hover:text-green-600 transition"
+                        title="Add to outreach"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
                       <button
                         onClick={() => openEdit(vendor)}
                         className="p-1 text-gray-400 hover:text-purple-600 transition"
