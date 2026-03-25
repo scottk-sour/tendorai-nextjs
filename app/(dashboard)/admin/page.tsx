@@ -25,6 +25,16 @@ interface LeadCounts {
   total: number;
 }
 
+interface RecentSignup {
+  id: string;
+  company: string;
+  email: string;
+  vendorType: string;
+  tier: string;
+  city: string;
+  createdAt: string;
+}
+
 function getToken(): string {
   return localStorage.getItem('admin_token') || '';
 }
@@ -32,6 +42,7 @@ function getToken(): string {
 export default function AdminOverviewPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [leadCounts, setLeadCounts] = useState<LeadCounts | null>(null);
+  const [recentSignups, setRecentSignups] = useState<RecentSignup[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -40,9 +51,10 @@ export default function AdminOverviewPage() {
       const token = getToken();
       const headers = { Authorization: `Bearer ${token}` };
 
-      const [statsRes, leadsRes] = await Promise.all([
+      const [statsRes, leadsRes, signupsRes] = await Promise.all([
         fetch(`${API_URL}/api/admin/stats`, { headers }),
         fetch(`${API_URL}/api/admin/all-leads?counts=true`, { headers }),
+        fetch(`${API_URL}/api/admin/recent-signups`, { headers }),
       ]);
 
       if (!statsRes.ok || !leadsRes.ok) {
@@ -51,13 +63,15 @@ export default function AdminOverviewPage() {
         return;
       }
 
-      const [statsData, leadsData] = await Promise.all([
+      const [statsData, leadsData, signupsData] = await Promise.all([
         statsRes.json(),
         leadsRes.json(),
+        signupsRes.ok ? signupsRes.json() : { success: false },
       ]);
 
       if (statsData.success) setStats(statsData.stats);
       if (leadsData.success) setLeadCounts(leadsData.counts);
+      if (signupsData.success) setRecentSignups(signupsData.data.slice(0, 10));
     } catch {
       setError('Network error loading dashboard');
     } finally {
@@ -174,6 +188,41 @@ export default function AdminOverviewPage() {
               <p className="text-2xl font-bold text-orange-700">{leadCounts['vendor-lead']}</p>
               <p className="text-sm text-orange-600">Vendor Leads</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Recent Signups */}
+      {recentSignups.length > 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Signups</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-2 font-medium text-gray-600">Company</th>
+                  <th className="text-left py-2 font-medium text-gray-600">Type</th>
+                  <th className="text-left py-2 font-medium text-gray-600">City</th>
+                  <th className="text-left py-2 font-medium text-gray-600">Tier</th>
+                  <th className="text-left py-2 font-medium text-gray-600">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {recentSignups.map((v) => (
+                  <tr key={v.id} className="hover:bg-gray-50">
+                    <td className="py-2 font-medium text-gray-900">{v.company}</td>
+                    <td className="py-2 text-gray-600 capitalize">{v.vendorType.replace('-', ' ')}</td>
+                    <td className="py-2 text-gray-600">{v.city}</td>
+                    <td className="py-2">
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${tierColors[v.tier] || 'bg-gray-100 text-gray-700'}`}>
+                        {v.tier}
+                      </span>
+                    </td>
+                    <td className="py-2 text-gray-500 text-xs">{new Date(v.createdAt).toLocaleDateString('en-GB')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

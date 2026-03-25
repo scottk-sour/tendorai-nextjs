@@ -33,14 +33,20 @@ function getToken(): string {
   return localStorage.getItem('admin_token') || '';
 }
 
-const tierOptions = ['free', 'visible', 'verified'];
+const tierOptions = ['free', 'basic', 'starter', 'pro', 'visible', 'verified', 'listed', 'managed', 'enterprise'];
 const statusOptions = ['active', 'pending', 'suspended', 'inactive', 'unclaimed'];
 const API_URL_OUTREACH = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
 const tierBadgeColors: Record<string, string> = {
   free: 'bg-gray-100 text-gray-700',
+  basic: 'bg-slate-100 text-slate-700',
+  starter: 'bg-cyan-100 text-cyan-700',
+  pro: 'bg-purple-100 text-purple-700',
   visible: 'bg-blue-100 text-blue-700',
   verified: 'bg-green-100 text-green-700',
+  listed: 'bg-amber-100 text-amber-700',
+  managed: 'bg-teal-100 text-teal-700',
+  enterprise: 'bg-indigo-100 text-indigo-700',
 };
 
 const statusBadgeColors: Record<string, string> = {
@@ -64,6 +70,10 @@ export default function AdminVendorsPage() {
   const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [editTarget, setEditTarget] = useState<Vendor | null>(null);
+  const [editForm, setEditForm] = useState({ company: '', email: '', phone: '', website: '', city: '', address: '', description: '', vendorType: '', tier: '' });
+  const [editSaving, setEditSaving] = useState(false);
+  const [resetSending, setResetSending] = useState<string | null>(null);
   const toastTimer = useRef<NodeJS.Timeout | null>(null);
 
   const showToast = (msg: string) => {
@@ -249,6 +259,65 @@ export default function AdminVendorsPage() {
         a.click();
         URL.revokeObjectURL(url);
       });
+  };
+
+  const openEdit = (vendor: Vendor) => {
+    setEditTarget(vendor);
+    setEditForm({ company: vendor.company, email: vendor.email, phone: '', website: '', city: vendor.city, address: '', description: '', vendorType: '', tier: vendor.tier });
+  };
+
+  const handleEditSave = async () => {
+    if (!editTarget) return;
+    setEditSaving(true);
+    try {
+      const token = getToken();
+      const body: Record<string, string> = {};
+      if (editForm.company) body.company = editForm.company;
+      if (editForm.email) body.email = editForm.email;
+      if (editForm.phone) body.phone = editForm.phone;
+      if (editForm.website) body.website = editForm.website;
+      if (editForm.city) body.city = editForm.city;
+      if (editForm.address) body.address = editForm.address;
+      if (editForm.description) body.description = editForm.description;
+
+      const res = await fetch(`${API_URL}/api/admin/vendors/${editTarget.id}/details`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        setVendors((prev) => prev.map((v) => v.id === editTarget.id ? { ...v, company: editForm.company || v.company, email: editForm.email || v.email, city: editForm.city || v.city } : v));
+        showToast('Vendor details updated');
+        setEditTarget(null);
+      } else {
+        const data = await res.json();
+        showToast(data.message || 'Update failed');
+      }
+    } catch {
+      showToast('Network error');
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  const handlePasswordReset = async (vendorId: string, vendorEmail: string) => {
+    setResetSending(vendorId);
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/admin/vendors/${vendorId}/reset-password`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        showToast(`Reset email sent to ${vendorEmail}`);
+      } else {
+        showToast('Failed to send reset email');
+      }
+    } catch {
+      showToast('Network error');
+    } finally {
+      setResetSending(null);
+    }
   };
 
   // Pending claims: vendors with status=pending AND claimedBy data
@@ -517,37 +586,58 @@ export default function AdminVendorsPage() {
                     {new Date(vendor.createdAt).toLocaleDateString('en-GB')}
                   </td>
                   <td className="px-4 py-3">
-                    <button
-                      onClick={async () => {
-                        const token = getToken();
-                        await fetch(`${API_URL_OUTREACH}/api/outreach`, {
-                          method: 'POST',
-                          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            firmName: vendor.company,
-                            contactEmail: vendor.email,
-                            reportCity: vendor.city,
-                            vendorId: vendor.id,
-                          }),
-                        });
-                        alert(`${vendor.company} added to outreach`);
-                      }}
-                      className="p-1 text-gray-400 hover:text-purple-600 transition"
-                      title="Add to outreach"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => setDeleteTarget(vendor)}
-                      className="p-1 text-gray-400 hover:text-red-600 transition"
-                      title="Delete vendor"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={async () => {
+                          const token = getToken();
+                          await fetch(`${API_URL_OUTREACH}/api/outreach`, {
+                            method: 'POST',
+                            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              firmName: vendor.company,
+                              contactEmail: vendor.email,
+                              reportCity: vendor.city,
+                              vendorId: vendor.id,
+                            }),
+                          });
+                          alert(`${vendor.company} added to outreach`);
+                        }}
+                        className="p-1 text-gray-400 hover:text-green-600 transition"
+                        title="Add to outreach"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => openEdit(vendor)}
+                        className="p-1 text-gray-400 hover:text-purple-600 transition"
+                        title="Edit details"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handlePasswordReset(vendor.id, vendor.email)}
+                        disabled={resetSending === vendor.id}
+                        className="p-1 text-gray-400 hover:text-blue-600 transition disabled:opacity-50"
+                        title="Send password reset"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => setDeleteTarget(vendor)}
+                        className="p-1 text-gray-400 hover:text-red-600 transition"
+                        title="Delete vendor"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -638,6 +728,56 @@ export default function AdminVendorsPage() {
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 )}
                 Delete {selectedIds.size} Vendor{selectedIds.size === 1 ? '' : 's'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Details Modal */}
+      {editTarget && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Edit {editTarget.company}</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                <input type="text" value={editForm.company} onChange={(e) => setEditForm({ ...editForm, company: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <input type="text" value={editForm.phone} onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })} placeholder="Optional" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                  <input type="text" value={editForm.website} onChange={(e) => setEditForm({ ...editForm, website: e.target.value })} placeholder="Optional" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <input type="text" value={editForm.city} onChange={(e) => setEditForm({ ...editForm, city: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <input type="text" value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} placeholder="Optional" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} rows={3} placeholder="Optional" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none" />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 mt-6">
+              <button onClick={() => setEditTarget(null)} disabled={editSaving} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition">Cancel</button>
+              <button onClick={handleEditSave} disabled={editSaving} className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 disabled:opacity-50 transition flex items-center gap-2">
+                {editSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                Save Changes
               </button>
             </div>
           </div>
