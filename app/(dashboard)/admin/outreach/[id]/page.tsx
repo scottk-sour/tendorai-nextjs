@@ -18,6 +18,13 @@ interface NoteEntry {
   createdAt: string;
 }
 
+interface HistoryEntry {
+  action: string;
+  note: string;
+  date: string;
+  completedBy: string;
+}
+
 interface OutreachRecord {
   _id: string;
   vendorId?: { _id: string; company: string; email: string } | null;
@@ -25,10 +32,13 @@ interface OutreachRecord {
   contactName: string;
   contactEmail: string;
   contactPhone: string;
+  website: string;
   reportLink: string;
   reportCategory: string;
   reportCity: string;
   reportScore: number;
+  vendorType: string;
+  aeoReportUrl: string;
   status: string;
   nextActionDate: string | null;
   nextAction: string;
@@ -37,6 +47,7 @@ interface OutreachRecord {
   lastCalledAt: string | null;
   notes: NoteEntry[];
   callHistory: CallEntry[];
+  history: HistoryEntry[];
   createdAt: string;
   updatedAt: string;
 }
@@ -45,17 +56,30 @@ function getToken(): string {
   return localStorage.getItem('admin_token') || '';
 }
 
-const statuses = ['new', 'email-sent', 'opened', 'called', 'call-back', 'interested', 'signed-up', 'not-interested'];
+const statuses = [
+  'prospect', 'aeo_sent', 'email_sent', 'email-sent', 'opened', 'called', 'call-back',
+  'email_followup_sent', 'called_followup', 'interested', 'meeting_booked',
+  'won', 'signed-up', 'lost', 'not-interested', 'no_response', 'new',
+];
 
 const statusColors: Record<string, string> = {
+  'prospect': 'bg-gray-100 text-gray-700',
   'new': 'bg-gray-100 text-gray-700',
+  'aeo_sent': 'bg-sky-100 text-sky-700',
+  'email_sent': 'bg-blue-100 text-blue-700',
   'email-sent': 'bg-blue-100 text-blue-700',
   'opened': 'bg-yellow-100 text-yellow-700',
   'called': 'bg-purple-100 text-purple-700',
   'call-back': 'bg-orange-100 text-orange-700',
+  'email_followup_sent': 'bg-indigo-100 text-indigo-700',
+  'called_followup': 'bg-violet-100 text-violet-700',
   'interested': 'bg-green-100 text-green-700',
-  'signed-up': 'bg-emerald-100 text-emerald-700',
+  'meeting_booked': 'bg-emerald-100 text-emerald-700',
+  'won': 'bg-emerald-200 text-emerald-800',
+  'signed-up': 'bg-emerald-200 text-emerald-800',
+  'lost': 'bg-red-100 text-red-700',
   'not-interested': 'bg-red-100 text-red-700',
+  'no_response': 'bg-gray-200 text-gray-600',
 };
 
 const statusLabels: Record<string, string> = {
