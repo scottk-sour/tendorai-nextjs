@@ -10,6 +10,7 @@ import {
 } from '@/lib/constants';
 import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
 import AiReferralTracker from '@/app/components/tracking/AiReferralTracker';
+import ProfileViewTracker from '@/app/components/tracking/ProfileViewTracker';
 import ContactForm from '@/app/components/vendor/ContactForm';
 
 const EXTENDED_POSTCODES: Record<string, { name: string; region: string }> = {
@@ -451,6 +452,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
       )}
 
       <AiReferralTracker vendorId={vendor._id} />
+      <ProfileViewTracker vendorId={vendor._id} />
       <main className="min-h-screen bg-gray-50">
         {/* ═══ HERO ═══ */}
         <section className="bg-brand-gradient text-white py-10 md:py-14">

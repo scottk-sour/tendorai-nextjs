@@ -34,6 +34,19 @@ interface Stats {
   responseRate: number;
 }
 
+interface ProfileViewStats {
+  thisMonth: number;
+  lastMonth: number;
+  bySource: {
+    google: number;
+    bing: number;
+    direct: number;
+    ai_referral: number;
+    tendorai_search: number;
+    unknown: number;
+  };
+}
+
 interface ProfileData {
   company: string;
   tier: string;
@@ -50,6 +63,7 @@ export default function VendorDashboardOverview() {
   const { getCurrentToken } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [profileViews, setProfileViews] = useState<ProfileViewStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
@@ -58,12 +72,15 @@ export default function VendorDashboardOverview() {
 
     setLoading(true);
     try {
-      // Fetch leads and profile in parallel
-      const [leadsRes, profileRes] = await Promise.all([
+      // Fetch leads, profile, and profile views in parallel
+      const [leadsRes, profileRes, viewsRes] = await Promise.all([
         fetch(`${API_URL}/api/vendor-leads/vendor/me`, {
           headers: { 'Authorization': `Bearer ${token}` },
         }),
         fetch(`${API_URL}/api/vendors/profile`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+        fetch(`${API_URL}/api/analytics/profile-views/me`, {
           headers: { 'Authorization': `Bearer ${token}` },
         }),
       ]);
@@ -84,6 +101,13 @@ export default function VendorDashboardOverview() {
             locationCity: profileData.vendor.location?.city || '',
             vendorType: profileData.vendor.vendorType || 'office-equipment',
           });
+        }
+      }
+
+      if (viewsRes.ok) {
+        const viewsData = await viewsRes.json();
+        if (viewsData.success) {
+          setProfileViews(viewsData);
         }
       }
     } catch (error) {
@@ -204,6 +228,41 @@ export default function VendorDashboardOverview() {
           <div className="text-sm text-gray-600">Response Rate</div>
         </div>
       </div>
+
+      {/* Profile Views */}
+      {profileViews && (
+        <div className="card p-5">
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Profile Views</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <div className="text-2xl font-bold text-gray-900">{profileViews.thisMonth}</div>
+              <div className="text-sm text-gray-600">This month</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-gray-500">{profileViews.lastMonth}</div>
+              <div className="text-sm text-gray-600">Last month</div>
+            </div>
+            {hasTierAccess(currentTier, 'pro') ? (
+              <>
+                <div>
+                  <div className="text-2xl font-bold text-blue-600">{profileViews.bySource.google + profileViews.bySource.bing}</div>
+                  <div className="text-sm text-gray-600">From search engines</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-purple-600">{profileViews.bySource.ai_referral}</div>
+                  <div className="text-sm text-gray-600">From AI platforms</div>
+                </div>
+              </>
+            ) : (
+              <div className="col-span-2 flex items-center">
+                <p className="text-sm text-gray-500">
+                  <Link href="/for-vendors#pricing" className="text-purple-600 font-medium hover:underline">Upgrade to Pro</Link> to see where your views come from.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Lead Teaser (free tier only) */}
       {!hasTierAccess(currentTier, 'starter') && (
