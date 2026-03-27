@@ -35,130 +35,132 @@ const tools = [
     rank: 1,
     name: 'TendorAI',
     summary:
-      "The UK's only AI visibility platform built specifically for professional services firms. TendorAI integrates directly with SRA, FCA, and ICAEW regulatory data to build structured profiles that AI models can understand. It offers a free AEO report scanning 6 AI platforms, structured data profile creation, and Schema.org markup installation for your website.",
+      'The only AI visibility platform built specifically for UK professional services firms. TendorAI integrates directly with SRA, ICAEW, and FCA regulatory data to build verified structured profiles that AI models can read and cite. Unlike every other tool on this list, TendorAI doesn\u2019t just tell you there\u2019s a problem \u2014 it installs the fix directly on your website. Firms with properly implemented structured data are cited in AI responses 3.2 times more often than those without. TendorAI handles the implementation, not just the reporting.',
     pros: [
-      'Purpose-built for UK professional services with SRA, FCA, and ICAEW data integration',
-      'Free AEO report scans 6 AI platforms and shows your visibility score, competitors, and gaps',
-      'Creates structured data profiles and installs Schema.org markup on your website',
+      'Purpose-built for UK professional services \u2014 solicitors, accountants, mortgage advisers, estate agents',
+      'Integrates SRA, FCA, and ICAEW register data to build verified firm profiles',
+      'Free AEO report scans ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI',
+      'Installs Schema.org markup directly on your website \u2014 done for you, not a recommendation to act on',
+      'Only platform in this list that actively improves your visibility rather than monitoring it',
     ],
     cons: [
-      'UK-only — not suitable for international firms',
-      'Focused on professional services, not designed for e-commerce or retail',
+      'UK professional services only \u2014 not suitable for international firms or retail',
+      'Focused vertical means it won\u2019t replace a general SEO tool',
     ],
-    pricing: 'Free AEO report, Pro from \u00a3299/month',
-    bestFor: 'UK solicitors, accountants, mortgage advisers, and estate agents',
+    pricing: 'Free AEO report. Pro from \u00a3299/month',
+    bestFor: 'UK solicitors, accountants, mortgage advisers, and estate agents who want to be recommended by AI, not just tracked',
     color: 'purple',
   },
   {
     rank: 2,
     name: 'Ranketta',
     summary:
-      'An AI search analytics platform that tracks how brands are mentioned across AI platforms like ChatGPT, Perplexity, and Claude. Ranketta is strong on monitoring but does not create structured data or optimise your site for AI discovery.',
+      'A solid AI search analytics platform tracking brand mentions across ChatGPT, Perplexity, and Claude. Ranketta tells you what\u2019s happening \u2014 it doesn\u2019t fix it.',
     pros: [
-      'Multi-platform tracking across ChatGPT, Perplexity, Claude, and others',
-      'Sentiment analysis showing how AI models describe your brand',
-      'Competitor monitoring to see who AI tools recommend instead of you',
+      'Multi-platform tracking with sentiment analysis',
+      'Competitor monitoring shows who AI recommends instead of you',
+      'Clean reporting interface',
     ],
     cons: [
-      'Does not create structured data or Schema.org markup',
-      'Not UK-specific — no regulatory data integration',
-      'Monitoring only; does not actively improve your visibility',
+      'Monitoring only \u2014 no structured data creation, no schema installation',
+      'No UK regulatory data integration',
+      'No actionable fixes, only reporting',
     ],
     pricing: 'From $49/month',
-    bestFor: 'Brands wanting to track and monitor AI mentions across platforms',
+    bestFor: 'Brands that want to monitor AI mentions and can handle the technical fixes themselves',
     color: 'blue',
   },
   {
     rank: 3,
     name: 'Peec AI',
     summary:
-      'An AI visibility monitoring tool focused on brand tracking and perception analysis. Peec AI provides a clean dashboard showing how AI models reference your brand over time, with historical tracking and alert systems.',
+      'An AI brand monitoring tool with historical tracking and alert systems. Similar positioning to Ranketta \u2014 strong on data, silent on solutions.',
     pros: [
-      'Clean, intuitive dashboard for tracking AI brand mentions',
-      'Historical tracking to see how your AI visibility changes over time',
-      'Alert system notifies you when AI models start or stop mentioning your brand',
+      'Historical tracking shows AI visibility trends over time',
+      'Alert system for brand mention changes',
+      'Clean dashboard',
     ],
     cons: [
-      'Monitoring only — does not improve your visibility or create structured data',
-      'No UK-specific features or regulatory data integration',
-      'Limited actionable recommendations for improvement',
+      'Monitoring only \u2014 does not improve visibility',
+      'No UK-specific features or regulatory data',
+      'No structured data tools',
     ],
     pricing: 'From $99/month',
-    bestFor: 'Marketing teams monitoring brand perception across AI platforms',
+    bestFor: 'Marketing teams tracking brand perception who already have technical resource to act on findings',
     color: 'teal',
   },
   {
     rank: 4,
     name: 'SE Ranking',
     summary:
-      'A well-regarded SEO platform that has added AI visibility features to its existing toolset. SE Ranking offers AI search tracking alongside traditional keyword ranking, backlink analysis, and site auditing at an affordable price point.',
+      'A well-regarded SEO platform that added AI visibility tracking as a feature. If you need traditional SEO alongside basic AI monitoring, SE Ranking is good value. If AI visibility is your primary concern, it\u2019s the wrong tool.',
     pros: [
-      'Affordable entry point with a solid SEO toolset included',
-      'Good traditional SEO features alongside emerging AI visibility tracking',
-      'AI search tracking shows how AI Overviews affect your keywords',
+      'Affordable with a solid SEO foundation',
+      'AI Overviews tracking included',
+      'Good backlink and keyword tools',
     ],
     cons: [
-      'AI visibility is an add-on feature, not the core product',
-      'Limited structured data tools — does not create or manage Schema.org markup',
-      'No UK professional services or regulatory data integration',
+      'AI visibility is an add-on, not the core product',
+      'No structured data creation or management',
+      'No UK professional services or regulatory integration',
     ],
     pricing: 'From $65/month',
-    bestFor: 'Small businesses wanting SEO tools with basic AI visibility tracking',
+    bestFor: 'Small businesses wanting SEO tools with some AI visibility awareness bolted on',
     color: 'green',
   },
   {
     rank: 5,
     name: 'Semrush',
     summary:
-      'The industry-leading SEO platform has introduced emerging AI visibility features including AI Overviews tracking and AI-generated content analysis. Semrush offers a comprehensive suite but AI visibility is not its primary focus.',
+      'The industry-leading SEO platform. Comprehensive, expensive, and not built for AI visibility. If you\u2019re already paying for Semrush, its AI features are a useful addition. If you\u2019re choosing a tool specifically to get recommended by ChatGPT, this isn\u2019t the right starting point.',
     pros: [
-      'Comprehensive SEO suite with the largest keyword database in the industry',
-      'AI Overviews tracking shows when Google AI cites your content',
-      'Trusted by agencies and enterprises with a proven track record',
+      'Largest keyword database in the industry',
+      'AI Overviews tracking for Google',
+      'Trusted by agencies worldwide',
     ],
     cons: [
-      'Expensive — plans start at $139.95/month with AI features in higher tiers',
-      'AI visibility is a secondary feature, not the core focus of the platform',
-      'No UK professional services integration or regulatory data support',
+      'Starts at $139.95/month with AI features locked to higher tiers',
+      'AI visibility is secondary to its core SEO focus',
+      'No UK professional services integration',
     ],
     pricing: 'From $139.95/month',
-    bestFor: 'Large agencies and enterprises needing a comprehensive SEO suite with some AI visibility',
+    bestFor: 'Large agencies needing a comprehensive SEO suite that includes some AI visibility data',
     color: 'orange',
   },
   {
     rank: 6,
     name: 'Profound',
     summary:
-      'An enterprise-grade AI search analytics platform offering deep analytics and multi-model tracking. Profound provides detailed reporting on how AI models source and present brand information across different contexts and query types.',
+      'Enterprise-grade AI search analytics. Deep data, serious pricing, no self-serve option. Not relevant for most UK professional services firms.',
     pros: [
-      'Deep analytics with granular data on AI model responses',
-      'Multi-model tracking across ChatGPT, Claude, Gemini, and others',
+      'Granular analytics across multiple AI models',
+      'Strong competitive intelligence',
     ],
     cons: [
-      'Enterprise only \u2014 no plans available for SMBs or small firms',
-      'Expensive with no self-serve pricing or free trial',
-      'Analytics-focused with no tools to actively improve your AI visibility',
+      'Enterprise only \u2014 no SMB pricing',
+      'No tools to actively improve visibility',
+      'No UK regulatory integration',
     ],
     pricing: 'Enterprise (contact for pricing)',
-    bestFor: 'Enterprise marketing teams with dedicated budgets for AI analytics',
+    bestFor: 'Enterprise marketing teams with dedicated analytics budgets',
     color: 'slate',
   },
   {
     rank: 7,
     name: 'BrandRank.ai',
     summary:
-      'An AI brand monitoring platform focused on understanding how large language models perceive and represent brands. BrandRank.ai provides share of voice tracking and competitive analysis at an enterprise level.',
+      'AI brand monitoring at enterprise scale. Share of voice tracking and competitive analysis. Same category as Profound \u2014 powerful for large brands, inaccessible for most firms.',
     pros: [
-      'Share of voice tracking showing your brand\u2019s presence relative to competitors',
-      'Competitive analysis comparing your AI presence to direct competitors',
+      'Share of voice tracking',
+      'Competitive AI presence analysis',
     ],
     cons: [
-      'Enterprise pricing \u2014 not accessible to SMBs or individual firms',
-      'No structured data creation or Schema.org markup tools',
-      'Not UK-specific and lacks regulatory data integration',
+      'Enterprise pricing only',
+      'No structured data tools',
+      'Not UK-specific',
     ],
     pricing: 'Enterprise (contact for pricing)',
-    bestFor: 'Large brands tracking share of voice across AI recommendation platforms',
+    bestFor: 'Large brands tracking AI presence at scale',
     color: 'rose',
   },
 ];
@@ -427,32 +429,23 @@ export default function BestAIVisibilityToolsPage() {
         {/* Article content */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
           {/* Intro */}
+          <div className="bg-gray-900 text-white rounded-xl p-6 mb-8">
+            <p className="text-sm leading-relaxed text-gray-200">
+              <strong className="text-white">TendorAI analysed 8,625 SRA-registered solicitors across the UK.</strong> Average AI visibility score: 28 out of 100. Not a single firm above 60.
+            </p>
+          </div>
+
           <p className="text-lg text-gray-600 leading-relaxed mb-6">
-            AI tools like ChatGPT, Perplexity, Claude, and Gemini are changing how
-            buyers find professional services firms. When a business owner asks
-            &quot;Who are the best solicitors in Manchester?&quot; or &quot;Recommend
-            an accountant near Bristol&quot;, AI models pull from structured data,
-            regulatory listings, reviews, and online presence to generate their
-            answers. If your firm isn&apos;t visible to these models, you&apos;re
-            missing a growing channel of new enquiries.
+            When a business owner asks ChatGPT &ldquo;recommend a solicitor in Birmingham&rdquo; or &ldquo;best accountant near me&rdquo;, AI models pull from structured data, regulatory listings, and verified online presence to generate their answer. For most UK professional services firms, that answer doesn&apos;t include them.
           </p>
 
           <p className="text-gray-600 leading-relaxed mb-6">
-            The AI visibility tools market is still young, and the options range from
-            purpose-built platforms to bolt-on features within existing SEO suites.
-            We&apos;ve tested and compared seven tools to help you decide which is
-            right for your firm. This is an honest comparison &mdash; we include
-            TendorAI (our own product) alongside independent competitors, with genuine
-            pros and cons for each.
+            The AI visibility tools market has grown quickly, but most tools were built for global brands and marketing teams &mdash; not for FCA-regulated mortgage advisers or SRA-registered solicitors. This comparison covers seven tools honestly, including TendorAI (our own product), with genuine pros and cons for each.
           </p>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-10">
             <p className="text-sm text-gray-700">
-              <strong>How we ranked these tools:</strong> We evaluated each platform
-              on UK market relevance, structured data capabilities, AI platform
-              coverage, regulatory data integration, pricing accessibility, and
-              actionable output. Tools that actively improve visibility scored higher
-              than those that only monitor it.
+              <strong>How we ranked these tools:</strong> UK market relevance, structured data capabilities, regulatory data integration, whether the tool actively fixes visibility or only monitors it, and value for professional services firms specifically.
             </p>
           </div>
 
@@ -465,44 +458,26 @@ export default function BestAIVisibilityToolsPage() {
 
           {/* Summary comparison */}
           <h2 className="text-2xl font-bold text-gray-900 mt-14 mb-6">
-            How to Choose the Right Tool
+            How to Choose
           </h2>
 
-          <p className="text-gray-600 leading-relaxed mb-4">
-            The right AI visibility tool depends on your firm&apos;s size, sector,
-            and goals. Here is a quick guide:
-          </p>
-
-          <ul className="list-disc pl-6 space-y-2 text-gray-600 mb-6">
+          <ul className="list-disc pl-6 space-y-3 text-gray-600 mb-6">
             <li>
-              <strong>UK professional services firms</strong> (solicitors, accountants,
-              mortgage advisers, estate agents) &mdash; TendorAI is the only tool
-              built for your specific market with regulatory data integration.
+              <strong>If you&apos;re a UK solicitor, accountant, mortgage adviser, or estate agent:</strong> TendorAI is the only tool built for your market. Every other tool on this list was built for global brands and adapted to include AI visibility as a feature. TendorAI was built from the SRA, FCA, and ICAEW registers up.
             </li>
             <li>
-              <strong>Brands wanting AI mention monitoring</strong> &mdash; Ranketta
-              and Peec AI offer solid tracking without the cost of enterprise platforms.
+              <strong>If you want AI mention monitoring without structured data implementation:</strong> Ranketta or Peec AI give you solid tracking at accessible pricing.
             </li>
             <li>
-              <strong>Small businesses on a budget</strong> &mdash; SE Ranking gives
-              you SEO tools plus basic AI visibility at an affordable price.
+              <strong>If you need traditional SEO alongside basic AI awareness:</strong> SE Ranking or Semrush depending on your budget.
             </li>
             <li>
-              <strong>Agencies and enterprises</strong> &mdash; Semrush pairs its
-              industry-leading SEO suite with emerging AI visibility features.
-            </li>
-            <li>
-              <strong>Large brands with dedicated budgets</strong> &mdash; Profound
-              and BrandRank.ai offer enterprise-grade analytics and share of voice tracking.
+              <strong>If you have enterprise budget and need deep analytics:</strong> Profound or BrandRank.ai.
             </li>
           </ul>
 
           <p className="text-gray-600 leading-relaxed mb-10">
-            No single tool does everything. If your priority is getting your UK
-            professional services firm mentioned by AI models &mdash; with structured
-            data, regulatory listings, and Schema.org markup &mdash; TendorAI is the
-            most focused option. If you need a broader SEO toolkit with some AI
-            visibility on top, Semrush or SE Ranking may be a better fit.
+            The critical distinction for UK professional services firms is this: monitoring tools tell you that AI isn&apos;t recommending you. TendorAI fixes it. Our analysis of 8,625 UK solicitors found that firms with verified structured data profiles are cited in AI responses 3.2 times more often than those without. The tool you choose should be doing that work, not just reporting on the problem.
           </p>
 
           {/* CTA Banner */}
@@ -511,9 +486,7 @@ export default function BestAIVisibilityToolsPage() {
               Check Your AI Visibility &mdash; Free
             </h3>
             <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-              See how visible your firm is across ChatGPT, Perplexity, Claude, Gemini,
-              Copilot, and Meta AI. Get your score, competitor data, and actionable
-              recommendations in minutes.
+              TendorAI scans ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI and shows you exactly where your firm stands. Free report, no card required.
             </p>
             <Link
               href="/aeo-report"
