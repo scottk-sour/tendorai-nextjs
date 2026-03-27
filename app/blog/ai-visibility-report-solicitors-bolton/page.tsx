@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Bolton Solicitors 2025 — TendorAI Researc
 const DESCRIPTION =
   'TendorAI tracks 72 SRA-registered solicitors in Bolton. 19% have no website. Here\'s what the data shows about AI visibility for Bolton law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-bolton';
-const PUBLISHED = '2026-03-33';
+const PUBLISHED = '2026-03-22';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

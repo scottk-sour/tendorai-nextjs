@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Luton Solicitors 2025 — TendorAI Research
 const DESCRIPTION =
   'TendorAI tracks 47 SRA-registered solicitors in Luton. 19% have no website. Here\'s what the data shows about AI visibility for Luton law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-luton';
-const PUBLISHED = '2026-03-37';
+const PUBLISHED = '2026-03-24';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

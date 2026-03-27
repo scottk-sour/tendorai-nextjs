@@ -300,6 +300,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `https://www.tendorai.com/suppliers/vendor/${slug}`,
     },
+    robots: { index: false, follow: true },
   };
 }
 

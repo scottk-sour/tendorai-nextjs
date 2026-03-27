@@ -20,7 +20,7 @@ const plans = [
     ],
     cta: 'Claim Your Free Profile',
     ctaStyle: 'btn-secondary',
-    href: 'https://www.tendorai.com/vendor-signup?tier=free',
+    href: '/vendor-signup?plan=free',
   },
   {
     name: 'Pro',
@@ -56,7 +56,7 @@ const plans = [
     ],
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
-    href: 'https://www.tendorai.com/vendor-signup?tier=pro',
+    href: '/vendor-signup?plan=pro',
   },
 ];
 
@@ -97,18 +97,13 @@ export default function Pricing() {
               <div className={plan.popular ? 'pt-6' : ''}>
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">{plan.name}</h3>
 
-                {plan.popular && (
-                  <div className="mb-0.5">
-                    <s className="text-sm text-gray-400 font-semibold">£599/month</s>
-                  </div>
-                )}
                 <div className="mb-0.5">
                   <span className="text-3xl font-bold text-[var(--text)]">{plan.price}</span>
                   <span className="text-[var(--text2)] text-sm">{plan.period}</span>
-                  {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}
+                  {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">47 spots remaining</span>}
                 </div>
                 {plan.popular && (
-                  <p className="text-[10px] text-gray-400 italic mb-1">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
+                  <p className="text-[10px] text-gray-400 italic mb-1">Early-adopter pricing &mdash; the first 50 firms lock in at &pound;299/month. 47 spots remaining.</p>
                 )}
 
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>

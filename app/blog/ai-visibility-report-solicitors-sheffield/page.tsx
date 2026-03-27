@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Sheffield Solicitors 2025 — TendorAI Rese
 const DESCRIPTION =
   'TendorAI tracks 50 SRA-registered solicitors in Sheffield. 18% have no website. Here\'s what the data shows about AI visibility for Sheffield law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-sheffield';
-const PUBLISHED = '2026-03-35';
+const PUBLISHED = '2026-03-23';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

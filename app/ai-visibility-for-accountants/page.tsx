@@ -113,7 +113,7 @@ const plans = [
     ],
     cta: 'Claim Your Free Profile',
     ctaStyle: 'btn-secondary',
-    href: 'https://www.tendorai.com/vendor-signup?tier=free',
+    href: '/vendor-signup?plan=free',
   },
   {
     name: 'Pro',
@@ -133,7 +133,7 @@ const plans = [
     ],
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
-    href: 'https://www.tendorai.com/vendor-signup?tier=pro',
+    href: '/vendor-signup?plan=pro',
   },
 ];
 

@@ -33,6 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       siteName: 'TendorAI',
       locale: 'en_GB',
+      images: [{ url: '/logo.png', width: 873, height: 873 }],
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
     },
     robots: { index: false, follow: false },
   };

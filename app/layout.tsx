@@ -204,7 +204,7 @@ const localBusinessJsonLd = {
   description: "AI visibility platform for UK professional services. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Perplexity, Gemini, and Claude.",
   url: 'https://www.tendorai.com',
   logo: 'https://www.tendorai.com/logo.png',
-  foundingDate: '2026',
+  foundingDate: '2024-01-01',
   areaServed: {
     '@type': 'Country',
     name: 'United Kingdom',

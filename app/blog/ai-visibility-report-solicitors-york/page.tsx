@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: York Solicitors 2025 — TendorAI Research'
 const DESCRIPTION =
   'TendorAI tracks 42 SRA-registered solicitors in York. 12% have no website. Here\'s what the data shows about AI visibility for York law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-york';
-const PUBLISHED = '2026-03-39';
+const PUBLISHED = '2026-03-25';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

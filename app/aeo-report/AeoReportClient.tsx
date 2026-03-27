@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
@@ -84,6 +84,7 @@ const LOADING_STEPS = [
 
 export default function AeoReportClient() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [companyName, setCompanyName] = useState('');
   const [category, setCategory] = useState('');
   const [customIndustry, setCustomIndustry] = useState('');
@@ -94,6 +95,15 @@ export default function AeoReportClient() {
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const qCompany = searchParams.get('company');
+    const qCategory = searchParams.get('category');
+    const qCity = searchParams.get('city');
+    if (qCompany) setCompanyName(qCompany);
+    if (qCategory) setCategory(qCategory);
+    if (qCity) setCity(qCity);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

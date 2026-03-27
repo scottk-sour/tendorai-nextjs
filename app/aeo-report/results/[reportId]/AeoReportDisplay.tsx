@@ -1274,7 +1274,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic SRA/FCA details.
               </p>
               <a
-                href="https://www.tendorai.com/vendor-signup?tier=free"
+                href="/vendor-signup?plan=free"
                 className="mt-4 block text-center px-4 py-2 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors"
               >
                 Claim Your Free Profile
@@ -1295,7 +1295,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-xs text-gray-500 mt-1">Most firms recover this in a single client instruction.</p>
               <p className="text-[10px] text-gray-400 mt-1 italic">90-day guarantee &mdash; if your AI visibility score doesn&apos;t improve, we&apos;ll refund you in full. No questions asked.</p>
               <a
-                href="https://www.tendorai.com/vendor-signup?tier=pro"
+                href="/vendor-signup?plan=pro"
                 className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"
               >
                 Start Pro
