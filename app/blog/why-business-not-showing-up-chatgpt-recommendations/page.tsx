@@ -37,7 +37,7 @@ const reasons = [
     number: 1,
     title: 'No Structured Data on Your Website',
     problem:
-      'ChatGPT cannot parse unstructured web pages reliably. When your website is just paragraphs of text without machine-readable markup, AI models have to guess what your business does, where you are located, and what services you offer. That guesswork usually means you get skipped entirely in favour of a competitor whose data is clear and structured. Most business websites were built for human visitors, not AI consumption \u2014 and AI needs a different kind of information architecture to understand you.',
+      'ChatGPT cannot parse unstructured web pages reliably. When your website is just paragraphs of text without machine-readable markup, AI models have to guess what your business does, where you are located, and what services you offer. That guesswork usually means you get skipped entirely in favour of a competitor whose data is clear and structured. Most business websites were built for human visitors, not AI consumption \u2014 and AI needs a different kind of information architecture to understand you.\n\nIn TendorAI\u2019s analysis of UK professional services firms, firms with properly implemented Schema.org markup are cited in AI responses 3.2 times more often than those without.',
     fix: 'Install Schema.org markup on your website. Use the appropriate types for your business \u2014 LocalBusiness, LegalService, FinancialService, AccountingService, RealEstateAgent, or ProfessionalService \u2014 and include your services, service areas, contact details, opening hours, and pricing where applicable. This markup is invisible to visitors but gives AI models a structured, machine-readable description of your business. TendorAI Pro creates and installs this structured data for you automatically, formatted exactly how AI models expect to read it.',
   },
   {
@@ -51,7 +51,7 @@ const reasons = [
     number: 3,
     title: 'Missing or Incomplete Google Business Profile',
     problem:
-      'Google Business Profile (GBP) is one of the most heavily crawled data sources for AI platforms, including Google\u2019s own Gemini and AI Overviews. If your GBP is unclaimed, half-finished, or has the wrong categories, AI tools either cannot find you or do not have enough confidence to recommend you. A GBP with no photos, no opening hours, a generic business description, and a single category tells AI you are not a serious business worth recommending.',
+      'Google Business Profile (GBP) is one of the most heavily crawled data sources for AI platforms, including Google\u2019s own Gemini and AI Overviews. If your GBP is unclaimed, half-finished, or has the wrong categories, AI tools either cannot find you or do not have enough confidence to recommend you. A GBP with no photos, no opening hours, a generic business description, and a single category tells AI you are not a serious business worth recommending.\n\nOf the 8,625 UK solicitors TendorAI tracks, firms with complete Google Business Profiles receive AI recommendations at twice the rate of those with incomplete or unclaimed listings.',
     fix: 'Claim your Google Business Profile at business.google.com if you have not already. Set the correct primary category (e.g. Solicitor, Mortgage Broker, Accountant) and add relevant secondary categories. Write a detailed business description that includes your key services, specialisms, and the areas you serve. Add high-quality photos of your office and team, accurate opening hours, your phone number, and your website URL. If you have multiple offices, create a separate listing for each. Keep your GBP information consistent with your website and regulatory register \u2014 AI cross-references these sources and penalises inconsistencies.',
   },
   {
@@ -72,8 +72,15 @@ const reasons = [
     number: 6,
     title: 'Thin or Generic Website Content',
     problem:
-      'AI answers conversational questions. People ask ChatGPT things like \u201cWhat does a conveyancing solicitor do?\u201d and \u201cHow much does a divorce solicitor cost in Birmingham?\u201d. If your website only has brief, generic service descriptions \u2014 \u201cWe offer a range of legal services\u201d \u2014 or formal jargon that nobody would naturally say aloud, your content does not match the query patterns AI models are trying to answer. AI needs specific, detailed, plain-English content to work with.',
+      'AI answers conversational questions. People ask ChatGPT things like \u201cWhat does a conveyancing solicitor do?\u201d and \u201cHow much does a divorce solicitor cost in Birmingham?\u201d. If your website only has brief, generic service descriptions \u2014 \u201cWe offer a range of legal services\u201d \u2014 or formal jargon that nobody would naturally say aloud, your content does not match the query patterns AI models are trying to answer. AI needs specific, detailed, plain-English content to work with.\n\nTendorAI\u2019s data shows that solicitor firms with fewer than 300 words per service page have an average AI visibility score of 18 out of 100. Firms with detailed FAQ content and 500+ words per page average 41 out of 100.',
     fix: 'Add FAQ pages and detailed service content to your website that directly answers the questions people ask AI. Write in plain English that your clients would understand. Create pages that answer: \u201cWhat does [your service] cost?\u201d, \u201cHow long does [your service] take?\u201d, \u201cWhat is the difference between [service A] and [service B]?\u201d, and \u201cDo I need a [your profession] for [common situation]?\u201d. Structure these with Schema.org FAQPage markup so AI can parse them directly. Aim for at least 500 words per service page and five to ten FAQ questions per practice area. This content serves double duty: it helps your traditional SEO and feeds directly into AI-generated answers.',
+  },
+  {
+    number: 7,
+    title: 'You\u2019re Not Listed on Regulatory and Professional Directories',
+    problem:
+      'AI models treat regulatory registers as high-trust data sources. The SRA register, FCA register, and ICAEW directory are among the most authoritative sources AI platforms use when verifying professional services firms. If your firm appears on these registers but that data isn\u2019t connected to your web presence, AI can\u2019t match you to search queries. Worse, if your register data conflicts with your website \u2014 different address, different trading name, different phone number \u2014 AI loses confidence and skips you entirely.',
+    fix: 'Ensure your regulatory register listing is complete and matches your website exactly. For SRA-registered firms, check your entry at solicitors.lawsociety.org.uk. For FCA-regulated advisers, verify your entry at register.fca.org.uk. For ICAEW members, check icaew.com/about-icaew/find-a-chartered-accountant. TendorAI pulls directly from these registers to build your structured profile \u2014 ensuring the data AI trusts most is connected to your business and working in your favour.',
   },
 ];
 
@@ -269,7 +276,7 @@ export default function WhyBusinessNotShowingUpPage() {
               <span className="px-3 py-1 text-sm font-medium rounded-full bg-white/20 text-white">
                 How-To Guide
               </span>
-              <span className="text-purple-200">7 min read</span>
+              <span className="text-purple-200">10 min read</span>
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
@@ -298,6 +305,12 @@ export default function WhyBusinessNotShowingUpPage() {
             you.
           </p>
 
+          <div className="bg-gray-900 text-white rounded-xl p-6 mb-8">
+            <p className="text-sm leading-relaxed text-gray-200">
+              <strong className="text-white">TendorAI analysed 8,625 SRA-registered UK solicitors.</strong> 73% are completely invisible to ChatGPT. 17% have no website at all. The firms that do appear share a consistent set of characteristics &mdash; here&apos;s exactly what they are.
+            </p>
+          </div>
+
           <p className="text-gray-600 leading-relaxed mb-6">
             ChatGPT doesn&apos;t work like Google. It doesn&apos;t crawl
             websites and rank them by links and keywords. Instead, it pulls from
@@ -308,7 +321,7 @@ export default function WhyBusinessNotShowingUpPage() {
           </p>
 
           <p className="text-gray-600 leading-relaxed mb-10">
-            Here are the 6 specific reasons your business isn&apos;t showing up
+            Here are the 7 specific reasons your business isn&apos;t showing up
             in ChatGPT recommendations, and exactly how to fix each one.
           </p>
 
@@ -325,7 +338,7 @@ export default function WhyBusinessNotShowingUpPage() {
               The Common Thread
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Every one of these six issues comes back to the same root cause:
+              Every one of these seven issues comes back to the same root cause:
               AI models need structured, verifiable, consistent data to make
               recommendations. Unlike traditional search engines that rank pages
               by links and keywords, AI models evaluate the quality and
