@@ -4,35 +4,93 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
   description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (47 spots remaining). No agency required.",
-  alternates: { canonical: '/for-vendors' },
+  alternates: { canonical: 'https://www.tendorai.com/for-vendors' },
+  openGraph: {
+    title: 'For Vendors — AI is Recommending Your Competitors. We Fix That.',
+    description: '200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month. No agency required.',
+    url: 'https://www.tendorai.com/for-vendors',
+    type: 'website',
+    siteName: 'TendorAI',
+    images: [{ url: '/logo.png', width: 873, height: 873 }],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'For Vendors — AI is Recommending Your Competitors. We Fix That.',
+    description: '200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month.',
+  },
+};
+
+const faqs = [
+  {
+    q: 'Is there a free option?',
+    a: 'Yes. Every business gets a free profile built from SRA, ICAEW, or FCA register data. It is already live. Claim it to control what AI says about your firm. The free profile includes your company name, location, services, and regulatory details — visible to AI crawlers immediately. Upgrade to Pro when you want schema installed on your website, AI blog content, and weekly visibility tracking.',
+  },
+  {
+    q: 'How does TendorAI get my firm recommended by AI?',
+    a: 'TendorAI installs structured schema markup on your website that tells ChatGPT, Claude, Perplexity, Gemini, Grok, and Meta AI exactly what your firm does, where you are, and what credentials you hold. AI platforms use this structured data to decide which firms to recommend. Without it, AI has to guess from unstructured page content — and usually recommends a competitor who has made it easier.',
+  },
+  {
+    q: 'What is AI visibility and why does it matter?',
+    a: 'AI visibility means your firm appears when someone asks ChatGPT, Perplexity, or Claude to recommend a solicitor, accountant, or mortgage adviser. Over 200 million people now use AI assistants instead of Google. AI does not return a list of ten links — it recommends one to three firms by name. If your firm is not in the response, you are not losing a ranking. You are losing the recommendation entirely.',
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Yes. Month-to-month billing, no contracts, no lock-in. Cancel from your dashboard at any time. You keep access until the end of your billing period. If you cancel, you can export your schema file and self-host it — your data stays yours.',
+  },
+  {
+    q: 'How is TendorAI different from SEO agencies?',
+    a: 'SEO agencies optimise your website for Google search rankings. TendorAI optimises your structured data for AI recommendation engines — ChatGPT, Claude, Perplexity, Gemini, Grok, and Meta AI. We install schema markup on your website, write AI-optimised blog content, generate LinkedIn and Facebook posts, and scan six AI platforms weekly. Agencies charge £1,500 to £8,000 per month for manual work. TendorAI is £299 per month and everything is automatic.',
+  },
+  {
+    q: 'How long before I see results?',
+    a: 'Schema is installed on your website within 48 hours of signing up. Perplexity crawls the web in real time, so changes can appear within days. ChatGPT and Claude update periodically — most firms see changes within 4 to 8 weeks. Your weekly AI visibility scans will show you exactly when AI platforms start citing your firm.',
+  },
+];
+
+const pricingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'TendorAI Pro',
+  description: 'AI visibility platform for UK professional services firms. Schema markup installation, AI blog writer, social publishing, weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.',
+  brand: { '@type': 'Organization', name: 'TendorAI' },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Free',
+      price: '0',
+      priceCurrency: 'GBP',
+      description: 'Free profile built from regulatory register data. Listed in TendorAI directory, visible to AI crawlers.',
+      url: 'https://www.tendorai.com/vendor-signup?plan=free',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro',
+      price: '299',
+      priceCurrency: 'GBP',
+      billingDuration: 'P1M',
+      description: 'Schema markup installed on your website, AI blog writer, LinkedIn and Facebook copy, weekly AI visibility scans, email alerts, competitor comparison.',
+      url: 'https://www.tendorai.com/vendor-signup?plan=pro',
+    },
+  ],
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
 };
 
 export default function ForVendorsPage() {
-  const faqs = [
-    {
-      q: 'Is there a free option?',
-      a: "Yes — every business gets a free profile built from public register data. It's live already. Claim it to control what AI says about you. Upgrade when you're ready for priority ranking and full AI visibility features.",
-    },
-    {
-      q: 'How does AI find my company?',
-      a: "TendorAI structures your company data so it's accessible to AI assistants like ChatGPT, Claude, and Perplexity. When someone asks \"who's the best solicitor in Bristol?\", AI draws from our structured data to recommend you.",
-    },
-    {
-      q: 'Why should I care about AI recommendations?',
-      a: "200M+ people now use AI instead of Google to find suppliers. If your company isn't in AI's data sources, you're invisible to these buyers. It's the same shift that happened with SEO — but for AI.",
-    },
-    {
-      q: 'Can I cancel anytime?',
-      a: "Yes. Month-to-month, no contracts, no lock-in. Cancel your subscription at any time from your dashboard and you'll keep access until the end of your billing period.",
-    },
-    {
-      q: 'How is this different from SEO agencies?',
-      a: "SEO agencies optimise your website for Google. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI — and writes AI-optimised blog content, publishes to social media, and audits your website. Different technology, different audience. And we cost £299/month (3 of 50 early adopter spots taken), not £5,000.",
-    },
-  ];
 
   return (
-    <main className="pt-16">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <main className="pt-16">
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -189,7 +247,7 @@ export default function ForVendorsPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="https://www.tendorai.com/vendor-signup?tier=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
+              <Link href="/vendor-signup?plan=free" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-[var(--surface)] transition-all">
                 Claim Your Free Profile
               </Link>
             </div>
@@ -206,14 +264,11 @@ export default function ForVendorsPage() {
                 <div className="text-center mb-6 pt-2">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Pro</h3>
                   <div className="mb-1">
-                    <s className="text-lg text-gray-400 font-semibold">£599/month</s>
-                  </div>
-                  <div className="mb-1">
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
-                    <span className="ml-2 text-sm font-semibold text-amber-600">3 of 50 spots taken</span>
+                    <span className="ml-2 text-sm font-semibold text-amber-600">47 spots remaining</span>
                   </div>
-                  <p className="text-xs text-gray-400 italic">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
+                  <p className="text-xs text-gray-400 italic">Early-adopter pricing &mdash; the first 50 firms lock in at &pound;299/month. 47 spots remaining.</p>
                 </div>
                 <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
 
@@ -320,7 +375,7 @@ export default function ForVendorsPage() {
                     <span className="text-sm text-gray-500">If you cancel, the AI visibility code stops working</span>
                   </div>
                 </div>
-                <Link href="https://www.tendorai.com/vendor-signup?tier=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                <Link href="/vendor-signup?plan=pro" className="block w-full text-center py-3.5 px-6 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                   Start Pro
                 </Link>
               </div>
@@ -472,5 +527,6 @@ export default function ForVendorsPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

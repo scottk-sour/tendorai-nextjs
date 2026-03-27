@@ -4,11 +4,23 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'How TendorAI Works — From Invisible to AI-Recommended | TendorAI',
   description: "Learn how TendorAI helps UK businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity. Four simple steps to AI visibility.",
-  alternates: { canonical: '/how-it-works' },
+  alternates: { canonical: 'https://www.tendorai.com/how-it-works' },
+  openGraph: {
+    title: 'How TendorAI Works — From Invisible to AI-Recommended',
+    description: 'Learn how TendorAI helps UK businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity. Four simple steps to AI visibility.',
+    url: 'https://www.tendorai.com/how-it-works',
+    type: 'website',
+    siteName: 'TendorAI',
+    images: [{ url: '/logo.png', width: 873, height: 873 }],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'How TendorAI Works — From Invisible to AI-Recommended',
+    description: 'Four steps to get your UK business recommended by ChatGPT, Claude, Perplexity, and Gemini.',
+  },
 };
 
-export default function HowItWorksPage() {
-  const steps = [
+const steps = [
     {
       number: '01',
       title: 'We List You',
@@ -29,17 +41,57 @@ export default function HowItWorksPage() {
       title: 'You Get the Client',
       description: 'When someone asks AI for a recommendation, it recommends you by name. The customer comes direct — no bidding, no shared leads.',
     },
-  ];
+];
 
-  const benefits = [
+const benefits = [
     { title: 'Built for AI', description: 'Structured data optimised for ChatGPT, Claude, Perplexity, and Google AI' },
     { title: 'Self-Serve', description: 'No agency needed — manage your AI visibility from your dashboard' },
-    { title: 'From £299/mo', description: '3 of 50 early adopter spots taken. Month-to-month, cancel anytime' },
+    { title: 'From £299/mo', description: 'Early-adopter pricing. Month-to-month, cancel anytime' },
     { title: 'Live in 24hrs', description: 'Your profile goes live immediately, not in 3-6 months' },
-  ];
+];
 
+const CANONICAL = 'https://www.tendorai.com/how-it-works';
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Get Your Business Recommended by AI with TendorAI',
+  description: 'Four steps to get your UK professional services firm recommended by ChatGPT, Claude, Perplexity, and Gemini.',
+  step: steps.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.title,
+    text: s.description,
+  })),
+};
+
+const webPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': CANONICAL,
+  name: 'How TendorAI Works',
+  description: 'Learn how TendorAI helps UK businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity. Four simple steps to AI visibility.',
+  url: CANONICAL,
+  isPartOf: { '@type': 'WebSite', url: 'https://www.tendorai.com' },
+  publisher: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
+    { '@type': 'ListItem', position: 2, name: 'How It Works', item: CANONICAL },
+  ],
+};
+
+export default function HowItWorksPage() {
   return (
-    <main className="pt-16">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <main className="pt-16">
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -100,5 +152,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }
