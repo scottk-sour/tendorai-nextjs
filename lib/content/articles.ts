@@ -12,6 +12,16 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'why-ai-isnt-recommending-you',
+    title: 'Why AI Isn\u2019t Recommending You \u2014 And the Data That Proves It',
+    excerpt: 'The average AI Visibility Score across 12,793 UK professional services firms is 28 out of 100. 91% have no structured data. Here\u2019s what the data shows and how to fix it.',
+    category: 'Research' as const,
+    author: 'TendorAI',
+    readTime: 12,
+    publishedDate: '2026-03-27',
+    content: '',
+  },
+  {
     slug: 'will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know',
     title: 'Will AI Make SEO Obsolete? What UK Solicitors and Accountants Need to Know',
     excerpt: 'AI won\u2019t kill SEO \u2014 but it has created a new channel SEO can\u2019t reach. See how UK solicitors and accountants can be visible in both Google and AI recommendations.',
