@@ -6,6 +6,7 @@ const staticPages = [
   { url: '/aeo-report', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/for-vendors', changeFrequency: 'monthly', priority: 0.8 },
   { url: '/ai-visibility-platform', changeFrequency: 'monthly', priority: 0.9 },
+  { url: '/ai-visibility-checker', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/ai-visibility-tool', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/ai-visibility-uk', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/resources', changeFrequency: 'weekly', priority: 0.7 },

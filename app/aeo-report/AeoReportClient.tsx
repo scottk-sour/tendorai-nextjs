@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
@@ -235,6 +236,9 @@ export default function AeoReportClient() {
             covers UK professional services including solicitors, accountants, mortgage advisors,
             and estate agents, and identifies gaps in your structured data that may prevent AI
             systems from understanding and citing your business.
+          </p>
+          <p className="text-gray-500 text-sm mt-3">
+            Want a quick check first? Try our <Link href="/ai-visibility-checker" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.
           </p>
         </div>
       </section>
