@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import AeoReportClient from './AeoReportClient';
 
 export const metadata: Metadata = {
@@ -69,7 +70,9 @@ export default function AeoReportPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <AeoReportClient />
+      <Suspense>
+        <AeoReportClient />
+      </Suspense>
     </>
   );
 }

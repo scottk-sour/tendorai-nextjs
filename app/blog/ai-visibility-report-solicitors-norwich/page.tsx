@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Norwich Solicitors 2025 — TendorAI Resear
 const DESCRIPTION =
   'TendorAI tracks 41 SRA-registered solicitors in Norwich. 20% have no website. Here\'s what the data shows about AI visibility for Norwich law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-norwich';
-const PUBLISHED = '2026-03-40';
+const PUBLISHED = '2026-03-26';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

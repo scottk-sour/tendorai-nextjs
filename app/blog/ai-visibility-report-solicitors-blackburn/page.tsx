@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Blackburn Solicitors 2025 — TendorAI Rese
 const DESCRIPTION =
   'TendorAI tracks 39 SRA-registered solicitors in Blackburn. 15% have no website. Here\'s what the data shows about AI visibility for Blackburn law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-blackburn';
-const PUBLISHED = '2026-03-42';
+const PUBLISHED = '2026-03-27';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

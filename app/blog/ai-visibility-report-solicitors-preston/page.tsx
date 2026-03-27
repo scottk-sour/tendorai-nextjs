@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Preston Solicitors 2025 — TendorAI Resear
 const DESCRIPTION =
   'TendorAI tracks 46 SRA-registered solicitors in Preston. 4% have no website. Here\'s what the data shows about AI visibility for Preston law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-preston';
-const PUBLISHED = '2026-03-38';
+const PUBLISHED = '2026-03-25';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Newcastle Solicitors 2025 — TendorAI Rese
 const DESCRIPTION =
   'TendorAI tracks 60 SRA-registered solicitors in Newcastle. 25% have no website. Here\'s what the data shows about AI visibility for Newcastle law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-newcastle';
-const PUBLISHED = '2026-03-34';
+const PUBLISHED = '2026-03-23';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

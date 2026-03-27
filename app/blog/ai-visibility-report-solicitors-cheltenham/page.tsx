@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Cheltenham Solicitors 2025 — TendorAI Res
 const DESCRIPTION =
   'TendorAI tracks 39 SRA-registered solicitors in Cheltenham. 31% have no website. Here\'s what the data shows about AI visibility for Cheltenham law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-cheltenham';
-const PUBLISHED = '2026-03-41';
+const PUBLISHED = '2026-03-26';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

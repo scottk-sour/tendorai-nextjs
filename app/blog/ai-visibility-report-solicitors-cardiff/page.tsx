@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Cardiff Solicitors 2025 — TendorAI Resear
 const DESCRIPTION =
   'TendorAI tracks 81 SRA-registered solicitors in Cardiff. 21% have no website. Here\'s what the data shows about AI visibility for Cardiff law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-cardiff';
-const PUBLISHED = '2026-03-32';
+const PUBLISHED = '2026-03-22';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

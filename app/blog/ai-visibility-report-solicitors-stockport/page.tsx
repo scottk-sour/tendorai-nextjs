@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: Stockport Solicitors 2025 — TendorAI Rese
 const DESCRIPTION =
   'TendorAI tracks 47 SRA-registered solicitors in Stockport. 9% have no website. Here\'s what the data shows about AI visibility for Stockport law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-stockport';
-const PUBLISHED = '2026-03-36';
+const PUBLISHED = '2026-03-24';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,
