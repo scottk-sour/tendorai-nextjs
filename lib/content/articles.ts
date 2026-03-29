@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'tendorai-review-what-uk-professional-services-firms-get',
+    title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
+    excerpt: 'An honest review of TendorAI — what solicitors, accountants, mortgage advisers and estate agents receive when they sign up, and what the data shows.',
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-03-29',
+    content: '',
+    href: '/blog/tendorai-review-what-uk-professional-services-firms-get',
+  },
+  {
     slug: 'how-to-get-estate-agency-recommended-by-chatgpt',
     title: 'How to Get Your Estate Agency Recommended by ChatGPT (2026 Guide)',
     excerpt: "According to TendorAI's analysis of UK estate agents, fewer than 1 in 10 agencies appear in ChatGPT recommendations. Here's exactly how to fix it.",
