@@ -256,7 +256,7 @@ export default function TendorAIReviewPage() {
             {/* AI Blog Writer */}
             <h3 className="text-xl font-bold text-gray-900 mb-3">AI Blog Writer &amp; Content Publishing</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro includes an AI Blog Writer designed specifically for AI citation visibility. Firms receive two AI-optimised blog posts per week written automatically. These posts follow Yadav format &mdash; a structured layout designed to improve AI citation probability.
+              TendorAI Pro includes an AI Blog Writer designed specifically for AI citation visibility. Firms receive two AI-optimised blog posts per week written automatically. These posts follow TendorAI format &mdash; a structured layout designed to improve AI citation probability.
             </p>
             <p className="text-gray-600 leading-relaxed mb-4">
               Users can enter a topic, and the system generates a complete article ready for publishing. Each blog post also includes LinkedIn and Facebook copy generated automatically. Firms can publish directly from their dashboard with one click.

@@ -296,7 +296,7 @@ export default function ForVendorsPage() {
                 <ul className="space-y-2.5 mb-5">
                   {[
                     'Write two AI-optimised blog posts per week automatically',
-                    'Enter a topic, Claude writes it in Yadav format \u2014 the structure AI loves to cite',
+                    'Enter a topic, Claude writes it in TendorAI format \u2014 the structure AI loves to cite',
                     'One click publishes to your TendorAI profile',
                     'LinkedIn and Facebook copy — post in one click from your dashboard',
                     'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook',
