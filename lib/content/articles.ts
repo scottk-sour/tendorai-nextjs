@@ -14,7 +14,7 @@ export const articles: Article[] = [
   {
     slug: 'tendorai-review-what-uk-professional-services-firms-get',
     title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
-    excerpt: 'An honest review of TendorAI — what solicitors, accountants, mortgage advisers and estate agents receive when they sign up, and what the data shows.',
+    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here\u2019s exactly what UK professional services firms receive.',
     category: 'AI Visibility',
     author: 'TendorAI',
     readTime: 8,

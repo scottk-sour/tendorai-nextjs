@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'TendorAI Review: What UK Professional Services Firms Actually Get';
 const DESCRIPTION =
-  "An honest review of TendorAI — what solicitors, accountants, mortgage advisers and estate agents receive when they sign up, and what the data shows.";
+  "An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here's exactly what UK professional services firms receive.";
 const CANONICAL =
   'https://www.tendorai.com/blog/tendorai-review-what-uk-professional-services-firms-get';
 const PUBLISHED = '2026-03-29';
@@ -232,26 +232,79 @@ export default function TendorAIReviewPage() {
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on TendorAI Pro</h2>
 
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro is designed to actively improve AI visibility rather than just track it. The Pro plan is priced at &pound;299 per month and includes full AI visibility optimisation.
+            <p className="text-gray-600 leading-relaxed mb-6">
+              TendorAI Pro is designed to actively improve AI visibility rather than just track it. The Pro plan is priced at &pound;299 per month and includes full AI visibility optimisation for UK professional services firms.
             </p>
 
-            <div className="space-y-4 mb-6">
-              {[
-                { title: 'Schema markup installed within 48 hours', desc: 'AI assistants can clearly understand your services, locations, and contact details. Firms with properly implemented schema markup are cited in AI responses 3.2 times more often. No developer needed, no ongoing maintenance.' },
-                { title: 'Weekly tracking across six AI platforms', desc: 'ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI are scanned to show how frequently your firm is recommended and where visibility improves.' },
-                { title: 'Regulatory data connected automatically', desc: 'SRA, FCA, and ICAEW register data is one of the strongest trust signals AI assistants use when recommending professional services firms.' },
-                { title: 'AI-optimised content published automatically', desc: 'Firms with AI-optimised content are cited more frequently across AI platforms.' },
-              ].map((item, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-xl p-5">
-                  <h3 className="font-bold text-gray-900 mb-1 text-sm">{item.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
+            {/* Schema & Website */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Schema &amp; Website Optimisation</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Schema markup is installed on your website within 48 hours. This allows AI assistants to clearly understand your services, locations, accreditations, and fees.
+            </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-4">
+              <p className="text-sm text-blue-900">
+                TendorAI&apos;s data shows that firms with properly implemented schema markup are cited in AI responses <strong>3.2 times more often</strong> than those without.
+              </p>
+            </div>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro also includes auto-sync between your dashboard and website schema. When you update services, team members, fees, or accreditations in TendorAI, your website schema updates automatically. This ensures AI assistants always see accurate, structured information.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-8">
+              Firms can also export their schema at any time, ensuring full data ownership.
+            </p>
+
+            {/* AI Blog Writer */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">AI Blog Writer &amp; Content Publishing</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro includes an AI Blog Writer designed specifically for AI citation visibility. Firms receive two AI-optimised blog posts per week written automatically. These posts follow Yadav format &mdash; a structured layout designed to improve AI citation probability.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Users can enter a topic, and the system generates a complete article ready for publishing. Each blog post also includes LinkedIn and Facebook copy generated automatically. Firms can publish directly from their dashboard with one click.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-8">
+              TendorAI&apos;s data shows that firms publishing structured AI-optimised content are cited more frequently across AI platforms.
+            </p>
+
+            {/* Tracking & Alerts */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking, Alerts &amp; Competitor Intelligence</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro includes weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Copilot, Grok, and Meta AI. This provides the most comprehensive tracking coverage available for UK professional services firms.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Users receive email alerts whenever an AI platform recommends their firm &mdash; including ChatGPT, Perplexity, Claude, Gemini, Copilot, Grok, and Meta AI.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro also includes competitor comparison tracking. Firms can see which competitors AI assistants recommend instead, and how visibility changes over time. A profile gaps report identifies missing data fields and explains why they matter for AI recommendation.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-8">
+              This helps firms prioritise the highest-impact improvements.
+            </p>
+
+            {/* Directory & Verified */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Directory &amp; Verified Profile</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro users receive a TendorAI Verified badge on their profile. Profiles are pre-built using regulatory register data from the SRA, FCA, and ICAEW. Pro users are ranked above free listings in the TendorAI directory.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-8">
+              Firms can also add unlimited services, team members, and specialisms. Structured, verified profiles are easier for AI assistants to trust and recommend.
+            </p>
+
+            {/* Reports & Guarantee */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Reports, Support &amp; Guarantee</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              TendorAI Pro users receive a weekly AI Visibility Report emailed every Monday. This report tracks recommendation frequency, score changes, and competitor visibility. Pro users also receive a 10-point website AI audit with fix guidance, along with a Google Business Profile optimisation checklist.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Priority support is included.
+            </p>
+            <div className="bg-green-50 border border-green-200 rounded-xl p-5 mb-6">
+              <p className="text-sm text-green-900">
+                <strong>90-day guarantee:</strong> If a firm&apos;s AI visibility score does not improve within 90 days, they receive a full refund. This removes the risk for firms adopting AI visibility optimisation for the first time.
+              </p>
             </div>
 
             <p className="text-gray-600 leading-relaxed">
-              This combination of structured data, regulatory integration, and AI-optimised content forms the core of the Pro offering.
+              This combination of schema installation, automated content, competitor tracking, alerts, and verification forms the core of the TendorAI Pro offering.
             </p>
           </section>
 
