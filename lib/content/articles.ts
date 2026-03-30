@@ -12,6 +12,28 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'tendorai-review-what-uk-professional-services-firms-get',
+    title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
+    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here\u2019s exactly what UK professional services firms receive.',
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-03-29',
+    content: '',
+    href: '/blog/tendorai-review-what-uk-professional-services-firms-get',
+  },
+  {
+    slug: 'how-to-get-estate-agency-recommended-by-chatgpt',
+    title: 'How to Get Your Estate Agency Recommended by ChatGPT (2026 Guide)',
+    excerpt: "According to TendorAI's analysis of UK estate agents, fewer than 1 in 10 agencies appear in ChatGPT recommendations. Here's exactly how to fix it.",
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 10,
+    publishedDate: '2026-03-29',
+    content: '',
+    href: '/blog/how-to-get-estate-agency-recommended-by-chatgpt',
+  },
+  {
     slug: 'why-ai-isnt-recommending-you',
     title: 'Why AI Isn\u2019t Recommending You \u2014 And the Data That Proves It',
     excerpt: 'The average AI Visibility Score across 12,793 UK professional services firms is 28 out of 100. 91% have no structured data. Here\u2019s what the data shows and how to fix it.',

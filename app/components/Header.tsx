@@ -41,7 +41,7 @@ const Header = () => {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/suppliers', label: 'Find Suppliers' },
-    { href: '/aeo-report', label: 'AI Visibility Report' },
+    { href: '/ai-visibility-checker', label: 'Free AI Check' },
     { href: '/for-vendors', label: 'For Vendors' },
     { href: '/ai-visibility-platform', label: 'The Platform' },
     { href: '/for-vendors#pricing', label: 'Pricing' },
