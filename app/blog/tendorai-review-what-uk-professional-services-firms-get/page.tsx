@@ -232,80 +232,116 @@ export default function TendorAIReviewPage() {
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on TendorAI Pro</h2>
 
-            <p className="text-gray-600 leading-relaxed mb-6">
-              TendorAI Pro is designed to actively improve AI visibility rather than just track it. The Pro plan is priced at &pound;299 per month and includes full AI visibility optimisation for UK professional services firms.
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.
             </p>
 
-            {/* Schema & Website */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Schema &amp; Website Optimisation</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Schema markup is installed on your website within 48 hours. This allows AI assistants to clearly understand your services, locations, accreditations, and fees.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
               <p className="text-sm text-blue-900">
                 TendorAI&apos;s data shows that firms with properly implemented schema markup are cited in AI responses <strong>3.2 times more often</strong> than those without.
               </p>
             </div>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro also includes auto-sync between your dashboard and website schema. When you update services, team members, fees, or accreditations in TendorAI, your website schema updates automatically. This ensures AI assistants always see accurate, structured information.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
-              Firms can also export their schema at any time, ensuring full data ownership.
-            </p>
+
+            {/* Schema & Website */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Schema &amp; Website</h3>
+            <ul className="space-y-2 mb-8">
+              {[
+                'AI-optimised schema markup installed on your website within 48 hours',
+                'Auto-sync \u2014 every dashboard update updates your website schema automatically',
+                'Fees, accreditations, and practice areas visible to AI',
+                'Export your schema any time \u2014 your data stays with you if you ever leave',
+                'Done-for-you installation \u2014 just send us your website login',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             {/* AI Blog Writer */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3">AI Blog Writer &amp; Content Publishing</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro includes an AI Blog Writer designed specifically for AI citation visibility. Firms receive two AI-optimised blog posts per week written automatically. These posts follow TendorAI format &mdash; a structured layout designed to improve AI citation probability.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Users can enter a topic, and the system generates a complete article ready for publishing. Each blog post also includes LinkedIn and Facebook copy generated automatically. Firms can publish directly from their dashboard with one click.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
-              TendorAI&apos;s data shows that firms publishing structured AI-optimised content are cited more frequently across AI platforms.
-            </p>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">AI Blog Writer</h3>
+            <ul className="space-y-2 mb-8">
+              {[
+                'Write two AI-optimised blog posts per week automatically',
+                'Enter a topic, Claude writes it in TendorAI format \u2014 the structure AI loves to cite',
+                'One click publishes to your TendorAI profile',
+                'LinkedIn and Facebook copy \u2014 post in one click from your dashboard',
+                'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-            {/* Tracking & Alerts */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking, Alerts &amp; Competitor Intelligence</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro includes weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Copilot, Grok, and Meta AI. This provides the most comprehensive tracking coverage available for UK professional services firms.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Users receive email alerts whenever an AI platform recommends their firm &mdash; including ChatGPT, Perplexity, Claude, Gemini, Copilot, Grok, and Meta AI.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro also includes competitor comparison tracking. Firms can see which competitors AI assistants recommend instead, and how visibility changes over time. A profile gaps report identifies missing data fields and explains why they matter for AI recommendation.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
-              This helps firms prioritise the highest-impact improvements.
-            </p>
+            {/* Tracking & Visibility */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking &amp; Visibility</h3>
+            <ul className="space-y-2 mb-8">
+              {[
+                'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
+                'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
+                'Weekly AI Visibility Score with trend tracking',
+                'Competitor comparison \u2014 see who AI recommends instead',
+                'Profile gaps report \u2014 exact fields missing and why they matter',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-            {/* Directory & Verified */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Directory &amp; Verified Profile</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro users receive a TendorAI Verified badge on their profile. Profiles are pre-built using regulatory register data from the SRA, FCA, and ICAEW. Pro users are ranked above free listings in the TendorAI directory.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
-              Firms can also add unlimited services, team members, and specialisms. Structured, verified profiles are easier for AI assistants to trust and recommend.
-            </p>
+            {/* Directory & Profile */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Directory &amp; Profile</h3>
+            <ul className="space-y-2 mb-8">
+              {[
+                'Ranked above free profiles in TendorAI directory',
+                'TendorAI Verified badge on your profile',
+                'Pre-built profile from SRA, ICAEW, or FCA register data',
+                'Unlimited products and services listed',
+                'Team members with individual specialisms',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-            {/* Reports & Guarantee */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Reports, Support &amp; Guarantee</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI Pro users receive a weekly AI Visibility Report emailed every Monday. This report tracks recommendation frequency, score changes, and competitor visibility. Pro users also receive a 10-point website AI audit with fix guidance, along with a Google Business Profile optimisation checklist.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Priority support is included.
-            </p>
-            <div className="bg-green-50 border border-green-200 rounded-xl p-5 mb-6">
-              <p className="text-sm text-green-900">
-                <strong>90-day guarantee:</strong> If a firm&apos;s AI visibility score does not improve within 90 days, they receive a full refund. This removes the risk for firms adopting AI visibility optimisation for the first time.
+            {/* Reports & Support */}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Reports &amp; Support</h3>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Weekly AI Visibility Report emailed every Monday',
+                '10-point Website AI Audit with fix guides',
+                'Google Business Profile optimisation checklist',
+                'Priority support',
+                '90-day guarantee \u2014 score improves or full refund',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6">
+              <p className="text-sm text-amber-800">
+                <strong className="text-amber-900">If you cancel,</strong> the AI visibility code stops working. But you can export your schema file and self-host it &mdash; your data stays yours.
               </p>
             </div>
-
-            <p className="text-gray-600 leading-relaxed">
-              This combination of schema installation, automated content, competitor tracking, alerts, and verification forms the core of the TendorAI Pro offering.
-            </p>
           </section>
 
           {/* The Data */}
