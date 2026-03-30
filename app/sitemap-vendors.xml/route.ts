@@ -2,6 +2,7 @@ import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
 const baseUrl = 'https://www.tendorai.com';
+const MAX_URLS_PER_SITEMAP = 50000;
 
 function entry(loc: string, lastmod: string, changefreq: string, priority: number) {
   return `  <url>
@@ -23,7 +24,7 @@ export async function GET() {
       { slug: 1, updatedAt: 1 }
     )
       .sort({ updatedAt: -1 })
-      .limit(5000)
+      .limit(MAX_URLS_PER_SITEMAP)
       .lean();
 
     vendorUrls = vendors.map((v) => {
