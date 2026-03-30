@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'does-structured-data-help-ai-visibility',
+    title: 'Does Structured Data Actually Help With AI Visibility?',
+    excerpt: "Yes — firms with structured data are cited 3.2x more often in AI responses. TendorAI's analysis of 12,793 UK firms shows exactly what structured data does for AI visibility and why most firms are invisible without it.",
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-03-30',
+    content: '',
+    href: '/blog/does-structured-data-help-ai-visibility',
+  },
+  {
     slug: 'tendorai-review-what-uk-professional-services-firms-get',
     title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
     excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here\u2019s exactly what UK professional services firms receive.',

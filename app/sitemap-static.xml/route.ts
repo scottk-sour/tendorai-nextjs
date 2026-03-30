@@ -42,6 +42,7 @@ const citySlugs = [
 ];
 
 const blogSlugs = [
+  'does-structured-data-help-ai-visibility',
   'how-to-get-recommended-by-ai',
   'why-wont-chatgpt-recommend-my-law-firm',
   'why-business-not-showing-up-chatgpt-recommendations',
