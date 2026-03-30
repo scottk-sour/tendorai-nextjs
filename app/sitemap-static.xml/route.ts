@@ -26,6 +26,13 @@ const verticalSlugs = [
   'ai-visibility-for-estate-agents',
 ];
 
+const supplierCitySlugs = [
+  'suppliers/solicitors',
+  'suppliers/accountants',
+  'suppliers/mortgage-advisors',
+  'suppliers/estate-agents',
+];
+
 const citySlugs = [
   'cardiff', 'bristol', 'swansea', 'newport', 'london', 'manchester',
   'birmingham', 'leeds', 'liverpool', 'sheffield', 'newcastle', 'nottingham',
@@ -117,10 +124,15 @@ export function GET() {
     citySlugs.map((c) => entry(`${baseUrl}/${v}/${c}`, 'monthly', 0.7))
   );
 
+  const supplierCityUrls = supplierCitySlugs.flatMap((v) =>
+    citySlugs.map((c) => entry(`${baseUrl}/${v}/${c}`, 'weekly', 0.7))
+  );
+
   const urls = [
     ...staticPages.map((p) => entry(`${baseUrl}${p.url}`, p.changeFrequency, p.priority)),
     ...verticalSlugs.map((s) => entry(`${baseUrl}/${s}`, 'monthly', 0.8)),
     ...cityVerticalUrls,
+    ...supplierCityUrls,
     ...blogSlugs.map((s) => entry(`${baseUrl}/blog/${s}`, 'monthly', 0.7)),
     ...serviceSlugs.map((s) => entry(`${baseUrl}/suppliers/${s}`, 'weekly', 0.7)),
   ];
