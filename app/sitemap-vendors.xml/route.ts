@@ -2,7 +2,7 @@ import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
 const baseUrl = 'https://www.tendorai.com';
-const MAX_URLS_PER_SITEMAP = 50000;
+const VENDORS_PER_SITEMAP = 5000;
 
 function entry(loc: string, lastmod: string, changefreq: string, priority: number) {
   return `  <url>
@@ -14,6 +14,10 @@ function entry(loc: string, lastmod: string, changefreq: string, priority: numbe
 }
 
 export async function GET() {
+  return generateVendorSitemap(0);
+}
+
+export async function generateVendorSitemap(page: number) {
   let vendorUrls: string[] = [];
 
   try {
@@ -24,7 +28,8 @@ export async function GET() {
       { slug: 1, updatedAt: 1 }
     )
       .sort({ updatedAt: -1 })
-      .limit(MAX_URLS_PER_SITEMAP)
+      .skip(page * VENDORS_PER_SITEMAP)
+      .limit(VENDORS_PER_SITEMAP)
       .lean();
 
     vendorUrls = vendors.map((v) => {

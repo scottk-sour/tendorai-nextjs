@@ -242,7 +242,7 @@ export default function RootLayout({
     <html lang="en-GB" className={`${plusJakarta.variable} ${fraunces.variable}`}>
       <head>
         <meta name="theme-color" content="#667eea" />
-        <link rel="llm" type="text/plain" href="https://www.tendorai.com/llm.txt" />
+        <link rel="llm" type="text/plain" href="https://www.tendorai.com/llms-full.txt" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
