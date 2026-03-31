@@ -214,10 +214,10 @@ export default function PressPage() {
           </p>
           <div className="inline-flex flex-col items-center gap-2">
             <a
-              href="mailto:hello@tendorai.com"
+              href="mailto:scott.davies@tendorai.com"
               className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
             >
-              hello@tendorai.com
+              scott.davies@tendorai.com
             </a>
             <p className="text-sm text-gray-500">We typically respond within 24 hours</p>
           </div>
