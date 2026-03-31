@@ -130,7 +130,7 @@ Disallow: /vendor-dashboard/
 Sitemap: https://www.tendorai.com/sitemap.xml
 
 # LLM Discoverability
-# LLM.txt: https://www.tendorai.com/llm.txt
+# LLMs.txt: https://www.tendorai.com/llms-full.txt
 `;
 
   return new Response(body, {
