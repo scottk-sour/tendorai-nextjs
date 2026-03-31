@@ -19,6 +19,8 @@ const nextConfig = {
       // Auth routes → vendor login
       { source: '/login', destination: '/vendor-login', permanent: true },
       { source: '/signup', destination: '/vendor-login', permanent: true },
+      // Pricing → for-vendors pricing section
+      { source: '/pricing', destination: '/for-vendors#pricing', permanent: true },
       // Old /dashboard → vendor-dashboard
       { source: '/dashboard/:path*', destination: '/vendor-dashboard/:path*', permanent: true },
       // Old /get-quotes → /aeo-report
