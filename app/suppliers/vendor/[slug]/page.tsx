@@ -303,7 +303,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `https://www.tendorai.com/suppliers/vendor/${slug}`,
     },
     robots: {
-      index: !!(vendor.sraNumber || vendor.icaewFirmNumber || vendor.fcaNumber),
+      index: Boolean(vendor.sraNumber?.trim()) || Boolean(vendor.icaewFirmNumber?.trim()) || Boolean(vendor.fcaNumber?.trim()),
       follow: true,
     },
   };
