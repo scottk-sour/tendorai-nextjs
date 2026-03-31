@@ -1,4 +1,4 @@
-import { generateVendorSitemap } from '../sitemap-vendors.xml/route';
+import { generateVendorSitemap } from '@/lib/utils/vendorSitemap';
 
 export async function GET() {
   return generateVendorSitemap(1);
