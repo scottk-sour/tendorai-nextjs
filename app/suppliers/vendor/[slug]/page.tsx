@@ -202,6 +202,8 @@ async function getVendorBySlug(slug: string) {
           legalAid: 1,
           lenderPanels: 1,
           individualSolicitors: 1,
+          icaewFirmNumber: 1,
+          performance: 1,
         })
         .lean()
         .exec();
@@ -300,7 +302,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `https://www.tendorai.com/suppliers/vendor/${slug}`,
     },
-    robots: { index: false, follow: true },
+    robots: {
+      index: !!(vendor.sraNumber || vendor.icaewFirmNumber || vendor.fcaNumber),
+      follow: true,
+    },
   };
 }
 
@@ -374,6 +379,9 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   const schemaType = schemaTypeMap[vendor.vendorType || ''] || 'LocalBusiness';
 
   // JSON-LD — professional service type or LocalBusiness for equipment
+  const sameAs: string[] = [];
+  if (vendor.contactInfo?.website) sameAs.push(vendor.contactInfo.website);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': schemaType,
@@ -382,18 +390,30 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     description:
       vendor.businessProfile?.description ||
       `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'}${city ? ` in ${city}` : ''}.`,
-    url: `https://www.tendorai.com/suppliers/vendor/${slug}`,
+    url: vendor.contactInfo?.website || `https://www.tendorai.com/suppliers/vendor/${slug}`,
+    ...(sameAs.length > 0 && { sameAs }),
+    ...(vendor.contactInfo?.phone && { telephone: vendor.contactInfo.phone }),
     address: {
       '@type': 'PostalAddress',
       ...(city && { addressLocality: city }),
       ...(region && { addressRegion: region }),
+      ...(vendor.location?.postcode && { postalCode: vendor.location.postcode }),
       addressCountry: 'GB',
     },
-    ...(coverageData?.locations?.length && {
-      areaServed: coverageData.locations.map((loc) => ({
+    ...(vendor.location?.coverage?.length && {
+      areaServed: vendor.location.coverage.map((loc: string) => ({
         '@type': 'City',
         name: loc,
       })),
+    }),
+    ...(vendor.performance?.rating && vendor.performance?.reviewCount && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: vendor.performance.rating,
+        reviewCount: vendor.performance.reviewCount,
+        bestRating: 5,
+        worstRating: 1,
+      },
     }),
     ...(establishedYear && { foundingDate: `${establishedYear}-01-01` }),
     ...(vendor.brands?.length && {
