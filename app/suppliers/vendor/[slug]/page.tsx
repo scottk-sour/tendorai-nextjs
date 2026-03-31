@@ -444,6 +444,10 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
 
   const sameAs: string[] = [];
   if (vendorWebsite) sameAs.push(vendorWebsite);
+  if (vendor.contactInfo?.linkedIn) sameAs.push(vendor.contactInfo.linkedIn);
+  if (vendor.sraNumber) sameAs.push(`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`);
+  if (vendor.icaewFirmNumber) sameAs.push(`https://www.icaew.com/about-icaew/find-a-chartered-accountant?id=${vendor.icaewFirmNumber}`);
+  if (vendor.fcaNumber) sameAs.push(`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`);
 
   // Build areaServed from coverage + courtCoverageAreas
   const areaServedNames = new Set<string>();
@@ -647,18 +651,6 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         datePublished: p.createdAt,
       })),
     }),
-    sameAs: [
-      `https://www.tendorai.com/suppliers/vendor/${slug}`,
-      ...(vendor.sraNumber ? [`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`] : []),
-      ...(vendor.icaewFirmNumber ? [`https://www.icaew.com/about-icaew/find-a-chartered-accountant?id=${vendor.icaewFirmNumber}`] : []),
-      ...(vendor.fcaNumber ? [`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`] : []),
-    ].filter(Boolean),
-    identifier: [
-      ...(vendor.sraNumber ? [{ '@type': 'PropertyValue', name: 'SRA Number', propertyID: 'https://www.sra.org.uk', value: vendor.sraNumber }] : []),
-      ...(vendor.fcaNumber ? [{ '@type': 'PropertyValue', name: 'FCA Number', propertyID: 'https://www.fca.org.uk', value: vendor.fcaNumber }] : []),
-      ...(vendor.icaewFirmNumber ? [{ '@type': 'PropertyValue', name: 'ICAEW Firm Number', propertyID: 'https://www.icaew.com', value: vendor.icaewFirmNumber }] : []),
-      ...(vendor.companyNumber ? [{ '@type': 'PropertyValue', name: 'Companies House Number', propertyID: 'https://find-and-update.company-information.service.gov.uk', value: vendor.companyNumber }] : []),
-    ].filter(Boolean),
   };
 
   const breadcrumbJsonLd = {
