@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import mongoose from 'mongoose';
 import { connectDB, withRetry } from '@/lib/db/connection';
-import { Vendor, VendorPost } from '@/lib/db/models';
+import { Vendor, VendorPost, Review } from '@/lib/db/models';
 import {
   SERVICES,
   POSTCODE_AREAS,
@@ -230,6 +230,7 @@ async function getVendorBySlug(slug: string) {
           leaseVsPurchase: 1,
           monthlyCostRange: 1,
           managedPrintService: 1,
+          serviceCapabilities: 1,
         })
         .lean()
         .exec();
@@ -263,6 +264,30 @@ async function getVendorPosts(vendorId: string) {
         body: p.body as string,
         category: p.category as string,
         createdAt: (p.createdAt as Date).toISOString(),
+      }));
+    } catch {
+      return [];
+    }
+  });
+}
+
+async function getVendorReviews(vendorId: string) {
+  return withRetry(async () => {
+    await connectDB();
+    try {
+      const reviews = await Review.find({ vendor: new mongoose.Types.ObjectId(vendorId), status: 'approved' })
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .select({ 'reviewer.name': 1, rating: 1, content: 1, title: 1, createdAt: 1 })
+        .lean()
+        .exec();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return reviews.map((r: any) => ({
+        reviewerName: r.reviewer?.name || 'Anonymous',
+        rating: r.rating as number,
+        content: r.content as string,
+        title: r.title as string,
+        createdAt: r.createdAt ? new Date(r.createdAt).toISOString().split('T')[0] : undefined,
       }));
     } catch {
       return [];
@@ -372,7 +397,10 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     notFound();
   }
 
-  const vendorPosts = await getVendorPosts(vendor._id);
+  const [vendorPosts, vendorReviews] = await Promise.all([
+    getVendorPosts(vendor._id),
+    getVendorReviews(vendor._id),
+  ]);
   const isPro = ['pro', 'managed', 'verified', 'enterprise'].includes((vendor.tier || '').toLowerCase());
 
   const city = vendor.location?.city || '';
@@ -569,6 +597,47 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
       },
     }),
     ...(additionalProperties.length > 0 && { additionalProperty: additionalProperties }),
+    ...(vendor.location?.coordinates?.latitude && vendor.location?.coordinates?.longitude && {
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: vendor.location.coordinates.latitude,
+        longitude: vendor.location.coordinates.longitude,
+      },
+    }),
+    ...(vendor.serviceCapabilities?.supportHours && (() => {
+      const HOURS_MAP: Record<string, { days: string[]; opens: string; closes: string }> = {
+        '9-5': { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '17:00' },
+        '8-6': { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '18:00' },
+        '24/7': { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' },
+        'Extended hours': { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '07:00', closes: '21:00' },
+      };
+      const config = HOURS_MAP[vendor.serviceCapabilities.supportHours];
+      if (!config) return false;
+      return {
+        openingHoursSpecification: config.days.map((day: string) => ({
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: day,
+          opens: config.opens,
+          closes: config.closes,
+        })),
+      };
+    })()),
+    potentialAction: {
+      '@type': 'CommunicateAction',
+      name: 'Request a Quote',
+      target: `https://www.tendorai.com/suppliers/vendor/${slug}`,
+      description: `Request a quote from ${vendor.company} via TendorAI`,
+    },
+    ...(vendorReviews.length > 0 && {
+      review: vendorReviews.map((r) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.reviewerName },
+        ...(r.createdAt && { datePublished: r.createdAt }),
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+        ...(r.title && { name: r.title }),
+        ...(r.content && { reviewBody: r.content }),
+      })),
+    }),
     ...(vendorPosts.length > 0 && {
       hasPart: vendorPosts.map((p) => ({
         '@type': 'BlogPosting',
