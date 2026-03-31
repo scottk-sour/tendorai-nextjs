@@ -179,6 +179,7 @@ async function getVendorBySlug(slug: string) {
       const vendor = await Vendor.findOne({ slug })
         .select({
           company: 1,
+          email: 1,
           slug: 1,
           services: 1,
           location: 1,
@@ -192,6 +193,9 @@ async function getVendorBySlug(slug: string) {
           practiceAreas: 1,
           sraNumber: 1,
           fcaNumber: 1,
+          icaewFirmNumber: 1,
+          accaNumber: 1,
+          practiceCertificateNumber: 1,
           propertymarkNumber: 1,
           propertymarkQualification: 1,
           regulatoryBody: 1,
@@ -200,20 +204,43 @@ async function getVendorBySlug(slug: string) {
           fixedFees: 1,
           languages: 1,
           legalAid: 1,
+          noWinNoFee: 1,
+          responseTime: 1,
+          courtCoverageAreas: 1,
           lenderPanels: 1,
           individualSolicitors: 1,
-          icaewFirmNumber: 1,
           performance: 1,
+          softwareUsed: 1,
+          industrySpecialisms: 1,
+          mtdCompliant: 1,
+          rdTaxCreditsSpecialist: 1,
+          feeStructureType: 1,
+          minimumFeeThreshold: 1,
+          wholeOfMarket: 1,
+          numberOfLenders: 1,
+          typicalCompletionTime: 1,
+          feeModel: 1,
+          maximumLoanSize: 1,
+          propertyTypesHandled: 1,
+          averageSaleTime: 1,
+          achievedVsAskingPercent: 1,
+          managementFeePercent: 1,
+          tenantFindOrFullManagement: 1,
+          epcAssessor: 1,
+          leaseVsPurchase: 1,
+          monthlyCostRange: 1,
+          managedPrintService: 1,
         })
         .lean()
         .exec();
 
       if (!vendor) return null;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return {
         ...vendor,
         _id: vendor._id.toString(),
-      };
+      } as any;
     } catch {
       return null;
     }
@@ -378,9 +405,115 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   };
   const schemaType = schemaTypeMap[vendor.vendorType || ''] || 'LocalBusiness';
 
-  // JSON-LD — professional service type or LocalBusiness for equipment
+  // JSON-LD — full enriched schema for all vendor types
+  const ensureHttps = (url: string) =>
+    url.match(/^https?:\/\//i) ? url : `https://${url}`;
+
+  const vendorWebsite = vendor.contactInfo?.website
+    ? ensureHttps(vendor.contactInfo.website)
+    : null;
+
   const sameAs: string[] = [];
-  if (vendor.contactInfo?.website) sameAs.push(vendor.contactInfo.website);
+  if (vendorWebsite) sameAs.push(vendorWebsite);
+
+  // Build areaServed from coverage + courtCoverageAreas
+  const areaServedNames = new Set<string>();
+  (vendor.location?.coverage || []).forEach((loc: string) => areaServedNames.add(loc));
+  if (vendor.vendorType === 'solicitor') {
+    (vendor.courtCoverageAreas || []).forEach((area: string) => areaServedNames.add(area));
+  }
+
+  // Build identifiers
+  const identifiers: Record<string, unknown>[] = [];
+  if (vendor.sraNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'SRA Number', value: vendor.sraNumber });
+  if (vendor.icaewFirmNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'ICAEW Firm Number', value: vendor.icaewFirmNumber });
+  if (vendor.accaNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'ACCA Number', value: vendor.accaNumber });
+  if (vendor.practiceCertificateNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'Practice Certificate Number', value: vendor.practiceCertificateNumber });
+  if (vendor.fcaNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'FCA Number', value: vendor.fcaNumber });
+  if (vendor.propertymarkNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'Propertymark Number', value: vendor.propertymarkNumber });
+
+  // Build knowsAbout from practiceAreas + specializations + industrySpecialisms + softwareUsed + services
+  const knowsAboutSet = new Set<string>();
+  (vendor.practiceAreas || []).forEach((pa: string) => knowsAboutSet.add(pa));
+  (vendor.businessProfile?.specializations || []).forEach((s: string) => knowsAboutSet.add(s));
+  if (vendor.vendorType === 'accountant') {
+    (vendor.industrySpecialisms || []).forEach((s: string) => knowsAboutSet.add(s));
+    (vendor.softwareUsed || []).forEach((s: string) => knowsAboutSet.add(s));
+  }
+  if (vendor.vendorType === 'estate-agent') {
+    (vendor.propertyTypesHandled || []).forEach((t: string) => knowsAboutSet.add(t));
+  }
+  if (!isProfessional) {
+    (vendor.services || []).forEach((s: string) => knowsAboutSet.add(s));
+  }
+  const knowsAbout = [...knowsAboutSet].filter(Boolean);
+
+  // Build hasCredential from accreditations + certifications
+  const credentials: Record<string, unknown>[] = [];
+  (vendor.businessProfile?.accreditations || []).forEach((a: string) => {
+    if (a?.trim()) credentials.push({ '@type': 'EducationalOccupationalCredential', name: a });
+  });
+  (vendor.businessProfile?.certifications || []).forEach((c: string) => {
+    if (c?.trim()) credentials.push({ '@type': 'EducationalOccupationalCredential', name: c });
+  });
+
+  // Build memberOf from lenderPanels
+  const memberOf: Record<string, unknown>[] = [];
+  (vendor.lenderPanels || []).forEach((p: string) => {
+    if (p?.trim()) memberOf.push({ '@type': 'Organization', name: p });
+  });
+
+  // Build employee from individualSolicitors
+  const employees: Record<string, unknown>[] = [];
+  (vendor.individualSolicitors || []).forEach((s: { name?: string; role?: string }) => {
+    if (s?.name?.trim()) employees.push({ '@type': 'Person', name: s.name, ...(s.role?.trim() && { jobTitle: s.role }) });
+  });
+
+  // Build hasOfferCatalog from fixedFees
+  const feeOffers = (vendor.fixedFees || [])
+    .filter((f: { service?: string; fee?: string }) => f?.service?.trim() && f?.fee?.trim())
+    .map((f: { service: string; fee: string }) => ({
+      '@type': 'Offer',
+      name: f.service,
+      price: f.fee.replace(/[^0-9.]/g, ''),
+      priceCurrency: 'GBP',
+    }));
+
+  // Build additionalProperty array
+  const additionalProperties: Record<string, unknown>[] = [];
+  if (vendor.vendorType === 'solicitor') {
+    if (vendor.legalAid) additionalProperties.push({ '@type': 'PropertyValue', name: 'Legal Aid', value: true });
+    if (vendor.noWinNoFee) additionalProperties.push({ '@type': 'PropertyValue', name: 'No Win No Fee', value: true });
+    if (vendor.responseTime?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Response Time', value: vendor.responseTime });
+  }
+  if (vendor.vendorType === 'accountant') {
+    if (vendor.mtdCompliant) additionalProperties.push({ '@type': 'PropertyValue', name: 'Making Tax Digital Compliant', value: true });
+    if (vendor.rdTaxCreditsSpecialist) additionalProperties.push({ '@type': 'PropertyValue', name: 'R&D Tax Credits Specialist', value: true });
+    if (vendor.feeStructureType?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Fee Structure', value: vendor.feeStructureType });
+    if (vendor.minimumFeeThreshold && vendor.minimumFeeThreshold > 0) additionalProperties.push({ '@type': 'PropertyValue', name: 'Minimum Fee', value: vendor.minimumFeeThreshold });
+  }
+  if (vendor.vendorType === 'mortgage-advisor') {
+    if (vendor.wholeOfMarket !== undefined) additionalProperties.push({ '@type': 'PropertyValue', name: 'Whole of Market', value: vendor.wholeOfMarket });
+    if (vendor.numberOfLenders && vendor.numberOfLenders > 0) additionalProperties.push({ '@type': 'PropertyValue', name: 'Number of Lenders', value: vendor.numberOfLenders });
+    if (vendor.typicalCompletionTime?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Typical Completion Time', value: vendor.typicalCompletionTime });
+    if (vendor.feeModel?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Fee Model', value: vendor.feeModel });
+    if (vendor.maximumLoanSize && vendor.maximumLoanSize > 0) additionalProperties.push({ '@type': 'PropertyValue', name: 'Maximum Loan Size', value: vendor.maximumLoanSize });
+  }
+  if (vendor.vendorType === 'estate-agent') {
+    if (vendor.averageSaleTime?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Average Sale Time', value: vendor.averageSaleTime });
+    if (vendor.achievedVsAskingPercent && vendor.achievedVsAskingPercent > 0) additionalProperties.push({ '@type': 'PropertyValue', name: 'Achieved vs Asking Price', value: `${vendor.achievedVsAskingPercent}%` });
+    if (vendor.managementFeePercent && vendor.managementFeePercent > 0) additionalProperties.push({ '@type': 'PropertyValue', name: 'Management Fee', value: `${vendor.managementFeePercent}%` });
+    if (vendor.tenantFindOrFullManagement?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Lettings Service', value: vendor.tenantFindOrFullManagement });
+    if (vendor.epcAssessor) additionalProperties.push({ '@type': 'PropertyValue', name: 'EPC Assessor', value: true });
+  }
+  if (!isProfessional) {
+    if (vendor.leaseVsPurchase?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Lease or Purchase', value: vendor.leaseVsPurchase });
+    if (vendor.monthlyCostRange?.trim()) additionalProperties.push({ '@type': 'PropertyValue', name: 'Monthly Cost Range', value: vendor.monthlyCostRange });
+    if (vendor.managedPrintService) additionalProperties.push({ '@type': 'PropertyValue', name: 'Managed Print Service', value: true });
+  }
+
+  // Vendor email — skip placeholders
+  const vendorEmail = vendor.email && !vendor.email.includes('placeholder.tendorai.com') ? vendor.email : null;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -390,21 +523,21 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     description:
       vendor.businessProfile?.description ||
       `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'}${city ? ` in ${city}` : ''}.`,
-    url: vendor.contactInfo?.website || `https://www.tendorai.com/suppliers/vendor/${slug}`,
+    url: vendorWebsite || `https://www.tendorai.com/suppliers/vendor/${slug}`,
     ...(sameAs.length > 0 && { sameAs }),
     ...(vendor.contactInfo?.phone && { telephone: vendor.contactInfo.phone }),
+    ...(vendorEmail && { email: vendorEmail }),
+    isPartOf: { '@type': 'WebSite', name: 'TendorAI', url: 'https://www.tendorai.com' },
     address: {
       '@type': 'PostalAddress',
+      ...(vendor.location?.address && { streetAddress: vendor.location.address }),
       ...(city && { addressLocality: city }),
       ...(region && { addressRegion: region }),
       ...(vendor.location?.postcode && { postalCode: vendor.location.postcode }),
       addressCountry: 'GB',
     },
-    ...(vendor.location?.coverage?.length && {
-      areaServed: vendor.location.coverage.map((loc: string) => ({
-        '@type': 'City',
-        name: loc,
-      })),
+    ...(areaServedNames.size > 0 && {
+      areaServed: [...areaServedNames].map((loc) => ({ '@type': 'City', name: loc })),
     }),
     ...(vendor.performance?.rating && vendor.performance?.reviewCount && {
       aggregateRating: {
@@ -416,9 +549,26 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
       },
     }),
     ...(establishedYear && { foundingDate: `${establishedYear}-01-01` }),
+    ...(vendor.businessProfile?.numEmployees && vendor.businessProfile.numEmployees > 0 && {
+      numberOfEmployees: { '@type': 'QuantitativeValue', value: vendor.businessProfile.numEmployees },
+    }),
     ...(vendor.brands?.length && {
       brand: vendor.brands.map((b: string) => ({ '@type': 'Brand', name: b })),
     }),
+    ...(knowsAbout.length > 0 && { knowsAbout }),
+    ...(vendor.languages?.length && { knowsLanguage: vendor.languages }),
+    ...(identifiers.length > 0 && { identifier: identifiers.length === 1 ? identifiers[0] : identifiers }),
+    ...(credentials.length > 0 && { hasCredential: credentials }),
+    ...(memberOf.length > 0 && { memberOf }),
+    ...(employees.length > 0 && { employee: employees }),
+    ...(feeOffers.length > 0 && {
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Fixed Fees',
+        itemListElement: feeOffers,
+      },
+    }),
+    ...(additionalProperties.length > 0 && { additionalProperty: additionalProperties }),
     ...(vendorPosts.length > 0 && {
       hasPart: vendorPosts.map((p) => ({
         '@type': 'BlogPosting',
@@ -703,7 +853,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                   <h3 className="text-lg font-bold text-gray-900 mb-4">Browse by Category</h3>
                   <div className="space-y-2">
-                    {serviceLinks.map(({ name, slug: sSlug }) => (
+                    {serviceLinks.map(({ name, slug: sSlug }: { name: string; slug: string }) => (
                       <Link
                         key={sSlug}
                         href={`/suppliers/${sSlug}`}
