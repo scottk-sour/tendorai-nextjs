@@ -379,8 +379,15 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   const schemaType = schemaTypeMap[vendor.vendorType || ''] || 'LocalBusiness';
 
   // JSON-LD — professional service type or LocalBusiness for equipment
+  const ensureHttps = (url: string) =>
+    url.match(/^https?:\/\//i) ? url : `https://${url}`;
+
+  const vendorWebsite = vendor.contactInfo?.website
+    ? ensureHttps(vendor.contactInfo.website)
+    : null;
+
   const sameAs: string[] = [];
-  if (vendor.contactInfo?.website) sameAs.push(vendor.contactInfo.website);
+  if (vendorWebsite) sameAs.push(vendorWebsite);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -390,7 +397,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     description:
       vendor.businessProfile?.description ||
       `${vendor.company} provides ${vendor.services?.join(', ') || 'office equipment services'}${city ? ` in ${city}` : ''}.`,
-    url: vendor.contactInfo?.website || `https://www.tendorai.com/suppliers/vendor/${slug}`,
+    url: vendorWebsite || `https://www.tendorai.com/suppliers/vendor/${slug}`,
     ...(sameAs.length > 0 && { sameAs }),
     ...(vendor.contactInfo?.phone && { telephone: vendor.contactInfo.phone }),
     address: {
