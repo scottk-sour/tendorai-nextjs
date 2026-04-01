@@ -100,6 +100,11 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
             Claim Your Profile
           </Link>
         </div>
+        <div className="text-center mb-4">
+          <Link href="/aeo-report" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] transition-colors">
+            Not sure where to start? &rarr; <span className="underline underline-offset-2">Run a free AI visibility check</span>
+          </Link>
+        </div>
         <div className="text-center mb-14">
           <Link href="/ai-visibility-platform" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors">
             See what an AI visibility platform actually does &rarr;

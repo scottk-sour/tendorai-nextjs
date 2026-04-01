@@ -1,26 +1,15 @@
-import { Metadata } from 'next';
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import SchemaCheckerClient from './SchemaCheckerClient';
 
-const TITLE = 'Schema.org Checker for UK Solicitors, Accountants & Mortgage Advisers';
-const DESCRIPTION =
-  'Free tool to check if your professional services firm has the Schema.org structured data AI needs to recommend you. See which schema types are present and which are missing.';
-const CANONICAL = 'https://www.tendorai.com/tools/schema-checker';
-
-export const metadata: Metadata = {
-  title: `${TITLE} | TendorAI`,
-  description: DESCRIPTION,
-  alternates: { canonical: CANONICAL },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: CANONICAL,
-    type: 'website',
-    siteName: 'TendorAI',
-    images: [{ url: '/logo.png', width: 873, height: 873 }],
-  },
-  twitter: { card: 'summary', title: TITLE, description: DESCRIPTION },
-};
+interface CheckResult {
+  found: string[];
+  missing: string[];
+  allTypes: string[];
+  raw: unknown[];
+  totalBlocks: number;
+}
 
 const faqs = [
   {
@@ -45,91 +34,172 @@ const faqs = [
   },
 ];
 
-const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.q,
-    acceptedAnswer: { '@type': 'Answer', text: faq.a },
-  })),
-};
-
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.tendorai.com' },
-    { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://www.tendorai.com/tools' },
-    { '@type': 'ListItem', position: 3, name: 'Schema Checker', item: CANONICAL },
-  ],
-};
-
 export default function SchemaCheckerPage() {
+  const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<CheckResult | null>(null);
+  const [error, setError] = useState('');
+
+  const handleCheck = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!url.trim()) return;
+
+    setLoading(true);
+    setResult(null);
+    setError('');
+
+    try {
+      const res = await fetch('/api/tools/schema-checker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Failed to check URL');
+      } else {
+        setResult(data);
+      }
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+    <main className="min-h-screen bg-gray-50 pt-16">
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Schema.org Checker for UK Professional Services Firms</h1>
+          <p className="text-lg text-purple-200 max-w-2xl">
+            Schema.org structured data tells AI assistants and search engines what a business does, where it is, and whether it can be trusted. Without it, AI tools cannot reliably recommend a firm when potential clients ask for a solicitor, accountant, or mortgage adviser.
+          </p>
+        </div>
+      </section>
 
-      <main className="min-h-screen bg-white">
-        {/* Hero */}
-        <section className="bg-gradient-to-br from-[#1B4F72] via-[#1a3d5c] to-[#2d1b4e] text-white py-12 md:py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <nav className="text-sm mb-6 text-blue-200">
-              <Link href="/" className="hover:text-white">Home</Link>
-              <span className="mx-2">/</span>
-              <span className="text-white">Schema Checker</span>
-            </nav>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-white">
-              Schema.org Checker for UK Professional Services Firms
-            </h1>
-            <p className="text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto">
-              Schema.org structured data tells AI assistants and search engines what a business does, where it is, and whether it can be trusted. Without it, AI tools cannot reliably recommend a firm when potential clients ask for a solicitor, accountant, or mortgage adviser.
-            </p>
+      {/* Tool */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <form onSubmit={handleCheck} className="flex gap-3 mb-8">
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter a website URL (e.g. www.example.co.uk)"
+            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+          />
+          <button
+            type="submit"
+            disabled={loading || !url.trim()}
+            className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+          >
+            {loading ? 'Checking...' : 'Check Schema'}
+          </button>
+        </form>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-lg mb-8">
+            {error}
           </div>
-        </section>
+        )}
 
-        {/* Tool */}
-        <section className="py-12 md:py-16">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6">
-            <SchemaCheckerClient />
-          </div>
-        </section>
+        {result && (
+          <div className="space-y-6 mb-12">
+            {result.totalBlocks === 0 ? (
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
+                <p className="text-lg font-semibold text-amber-800 mb-2">No structured data found on this page.</p>
+                <p className="text-sm text-amber-700">This website has no JSON-LD schema markup. AI tools cannot read structured information from it.</p>
+              </div>
+            ) : (
+              <>
+                <div className="bg-white rounded-xl border border-gray-200 p-6">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                    Schema Types ({result.found.length} found, {result.missing.length} missing)
+                  </h2>
+                  <div className="space-y-2">
+                    {result.found.map((type) => (
+                      <div key={type} className="flex items-center gap-3 py-2 px-3 bg-green-50 rounded-lg">
+                        <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-sm font-medium text-green-800">{type}</span>
+                      </div>
+                    ))}
+                    {result.missing.map((type) => (
+                      <div key={type} className="flex items-center gap-3 py-2 px-3 bg-red-50 rounded-lg">
+                        <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span className="text-sm font-medium text-red-700">{type}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-        {/* FAQ */}
-        <section className="bg-gray-50 py-12 md:py-16">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
-            <div className="space-y-4">
-              {faqs.map((faq, i) => (
-                <details key={i} className="group bg-white border border-gray-200 rounded-lg">
-                  <summary className="flex items-center justify-between cursor-pointer p-5 text-left">
-                    <h3 className="font-medium text-gray-900 pr-4">{faq.q}</h3>
-                    <svg className="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <div className="px-5 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4">{faq.a}</div>
-                </details>
-              ))}
+                {result.allTypes.length > 0 && (
+                  <div className="bg-white rounded-xl border border-gray-200 p-6">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">All Detected Schema Types</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {result.allTypes.map((type) => (
+                        <span key={type} className="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3">{result.totalBlocks} JSON-LD block{result.totalBlocks !== 1 ? 's' : ''} found</p>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="bg-purple-50 rounded-xl border border-purple-100 p-6 text-center">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Want schema automatically installed on your site?</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                TendorAI Pro installs AI-optimised Schema.org markup on your website within 48 hours. Auto-syncs when you update your dashboard.
+              </p>
+              <Link href="/for-vendors#pricing" className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                Upgrade to TendorAI Pro
+              </Link>
             </div>
           </div>
-        </section>
+        )}
+
+        {/* FAQ */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <details key={i} className="group bg-white border border-gray-200 rounded-lg">
+                <summary className="flex items-center justify-between cursor-pointer p-5 text-left">
+                  <span className="font-medium text-gray-900 pr-4">{faq.q}</span>
+                  <svg className="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-5 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 text-sm">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
 
         {/* Bottom CTA */}
-        <section className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl max-w-4xl mx-auto p-8 md:p-12 text-center mb-16 mx-4 sm:mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Get schema installed automatically</h2>
-          <p className="text-blue-100 mb-8 max-w-xl mx-auto">
+        <div className="mt-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
+          <h3 className="text-xl md:text-2xl font-bold mb-3">Get schema installed automatically</h3>
+          <p className="text-purple-100 mb-6 max-w-lg mx-auto">
             TendorAI Pro installs the correct Schema.org markup for your firm type and keeps it in sync with your profile &mdash; no developer required.
           </p>
-          <Link
-            href="/for-vendors"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg text-lg"
-          >
+          <Link href="/for-vendors" className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors">
             See how TendorAI Pro works
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </Link>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 }

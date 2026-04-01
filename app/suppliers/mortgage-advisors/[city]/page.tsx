@@ -28,17 +28,8 @@ const STATUS_FILTER = {
 };
 
 export async function generateStaticParams() {
-  return withRetry(async () => {
-    await connectDB();
-    const cities = await Vendor.aggregate([
-      { $match: { vendorType: 'mortgage-advisor', ...STATUS_FILTER } },
-      { $group: { _id: '$location.city', count: { $sum: 1 } } },
-      { $match: { _id: { $nin: [null, ''] }, count: { $gte: 3 } } },
-    ]);
-    return cities.map((c: { _id: string }) => ({
-      city: c._id.toLowerCase().replace(/\s+/g, '-'),
-    }));
-  });
+  // ISR: generate on-demand to avoid build-time DB connection exhaustion
+  return [];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

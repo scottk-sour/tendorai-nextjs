@@ -4,7 +4,10 @@ import { CITIES, CITY_MAP, CityConfig } from '@/lib/constants/cities';
 import { CityStats } from '@/app/components/landing/CityVerticalLandingPage';
 
 export function getCityStaticParams() {
-  return CITIES.map((city) => ({ city: city.slug }));
+  // Return empty array to skip build-time generation.
+  // Pages are generated on-demand (ISR) to avoid 112 simultaneous
+  // DB queries that exhaust MongoDB connection pool during build.
+  return [] as { city: string }[];
 }
 
 export function resolveParams(

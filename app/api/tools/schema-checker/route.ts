@@ -1,32 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const EXPECTED_TYPES = [
-  'LocalBusiness',
-  'LegalService',
-  'AccountingService',
-  'FinancialService',
-  'RealEstateAgent',
-  'Organization',
-  'FAQPage',
-  'BreadcrumbList',
+  'LocalBusiness', 'LegalService', 'AccountingService', 'FinancialService',
+  'RealEstateAgent', 'Organization', 'FAQPage', 'BreadcrumbList',
 ];
-
-function extractTypes(jsonLd: Record<string, unknown>): string[] {
-  const types: string[] = [];
-  const t = jsonLd['@type'];
-  if (typeof t === 'string') types.push(t);
-  else if (Array.isArray(t)) types.push(...t.map(String));
-
-  // Check @graph
-  if (Array.isArray(jsonLd['@graph'])) {
-    for (const item of jsonLd['@graph']) {
-      if (item && typeof item === 'object') {
-        types.push(...extractTypes(item as Record<string, unknown>));
-      }
-    }
-  }
-  return types;
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,45 +14,67 @@ export async function POST(req: NextRequest) {
     }
 
     let targetUrl = url.trim();
-    if (!targetUrl.startsWith('http')) targetUrl = `https://${targetUrl}`;
+    if (!targetUrl.match(/^https?:\/\//i)) {
+      targetUrl = `https://${targetUrl}`;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'TendorAI-SchemaChecker/1.0',
-        Accept: 'text/html',
-      },
-      signal: AbortSignal.timeout(15000),
+      headers: { 'User-Agent': 'TendorAI Schema Checker/1.0' },
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     if (!res.ok) {
-      return NextResponse.json({ error: `Failed to fetch URL (${res.status})` }, { status: 422 });
+      return NextResponse.json({ error: `Could not fetch URL (HTTP ${res.status})` }, { status: 422 });
     }
 
     const html = await res.text();
 
     // Extract all JSON-LD blocks
-    const regex = /<script[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
-    const raw: object[] = [];
-    const allTypes: string[] = [];
-    let match;
+    const jsonLdRegex = /<script[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    const raw: unknown[] = [];
+    const foundTypes = new Set<string>();
 
-    while ((match = regex.exec(html)) !== null) {
+    let match;
+    while ((match = jsonLdRegex.exec(html)) !== null) {
       try {
         const parsed = JSON.parse(match[1]);
         raw.push(parsed);
-        allTypes.push(...extractTypes(parsed));
+
+        const extractTypes = (obj: unknown) => {
+          if (Array.isArray(obj)) {
+            obj.forEach(extractTypes);
+          } else if (obj && typeof obj === 'object') {
+            const o = obj as Record<string, unknown>;
+            if (typeof o['@type'] === 'string') foundTypes.add(o['@type']);
+            if (Array.isArray(o['@type'])) (o['@type'] as string[]).forEach(t => foundTypes.add(t));
+            if (Array.isArray(o['@graph'])) (o['@graph'] as unknown[]).forEach(extractTypes);
+          }
+        };
+        extractTypes(parsed);
       } catch {
-        // skip malformed JSON-LD
+        // Skip malformed JSON-LD
       }
     }
 
-    const uniqueTypes = [...new Set(allTypes)];
-    const found = EXPECTED_TYPES.filter((t) => uniqueTypes.includes(t));
-    const missing = EXPECTED_TYPES.filter((t) => !uniqueTypes.includes(t));
+    const found = EXPECTED_TYPES.filter(t => foundTypes.has(t));
+    const missing = EXPECTED_TYPES.filter(t => !foundTypes.has(t));
 
-    return NextResponse.json({ found, missing, raw, allTypes: uniqueTypes });
+    return NextResponse.json({
+      found,
+      missing,
+      allTypes: [...foundTypes],
+      raw,
+      totalBlocks: raw.length,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    return NextResponse.json({ error: message }, { status: 500 });
+    if (message.includes('abort')) {
+      return NextResponse.json({ error: 'Request timed out (15s)' }, { status: 408 });
+    }
+    return NextResponse.json({ error: `Failed to check URL: ${message}` }, { status: 500 });
   }
 }

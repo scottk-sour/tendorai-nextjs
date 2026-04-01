@@ -210,22 +210,18 @@ const Header = () => {
                 </div>
               )}
 
-              <Link
-                href="/tools/schema-checker"
-                className="text-sm font-medium px-3 py-2 rounded-lg text-gray-600 hover:text-purple-600 hover:bg-gray-50 transition-colors"
-              >
-                Schema Checker
-              </Link>
-
-              <div className="border-t border-gray-100 pt-3 mt-2">
+              <div className="border-t border-gray-100 pt-3 mt-2 space-y-1">
                 <Link
                   href="/vendor-login"
-                  className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2"
+                  className="block text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  <span>Firm Login</span>
+                  Firm Login
+                </Link>
+                <Link
+                  href="/tools/schema-checker"
+                  className="block text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Schema Checker
                 </Link>
               </div>
             </nav>

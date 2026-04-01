@@ -10,6 +10,8 @@ const footerNavigation = {
     { name: 'For Vendors', href: '/for-vendors' },
     { name: 'Pricing', href: '/for-vendors#pricing' },
     { name: 'Resources', href: '/resources' },
+    { name: 'Schema Checker', href: '/tools/schema-checker' },
+    { name: 'AEO Checklist', href: '/tools/aeo-checklist' },
     { name: 'Blog', href: '/resources' },
   ],
   company: [
@@ -192,8 +194,7 @@ export default function Footer() {
         </div>
 
         {/* Ask AI */}
-        <div className="mt-12 border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <span className="text-sm text-gray-400">Ask AI about TendorAI</span>
+        <div className="mt-10 border-t border-gray-800 pt-8">
           <AskAiButton />
         </div>
 
