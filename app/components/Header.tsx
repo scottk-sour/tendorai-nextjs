@@ -39,12 +39,9 @@ const Header = () => {
   }, [pathname]);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
     { href: '/suppliers', label: 'Find Suppliers' },
-    { href: '/ai-visibility-checker', label: 'Free AI Check' },
-    { href: '/for-vendors', label: 'For Vendors' },
-    { href: '/ai-visibility-platform', label: 'The Platform' },
-    { href: '/for-vendors#pricing', label: 'Pricing' },
+    { href: '/ai-visibility-platform', label: 'How It Works' },
+    { href: '/for-vendors', label: 'For Firms' },
     { href: '/resources', label: 'Resources' },
   ];
 
@@ -72,7 +69,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -124,21 +121,24 @@ const Header = () => {
           </nav>
 
           {/* Desktop Auth + CTA */}
-          <div className="hidden lg:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-4">
             <Link
               href="/vendor-login"
-              className="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors flex items-center space-x-1"
+              className="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span>Vendor Login</span>
+              Firm Login
+            </Link>
+            <Link
+              href="/tools/schema-checker"
+              className="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors"
+            >
+              Schema Checker
             </Link>
             <Link
               href="/aeo-report"
               className="btn-primary !py-2 !px-5 !text-sm"
             >
-              Check AI Visibility — Free
+              Free AI Report
             </Link>
           </div>
 
@@ -210,6 +210,13 @@ const Header = () => {
                 </div>
               )}
 
+              <Link
+                href="/tools/schema-checker"
+                className="text-sm font-medium px-3 py-2 rounded-lg text-gray-600 hover:text-purple-600 hover:bg-gray-50 transition-colors"
+              >
+                Schema Checker
+              </Link>
+
               <div className="border-t border-gray-100 pt-3 mt-2">
                 <Link
                   href="/vendor-login"
@@ -218,7 +225,7 @@ const Header = () => {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Vendor Login</span>
+                  <span>Firm Login</span>
                 </Link>
               </div>
             </nav>
