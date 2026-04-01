@@ -21,6 +21,8 @@ const nextConfig = {
       { source: '/signup', destination: '/vendor-login', permanent: true },
       // Pricing → for-vendors pricing section
       { source: '/pricing', destination: '/for-vendors#pricing', permanent: true },
+      // AI visibility checker → AEO report
+      { source: '/ai-visibility-checker', destination: '/aeo-report', permanent: true },
       // Old /dashboard → vendor-dashboard
       { source: '/dashboard/:path*', destination: '/vendor-dashboard/:path*', permanent: true },
       // Old /get-quotes → /aeo-report
