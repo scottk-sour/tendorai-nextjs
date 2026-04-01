@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import AskAiButton from './AskAiButton';
 
 const footerNavigation = {
   product: [
@@ -9,6 +10,8 @@ const footerNavigation = {
     { name: 'For Vendors', href: '/for-vendors' },
     { name: 'Pricing', href: '/for-vendors#pricing' },
     { name: 'Resources', href: '/resources' },
+    { name: 'Schema Checker', href: '/tools/schema-checker' },
+    { name: 'AEO Checklist', href: '/tools/aeo-checklist' },
     { name: 'Blog', href: '/resources' },
   ],
   company: [
@@ -190,8 +193,13 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Ask AI */}
+        <div className="mt-10 border-t border-gray-800 pt-8">
+          <AskAiButton />
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-gray-800 pt-8">
+        <div className="mt-6 border-t border-gray-800 pt-8">
           <p className="text-sm text-gray-400">
             &copy; {new Date().getFullYear()} TendorAI Ltd &middot; The UK&apos;s AI Visibility Platform &middot; Wales, UK
           </p>
