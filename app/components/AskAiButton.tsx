@@ -30,10 +30,10 @@ export default function AskAiButton() {
       <span className="text-sm text-gray-400">Ask AI about TendorAI</span>
       <button
         onClick={handleCopy}
-        className={`text-sm px-4 py-2 rounded-lg font-medium transition-all ${
+        className={`text-sm px-4 py-2 rounded-lg font-medium transition-colors ${
           copied
-            ? 'bg-green-600/20 text-green-400 border border-green-600/30'
-            : 'bg-purple-600/20 text-purple-300 border border-purple-600/30 hover:bg-purple-600/30 hover:text-purple-200'
+            ? 'border border-green-400 text-green-400 bg-transparent'
+            : 'border border-white text-white bg-transparent hover:bg-white hover:text-gray-900'
         }`}
       >
         {copied ? '\u2713 Copied \u2014 paste into ChatGPT or Perplexity' : 'Copy prompt to clipboard'}

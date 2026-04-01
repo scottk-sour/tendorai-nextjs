@@ -55,11 +55,18 @@ export default function SchemaCheckerPage() {
         body: JSON.stringify({ url: url.trim() }),
       });
       const data = await res.json();
+      console.log('Schema checker response:', data);
 
       if (!res.ok) {
         setError(data.error || 'Failed to check URL');
       } else {
-        setResult(data);
+        setResult({
+          found: data.found || [],
+          missing: data.missing || [],
+          allTypes: data.allTypes || [],
+          raw: data.raw || [],
+          totalBlocks: data.totalBlocks ?? (data.raw?.length || 0),
+        });
       }
     } catch {
       setError('Network error. Please try again.');
@@ -73,8 +80,8 @@ export default function SchemaCheckerPage() {
       {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Schema.org Checker for UK Professional Services Firms</h1>
-          <p className="text-lg text-purple-200 max-w-2xl">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">Schema.org Checker for UK Professional Services Firms</h1>
+          <p className="text-lg text-gray-200 max-w-2xl">
             Schema.org structured data tells AI assistants and search engines what a business does, where it is, and whether it can be trusted. Without it, AI tools cannot reliably recommend a firm when potential clients ask for a solicitor, accountant, or mortgage adviser.
           </p>
         </div>
