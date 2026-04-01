@@ -101,7 +101,7 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
           </Link>
         </div>
         <div className="text-center mb-4">
-          <Link href="/ai-visibility-checker" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] transition-colors">
+          <Link href="/aeo-report" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] transition-colors">
             Not sure where to start? &rarr; <span className="underline underline-offset-2">Run a free AI visibility check</span>
           </Link>
         </div>
