@@ -11,6 +11,29 @@ interface CheckResult {
   totalBlocks: number;
 }
 
+const faqs = [
+  {
+    q: 'What is Schema.org structured data?',
+    a: 'Schema.org is a shared vocabulary of structured data types used by Google, Bing, and AI assistants to understand web pages. When a firm adds schema markup to their website, it tells AI systems exactly what the business is, what services it offers, and where it operates \u2014 in a format machines can read reliably.',
+  },
+  {
+    q: 'Why does schema matter for AI visibility?',
+    a: 'AI assistants like ChatGPT, Perplexity, and Google\u2019s AI Overviews build their answers from sources they can understand and trust. Firms without schema markup are harder for AI to classify, which means they are less likely to appear when a potential client asks \u201cfind me a solicitor in Cardiff\u201d or \u201cbest accountant for a small business in Manchester.\u201d',
+  },
+  {
+    q: 'Which schema types do UK professional services firms need?',
+    a: 'The most important types are: LegalService (for solicitors), AccountingService (for accountants), FinancialService (for mortgage advisers), and LocalBusiness (for all firms). Supporting types include FAQPage, BreadcrumbList, and Organization. TendorAI Pro installs and maintains all of these automatically.',
+  },
+  {
+    q: 'What does it mean if my site has no schema?',
+    a: 'It means AI tools and search engines are guessing what your firm does based on your page text alone. This makes it significantly harder to appear in AI-generated recommendations, local search results, and Google AI Overviews.',
+  },
+  {
+    q: 'How do I fix missing schema on my website?',
+    a: 'You can add schema manually by inserting JSON-LD code into your website\u2019s header \u2014 or use TendorAI Pro, which installs and auto-syncs the correct schema for your firm type automatically. No developer needed.',
+  },
+];
+
 export default function SchemaCheckerPage() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,15 +70,17 @@ export default function SchemaCheckerPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16">
+      {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Schema.org Checker</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Schema.org Checker for UK Professional Services Firms</h1>
           <p className="text-lg text-purple-200 max-w-2xl">
-            Check if a website has the structured data AI needs to recommend it. Enter any URL to see which Schema.org types are present and which are missing.
+            Schema.org structured data tells AI assistants and search engines what a business does, where it is, and whether it can be trusted. Without it, AI tools cannot reliably recommend a firm when potential clients ask for a solicitor, accountant, or mortgage adviser.
           </p>
         </div>
       </section>
 
+      {/* Tool */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <form onSubmit={handleCheck} className="flex gap-3 mb-8">
           <input
@@ -81,7 +106,7 @@ export default function SchemaCheckerPage() {
         )}
 
         {result && (
-          <div className="space-y-6">
+          <div className="space-y-6 mb-12">
             {result.totalBlocks === 0 ? (
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
                 <p className="text-lg font-semibold text-amber-800 mb-2">No structured data found on this page.</p>
@@ -129,7 +154,6 @@ export default function SchemaCheckerPage() {
               </>
             )}
 
-            {/* CTA */}
             <div className="bg-purple-50 rounded-xl border border-purple-100 p-6 text-center">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Want schema automatically installed on your site?</h3>
               <p className="text-sm text-gray-600 mb-4">
@@ -141,6 +165,40 @@ export default function SchemaCheckerPage() {
             </div>
           </div>
         )}
+
+        {/* FAQ */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <details key={i} className="group bg-white border border-gray-200 rounded-lg">
+                <summary className="flex items-center justify-between cursor-pointer p-5 text-left">
+                  <span className="font-medium text-gray-900 pr-4">{faq.q}</span>
+                  <svg className="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-5 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 text-sm">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
+          <h3 className="text-xl md:text-2xl font-bold mb-3">Get schema installed automatically</h3>
+          <p className="text-purple-100 mb-6 max-w-lg mx-auto">
+            TendorAI Pro installs the correct Schema.org markup for your firm type and keeps it in sync with your profile &mdash; no developer required.
+          </p>
+          <Link href="/for-vendors" className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors">
+            See how TendorAI Pro works
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
+        </div>
       </section>
     </main>
   );
