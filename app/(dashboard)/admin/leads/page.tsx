@@ -11,6 +11,7 @@ interface Lead {
   source: string;
   category: string;
   city: string;
+  score?: number | null;
   date: string;
 }
 
@@ -91,16 +92,24 @@ export default function AdminLeadsPage() {
   }, [fetchLeads]);
 
   // Client-side filtering
-  const filtered = leads.filter((l) => {
-    const matchesTab = activeTab === 'all' || l.source === activeTab;
-    const matchesSearch =
-      !search ||
-      l.email.toLowerCase().includes(search.toLowerCase()) ||
-      l.company.toLowerCase().includes(search.toLowerCase()) ||
-      l.name.toLowerCase().includes(search.toLowerCase());
+  const filtered = leads
+    .filter((l) => {
+      const matchesTab = activeTab === 'all' || l.source === activeTab;
+      const matchesSearch =
+        !search ||
+        l.email.toLowerCase().includes(search.toLowerCase()) ||
+        l.company.toLowerCase().includes(search.toLowerCase()) ||
+        l.name.toLowerCase().includes(search.toLowerCase());
 
-    return matchesTab && matchesSearch;
-  });
+      return matchesTab && matchesSearch;
+    })
+    .sort((a, b) => {
+      // AEO tab or AEO leads in All: sort by score ascending (lowest first)
+      if (a.source === 'aeo' && b.source === 'aeo') {
+        return (a.score ?? 999) - (b.score ?? 999);
+      }
+      return 0;
+    });
 
   // Unique emails
   const uniqueEmails = new Set(leads.map((l) => l.email)).size;
@@ -114,7 +123,7 @@ export default function AdminLeadsPage() {
       return field;
     };
 
-    const header = 'Email,Name,Company,Source,Category,City,Date\n';
+    const header = 'Email,Name,Company,Source,Score,Category,City,Date\n';
     const rows = filtered
       .map((l) =>
         [
@@ -122,6 +131,7 @@ export default function AdminLeadsPage() {
           escapeCSV(l.name),
           escapeCSV(l.company),
           escapeCSV(sourceLabels[l.source] || l.source),
+          l.score != null ? String(l.score) : '',
           escapeCSV(l.category),
           escapeCSV(l.city),
           l.date ? new Date(l.date).toLocaleDateString('en-GB') : '',
@@ -237,6 +247,7 @@ export default function AdminLeadsPage() {
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Name</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Company</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Source</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-600">Score</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Category</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">City</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Date</th>
@@ -259,6 +270,19 @@ export default function AdminLeadsPage() {
                       {sourceLabels[lead.source] || lead.source}
                     </span>
                   </td>
+                  <td className="px-4 py-3">
+                    {lead.source === 'aeo' && lead.score != null ? (
+                      <span className={`inline-flex text-xs font-bold px-2.5 py-1 rounded-full ${
+                        lead.score <= 30 ? 'bg-red-100 text-red-700' :
+                        lead.score <= 60 ? 'bg-amber-100 text-amber-700' :
+                        'bg-green-100 text-green-700'
+                      }`}>
+                        {lead.score}
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">-</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-gray-600">{lead.category || '-'}</td>
                   <td className="px-4 py-3 text-gray-600">{lead.city || '-'}</td>
                   <td className="px-4 py-3 text-gray-500 text-xs">
@@ -268,7 +292,7 @@ export default function AdminLeadsPage() {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
                     No leads found matching your filters.
                   </td>
                 </tr>
