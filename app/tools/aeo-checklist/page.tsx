@@ -115,10 +115,10 @@ export default function AeoChecklistPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 pt-16">
-      <section className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-16">
+      <section className="bg-brand-gradient text-white py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">AEO Readiness Checklist</h1>
-          <p className="text-lg text-purple-200 max-w-2xl">
+          <p className="text-lg text-purple-100 max-w-2xl">
             How ready is your firm for AI search? Tick each item to see your readiness score out of 100. Built specifically for UK regulated professional services firms.
           </p>
         </div>
