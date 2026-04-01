@@ -448,6 +448,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   if (vendor.sraNumber) sameAs.push(`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`);
   if (vendor.icaewFirmNumber) sameAs.push(`https://www.icaew.com/about-icaew/find-a-chartered-accountant?id=${vendor.icaewFirmNumber}`);
   if (vendor.fcaNumber) sameAs.push(`https://register.fca.org.uk/s/firm?id=${vendor.fcaNumber}`);
+  if (vendor.companyNumber) sameAs.push(`https://find-and-update.company-information.service.gov.uk/company/${vendor.companyNumber}`);
 
   // Build areaServed from coverage + courtCoverageAreas
   const areaServedNames = new Set<string>();
@@ -464,6 +465,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   if (vendor.practiceCertificateNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'Practice Certificate Number', value: vendor.practiceCertificateNumber });
   if (vendor.fcaNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'FCA Number', value: vendor.fcaNumber });
   if (vendor.propertymarkNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'Propertymark Number', value: vendor.propertymarkNumber });
+  if (vendor.companyNumber?.trim()) identifiers.push({ '@type': 'PropertyValue', name: 'Companies House Number', propertyID: 'https://find-and-update.company-information.service.gov.uk', value: vendor.companyNumber });
 
   // Build knowsAbout from practiceAreas + specializations + industrySpecialisms + softwareUsed + services
   const knowsAboutSet = new Set<string>();
@@ -590,7 +592,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
     }),
     ...(knowsAbout.length > 0 && { knowsAbout }),
     ...(vendor.languages?.length && { knowsLanguage: vendor.languages }),
-    ...(identifiers.length > 0 && { identifier: identifiers.length === 1 ? identifiers[0] : identifiers }),
+    ...(identifiers.length > 0 && { identifier: identifiers }),
     ...(credentials.length > 0 && { hasCredential: credentials }),
     ...(memberOf.length > 0 && { memberOf }),
     ...(employees.length > 0 && { employee: employees }),
