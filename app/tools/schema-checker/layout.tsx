@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Schema.org Checker \u2014 Check Any Website for Structured Data | TendorAI',
-  description: 'Free tool to check if a website has the Schema.org structured data AI needs to recommend it. Detects LegalService, AccountingService, FAQPage, and more.',
+  title: 'Schema.org Checker for UK Solicitors, Accountants & Mortgage Advisers | TendorAI',
+  description: 'Free tool to check if your professional services firm has the Schema.org structured data AI needs to recommend you. See which schema types are present and which are missing.',
   alternates: { canonical: '/tools/schema-checker' },
 };
 
