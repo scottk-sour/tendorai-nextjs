@@ -30,7 +30,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Will I get leads immediately?',
-    a: "AI visibility is a long-term strategy, not an instant results tool. Think of it like SEO in 2005 — the vendors who start building their AI presence now will dominate when AI-driven search becomes mainstream. You'll start seeing improvements in your visibility score within weeks.",
+    a: "AI visibility is a long-term strategy, not an instant results tool. Think of it like SEO in 2005 — the firms who start building their AI presence now will dominate when AI-driven search becomes mainstream. You'll start seeing improvements in your visibility score within weeks.",
   },
   {
     q: 'What does the AI Visibility Score measure?',
@@ -111,7 +111,7 @@ const FEATURES = [
   {
     name: 'Blog Posts',
     description:
-      'Publish content that boosts your authority signals. AI systems favour vendors with fresh, relevant content.',
+      'Publish content that boosts your authority signals. AI systems favour firms with fresh, relevant content.',
     icon: 'blog',
   },
   {
@@ -379,9 +379,9 @@ export default function GettingStartedPage() {
             Welcome to TendorAI
           </h1>
           <p className="text-lg sm:text-xl text-purple-100 mb-6 leading-relaxed">
-            You&apos;re one of the first vendors building an AI-visible
+            You&apos;re one of the first firms building an AI-visible
             presence. Businesses are already using ChatGPT, Gemini, and Copilot to
-            find suppliers &mdash; the vendors who show up in those results win.
+            find suppliers &mdash; the firms who show up in those results win.
           </p>
           <p className="text-purple-200">
             This guide walks you through everything TendorAI does for you and how
