@@ -23,9 +23,9 @@ If the user provides all four in one message, skip the questions and start gener
 - **Read time**: 7 min read
 - **Author**: TendorAI
 
-### Content structure — Yadav format
+### Content structure — TendorAI AEO Format
 
-The Yadav format is a specific blog structure that performs well in AI search results:
+The TendorAI AEO Format is a specific blog structure that performs well in AI search results:
 
 1. **H1**: the exact question
 2. **Opening paragraph** (50 words max): direct answer with specific UK numbers, city mentioned, year included. This paragraph must be self-contained — if an AI assistant quotes only this paragraph, it answers the question completely.
