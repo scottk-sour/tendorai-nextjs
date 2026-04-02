@@ -16,7 +16,7 @@ interface Campaign {
   firmsMatched: number;
   firmsContacted: number;
   emailsSent: number;
-  errors: number;
+  errorCount: number;
   createdAt: string;
   startedAt: string | null;
   completedAt: string | null;
@@ -440,8 +440,8 @@ export default function CampaignsPage() {
                     <td className="px-4 py-3 text-sm font-medium text-gray-900">{c.firmsContacted}</td>
                     <td className="px-4 py-3 text-sm text-green-600 font-medium">{c.emailsSent}</td>
                     <td className="px-4 py-3 text-sm">
-                      {c.errors > 0 ? (
-                        <span className="text-red-600 font-medium">{c.errors}</span>
+                      {c.errorCount > 0 ? (
+                        <span className="text-red-600 font-medium">{c.errorCount}</span>
                       ) : (
                         <span className="text-gray-400">0</span>
                       )}

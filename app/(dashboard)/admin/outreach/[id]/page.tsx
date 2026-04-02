@@ -21,6 +21,8 @@ interface NoteEntry {
 interface HistoryEntry {
   action: string;
   note: string;
+  subject?: string;
+  body?: string;
   date: string;
   completedBy: string;
 }
@@ -328,21 +330,39 @@ tendorai.com`,
   // Build activity timeline
   const buildTimeline = () => {
     if (!record) return [];
-    const events: { date: string; icon: string; label: string; detail?: string }[] = [];
+    const events: { date: string; icon: string; label: string; detail?: string; emailSubject?: string; emailBody?: string }[] = [];
 
     events.push({ date: record.createdAt, icon: 'plus', label: 'Record created' });
 
     if (record.emailSentAt) {
       events.push({ date: record.emailSentAt, icon: 'mail', label: 'Email sent' });
     }
-    if (record.email1SentAt) {
-      events.push({ date: record.email1SentAt, icon: 'mail', label: 'Email 1 — Initial Outreach sent' });
-    }
-    if (record.email2SentAt) {
-      events.push({ date: record.email2SentAt, icon: 'mail', label: 'Email 2 — Follow Up sent' });
-    }
     if (record.emailOpenedAt) {
       events.push({ date: record.emailOpenedAt, icon: 'eye', label: 'Email opened' });
+    }
+
+    // Add history entries — email sends with full content, plus other actions
+    record.history.forEach((h) => {
+      if (h.action === 'email1_sent' || h.action === 'email2_sent') {
+        events.push({
+          date: h.date,
+          icon: 'mail',
+          label: h.action === 'email1_sent' ? 'Email 1 — Initial Outreach sent' : 'Email 2 — Follow Up sent',
+          detail: h.note,
+          emailSubject: h.subject,
+          emailBody: h.body,
+        });
+      }
+    });
+
+    // Fallback: if email was sent but no history entry has subject/body (legacy data)
+    const hasEmail1History = record.history.some(h => h.action === 'email1_sent');
+    const hasEmail2History = record.history.some(h => h.action === 'email2_sent');
+    if (record.email1SentAt && !hasEmail1History) {
+      events.push({ date: record.email1SentAt, icon: 'mail', label: 'Email 1 — Initial Outreach sent' });
+    }
+    if (record.email2SentAt && !hasEmail2History) {
+      events.push({ date: record.email2SentAt, icon: 'mail', label: 'Email 2 — Follow Up sent' });
     }
 
     record.callHistory.forEach((c) => {
@@ -649,14 +669,20 @@ tendorai.com`,
                     ev.icon === 'note' ? 'bg-green-500' :
                     'bg-gray-400'
                   }`} />
-                  <div className="flex items-start justify-between">
-                    <div>
+                  <div>
+                    <div className="flex items-start justify-between">
                       <p className="text-sm font-medium text-gray-800">{ev.label}</p>
-                      {ev.detail && (
-                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{ev.detail}</p>
-                      )}
+                      <span className="text-xs text-gray-400 ml-4 whitespace-nowrap">{formatDateTime(ev.date)}</span>
                     </div>
-                    <span className="text-xs text-gray-400 ml-4 whitespace-nowrap">{formatDateTime(ev.date)}</span>
+                    {ev.detail && !ev.emailSubject && (
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{ev.detail}</p>
+                    )}
+                    {ev.emailSubject && (
+                      <div className="mt-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                        <p className="text-xs font-medium text-gray-700 mb-1">Subject: {ev.emailSubject}</p>
+                        <pre className="text-xs text-gray-600 whitespace-pre-wrap font-sans leading-relaxed">{ev.emailBody}</pre>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
