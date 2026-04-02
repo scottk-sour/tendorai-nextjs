@@ -21,6 +21,9 @@ interface OutreachRecord {
   nextAction: string;
   aeoReportUrl: string;
   aeoRunAt: string | null;
+  email1SentAt: string | null;
+  email2SentAt: string | null;
+  tier: string;
   history: Array<{ action: string; note: string; date: string; completedBy: string }>;
 }
 
@@ -33,6 +36,10 @@ interface Stats {
   overdue: number;
   won: number;
   conversionRate: number;
+  email1Sent?: number;
+  email2Sent?: number;
+  withEmail?: number;
+  replied?: number;
 }
 
 function getToken(): string {
@@ -111,6 +118,12 @@ export default function OutreachPage() {
   const [page, setPage] = useState(1);
   const [showCreate, setShowCreate] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [filterScoreMax, setFilterScoreMax] = useState('');
+  const [filterHasEmail, setFilterHasEmail] = useState('');
+  const [filterTier, setFilterTier] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [emailSuccess, setEmailSuccess] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [form, setForm] = useState({
     firmName: '', contactName: '', contactEmail: '', contactPhone: '',
@@ -126,6 +139,9 @@ export default function OutreachPage() {
       if (filterStatus) params.set('status', filterStatus);
       if (filterCity) params.set('city', filterCity);
       if (search) params.set('search', search);
+      if (filterScoreMax) params.set('scoreMax', filterScoreMax);
+      if (filterHasEmail) params.set('hasEmail', filterHasEmail);
+      if (filterTier) params.set('tier', filterTier);
 
       const [todayRes, listRes, statsRes] = await Promise.all([
         fetch(`${API_URL}/api/outreach/today`, { headers }),
@@ -140,7 +156,7 @@ export default function OutreachPage() {
       if (listData.success) { setRecords(listData.data); setPagination(listData.pagination); }
       if (statsData.success) setStats(statsData.data);
     } catch { setError('Network error'); } finally { setLoading(false); }
-  }, [page, filterStatus, filterCity, search]);
+  }, [page, filterStatus, filterCity, search, filterScoreMax, filterHasEmail, filterTier]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -189,6 +205,57 @@ export default function OutreachPage() {
     ));
     setSelected(new Set());
     fetchData();
+  };
+
+  const sendBulkEmail = async (emailType: 'email1' | 'email2') => {
+    const ids = Array.from(selected);
+    const eligible = records.filter(r => {
+      if (!ids.includes(r._id)) return false;
+      if (!r.contactEmail) return false;
+      if (emailType === 'email1') return !r.email1SentAt;
+      if (emailType === 'email2') {
+        if (!r.email1SentAt) return false;
+        const daysSince = (Date.now() - new Date(r.email1SentAt).getTime()) / (1000 * 60 * 60 * 24);
+        return daysSince >= 5 && !r.email2SentAt;
+      }
+      return false;
+    });
+
+    if (eligible.length === 0) {
+      setEmailError(emailType === 'email1'
+        ? 'No selected firms are eligible for Email 1 (need email address, not already sent)'
+        : 'No selected firms are eligible for Email 2 (need Email 1 sent 5+ days ago)'
+      );
+      setTimeout(() => setEmailError(''), 4000);
+      return;
+    }
+
+    if (!confirm(`Send ${emailType === 'email1' ? 'Initial Outreach' : 'Follow Up'} email to ${eligible.length} firm${eligible.length > 1 ? 's' : ''}?`)) return;
+
+    setSendingEmail(true);
+    setEmailError('');
+    setEmailSuccess('');
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/outreach/send-email`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: eligible.map(r => r._id), emailType }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setEmailError(data.message || 'Failed to send emails');
+      } else {
+        setEmailSuccess(`Sent ${emailType === 'email1' ? 'Email 1' : 'Email 2'} to ${data.sent || eligible.length} firm${(data.sent || eligible.length) > 1 ? 's' : ''}`);
+        setSelected(new Set());
+        fetchData();
+      }
+    } catch {
+      setEmailError('Network error sending emails');
+    } finally {
+      setSendingEmail(false);
+      setTimeout(() => { setEmailSuccess(''); setEmailError(''); }, 5000);
+    }
   };
 
   const toggleSelect = (id: string) => {
@@ -271,6 +338,34 @@ export default function OutreachPage() {
         </div>
       )}
 
+      {/* Email Outreach Stats */}
+      {stats && (stats.email1Sent !== undefined || stats.withEmail !== undefined) && (
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="bg-white rounded-lg border border-gray-200 p-3">
+            <div className="text-xl font-bold text-gray-900">{stats.withEmail ?? '—'}</div>
+            <div className="text-xs text-gray-500">Have Email</div>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-3">
+            <div className="text-xl font-bold text-green-600">{stats.email1Sent ?? 0}</div>
+            <div className="text-xs text-gray-500">Email 1 Sent</div>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-3">
+            <div className="text-xl font-bold text-sky-600">{stats.email2Sent ?? 0}</div>
+            <div className="text-xs text-gray-500">Email 2 Sent</div>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-3">
+            <div className="text-xl font-bold text-amber-600">{stats.replied ?? 0}</div>
+            <div className="text-xs text-gray-500">Replied</div>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-3">
+            <div className="text-xl font-bold text-purple-600">
+              {stats.email1Sent ? Math.round(((stats.won || 0) / stats.email1Sent) * 100) : 0}%
+            </div>
+            <div className="text-xs text-gray-500">Email → Won</div>
+          </div>
+        </div>
+      )}
+
       {/* Today's Workflow */}
       {todayActions.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -324,10 +419,26 @@ export default function OutreachPage() {
         </div>
       )}
 
+      {/* Email feedback */}
+      {emailError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">{emailError}</div>
+      )}
+      {emailSuccess && (
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">{emailSuccess}</div>
+      )}
+
       {/* Bulk Actions */}
       {selected.size > 0 && (
-        <div className="flex items-center gap-3 bg-purple-50 rounded-lg p-3">
+        <div className="flex flex-wrap items-center gap-3 bg-purple-50 rounded-lg p-3">
           <span className="text-sm font-medium text-purple-700">{selected.size} selected</span>
+          <div className="h-4 w-px bg-purple-200" />
+          <button onClick={() => sendBulkEmail('email1')} disabled={sendingEmail} className="px-3 py-1 text-xs font-medium bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50">
+            {sendingEmail ? 'Sending...' : 'Send Email 1 — Initial Outreach'}
+          </button>
+          <button onClick={() => sendBulkEmail('email2')} disabled={sendingEmail} className="px-3 py-1 text-xs font-medium bg-sky-600 text-white rounded hover:bg-sky-700 disabled:opacity-50">
+            {sendingEmail ? 'Sending...' : 'Send Email 2 — Follow Up'}
+          </button>
+          <div className="h-4 w-px bg-purple-200" />
           <button onClick={() => bulkStatus('email_sent')} className="px-3 py-1 text-xs font-medium bg-blue-600 text-white rounded hover:bg-blue-700">Mark Emailed</button>
           <button onClick={() => bulkStatus('called')} className="px-3 py-1 text-xs font-medium bg-purple-600 text-white rounded hover:bg-purple-700">Mark Called</button>
           <button onClick={() => setSelected(new Set())} className="px-3 py-1 text-xs text-gray-600 hover:text-gray-800">Clear</button>
@@ -346,6 +457,22 @@ export default function OutreachPage() {
           <option value="">All Cities</option>
           {stats?.cities.map((c) => <option key={c} value={c}>{c}</option>)}
         </select>
+        <select value={filterScoreMax} onChange={(e) => { setFilterScoreMax(e.target.value); setPage(1); }} className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white">
+          <option value="">All Scores</option>
+          <option value="30">Score &lt; 30 (Critical)</option>
+          <option value="50">Score &lt; 50 (Priority)</option>
+          <option value="70">Score &lt; 70</option>
+        </select>
+        <select value={filterHasEmail} onChange={(e) => { setFilterHasEmail(e.target.value); setPage(1); }} className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white">
+          <option value="">Has Email: Any</option>
+          <option value="yes">Has Email: Yes</option>
+          <option value="no">Has Email: No</option>
+        </select>
+        <select value={filterTier} onChange={(e) => { setFilterTier(e.target.value); setPage(1); }} className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white">
+          <option value="">All Tiers</option>
+          <option value="free">Free</option>
+          <option value="pro">Pro</option>
+        </select>
         <input type="text" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search firm name..." className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white w-64" />
       </div>
 
@@ -360,6 +487,7 @@ export default function OutreachPage() {
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Emails</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Next Action</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Due</th>
@@ -368,7 +496,7 @@ export default function OutreachPage() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {records.length === 0 ? (
-                <tr><td colSpan={9} className="px-4 py-8 text-center text-sm text-gray-500">No outreach records found</td></tr>
+                <tr><td colSpan={10} className="px-4 py-8 text-center text-sm text-gray-500">No outreach records found</td></tr>
               ) : records.map((r) => (
                 <tr key={r._id} className="hover:bg-gray-50">
                   <td className="px-3 py-3"><input type="checkbox" checked={selected.has(r._id)} onChange={() => toggleSelect(r._id)} className="rounded" /></td>
@@ -383,6 +511,20 @@ export default function OutreachPage() {
                   </td>
                   <td className="px-3 py-3 text-xs text-gray-600 capitalize">{r.vendorType || r.reportCategory || '—'}</td>
                   <td className="px-3 py-3 text-sm"><span className={`font-bold ${scoreColor(r.reportScore)}`}>{r.reportScore || '—'}</span></td>
+                  <td className="px-3 py-3 text-sm">
+                    <div className="flex items-center gap-1">
+                      {r.email1SentAt ? (
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700" title={`Email 1 sent ${formatDate(r.email1SentAt)}`}>E1</span>
+                      ) : (
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-400">E1</span>
+                      )}
+                      {r.email2SentAt ? (
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium bg-sky-100 text-sky-700" title={`Email 2 sent ${formatDate(r.email2SentAt)}`}>E2</span>
+                      ) : (
+                        <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-400">E2</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-3 py-3 text-sm">
                     <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[r.status] || 'bg-gray-100 text-gray-700'}`}>
                       {statusLabels[r.status] || r.status}

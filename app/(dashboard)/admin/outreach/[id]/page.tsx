@@ -45,6 +45,8 @@ interface OutreachRecord {
   emailSentAt: string | null;
   emailOpenedAt: string | null;
   lastCalledAt: string | null;
+  email1SentAt: string | null;
+  email2SentAt: string | null;
   notes: NoteEntry[];
   callHistory: CallEntry[];
   history: HistoryEntry[];
@@ -117,6 +119,11 @@ export default function OutreachDetailPage() {
   // Note form
   const [noteText, setNoteText] = useState('');
   const [savingNote, setSavingNote] = useState(false);
+
+  // Email sending
+  const [showEmailPreview, setShowEmailPreview] = useState<'email1' | 'email2' | null>(null);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailFeedback, setEmailFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const fetchRecord = async () => {
     try {
@@ -214,6 +221,87 @@ export default function OutreachDetailPage() {
     }
   };
 
+  const canSendEmail1 = record && record.contactEmail && !record.email1SentAt;
+  const canSendEmail2 = record && record.contactEmail && record.email1SentAt && !record.email2SentAt &&
+    ((Date.now() - new Date(record.email1SentAt).getTime()) / (1000 * 60 * 60 * 24)) >= 5;
+  const daysSinceEmail1 = record?.email1SentAt
+    ? Math.floor((Date.now() - new Date(record.email1SentAt).getTime()) / (1000 * 60 * 60 * 24))
+    : null;
+
+  const getEmailPreview = (type: 'email1' | 'email2') => {
+    if (!record) return { subject: '', body: '' };
+    const sector = (record.vendorType || record.reportCategory || 'professional services firm').replace(/-/g, ' ');
+    const city = record.reportCity || 'your area';
+    const score = record.reportScore || 0;
+
+    if (type === 'email1') {
+      return {
+        subject: `${record.firmName} — your AI visibility score`,
+        body: `Hi,
+
+I wanted to share something we found about ${record.firmName}.
+
+We ran a quick AI visibility check and your firm is currently scoring ${score}/100 — which means AI tools like ChatGPT and Perplexity are unlikely to recommend you when potential clients search for a ${sector} in ${city}.
+
+We've already created a profile for ${record.firmName} on TendorAI — the UK's AI visibility platform for regulated professional services firms. It's free to claim.
+
+TendorAI Pro (£299/month) goes further — we install the correct Schema.org markup on your website and track your AI citations across all major platforms.
+
+You can see your full report here:
+https://www.tendorai.com/aeo-report
+
+Happy to walk you through it on a quick call.
+
+Scott Davies
+TendorAI
+tendorai.com`,
+      };
+    }
+    return {
+      subject: `Following up — ${record.firmName} AI visibility`,
+      body: `Hi,
+
+Just following up on my email from last week about ${record.firmName}'s AI visibility score.
+
+AI search is moving fast — firms that get set up now will have a significant advantage over those that wait. We're still offering early access at £299/month (rising to £599 as we scale).
+
+If you'd like to see exactly where ${record.firmName} stands and what it would take to appear in AI recommendations, I'm happy to run through it with you.
+
+Just reply to this email or book a call:
+https://www.tendorai.com/contact
+
+Scott Davies
+TendorAI
+tendorai.com`,
+    };
+  };
+
+  const handleSendEmail = async (emailType: 'email1' | 'email2') => {
+    setSendingEmail(true);
+    setEmailFeedback(null);
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/outreach/send-email`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: [id], emailType }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setEmailFeedback({ type: 'error', message: data.message || 'Failed to send email' });
+      } else {
+        setEmailFeedback({ type: 'success', message: `${emailType === 'email1' ? 'Email 1' : 'Email 2'} sent successfully` });
+        setShowEmailPreview(null);
+        await fetchRecord();
+      }
+    } catch {
+      setEmailFeedback({ type: 'error', message: 'Network error sending email' });
+    } finally {
+      setSendingEmail(false);
+      setTimeout(() => setEmailFeedback(null), 5000);
+    }
+  };
+
   const handleDelete = async () => {
     if (!confirm('Delete this outreach record? This cannot be undone.')) return;
     const token = getToken();
@@ -246,6 +334,12 @@ export default function OutreachDetailPage() {
 
     if (record.emailSentAt) {
       events.push({ date: record.emailSentAt, icon: 'mail', label: 'Email sent' });
+    }
+    if (record.email1SentAt) {
+      events.push({ date: record.email1SentAt, icon: 'mail', label: 'Email 1 — Initial Outreach sent' });
+    }
+    if (record.email2SentAt) {
+      events.push({ date: record.email2SentAt, icon: 'mail', label: 'Email 2 — Follow Up sent' });
     }
     if (record.emailOpenedAt) {
       events.push({ date: record.emailOpenedAt, icon: 'eye', label: 'Email opened' });
@@ -336,8 +430,62 @@ export default function OutreachDetailPage() {
         </div>
       </div>
 
+      {/* Email Feedback */}
+      {emailFeedback && (
+        <div className={`px-4 py-3 rounded-lg text-sm ${emailFeedback.type === 'success' ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+          {emailFeedback.message}
+        </div>
+      )}
+
+      {/* Email Status Badges */}
+      {record && (record.email1SentAt || record.email2SentAt) && (
+        <div className="flex flex-wrap items-center gap-3">
+          {record.email1SentAt && (
+            <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+              <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              Email 1 sent {formatDate(record.email1SentAt)}
+            </span>
+          )}
+          {record.email2SentAt && (
+            <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-sky-50 text-sky-700 border border-sky-200">
+              <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              Email 2 sent {formatDate(record.email2SentAt)}
+            </span>
+          )}
+          {record.email1SentAt && !record.email2SentAt && daysSinceEmail1 !== null && daysSinceEmail1 < 5 && (
+            <span className="text-xs text-gray-500">
+              Email 2 available in {5 - daysSinceEmail1} day{5 - daysSinceEmail1 !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+      )}
+
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3">
+        {/* Email Sending Buttons */}
+        {canSendEmail1 && (
+          <button
+            onClick={() => setShowEmailPreview('email1')}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Send Email 1 — Initial Outreach
+          </button>
+        )}
+        {canSendEmail2 && (
+          <button
+            onClick={() => setShowEmailPreview('email2')}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-sky-600 rounded-lg hover:bg-sky-700 transition-colors"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Send Email 2 — Follow Up
+          </button>
+        )}
+
         <button
           onClick={() => setShowCallModal(true)}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
@@ -367,7 +515,7 @@ export default function OutreachDetailPage() {
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            Send Follow-up
+            Manual Follow-up
           </a>
         )}
 
@@ -644,6 +792,63 @@ export default function OutreachDetailPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Email Preview Modal */}
+      {showEmailPreview && record && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {showEmailPreview === 'email1' ? 'Email 1 — Initial Outreach' : 'Email 2 — Follow Up'}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  To: {record.contactEmail}
+                </p>
+              </div>
+              <button onClick={() => setShowEmailPreview(null)} className="text-gray-400 hover:text-gray-600">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="mb-4">
+                <label className="block text-xs font-medium text-gray-500 uppercase mb-1">Subject</label>
+                <p className="text-sm font-medium text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">
+                  {getEmailPreview(showEmailPreview).subject}
+                </p>
+              </div>
+              <div className="mb-6">
+                <label className="block text-xs font-medium text-gray-500 uppercase mb-1">Body</label>
+                <pre className="text-sm text-gray-700 bg-gray-50 px-4 py-3 rounded-lg whitespace-pre-wrap font-sans leading-relaxed">
+                  {getEmailPreview(showEmailPreview).body}
+                </pre>
+              </div>
+              <div className="flex justify-end gap-3 pt-2 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={() => setShowEmailPreview(null)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleSendEmail(showEmailPreview)}
+                  disabled={sendingEmail}
+                  className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50 ${
+                    showEmailPreview === 'email1'
+                      ? 'bg-green-600 hover:bg-green-700'
+                      : 'bg-sky-600 hover:bg-sky-700'
+                  }`}
+                >
+                  {sendingEmail ? 'Sending...' : `Send ${showEmailPreview === 'email1' ? 'Email 1' : 'Email 2'}`}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
