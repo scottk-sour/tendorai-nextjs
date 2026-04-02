@@ -264,8 +264,8 @@ https://www.tendorai.com/aeo-report
 
 Scott Davies
 Founder, TendorAI
-tendorai.com
-scott@tendorai.com`,
+tendorai.co.uk
+scott@tendorai.co.uk`,
       };
     }
     return {
@@ -298,8 +298,8 @@ But if you'd like to see exactly how ${record.firmName} looks to AI and what's m
 
 Scott Davies
 Founder, TendorAI
-tendorai.com
-scott@tendorai.com`,
+tendorai.co.uk
+scott@tendorai.co.uk`,
     };
   };
 
