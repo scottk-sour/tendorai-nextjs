@@ -91,6 +91,10 @@ export default function CampaignsPage() {
     message: string;
   } | null>(null);
 
+  // Confirmation modal
+  const [confirmModal, setConfirmModal] = useState<{ campaignId: string; firmsToContact: number } | null>(null);
+  const [confirmText, setConfirmText] = useState('');
+
   // Feedback
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
@@ -161,27 +165,57 @@ export default function CampaignsPage() {
     }
   };
 
+  // Step 1: Request preview count from the run endpoint (without confirmed)
   const handleRunCampaign = async (campaignId?: string) => {
     let id = campaignId;
 
-    // If no id, create first
     if (!id) {
       const created = await handleCreate();
       if (!created) return;
       id = created._id;
     }
 
-    if (!confirm('Run this campaign? Emails will be sent immediately to matching firms.')) return;
-
-    setRunning(true);
-    setRunProgress({ campaignId: id, status: 'active', message: 'Starting campaign...' });
     setFeedback(null);
-
     try {
       const token = getToken();
       const res = await fetch(`${API_URL}/api/campaigns/${id}/run`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+
+      if (data.requiresConfirmation) {
+        setConfirmModal({ campaignId: id, firmsToContact: data.firmsToContact });
+        setConfirmText('');
+        return;
+      }
+
+      if (!res.ok || !data.success) {
+        setFeedback({ type: 'error', message: data.message || 'Campaign failed' });
+        fetchCampaigns();
+      }
+    } catch {
+      setFeedback({ type: 'error', message: 'Network error' });
+    }
+  };
+
+  // Step 2: Execute with confirmed: true after typing CONFIRM
+  const handleConfirmedRun = async () => {
+    if (!confirmModal) return;
+    const { campaignId } = confirmModal;
+
+    setConfirmModal(null);
+    setConfirmText('');
+    setRunning(true);
+    setRunProgress({ campaignId, status: 'active', message: `Sending emails to ${confirmModal.firmsToContact} firms...` });
+
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/campaigns/${campaignId}/run`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ confirmed: true }),
       });
       const data = await res.json();
 
@@ -209,10 +243,6 @@ export default function CampaignsPage() {
     } finally {
       setRunning(false);
     }
-  };
-
-  const handleRerun = async (id: string) => {
-    await handleRunCampaign(id);
   };
 
   if (loading) {
@@ -457,7 +487,7 @@ export default function CampaignsPage() {
                     <td className="px-4 py-3 text-sm">
                       {(c.status === 'draft' || c.status === 'paused') && (
                         <button
-                          onClick={() => handleRerun(c._id)}
+                          onClick={() => handleRunCampaign(c._id)}
                           disabled={running}
                           className="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-700 rounded hover:bg-purple-200 disabled:opacity-50"
                         >
@@ -472,6 +502,55 @@ export default function CampaignsPage() {
           </div>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      {confirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Confirm Campaign</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <p className="text-sm text-amber-800 font-medium">
+                  You are about to email {confirmModal.firmsToContact} real firms.
+                </p>
+                <p className="text-sm text-amber-700 mt-1">
+                  This cannot be undone. Each firm will receive an outreach email from scott@tendorai.com.
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Type <span className="font-mono font-bold">CONFIRM</span> to proceed
+                </label>
+                <input
+                  type="text"
+                  value={confirmText}
+                  onChange={(e) => setConfirmText(e.target.value)}
+                  placeholder="CONFIRM"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none font-mono"
+                  autoFocus
+                />
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  onClick={() => { setConfirmModal(null); setConfirmText(''); }}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmedRun}
+                  disabled={confirmText !== 'CONFIRM'}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Send {confirmModal.firmsToContact} Emails
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

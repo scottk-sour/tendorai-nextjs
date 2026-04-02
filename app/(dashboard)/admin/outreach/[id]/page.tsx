@@ -243,7 +243,9 @@ export default function OutreachDetailPage() {
 
 I wanted to share something we found about ${record.firmName}.
 
-We ran a quick AI visibility check and your firm is currently scoring ${score}/100 — which means AI tools like ChatGPT and Perplexity are unlikely to recommend you when potential clients search for a ${sector} in ${city}.
+${score > 0
+        ? `We ran a quick AI visibility check and your firm is currently scoring ${score}/100 — which means AI tools like ChatGPT and Perplexity are unlikely to recommend you when potential clients search for a ${sector} in ${city}.`
+        : `We ran a quick AI visibility check and your firm isn't currently appearing when AI tools like ChatGPT and Perplexity are asked to recommend a ${sector} in ${city}.`}
 
 We've already created a profile for ${record.firmName} on TendorAI — the UK's AI visibility platform for regulated professional services firms. It's free to claim.
 
