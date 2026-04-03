@@ -194,7 +194,8 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
             </h1>
 
             <p className="text-lg text-blue-100 leading-relaxed max-w-3xl">
-              TendorAI tracks 55 FCA-registered mortgage advisers in Birmingham. <strong>47% have no website</strong> &mdash; making them completely invisible to ChatGPT, Gemini, and Perplexity. Here&apos;s what the data shows.
+              Half of Birmingham&apos;s mortgage advisers have no website.<br />
+              The other half have no structured data. Both are invisible to AI.
             </p>
 
             <div className="mt-6 flex items-center gap-4 text-sm text-blue-200">
@@ -227,38 +228,37 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
 
         {/* Article content */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-          {/* Opening */}
+          {/* The Data */}
           <section className="mb-12">
-            <p className="text-lg text-gray-600 leading-relaxed mb-4">
-              <strong className="text-gray-900">Birmingham has 55 FCA-registered mortgage advisers. 26 of them &mdash; 47% &mdash; have no website.</strong> Every single one of those firms is completely undetectable by ChatGPT, Gemini, and Perplexity.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              According to TendorAI&apos;s database of 1,100 FCA-registered mortgage advisers across England and Wales, this is not unique to Birmingham. But the data reveals a clear pattern: mortgage advisory firms without structured digital infrastructure are being excluded from AI recommendations entirely &mdash; and the problem is far worse than in other regulated professions.
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Data</h2>
+            <p className="text-gray-700 mb-2">TendorAI tracks 55 FCA-registered mortgage advisers in Birmingham.</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; 29 firms have a website</li>
+              <li className="text-gray-700">&bull; 26 firms have no website</li>
+            </ul>
+            <p className="text-gray-700 mb-2">That&apos;s a 47% no-website rate.</p>
+            <p className="text-gray-700 mb-2">Nearly half of Birmingham&apos;s mortgage advisers are completely undetectable by AI.</p>
+            <p className="text-gray-900 font-semibold">The other half have websites &mdash; but almost none have structured data.</p>
           </section>
 
-          {/* Module 1: The Invisibility Problem */}
+          {/* The Real Problem */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Invisibility Problem: Birmingham in Context</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Real Problem: No Website, No Visibility</h2>
+            <p className="text-gray-700 mb-2">Mortgage advisers have the worst web presence of any regulated profession TendorAI tracks.</p>
+            <p className="text-gray-700 mb-2">Accountants: 2% have no website.</p>
+            <p className="text-gray-700 mb-2">Solicitors: 17% have no website.</p>
+            <p className="text-gray-700 mb-2">Mortgage advisers: 48% have no website.</p>
+            <p className="text-gray-700 mb-4">The reasons are structural.</p>
+            <p className="text-gray-700 mb-2">Many mortgage advisers have relied on estate agent referrals and network introductions for decades.</p>
+            <p className="text-gray-700 mb-2">A website was never a priority because leads came through intermediaries.</p>
+            <p className="text-gray-700 mb-2">That model is breaking.</p>
+            <p className="text-gray-700">First-time buyers now ask AI for mortgage advice before speaking to an estate agent.</p>
+          </section>
 
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Of Birmingham&apos;s 55 FCA-registered mortgage advisers:
-            </p>
-
-            <ul className="space-y-2 mb-6">
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700"><strong>29 firms have a website</strong> &mdash; the minimum requirement to be detectable by AI</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700"><strong>26 firms have no website at all</strong> &mdash; 47% of all Birmingham mortgage advisory practices</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700">Nationally, <strong>48% of FCA-registered mortgage advisers have no web presence</strong></span>
-              </li>
-            </ul>
+          {/* Birmingham in Context */}
+          <section className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Birmingham in Context</h2>
+            <p className="text-gray-700 mb-4">This is not a Birmingham-only problem.</p>
 
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
@@ -267,7 +267,7 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
                     <th className="p-3 text-left font-semibold">City</th>
                     <th className="p-3 text-left font-semibold">FCA-Registered Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
-                    <th className="p-3 text-left font-semibold">Invisibility Rate</th>
+                    <th className="p-3 text-left font-semibold">No-Website Rate</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -291,66 +291,49 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
               </table>
             </div>
 
-            <p className="text-gray-500 text-sm italic">
-              Source: TendorAI database of FCA-registered mortgage advisers, March 2026
-            </p>
-
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mt-6">
-              <p className="text-sm text-blue-900">
-                Having a website is the floor, not the ceiling. A website with no structured data is only marginally better than no website at all &mdash; AI engines cannot extract reliable information from unstructured content. Nearly half of Birmingham&apos;s mortgage advisers have not even reached the floor.
-              </p>
-            </div>
+            <p className="text-gray-500 text-sm italic mb-4">Source: TendorAI database, April 2026</p>
+            <p className="text-gray-700 mb-2">Across England and Wales, nearly half of all FCA-registered mortgage advisers have no web presence.</p>
+            <p className="text-gray-900 font-semibold">No website means no visibility. No structured data means no recommendation.</p>
           </section>
 
-          {/* Module 2: How AI Selects */}
+          {/* How AI Chooses */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How AI Selects Which Birmingham Mortgage Adviser to Recommend</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              When a potential client asks ChatGPT &ldquo;best mortgage adviser Birmingham 2026,&rdquo; the AI does not browse a list of firms. It draws on indexed, structured data it has already processed.
-            </p>
-
-            <p className="text-gray-700 font-semibold mb-4">The firms it recommends share three characteristics:</p>
-
-            <div className="grid sm:grid-cols-3 gap-4 mb-6">
-              {[
-                { num: '1', title: 'Crawlable web presence', desc: 'A website that AI engines can access and index' },
-                { num: '2', title: 'Structured data', desc: 'Schema markup declaring services, location, FCA authorisation, and lender panel details explicitly' },
-                { num: '3', title: 'Third-party citations', desc: 'Directories, review platforms, and the FCA Financial Services Register that validate the firm' },
-              ].map((item) => (
-                <div key={item.num} className="bg-white border border-gray-200 rounded-xl p-5">
-                  <div className="w-8 h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm mb-3">
-                    {item.num}
-                  </div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-gray-600">{item.desc}</p>
-                </div>
-              ))}
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How AI Chooses Which Mortgage Adviser to Recommend</h2>
+            <p className="text-gray-700 mb-2">When someone asks:</p>
+            <p className="text-gray-900 font-medium italic mb-4">&ldquo;Best mortgage adviser in Birmingham for a first-time buyer&rdquo;</p>
+            <p className="text-gray-700 mb-2">AI systems do not browse websites live.</p>
+            <p className="text-gray-700 mb-4">They rely on structured, pre-processed data.</p>
+            <p className="text-gray-700 mb-2">Firms that get recommended consistently have:</p>
+            <div className="space-y-3 mb-4">
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">Crawlable website</strong> <span className="text-gray-600">&mdash; Accessible and indexable</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">Structured schema data</strong> <span className="text-gray-600">&mdash; FCA credentials, services, lender panels, and location clearly defined</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">Third-party validation</strong> <span className="text-gray-600">&mdash; FCA register, review platforms, and trusted directories</span></div>
+              </div>
             </div>
-
-            <div className="bg-gray-900 text-white rounded-xl p-6">
-              <p className="text-sm leading-relaxed text-gray-200">
-                Firms without all three are skipped &mdash; regardless of how many years they have been advising clients, how many lender panels they sit on, or how strong their local reputation is. <strong className="text-white">This is the structural problem TendorAI was built to solve.</strong>
-              </p>
-            </div>
+            <p className="text-gray-700">Most Birmingham firms fail at the first step. They have no website at all.</p>
           </section>
 
-          {/* Module 3: Scale of Opportunity */}
+          {/* The Hidden Gap */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Scale of the Opportunity (and the Risk)</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              TendorAI&apos;s data across all regulated professions reveals a pattern:
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Hidden Gap</h2>
+            <p className="text-gray-700 mb-4">TendorAI&apos;s wider dataset shows:</p>
 
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">Vertical</th>
-                    <th className="p-3 text-left font-semibold">Firms Tracked</th>
+                    <th className="p-3 text-left font-semibold">Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
-                    <th className="p-3 text-left font-semibold">Invisibility Rate</th>
+                    <th className="p-3 text-left font-semibold">Rate</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -360,13 +343,7 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
                       <td className="p-3 text-gray-700">{row.firms}</td>
                       <td className="p-3 text-red-600 font-medium">{row.noWebsite}</td>
                       <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                          parseInt(row.rate) >= 40 ? 'bg-red-100 text-red-700' :
-                          parseInt(row.rate) >= 15 ? 'bg-amber-100 text-amber-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
-                          {row.rate}
-                        </span>
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${parseInt(row.rate) >= 40 ? 'bg-red-100 text-red-700' : parseInt(row.rate) >= 15 ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>{row.rate}</span>
                       </td>
                     </tr>
                   ))}
@@ -374,106 +351,66 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
               </table>
             </div>
 
-            <p className="text-gray-500 text-sm italic mb-6">
-              Source: TendorAI database, March 2026
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Mortgage advisers have the second-worst AI visibility of any regulated profession TendorAI tracks &mdash; only office equipment suppliers fare worse. Accountants have near-universal web presence at just 2% invisible. Solicitors sit at 17%. Mortgage advisers are at 48% nationally, and Birmingham is right in line with that average. For a profession where whole-of-market advice and CeMAP qualifications should differentiate firms, the digital infrastructure simply is not there.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Of the 29 Birmingham mortgage advisory firms with websites, the vast majority have no structured schema data, no AI-optimised content, and no mechanism for AI engines to verify their FCA authorisation or lender panel memberships.
-            </p>
-
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
-              <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <p className="text-sm text-amber-800">
-                  <strong className="text-amber-900">Having a website in 2026 is the equivalent of having a Yellow Pages listing in 2005.</strong> It is necessary. It is nowhere near sufficient. And nearly half of Birmingham&apos;s mortgage advisers do not even have that.
-                </p>
-              </div>
-            </div>
+            <p className="text-gray-700 mb-2">Mortgage advisers sit near the bottom &mdash; only office equipment suppliers fare worse.</p>
+            <p className="text-gray-700">Accountants have near-universal web presence. Mortgage advisers do not even have a website in half of cases.</p>
           </section>
 
-          {/* Module 4: What AI-Cited Firms Do Differently */}
+          {/* What AI-Recommended Firms Are Doing Differently */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What AI-Cited Birmingham Mortgage Advisers Are Doing Differently</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              TendorAI&apos;s analysis of mortgage advisory firms across the West Midlands that appear consistently in AI recommendation results identifies four common factors:
-            </p>
-
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What AI-Recommended Firms Are Doing Differently</h2>
+            <p className="text-gray-700 mb-4">Analysis of mortgage adviser firms appearing in AI recommendations shows consistent patterns:</p>
             <div className="space-y-4">
-              {[
-                {
-                  num: 1,
-                  title: 'Declared credentials',
-                  desc: 'FCA number, CeMAP qualification, whole-of-market status, and lender panel memberships are explicitly declared in structured data — not buried in an About page or mentioned in passing on a homepage.',
-                },
-                {
-                  num: 2,
-                  title: 'Location specificity',
-                  desc: 'City, postcode, and coverage area are machine-readable. "We cover the Birmingham area" is useless to an AI engine. Structured address data with postcode and locality is not.',
-                },
-                {
-                  num: 3,
-                  title: 'Service clarity',
-                  desc: 'Specialisms are listed as structured entities, not paragraph text. An AI cannot reliably extract "we specialise in first-time buyer mortgages and buy-to-let" from a homepage. Schema-declared services are unambiguous.',
-                },
-                {
-                  num: 4,
-                  title: 'Third-party citation',
-                  desc: 'The firm appears in authoritative directories that AI engines treat as trust signals. The FCA Financial Services Register, Trustpilot, VouchedFor, and structured directories like TendorAI provide the external validation that moves a firm from "possible result" to "confident recommendation."',
-                },
-              ].map((item) => (
-                <div key={item.num} className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition-shadow">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold">
-                      {item.num}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                      <p className="text-gray-600 leading-relaxed text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">Declared FCA credentials</strong> <span className="text-gray-600">&mdash; FCA reference number, authorisation type, CeMAP qualifications, and whole-of-market status structured clearly</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">Service clarity</strong> <span className="text-gray-600">&mdash; First-time buyer, remortgage, buy-to-let, equity release &mdash; defined as entities, not paragraphs</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">Lender panel and market access</strong> <span className="text-gray-600">&mdash; Whole-of-market status and panel size (50&ndash;90 lenders) declared in machine-readable format</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">4.</span>
+                <div><strong className="text-gray-900">Precise location data</strong> <span className="text-gray-600">&mdash; City, postcode, and coverage areas machine-readable</span></div>
+              </div>
+            </div>
+            <p className="text-gray-700 mt-4">These signals allow AI to move from:<br /><span className="text-gray-900 font-semibold">&ldquo;possible result&rdquo; &rarr; &ldquo;confident recommendation&rdquo;</span></p>
+          </section>
+
+          {/* What This Means */}
+          <section className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What This Means for Birmingham Mortgage Advisers</h2>
+            <p className="text-gray-700 mb-4">Three shifts are already underway:</p>
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">From search results to recommendations</strong> <span className="text-gray-600">&mdash; AI returns a small number of named firms</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">From keywords to entities</strong> <span className="text-gray-600">&mdash; Firms are evaluated based on FCA credentials and structured identity, not content</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">From visibility to selection</strong> <span className="text-gray-600">&mdash; Having a website is no longer enough &mdash; you must be chosen</span></div>
+              </div>
             </div>
           </section>
 
-          {/* Module 5: What Changes in 2026 */}
+          {/* The Opportunity */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What This Means for Birmingham Mortgage Advisers in 2026</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Three shifts are already underway that will accelerate AI&apos;s role in how clients find mortgage advisers in Birmingham:
-            </p>
-
-            <div className="space-y-6">
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">From keywords to entities</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  AI engines rank firms based on declared identity &mdash; who they are, what they do, where they operate, what credentials they hold &mdash; not keyword density. FCA authorisation verification is emerging as the primary trust signal for mortgage advisory firms. Whole-of-market status and specific lender panel memberships are entity-level data points AI uses to match advisers to borrower needs.
-                </p>
-              </div>
-
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">Zero-click recommendations</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Queries like &ldquo;mortgage adviser Birmingham first-time buyer&rdquo; increasingly return a direct recommendation rather than a list of links. The firm recommended gets the enquiry. The firms not recommended are not seen. For mortgage advisers, where a single client can generate thousands in procuration fees, each missed recommendation is significant.
-                </p>
-              </div>
-
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">AI advertising</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Perplexity has opened sponsored placements in the UK. ChatGPT&apos;s ad model is in development. Birmingham mortgage advisers with structured profiles already in place will be first in line. Firms without structured data cannot buy their way into these placements &mdash; the infrastructure has to exist first.
-                </p>
-              </div>
-            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Opportunity</h2>
+            <p className="text-gray-700 mb-2">Out of 55 Birmingham mortgage advisers:</p>
+            <p className="text-gray-900 font-semibold mb-4">26 have no website. The rest have no structured data. Almost all are invisible to AI.</p>
+            <p className="text-gray-700 mb-2">This creates a short-term window where:</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; Early adopters gain disproportionate visibility</li>
+              <li className="text-gray-700">&bull; AI begins reinforcing the same firms repeatedly</li>
+              <li className="text-gray-700">&bull; Late adopters struggle to catch up</li>
+            </ul>
           </section>
 
           {/* FAQ */}
@@ -485,45 +422,33 @@ export default function AIVisibilityReportBirminghamMortgageAdvisers() {
           {/* TendorAI Position */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The TendorAI Position</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI maintains the UK&apos;s largest structured database of regulated professional services firms &mdash; 12,793 businesses across solicitors, accountants, mortgage advisers, financial advisers, and office equipment suppliers, all sourced directly from SRA, ICAEW, and FCA registers.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Every firm in the database has a structured profile. Pro firms have that profile extended to their own website via an automatically maintained schema installation &mdash; no developer required, no quarterly audits, no schema drift.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed">
-              When a potential client asks AI to recommend a mortgage adviser in Birmingham, TendorAI-listed firms have declared their FCA authorisation, CeMAP credentials, lender panel memberships, specialisms, and coverage areas in machine-readable format. That is why they get recommended.
-            </p>
+            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 regulated UK firms, sourced from SRA, ICAEW, and FCA registers.</p>
+            <p className="text-gray-700 mb-4">Each firm has a machine-readable profile.</p>
+            <p className="text-gray-700 mb-2">For Pro firms:</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; Structured data is installed on their website</li>
+              <li className="text-gray-700">&bull; Data remains synchronised automatically</li>
+              <li className="text-gray-700">&bull; AI systems can verify and cross-reference information</li>
+            </ul>
+            <p className="text-gray-700">This enables consistent inclusion in AI-generated recommendations.</p>
           </section>
 
           {/* CTA */}
-          <section className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Run Your Free AI Visibility Report</h2>
-            <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              See where your Birmingham mortgage advisory firm stands in 60 seconds. We&apos;ll scan ChatGPT, Perplexity, and Gemini to show you exactly what AI knows about your practice.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/aeo-report"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
-              >
-                Run Your Free Report
-              </Link>
-              <Link
-                href="/for-vendors#pricing"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
-              >
-                See TendorAI Pro
-              </Link>
-            </div>
+          <section className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Check Your Position</h2>
+            <p className="text-gray-700 mb-2">If you are a mortgage adviser in Birmingham, the question is simple:</p>
+            <p className="text-gray-900 font-semibold text-lg mb-6">Are you being recommended &mdash; or not?</p>
+            <Link
+              href="/aeo-report"
+              className="inline-flex items-center justify-center px-8 py-4 bg-[#1B4F72] text-white font-bold rounded-lg hover:bg-[#164060] transition-colors text-lg"
+            >
+              Run Your Free AI Visibility Report
+            </Link>
           </section>
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Data sourced from TendorAI&apos;s database of SRA, ICAEW, and FCA-registered firms, March 2026. Firm counts reflect registered practices as of the most recent regulatory register import.
+            Data sourced from TendorAI&apos;s database of SRA, ICAEW, and FCA-registered firms, April 2026. Firm counts reflect registered practices as of the most recent regulatory register import.
           </div>
 
           {/* Author / date */}

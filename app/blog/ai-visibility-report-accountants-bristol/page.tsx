@@ -194,7 +194,8 @@ export default function AIVisibilityReportBristolAccountants() {
             </h1>
 
             <p className="text-lg text-blue-100 leading-relaxed max-w-3xl">
-              TendorAI tracks 52 ICAEW-registered accountants in Bristol. <strong>Nearly all have websites</strong> &mdash; but most lack structured data, making them invisible to ChatGPT, Gemini, and Perplexity. Here&apos;s what the data shows.
+              Most Bristol accountants have websites.<br />
+              They&apos;re still invisible to AI.
             </p>
 
             <div className="mt-6 flex items-center gap-4 text-sm text-blue-200">
@@ -220,54 +221,52 @@ export default function AIVisibilityReportBristolAccountants() {
             <div className="h-px sm:h-12 sm:w-px bg-gray-200 w-full sm:w-auto" />
             <div className="text-center">
               <div className="text-4xl font-bold text-amber-600">2%</div>
-              <div className="text-sm text-gray-500">completely invisible</div>
+              <div className="text-sm text-gray-500">no web presence</div>
             </div>
           </div>
         </section>
 
         {/* Article content */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-          {/* Opening */}
+          {/* The Data */}
           <section className="mb-12">
-            <p className="text-lg text-gray-600 leading-relaxed mb-4">
-              <strong className="text-gray-900">Bristol has 52 ICAEW-registered accountancy firms. Only 1 has no website &mdash; a 2% invisibility rate.</strong> On the surface, that looks excellent. But scratch beneath the headline number and the picture is far less reassuring.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              Having a website does not mean being AI-visible. According to TendorAI&apos;s analysis, the overwhelming majority of Bristol accountancy firms have websites that tell AI engines almost nothing &mdash; no structured schema data, no machine-readable ICAEW credentials, no declared MTD compliance, and no explicit service taxonomy. The problem for accountants is not missing websites. It is missing structured data.
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Data</h2>
+            <p className="text-gray-700 mb-2">TendorAI tracks 52 ICAEW-registered accountants in Bristol.</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; 51 firms have a website</li>
+              <li className="text-gray-700">&bull; 1 firm has no website</li>
+            </ul>
+            <p className="text-gray-700 mb-2">That&apos;s a 98% web presence rate.</p>
+            <p className="text-gray-700 mb-2">On the surface, that looks strong.</p>
+            <p className="text-gray-900 font-semibold">It isn&apos;t.</p>
           </section>
 
-          {/* Module 1: The Structured Data Problem */}
+          {/* The Real Problem */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Structured Data Problem: Bristol in Context</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Of Bristol&apos;s 52 ICAEW-registered accountancy firms:
-            </p>
-
-            <ul className="space-y-2 mb-6">
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700"><strong>51 firms have a website</strong> &mdash; the minimum requirement to be detectable by AI</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700"><strong>1 firm has no website at all</strong> &mdash; 2% of Bristol practices</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0" />
-                <span className="text-gray-700">Of the 51 with websites, the <strong>vast majority have no structured schema data</strong> &mdash; making them effectively invisible to AI recommendation engines</span>
-              </li>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Real Problem: Not Websites &mdash; Structure</h2>
+            <p className="text-gray-700 mb-4">Across those 51 websites, the vast majority do not contain structured schema data.</p>
+            <p className="text-gray-700 mb-2">That means:</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; AI cannot reliably read the firm&apos;s services</li>
+              <li className="text-gray-700">&bull; AI cannot verify credentials like ICAEW membership</li>
+              <li className="text-gray-700">&bull; AI does not confidently recommend the firm</li>
             </ul>
+            <p className="text-gray-700">A website without structured data is effectively invisible to AI systems.</p>
+          </section>
+
+          {/* Bristol in Context */}
+          <section className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Bristol in Context</h2>
+            <p className="text-gray-700 mb-4">This is not a Bristol-only issue.</p>
 
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">City</th>
-                    <th className="p-3 text-left font-semibold">ICAEW-Registered Firms</th>
+                    <th className="p-3 text-left font-semibold">ICAEW Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
-                    <th className="p-3 text-left font-semibold">Invisibility Rate</th>
+                    <th className="p-3 text-left font-semibold">No-Website Rate</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -277,13 +276,7 @@ export default function AIVisibilityReportBristolAccountants() {
                       <td className="p-3 text-gray-700">{row.firms}</td>
                       <td className="p-3 text-red-600 font-medium">{row.noWebsite}</td>
                       <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                          parseInt(row.rate) >= 25 ? 'bg-red-100 text-red-700' :
-                          parseInt(row.rate) >= 20 ? 'bg-amber-100 text-amber-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
-                          {row.rate}
-                        </span>
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">{row.rate}</span>
                       </td>
                     </tr>
                   ))}
@@ -291,82 +284,59 @@ export default function AIVisibilityReportBristolAccountants() {
               </table>
             </div>
 
-            <p className="text-gray-500 text-sm italic">
-              Source: TendorAI database of ICAEW-registered firms, April 2026
-            </p>
-
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mt-6">
-              <p className="text-sm text-blue-900">
-                A 2% invisibility rate sounds impressive &mdash; until you realise the real problem is not missing websites but missing structured data. A website without schema markup is a brochure that AI cannot read.
-              </p>
-            </div>
+            <p className="text-gray-500 text-sm italic mb-4">Source: TendorAI database, April 2026</p>
+            <p className="text-gray-700 mb-2">Across England and Wales, accountants have near-universal web presence.</p>
+            <p className="text-gray-900 font-semibold">But presence is not visibility.</p>
           </section>
 
-          {/* Module 2: How AI Selects */}
+          {/* How AI Chooses */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How AI Selects Which Bristol Accountant to Recommend</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              When a business owner asks ChatGPT &ldquo;best accountant in Bristol for Making Tax Digital,&rdquo; the AI does not browse a list of firms. It draws on indexed, structured data it has already processed.
-            </p>
-
-            <p className="text-gray-700 font-semibold mb-4">The firms it recommends share three characteristics:</p>
-
-            <div className="grid sm:grid-cols-3 gap-4 mb-6">
-              {[
-                { num: '1', title: 'Crawlable web presence', desc: 'A website that AI engines can access and index' },
-                { num: '2', title: 'Structured data', desc: 'Schema markup declaring services, ICAEW credentials, MTD readiness, and location explicitly' },
-                { num: '3', title: 'Third-party citations', desc: 'Directories, review platforms, and the ICAEW register that validate the firm' },
-              ].map((item) => (
-                <div key={item.num} className="bg-white border border-gray-200 rounded-xl p-5">
-                  <div className="w-8 h-8 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold text-sm mb-3">
-                    {item.num}
-                  </div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-gray-600">{item.desc}</p>
-                </div>
-              ))}
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How AI Chooses Which Accountant to Recommend</h2>
+            <p className="text-gray-700 mb-2">When someone asks:</p>
+            <p className="text-gray-900 font-medium italic mb-4">&ldquo;Best chartered accountant in Bristol for Making Tax Digital&rdquo;</p>
+            <p className="text-gray-700 mb-2">AI systems do not browse websites live.</p>
+            <p className="text-gray-700 mb-4">They rely on structured, pre-processed data.</p>
+            <p className="text-gray-700 mb-2">Firms that get recommended consistently have:</p>
+            <div className="space-y-3 mb-4">
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">Crawlable website</strong> <span className="text-gray-600">&mdash; Accessible and indexable</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">Structured schema data</strong> <span className="text-gray-600">&mdash; Services, location, and credentials clearly defined</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">Third-party validation</strong> <span className="text-gray-600">&mdash; Listings and citations across trusted sources</span></div>
+              </div>
             </div>
-
-            <div className="bg-gray-900 text-white rounded-xl p-6">
-              <p className="text-sm leading-relaxed text-gray-200">
-                Most Bristol accountancy firms tick box one &mdash; they have a website. Almost none tick boxes two and three. <strong className="text-white">That is why firms with decades of experience and hundreds of clients are being skipped by AI in favour of firms with better-structured data.</strong>
-              </p>
-            </div>
+            <p className="text-gray-700">Most Bristol firms only satisfy the first.</p>
           </section>
 
-          {/* Module 3: Scale of Opportunity */}
+          {/* The Hidden Gap */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Scale of the Opportunity (and the Risk)</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              TendorAI&apos;s data across all regulated professions reveals a pattern:
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Hidden Gap</h2>
+            <p className="text-gray-700 mb-4">TendorAI&apos;s wider dataset shows:</p>
 
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">Vertical</th>
-                    <th className="p-3 text-left font-semibold">Firms Tracked</th>
+                    <th className="p-3 text-left font-semibold">Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
-                    <th className="p-3 text-left font-semibold">Invisibility Rate</th>
+                    <th className="p-3 text-left font-semibold">Rate</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {verticalData.map((row, i) => (
+                  {verticalData.slice(0, 3).map((row, i) => (
                     <tr key={i} className={`${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} ${row.vertical === 'Accountants' ? 'ring-2 ring-[#1B4F72] ring-inset' : ''}`}>
                       <td className="p-3 text-gray-900 font-medium">{row.vertical === 'Accountants' ? <strong>{row.vertical}</strong> : row.vertical}</td>
                       <td className="p-3 text-gray-700">{row.firms}</td>
                       <td className="p-3 text-red-600 font-medium">{row.noWebsite}</td>
                       <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                          parseInt(row.rate) >= 40 ? 'bg-red-100 text-red-700' :
-                          parseInt(row.rate) >= 15 ? 'bg-amber-100 text-amber-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
-                          {row.rate}
-                        </span>
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${parseInt(row.rate) >= 15 ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>{row.rate}</span>
                       </td>
                     </tr>
                   ))}
@@ -374,168 +344,66 @@ export default function AIVisibilityReportBristolAccountants() {
               </table>
             </div>
 
-            <p className="text-gray-500 text-sm italic mb-6">
-              Source: TendorAI database, April 2026
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Accountants have the lowest invisibility rate of any regulated profession TendorAI tracks &mdash; just 2% nationally. Cloud accounting platforms like Xero, QuickBooks, and Sage drove early web adoption across the profession. But web presence and AI visibility are fundamentally different things.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Of Bristol&apos;s 51 accountancy firms with websites, most have no structured schema data declaring their ICAEW registration, MTD compliance status, software partnerships, or service specialisms. Their websites are human-readable brochures &mdash; not machine-readable profiles.
-            </p>
-
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
-              <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <p className="text-sm text-amber-800">
-                  <strong className="text-amber-900">Accountants&apos; problem is not missing websites &mdash; it is missing structured data.</strong> ICAEW credentials are not machine-readable. MTD compliance is not declared in schema. Software partnerships with Xero, QuickBooks, and Sage are invisible to AI engines.
-                </p>
-              </div>
-            </div>
+            <p className="text-gray-700 mb-2">Accountants appear digitally mature.</p>
+            <p className="text-gray-700">In reality, they are missing the next layer &mdash; machine-readable structure.</p>
           </section>
 
-          {/* Module 4: What AI-Cited Firms Do Differently */}
+          {/* What AI-Recommended Firms Are Doing Differently */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What AI-Cited Bristol Accountancy Firms Are Doing Differently</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              TendorAI&apos;s analysis of accountancy firms across the South West that appear consistently in AI recommendation results identifies four common factors:
-            </p>
-
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What AI-Recommended Firms Are Doing Differently</h2>
+            <p className="text-gray-700 mb-4">Analysis of firms appearing in AI recommendations shows consistent patterns:</p>
             <div className="space-y-4">
-              {[
-                {
-                  num: 1,
-                  title: 'Machine-readable credentials',
-                  desc: 'ICAEW membership number, ACCA registration, practice certificate details, and authorisation status are declared in structured data — not mentioned in an About page paragraph. AI engines treat schema-declared credentials as verified identity signals.',
-                },
-                {
-                  num: 2,
-                  title: 'Declared MTD and software capabilities',
-                  desc: 'Making Tax Digital compliance, authorised software agent status, and partnerships with Xero, QuickBooks, and Sage are explicitly structured. A sentence saying "we use Xero" is invisible to AI. A schema-declared software partnership is not.',
-                },
-                {
-                  num: 3,
-                  title: 'Service specificity',
-                  desc: 'Tax planning, audit, bookkeeping, payroll, VAT returns, R&D tax credits, and capital gains advice are listed as structured entities — not buried in paragraph copy. AI cannot reliably extract "we specialise in R&D tax credits" from a homepage. Schema-declared services are unambiguous.',
-                },
-                {
-                  num: 4,
-                  title: 'Third-party citation',
-                  desc: 'The firm appears in authoritative directories that AI engines treat as trust signals. The ICAEW register, Google Business Profile, Trustpilot, and structured directories like TendorAI provide the external validation that moves a firm from "possible result" to "confident recommendation."',
-                },
-              ].map((item) => (
-                <div key={item.num} className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition-shadow">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#1B4F72] flex items-center justify-center text-white font-bold">
-                      {item.num}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                      <p className="text-gray-600 leading-relaxed text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">Declared credentials</strong> <span className="text-gray-600">&mdash; ICAEW status, accreditations, and membership numbers structured clearly</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">Service clarity</strong> <span className="text-gray-600">&mdash; MTD, tax, audit, payroll &mdash; defined as entities, not paragraphs</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">Precise location data</strong> <span className="text-gray-600">&mdash; City, postcode, and coverage areas machine-readable</span></div>
+              </div>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">4.</span>
+                <div><strong className="text-gray-900">External validation</strong> <span className="text-gray-600">&mdash; Consistent citations across trusted platforms</span></div>
+              </div>
             </div>
+            <p className="text-gray-700 mt-4">These signals allow AI to move from:<br /><span className="text-gray-900 font-semibold">&ldquo;possible result&rdquo; &rarr; &ldquo;confident recommendation&rdquo;</span></p>
           </section>
 
-          {/* Module 5: What Changes in 2026 */}
+          {/* What This Means */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What This Means for Bristol Accountants in 2026</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Three shifts are already underway that will accelerate AI&apos;s role in how businesses find accountants in Bristol:
-            </p>
-
-            <div className="space-y-6">
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">MTD is driving search behaviour change</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Making Tax Digital for Income Tax Self Assessment launches in April 2026. Thousands of sole traders and landlords are searching for MTD-compliant accountants right now. Queries like &ldquo;accountant Bristol MTD compliant&rdquo; are increasingly answered by AI directly &mdash; and only firms with structured, declared MTD readiness are being recommended.
-                </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What This Means for Bristol Accountants</h2>
+            <p className="text-gray-700 mb-4">Three shifts are already underway:</p>
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">1.</span>
+                <div><strong className="text-gray-900">From search results to recommendations</strong> <span className="text-gray-600">&mdash; AI returns a small number of named firms</span></div>
               </div>
-
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">Zero-click recommendations</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Queries like &ldquo;best accountant in Bristol for small businesses&rdquo; increasingly return a direct recommendation rather than a list of links. The firm recommended gets the enquiry. The firms not recommended are not seen. AI Overviews now appear in over 60% of searches.
-                </p>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">2.</span>
+                <div><strong className="text-gray-900">From keywords to entities</strong> <span className="text-gray-600">&mdash; Firms are evaluated based on structured identity, not content</span></div>
               </div>
-
-              <div className="border-l-4 border-[#1B4F72] pl-5">
-                <h3 className="font-bold text-gray-900 mb-2">AI advertising is arriving</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Perplexity has opened sponsored placements in the UK. ChatGPT&apos;s ad model is in development. Bristol accountancy firms with structured profiles already in place will be first in line. Firms without structured data cannot buy their way into these placements &mdash; the infrastructure has to exist first.
-                </p>
+              <div className="flex gap-3">
+                <span className="font-bold text-[#1B4F72]">3.</span>
+                <div><strong className="text-gray-900">From visibility to selection</strong> <span className="text-gray-600">&mdash; Being online is no longer enough &mdash; you must be chosen</span></div>
               </div>
             </div>
           </section>
 
-          {/* Module 6: The ICAEW Credentials Gap */}
+          {/* The Opportunity */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The ICAEW Credentials Gap</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Every ICAEW-registered accountant in Bristol holds a credential that should be a powerful AI trust signal. The ICAEW is one of the most recognised accountancy bodies in the world. ACCA membership carries similar weight. Yet almost no Bristol accountancy firm has made these credentials machine-readable.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Here is what AI engines look for when deciding whether to recommend an accountancy firm &mdash; and what they typically find on Bristol accountancy websites:
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-4 mb-6">
-              <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-                <h3 className="font-bold text-red-900 mb-3 text-sm">What AI engines find today</h3>
-                <ul className="space-y-2 text-sm text-red-800">
-                  <li className="flex items-start gap-2">
-                    <span className="text-red-400 mt-0.5">&#10005;</span>
-                    <span>ICAEW logo on footer &mdash; not machine-readable</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-red-400 mt-0.5">&#10005;</span>
-                    <span>&ldquo;We are Xero-certified&rdquo; in paragraph text</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-red-400 mt-0.5">&#10005;</span>
-                    <span>Services listed in a single comma-separated sentence</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-red-400 mt-0.5">&#10005;</span>
-                    <span>No structured address or coverage area data</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-900 mb-3 text-sm">What AI engines need</h3>
-                <ul className="space-y-2 text-sm text-green-800">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">&#10003;</span>
-                    <span>ICAEW number declared in schema markup</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">&#10003;</span>
-                    <span>Software partnerships as structured entities</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">&#10003;</span>
-                    <span>Each service as a distinct schema-declared offering</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">&#10003;</span>
-                    <span>Structured address with postcode and areaServed</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <p className="text-gray-600 leading-relaxed">
-              The gap between what Bristol accountancy firms publish and what AI engines need is the single biggest opportunity in the market. The firms that close this gap first will dominate AI recommendations in Bristol &mdash; not because they are better accountants, but because they are the only ones AI can confidently identify.
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Opportunity</h2>
+            <p className="text-gray-700 mb-2">Out of 52 Bristol accountants:</p>
+            <p className="text-gray-900 font-semibold mb-4">Almost all are currently invisible to AI recommendation systems.</p>
+            <p className="text-gray-700 mb-2">This creates a short-term window where:</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; Early adopters gain disproportionate visibility</li>
+              <li className="text-gray-700">&bull; AI begins reinforcing the same firms repeatedly</li>
+              <li className="text-gray-700">&bull; Late adopters struggle to catch up</li>
+            </ul>
           </section>
 
           {/* FAQ */}
@@ -547,40 +415,28 @@ export default function AIVisibilityReportBristolAccountants() {
           {/* TendorAI Position */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The TendorAI Position</h2>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              TendorAI maintains the UK&apos;s largest structured database of regulated professional services firms &mdash; 12,793 businesses across solicitors, accountants, mortgage advisors, financial advisors, and office equipment suppliers, all sourced directly from SRA, ICAEW, and FCA registers.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Every firm in the database has a structured profile. Pro firms have that profile extended to their own website via an automatically maintained schema installation &mdash; declaring ICAEW credentials, MTD compliance, software partnerships, service areas, and location in machine-readable format. No developer required, no quarterly audits, no schema drift.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed">
-              When a business owner asks AI to recommend an accountant in Bristol, TendorAI-listed firms have declared their credentials, services, and specialisms in the format AI engines require. That is why they get recommended.
-            </p>
+            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 regulated UK firms, sourced from SRA, ICAEW, and FCA registers.</p>
+            <p className="text-gray-700 mb-4">Each firm has a machine-readable profile.</p>
+            <p className="text-gray-700 mb-2">For Pro firms:</p>
+            <ul className="space-y-1 mb-4">
+              <li className="text-gray-700">&bull; Structured data is installed on their website</li>
+              <li className="text-gray-700">&bull; Data remains synchronised automatically</li>
+              <li className="text-gray-700">&bull; AI systems can verify and cross-reference information</li>
+            </ul>
+            <p className="text-gray-700">This enables consistent inclusion in AI-generated recommendations.</p>
           </section>
 
           {/* CTA */}
-          <section className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Run Your Free AI Visibility Report</h2>
-            <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              See where your Bristol accountancy firm stands in 60 seconds. We&apos;ll scan ChatGPT, Perplexity, and Gemini to show you exactly what AI knows about your practice.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/aeo-report"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
-              >
-                Run Your Free Report
-              </Link>
-              <Link
-                href="/for-vendors#pricing"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
-              >
-                See TendorAI Pro
-              </Link>
-            </div>
+          <section className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Check Your Position</h2>
+            <p className="text-gray-700 mb-2">If you are an accountant in Bristol, the question is simple:</p>
+            <p className="text-gray-900 font-semibold text-lg mb-6">Are you being recommended &mdash; or not?</p>
+            <Link
+              href="/aeo-report"
+              className="inline-flex items-center justify-center px-8 py-4 bg-[#1B4F72] text-white font-bold rounded-lg hover:bg-[#164060] transition-colors text-lg"
+            >
+              Run Your Free AI Visibility Report
+            </Link>
           </section>
 
           {/* Source note */}
