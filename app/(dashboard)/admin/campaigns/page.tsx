@@ -24,7 +24,7 @@ interface Campaign {
 
 interface PreviewResult {
   totalMatching: number;
-  alreadyInOutreach: number;
+  alreadyContacted: number;
   eligible: number;
 }
 
@@ -385,8 +385,8 @@ export default function CampaignsPage() {
                   <div className="text-xs text-gray-500">Total Matching</div>
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-amber-600">{preview.alreadyInOutreach}</div>
-                  <div className="text-xs text-gray-500">Already in Outreach</div>
+                  <div className="text-xl font-bold text-amber-600">{preview.alreadyContacted}</div>
+                  <div className="text-xs text-gray-500">Already Contacted</div>
                 </div>
                 <div>
                   <div className="text-xl font-bold text-green-600">{preview.eligible}</div>
