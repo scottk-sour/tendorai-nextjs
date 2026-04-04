@@ -516,7 +516,7 @@ export default function CampaignsPage() {
                   You are about to email {confirmModal.firmsToContact} real firms.
                 </p>
                 <p className="text-sm text-amber-700 mt-1">
-                  This cannot be undone. Each firm will receive an outreach email from scott@tendorai.com.
+                  This cannot be undone. Each firm will receive an outreach email from scott.davies@tendorai.com.
                 </p>
               </div>
               <div>
