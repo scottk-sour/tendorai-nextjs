@@ -42,20 +42,20 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     },
     problem: {
       heading: 'Your firm isn\u2019t showing up in AI recommendations',
-      body: 'When someone asks ChatGPT \u201Cwho\u2019s the best conveyancing solicitor near me?\u201D, AI doesn\u2019t Google you. It pulls from structured data sources \u2014 and most law firms don\u2019t have any. Your competitors who do are getting recommended by name. Your firm is being skipped entirely.',
+      body: 'When someone asks ChatGPT \u201Cwho\u2019s the best conveyancing solicitor near me?\u201D or \u201Cfind me a family lawyer in [city]\u201D, AI doesn\u2019t Google you. It pulls from structured data \u2014 and most solicitor websites have none. The firms that do are getting recommended by name. Yours is being passed over.',
     },
     howItWorks: [
       {
         step: '1',
         title: 'We build your profile from SRA data',
         description:
-          'Your firm gets a free profile built from Solicitors Regulation Authority records \u2014 practice areas, office locations, SRA number, and contact details.',
+          'Your firm gets a free profile built from Solicitors Regulation Authority records \u2014 SRA number, regulated individuals, practice areas, and contact details.',
       },
       {
         step: '2',
-        title: 'You add pricing and specialisms',
+        title: 'You add specialisms and service areas',
         description:
-          'Add your fee ranges, accreditations, and areas of expertise. This is the structured data AI needs to recommend you with confidence.',
+          'Add your practice areas, fee arrangements, and the locations you serve. This is the structured data AI needs to recommend you with confidence.',
       },
       {
         step: '3',
@@ -67,14 +67,16 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     seoVsAi:
       'SEO gets you ranked on Google. AI visibility gets you recommended by ChatGPT, Claude, Perplexity, and Google AI. These are different systems with different data sources. Your website copy alone isn\u2019t enough \u2014 AI needs structured, verified data to recommend your firm. The firms investing in AI visibility now will dominate for years, just like the firms that invested in SEO in 2005.',
     services: [
-      { name: 'Conveyancing', slug: 'conveyancing' },
+      { name: 'Residential Conveyancing', slug: 'conveyancing' },
+      { name: 'Commercial Property', slug: 'commercial-property' },
       { name: 'Family Law', slug: 'family-law' },
-      { name: 'Criminal Law', slug: 'criminal-law' },
-      { name: 'Commercial Law', slug: 'commercial-law' },
       { name: 'Employment Law', slug: 'employment-law' },
-      { name: 'Wills & Probate', slug: 'wills-and-probate' },
-      { name: 'Immigration', slug: 'immigration' },
       { name: 'Personal Injury', slug: 'personal-injury' },
+      { name: 'Wills and Probate', slug: 'wills-and-probate' },
+      { name: 'Immigration', slug: 'immigration' },
+      { name: 'Criminal Defence', slug: 'criminal-law' },
+      { name: 'Dispute Resolution', slug: 'dispute-resolution' },
+      { name: 'Corporate and Commercial', slug: 'commercial-law' },
     ],
     pricingCallout: {
       free: 'Claim your SRA-verified profile and get listed in the TendorAI directory.',
@@ -84,27 +86,27 @@ export const VERTICALS: Record<string, VerticalConfig> = {
       {
         question: 'How does TendorAI know about my firm?',
         answer:
-          'We build your initial profile from public SRA (Solicitors Regulation Authority) data \u2014 your practice areas, registered offices, SRA number, and authorisation status. You then claim and enrich it with pricing, specialisms, and accreditations.',
-      },
-      {
-        question: 'Which AI platforms will recommend my firm?',
-        answer:
-          'TendorAI structures your data for all major AI platforms \u2014 ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence. When any of these are asked for a solicitor, your enriched profile is in their data sources.',
-      },
-      {
-        question: 'How is this different from legal directories like Chambers or Legal 500?',
-        answer:
-          'Legal directories rank firms for humans browsing websites. TendorAI structures your data for AI assistants. When someone asks ChatGPT for a solicitor recommendation, it doesn\u2019t read Chambers \u2014 it reads structured data. Different audience, different technology.',
+          'We build your initial profile from public SRA (Solicitors Regulation Authority) data \u2014 your SRA number, regulated individuals, practice areas, and registered office. You then claim and enrich it with specialisms and fee details.',
       },
       {
         question: 'Do I need to be SRA-regulated?',
         answer:
-          'TendorAI is built for SRA-regulated law firms in England and Wales. Your SRA registration is used to verify your profile and give AI platforms confidence in recommending you.',
+          'TendorAI is built for SRA-regulated solicitor firms in England and Wales. Your SRA registration is used to verify your profile and give AI platforms confidence in recommending you.',
+      },
+      {
+        question: 'Which AI platforms will recommend my firm?',
+        answer:
+          'TendorAI structures your data for ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence.',
+      },
+      {
+        question: 'How is this different from Legal 500 or Chambers listings?',
+        answer:
+          'Legal directories build reputation rankings. TendorAI makes AI recommend you directly when someone asks for a solicitor \u2014 not when a researcher is compiling a directory. Different mechanism, different outcome.',
       },
       {
         question: 'Can I cancel at any time?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time and keep access until the end of your billing period.',
+          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time.',
       },
     ],
     meta: {
@@ -128,20 +130,20 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     },
     problem: {
       heading: 'Your practice isn\u2019t showing up in AI recommendations',
-      body: 'When a business owner asks ChatGPT \u201Cwho\u2019s the best accountant for small businesses near me?\u201D, AI doesn\u2019t search Google. It pulls from structured data \u2014 and most accounting firms don\u2019t have any. The practices that do are being recommended by name. Yours is being skipped.',
+      body: 'When a business owner asks ChatGPT \u201Cwho\u2019s the best accountant for a small business near me?\u201D or \u201Cfind me a chartered accountant in [city]\u201D, AI doesn\u2019t Google you. It pulls from structured data \u2014 and most accountancy practices have none. The practices that do are getting recommended by name. Yours is being passed over.',
     },
     howItWorks: [
       {
         step: '1',
-        title: 'We build your profile from public data',
+        title: 'We build your profile from ICAEW or ACCA data',
         description:
-          'Your practice gets a free profile built from Companies House and professional body records \u2014 services offered, office locations, and contact details.',
+          'Your practice gets a free profile built from official register records \u2014 membership number, practice certificate status, regulated activities, and contact details.',
       },
       {
         step: '2',
-        title: 'You add pricing and service areas',
+        title: 'You add specialisms and service areas',
         description:
-          'Add your fee ranges, qualifications, and specialist areas. This is the structured data AI needs to recommend you over competitors.',
+          'Add your areas of expertise, fee structure, and the client types you serve. This is the structured data AI needs to recommend you with confidence.',
       },
       {
         step: '3',
@@ -153,14 +155,16 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     seoVsAi:
       'SEO gets you ranked on Google. AI visibility gets you recommended by ChatGPT, Claude, Perplexity, and Google AI. These are different systems with different data sources. Your website alone isn\u2019t enough \u2014 AI needs structured, verified data to recommend your practice. The firms investing in AI visibility now will dominate for years, just like the firms that invested in SEO in 2005.',
     services: [
-      { name: 'Tax Advisory', slug: 'tax-advisory' },
-      { name: 'Audit & Assurance', slug: 'audit-assurance' },
-      { name: 'Bookkeeping', slug: 'bookkeeping' },
+      { name: 'Self Assessment and Personal Tax', slug: 'tax-advisory' },
+      { name: 'Management Accounts', slug: 'management-accounts' },
+      { name: 'VAT Returns', slug: 'vat-services' },
       { name: 'Payroll', slug: 'payroll' },
-      { name: 'Corporate Finance', slug: 'corporate-finance' },
+      { name: 'R&D Tax Credits', slug: 'rd-tax-credits' },
+      { name: 'Corporate Tax', slug: 'corporate-tax' },
       { name: 'Business Advisory', slug: 'business-advisory' },
-      { name: 'VAT Services', slug: 'vat-services' },
-      { name: 'Financial Planning', slug: 'financial-planning' },
+      { name: 'Bookkeeping', slug: 'bookkeeping' },
+      { name: 'Audit and Assurance', slug: 'audit-assurance' },
+      { name: 'Forensic Accounting', slug: 'forensic-accounting' },
     ],
     pricingCallout: {
       free: 'Claim your verified profile and get listed in the TendorAI directory.',
@@ -170,27 +174,27 @@ export const VERTICALS: Record<string, VerticalConfig> = {
       {
         question: 'How does TendorAI know about my practice?',
         answer:
-          'We build your initial profile from public data sources including Companies House and professional body registrations. You then claim and enrich it with pricing, qualifications, and specialist areas.',
+          'We build your initial profile from ICAEW, ACCA, or CIMA register data \u2014 your membership number, practice certificate, and regulated activities. You then claim and enrich it with specialisms and client type details.',
+      },
+      {
+        question: 'Do I need to be ICAEW or ACCA qualified?',
+        answer:
+          'TendorAI works for practices with ICAEW, ACCA, CIMA, or AAT membership. Your professional registration is used to verify your profile. Unqualified bookkeepers can also create a profile but won\u2019t have the verified badge.',
       },
       {
         question: 'Which AI platforms will recommend my practice?',
         answer:
-          'TendorAI structures your data for all major AI platforms \u2014 ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence. When any of these are asked for an accountant, your enriched profile is in their data sources.',
+          'TendorAI structures your data for ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence.',
       },
       {
-        question: 'How is this different from Trustpilot or Google Reviews?',
+        question: 'How is this different from listing on accounting directories?',
         answer:
-          'Reviews tell people you\u2019re good. AI visibility tells AI to recommend you. When someone asks ChatGPT for an accountant, it doesn\u2019t read your Trustpilot page \u2014 it reads structured data. TendorAI provides that structured data.',
-      },
-      {
-        question: 'Do I need to be ICAEW or ACCA registered?',
-        answer:
-          'TendorAI works with all UK accounting practices. Professional body registration (ICAEW, ACCA, AAT, CIMA) strengthens your profile and gives AI platforms more confidence in recommending you.',
+          'Directories list you. TendorAI makes AI recommend you directly when a business owner asks for an accountant \u2014 with your specific specialisms matched to their specific query. Different mechanism, more precise outcome.',
       },
       {
         question: 'Can I cancel at any time?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time and keep access until the end of your billing period.',
+          'Yes. All paid plans are month-to-month with no contracts.',
       },
     ],
     meta: {
@@ -289,7 +293,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     slug: 'ai-visibility-for-estate-agents',
     name: 'Estate Agents',
     nameSingular: 'estate agent',
-    regulatoryBody: 'The Property Ombudsman',
+    regulatoryBody: 'NAEA Propertymark',
     hero: {
       badge: '12,000+ businesses already listed',
       h1: 'AI Visibility (AEO) for Estate Agents',
@@ -299,20 +303,20 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     },
     problem: {
       heading: 'Your agency isn\u2019t showing up in AI recommendations',
-      body: 'When a homeowner asks ChatGPT \u201Cwho\u2019s the best estate agent near me?\u201D, AI doesn\u2019t Google you. It pulls from structured data \u2014 and most estate agencies don\u2019t have any. The agents that do are getting recommended by name. Your agency is being overlooked.',
+      body: 'When a buyer or vendor asks ChatGPT \u201Cwho\u2019s the best estate agent in [area]?\u201D or \u201Cfind me an estate agent specialising in period properties near me\u201D, AI doesn\u2019t Google you. It pulls from structured data \u2014 and most estate agency websites have none. The agencies that do are getting recommended by name. Yours is being passed over.',
     },
     howItWorks: [
       {
         step: '1',
-        title: 'We build your profile from public data',
+        title: 'We build your profile from your business data',
         description:
-          'Your agency gets a free profile built from public records \u2014 services offered, office locations, Property Ombudsman membership, and contact details.',
+          'Your agency gets a free profile covering your trading name, registered address, coverage areas, and services. Unlike regulated professions, estate agents don\u2019t have a central register \u2014 so we build your profile directly from the details you provide and verify against Companies House.',
       },
       {
         step: '2',
-        title: 'You add services and coverage areas',
+        title: 'You add your coverage areas and specialisms',
         description:
-          'Add your property types, service areas, and fee structure. This is the structured data AI needs to recommend you with confidence.',
+          'Add the areas you cover, property types you specialise in, and your fee structure. This is the structured data AI needs to recommend you for the right queries.',
       },
       {
         step: '3',
@@ -324,13 +328,16 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     seoVsAi:
       'SEO gets you ranked on Google. AI visibility gets you recommended by ChatGPT, Claude, Perplexity, and Google AI. These are different systems with different data sources. Your Rightmove listings alone aren\u2019t enough \u2014 AI needs structured, verified data to recommend your agency. The agents investing in AI visibility now will dominate for years, just like the agencies that invested in SEO in 2005.',
     services: [
-      { name: 'Sales', slug: 'sales' },
-      { name: 'Lettings', slug: 'lettings' },
-      { name: 'Property Management', slug: 'property-management' },
-      { name: 'Block Management', slug: 'block-management' },
-      { name: 'Auctions', slug: 'auctions' },
+      { name: 'Residential Sales', slug: 'residential-sales' },
+      { name: 'Lettings and Property Management', slug: 'lettings' },
+      { name: 'Buy-to-Let', slug: 'buy-to-let' },
+      { name: 'New Build Sales', slug: 'new-build-sales' },
       { name: 'Commercial Property', slug: 'commercial-property' },
-      { name: 'Inventory', slug: 'inventory' },
+      { name: 'Land and Development', slug: 'land-development' },
+      { name: 'Auctions', slug: 'auctions' },
+      { name: 'Valuations', slug: 'valuations' },
+      { name: 'Help to Buy', slug: 'help-to-buy' },
+      { name: 'Overseas Property', slug: 'overseas-property' },
     ],
     pricingCallout: {
       free: 'Claim your verified profile and get listed in the TendorAI directory.',
@@ -340,27 +347,27 @@ export const VERTICALS: Record<string, VerticalConfig> = {
       {
         question: 'How does TendorAI know about my agency?',
         answer:
-          'We build your initial profile from public data \u2014 Companies House, Property Ombudsman membership, and your existing web presence. You then claim and enrich it with services, coverage areas, and fee details.',
+          'Unlike regulated professions, estate agents don\u2019t have a mandatory central register. We build your profile from the details you provide and verify your business against Companies House. You control your profile data entirely.',
+      },
+      {
+        question: 'Do I need to be NAEA or ARLA registered?',
+        answer:
+          'No. TendorAI works for all UK estate agents regardless of professional membership. If you are NAEA Propertymark or ARLA registered, we include that as an additional trust signal in your profile.',
       },
       {
         question: 'Which AI platforms will recommend my agency?',
         answer:
-          'TendorAI structures your data for all major AI platforms \u2014 ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence. When any of these are asked for an estate agent, your enriched profile is in their data sources.',
+          'TendorAI structures your data for ChatGPT, Google Gemini, Claude, Perplexity, Microsoft Copilot, and Apple Intelligence.',
       },
       {
         question: 'How is this different from Rightmove or Zoopla?',
         answer:
-          'Property portals list your properties. TendorAI gets your agency recommended when someone asks AI \u201Cwho\u2019s the best estate agent in my area?\u201D Different question, different technology. Rightmove answers \u201Cwhat\u2019s for sale?\u201D \u2014 TendorAI answers \u201Cwho should I use?\u201D',
-      },
-      {
-        question: 'Do I need to be a member of a professional body?',
-        answer:
-          'TendorAI works with all UK estate agencies. Membership of The Property Ombudsman, NAEA Propertymark, or ARLA strengthens your profile and gives AI platforms more confidence in recommending you.',
+          'Rightmove and Zoopla list your properties. TendorAI makes AI recommend your agency directly when someone asks for an estate agent \u2014 before they\u2019ve even started browsing listings. Different stage of the buyer journey, different outcome.',
       },
       {
         question: 'Can I cancel at any time?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time and keep access until the end of your billing period.',
+          'Yes. All paid plans are month-to-month with no contracts.',
       },
     ],
     meta: {
