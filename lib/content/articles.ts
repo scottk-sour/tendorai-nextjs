@@ -11,6 +11,28 @@ export interface Article {
 }
 
 export const articles: Article[] = [
+  {
+    slug: 'how-to-get-your-solicitor-firm-recommended-by-chatgpt',
+    title: 'How to Get Your Solicitor Firm Recommended by ChatGPT (UK Guide)',
+    excerpt: 'A step-by-step guide for UK solicitors on getting recommended by ChatGPT, Perplexity and Google AI Overviews. Covers schema, regulatory data, and AI visibility strategy.',
+    category: 'How-To',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-04-06',
+    content: '',
+    href: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt',
+  },
+  {
+    slug: 'how-to-get-your-accountancy-practice-into-ai-search-results',
+    title: 'How to Get Your Accountancy Practice into AI Search Results (UK Guide)',
+    excerpt: 'Step-by-step guide for UK accountants on appearing in ChatGPT, Perplexity and Google AI Overviews. Covers ICAEW data, schema markup, and AI visibility for accountancy firms.',
+    category: 'How-To',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-04-06',
+    content: '',
+    href: '/blog/how-to-get-your-accountancy-practice-into-ai-search-results',
+  },
   // — Accountant city posts (April 2026) —
   {
     slug: 'ai-visibility-report-accountants-cardiff',
