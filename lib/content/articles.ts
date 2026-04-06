@@ -12,6 +12,28 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-enhance-ai-visibility-professional-services-firm',
+    title: 'What Steps Should I Take to Enhance AI Visibility for My Firm?',
+    excerpt: 'A practical step-by-step guide for UK professional services firms on improving AI visibility across ChatGPT, Perplexity and Google AI Overviews.',
+    category: 'AEO Strategy',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-04-06',
+    content: '',
+    href: '/blog/how-to-enhance-ai-visibility-professional-services-firm',
+  },
+  {
+    slug: 'why-isnt-my-business-appearing-in-chatgpt-recommendations',
+    title: 'Why Isn\u2019t My Business Appearing in ChatGPT Recommendations? (And How to Fix It)',
+    excerpt: 'The most common reasons UK businesses don\u2019t appear in ChatGPT recommendations \u2014 and exactly what to do about each one.',
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-04-06',
+    content: '',
+    href: '/blog/why-isnt-my-business-appearing-in-chatgpt-recommendations',
+  },
+  {
     slug: 'ai-visibility-tools-professional-services-firms-uk',
     title: 'AI Visibility Tools for Professional Services Firms UK: The Complete Guide (2026)',
     excerpt: 'The definitive guide to AI visibility tools for UK professional services firms. Covers solicitors, accountants and mortgage advisers — with comparison table, scoring criteria and what to look for in 2026.',
