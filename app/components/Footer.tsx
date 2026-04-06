@@ -12,6 +12,7 @@ const footerNavigation = {
     { name: 'Resources', href: '/resources' },
     { name: 'Schema Checker', href: '/tools/schema-checker' },
     { name: 'AEO Checklist', href: '/tools/aeo-checklist' },
+    { name: 'Accountancy AI Checklist', href: '/tools/ai-visibility-checklist-accountants' },
     { name: 'Blog', href: '/resources' },
   ],
   company: [

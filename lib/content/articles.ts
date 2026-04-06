@@ -12,6 +12,17 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'ai-visibility-tools-professional-services-firms-uk',
+    title: 'AI Visibility Tools for Professional Services Firms UK: The Complete Guide (2026)',
+    excerpt: 'The definitive guide to AI visibility tools for UK professional services firms. Covers solicitors, accountants and mortgage advisers — with comparison table, scoring criteria and what to look for in 2026.',
+    category: 'AEO Strategy',
+    author: 'TendorAI',
+    readTime: 10,
+    publishedDate: '2026-04-06',
+    content: '',
+    href: '/blog/ai-visibility-tools-professional-services-firms-uk',
+  },
+  {
     slug: 'how-to-get-your-solicitor-firm-recommended-by-chatgpt',
     title: 'How to Get Your Solicitor Firm Recommended by ChatGPT (UK Guide)',
     excerpt: 'A step-by-step guide for UK solicitors on getting recommended by ChatGPT, Perplexity and Google AI Overviews. Covers schema, regulatory data, and AI visibility strategy.',

@@ -10,6 +10,7 @@ interface PageProps {
 // Only generate pages for articles with href pointing to /blog/
 // that don't already have a static directory
 const STATIC_BLOG_DIRS = new Set([
+  'ai-visibility-tools-professional-services-firms-uk',
   'how-to-get-your-solicitor-firm-recommended-by-chatgpt',
   'how-to-get-your-accountancy-practice-into-ai-search-results',
   'does-structured-data-help-ai-visibility',
