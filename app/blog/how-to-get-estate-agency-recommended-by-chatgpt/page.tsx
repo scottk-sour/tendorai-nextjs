@@ -4,7 +4,7 @@ import Link from 'next/link';
 const TITLE =
   'How to Get Your Estate Agency Recommended by ChatGPT (2026 Guide)';
 const DESCRIPTION =
-  "According to TendorAI's analysis of UK estate agents, fewer than 1 in 10 agencies appear in ChatGPT recommendations. Here's exactly how to fix it.";
+  'A practical guide for UK estate agents on getting recommended by ChatGPT, Perplexity and Google AI Overviews. Covers structured data, directory presence, content strategy and AI visibility tracking.';
 const CANONICAL =
   'https://www.tendorai.com/blog/how-to-get-estate-agency-recommended-by-chatgpt';
 const PUBLISHED = '2026-03-29';
@@ -428,8 +428,61 @@ export default function EstateAgencyAIVisibilityPage() {
             .
           </p>
 
+          {/* Comparison Table */}
+          <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-6">
+            Comparison &mdash; agencies with AI visibility setup vs without
+          </h2>
+          <div className="overflow-x-auto rounded-lg border border-gray-200 mb-12">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-[#1B4F72] text-white">
+                  <th className="px-4 py-3 font-semibold">Factor</th>
+                  <th className="px-4 py-3 font-semibold">Without AI Visibility Setup</th>
+                  <th className="px-4 py-3 font-semibold">With AI Visibility Setup</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-600">
+                <tr className="border-t border-gray-200">
+                  <td className="px-4 py-3 font-medium text-gray-900">Schema markup</td>
+                  <td className="px-4 py-3">None</td>
+                  <td className="px-4 py-3">RealEstateAgent JSON-LD with areaServed and knowsAbout</td>
+                </tr>
+                <tr className="border-t border-gray-200 bg-gray-50">
+                  <td className="px-4 py-3 font-medium text-gray-900">Directory consistency</td>
+                  <td className="px-4 py-3">Often mismatched across portals</td>
+                  <td className="px-4 py-3">Identical NAP across GBP, Rightmove, Zoopla, OnTheMarket</td>
+                </tr>
+                <tr className="border-t border-gray-200">
+                  <td className="px-4 py-3 font-medium text-gray-900">Service specificity</td>
+                  <td className="px-4 py-3">Generic (&ldquo;sales and lettings&rdquo;)</td>
+                  <td className="px-4 py-3">Explicit areas, property types, specialisms</td>
+                </tr>
+                <tr className="border-t border-gray-200 bg-gray-50">
+                  <td className="px-4 py-3 font-medium text-gray-900">Q&amp;A content</td>
+                  <td className="px-4 py-3">None</td>
+                  <td className="px-4 py-3">At least 5 buyer/vendor question pages</td>
+                </tr>
+                <tr className="border-t border-gray-200">
+                  <td className="px-4 py-3 font-medium text-gray-900">Google Business Profile</td>
+                  <td className="px-4 py-3">Claimed but incomplete</td>
+                  <td className="px-4 py-3">Fully complete, verified, regularly updated</td>
+                </tr>
+                <tr className="border-t border-gray-200 bg-gray-50">
+                  <td className="px-4 py-3 font-medium text-gray-900">AI recommendation rate</td>
+                  <td className="px-4 py-3">Near zero</td>
+                  <td className="px-4 py-3">Measurably higher within 60 days</td>
+                </tr>
+                <tr className="border-t border-gray-200 font-semibold text-gray-900">
+                  <td className="px-4 py-3">Setup time with TendorAI</td>
+                  <td className="px-4 py-3">N/A</td>
+                  <td className="px-4 py-3">48 hours</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           {/* CTA Banner */}
-          <div className="my-12 bg-purple-600 rounded-2xl p-8 md:p-10 text-white text-center">
+          <div className="my-12 bg-gradient-to-r from-[#1B4F72] to-[#2d1b4e] rounded-2xl p-8 md:p-10 text-white text-center">
             <h3 className="text-2xl md:text-3xl font-bold mb-3">
               Check Your Estate Agency&apos;s AI Visibility &mdash; Free
             </h3>
