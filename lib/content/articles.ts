@@ -12,6 +12,28 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'are-clients-finding-you-on-chatgpt',
+    title: 'Are Clients Finding You on ChatGPT? What UK Firms Need to Know (2026)',
+    excerpt: 'More UK clients are asking ChatGPT and Perplexity to recommend a solicitor, accountant, or mortgage adviser. Is your firm showing up — or your competitor?',
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 7,
+    publishedDate: '2026-04-14',
+    content: '',
+    href: '/are-clients-finding-you-on-chatgpt',
+  },
+  {
+    slug: 'best-ai-visibility-tool-uk',
+    title: 'The Best AI Visibility Tool for UK Businesses (2026)',
+    excerpt: 'Compare the best AI visibility tools for UK businesses in 2026. TendorAI vs Peec AI vs OtterlyAI vs Profound — features, pricing, and which is right for regulated UK firms.',
+    category: 'Tools',
+    author: 'TendorAI',
+    readTime: 9,
+    publishedDate: '2026-04-14',
+    content: '',
+    href: '/best-ai-visibility-tool-uk',
+  },
+  {
     slug: 'how-to-enhance-ai-visibility-professional-services-firm',
     title: 'What Steps Should I Take to Enhance AI Visibility for My Firm?',
     excerpt: 'A practical step-by-step guide for UK professional services firms on improving AI visibility across ChatGPT, Perplexity and Google AI Overviews.',
