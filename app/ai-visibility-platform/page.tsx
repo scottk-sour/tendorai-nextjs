@@ -145,6 +145,79 @@ export default function AiVisibilityPlatformPage() {
     })),
   };
 
+  const aboutJsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: 'AI Visibility Platform \u2014 Monitor, Implement and Publish | TendorAI',
+      description:
+        'TendorAI is the UK AI visibility platform that installs schema markup, tracks brand mentions across 6 AI platforms, and publishes AI-optimised content automatically. Built for UK regulated professional services firms.',
+      url: 'https://www.tendorai.com/ai-visibility-platform',
+      about: {
+        '@type': 'SoftwareApplication',
+        name: 'TendorAI',
+        applicationCategory: 'BusinessApplication',
+        description:
+          "UK AI visibility platform for regulated professional services. Not an AI model deployment or machine learning platform. Installs Schema.org structured data on clients' websites and tracks AI recommendations across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.",
+        offers: {
+          '@type': 'Offer',
+          price: '299',
+          priceCurrency: 'GBP',
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            billingDuration: 'P1M',
+          },
+        },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is an AI visibility platform?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'An AI visibility platform helps businesses get recommended by AI assistants like ChatGPT, Claude, Perplexity, and Google Gemini. It works by structuring your business data so AI can read, verify, and cite it when answering user queries. Without structured data, AI cannot recommend you by name.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How is AI visibility different from SEO?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'SEO optimises your website for Google search results. AI visibility optimises your structured data for AI recommendations. When someone asks ChatGPT for an accountant, AI names specific firms \u2014 not a list of links. AI visibility determines whether your firm is one of them.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What does TendorAI do that other AI visibility tools do not?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Most AI visibility tools only monitor \u2014 they show a dashboard but do not fix the problem. TendorAI installs schema markup on your website, publishes AI-optimised blog content, syncs to LinkedIn and Facebook, and tracks visibility across 6 platforms weekly. No developer or agency required.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Which AI platforms does TendorAI track?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TendorAI tracks your brand across ChatGPT, Perplexity, Claude, Google Gemini, Grok, and Meta AI. Weekly scans with visibility score trends and email alerts when AI platforms recommend you.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How much does TendorAI cost?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TendorAI Pro is \u00a3299 per month. A free AI visibility report is available for any UK business with no signup required.',
+          },
+        },
+      ],
+    },
+  ];
+
   return (
     <>
       <script
@@ -154,6 +227,10 @@ export default function AiVisibilityPlatformPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
       />
 
       <main className="min-h-screen bg-white">
@@ -276,10 +353,6 @@ export default function AiVisibilityPlatformPage() {
                 {
                   title: 'Regulated Industries',
                   description: 'SRA, FCA, ICAEW, and Propertymark-registered firms. TendorAI pulls your regulatory data automatically and structures it for AI.',
-                },
-                {
-                  title: 'B2B Companies',
-                  description: 'Office equipment suppliers, telecoms providers, IT services, and any B2B firm where clients search for expertise rather than products.',
                 },
               ].map((sector) => (
                 <div

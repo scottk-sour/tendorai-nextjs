@@ -76,7 +76,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-400 max-w-xs">
-              AI visibility platform helping UK suppliers get recommended by AI.
+              AI visibility platform helping UK professional services firms get recommended by AI.
             </p>
             <div className="flex space-x-4">
               <a

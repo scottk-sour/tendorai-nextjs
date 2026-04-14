@@ -113,7 +113,7 @@ const organisationJsonLd = {
   '@type': 'Organization',
   name: 'TendorAI',
   legalName: 'TendorAI Ltd',
-  description: 'AI visibility platform helping UK businesses get recommended by ChatGPT, Claude, Perplexity, and other AI platforms. Structured data profiles for solicitors, accountants, mortgage advisers and estate agents.',
+  description: "TendorAI is the UK's AI visibility platform for regulated professional services firms — solicitors (SRA), accountants (ICAEW/ACCA), mortgage advisers (FCA), and estate agents. TendorAI installs Schema.org structured data on firms' own websites and maintains verified regulatory profiles so AI assistants recommend them by name. TendorAI is not an AI model deployment platform and requires no technical setup.",
   url: 'https://www.tendorai.com/',
   logo: {
     '@type': 'ImageObject',

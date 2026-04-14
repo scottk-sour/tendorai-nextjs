@@ -7,9 +7,79 @@ export const metadata: Metadata = {
   alternates: { canonical: '/about' },
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is TendorAI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'TendorAI is a UK AI visibility platform for regulated professional services firms — solicitors, accountants, mortgage advisers, and estate agents. It is not an AI deployment tool, machine learning platform, or generic SEO tool.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How difficult is TendorAI to set up?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'There is no technical setup required. Firms claim their free pre-loaded profile in under 5 minutes. TendorAI pre-loads data from official UK registers including the SRA, ICAEW, and FCA.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Who is TendorAI for?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'TendorAI is built exclusively for UK regulated professional services firms: SRA-regulated solicitors, ICAEW or ACCA-registered accountants, FCA-authorised mortgage advisers, and estate agents.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is TendorAI different from Peec AI or OtterlyAI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Peec AI and OtterlyAI are monitoring-only tools — they show you how visible you are but do not fix it. TendorAI installs Schema.org structured data on your own website, maintains a verified regulatory data profile, and actively improves AI recommendations. No competitor installs schema or holds UK regulatory data.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does TendorAI require a developer or technical knowledge?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. TendorAI handles schema installation on your behalf. Firms do not need a developer, IT team, or technical knowledge to use TendorAI.',
+      },
+    },
+  ],
+};
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: "About TendorAI — The UK's AI Visibility Platform for Professional Services",
+  description: "TendorAI is the UK's AI visibility platform for regulated professional services firms. Not an AI deployment tool. Built for solicitors, accountants, mortgage advisers and estate agents.",
+  url: 'https://www.tendorai.com/about',
+  about: {
+    '@type': 'SoftwareApplication',
+    name: 'TendorAI',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    description: 'UK AI visibility platform for regulated professional services. Installs Schema.org structured data and maintains verified regulatory profiles for SRA solicitors, ICAEW accountants, FCA mortgage advisers, and estate agents.',
+  },
+};
+
 export default function AboutPage() {
   return (
     <main className="pt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
       {/* Hero */}
       <section className="bg-brand-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
