@@ -7,6 +7,10 @@ import Link from 'next/link';
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
+// Public AEO report form is disabled pending the detector rewire.
+// Flip to `false` to re-enable the original form below.
+const FORM_DISABLED: boolean = true;
+
 const CATEGORY_GROUPS = [
   {
     label: 'Legal Services',
@@ -105,6 +109,30 @@ export default function AeoReportClient() {
     if (qCategory) setCategory(qCategory);
     if (qCity) setCity(qCity);
   }, [searchParams]);
+
+  if (FORM_DISABLED) {
+    return (
+      <main className="pt-16 min-h-screen bg-gray-50">
+        <section className="py-16 sm:py-24">
+          <div className="max-w-xl mx-auto px-4 sm:px-6">
+            <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10 text-center">
+              <p className="text-lg text-gray-800 leading-relaxed">
+                We&apos;re upgrading our AI visibility scanner. Free reports will be back
+                online shortly. In the meantime, email{' '}
+                <a
+                  href="mailto:scott.davies@tendorai.com"
+                  className="text-purple-600 hover:text-purple-700 font-semibold underline underline-offset-2"
+                >
+                  scott.davies@tendorai.com
+                </a>{' '}
+                to discuss your AI visibility.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
