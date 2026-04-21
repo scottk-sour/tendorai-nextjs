@@ -103,6 +103,13 @@ const resourceSlugs = [
   'how-to-get-recommended-by-chatgpt-uk',
 ];
 
+const toolSlugs = [
+  'schema-checker',
+  'aeo-checklist',
+  'robots-checker',
+  'savings-calculator',
+];
+
 const serviceSlugs = [
   'photocopiers', 'telecoms', 'cctv', 'it', 'security', 'software',
   'conveyancing', 'family-law', 'criminal-law', 'commercial-law',
@@ -140,6 +147,7 @@ export function GET() {
     ...supplierCityUrls,
     ...blogSlugs.map((s) => entry(`${baseUrl}/blog/${s}`, 'monthly', 0.7)),
     ...resourceSlugs.map((s) => entry(`${baseUrl}/resources/${s}`, 'weekly', 0.8)),
+    ...toolSlugs.map((s) => entry(`${baseUrl}/tools/${s}`, 'monthly', 0.7)),
     ...serviceSlugs.map((s) => entry(`${baseUrl}/suppliers/${s}`, 'weekly', 0.7)),
   ];
 
