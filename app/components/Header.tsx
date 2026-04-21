@@ -135,6 +135,12 @@ const Header = () => {
               Schema Checker
             </Link>
             <Link
+              href="/tools/robots-checker"
+              className="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors"
+            >
+              AI Crawler Checker
+            </Link>
+            <Link
               href="/aeo-report"
               className="btn-primary !py-2 !px-5 !text-sm"
             >
@@ -222,6 +228,12 @@ const Header = () => {
                   className="block text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Schema Checker
+                </Link>
+                <Link
+                  href="/tools/robots-checker"
+                  className="block text-sm font-medium text-gray-600 hover:text-purple-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  AI Crawler Checker
                 </Link>
               </div>
             </nav>

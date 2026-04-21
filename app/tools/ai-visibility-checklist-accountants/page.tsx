@@ -82,6 +82,7 @@ export default function AccountantChecklistPage() {
             <Link href="/ai-visibility-for-accountants" className="text-sm text-purple-600 hover:underline">AI Visibility for Accountants</Link>
             <Link href="/blog/how-to-get-your-accountancy-practice-into-ai-search-results" className="text-sm text-purple-600 hover:underline">How to Get Your Accountancy Practice into AI Search Results</Link>
             <Link href="/tools/schema-checker" className="text-sm text-purple-600 hover:underline">Schema Checker</Link>
+            <Link href="/tools/robots-checker" className="text-sm text-purple-600 hover:underline">AI Crawler Checker</Link>
           </div>
         </section>
       </main>
