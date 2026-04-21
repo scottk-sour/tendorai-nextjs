@@ -11,5 +11,11 @@
       "destination": "https://www.tendorai.com/:path",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/keep-warm",
+      "schedule": "*/10 * * * *"
+    }
   ]
 }

@@ -83,10 +83,31 @@ const LOADING_STEPS = [
   'Generating your personalised report...',
 ];
 
+const REQUEST_TIMEOUT_MS = 90_000;
+const RETRY_DELAY_MS = 2_000;
+
+async function postWithTimeout<T>(url: string, body: unknown, timeoutMs: number): Promise<{ res: Response; data: T }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    const data = (await res.json()) as T;
+    return { res, data };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export default function AeoReportClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [companyName, setCompanyName] = useState('');
+  const [websiteUrl, setWebsiteUrl] = useState('');
   const [category, setCategory] = useState('');
   const [customIndustry, setCustomIndustry] = useState('');
   const [city, setCity] = useState('');
@@ -95,6 +116,7 @@ export default function AeoReportClient() {
   const [source, setSource] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState('Checking your AI visibility...');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -106,6 +128,47 @@ export default function AeoReportClient() {
     if (qCity) setCity(qCity);
   }, [searchParams]);
 
+  const normaliseWebsiteUrl = (raw: string) => {
+    const trimmed = raw.trim();
+    if (!trimmed) return '';
+    return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  };
+
+  const submitReport = async () => {
+    const normalisedUrl = normaliseWebsiteUrl(websiteUrl);
+    const payload = {
+      companyName,
+      category,
+      city,
+      email,
+      websiteUrl: normalisedUrl,
+      name: name || undefined,
+      source: source || undefined,
+      customIndustry: category === 'other' ? customIndustry.trim() : undefined,
+    };
+
+    const attempt = async () =>
+      postWithTimeout<{ success?: boolean; reportId?: string; existing?: boolean; error?: string }>(
+        `${API_URL}/api/public/aeo-report`,
+        payload,
+        REQUEST_TIMEOUT_MS,
+      );
+
+    let lastErr: unknown = null;
+    for (let i = 0; i < 2; i++) {
+      try {
+        return await attempt();
+      } catch (err) {
+        lastErr = err;
+        if (i === 0) {
+          // Likely a Render cold-start. Wait and retry once — the instance is usually warm by now.
+          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+        }
+      }
+    }
+    throw lastErr;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -114,44 +177,51 @@ export default function AeoReportClient() {
       setError('Please describe your industry.');
       return;
     }
+    if (!normaliseWebsiteUrl(websiteUrl)) {
+      setError('Please enter your website URL.');
+      return;
+    }
 
     setLoading(true);
     setLoadingStep(0);
+    setLoadingMessage('Checking your AI visibility...');
+
+    const startedAt = Date.now();
 
     // Animate through loading steps (report takes 30-60s)
     const stepInterval = setInterval(() => {
-      setLoadingStep((prev) => {
-        if (prev < LOADING_STEPS.length - 1) return prev + 1;
-        return prev;
-      });
+      setLoadingStep((prev) => (prev < LOADING_STEPS.length - 1 ? prev + 1 : prev));
     }, 8000);
 
-    try {
-      const res = await fetch(`${API_URL}/api/public/aeo-report`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyName, category, city, email, name: name || undefined, source: source || undefined, customIndustry: category === 'other' ? customIndustry.trim() : undefined }),
-      });
+    // Progressive status message — reassures users during Render cold-starts.
+    const messageInterval = setInterval(() => {
+      const elapsed = Date.now() - startedAt;
+      if (elapsed >= 30_000) {
+        setLoadingMessage(
+          'Still working — our backend is warming up, this can take up to a minute on the first request of the day.',
+        );
+      } else if (elapsed >= 10_000) {
+        setLoadingMessage('Running analysis across ChatGPT, Claude, and Perplexity...');
+      }
+    }, 1000);
 
-      const data = await res.json();
+    try {
+      const { res, data } = await submitReport();
 
       if (!res.ok) {
         setError(data.error || 'Something went wrong. Please try again.');
         return;
       }
 
-      // If an existing report was found for this email, redirect to it
-      if (data.existing) {
-        router.push(`/aeo-report/results/${data.reportId}`);
-        return;
-      }
-
-      // Redirect to full results page
+      // Redirect to full results page (same URL whether existing or freshly generated).
       router.push(`/aeo-report/results/${data.reportId}`);
     } catch {
-      setError('Failed to connect to the AI service. Please try again.');
+      setError(
+        "We couldn't reach the report service after two attempts. This usually clears up within a minute — please try again.",
+      );
     } finally {
       clearInterval(stepInterval);
+      clearInterval(messageInterval);
       setLoading(false);
     }
   };
@@ -192,9 +262,7 @@ export default function AeoReportClient() {
                 Generating your full AI visibility report for{' '}
                 <strong>{companyName}</strong> in {city}...
               </p>
-              <p className="text-xs text-gray-400">
-                This takes 30&ndash;60 seconds while we research your company and competitors.
-              </p>
+              <p className="text-xs text-gray-400">{loadingMessage}</p>
             </div>
           </div>
         </div>
@@ -260,6 +328,24 @@ export default function AeoReportClient() {
                 placeholder="e.g. Smith & Jones Solicitors"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
               />
+            </div>
+
+            <div>
+              <label htmlFor="websiteUrl" className="block text-sm font-medium text-gray-700 mb-1">
+                Website URL *
+              </label>
+              <input
+                id="websiteUrl"
+                type="url"
+                required
+                value={websiteUrl}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+                placeholder="https://www.yourfirm.co.uk"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900"
+              />
+              <p className="mt-1 text-xs text-gray-400">
+                We scan your site for structured data, schema, and AI visibility signals.
+              </p>
             </div>
 
             <div>
@@ -370,8 +456,14 @@ export default function AeoReportClient() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                {error}
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm space-y-2">
+                <p>{error}</p>
+                <button
+                  type="submit"
+                  className="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Try again
+                </button>
               </div>
             )}
 
