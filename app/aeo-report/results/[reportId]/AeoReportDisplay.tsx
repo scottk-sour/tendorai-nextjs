@@ -177,20 +177,38 @@ const REPORT_CHECK_TO_GUIDE: Record<string, string> = {
   customerReviews: 'faq-section',
 };
 
-function CheckItem({ label, checked, detail, guideSlug }: { label: string; checked: boolean; detail: string; guideSlug?: string }) {
+type CheckState = 'pass' | 'fail' | 'not-checked';
+
+function toCheckState(value: boolean | null | undefined): CheckState {
+  if (value === null || value === undefined) return 'not-checked';
+  return value ? 'pass' : 'fail';
+}
+
+function CheckItem({ label, state, detail, guideSlug }: { label: string; state: CheckState; detail: string; guideSlug?: string }) {
+  const badgeBg = state === 'pass' ? 'bg-green-600' : state === 'fail' ? 'bg-red-500' : 'bg-gray-300';
+  const icon = state === 'pass' ? '✓' : state === 'fail' ? '✗' : '—';
+  const labelColor = state === 'not-checked' ? 'text-gray-500' : 'text-gray-900';
+  const effectiveDetail = state === 'not-checked' ? 'Check not yet available — coming soon' : detail;
+
   return (
     <div className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
       <span
-        className={`flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${
-          checked ? 'bg-green-600' : 'bg-red-500'
-        }`}
+        className={`flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${badgeBg}`}
+        aria-label={state === 'pass' ? 'Passed' : state === 'fail' ? 'Failed' : 'Not checked'}
       >
-        {checked ? '\u2713' : '\u2717'}
+        {icon}
       </span>
       <div>
-        <p className="font-semibold text-gray-900 text-sm">{label}</p>
-        <p className="text-gray-500 text-xs mt-0.5">{detail}</p>
-        {!checked && guideSlug && (
+        <div className="flex items-center gap-2">
+          <p className={`font-semibold text-sm ${labelColor}`}>{label}</p>
+          {state === 'not-checked' && (
+            <span className="inline-block text-[10px] uppercase tracking-wide font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-1.5 py-0.5 rounded">
+              Not Checked
+            </span>
+          )}
+        </div>
+        <p className="text-gray-500 text-xs mt-0.5">{effectiveDetail}</p>
+        {state === 'fail' && guideSlug && (
           <Link
             href={`/aeo-guide/${guideSlug}`}
             className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1 font-medium"
@@ -202,6 +220,7 @@ function CheckItem({ label, checked, detail, guideSlug }: { label: string; check
     </div>
   );
 }
+
 
 function BreakdownBar({ label, score, max = 17 }: { label: string; score: number; max?: number }) {
   const pct = Math.round((score / max) * 100);
@@ -739,47 +758,47 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <div className="space-y-0">
             <CheckItem
               label="Company Website Found"
-              checked={!!sc.website}
+              state={sc.website ? 'pass' : 'fail'}
               detail={sc.website || 'No website found'}
             />
             <CheckItem
               label="Customer Reviews Visible"
-              checked={!!sc.hasReviews}
+              state={toCheckState(sc.hasReviews)}
               detail={sc.hasReviews ? 'Reviews found online' : 'No reviews found on Google, Trustpilot, etc.'}
               guideSlug={REPORT_CHECK_TO_GUIDE.customerReviews}
             />
             <CheckItem
               label="Pricing Information"
-              checked={!!sc.hasPricing}
+              state={toCheckState(sc.hasPricing)}
               detail={sc.hasPricing ? 'Pricing visible on website' : 'No pricing information found'}
               guideSlug={REPORT_CHECK_TO_GUIDE.pricingInformation}
             />
             <CheckItem
               label="Brand Partnerships Listed"
-              checked={!!sc.hasBrands}
+              state={toCheckState(sc.hasBrands)}
               detail={sc.hasBrands ? 'Manufacturer partnerships visible' : 'No brand partnerships listed'}
             />
             <CheckItem
               label="Structured Data (Schema.org)"
-              checked={!!sc.hasStructuredData}
+              state={sc.hasStructuredData ? 'pass' : 'fail'}
               detail={sc.hasStructuredData ? 'Schema markup detected' : 'No structured data — AI cannot easily parse your site'}
               guideSlug={REPORT_CHECK_TO_GUIDE.structuredData}
             />
             <CheckItem
               label="Detailed Service Pages"
-              checked={!!sc.hasDetailedServices}
+              state={toCheckState(sc.hasDetailedServices)}
               detail={sc.hasDetailedServices ? 'Service pages with detail' : 'Vague or missing service descriptions'}
               guideSlug={REPORT_CHECK_TO_GUIDE.detailedServicePages}
             />
             <CheckItem
               label="Social Media Presence"
-              checked={!!sc.hasSocialMedia}
+              state={sc.hasSocialMedia ? 'pass' : 'fail'}
               detail={sc.hasSocialMedia ? 'Active social profiles found' : 'No active social media found'}
               guideSlug={REPORT_CHECK_TO_GUIDE.socialMediaPresence}
             />
             <CheckItem
               label="Google Business Profile"
-              checked={!!sc.hasGoogleBusiness}
+              state={toCheckState(sc.hasGoogleBusiness)}
               detail={sc.hasGoogleBusiness ? 'Google Business listing found' : 'No Google Business Profile detected'}
               guideSlug={REPORT_CHECK_TO_GUIDE.googleBusinessProfile}
             />
@@ -846,7 +865,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <tbody>
                     <tr className="border-t border-gray-100">
                       <td className="p-3 text-gray-600">Fees visible to AI</td>
-                      <td className="p-3">{report.searchedCompany?.hasPricing ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                      <td className="p-3">{
+                        report.searchedCompany?.hasPricing === null || report.searchedCompany?.hasPricing === undefined
+                          ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
+                          : report.searchedCompany.hasPricing
+                            ? <span className="text-green-600 font-bold">&#10003;</span>
+                            : <span className="text-red-500 font-bold">&#10007;</span>
+                      }</td>
                       <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
                     </tr>
                     <tr className="border-t border-gray-100 bg-gray-50">
