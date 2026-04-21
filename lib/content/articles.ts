@@ -12,6 +12,16 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-get-recommended-by-chatgpt-uk',
+    title: 'How to Get Recommended by ChatGPT in the UK: The 2026 Playbook for Regulated Professional Services',
+    excerpt: 'The 2026 playbook for UK solicitors, accountants, and mortgage advisers who want to be recommended by ChatGPT. Seven steps you can complete this week, plus the five signals ChatGPT uses to rank UK firms.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 11,
+    publishedDate: '2026-04-21',
+    content: '',
+  },
+  {
     slug: 'are-clients-finding-you-on-chatgpt',
     title: 'Are Clients Finding You on ChatGPT? What UK Firms Need to Know (2026)',
     excerpt: 'More UK clients are asking ChatGPT and Perplexity to recommend a solicitor, accountant, or mortgage adviser. Is your firm showing up — or your competitor?',
