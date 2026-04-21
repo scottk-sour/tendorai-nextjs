@@ -99,6 +99,10 @@ const blogSlugs = [
   'ai-visibility-report-solicitors-blackburn',
 ];
 
+const resourceSlugs = [
+  'how-to-get-recommended-by-chatgpt-uk',
+];
+
 const serviceSlugs = [
   'photocopiers', 'telecoms', 'cctv', 'it', 'security', 'software',
   'conveyancing', 'family-law', 'criminal-law', 'commercial-law',
@@ -135,6 +139,7 @@ export function GET() {
     ...cityVerticalUrls,
     ...supplierCityUrls,
     ...blogSlugs.map((s) => entry(`${baseUrl}/blog/${s}`, 'monthly', 0.7)),
+    ...resourceSlugs.map((s) => entry(`${baseUrl}/resources/${s}`, 'weekly', 0.8)),
     ...serviceSlugs.map((s) => entry(`${baseUrl}/suppliers/${s}`, 'weekly', 0.7)),
   ];
 
