@@ -20,7 +20,6 @@ interface AeoScoreData {
     website?: string | null;
     hasReviews?: boolean | null;
     hasPricing?: boolean | null;
-    hasBrands?: boolean | null;
     hasStructuredData?: boolean | null;
     hasDetailedServices?: boolean | null;
     hasSocialMedia?: boolean | null;

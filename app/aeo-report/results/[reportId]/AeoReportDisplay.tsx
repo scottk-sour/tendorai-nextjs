@@ -58,7 +58,6 @@ interface Report {
     website?: string | null;
     hasReviews?: boolean | null;
     hasPricing?: boolean | null;
-    hasBrands?: boolean | null;
     hasStructuredData?: boolean | null;
     hasDetailedServices?: boolean | null;
     hasSocialMedia?: boolean | null;
@@ -819,11 +818,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               state={toCheckState(sc.hasPricing)}
               detail={sc.hasPricing ? 'Pricing visible on website' : 'No pricing information found'}
               guideSlug={REPORT_CHECK_TO_GUIDE.pricingInformation}
-            />
-            <CheckItem
-              label="Brand Partnerships Listed"
-              state={toCheckState(sc.hasBrands)}
-              detail={sc.hasBrands ? 'Manufacturer partnerships visible' : 'No brand partnerships listed'}
             />
             {(() => {
               const structuredDataState = resolveCheckState(sc.hasStructuredData, sc.structuredDataDetail);

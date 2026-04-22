@@ -30,7 +30,6 @@ export interface IAeoReport extends Document {
     website?: string | null;
     hasReviews?: boolean | null;
     hasPricing?: boolean | null;
-    hasBrands?: boolean | null;
     hasStructuredData?: boolean | null;
     hasDetailedServices?: boolean | null;
     hasSocialMedia?: boolean | null;
@@ -98,7 +97,6 @@ const aeoReportSchema = new mongoose.Schema<IAeoReport>({
     website: { type: String, default: null },
     hasReviews: { type: Boolean, default: null },
     hasPricing: { type: Boolean, default: null },
-    hasBrands: { type: Boolean, default: null },
     hasStructuredData: { type: Boolean, default: null },
     hasDetailedServices: { type: Boolean, default: null },
     hasSocialMedia: { type: Boolean, default: null },

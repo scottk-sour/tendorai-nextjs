@@ -158,54 +158,6 @@ discriminator.
 
 ---
 
-## 4. Brand Partnerships Listed — `hasBrands`
-
-### Data source
-HTML crawl of `/about`, `/partners`, `/clients`, `/press`, `/accreditations`,
-plus homepage. Scan for:
-
-- `<img>` tags with `alt` containing known brand tokens (very category-specific)
-- Logo grids (dense clusters of same-sized `<img>` tags on a section)
-- Headings containing "Our Clients", "As Seen In", "Trusted By", "Partners",
-  "Accreditations"
-- For legal: "Lexcel", "CQS", "Conveyancing Quality Scheme", "Law Society"
-- For mortgage: explicit lender names from a curated UK panel list
-  (Halifax, HSBC, Nationwide, Barclays, etc., ~40 UK lenders)
-- For estate: "Propertymark", "ARLA", "NAEA", "Client Money Protection", "CMP"
-
-### Cost per report
-**£0.** HTML crawl only.
-
-### Complexity
-**~12–20 hours**, largely in per-category pattern curation and keeping the
-lender / accreditation lists fresh. Implementation itself is straightforward
-(regex + optional category-aware dictionary lookup); maintenance is the
-expensive part.
-
-### Signal quality
-**Medium for regulated categories; highly variable.** For mortgage advisers,
-lender panel disclosure genuinely is a meaningful signal (FCA guidance
-favours whole-of-market disclosure). For solicitors, accreditations like
-Lexcel / CQS are strong. For estate agents, Propertymark / CMP membership
-is strong. For copiers / IT / general commercial categories, it's noisy —
-plenty of good firms don't maintain a "trusted by" logo grid because their
-clients don't want their logos displayed.
-
-High false-fail risk: firms who genuinely have accreditations but don't
-display them in a way the crawler can detect (e.g. embedded in a PDF, referenced
-only in privacy policy, or only visible behind a login).
-
-### Verdict
-**SHIP — but only for regulated categories (legal, mortgage, estate), and
-with category-specific dictionaries.** DROP for the generic "other" category.
-The current PDF already labels this per-category ("Propertymark / ARLA / NAEA"
-for estate agents, "FCA Register Listing" for mortgage, etc.) — the rename is
-a signal that this was always intended as a category-specific check. Ship
-legal first (Lexcel, CQS), then mortgage (lender panel), then estate
-(Propertymark). Pattern catalogue needs a quarterly refresh.
-
----
-
 ## 5. Detailed Service Pages — `hasDetailedServices`
 
 ### Data source
@@ -270,16 +222,14 @@ paid detector path is built. Until then: leave null, render as Not Checked.
 | 1 | Google Business Profile | Places API Text Search | ~£0.025 | 4h | Very high | **SHIP first** |
 | 2 | Customer Reviews | Places API (piggyback #1) | +£0.003 | 2h (atop #1) | Medium | **SHIP** (Google-only) |
 | 3 | Pricing | HTML crawl | £0 | 5h | Low/medium | **DROP** for regulated; SHIP for generic |
-| 4 | Brand Partnerships | HTML crawl | £0 | 12–20h + upkeep | Medium/high | **SHIP** per-category only |
 | 5 | Detailed Service Pages | HTML crawl | £0 (5× latency) | 15h | High | **PAID-TIER-ONLY** |
 
 ## Suggested implementation order
 
 1. **#1 Google Business Profile** — standalone, 4h, highest ROI, best first demo.
 2. **#2 Customer Reviews** — piggyback on #1, add the field mask upgrade. Total sprint for #1 + #2: one session.
-3. **#4 Brand Partnerships (legal first)** — Lexcel / CQS / SRA accreditations for solicitors. Useful for the biggest single vertical. Estate + mortgage can follow in separate sessions.
-4. **#5 Detailed Service Pages — behind Pro tier only.** Scoped separately when the paid-tier flow is ready.
-5. **#3 Pricing — do not build for regulated categories.** Only revisit if we materially grow the non-regulated customer base.
+3. **#5 Detailed Service Pages — behind Pro tier only.** Scoped separately when the paid-tier flow is ready.
+4. **#3 Pricing — do not build for regulated categories.** Only revisit if we materially grow the non-regulated customer base.
 
 ## Env vars needed
 
