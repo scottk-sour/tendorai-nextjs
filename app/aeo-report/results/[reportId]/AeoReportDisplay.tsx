@@ -54,6 +54,12 @@ interface Report {
     structuredData?: number | null;
     competitivePosition?: number | null;
   };
+  technicalHealthScore?: number | null;
+  technicalHealthBand?: 'Excellent' | 'Good' | 'Needs Work' | 'Critical' | null;
+  technicalHealthBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  aiVisibilityScore?: number | null;
+  aiVisibilityBand?: 'Strong' | 'Moderate' | 'Early Stage' | 'Starting Out' | null;
+  aiVisibilityBreakdown?: Record<string, { weight: number; earned: number }> | null;
   searchedCompany?: {
     website?: string | null;
     hasReviews?: boolean | null;
@@ -277,6 +283,117 @@ function BreakdownBar({ label, score, max = 17 }: { label: string; score: number
         />
       </div>
     </div>
+  );
+}
+
+type TechnicalBand = 'Excellent' | 'Good' | 'Needs Work' | 'Critical';
+type AiBand = 'Strong' | 'Moderate' | 'Early Stage' | 'Starting Out';
+type AnyBand = TechnicalBand | AiBand;
+
+const BAND_PALETTE: Record<AnyBand, { ring: string; chipBg: string; chipText: string }> = {
+  Excellent:      { ring: '#16A34A', chipBg: 'bg-green-100',  chipText: 'text-green-800' },
+  Strong:         { ring: '#16A34A', chipBg: 'bg-green-100',  chipText: 'text-green-800' },
+  Good:           { ring: '#D97706', chipBg: 'bg-amber-100',  chipText: 'text-amber-800' },
+  Moderate:       { ring: '#D97706', chipBg: 'bg-amber-100',  chipText: 'text-amber-800' },
+  'Needs Work':   { ring: '#EA580C', chipBg: 'bg-orange-100', chipText: 'text-orange-800' },
+  'Early Stage':  { ring: '#EA580C', chipBg: 'bg-orange-100', chipText: 'text-orange-800' },
+  Critical:       { ring: '#DC2626', chipBg: 'bg-red-100',    chipText: 'text-red-800' },
+  'Starting Out': { ring: '#DC2626', chipBg: 'bg-red-100',    chipText: 'text-red-800' },
+};
+
+// Backend key name for the "Google Maps Presence" signal may land as any of
+// the below variants depending on whose naming wins in PR #31. Map them all
+// to the user-facing label. Unknown keys fall through to a humanised version.
+const SIGNAL_LABEL_OVERRIDES: Record<string, string> = {
+  directoryPresence: 'Google Maps Presence',
+  directory_presence: 'Google Maps Presence',
+  googleMapsPresence: 'Google Maps Presence',
+  google_maps_presence: 'Google Maps Presence',
+  googleMaps: 'Google Maps Presence',
+  google_maps: 'Google Maps Presence',
+  mapsPresence: 'Google Maps Presence',
+  maps_presence: 'Google Maps Presence',
+};
+
+const SIGNAL_ACRONYMS = new Set(['AI', 'API', 'GBP', 'CMS', 'SEO', 'AEO', 'CTA', 'LLM', 'URL', 'UK']);
+
+function humaniseSignalKey(key: string): string {
+  const override = SIGNAL_LABEL_OVERRIDES[key];
+  if (override) return override;
+  const spaced = key
+    .replace(/_/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return spaced
+    .split(' ')
+    .filter(Boolean)
+    .map((word) => {
+      const upper = word.toUpperCase();
+      if (SIGNAL_ACRONYMS.has(upper)) return upper;
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+function ScoreCard({ title, score, band, description }: {
+  title: string;
+  score: number;
+  band: AnyBand | null | undefined;
+  description: string;
+}) {
+  const palette = band ? BAND_PALETTE[band] : null;
+  const colour = palette?.ring ?? '#6B7280';
+  return (
+    <div className="flex-1 bg-white rounded-xl border border-gray-200 p-5 sm:p-6 shadow-sm">
+      <p className="text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">{title}</p>
+      <div className="flex items-baseline gap-2 mb-2">
+        <span className="text-5xl sm:text-6xl font-bold tabular-nums" style={{ color: colour }}>{score}</span>
+        <span className="text-lg text-gray-400 font-medium">/ 100</span>
+      </div>
+      {band && palette && (
+        <span className={`inline-block ${palette.chipBg} ${palette.chipText} text-xs font-semibold px-2.5 py-1 rounded-full mb-3`}>
+          {band}
+        </span>
+      )}
+      <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function SignalBreakdownList({ breakdown }: {
+  breakdown: Record<string, { weight: number; earned: number }>;
+}) {
+  const entries = Object.entries(breakdown);
+  if (entries.length === 0) {
+    return <p className="text-sm text-gray-500">No signal breakdown available.</p>;
+  }
+  return (
+    <ul className="divide-y divide-gray-100">
+      {entries.map(([key, value]) => {
+        const weight = Number(value?.weight) || 0;
+        const earned = Number(value?.earned) || 0;
+        const label = humaniseSignalKey(key);
+        const pct = weight > 0 ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
+        const colour = pct >= 80 ? '#16A34A' : pct >= 50 ? '#D97706' : pct >= 25 ? '#EA580C' : '#DC2626';
+        return (
+          <li key={key} className="py-3">
+            <div className="flex items-center justify-between gap-4 mb-1.5">
+              <span className="text-sm font-medium text-gray-700">{label}</span>
+              <span className="text-sm font-semibold text-gray-900 tabular-nums">
+                {earned}/{weight} points
+              </span>
+            </div>
+            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-700"
+                style={{ width: `${pct}%`, backgroundColor: colour }}
+              />
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -510,6 +627,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const sc = report.searchedCompany || {};
   const breakdown = report.scoreBreakdown || {};
 
+  const isLegacyScoring =
+    (report.technicalHealthScore === null || report.technicalHealthScore === undefined) &&
+    (report.aiVisibilityScore === null || report.aiVisibilityScore === undefined);
+
+  const aiVisibilityScore = report.aiVisibilityScore ?? report.score;
+  const aiVisibilityBand = report.aiVisibilityBand ?? null;
+
   const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string; vendorTypeLabel?: string } | null>(null);
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
@@ -579,6 +703,24 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         </div>
       )}
 
+      {/* Legacy scoring banner — only shown for reports generated under the
+          pre-dual-score methodology (i.e. before backend PR #31 shipped). */}
+      {isLegacyScoring && (
+        <div className="bg-amber-50 border-b border-amber-200">
+          <div className="max-w-3xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <p className="text-sm text-amber-900 flex-1">
+              This report was scored under our previous methodology. Re-run for updated analysis using the new Technical Health + AI Visibility scoring.
+            </p>
+            <Link
+              href="/aeo-report"
+              className="flex-shrink-0 inline-flex items-center px-3 py-1.5 bg-amber-700 text-white text-xs font-semibold rounded-lg hover:bg-amber-800 transition-colors"
+            >
+              Re-run report for updated analysis &rarr;
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Hero / Score Section */}
       <section ref={heroRef} className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 py-12">
@@ -588,50 +730,77 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             {report.category === 'other' ? (report.customIndustry || 'Other') : (CATEGORY_LABELS[report.category] || report.category)} &mdash; {report.city}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-8">
-            {/* Left side — pain-led statement */}
-            <div className="flex-1 text-center sm:text-left">
-              {(() => {
-                const topCompetitor = getFirstRealCompetitor(report.competitors);
-                const categoryLabel = report.category === 'other'
-                  ? (report.customIndustry || 'your industry').toLowerCase()
-                  : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
-                return (
-                  <>
-                    <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                      When someone in {report.city} asks ChatGPT for a {categoryLabel} right now &mdash;{' '}
-                      <span className="text-red-600">you don&apos;t appear.</span>
-                      {topCompetitor && (
-                        <> {topCompetitor.name} does. You don&apos;t.</>
-                      )}
-                    </p>
-                    <p className="mt-4 text-lg font-semibold" style={{ color: getScoreColor(report.score) }}>
-                      Your AI Visibility Score: {report.score}/100
-                    </p>
-                    {industryAvg && (
-                      <p className="text-sm text-gray-500 mt-1">
-                        The average UK {industryAvg.vendorTypeLabel || 'business'} scores {industryAvg.average}. Top-performing businesses score 70+.
-                      </p>
-                    )}
-                  </>
-                );
-              })()}
-            </div>
+          {(() => {
+            const topCompetitor = getFirstRealCompetitor(report.competitors);
+            const categoryLabel = report.category === 'other'
+              ? (report.customIndustry || 'your industry').toLowerCase()
+              : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+            return (
+              <div className="mb-8 text-center sm:text-left">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                  When someone in {report.city} asks ChatGPT for a {categoryLabel} right now &mdash;{' '}
+                  <span className="text-red-600">you don&apos;t appear.</span>
+                  {topCompetitor && (
+                    <> {topCompetitor.name} does. You don&apos;t.</>
+                  )}
+                </p>
+                {industryAvg && (
+                  <p className="text-sm text-gray-500 mt-3">
+                    The average UK {industryAvg.vendorTypeLabel || 'business'} scores {industryAvg.average} for AI visibility. Top-performing businesses score 70+.
+                  </p>
+                )}
+              </div>
+            );
+          })()}
 
-            {/* Right side — score gauge */}
-            <div className="flex-shrink-0">
-              <ScoreGauge score={report.score} />
+          {isLegacyScoring ? (
+            <div className="flex flex-col sm:flex-row items-center gap-8">
+              <div className="flex-1 text-center sm:text-left">
+                <p className="text-lg font-semibold" style={{ color: getScoreColor(report.score) }}>
+                  Your AI Visibility Score: {report.score}/100
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <ScoreGauge score={report.score} />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div>
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+                <ScoreCard
+                  title="Technical Health"
+                  score={report.technicalHealthScore ?? 0}
+                  band={report.technicalHealthBand ?? null}
+                  description="The basics search engines and AI crawlers need to read your site — schema, meta, speed, SSL, and other deterministic signals."
+                />
+                <ScoreCard
+                  title="AI Visibility"
+                  score={report.aiVisibilityScore ?? 0}
+                  band={report.aiVisibilityBand ?? null}
+                  description="AI-era signals that decide whether AI assistants recommend you — Google Business Profile, reviews, directory and platform presence."
+                />
+              </div>
+              <p className="mt-4 text-sm text-gray-600 text-center md:text-left">
+                You can score high on one and low on the other — that&apos;s useful. They measure different things and have different fixes.
+              </p>
+            </div>
+          )}
 
           {/* Quick stats */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { label: 'Your Score', value: `${report.score}/100` },
-              { label: 'Competitors Found', value: String(report.competitors.length) },
-              { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-              { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
-            ].map((stat) => (
+          <div className={`mt-8 grid gap-4 ${isLegacyScoring ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'}`}>
+            {(isLegacyScoring
+              ? [
+                  { label: 'Your Score', value: `${report.score}/100` },
+                  { label: 'Competitors Found', value: String(report.competitors.length) },
+                  { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
+                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                ]
+              : [
+                  { label: 'Competitors Found', value: String(report.competitors.length) },
+                  { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
+                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                ]
+            ).map((stat) => (
               <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
                 <p className="text-xl font-bold text-[#1B4F72]">{stat.value}</p>
                 <p className="text-xs text-gray-500">{stat.label}</p>
@@ -903,16 +1072,43 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* Score Breakdown */}
-        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Score Breakdown</h3>
-          <BreakdownBar label="Website Optimisation" score={breakdown.websiteOptimisation || 0} />
-          <BreakdownBar label="Content Authority" score={breakdown.contentAuthority || 0} />
-          <BreakdownBar label="Directory Presence" score={breakdown.directoryPresence || 0} />
-          <BreakdownBar label="Review Signals" score={breakdown.reviewSignals || 0} />
-          <BreakdownBar label="Structured Data" score={breakdown.structuredData || 0} />
-          <BreakdownBar label="Competitive Position" score={breakdown.competitivePosition || 0} />
-        </section>
+        {/* Score Breakdown — dual under new scoring, legacy 6-bucket otherwise */}
+        {isLegacyScoring ? (
+          <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Score Breakdown</h3>
+            <BreakdownBar label="Website Optimisation" score={breakdown.websiteOptimisation || 0} />
+            <BreakdownBar label="Content Authority" score={breakdown.contentAuthority || 0} />
+            <BreakdownBar label="Directory Presence" score={breakdown.directoryPresence || 0} />
+            <BreakdownBar label="Review Signals" score={breakdown.reviewSignals || 0} />
+            <BreakdownBar label="Structured Data" score={breakdown.structuredData || 0} />
+            <BreakdownBar label="Competitive Position" score={breakdown.competitivePosition || 0} />
+          </section>
+        ) : (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Technical Health Signals</h3>
+              <p className="text-xs text-gray-500 mb-4">
+                Deterministic HTML-level checks that govern whether crawlers and AI can read your site.
+              </p>
+              {report.technicalHealthBreakdown ? (
+                <SignalBreakdownList breakdown={report.technicalHealthBreakdown} />
+              ) : (
+                <p className="text-sm text-gray-500">Signal breakdown unavailable for this report.</p>
+              )}
+            </section>
+            <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-1">AI Visibility Signals</h3>
+              <p className="text-xs text-gray-500 mb-4">
+                Signals that decide whether AI assistants actually recommend you.
+              </p>
+              {report.aiVisibilityBreakdown ? (
+                <SignalBreakdownList breakdown={report.aiVisibilityBreakdown} />
+              ) : (
+                <p className="text-sm text-gray-500">Signal breakdown unavailable for this report.</p>
+              )}
+            </section>
+          </div>
+        )}
 
         {/* C3 — Competitor Comparison Table */}
         {(() => {
@@ -1063,16 +1259,74 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             ))}
           </div>
 
-          {/* What this means box */}
-          <div className="mt-6 bg-[#1B4F72] rounded-lg p-5 text-white">
-            <h3 className="font-bold mb-2">What This Means</h3>
-            <p className="text-sm text-blue-100">
-              With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
-              When potential buyers use ChatGPT, Perplexity, or Claude to find{' '}
-              {(report.category === 'other' ? (report.customIndustry || 'your industry') : (CATEGORY_LABELS[report.category] || report.category)).toLowerCase()} in {report.city},
-              they are being directed to your competitors.
-            </p>
-          </div>
+          {/* What this means box — copy keys off aiVisibilityBand under new
+              scoring, falls back to legacy score-based copy otherwise. */}
+          {(() => {
+            const categoryCopy = (report.category === 'other'
+              ? (report.customIndustry || 'your industry')
+              : (CATEGORY_LABELS[report.category] || report.category)
+            ).toLowerCase();
+
+            let bodyCopy: React.ReactNode;
+            if (!isLegacyScoring && aiVisibilityBand) {
+              const scoreStr = `${aiVisibilityScore}/100`;
+              switch (aiVisibilityBand) {
+                case 'Strong':
+                  bodyCopy = (
+                    <>
+                      Your AI visibility score of {scoreStr} puts you in a strong position. AI assistants
+                      regularly recommend you when UK buyers ask for {categoryCopy} in {report.city}.
+                      Focus now on maintaining momentum — review signals and structured data drift quickly.
+                    </>
+                  );
+                  break;
+                case 'Moderate':
+                  bodyCopy = (
+                    <>
+                      With an AI visibility score of {scoreStr}, AI assistants mention you inconsistently.
+                      Some buyer queries for {categoryCopy} in {report.city} surface you; others go straight
+                      to competitors. The gaps below are the fastest way to close that distance.
+                    </>
+                  );
+                  break;
+                case 'Early Stage':
+                  bodyCopy = (
+                    <>
+                      Your AI visibility score of {scoreStr} means AI assistants know you exist but rarely
+                      recommend you. Most buyer queries for {categoryCopy} in {report.city} currently go to
+                      competitors. The gaps below are the actionable next steps.
+                    </>
+                  );
+                  break;
+                case 'Starting Out':
+                default:
+                  bodyCopy = (
+                    <>
+                      With an AI visibility score of {scoreStr}, your business is effectively invisible to
+                      AI recommendation engines. When potential buyers use ChatGPT, Perplexity, or Claude to
+                      find {categoryCopy} in {report.city}, they are being directed to your competitors.
+                    </>
+                  );
+                  break;
+              }
+            } else {
+              bodyCopy = (
+                <>
+                  With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
+                  When potential buyers use ChatGPT, Perplexity, or Claude to find{' '}
+                  {categoryCopy} in {report.city},
+                  they are being directed to your competitors.
+                </>
+              );
+            }
+
+            return (
+              <div className="mt-6 bg-[#1B4F72] rounded-lg p-5 text-white">
+                <h3 className="font-bold mb-2">What This Means</h3>
+                <p className="text-sm text-blue-100">{bodyCopy}</p>
+              </div>
+            );
+          })()}
         </section>
 
         {/* Profile Gaps */}

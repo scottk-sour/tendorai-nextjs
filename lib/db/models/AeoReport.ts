@@ -26,6 +26,12 @@ export interface IAeoReport extends Document {
     structuredData?: number | null;
     competitivePosition?: number | null;
   };
+  technicalHealthScore?: number | null;
+  technicalHealthBand?: 'Excellent' | 'Good' | 'Needs Work' | 'Critical' | null;
+  technicalHealthBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  aiVisibilityScore?: number | null;
+  aiVisibilityBand?: 'Strong' | 'Moderate' | 'Early Stage' | 'Starting Out' | null;
+  aiVisibilityBreakdown?: Record<string, { weight: number; earned: number }> | null;
   searchedCompany?: {
     website?: string | null;
     hasReviews?: boolean | null;
@@ -93,6 +99,20 @@ const aeoReportSchema = new mongoose.Schema<IAeoReport>({
     structuredData: { type: Number, default: null },
     competitivePosition: { type: Number, default: null },
   },
+  technicalHealthScore: { type: Number, min: 0, max: 100, default: null },
+  technicalHealthBand: {
+    type: String,
+    enum: ['Excellent', 'Good', 'Needs Work', 'Critical', null],
+    default: null,
+  },
+  technicalHealthBreakdown: { type: mongoose.Schema.Types.Mixed, default: null },
+  aiVisibilityScore: { type: Number, min: 0, max: 100, default: null },
+  aiVisibilityBand: {
+    type: String,
+    enum: ['Strong', 'Moderate', 'Early Stage', 'Starting Out', null],
+    default: null,
+  },
+  aiVisibilityBreakdown: { type: mongoose.Schema.Types.Mixed, default: null },
   searchedCompany: {
     website: { type: String, default: null },
     hasReviews: { type: Boolean, default: null },
