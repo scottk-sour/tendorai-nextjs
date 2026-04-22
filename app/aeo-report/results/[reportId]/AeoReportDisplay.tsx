@@ -615,7 +615,11 @@ function SignalBreakdownList({ breakdown }: { breakdown: SignalBreakdown }) {
       {entries.map(([key, value]) => {
         const { earned, weight } = resolveSignalValues(key, value);
         const label = humaniseSignalKey(key);
-        const hasWeight = weight > 0;
+        // Treat earned > weight as "weight unknown / wrong" — don't render
+        // the embarrassing "17/15 points". The map is the frontend's best
+        // guess at the backend's per-signal max; until it matches reality,
+        // earned-only is more honest than a denominator we don't trust.
+        const hasWeight = weight > 0 && earned <= weight;
         const pct = hasWeight ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
         const colour = pct >= 80 ? '#16A34A' : pct >= 50 ? '#D97706' : pct >= 25 ? '#EA580C' : '#DC2626';
         return (
@@ -878,22 +882,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const aiVisibilityScore = report.aiVisibilityScore ?? report.score;
   const aiVisibilityBand = report.aiVisibilityBand ?? null;
 
-  const [industryAvg, setIndustryAvg] = useState<{ average: number | null; sampleSize: number; category: string; vendorTypeLabel?: string } | null>(null);
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
   const [showStickyBar, setShowStickyBar] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   const isFree = !report.tier || report.tier === 'free';
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/public/aeo-report/average?category=${encodeURIComponent(report.category)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setIndustryAvg({ average: data.average, sampleSize: data.sampleSize, category: data.category, vendorTypeLabel: data.vendorTypeLabel });
-      })
-      .catch(() => {});
-  }, [report.category]);
 
   useEffect(() => {
     if (!isFree || !heroRef.current) return;
@@ -988,11 +982,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     <> {topCompetitor.name} does. You don&apos;t.</>
                   )}
                 </p>
-                {industryAvg && (
-                  <p className="text-sm text-gray-500 mt-3">
-                    The average UK {industryAvg.vendorTypeLabel || 'business'} scores {industryAvg.average} for AI visibility. Top-performing businesses score 70+.
-                  </p>
-                )}
               </div>
             );
           })()}
