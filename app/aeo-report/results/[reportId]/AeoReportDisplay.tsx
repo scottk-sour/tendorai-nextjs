@@ -456,12 +456,41 @@ function ScoreCard({ title, score, band, description }: {
   );
 }
 
-// Backend PR #31 emits each signal as a plain earned value — the max/weight
-// is a fixed constant per signal type from the dual-scoring plan, not
-// something that comes over the wire. Keep the same key-variant coverage
-// style as SIGNAL_LABEL_OVERRIDES so snake_case and camelCase both resolve.
-const SIGNAL_WEIGHTS: Record<string, number> = {
-  // ── Technical Health ─────────────────────────────────────────────
+// Signal weights are split two ways:
+//   1. Technical Health is the same across all categories.
+//   2. AI Visibility has TWO weight sets — regulated verticals
+//      (solicitor / accountant / mortgage adviser / estate agent) follow
+//      the original plan. "Other" (the default for non-regulated firms) gets
+//      the 10 placesListing points redistributed across the remaining six
+//      AI signals (placesListing weight is 0 → row is hidden).
+//
+// Backend PR #31 emits each signal as a plain earned value; the max is a
+// fixed constant per (signal, bucket) pair. Same variant-coverage style as
+// SIGNAL_LABEL_OVERRIDES so snake_case and camelCase both resolve.
+
+const REGULATED_CATEGORIES: readonly string[] = [
+  // Legal (SRA)
+  'conveyancing', 'family-law', 'criminal-law', 'commercial-law',
+  'employment-law', 'wills-and-probate', 'immigration', 'personal-injury',
+  'solicitor',
+  // Accountancy (ICAEW)
+  'tax-advisory', 'audit-assurance', 'bookkeeping', 'payroll',
+  'corporate-finance', 'business-advisory', 'vat-services',
+  'financial-planning', 'accountant',
+  // Mortgage (FCA)
+  'residential-mortgages', 'buy-to-let', 'remortgage', 'first-time-buyer',
+  'equity-release', 'commercial-mortgages', 'protection-insurance',
+  'mortgage-advisor', 'mortgage-adviser',
+  // Estate agents
+  'sales', 'lettings', 'property-management', 'block-management',
+  'auctions', 'commercial-property', 'inventory', 'estate-agent',
+];
+
+function isRegulatedCategory(category: string): boolean {
+  return REGULATED_CATEGORIES.includes(category);
+}
+
+const TECH_SIGNAL_WEIGHTS: Record<string, number> = {
   ssl: 15,
   https: 15,
 
@@ -496,57 +525,78 @@ const SIGNAL_WEIGHTS: Record<string, number> = {
   content: 14,
   contentDepth: 14,
   content_depth: 14,
+};
 
-  // ── AI Visibility ────────────────────────────────────────────────
-  faq: 15,
-  faqSchema: 15,
-  faq_schema: 15,
+// Regulated verticals — original plan weights, sum to 100.
+const AI_SIGNAL_WEIGHTS_REGULATED: Record<string, number> = {
+  faq: 15, faqSchema: 15, faq_schema: 15,
 
-  localBusiness: 15,
-  local_business: 15,
-  localBusinessSchema: 15,
-  local_business_schema: 15,
+  localBusiness: 15, local_business: 15,
+  localBusinessSchema: 15, local_business_schema: 15,
 
   blog: 10,
-  blogContent: 10,
-  blog_content: 10,
-  blogHub: 10,
-  blog_hub: 10,
-  contentHub: 10,
-  content_hub: 10,
+  blogContent: 10, blog_content: 10,
+  blogHub: 10, blog_hub: 10,
+  contentHub: 10, content_hub: 10,
 
   gbp: 15,
-  googleBusiness: 15,
-  google_business: 15,
-  googleBusinessProfile: 15,
-  google_business_profile: 15,
+  googleBusiness: 15, google_business: 15,
+  googleBusinessProfile: 15, google_business_profile: 15,
   hasGoogleBusiness: 15,
 
   reviews: 15,
-  googleReviews: 15,
-  google_reviews: 15,
+  googleReviews: 15, google_reviews: 15,
   hasReviews: 15,
 
-  placesListing: 10,
-  places_listing: 10,
-  placesPresence: 10,
-  places_presence: 10,
-  googleMapsPresence: 10,
-  google_maps_presence: 10,
-  googleMaps: 10,
-  google_maps: 10,
-  mapsPresence: 10,
-  maps_presence: 10,
-  directoryPresence: 10,
-  directory_presence: 10,
+  placesListing: 10, places_listing: 10,
+  placesPresence: 10, places_presence: 10,
+  googleMapsPresence: 10, google_maps_presence: 10,
+  googleMaps: 10, google_maps: 10,
+  mapsPresence: 10, maps_presence: 10,
+  directoryPresence: 10, directory_presence: 10,
 
-  aiMentions: 20,
-  ai_mentions: 20,
-  aiPlatformMentions: 20,
-  ai_platform_mentions: 20,
-  platformMentions: 20,
-  platform_mentions: 20,
+  aiMentions: 20, ai_mentions: 20,
+  aiPlatformMentions: 20, ai_platform_mentions: 20,
+  platformMentions: 20, platform_mentions: 20,
 };
+
+// "Other" category — placesListing weight redistributed across the remaining
+// six signals. Places row is weight=0 and therefore hidden by the renderer.
+const AI_SIGNAL_WEIGHTS_OTHER: Record<string, number> = {
+  faq: 17, faqSchema: 17, faq_schema: 17,
+
+  localBusiness: 17, local_business: 17,
+  localBusinessSchema: 17, local_business_schema: 17,
+
+  blog: 11,
+  blogContent: 11, blog_content: 11,
+  blogHub: 11, blog_hub: 11,
+  contentHub: 11, content_hub: 11,
+
+  gbp: 17,
+  googleBusiness: 17, google_business: 17,
+  googleBusinessProfile: 17, google_business_profile: 17,
+  hasGoogleBusiness: 17,
+
+  reviews: 17,
+  googleReviews: 17, google_reviews: 17,
+  hasReviews: 17,
+
+  placesListing: 0, places_listing: 0,
+  placesPresence: 0, places_presence: 0,
+  googleMapsPresence: 0, google_maps_presence: 0,
+  googleMaps: 0, google_maps: 0,
+  mapsPresence: 0, maps_presence: 0,
+  directoryPresence: 0, directory_presence: 0,
+
+  aiMentions: 22, ai_mentions: 22,
+  aiPlatformMentions: 22, ai_platform_mentions: 22,
+  platformMentions: 22, platform_mentions: 22,
+};
+
+function aiSignalWeightsFor(category: string): Record<string, number> {
+  return isRegulatedCategory(category) ? AI_SIGNAL_WEIGHTS_REGULATED : AI_SIGNAL_WEIGHTS_OTHER;
+}
 type SignalBreakdownValue =
   | number
   | {
@@ -572,10 +622,13 @@ function toFiniteNumber(x: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-function resolveSignalValues(key: string, raw: SignalBreakdownValue): { earned: number; weight: number } {
-  // Earned comes from the payload. Backend PR #31 emits it as a plain number,
-  // but keep the wider payload-shape tolerance in case the backend starts
-  // embedding max alongside earned in a future revision.
+function resolveSignalValues(
+  key: string,
+  raw: SignalBreakdownValue,
+  weightsMap: Record<string, number>,
+): { earned: number; weight: number } {
+  // Earned: backend emits a plain number; keep tolerance for object shapes
+  // in case a future backend revision embeds max alongside earned.
   const earned = (() => {
     if (raw == null) return 0;
     if (typeof raw === 'number') return toFiniteNumber(raw);
@@ -587,25 +640,29 @@ function resolveSignalValues(key: string, raw: SignalBreakdownValue): { earned: 
     return 0;
   })();
 
-  // Weight: prefer an explicit max in the payload (future-proofing), else
-  // fall back to the fixed SIGNAL_WEIGHTS constant for this key. 0 means
-  // "unknown" and the renderer drops the denominator rather than showing /0.
+  // Weight: prefer an explicit payload max (future-proofing), else use the
+  // per-category weights map. A key deliberately set to 0 in the map (e.g.
+  // placesListing in "other") is treated as "hide this row".
   let weight = 0;
+  let payloadHadWeight = false;
   if (raw && typeof raw === 'object') {
-    if ('weight' in raw && raw.weight !== undefined) weight = toFiniteNumber(raw.weight);
-    else if ('max' in raw && raw.max !== undefined) weight = toFiniteNumber(raw.max);
-    else if ('maxPoints' in raw && raw.maxPoints !== undefined) weight = toFiniteNumber(raw.maxPoints);
-    else if ('possible' in raw && raw.possible !== undefined) weight = toFiniteNumber(raw.possible);
+    if ('weight' in raw && raw.weight !== undefined) { weight = toFiniteNumber(raw.weight); payloadHadWeight = true; }
+    else if ('max' in raw && raw.max !== undefined) { weight = toFiniteNumber(raw.max); payloadHadWeight = true; }
+    else if ('maxPoints' in raw && raw.maxPoints !== undefined) { weight = toFiniteNumber(raw.maxPoints); payloadHadWeight = true; }
+    else if ('possible' in raw && raw.possible !== undefined) { weight = toFiniteNumber(raw.possible); payloadHadWeight = true; }
   }
-  if (weight <= 0) {
-    const fromMap = SIGNAL_WEIGHTS[key];
-    if (fromMap && fromMap > 0) weight = fromMap;
+  if (!payloadHadWeight) {
+    const fromMap = weightsMap[key];
+    if (fromMap !== undefined) weight = fromMap;
   }
 
   return { earned, weight };
 }
 
-function SignalBreakdownList({ breakdown }: { breakdown: SignalBreakdown }) {
+function SignalBreakdownList({ breakdown, weights }: {
+  breakdown: SignalBreakdown;
+  weights: Record<string, number>;
+}) {
   const entries = Object.entries(breakdown);
   if (entries.length === 0) {
     return <p className="text-sm text-gray-500">No signal breakdown available.</p>;
@@ -613,12 +670,16 @@ function SignalBreakdownList({ breakdown }: { breakdown: SignalBreakdown }) {
   return (
     <ul className="divide-y divide-gray-100">
       {entries.map(([key, value]) => {
-        const { earned, weight } = resolveSignalValues(key, value);
+        // Explicit hide: weight deliberately set to 0 in the weights map
+        // (e.g. placesListing for "other" category, where the 10 points are
+        // redistributed across the remaining AI Visibility signals).
+        if (weights[key] === 0) return null;
+
+        const { earned, weight } = resolveSignalValues(key, value, weights);
         const label = humaniseSignalKey(key);
-        // Treat earned > weight as "weight unknown / wrong" — don't render
-        // the embarrassing "17/15 points". The map is the frontend's best
-        // guess at the backend's per-signal max; until it matches reality,
-        // earned-only is more honest than a denominator we don't trust.
+        // Fallback: if the map doesn't cover this key or the earned value
+        // exceeds the mapped weight (map disagrees with backend reality),
+        // render earned-only rather than "X/wrongY".
         const hasWeight = weight > 0 && earned <= weight;
         const pct = hasWeight ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
         const colour = pct >= 80 ? '#16A34A' : pct >= 50 ? '#D97706' : pct >= 25 ? '#EA580C' : '#DC2626';
@@ -982,6 +1043,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     <> {topCompetitor.name} does. You don&apos;t.</>
                   )}
                 </p>
+                <p className="text-sm text-gray-500 mt-3">
+                  The average UK business scores 34. Top performers score 70+.
+                </p>
               </div>
             );
           })()}
@@ -1311,7 +1375,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <h3 className="text-lg font-bold text-gray-900 mb-4">Score Breakdown</h3>
             <BreakdownBar label="Website Optimisation" score={breakdown.websiteOptimisation || 0} />
             <BreakdownBar label="Content Authority" score={breakdown.contentAuthority || 0} />
-            <BreakdownBar label="Directory Presence" score={breakdown.directoryPresence || 0} />
+            <BreakdownBar label="Google Maps Presence" score={breakdown.directoryPresence || 0} />
             <BreakdownBar label="Review Signals" score={breakdown.reviewSignals || 0} />
             <BreakdownBar label="Structured Data" score={breakdown.structuredData || 0} />
             <BreakdownBar label="Competitive Position" score={breakdown.competitivePosition || 0} />
@@ -1324,7 +1388,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 Deterministic HTML-level checks that govern whether crawlers and AI can read your site.
               </p>
               {report.technicalHealthBreakdown ? (
-                <SignalBreakdownList breakdown={report.technicalHealthBreakdown} />
+                <SignalBreakdownList breakdown={report.technicalHealthBreakdown} weights={TECH_SIGNAL_WEIGHTS} />
               ) : (
                 <p className="text-sm text-gray-500">Signal breakdown unavailable for this report.</p>
               )}
@@ -1335,7 +1399,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 Signals that decide whether AI assistants actually recommend you.
               </p>
               {report.aiVisibilityBreakdown ? (
-                <SignalBreakdownList breakdown={report.aiVisibilityBreakdown} />
+                <SignalBreakdownList breakdown={report.aiVisibilityBreakdown} weights={aiSignalWeightsFor(report.category)} />
               ) : (
                 <p className="text-sm text-gray-500">Signal breakdown unavailable for this report.</p>
               )}
