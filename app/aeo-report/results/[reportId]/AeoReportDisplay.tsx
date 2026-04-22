@@ -456,8 +456,97 @@ function ScoreCard({ title, score, band, description }: {
   );
 }
 
-// Defensive: backend PR #31 may emit the per-signal value in any of these
-// shapes. Extract earned/weight from whichever one we actually get.
+// Backend PR #31 emits each signal as a plain earned value — the max/weight
+// is a fixed constant per signal type from the dual-scoring plan, not
+// something that comes over the wire. Keep the same key-variant coverage
+// style as SIGNAL_LABEL_OVERRIDES so snake_case and camelCase both resolve.
+const SIGNAL_WEIGHTS: Record<string, number> = {
+  // ── Technical Health ─────────────────────────────────────────────
+  ssl: 15,
+  https: 15,
+
+  viewport: 10,
+  mobileViewport: 10,
+  mobile_viewport: 10,
+
+  meta: 17,
+  metaTags: 17,
+  meta_tags: 17,
+
+  h1: 10,
+  h1Heading: 10,
+  h1_heading: 10,
+
+  schema: 13,
+  structuredData: 13,
+  structured_data: 13,
+
+  social: 10,
+  socialMedia: 10,
+  social_media: 10,
+  socialMediaLinks: 10,
+  social_media_links: 10,
+
+  contact: 11,
+  contactInfo: 11,
+  contact_info: 11,
+  contactInformation: 11,
+  contact_information: 11,
+
+  content: 14,
+  contentDepth: 14,
+  content_depth: 14,
+
+  // ── AI Visibility ────────────────────────────────────────────────
+  faq: 15,
+  faqSchema: 15,
+  faq_schema: 15,
+
+  localBusiness: 15,
+  local_business: 15,
+  localBusinessSchema: 15,
+  local_business_schema: 15,
+
+  blog: 10,
+  blogContent: 10,
+  blog_content: 10,
+  blogHub: 10,
+  blog_hub: 10,
+  contentHub: 10,
+  content_hub: 10,
+
+  gbp: 15,
+  googleBusiness: 15,
+  google_business: 15,
+  googleBusinessProfile: 15,
+  google_business_profile: 15,
+  hasGoogleBusiness: 15,
+
+  reviews: 15,
+  googleReviews: 15,
+  google_reviews: 15,
+  hasReviews: 15,
+
+  placesListing: 10,
+  places_listing: 10,
+  placesPresence: 10,
+  places_presence: 10,
+  googleMapsPresence: 10,
+  google_maps_presence: 10,
+  googleMaps: 10,
+  google_maps: 10,
+  mapsPresence: 10,
+  maps_presence: 10,
+  directoryPresence: 10,
+  directory_presence: 10,
+
+  aiMentions: 20,
+  ai_mentions: 20,
+  aiPlatformMentions: 20,
+  ai_platform_mentions: 20,
+  platformMentions: 20,
+  platform_mentions: 20,
+};
 type SignalBreakdownValue =
   | number
   | {
@@ -483,14 +572,14 @@ function toFiniteNumber(x: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-function resolveSignalValues(raw: SignalBreakdownValue): { earned: number; weight: number } {
-  if (raw == null) return { earned: 0, weight: 0 };
-  if (typeof raw === 'number') return { earned: raw, weight: 0 };
-  if (typeof raw !== 'object') return { earned: 0, weight: 0 };
-
-  // Prefer the frontend-native shape first, then fall through to common
-  // alternatives. `?? 0` after toFiniteNumber is redundant but explicit.
+function resolveSignalValues(key: string, raw: SignalBreakdownValue): { earned: number; weight: number } {
+  // Earned comes from the payload. Backend PR #31 emits it as a plain number,
+  // but keep the wider payload-shape tolerance in case the backend starts
+  // embedding max alongside earned in a future revision.
   const earned = (() => {
+    if (raw == null) return 0;
+    if (typeof raw === 'number') return toFiniteNumber(raw);
+    if (typeof raw !== 'object') return 0;
     if ('earned' in raw && raw.earned !== undefined) return toFiniteNumber(raw.earned);
     if ('score' in raw && raw.score !== undefined) return toFiniteNumber(raw.score);
     if ('points' in raw && raw.points !== undefined) return toFiniteNumber(raw.points);
@@ -498,13 +587,20 @@ function resolveSignalValues(raw: SignalBreakdownValue): { earned: number; weigh
     return 0;
   })();
 
-  const weight = (() => {
-    if ('weight' in raw && raw.weight !== undefined) return toFiniteNumber(raw.weight);
-    if ('max' in raw && raw.max !== undefined) return toFiniteNumber(raw.max);
-    if ('maxPoints' in raw && raw.maxPoints !== undefined) return toFiniteNumber(raw.maxPoints);
-    if ('possible' in raw && raw.possible !== undefined) return toFiniteNumber(raw.possible);
-    return 0;
-  })();
+  // Weight: prefer an explicit max in the payload (future-proofing), else
+  // fall back to the fixed SIGNAL_WEIGHTS constant for this key. 0 means
+  // "unknown" and the renderer drops the denominator rather than showing /0.
+  let weight = 0;
+  if (raw && typeof raw === 'object') {
+    if ('weight' in raw && raw.weight !== undefined) weight = toFiniteNumber(raw.weight);
+    else if ('max' in raw && raw.max !== undefined) weight = toFiniteNumber(raw.max);
+    else if ('maxPoints' in raw && raw.maxPoints !== undefined) weight = toFiniteNumber(raw.maxPoints);
+    else if ('possible' in raw && raw.possible !== undefined) weight = toFiniteNumber(raw.possible);
+  }
+  if (weight <= 0) {
+    const fromMap = SIGNAL_WEIGHTS[key];
+    if (fromMap && fromMap > 0) weight = fromMap;
+  }
 
   return { earned, weight };
 }
@@ -517,24 +613,27 @@ function SignalBreakdownList({ breakdown }: { breakdown: SignalBreakdown }) {
   return (
     <ul className="divide-y divide-gray-100">
       {entries.map(([key, value]) => {
-        const { earned, weight } = resolveSignalValues(value);
+        const { earned, weight } = resolveSignalValues(key, value);
         const label = humaniseSignalKey(key);
-        const pct = weight > 0 ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
+        const hasWeight = weight > 0;
+        const pct = hasWeight ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
         const colour = pct >= 80 ? '#16A34A' : pct >= 50 ? '#D97706' : pct >= 25 ? '#EA580C' : '#DC2626';
         return (
           <li key={key} className="py-3">
             <div className="flex items-center justify-between gap-4 mb-1.5">
               <span className="text-sm font-medium text-gray-700">{label}</span>
               <span className="text-sm font-semibold text-gray-900 tabular-nums">
-                {earned}/{weight} points
+                {hasWeight ? `${earned}/${weight} points` : `${earned} points`}
               </span>
             </div>
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{ width: `${pct}%`, backgroundColor: colour }}
-              />
-            </div>
+            {hasWeight && (
+              <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${pct}%`, backgroundColor: colour }}
+                />
+              </div>
+            )}
           </li>
         );
       })}
