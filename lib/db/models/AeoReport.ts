@@ -28,10 +28,10 @@ export interface IAeoReport extends Document {
   };
   technicalHealthScore?: number | null;
   technicalHealthBand?: 'Excellent' | 'Good' | 'Needs Work' | 'Critical' | null;
-  technicalHealthBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  technicalHealthBreakdown?: Record<string, unknown> | null;
   aiVisibilityScore?: number | null;
   aiVisibilityBand?: 'Strong' | 'Moderate' | 'Early Stage' | 'Starting Out' | null;
-  aiVisibilityBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  aiVisibilityBreakdown?: Record<string, unknown> | null;
   searchedCompany?: {
     website?: string | null;
     hasReviews?: boolean | null;

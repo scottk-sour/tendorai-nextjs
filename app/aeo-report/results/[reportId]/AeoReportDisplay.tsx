@@ -56,10 +56,10 @@ interface Report {
   };
   technicalHealthScore?: number | null;
   technicalHealthBand?: 'Excellent' | 'Good' | 'Needs Work' | 'Critical' | null;
-  technicalHealthBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  technicalHealthBreakdown?: SignalBreakdown | null;
   aiVisibilityScore?: number | null;
   aiVisibilityBand?: 'Strong' | 'Moderate' | 'Early Stage' | 'Starting Out' | null;
-  aiVisibilityBreakdown?: Record<string, { weight: number; earned: number }> | null;
+  aiVisibilityBreakdown?: SignalBreakdown | null;
   searchedCompany?: {
     website?: string | null;
     hasReviews?: boolean | null;
@@ -301,18 +301,113 @@ const BAND_PALETTE: Record<AnyBand, { ring: string; chipBg: string; chipText: st
   'Starting Out': { ring: '#DC2626', chipBg: 'bg-red-100',    chipText: 'text-red-800' },
 };
 
-// Backend key name for the "Google Maps Presence" signal may land as any of
-// the below variants depending on whose naming wins in PR #31. Map them all
-// to the user-facing label. Unknown keys fall through to a humanised version.
+// Signal key → user-facing label. Cover every plausible variant the backend
+// might emit (camelCase, snake_case, short forms). Unknown keys still fall
+// through to the humaniser below.
 const SIGNAL_LABEL_OVERRIDES: Record<string, string> = {
-  directoryPresence: 'Google Maps Presence',
-  directory_presence: 'Google Maps Presence',
+  // SSL
+  ssl: 'SSL',
+  https: 'SSL',
+
+  // FAQ schema
+  faq: 'FAQ Schema',
+  faqSchema: 'FAQ Schema',
+  faq_schema: 'FAQ Schema',
+
+  // Google Business Profile
+  gbp: 'Google Business Profile',
+  googleBusiness: 'Google Business Profile',
+  google_business: 'Google Business Profile',
+  googleBusinessProfile: 'Google Business Profile',
+  google_business_profile: 'Google Business Profile',
+  hasGoogleBusiness: 'Google Business Profile',
+
+  // Google Maps Presence (a.k.a. "directory presence" / Places listing)
+  placesListing: 'Google Maps Presence',
+  places_listing: 'Google Maps Presence',
+  placesPresence: 'Google Maps Presence',
+  places_presence: 'Google Maps Presence',
   googleMapsPresence: 'Google Maps Presence',
   google_maps_presence: 'Google Maps Presence',
   googleMaps: 'Google Maps Presence',
   google_maps: 'Google Maps Presence',
   mapsPresence: 'Google Maps Presence',
   maps_presence: 'Google Maps Presence',
+  directoryPresence: 'Google Maps Presence',
+  directory_presence: 'Google Maps Presence',
+
+  // AI platform mentions
+  aiMentions: 'AI Platform Mentions',
+  ai_mentions: 'AI Platform Mentions',
+  aiPlatformMentions: 'AI Platform Mentions',
+  ai_platform_mentions: 'AI Platform Mentions',
+  platformMentions: 'AI Platform Mentions',
+  platform_mentions: 'AI Platform Mentions',
+
+  // LocalBusiness schema
+  localBusiness: 'LocalBusiness Schema',
+  local_business: 'LocalBusiness Schema',
+  localBusinessSchema: 'LocalBusiness Schema',
+  local_business_schema: 'LocalBusiness Schema',
+
+  // Headings / basic HTML
+  h1: 'H1 Heading',
+  h1Heading: 'H1 Heading',
+  h1_heading: 'H1 Heading',
+
+  // Meta tags
+  meta: 'Meta Tags',
+  metaTags: 'Meta Tags',
+  meta_tags: 'Meta Tags',
+
+  // Viewport
+  viewport: 'Mobile Viewport',
+  mobileViewport: 'Mobile Viewport',
+  mobile_viewport: 'Mobile Viewport',
+
+  // Social
+  social: 'Social Media Links',
+  socialMedia: 'Social Media Links',
+  social_media: 'Social Media Links',
+  socialMediaLinks: 'Social Media Links',
+  social_media_links: 'Social Media Links',
+
+  // Contact
+  contact: 'Contact Information',
+  contactInfo: 'Contact Information',
+  contact_info: 'Contact Information',
+  contactInformation: 'Contact Information',
+  contact_information: 'Contact Information',
+
+  // Content depth
+  content: 'Content Depth',
+  contentDepth: 'Content Depth',
+  content_depth: 'Content Depth',
+
+  // Generic schema / structured data
+  schema: 'Structured Data (Schema)',
+  structuredData: 'Structured Data (Schema)',
+  structured_data: 'Structured Data (Schema)',
+
+  // Blog / content hub
+  blog: 'Blog / Content Hub',
+  blogContent: 'Blog / Content Hub',
+  blog_content: 'Blog / Content Hub',
+  blogHub: 'Blog / Content Hub',
+  blog_hub: 'Blog / Content Hub',
+  contentHub: 'Blog / Content Hub',
+  content_hub: 'Blog / Content Hub',
+
+  // Reviews (Google)
+  reviews: 'Google Reviews',
+  googleReviews: 'Google Reviews',
+  google_reviews: 'Google Reviews',
+  hasReviews: 'Google Reviews',
+
+  // Speed / page performance (likely in tech health)
+  speed: 'Page Speed',
+  pageSpeed: 'Page Speed',
+  page_speed: 'Page Speed',
 };
 
 const SIGNAL_ACRONYMS = new Set(['AI', 'API', 'GBP', 'CMS', 'SEO', 'AEO', 'CTA', 'LLM', 'URL', 'UK']);
@@ -361,9 +456,60 @@ function ScoreCard({ title, score, band, description }: {
   );
 }
 
-function SignalBreakdownList({ breakdown }: {
-  breakdown: Record<string, { weight: number; earned: number }>;
-}) {
+// Defensive: backend PR #31 may emit the per-signal value in any of these
+// shapes. Extract earned/weight from whichever one we actually get.
+type SignalBreakdownValue =
+  | number
+  | {
+      weight?: number;
+      earned?: number;
+      score?: number;
+      max?: number;
+      points?: number;
+      maxPoints?: number;
+      possible?: number;
+      value?: number;
+    }
+  | null;
+type SignalBreakdown = Record<string, SignalBreakdownValue>;
+
+function toFiniteNumber(x: unknown): number {
+  const n =
+    typeof x === 'number'
+      ? x
+      : typeof x === 'string'
+        ? Number(x)
+        : NaN;
+  return Number.isFinite(n) ? n : 0;
+}
+
+function resolveSignalValues(raw: SignalBreakdownValue): { earned: number; weight: number } {
+  if (raw == null) return { earned: 0, weight: 0 };
+  if (typeof raw === 'number') return { earned: raw, weight: 0 };
+  if (typeof raw !== 'object') return { earned: 0, weight: 0 };
+
+  // Prefer the frontend-native shape first, then fall through to common
+  // alternatives. `?? 0` after toFiniteNumber is redundant but explicit.
+  const earned = (() => {
+    if ('earned' in raw && raw.earned !== undefined) return toFiniteNumber(raw.earned);
+    if ('score' in raw && raw.score !== undefined) return toFiniteNumber(raw.score);
+    if ('points' in raw && raw.points !== undefined) return toFiniteNumber(raw.points);
+    if ('value' in raw && raw.value !== undefined) return toFiniteNumber(raw.value);
+    return 0;
+  })();
+
+  const weight = (() => {
+    if ('weight' in raw && raw.weight !== undefined) return toFiniteNumber(raw.weight);
+    if ('max' in raw && raw.max !== undefined) return toFiniteNumber(raw.max);
+    if ('maxPoints' in raw && raw.maxPoints !== undefined) return toFiniteNumber(raw.maxPoints);
+    if ('possible' in raw && raw.possible !== undefined) return toFiniteNumber(raw.possible);
+    return 0;
+  })();
+
+  return { earned, weight };
+}
+
+function SignalBreakdownList({ breakdown }: { breakdown: SignalBreakdown }) {
   const entries = Object.entries(breakdown);
   if (entries.length === 0) {
     return <p className="text-sm text-gray-500">No signal breakdown available.</p>;
@@ -371,8 +517,7 @@ function SignalBreakdownList({ breakdown }: {
   return (
     <ul className="divide-y divide-gray-100">
       {entries.map(([key, value]) => {
-        const weight = Number(value?.weight) || 0;
-        const earned = Number(value?.earned) || 0;
+        const { earned, weight } = resolveSignalValues(value);
         const label = humaniseSignalKey(key);
         const pct = weight > 0 ? Math.max(0, Math.min(100, (earned / weight) * 100)) : 0;
         const colour = pct >= 80 ? '#16A34A' : pct >= 50 ? '#D97706' : pct >= 25 ? '#EA580C' : '#DC2626';
