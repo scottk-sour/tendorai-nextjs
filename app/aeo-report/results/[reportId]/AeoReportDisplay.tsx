@@ -62,6 +62,7 @@ interface Report {
   };
   competitors: Competitor[];
   gaps: Gap[];
+  gapsIdentified?: number;
   competitorsOnTendorAI: number;
   createdAt: string;
   platformResults?: PlatformResult[];
@@ -592,7 +593,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               { label: 'Your Score', value: `${report.score}/100` },
               { label: 'Competitors Found', value: String(report.competitors.length) },
               { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-              { label: 'Gaps Identified', value: String(report.gaps.length) },
+              { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
             ].map((stat) => (
               <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
                 <p className="text-xl font-bold text-[#1B4F72]">{stat.value}</p>

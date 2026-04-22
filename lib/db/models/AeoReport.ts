@@ -48,6 +48,7 @@ export interface IAeoReport extends Document {
     title: string;
     explanation: string;
   }>;
+  gapsIdentified?: number;
   pdfBuffer?: Buffer | null;
   platformResults?: Array<{
     platform: string;
@@ -115,6 +116,7 @@ const aeoReportSchema = new mongoose.Schema<IAeoReport>({
       explanation: String,
     },
   ],
+  gapsIdentified: { type: Number, default: null },
   pdfBuffer: { type: Buffer, default: null },
   platformResults: [{
     platform: { type: String, enum: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'] },
