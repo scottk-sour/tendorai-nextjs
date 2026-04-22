@@ -35,6 +35,10 @@ export interface IAeoReport extends Document {
     hasDetailedServices?: boolean | null;
     hasSocialMedia?: boolean | null;
     hasGoogleBusiness?: boolean | null;
+    googleBusinessDetail?: {
+      state: 'pass' | 'amber' | 'fail';
+      summary: string;
+    } | null;
     summary?: string | null;
   };
   competitors: Array<{
@@ -99,6 +103,14 @@ const aeoReportSchema = new mongoose.Schema<IAeoReport>({
     hasDetailedServices: { type: Boolean, default: null },
     hasSocialMedia: { type: Boolean, default: null },
     hasGoogleBusiness: { type: Boolean, default: null },
+    googleBusinessDetail: {
+      type: {
+        state: { type: String, enum: ['pass', 'amber', 'fail'], required: true },
+        summary: { type: String, required: true },
+      },
+      default: null,
+      _id: false,
+    },
     summary: { type: String, default: null },
   },
   competitors: [

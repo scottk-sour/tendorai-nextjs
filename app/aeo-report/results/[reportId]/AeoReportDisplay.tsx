@@ -32,6 +32,11 @@ interface PlatformResult {
   error: string | null;
 }
 
+interface CheckDetail {
+  state: 'pass' | 'amber' | 'fail';
+  summary: string;
+}
+
 interface Report {
   _id: string;
   companyName: string;
@@ -58,6 +63,10 @@ interface Report {
     hasDetailedServices?: boolean | null;
     hasSocialMedia?: boolean | null;
     hasGoogleBusiness?: boolean | null;
+    googleBusinessDetail?: CheckDetail | null;
+    websiteDetail?: CheckDetail | null;
+    structuredDataDetail?: CheckDetail | null;
+    socialMediaDetail?: CheckDetail | null;
     summary?: string | null;
   };
   competitors: Competitor[];
@@ -178,26 +187,50 @@ const REPORT_CHECK_TO_GUIDE: Record<string, string> = {
   customerReviews: 'faq-section',
 };
 
-type CheckState = 'pass' | 'fail' | 'not-checked';
+type CheckState = 'pass' | 'amber' | 'fail' | 'not-checked';
 
 function toCheckState(value: boolean | null | undefined): CheckState {
   if (value === null || value === undefined) return 'not-checked';
   return value ? 'pass' : 'fail';
 }
 
+function resolveCheckState(value: boolean | null | undefined, detail?: CheckDetail | null): CheckState {
+  if (detail?.state) return detail.state;
+  return toCheckState(value);
+}
+
+const BADGE_BG: Record<CheckState, string> = {
+  pass: 'bg-green-600',
+  amber: 'bg-amber-500',
+  fail: 'bg-red-500',
+  'not-checked': 'bg-gray-300',
+};
+
+const BADGE_ICON: Record<CheckState, string> = {
+  pass: '✓',
+  amber: '!',
+  fail: '✗',
+  'not-checked': '—',
+};
+
+const BADGE_ARIA: Record<CheckState, string> = {
+  pass: 'Passed',
+  amber: 'Needs attention',
+  fail: 'Failed',
+  'not-checked': 'Not checked',
+};
+
 function CheckItem({ label, state, detail, guideSlug }: { label: string; state: CheckState; detail: string; guideSlug?: string }) {
-  const badgeBg = state === 'pass' ? 'bg-green-600' : state === 'fail' ? 'bg-red-500' : 'bg-gray-300';
-  const icon = state === 'pass' ? '✓' : state === 'fail' ? '✗' : '—';
   const labelColor = state === 'not-checked' ? 'text-gray-500' : 'text-gray-900';
   const effectiveDetail = state === 'not-checked' ? 'Check not yet available — coming soon' : detail;
 
   return (
     <div className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
       <span
-        className={`flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${badgeBg}`}
-        aria-label={state === 'pass' ? 'Passed' : state === 'fail' ? 'Failed' : 'Not checked'}
+        className={`flex-shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${BADGE_BG[state]}`}
+        aria-label={BADGE_ARIA[state]}
       >
-        {icon}
+        {BADGE_ICON[state]}
       </span>
       <div>
         <div className="flex items-center gap-2">
@@ -207,9 +240,14 @@ function CheckItem({ label, state, detail, guideSlug }: { label: string; state: 
               Not Checked
             </span>
           )}
+          {state === 'amber' && (
+            <span className="inline-block text-[10px] uppercase tracking-wide font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+              Incomplete
+            </span>
+          )}
         </div>
         <p className="text-gray-500 text-xs mt-0.5">{effectiveDetail}</p>
-        {state === 'fail' && guideSlug && (
+        {(state === 'fail' || state === 'amber') && guideSlug && (
           <Link
             href={`/aeo-guide/${guideSlug}`}
             className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1 font-medium"
@@ -757,15 +795,23 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </p>
 
           <div className="space-y-0">
+            {(() => {
+              const websiteState = resolveCheckState(sc.website ? true : false, sc.websiteDetail);
+              return (
+                <CheckItem
+                  label="Company Website Found"
+                  state={websiteState}
+                  detail={
+                    sc.websiteDetail?.summary
+                      ?? (sc.website ? sc.website : 'No website found')
+                  }
+                />
+              );
+            })()}
             <CheckItem
-              label="Company Website Found"
-              state={sc.website ? 'pass' : 'fail'}
-              detail={sc.website || 'No website found'}
-            />
-            <CheckItem
-              label="Customer Reviews Visible"
+              label="Google Reviews Visible"
               state={toCheckState(sc.hasReviews)}
-              detail={sc.hasReviews ? 'Reviews found online' : 'No reviews found on Google, Trustpilot, etc.'}
+              detail={sc.hasReviews ? 'Google reviews found on Business Profile' : 'No Google reviews found — ask customers to leave a review'}
               guideSlug={REPORT_CHECK_TO_GUIDE.customerReviews}
             />
             <CheckItem
@@ -779,30 +825,58 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               state={toCheckState(sc.hasBrands)}
               detail={sc.hasBrands ? 'Manufacturer partnerships visible' : 'No brand partnerships listed'}
             />
-            <CheckItem
-              label="Structured Data (Schema.org)"
-              state={sc.hasStructuredData ? 'pass' : 'fail'}
-              detail={sc.hasStructuredData ? 'Schema markup detected' : 'No structured data — AI cannot easily parse your site'}
-              guideSlug={REPORT_CHECK_TO_GUIDE.structuredData}
-            />
+            {(() => {
+              const structuredDataState = resolveCheckState(sc.hasStructuredData, sc.structuredDataDetail);
+              return (
+                <CheckItem
+                  label="Structured Data (Schema.org)"
+                  state={structuredDataState}
+                  detail={
+                    sc.structuredDataDetail?.summary
+                      ?? (sc.hasStructuredData ? 'Schema markup detected' : 'No structured data — AI cannot easily parse your site')
+                  }
+                  guideSlug={REPORT_CHECK_TO_GUIDE.structuredData}
+                />
+              );
+            })()}
             <CheckItem
               label="Detailed Service Pages"
               state={toCheckState(sc.hasDetailedServices)}
               detail={sc.hasDetailedServices ? 'Service pages with detail' : 'Vague or missing service descriptions'}
               guideSlug={REPORT_CHECK_TO_GUIDE.detailedServicePages}
             />
-            <CheckItem
-              label="Social Media Presence"
-              state={sc.hasSocialMedia ? 'pass' : 'fail'}
-              detail={sc.hasSocialMedia ? 'Active social profiles found' : 'No active social media found'}
-              guideSlug={REPORT_CHECK_TO_GUIDE.socialMediaPresence}
-            />
-            <CheckItem
-              label="Google Business Profile"
-              state={toCheckState(sc.hasGoogleBusiness)}
-              detail={sc.hasGoogleBusiness ? 'Google Business listing found' : 'No Google Business Profile detected'}
-              guideSlug={REPORT_CHECK_TO_GUIDE.googleBusinessProfile}
-            />
+            {(() => {
+              const socialMediaState = resolveCheckState(sc.hasSocialMedia, sc.socialMediaDetail);
+              return (
+                <CheckItem
+                  label="Social Media Presence"
+                  state={socialMediaState}
+                  detail={
+                    sc.socialMediaDetail?.summary
+                      ?? (sc.hasSocialMedia ? 'Active social profiles found' : 'No active social media found')
+                  }
+                  guideSlug={REPORT_CHECK_TO_GUIDE.socialMediaPresence}
+                />
+              );
+            })()}
+            {(() => {
+              const gbpState = resolveCheckState(sc.hasGoogleBusiness, sc.googleBusinessDetail);
+              const gbpDetail =
+                sc.googleBusinessDetail?.summary
+                  ?? (gbpState === 'amber'
+                    ? 'Google Business Profile found but incomplete — add opening hours, photos, and description to strengthen AI recommendations'
+                    : gbpState === 'pass'
+                      ? 'Google Business listing found'
+                      : 'No Google Business Profile detected');
+              return (
+                <CheckItem
+                  label="Google Business Profile"
+                  state={gbpState}
+                  detail={gbpDetail}
+                  guideSlug={REPORT_CHECK_TO_GUIDE.googleBusinessProfile}
+                />
+              );
+            })()}
           </div>
         </section>
 
