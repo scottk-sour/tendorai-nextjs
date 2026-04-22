@@ -589,9 +589,9 @@ const AI_SIGNAL_WEIGHTS_OTHER: Record<string, number> = {
   mapsPresence: 0, maps_presence: 0,
   directoryPresence: 0, directory_presence: 0,
 
-  aiMentions: 22, ai_mentions: 22,
-  aiPlatformMentions: 22, ai_platform_mentions: 22,
-  platformMentions: 22, platform_mentions: 22,
+  aiMentions: 21, ai_mentions: 21,
+  aiPlatformMentions: 21, ai_platform_mentions: 21,
+  platformMentions: 21, platform_mentions: 21,
 };
 
 function aiSignalWeightsFor(category: string): Record<string, number> {
