@@ -183,13 +183,21 @@ function ScoreGauge({ score }: { score: number }) {
   );
 }
 
+// Report-check → /aeo-guide/{slug} routing.
+//
+// Only checks with a real matching guide in lib/content/aeoGuides.ts are
+// listed. Any check omitted here passes undefined to CheckItem's guideSlug
+// prop and the "How to fix this →" link is hidden entirely.
+//
+// TODO — checks that need dedicated fix pages before their link can show:
+//   - Google Reviews          (no /aeo-guide/google-reviews)
+//   - Pricing Information     (no /aeo-guide/pricing-information)
+//   - Detailed Service Pages  (no /aeo-guide/service-pages — content-length
+//                              is about depth, not service-page structure)
+//   - Google Business Profile (no /aeo-guide/google-business-profile)
 const REPORT_CHECK_TO_GUIDE: Record<string, string> = {
-  pricingInformation: 'faq-section',
   structuredData: 'schema-markup',
   socialMediaPresence: 'social-media-links',
-  googleBusinessProfile: 'contact-information',
-  detailedServicePages: 'content-length',
-  customerReviews: 'faq-section',
 };
 
 type CheckState = 'pass' | 'amber' | 'fail' | 'not-checked';
