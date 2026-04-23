@@ -10,12 +10,16 @@ const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
 
 function getNavigation(vendorType: string) {
   const isEquipment = vendorType === 'office-equipment';
+  const isRegulated = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'].includes(vendorType);
+  const servicesEntry = isRegulated
+    ? { name: 'Services', href: '/vendor-dashboard/services', icon: 'package' }
+    : { name: isEquipment ? 'Products' : 'Services', href: '/vendor-dashboard/products', icon: 'package' };
   return [
     { name: 'Overview', href: '/vendor-dashboard', icon: 'grid' },
     { name: 'Getting Started', href: '/vendor-dashboard/getting-started', icon: 'rocket' },
     { name: 'Enquiries', href: '/vendor-dashboard/leads', icon: 'inbox' },
     { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
-    { name: isEquipment ? 'Products' : 'Services', href: '/vendor-dashboard/products', icon: 'package' },
+    servicesEntry,
     { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
     { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
     { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
