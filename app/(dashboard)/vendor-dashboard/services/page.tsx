@@ -195,7 +195,7 @@ export default function VendorServicesListPage() {
                           disabled={deletingId === svc._id}
                           className="text-xs text-red-600 hover:text-red-800 font-medium disabled:opacity-50"
                         >
-                          {deletingId === svc._id ? 'Deactivating…' : 'Delete'}
+                          {deletingId === svc._id ? 'Deactivating…' : 'Deactivate'}
                         </button>
                       </div>
                     </td>
@@ -245,7 +245,7 @@ export default function VendorServicesListPage() {
                     disabled={deletingId === svc._id}
                     className="text-red-600 disabled:opacity-50 ml-auto"
                   >
-                    {deletingId === svc._id ? 'Deactivating…' : 'Delete'}
+                    {deletingId === svc._id ? 'Deactivating…' : 'Deactivate'}
                   </button>
                 </div>
               </div>
