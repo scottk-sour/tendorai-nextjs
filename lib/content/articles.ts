@@ -1,3 +1,8 @@
+export interface ArticleFaq {
+  question: string;
+  answer: string;
+}
+
 export interface Article {
   slug: string;
   title: string;
@@ -8,6 +13,16 @@ export interface Article {
   publishedDate: string;
   content: string;
   href?: string;
+  // Optional structured FAQs. When present, the /resources/[slug] renderer
+  // appends an expandable FAQ section after the main content and emits
+  // FAQPage JSON-LD. Keep one source of truth — don't also duplicate
+  // Q&A inside `content`.
+  faqs?: ArticleFaq[];
+  // Optional override for meta / OG description (default: excerpt).
+  metaDescription?: string;
+  // Optional last-updated date (default: publishedDate). Drives an
+  // "Updated [date]" label and the Article.dateModified JSON-LD property.
+  updatedDate?: string;
 }
 
 export const articles: Article[] = [

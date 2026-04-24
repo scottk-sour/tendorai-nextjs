@@ -23,14 +23,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Article Not Found' };
   }
 
+  const description = article.metaDescription || article.excerpt;
+
   return {
     title: article.title,
-    description: article.excerpt,
+    description,
     openGraph: {
       title: article.title,
-      description: article.excerpt,
+      description,
       type: 'article',
       publishedTime: article.publishedDate,
+      modifiedTime: article.updatedDate || article.publishedDate,
       authors: [article.author || 'TendorAI'],
       url: `https://www.tendorai.com/resources/${slug}`,
     },
@@ -171,7 +174,7 @@ export default async function ArticlePage({ params }: PageProps) {
       },
     },
     datePublished: article.publishedDate,
-    dateModified: article.publishedDate,
+    dateModified: article.updatedDate || article.publishedDate,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://www.tendorai.com/resources/${slug}`,
@@ -190,6 +193,19 @@ export default async function ArticlePage({ params }: PageProps) {
     ],
   };
 
+  // Optional FAQPage JSON-LD when the article ships structured FAQs.
+  const faqJsonLd = article.faqs && article.faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: article.faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.question,
+          acceptedAnswer: { '@type': 'Answer', text: f.answer },
+        })),
+      }
+    : null;
+
   return (
     <>
       <script
@@ -200,6 +216,12 @@ export default async function ArticlePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <main className="min-h-screen bg-white">
         {/* Header */}
@@ -232,11 +254,11 @@ export default async function ArticlePage({ params }: PageProps) {
             <div className="mt-6 text-sm text-purple-200">
               {article.author && <span className="text-white font-medium">{article.author}</span>}
               {article.author && <span className="mx-2">&middot;</span>}
-              Published {new Date(article.publishedDate).toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+              {article.updatedDate && article.updatedDate !== article.publishedDate ? (
+                <>Updated {new Date(article.updatedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</>
+              ) : (
+                <>Published {new Date(article.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</>
+              )}
             </div>
           </div>
         </section>
@@ -247,6 +269,28 @@ export default async function ArticlePage({ params }: PageProps) {
             className="prose prose-lg max-w-none"
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
+
+          {/* FAQ section (only renders when the article ships structured FAQs) */}
+          {article.faqs && article.faqs.length > 0 && (
+            <section className="mt-12">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+              <div className="space-y-4">
+                {article.faqs.map((faq, i) => (
+                  <details key={i} className="group border border-gray-200 rounded-lg overflow-hidden">
+                    <summary className="cursor-pointer px-5 py-4 bg-gray-50 hover:bg-gray-100 transition-colors font-semibold text-gray-900 flex items-center justify-between">
+                      <span>{faq.question}</span>
+                      <svg className="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </summary>
+                    <div className="px-5 py-4 border-t border-gray-100 text-gray-700 leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* CTA */}
           <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
