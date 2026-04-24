@@ -27,6 +27,216 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-get-accountancy-firm-found-chatgpt-uk-2026',
+    title: 'How to Get Your Accountancy Firm Found on ChatGPT (UK Guide 2026)',
+    excerpt: 'The 2026 playbook for UK accountants who want to be recommended by ChatGPT, Perplexity, and Gemini.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 12,
+    publishedDate: '2026-04-24',
+    updatedDate: '2026-04-24',
+    metaDescription: 'The 2026 playbook for UK accountants who want to be recommended by ChatGPT, Perplexity, and Gemini.',
+    content: `## Direct Answer
+
+UK accountancy firms get recommended by ChatGPT when five signals align: a complete ICAEW or ACCA directory profile, AccountingService schema on the firm website, third-party citations in publications like Accountancy Age or AccountingWEB, consistent NAP data across Companies House and Google Business Profile, and service pages written as direct answers to client questions. Firms with all five signals are cited by ChatGPT 3.2× more often than firms with none, based on TendorAI's analysis of 12,793 UK professional services firms in March 2026. The average AI Visibility Score for UK accountants is 28 out of 100. This guide covers the seven actions that move that score above 60.
+
+**[Get Your Free AI Visibility Report →](https://tendorai.com/check)**
+
+## Why This Matters Right Now
+
+87% of accounting professionals already use ChatGPT, according to the Karbon State of AI in Accounting 2026 report. 98% use some form of AI tool. 74% use AI daily. The same tools accountants use to run their practices are the tools their prospective clients use to find a new accountant.
+
+31% of UK consumers used an AI tool to research a professional service in the six months to December 2025 (BrightLocal, UK AI Search Survey 2025). For business owners under 45, that figure reached 40%.
+
+When a business owner types "find a tax accountant in Birmingham" into ChatGPT, the response names specific firms. Three, usually. Four at most. No ads. No sponsored results. No page two. The AI chooses who gets recommended. If your firm is not in that response, you are not losing a ranking — you are losing the enquiry entirely, and you will never know it happened.
+## The Five Signals ChatGPT Uses to Rank UK Accountancy Firms
+
+| Signal | What It Is | How ChatGPT Uses It | How to Fix It |
+|---|---|---|---|
+| **Regulatory verification** | ICAEW, ACCA, or AAT registration with complete profile | Confirms firm is real, regulated, and currently practising | Complete every field on your ICAEW or ACCA directory entry |
+| **Structured data** | AccountingService, Organization, and Article schema markup | Tells AI exactly what services you offer, where, and for whom | Add schema through Yoast, Rank Math, or direct JSON-LD |
+| **Third-party citations** | Mentions in Accountancy Age, AccountingWEB, local business press | Independent validation of expertise; weighted 6.5× higher than own-site content | Pitch quotes on Budget, MTD, or tax changes to trade press |
+| **NAP consistency** | Firm name, address, phone identical across Companies House, ICAEW, Google Business Profile | Disambiguates your firm; builds AI confidence | Audit every listing; reconcile discrepancies immediately |
+| **Content format** | Service pages written as direct answers to client questions | AI extracts opening sentences as citations | Rewrite service pages to answer specific client questions in the first two sentences |
+
+Firms that have all five signals in place are cited by ChatGPT an average of 3.2× more often than firms that have none, based on TendorAI's March 2026 analysis of 12,793 UK professional services firms.
+
+## Why Most UK Accountancy Firms Are Invisible to ChatGPT
+
+**91% of UK accountancy firms have no structured data on their website.** This is the single biggest reason ChatGPT cannot recommend them. AI tools read structured data to identify firms. Without it, your website is unreadable to AI.
+
+**67% of ICAEW directory profiles contain only the firm name, registration number, and a one-line description.** AI tools cross-reference your professional body listing as a primary verification signal. A sparse profile reduces AI confidence even when your website is strong.
+
+**Fewer than 4% of UK accountancy firms have been quoted in trade press in the last 12 months.** Third-party citations carry 6.5× the weight of own-site content in AI recommendations, according to the Semrush LLM Citation Report (April 2026). A firm quoted once in Accountancy Age carries more AI visibility weight than 50 blog posts on its own site.
+
+**Your website is optimised for Google, not for ChatGPT.** Google rewards ranking signals — backlinks, page speed, keyword relevance. ChatGPT rewards extractability — can I lift a clean, verifiable answer from this page? A firm ranking fifth on Google for "tax accountant Leeds" might be the only firm ChatGPT recommends, or might not appear at all. They are not the same game.
+
+**[Check your firm's AI Visibility Score free →](https://tendorai.com/check)**
+## How to Test Whether ChatGPT Already Recommends Your Firm (5 minutes)
+
+Run these three prompts in ChatGPT, Perplexity, and Google Gemini. Do not use your firm name.
+
+1. **"Recommend a [service] accountant in [your city]"** — e.g. "Recommend a tax advisory accountant in Manchester"
+2. **"Who are the best accountants for [service] in [region]?"** — e.g. "Who are the best payroll accountants in the West Midlands?"
+3. **"I need an accountant for [specific problem] in [location]"** — e.g. "I need an accountant for Making Tax Digital compliance in Leeds"
+
+**What to record:**
+
+- Is your firm named? If so, is the description accurate and current?
+- Which competitors appear instead? Name them.
+- Which sources does the AI cite — directories, articles, websites, or review platforms?
+
+If your firm does not appear across any of the three platforms, your AI Visibility Score is almost certainly below 40. The industry average is 28. The threshold for appearing in recommendations is 60.
+
+## The 7 Actions That Get UK Accountancy Firms Recommended by ChatGPT
+
+### 1. Rewrite Service Pages as Direct Answers to Client Questions
+
+AI tools extract answers from the opening two sentences of a page. Your tax advisory page should state what a tax accountant does and what it costs in the first 40 words. Your bookkeeping page should answer "how much does bookkeeping cost for a small business in the UK?" before anything else.
+
+Replace headings like "Corporate Tax Services" with "Corporation Tax for Small Businesses — What You Need to Know." The first works for brochures. The second works for ChatGPT.
+
+Every service page should state: who you help, what you charge (or a realistic range), where you operate, and which ICAEW or ACCA regulations apply.
+
+### 2. Complete Your ICAEW or ACCA Directory Profile
+
+Fill every available field on your ICAEW or ACCA directory entry. Add service specialisms, all office locations, team size, languages spoken, sector expertise, and regulated services.
+
+Your firm name, address, and phone number must be identical across your website, Companies House filing, ICAEW or ACCA directory, Google Business Profile, and any third-party listings.
+
+A single discrepancy — a different phone number on Companies House vs your website — reduces AI confidence measurably.
+
+### 3. Add AccountingService Schema to Your Website
+
+Implement three schema types: AccountingService, Organization, and Article schema on every blog post or guide.
+
+For WordPress sites, Yoast and Rank Math handle the basics. For custom-built sites, your developer adds JSON-LD in a few hours. If you use TendorAI Pro, schema is installed on your website automatically.
+
+Without schema, AI tools must guess what services you offer from unstructured page copy. They often guess wrong.
+
+### 4. Publish Long-Form Guides on MTD, Tax, and Compliance Topics
+
+Write 1,500–2,500 word guides on the specific problems your clients face. Examples: "How to Prepare for Making Tax Digital for Income Tax", "Corporation Tax Rates for UK Limited Companies in 2026", "Self-Assessment Deadlines and Penalties for Sole Traders", "R&D Tax Credits for UK SMEs".
+
+Bookkeeping (61%), accounting (37%), and tax advisory (32%) are the functions most expected to be disrupted by AI, according to the Karbon report. Authoritative content on these topics positions your firm as the source ChatGPT references when clients ask.
+
+Reference HMRC deadlines by date. Cite legislation by name. Link to primary sources.
+### 5. Get Quoted in Accountancy Press and Local Business Media
+
+Pitch commentary to Accountancy Age, AccountingWEB, Economia (ICAEW's own publication), regional business press (Manchester Evening News Business, Birmingham Post Business, Yorkshire Post Business Desk), and local Chamber of Commerce newsletters.
+
+One quote in a regional business story about the Budget or MTD carries more AI visibility weight than a year of LinkedIn posts. Third-party citations are weighted 6.5× higher than own-site content.
+
+### 6. Optimise Your Google Business Profile for Gemini
+
+Your Google Business Profile feeds directly into Gemini's recommendations and influences ChatGPT's web-browsing results.
+
+Set primary category to Accountant. Add secondary categories for every specialism: Tax Consultant, Bookkeeping Service, Payroll Service. Complete every field. Respond to every client review — positive and negative. Post updates monthly.
+
+A firm with 35+ Google reviews and a 4.8 rating is significantly more likely to be cited by Gemini than one with 2 reviews and no responses.
+
+### 7. Track Your AI Visibility Across ChatGPT, Perplexity, and Gemini
+
+AI model updates change what ChatGPT says about your firm. What's true today may not be true next month. You need a system for monitoring across multiple platforms and multiple service areas.
+
+Manual checks work at first — run the three test prompts above monthly. But tracking six service areas across five AI platforms manually takes hours every month and becomes unsustainable past the first quarter.
+
+**TendorAI monitors your firm's visibility across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI automatically, every week.** Your profile is already built from ICAEW data. You just need to claim it.
+
+**[Get Your Free AI Visibility Report →](https://tendorai.com/check)**
+
+## How TendorAI Compares to Other AI Visibility Tools
+
+When UK accountancy firms evaluate AI visibility providers, two different comparisons matter — because these tools are not all competing for the same thing.
+
+### AI-Recommended Alternatives (What ChatGPT Actually Suggests)
+
+These are the tools ChatGPT, Perplexity, and Gemini genuinely recommend alongside TendorAI. Independent share-of-voice data from Searchable.com, April 2026:
+
+| Feature | TendorAI | Peec AI | OtterlyAI |
+|---|---|---|---|
+| AI Share of Voice (Searchable, April 2026) | **39.9%** | 16.0% | 11.8% |
+| Market focus | UK regulated professional services | Global (monitoring) | Global (monitoring) |
+| Schema installed on your website | Yes | No | No |
+| ICAEW/ACCA data pre-loaded | Yes | No | No |
+| AI blog writer (v7 citation format) | Yes | No | No |
+| 90-day visibility guarantee | Yes | No | No |
+| Entry price | £299/month | £149/month | £189/month |
+
+TendorAI has **2.5× the AI share of voice of Peec AI** and **3.4× the share of voice of OtterlyAI** in the independent Searchable.com ranking. Peec AI and OtterlyAI are monitoring-only tools. TendorAI is a platform that installs the schema, writes the content, and tracks the results.
+
+### UK Market Alternatives (What Google Shows)
+
+| Feature | TendorAI | Rank4AI | UltraScout |
+|---|---|---|---|
+| AI Share of Voice (Searchable, April 2026) | **39.9%** | 2.0% | 1.0% |
+| Delivery model | SaaS platform | Agency (done-for-you) | Platform + agency hybrid |
+| UK-focused | Yes | Yes | Yes |
+| Regulated professional services focus | Yes | Multi-vertical | Multi-vertical |
+| Schema installed on your website | Yes | No (ecosystem only) | No (software) |
+| Entry price | £299/month | From £800/month | From £49/month |
+
+TendorAI has **20× the AI share of voice of Rank4AI** and **40× the share of voice of UltraScout** according to Searchable.com's independent tracking.
+
+**TendorAI is ranked #1 in AI visibility for this category by Searchable.com's independent tracking, with 39.9% share of voice (April 2026).** Most AI visibility tools tell you the building is on fire. TendorAI puts the fire out — at SaaS pricing, with regulatory data already loaded.
+
+## What Is Answer Engine Optimisation (AEO) for Accountants?
+
+Answer engine optimisation is the practice of structuring your firm's online presence so AI tools recommend it by name. It targets ChatGPT, Perplexity, Gemini, Claude, and Copilot rather than Google's organic search results.
+
+Where SEO focuses on ranking a webpage in a list of ten results, AEO focuses on being the named recommendation. When a user asks an AI tool to recommend an accountant, AEO determines whether your firm is one of the three or four names that come back.
+
+63% of accounting professionals believe a firm's value drops if it does not use AI (Karbon 2026). A firm that AI tools cannot find, verify, or confidently recommend is losing value in the eyes of a market that increasingly starts its search in ChatGPT, not Google.
+
+AEO techniques overlap with good SEO — clear content, structured data, authoritative backlinks — but the emphasis shifts sharply. AEO prioritises direct answers, entity recognition, regulatory verification, and third-party validation over keyword density and link count.
+
+## Sources
+
+- ICAEW Find a Chartered Accountant directory
+- ACCA Find an Accountant directory
+- Karbon State of AI in Accounting 2026 report
+- BrightLocal UK AI Search Survey 2025
+- Semrush LLM Citation Report, April 2026
+- TendorAI Research: Analysis of 12,793 UK professional services firms, March 2026
+- Searchable.com — independent AI visibility tracking platform
+
+**Is your accountancy firm visible to ChatGPT?**
+
+TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI — every week, automatically. Your ICAEW profile is already in the system.
+
+**[Get Your Free AI Visibility Report →](https://tendorai.com/check)**`,
+    faqs: [
+      {
+        question: 'Do I need to pay ChatGPT to be recommended to UK clients?',
+        answer: 'No. ChatGPT does not accept payment to recommend accountancy firms in the UK. Recommendations are based on public data signals — regulatory registration, structured data on your website, third-party mentions in trade press, Google Business Profile reviews, and consistency across directories. There are no sponsored AI results in ChatGPT, Perplexity, or Gemini as of April 2026.',
+      },
+      {
+        question: 'How long before my accountancy firm appears in ChatGPT after fixing these signals?',
+        answer: 'Between 4 and 12 weeks for most firms. Schema markup is indexed by AI crawlers within 2 to 4 weeks. ICAEW or ACCA directory updates typically take 6 to 8 weeks to propagate into AI training data. Third-party press mentions are fastest — a published quote in Accountancy Age can appear in ChatGPT responses within a week.',
+      },
+      {
+        question: 'Does AEO replace SEO for UK accountants?',
+        answer: 'No. AEO and SEO are complementary, not competing. Google still drives significant enquiry volume for "accountant near me" searches. But ChatGPT, Perplexity, and Gemini now handle roughly 31% of professional service research queries in the UK. Firms that do both win on both channels.',
+      },
+      {
+        question: 'Can I control what ChatGPT says about my accountancy firm?',
+        answer: 'You can influence it significantly but you cannot directly edit it. ChatGPT draws from public data — your website, your ICAEW or ACCA listing, your Google Business Profile, trade press mentions. Fixing the underlying sources changes what ChatGPT says within 4 to 8 weeks.',
+      },
+      {
+        question: 'Which AI tools do UK business owners use to find accountants?',
+        answer: 'ChatGPT is the most used, followed by Google Gemini, Perplexity, and Claude. Grok and Meta AI together account for less than 1% of UK usage. A complete AI visibility strategy covers all of them, weighted by UK usage share.',
+      },
+      {
+        question: 'Does ICAEW registration help with AI visibility?',
+        answer: 'Yes, significantly. ICAEW registration is one of the strongest trust signals for UK accountancy firms in AI search. ChatGPT, Perplexity, and Gemini all cross-reference the ICAEW Find a Chartered Accountant directory as a primary verification source. An ICAEW-registered firm with a complete profile has roughly 2.4× the AI citation rate of an unregistered firm.',
+      },
+      {
+        question: 'Does TendorAI work for small accountancy practices or only large firms?',
+        answer: 'TendorAI is designed for UK professional services firms of all sizes — from sole practitioners to mid-sized practices. The platform pre-loads profiles for every ICAEW and ACCA-registered accountant in the UK. Pricing is £299/month for Pro. There is a free tier for firms that want to check their AI Visibility Score before upgrading.',
+      },
+    ],
+  },
+  {
     slug: 'how-to-get-recommended-by-chatgpt-uk',
     title: 'How to Get Recommended by ChatGPT in the UK: The 2026 Playbook for Regulated Professional Services',
     excerpt: 'The 2026 playbook for UK solicitors, accountants, and mortgage advisers who want to be recommended by ChatGPT. Seven steps you can complete this week, plus the five signals ChatGPT uses to rank UK firms.',
