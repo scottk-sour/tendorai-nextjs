@@ -10,12 +10,101 @@ const API_URL =
   'https://ai-procurement-backend-q35u.onrender.com';
 
 // ── Types ──────────────────────────────────────────────────────────
-interface ChecklistItem {
-  id: string;
+type OnboardingChecklist = {
+  profileComplete: boolean;
+  firstProductAdded: boolean;
+  firstAuditRun: boolean;
+  schemaCallScheduled: boolean;
+  firstPillarPostGenerated: boolean;
+  firstPrimaryDataAdded: boolean;
+  firstLiveAITestRun: boolean;
+};
+
+const DEFAULT_ONBOARDING: OnboardingChecklist = {
+  profileComplete: false,
+  firstProductAdded: false,
+  firstAuditRun: false,
+  schemaCallScheduled: false,
+  firstPillarPostGenerated: false,
+  firstPrimaryDataAdded: false,
+  firstLiveAITestRun: false,
+};
+
+const TICKABLE_ITEMS = ['firstAuditRun', 'schemaCallScheduled', 'firstLiveAITestRun'] as const;
+type TickableItem = (typeof TICKABLE_ITEMS)[number];
+
+const SCHEMA_CALL_MAILTO = `mailto:scott.davies@tendorai.com?subject=${encodeURIComponent(
+  'Pro schema installation call'
+)}&body=${encodeURIComponent(
+  `Hi Scott,
+
+I'm ready to schedule my 15-minute schema installation call.
+My availability is:
+
+[tell us your time zone and a few options]
+
+Thanks,
+[Vendor name]`
+)}`;
+
+const CHECKLIST_CONFIG: Array<{
+  key: keyof OnboardingChecklist;
   label: string;
-  done: boolean;
-  href: string;
-}
+  caption: string;
+  href: string | null;
+  tickable: boolean;
+}> = [
+  {
+    key: 'profileComplete',
+    label: 'Complete your company profile',
+    caption:
+      'Auto-completes when you save your profile with company name, city, description (50+ chars), vendor type, and at least one specialism.',
+    href: '/vendor-dashboard/settings',
+    tickable: false,
+  },
+  {
+    key: 'firstProductAdded',
+    label: 'Add at least one product or service',
+    caption: 'Auto-completes when you add your first product or service.',
+    href: '/vendor-dashboard/products',
+    tickable: false,
+  },
+  {
+    key: 'firstAuditRun',
+    label: 'Run your first AI Visibility Audit',
+    caption: 'Run your AI Visibility Audit from the dashboard, then mark as done.',
+    href: '/vendor-dashboard/analytics',
+    tickable: true,
+  },
+  {
+    key: 'schemaCallScheduled',
+    label: 'Schedule your schema installation call (Pro)',
+    caption: 'Book your 15-minute pair-install call with the TendorAI team, then mark as done.',
+    href: SCHEMA_CALL_MAILTO,
+    tickable: true,
+  },
+  {
+    key: 'firstPillarPostGenerated',
+    label: 'Generate your first pillar blog post',
+    caption: 'Auto-completes when you generate a blog post from the pillar library.',
+    href: '/vendor-dashboard/posts',
+    tickable: false,
+  },
+  {
+    key: 'firstPrimaryDataAdded',
+    label: 'Add your first primary data point to a blog',
+    caption: 'Auto-completes when you add primary data to a blog post.',
+    href: '/vendor-dashboard/posts',
+    tickable: false,
+  },
+  {
+    key: 'firstLiveAITestRun',
+    label: 'Try a Live AI Search Test',
+    caption: 'Try the Live AI Search Test from the dashboard, then mark as done.',
+    href: '/vendor-dashboard/analytics',
+    tickable: true,
+  },
+];
 
 // ── FAQ data ───────────────────────────────────────────────────────
 const FAQ_ITEMS = [
@@ -257,7 +346,9 @@ export default function GettingStartedPage() {
   const [loading, setLoading] = useState(true);
   const [tier, setTier] = useState<string>('free');
   const [vendorId, setVendorId] = useState<string>('');
-  const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
+  const [onboarding, setOnboarding] = useState<OnboardingChecklist>(DEFAULT_ONBOARDING);
+  const [tickingItem, setTickingItem] = useState<TickableItem | null>(null);
+  const [tickError, setTickError] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const fetchData = useCallback(async () => {
@@ -266,110 +357,17 @@ export default function GettingStartedPage() {
 
     setLoading(true);
     try {
-      const headers = { Authorization: `Bearer ${token}` };
+      const profileRes = await fetch(`${API_URL}/api/vendors/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      // Parallel fetches
-      const [profileRes, geoRes, searchTestRes] = await Promise.all([
-        fetch(`${API_URL}/api/vendors/profile`, { headers }),
-        fetch(`${API_URL}/api/aeo-audit/latest`, { headers }).catch(() => null),
-        fetch(`${API_URL}/api/ai-search-test/history`, { headers }).catch(() => null),
-      ]);
-
-      let profileComplete = false;
-      let hasAeoAudit = false;
-      let hasSearchTest = false;
-      let viewedScore = false;
-      let currentTier = 'free';
-      let vId = '';
-
-      // Profile data
       if (profileRes.ok) {
         const data = await profileRes.json();
         const v = data.vendor || data;
-        vId = v._id || v.id || '';
-        currentTier = v.tier || v.account?.tier || 'free';
-        setTier(currentTier);
-        setVendorId(vId);
-
-        // Profile completeness: has company + description + coverage areas
-        profileComplete = !!(
-          v.company &&
-          (v.businessProfile?.description || v.description) &&
-          ((v.coverageAreas && v.coverageAreas.length > 0) ||
-            (v.location?.coverage && v.location.coverage.length > 0))
-        );
+        setVendorId(v._id || v.id || '');
+        setTier(v.tier || v.account?.tier || 'free');
+        setOnboarding({ ...DEFAULT_ONBOARDING, ...(v.onboardingChecklist || {}) });
       }
-
-      // AEO audit
-      if (geoRes && geoRes.ok) {
-        try {
-          const geoData = await geoRes.json();
-          hasAeoAudit = !!(geoData && (geoData.overallScore !== undefined || geoData.audit));
-        } catch {
-          // ignore
-        }
-      }
-
-      // Search test
-      if (searchTestRes && searchTestRes.ok) {
-        try {
-          const searchData = await searchTestRes.json();
-          const tests = searchData.tests || searchData.history || searchData;
-          hasSearchTest = Array.isArray(tests) ? tests.length > 0 : !!tests;
-        } catch {
-          // ignore
-        }
-      }
-
-      // Visibility score viewed (localStorage)
-      if (vId) {
-        viewedScore = !!localStorage.getItem(`viewed_visibility_score_${vId}`);
-      }
-
-      setChecklist([
-        {
-          id: 'profile',
-          label: 'Complete your company profile',
-          done: profileComplete,
-          href: '/vendor-dashboard/settings',
-        },
-        {
-          id: 'aeo',
-          label: 'Run your first AI Visibility Audit',
-          done: hasAeoAudit,
-          href: '/vendor-dashboard/analytics',
-        },
-        {
-          id: 'schema-call',
-          label: 'Schedule your schema installation call (Pro)',
-          done: false,
-          href: '/vendor-dashboard/analytics#schema-generator',
-        },
-        {
-          id: 'pillar-post',
-          label: 'Generate your first pillar blog post',
-          done: false,
-          href: '/vendor-dashboard/posts',
-        },
-        {
-          id: 'primary-data',
-          label: 'Add your first primary data point to a blog',
-          done: false,
-          href: '/vendor-dashboard/posts',
-        },
-        {
-          id: 'score',
-          label: 'Check your AI Visibility Score',
-          done: viewedScore,
-          href: '/vendor-dashboard/analytics',
-        },
-        {
-          id: 'search',
-          label: 'Run a Live AI Search Test',
-          done: hasSearchTest,
-          href: '/vendor-dashboard/analytics',
-        },
-      ]);
     } catch (err) {
       console.error('Failed to fetch getting-started data:', err);
     } finally {
@@ -381,8 +379,42 @@ export default function GettingStartedPage() {
     fetchData();
   }, [fetchData]);
 
-  const completedCount = checklist.filter((c) => c.done).length;
-  const totalCount = checklist.length || 6;
+  const handleTick = useCallback(
+    async (item: TickableItem) => {
+      const token = getCurrentToken();
+      if (!token || !vendorId || tickingItem) return;
+      setTickingItem(item);
+      setTickError(null);
+      try {
+        const res = await fetch(
+          `${API_URL}/api/vendors/${vendorId}/onboarding-checklist`,
+          {
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ item }),
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Couldn't mark as done. Please try again.");
+        }
+        const data = await res.json();
+        if (data?.onboardingChecklist) {
+          setOnboarding({ ...DEFAULT_ONBOARDING, ...data.onboardingChecklist });
+        }
+      } catch (err) {
+        setTickError(err instanceof Error ? err.message : "Couldn't mark as done.");
+      } finally {
+        setTickingItem(null);
+      }
+    },
+    [getCurrentToken, vendorId, tickingItem]
+  );
+
+  const completedCount = CHECKLIST_CONFIG.filter((c) => onboarding[c.key]).length;
+  const totalCount = CHECKLIST_CONFIG.length;
   const progressPct = Math.round((completedCount / totalCount) * 100);
   const displayTier = getDisplayTier(tier);
 
@@ -715,69 +747,177 @@ export default function GettingStartedPage() {
           </div>
         </div>
 
+        {/* Tick error toast */}
+        {tickError && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+            {tickError}
+          </div>
+        )}
+
         {/* Checklist items */}
         <div className="space-y-3">
-          {checklist.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
-                item.done
-                  ? 'border-green-200 bg-green-50/50'
-                  : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
-              }`}
-            >
-              {/* Checkbox */}
-              <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  item.done
-                    ? 'bg-green-500'
-                    : 'border-2 border-gray-300'
-                }`}
-              >
-                {item.done && (
-                  <svg
-                    className="w-3.5 h-3.5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                )}
-              </div>
+          {CHECKLIST_CONFIG.map((cfg) => {
+            const done = onboarding[cfg.key];
+            const isTicking = cfg.tickable && tickingItem === cfg.key;
+            const isExternalHref = cfg.href?.startsWith('mailto:') || cfg.href?.startsWith('http');
 
+            const labelEl = (
               <span
                 className={`text-sm font-medium ${
-                  item.done ? 'text-green-700 line-through' : 'text-gray-700'
+                  done ? 'text-green-700 line-through' : 'text-gray-800'
                 }`}
               >
-                {item.label}
+                {cfg.label}
               </span>
+            );
 
-              {/* Arrow */}
-              {!item.done && (
-                <svg
-                  className="w-4 h-4 text-gray-400 ml-auto"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            const labelWithLink =
+              !done && cfg.href ? (
+                isExternalHref ? (
+                  <a
+                    href={cfg.href}
+                    className="hover:text-purple-700 transition-colors"
+                  >
+                    {labelEl}
+                  </a>
+                ) : (
+                  <Link
+                    href={cfg.href}
+                    className="hover:text-purple-700 transition-colors"
+                  >
+                    {labelEl}
+                  </Link>
+                )
+              ) : (
+                labelEl
+              );
+
+            return (
+              <div
+                key={cfg.key}
+                className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
+                  done
+                    ? 'border-green-200 bg-green-50/50'
+                    : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
+                }`}
+              >
+                {/* Status indicator */}
+                <div
+                  className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    done ? 'bg-green-500' : 'border-2 border-gray-300'
+                  }`}
+                  aria-hidden="true"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              )}
-            </Link>
-          ))}
+                  {done && (
+                    <svg
+                      className="w-3.5 h-3.5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  )}
+                </div>
+
+                {/* Label + caption */}
+                <div className="flex-1 min-w-0">
+                  {labelWithLink}
+                  {!done && (
+                    <p className="mt-0.5 text-xs text-gray-500">{cfg.caption}</p>
+                  )}
+                </div>
+
+                {/* Right-hand action */}
+                {done ? (
+                  <span className="ml-auto text-xs font-semibold text-green-600 mt-0.5">
+                    Done
+                  </span>
+                ) : cfg.tickable ? (
+                  <button
+                    type="button"
+                    onClick={() => handleTick(cfg.key as TickableItem)}
+                    disabled={!!tickingItem}
+                    className="ml-auto text-xs font-medium px-3 py-1.5 rounded-md bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 flex-shrink-0"
+                  >
+                    {isTicking ? (
+                      <>
+                        <svg
+                          className="animate-spin w-3 h-3"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                          />
+                        </svg>
+                        Saving
+                      </>
+                    ) : (
+                      'Mark as done'
+                    )}
+                  </button>
+                ) : cfg.href ? (
+                  isExternalHref ? (
+                    <a
+                      href={cfg.href}
+                      className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
+                      aria-label={`Go to ${cfg.label}`}
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </a>
+                  ) : (
+                    <Link
+                      href={cfg.href}
+                      className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
+                      aria-label={`Go to ${cfg.label}`}
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  )
+                ) : null}
+              </div>
+            );
+          })}
         </div>
 
         {completedCount === totalCount && (
