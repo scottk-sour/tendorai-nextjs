@@ -741,7 +741,7 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
           </ul>
 
           <p className="text-gray-600 leading-relaxed mb-6">
-            £299/month. No setup fees. 90-day guarantee.
+            £299/month. No setup fees. 90-day promise.
           </p>
 
           <div className="my-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white text-center">

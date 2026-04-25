@@ -113,7 +113,7 @@ export default function AiVisibilityPlatformPage() {
         priceCurrency: 'GBP',
         name: 'Pro',
         description:
-          'Schema installation, AI blog writer, social publishing, weekly tracking, and 90-day guarantee',
+          'Schema installation, AI blog writer, social publishing, weekly tracking, and 90-day promise',
       },
     ],
     aggregateRating: {

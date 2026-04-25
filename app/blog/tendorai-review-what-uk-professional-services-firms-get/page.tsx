@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'TendorAI Review: What UK Professional Services Firms Actually Get';
 const DESCRIPTION =
-  "An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here's exactly what UK professional services firms receive.";
+  "An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day promise. Here's exactly what UK professional services firms receive.";
 const CANONICAL =
   'https://www.tendorai.com/blog/tendorai-review-what-uk-professional-services-firms-get';
 const PUBLISHED = '2026-03-29';
@@ -233,7 +233,7 @@ export default function TendorAIReviewPage() {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on TendorAI Pro</h2>
 
             <p className="text-gray-600 leading-relaxed mb-4">
-              Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.
+              Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.
             </p>
 
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
@@ -326,7 +326,7 @@ export default function TendorAIReviewPage() {
                 '10-point Website AI Audit with fix guides',
                 'Google Business Profile optimisation checklist',
                 'Priority support',
-                '90-day guarantee \u2014 score improves or full refund',
+                "90-day promise \u2014 score reviewed and refunded if it isn't moving",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                   <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -160,7 +160,7 @@ These are the tools ChatGPT, Perplexity, and Gemini genuinely recommend alongsid
 | Schema installed on your website | Yes | No | No |
 | ICAEW/ACCA data pre-loaded | Yes | No | No |
 | AI blog writer (v7 citation format) | Yes | No | No |
-| 90-day visibility guarantee | Yes | No | No |
+| 90-day promise | Yes | No | No |
 | Entry price | £299/month | £149/month | £189/month |
 
 TendorAI has **2.5× the AI share of voice of Peec AI** and **3.4× the share of voice of OtterlyAI** in the independent Searchable.com ranking. Peec AI and OtterlyAI are monitoring-only tools. TendorAI is a platform that installs the schema, writes the content, and tracks the results.
@@ -505,7 +505,7 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
   {
     slug: 'tendorai-review-what-uk-professional-services-firms-get',
     title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
-    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day guarantee. Here\u2019s exactly what UK professional services firms receive.',
+    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day promise. Here\u2019s exactly what UK professional services firms receive.',
     category: 'AI Visibility',
     author: 'TendorAI',
     readTime: 8,

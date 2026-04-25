@@ -118,7 +118,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Will I get leads immediately?',
-    a: 'No. AI visibility is a 90-day-plus build. Schema installs in 10 minutes, but AI assistants need time to crawl, re-index, and update their training data. Pro customers typically see measurable AI mention growth within 4–8 weeks. Within 90 days, most firms see their AI Visibility Score improve by 15+ points. The 90-day guarantee covers this.',
+    a: 'No. AI visibility is a 90-day-plus build. Schema installs in 10 minutes, but AI assistants need time to crawl, re-index, and update their training data. Pro customers typically see measurable AI mention growth within 4–8 weeks. Within 90 days, most firms see their AI Visibility Score improve by 15+ points. The 90-day promise covers this.',
   },
   {
     q: 'What does the AI Visibility Score measure?',
@@ -134,7 +134,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'Free works if you just want a directory listing. Pro is required if you want schema installed, weekly AI mention tracking, the v7 AI blog writer, the 96-topic pillar library, and the 90-day score guarantee. Most regulated firms benefit more from Pro than Free.',
+    a: 'Free works if you just want a directory listing. Pro is required if you want schema installed, weekly AI mention tracking, the v7 AI blog writer, the 96-topic pillar library, and the 90-day promise. Most regulated firms benefit more from Pro than Free.',
   },
   {
     q: 'How often should I check my dashboard?',
@@ -332,7 +332,7 @@ const PAGE_PLANS = [
       'Unlimited products and services',
       'Full analytics dashboard',
       'Priority support',
-      "90-day guarantee — if your AI Visibility Score doesn't improve by at least 10 points within 90 days of schema install, we refund every penny",
+      "90-day promise — score reviewed and refunded if it isn't moving",
     ],
     popular: true,
   },

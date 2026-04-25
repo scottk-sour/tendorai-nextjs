@@ -270,7 +270,7 @@ export default function ForVendorsPage() {
                   </div>
                   <p className="text-xs text-gray-400 italic">Early-adopter pricing &mdash; the first 50 firms lock in at &pound;299/month. 47 spots remaining.</p>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
+                <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
 
                 {/* Schema & Website */}
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Schema &amp; Website</p>
@@ -356,7 +356,7 @@ export default function ForVendorsPage() {
                     '10-point Website AI Audit with fix guides',
                     'Google Business Profile optimisation checklist',
                     'Priority support',
-                    '90-day guarantee \u2014 score improves or full refund',
+                    "90-day promise \u2014 score reviewed and refunded if it isn't moving",
                   ].map((f, i) => (
                     <li key={`reports-${i}`} className="flex items-start space-x-3">
                       <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">

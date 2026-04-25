@@ -198,7 +198,7 @@ const faqs = [
   },
   {
     q: 'What should I look for when choosing an AI visibility tool?',
-    a: 'Four things: whether it installs structured data or only monitors it, whether it has UK-specific regulatory data, whether it tracks all major AI platforms (not just Google), and whether the price reflects what a UK SME can justify. A tool that costs $500/month and only tracks mentions is harder to justify than one that installs the fix and charges \u00a3299/month with a 90-day guarantee.',
+    a: 'Four things: whether it installs structured data or only monitors it, whether it has UK-specific regulatory data, whether it tracks all major AI platforms (not just Google), and whether the price reflects what a UK SME can justify. A tool that costs $500/month and only tracks mentions is harder to justify than one that installs the fix and charges \u00a3299/month with a 90-day promise.',
   },
 ];
 

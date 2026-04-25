@@ -52,7 +52,7 @@ export const PLANS: Plan[] = [
       { text: 'Unlimited products and services', included: true },
       { text: 'Full analytics dashboard', included: true },
       { text: 'Priority support', included: true },
-      { text: "90-day guarantee — if your AI Visibility Score doesn't improve by at least 10 points within 90 days of schema install, we refund every penny", included: true },
+      { text: "90-day promise — score reviewed and refunded if it isn't moving", included: true },
     ],
     cta: 'Start Pro',
     popular: true,

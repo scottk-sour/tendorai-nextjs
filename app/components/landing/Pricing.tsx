@@ -26,7 +26,7 @@ const plans = [
     name: 'Pro',
     price: '£299',
     period: '/month',
-    description: 'Everything you need to go from invisible to recommended by AI \u2014 schema installation, content creation, social publishing, weekly tracking, and a 90-day guarantee. Agencies charge \u00a31,500\u2013\u00a33,900/month for this manually. You pay \u00a3299.',
+    description: 'Everything you need to go from invisible to recommended by AI \u2014 schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge \u00a31,500\u2013\u00a33,900/month for this manually. You pay \u00a3299.',
     popular: true,
     highlight: true,
     features: [
@@ -52,7 +52,7 @@ const plans = [
       { text: '10-point Website AI Audit with fix guides', included: true },
       { text: 'Google Business Profile optimisation checklist', included: true },
       { text: 'Priority support', included: true },
-      { text: '90-day guarantee \u2014 score improves or full refund', included: true },
+      { text: "90-day promise \u2014 score reviewed and refunded if it isn't moving", included: true },
     ],
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
