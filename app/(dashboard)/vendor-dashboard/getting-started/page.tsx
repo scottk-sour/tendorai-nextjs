@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import Link from 'next/link';
-import { PLANS } from '@/lib/constants/plans';
 import { getDisplayTier } from '@/lib/constants/tiers';
 
 const API_URL =
@@ -22,39 +21,39 @@ interface ChecklistItem {
 const FAQ_ITEMS = [
   {
     q: 'What is AI visibility?',
-    a: 'When businesses ask AI assistants like ChatGPT, Gemini, or Copilot to recommend suppliers, those AI tools search structured data sources to generate answers. TendorAI makes sure your business shows up in those results.',
+    a: 'AI visibility is how often AI assistants like ChatGPT, Perplexity, Claude, and Gemini recommend your firm when users ask for a firm in your area. Unlike Google search, where users see ten links, AI gives one direct answer with two or three vendors named. AI visibility is the practice of being one of those named firms.',
   },
   {
     q: 'How is this different from Google SEO?',
-    a: "Traditional SEO helps you rank in Google's link-based results. AI search doesn't use links — it reads structured data, reviews, mentions, and authority signals to decide which vendors to recommend. TendorAI optimises your presence for this new AI-driven discovery channel.",
+    a: 'Google SEO ranks pages by backlinks and keywords. AI visibility (also called AEO — Answer Engine Optimisation) ranks firms by structured data, named-entity authority, and citable content. Both matter, but AI search is where buyers are increasingly going first. The firms that invest now will dominate the category for years — just like 2005 Google SEO.',
   },
   {
     q: 'Will I get leads immediately?',
-    a: "AI visibility is a long-term strategy, not an instant results tool. Think of it like SEO in 2005 — the firms who start building their AI presence now will dominate when AI-driven search becomes mainstream. You'll start seeing improvements in your visibility score within weeks.",
+    a: 'No. AI visibility is a 90-day-plus build. Schema installs in 10 minutes, but AI assistants need time to crawl, re-index, and update their training data. Pro customers typically see measurable AI mention growth within 4–8 weeks. Within 90 days, most firms see their AI Visibility Score improve by 15+ points. The 90-day guarantee covers this.',
   },
   {
     q: 'What does the AI Visibility Score measure?',
-    a: 'Your score (0–100) reflects how likely AI assistants are to recommend your business. It considers your profile completeness, product listings, AI Visibility (AEO) audit results, AI mentions, and reviews. Higher scores mean better chances of being recommended.',
+    a: 'A score from 0 to 100 combining your technical health (schema, mobile speed, structured data) and your AI visibility (citation rate across 6 AI platforms, named-entity coverage, primary data presence). Updated weekly. Pro customers see the full breakdown by category and per-platform.',
   },
   {
     q: 'How do AI Mentions work?',
-    a: 'We run weekly scans across major AI platforms (ChatGPT, Gemini, Perplexity, Claude) using industry-specific prompts relevant to your services. We track when and where your business is mentioned, your position in results, and competitor comparisons.',
+    a: 'We run automated queries every week against ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI — the six AI platforms most often used to find professional services firms. When any of them recommend your firm by name, we capture it and email you. Pro customers see a full mention history with platform-by-platform breakdown.',
   },
   {
-    q: 'What is an AI Visibility (AEO) Audit?',
-    a: "AI Visibility (AEO) stands for Answer Engine Optimisation. Our audit checks your website for the specific signals that AI systems look for — structured data, meta tags, content quality, schema markup, and more. It's like an SEO audit, but for AI discovery.",
+    q: 'What is an AI Visibility Audit?',
+    a: "A 10-point check of your website's AI readiness — schema presence, structured data quality, mobile readiness, named-entity signals, content recency, FAQ structure, regulatory trust signals, and more. The audit produces a score with specific fix guides. Pro customers get the full audit; Free customers get a summary score.",
   },
   {
     q: 'Do I need a paid plan?',
-    a: 'The free plan gives you a basic profile and visibility score. Pro plan at £299/mo unlocks AI mention tracking, detailed analytics, AI Visibility (AEO) audits, AI Visibility (AEO) reports, and higher visibility through tier-based score boosts.',
+    a: 'Free works if you just want a directory listing. Pro is required if you want schema installed, weekly AI mention tracking, the v7 AI blog writer, the 96-topic pillar library, and the 90-day score guarantee. Most regulated firms benefit more from Pro than Free.',
   },
   {
     q: 'How often should I check my dashboard?',
-    a: "We recommend checking weekly. Your AI mentions are scanned weekly, and your visibility score updates as you make profile improvements. You'll also receive a weekly email summary so you can stay informed without logging in.",
+    a: 'Once a week is enough. Open your weekly AI Visibility Report email each Monday, generate one or two pillar blog posts, and check your AI Mentions panel. The whole rhythm takes about an hour a week.',
   },
   {
     q: 'Can I cancel my plan anytime?',
-    a: 'Yes, you can downgrade or cancel anytime from Settings → Subscription. Your data is retained so you can upgrade again later without losing history.',
+    a: 'Yes. Cancel any time from your billing settings. If you cancel mid-month, your Pro features stay active until the end of your billing period. After cancellation the schema we installed will stop syncing — if you re-subscribe, sync resumes automatically.',
   },
 ];
 
@@ -69,13 +68,13 @@ const FEATURES = [
   {
     name: 'AI Mentions',
     description:
-      'Weekly scans across ChatGPT, Gemini, Perplexity & Claude to see when your business gets recommended.',
+      'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI to see when your business gets recommended.',
     icon: 'mentions',
   },
   {
     name: 'Live AI Search Test',
     description:
-      'Run real-time queries against AI platforms and instantly see if your business appears in the results.',
+      'Run real-time queries against ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI to instantly see if your business appears in the results.',
     icon: 'search',
   },
   {
@@ -109,15 +108,15 @@ const FEATURES = [
     icon: 'email',
   },
   {
-    name: 'Blog Posts',
+    name: 'Pillar Blog Library (Pro)',
     description:
-      'Publish content that boosts your authority signals. AI systems favour firms with fresh, relevant content.',
+      '96 strategic blog topics across six pillars. The v7-compliant AI writer generates direct-answer + bullet content optimised for AI citation, plus LinkedIn and Facebook variants alongside every blog.',
     icon: 'blog',
   },
   {
     name: 'Website AI Installation (Pro)',
     description:
-      'We install AI-optimised data directly on your website that syncs with your TendorAI profile. When AI visits your site, it can read exactly what you do. We handle everything — you just provide your website login.',
+      "We install your schema in a 15-minute screenshare with you. You stay logged into your own site. We guide you through pasting a small code block into your website's header, then verify it's reading correctly. No passwords change hands. Most installs take 10 minutes. Once installed, your TendorAI dashboard syncs to your website automatically — update your fees, accreditations, or services on TendorAI and the changes flow through to the structured data AI reads from your site.",
     icon: 'schema',
   },
 ];
@@ -189,23 +188,64 @@ const STEPS = [
   },
   {
     num: 2,
-    title: 'List Your Products',
-    desc: 'Add structured product/service listings with descriptions and pricing. AI assistants use this data to match you to buyer queries.',
+    title: 'Run Your AI Visibility Audit',
+    desc: 'Check how your firm scores for AI visibility. The audit identifies the technical and authority signals AI looks for.',
   },
   {
     num: 3,
-    title: 'Run an AI Visibility (AEO) Audit',
-    desc: 'Check how your website scores for AI visibility. Pro members get schema markup installed directly on their website.',
+    title: 'Install Your Schema (Pro)',
+    desc: 'We install AI-optimised structured data on your website in a 15-minute screenshare. We guide you, you stay logged into your own site — no passwords change hands.',
   },
   {
     num: 4,
-    title: 'Track Your AI Mentions',
-    desc: 'See which AI platforms mention your business, how often, and where you rank vs competitors.',
+    title: 'Generate Pillar Content',
+    desc: 'Your dashboard includes 24 strategic blog topics across six pillars. Each one is engineered to earn AI citations. Generate posts in minutes — we handle the v7 structure.',
   },
   {
     num: 5,
-    title: 'Improve & Repeat',
-    desc: 'Use your visibility score tips and AI Visibility (AEO) recommendations to make targeted improvements. Watch your score climb week by week.',
+    title: 'Track and Improve',
+    desc: 'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Watch your citation rate climb week by week.',
+  },
+];
+
+// ── Plans (page-local, with Free tier deliverables only) ───────────
+const PAGE_PLANS = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: 0,
+    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic regulator details.',
+    features: [
+      'Company listing in TendorAI directory',
+      'Up to 3 products/services',
+      'Receive quote requests',
+      'AI Visibility Score (number only, no breakdown)',
+      'Basic profile from regulator data (SRA/ICAEW/FCA/Propertymark)',
+    ],
+    popular: false,
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: 299,
+    description: 'Get recommended first. We install AI-optimised structured data on your website, generate citation-ready content, and track your AI visibility weekly.',
+    features: [
+      '96-topic pillar library + v7 AI blog writer',
+      'Schema installed on your website (15-min pair session)',
+      'Your website and TendorAI stay in sync automatically',
+      'Weekly AI visibility scans across 6 AI platforms',
+      'AI mention tracking — know when AI talks about you',
+      'LinkedIn and Facebook variants of every blog',
+      'TendorAI Verified badge',
+      '+15 visibility score boost',
+      'Full AI Visibility Audit of your website',
+      'Google Business Profile optimisation checklist',
+      'Unlimited products and services',
+      'Full analytics dashboard',
+      'Priority support',
+      "90-day guarantee — if your AI Visibility Score doesn't improve by at least 10 points within 90 days of schema install, we refund every penny",
+    ],
+    popular: true,
   },
 ];
 
@@ -236,10 +276,8 @@ export default function GettingStartedPage() {
       ]);
 
       let profileComplete = false;
-      let hasProducts = false;
       let hasAeoAudit = false;
       let hasSearchTest = false;
-      let hasReviews = false;
       let viewedScore = false;
       let currentTier = 'free';
       let vId = '';
@@ -260,15 +298,6 @@ export default function GettingStartedPage() {
           ((v.coverageAreas && v.coverageAreas.length > 0) ||
             (v.location?.coverage && v.location.coverage.length > 0))
         );
-
-        // Products
-        const productCount =
-          v.productCount ?? v.products?.length ?? 0;
-        hasProducts = productCount > 0;
-
-        // Reviews
-        const reviewCount = v.reviewCount ?? v.reviews?.length ?? 0;
-        hasReviews = reviewCount > 0;
       }
 
       // AEO audit
@@ -305,10 +334,28 @@ export default function GettingStartedPage() {
           href: '/vendor-dashboard/settings',
         },
         {
-          id: 'products',
-          label: 'Add at least one product or service',
-          done: hasProducts,
-          href: '/vendor-dashboard/products',
+          id: 'aeo',
+          label: 'Run your first AI Visibility Audit',
+          done: hasAeoAudit,
+          href: '/vendor-dashboard/analytics',
+        },
+        {
+          id: 'schema-call',
+          label: 'Schedule your schema installation call (Pro)',
+          done: false,
+          href: '/vendor-dashboard/analytics#schema-generator',
+        },
+        {
+          id: 'pillar-post',
+          label: 'Generate your first pillar blog post',
+          done: false,
+          href: '/vendor-dashboard/posts',
+        },
+        {
+          id: 'primary-data',
+          label: 'Add your first primary data point to a blog',
+          done: false,
+          href: '/vendor-dashboard/posts',
         },
         {
           id: 'score',
@@ -317,28 +364,10 @@ export default function GettingStartedPage() {
           href: '/vendor-dashboard/analytics',
         },
         {
-          id: 'aeo',
-          label: 'Run your first AI Visibility (AEO) Audit',
-          done: hasAeoAudit,
-          href: '/vendor-dashboard/analytics',
-        },
-        {
           id: 'search',
-          label: 'Try a Live AI Search Test',
+          label: 'Run a Live AI Search Test',
           done: hasSearchTest,
           href: '/vendor-dashboard/analytics',
-        },
-        {
-          id: 'reviews',
-          label: 'Get your first customer review',
-          done: hasReviews,
-          href: '/vendor-dashboard/reviews',
-        },
-        {
-          id: 'schema',
-          label: 'Request Schema Installation (Pro)',
-          done: false,
-          href: '/vendor-dashboard/analytics#schema-generator',
         },
       ]);
     } catch (err) {
@@ -380,8 +409,9 @@ export default function GettingStartedPage() {
           </h1>
           <p className="text-lg sm:text-xl text-purple-100 mb-6 leading-relaxed">
             You&apos;re one of the first firms building an AI-visible
-            presence. Businesses are already using ChatGPT, Gemini, and Copilot to
-            find suppliers &mdash; the firms who show up in those results win.
+            presence. Businesses are already using ChatGPT, Perplexity, Claude,
+            Gemini, Grok, and Meta AI to find suppliers &mdash; the firms who show
+            up in those results win.
           </p>
           <p className="text-purple-200">
             This guide walks you through everything TendorAI does for you and how
@@ -517,7 +547,30 @@ export default function GettingStartedPage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 5: Choose Your Plan ═══ */}
+      {/* ═══ SECTION 5: Founding-customer banner ═══ */}
+      <section className="card p-5 sm:p-6 border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50">
+        <div className="flex items-start gap-4">
+          <span className="flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full bg-purple-600 text-white text-xs font-semibold tracking-wide">
+            FOUNDING
+          </span>
+          <div className="flex-1">
+            <h3 className="font-semibold text-gray-900 mb-1">
+              Founding 50 customers &mdash; &pound;299/month for life
+            </h3>
+            <p className="text-sm text-gray-700 mb-2">
+              TendorAI&apos;s Pro tier is locking in at &pound;299/month for our
+              first 50 paying customers. Customer 51 onwards will pay
+              &pound;599/month. Founding customers keep their &pound;299 rate
+              forever, with full access to all current and future Pro features.
+            </p>
+            <p className="text-xs font-medium text-purple-700">
+              Limited spaces remaining.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 5b: Choose Your Plan ═══ */}
       <section>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
           Choose Your Plan
@@ -527,9 +580,14 @@ export default function GettingStartedPage() {
           visibility boost.
         </p>
 
-        <div className="grid sm:grid-cols-3 gap-5">
-          {PLANS.map((plan) => {
+        <div className="grid sm:grid-cols-2 gap-5">
+          {PAGE_PLANS.map((plan) => {
             const isCurrentPlan = displayTier === plan.id;
+
+            // Free-tier button text logic (Fix 2)
+            let freeButtonText = 'Get Free Plan';
+            if (displayTier === 'free') freeButtonText = 'Stay on Free';
+            else if (displayTier === 'pro') freeButtonText = 'Switch to Free';
 
             return (
               <div
@@ -564,6 +622,9 @@ export default function GettingStartedPage() {
                         &pound;{plan.price}
                       </span>
                       <span className="text-gray-500 text-sm">/mo</span>
+                      <p className="text-xs text-gray-500 mt-1">
+                        UK AEO agencies charge &pound;1,500&ndash;&pound;3,900/month to do this manually.
+                      </p>
                     </>
                   )}
                 </div>
@@ -571,50 +632,44 @@ export default function GettingStartedPage() {
                 <ul className="space-y-2 mb-6 flex-1">
                   {plan.features.map((feat) => (
                     <li
-                      key={feat.text}
+                      key={feat}
                       className="flex items-start gap-2 text-sm"
                     >
-                      {feat.included ? (
-                        <svg
-                          className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="w-4 h-4 text-gray-300 mt-0.5 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      )}
-                      <span
-                        className={
-                          feat.included ? 'text-gray-700' : 'text-gray-400'
-                        }
+                      <svg
+                        className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
-                        {feat.text}
-                      </span>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">{feat}</span>
                     </li>
                   ))}
                 </ul>
 
-                {isCurrentPlan ? (
+                {plan.id === 'free' ? (
+                  isCurrentPlan ? (
+                    <button
+                      disabled
+                      className="w-full py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed"
+                    >
+                      {freeButtonText}
+                    </button>
+                  ) : (
+                    <Link
+                      href="/vendor-dashboard/settings?tab=subscription"
+                      className="w-full py-2.5 rounded-lg text-sm font-medium text-center block bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                    >
+                      {freeButtonText}
+                    </Link>
+                  )
+                ) : isCurrentPlan ? (
                   <button
                     disabled
                     className="w-full py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed"
@@ -624,11 +679,7 @@ export default function GettingStartedPage() {
                 ) : (
                   <Link
                     href="/vendor-dashboard/settings?tab=subscription"
-                    className={`w-full py-2.5 rounded-lg text-sm font-medium text-center block ${
-                      plan.popular
-                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700'
-                        : 'bg-purple-600 text-white hover:bg-purple-700'
-                    } transition-colors`}
+                    className="w-full py-2.5 rounded-lg text-sm font-medium text-center block bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-colors"
                   >
                     Upgrade to {plan.name}
                   </Link>
@@ -636,21 +687,6 @@ export default function GettingStartedPage() {
               </div>
             );
           })}
-        </div>
-
-        {/* Blog add-on note */}
-        <div className="card p-5 mt-5 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
-            <FeatureIcon icon="blog" className="w-5 h-5" />
-          </div>
-          <div>
-            <h4 className="font-semibold text-gray-900">Blog Posts Add-on</h4>
-            <p className="text-sm text-gray-600">
-              Available on the Pro plan. Publish articles to
-              build authority signals that AI systems recognise. Manage your posts
-              from the Posts section in the sidebar.
-            </p>
-          </div>
         </div>
       </section>
 
