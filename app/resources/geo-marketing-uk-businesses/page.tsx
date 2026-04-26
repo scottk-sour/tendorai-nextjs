@@ -551,20 +551,13 @@ export default function GeoMarketingPage() {
             Subscription Tiers
           </h3>
 
-          <div className="grid md:grid-cols-3 gap-6 my-8">
+          <div className="grid md:grid-cols-2 gap-6 my-8">
             {[
               {
                 name: 'Free',
                 price: '\u00a30',
                 priceLabel: '/forever',
                 features: ['Basic profile', 'Directory listing', 'Public register data', 'Visible to AI crawlers with SRA/FCA/ICAEW details'],
-                highlighted: false,
-              },
-              {
-                name: 'Starter',
-                price: '\u00a3149',
-                priceLabel: '/month',
-                features: ['Stand out from unclaimed profiles', 'Pricing visible to AI', 'Monthly AI Visibility (AEO) report', 'AI Visibility Score', 'Ranked above free profiles', 'Unlimited products'],
                 highlighted: false,
               },
               {
