@@ -19,7 +19,63 @@ Where target-prompt is the dead-zone prompt the next Monday blog will target. Ex
 
 ## Database context
 
-TendorAI uses Prisma ORM on PostgreSQL. Likely models include vendors/firms, AEO scores, regulatory register status, cities, Pro customers. Check prisma/schema.prisma first — column names may differ from assumptions.
+TendorAI uses Prisma ORM on MongoDB. Likely models include vendors/firms, AEO scores, regulatory register status, cities, Pro customers. Check prisma/schema.prisma first — field names may differ from assumptions.
+
+### Prisma + MongoDB query syntax
+
+Use Prisma client methods, not raw SQL. `$queryRaw` does not work on MongoDB — use Prisma client methods or `$runCommandRaw` for aggregation pipelines.
+
+**Counts**
+```ts
+const total = await prisma.vendor.count();
+const noSchema = await prisma.vendor.count({ where: { hasSchema: false } });
+const pct = (noSchema / total) * 100;
+```
+
+**Group by vertical with averages and counts** (use `groupBy()`)
+```ts
+await prisma.vendor.groupBy({
+  by: ['vertical'],
+  _avg: { aeoScore: true },
+  _count: { _all: true },
+});
+```
+
+**Top 10% / bottom 10% performers** (use `findMany` + `orderBy`)
+```ts
+const total = await prisma.vendor.count();
+const slice = Math.floor(total * 0.1);
+const topDecile = await prisma.vendor.findMany({
+  orderBy: { aeoScore: 'desc' },
+  take: slice,
+});
+```
+
+**Comparison groups (with vs without schema)** (parallel `aggregate()` calls)
+```ts
+const [withSchema, withoutSchema] = await Promise.all([
+  prisma.vendor.aggregate({ where: { hasSchema: true },  _avg: { aeoScore: true }, _count: { _all: true } }),
+  prisma.vendor.aggregate({ where: { hasSchema: false }, _avg: { aeoScore: true }, _count: { _all: true } }),
+]);
+```
+
+**Score distribution buckets** (Prisma `groupBy` cannot do range bucketing on MongoDB — use `$runCommandRaw` with `$bucket`)
+```ts
+await prisma.$runCommandRaw({
+  aggregate: 'Vendor',
+  pipeline: [
+    { $bucket: {
+      groupBy: '$aeoScore',
+      boundaries: [0, 26, 51, 76, 101],
+      default: 'unknown',
+      output: { count: { $sum: 1 } },
+    }},
+  ],
+  cursor: {},
+});
+```
+
+The MongoDB collection name passed to `aggregate` must match the actual collection (often the Prisma model name capitalised — confirm in `schema.prisma` via `@@map`).
 
 ## Standard data extracts by prompt type
 

@@ -59,16 +59,30 @@ This is the Next.js frontend. The Express/Node.js backend is a separate repo. Ne
 
 ## Commands Available
 Run these with /command-name in Claude Code:
+
+**Session & deploy**
 - /session-start — run at the start of every session
 - /pre-deploy — run before every push
+- /typecheck-fix — run tsc and fix every error in priority order
+
+**Audits**
 - /route-audit — audit all internal links
+- /nav-audit — verify nav matches the rules in CLAUDE.md
+- /terminology-sweep — scan for forbidden terms ("vendor" in UI, wrong prices, dead routes)
 - /new-page — checklist before creating any new page
 - /page-audit — full SEO + GEO audit of any page
+
+**Content & outreach**
 - /aeo-report-email — cold outreach email from AEO data
 - /cold-call-brief — cold call scripts
 - /industry-blog — blog post in TendorAI AEO Format
 - /schema-generator — JSON-LD schema for any page type
 - /weekly-report — weekly AI visibility report for Pro clients
+
+**Content-ops loop (Sat → Sun → Mon)**
+- /db-query-blog — Saturday: Prisma query against the firms dataset, outputs Monday's data brief
+- /prompt-test-batch — Sunday: 31-prompt test across ChatGPT/Perplexity/Claude/Gemini, week-over-week report
+- /quotable-extractor — extracts 8-15 word AI-citable phrases with attribution from any source
 
 ## Before Starting Any Task
 1. Run /session-start
