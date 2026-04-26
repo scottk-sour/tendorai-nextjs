@@ -51,7 +51,7 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
             <h3 className="font-semibold text-lg">You&apos;re on the Free Plan</h3>
           </div>
           <p className="text-blue-100 text-sm max-w-xl mb-2">
-            Free profiles are ranked below paid vendors in AI results. Upgrade to unlock:
+            Free profiles are ranked below paid firms in AI results. Upgrade to unlock:
           </p>
           <ul className="text-blue-100 text-sm space-y-0.5">
             <li className="flex items-center gap-1.5">

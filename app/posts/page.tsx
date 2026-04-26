@@ -116,7 +116,7 @@ export default async function PostsFeedPage() {
           <div className="text-center py-12 bg-white rounded-lg">
             <p className="text-gray-500 text-lg mb-4">No posts yet</p>
             <p className="text-gray-400">
-              Supplier posts will appear here as vendors share news, guides, and offers.
+              Supplier posts will appear here as firms share news, guides, and offers.
             </p>
           </div>
         )}

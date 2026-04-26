@@ -57,7 +57,7 @@ export default function EditVendorServicePage() {
 
       const vt = profileRes.vendor?.vendorType as string | undefined;
       if (!vt || !(REGULATED_VENDOR_TYPES as readonly string[]).includes(vt)) {
-        setLoadError('Service listings are only available for regulated vendors.');
+        setLoadError('Service listings are only available for regulated firms.');
         return;
       }
       setVendorType(vt as VendorType);

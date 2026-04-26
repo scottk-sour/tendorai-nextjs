@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Post Not Found' };
   }
 
-  const vendorName = post.vendor?.company || 'TendorAI Vendor';
+  const vendorName = post.vendor?.company || 'TendorAI Firm';
   const title = `${post.title} | ${vendorName}`;
   const description = post.body.slice(0, 160).replace(/\n/g, ' ');
 
@@ -70,7 +70,7 @@ export default async function PostPage({ params }: PageProps) {
     notFound();
   }
 
-  const vendorName = post.vendor?.company || 'TendorAI Vendor';
+  const vendorName = post.vendor?.company || 'TendorAI Firm';
   const vendorCity = post.vendor?.location?.city || '';
   const vendorId = post.vendor?._id;
 
@@ -209,7 +209,7 @@ export default async function PostPage({ params }: PageProps) {
 
           {post.isDemoVendor && (
             <p className="text-center text-sm text-gray-400 mt-4">
-              Demo profile — this is an example of what vendor posts look like on TendorAI.
+              Demo profile — this is an example of what firm posts look like on TendorAI.
             </p>
           )}
         </section>

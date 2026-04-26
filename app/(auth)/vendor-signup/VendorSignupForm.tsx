@@ -110,7 +110,7 @@ export default function VendorSignupForm({ plan }: { plan: string }) {
       <section className="bg-brand-gradient text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Become a TendorAI Vendor
+            Become a TendorAI Firm
           </h1>
           <p className="text-lg text-purple-100 max-w-xl mx-auto">
             Join our network to receive qualified leads and connect with businesses through AI
@@ -327,7 +327,7 @@ export default function VendorSignupForm({ plan }: { plan: string }) {
                     Creating Account...
                   </span>
                 ) : (
-                  'Create Vendor Account'
+                  'Create Firm Account'
                 )}
               </button>
 

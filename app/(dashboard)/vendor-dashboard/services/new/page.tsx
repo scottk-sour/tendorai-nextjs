@@ -43,16 +43,16 @@ export default function NewVendorServicePage() {
       const res = await fetch(`${API_URL}/api/vendors/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Unable to load vendor profile');
+      if (!res.ok) throw new Error('Unable to load firm profile');
       const data = await res.json();
       const vt = data.vendor?.vendorType as string | undefined;
       if (vt && (REGULATED_VENDOR_TYPES as readonly string[]).includes(vt)) {
         setVendorType(vt as VendorType);
       } else {
-        setProfileError('Service listings are only available for regulated vendors (solicitor, accountant, mortgage adviser, estate agent).');
+        setProfileError('Service listings are only available for regulated firms (solicitor, accountant, mortgage adviser, estate agent).');
       }
     } catch {
-      setProfileError('Unable to load your vendor profile. Refresh to try again.');
+      setProfileError('Unable to load your firm profile. Refresh to try again.');
     } finally {
       setProfileLoaded(true);
     }

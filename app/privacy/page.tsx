@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
                 <li>Current provider details (if provided)</li>
               </ul>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Vendor Account Information</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">Firm Account Information</h3>
               <p className="text-gray-600 mb-4">
                 If you register as a supplier, we collect:
               </p>
@@ -116,7 +116,7 @@ export default function PrivacyPolicyPage() {
                 </li>
                 <li>
                   <strong>Contractual Necessity:</strong> Processing is necessary to fulfil our service agreement
-                  with vendor subscribers.
+                  with firm subscribers.
                 </li>
                 <li>
                   <strong>Consent:</strong> For optional cookies and marketing communications, we rely on your consent.

@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? `Find FCA-authorised ${service.name.toLowerCase()} mortgage advisors in ${locationName}. Compare fees, lender panels and reviews on TendorAI.`
         : isEstateAgent
           ? `Find Propertymark-registered ${service.name.toLowerCase()} estate agents in ${locationName}. Compare fees, coverage and reviews on TendorAI.`
-          : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare vendors, read reviews, and get instant quotes. Free service for UK businesses.`;
+          : `Find trusted ${service.name.toLowerCase()} suppliers in ${locationName}. Compare firms, read reviews, and get instant quotes. Free service for UK businesses.`;
 
   // Noindex thin pages with fewer than 3 results
   const vendorCount = await withRetry(async () => {

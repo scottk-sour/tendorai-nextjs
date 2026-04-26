@@ -111,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (result.success && result.token) {
         login(result.token, {
           userId: result.vendorId || '',
-          name: result.name || 'Vendor',
+          name: result.name || 'Firm',
           email: credentials.email,
           role: 'vendor',
         });

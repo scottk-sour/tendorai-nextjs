@@ -41,7 +41,7 @@ export default function TermsOfServicePage() {
               </p>
               <p className="text-gray-600">
                 These Terms apply to all users, including businesses seeking quotes (&quot;Users&quot;) and
-                suppliers offering products and services (&quot;Vendors&quot;).
+                suppliers offering products and services (&quot;Firms&quot;).
               </p>
             </div>
 
@@ -77,7 +77,7 @@ export default function TermsOfServicePage() {
                   you are acting on behalf of a business, not as a consumer.
                 </li>
                 <li>
-                  <strong>No misuse:</strong> You will not use the Service for any unlawful purpose, to harass vendors,
+                  <strong>No misuse:</strong> You will not use the Service for any unlawful purpose, to harass firms,
                   or to submit fake or spam requests.
                 </li>
                 <li>
@@ -93,8 +93,8 @@ export default function TermsOfServicePage() {
 
             {/* Vendor Obligations */}
             <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Vendor Obligations</h2>
-              <p className="text-gray-600 mb-4">As a Vendor using our Service, you agree to:</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Firm Obligations</h2>
+              <p className="text-gray-600 mb-4">As a Firm using our Service, you agree to:</p>
               <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
                 <li>
                   <strong>Accurate business information:</strong> Your company details, service areas, and contact
@@ -123,21 +123,21 @@ export default function TermsOfServicePage() {
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Quote Requests and Introductions</h2>
               <p className="text-gray-600 mb-4">
-                <strong>Facilitation only:</strong> TendorAI facilitates introductions between Users and Vendors.
-                We do not guarantee that any Vendor will respond to a quote request, provide a quote, or offer any
+                <strong>Facilitation only:</strong> TendorAI facilitates introductions between Users and Firms.
+                We do not guarantee that any Firm will respond to a quote request, provide a quote, or offer any
                 particular pricing.
               </p>
               <p className="text-gray-600 mb-4">
                 <strong>Pricing estimates:</strong> Any pricing estimates shown on our platform are indicative only,
-                based on data provided by Vendors. Final pricing is determined directly between User and Vendor.
+                based on data provided by Firms. Final pricing is determined directly between User and Firm.
               </p>
               <p className="text-gray-600 mb-4">
                 <strong>No obligation:</strong> Submitting a quote request does not obligate you to purchase anything.
-                Similarly, Vendors listing on our platform are not obligated to accept every enquiry.
+                Similarly, Firms listing on our platform are not obligated to accept every enquiry.
               </p>
               <p className="text-gray-600">
                 <strong>Direct relationship:</strong> Any contract for goods or services is formed directly between
-                User and Vendor. TendorAI is not a party to such contracts.
+                User and Firm. TendorAI is not a party to such contracts.
               </p>
             </div>
 
@@ -251,7 +251,7 @@ export default function TermsOfServicePage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to These Terms</h2>
               <p className="text-gray-600">
                 We may update these Terms from time to time. We will notify you of material changes by posting
-                a notice on our website or, for Vendors with accounts, by email. Your continued use of the Service
+                a notice on our website or, for Firms with accounts, by email. Your continued use of the Service
                 after changes are posted constitutes acceptance of the updated Terms.
               </p>
             </div>

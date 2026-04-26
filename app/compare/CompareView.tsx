@@ -144,7 +144,7 @@ export default function CompareView({
   // Fetch comparison data
   const fetchComparisonData = useCallback(async () => {
     if (vendorIds.length === 0) {
-      setError('No vendors selected for comparison');
+      setError('No firms selected for comparison');
       setLoading(false);
       return;
     }
@@ -189,7 +189,7 @@ export default function CompareView({
         setVendors(filteredVendors);
 
         if (filteredVendors.length === 0) {
-          setError('Selected vendors not found in results. They may not match your criteria.');
+          setError('Selected firms not found in results. They may not match your criteria.');
         }
       } else {
         setError('Failed to fetch comparison data');
@@ -853,10 +853,10 @@ export default function CompareView({
           <div className="max-w-xl mx-auto px-4 text-center">
             <div className="text-6xl mb-4">🔍</div>
             <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {error || 'No vendors to compare'}
+              {error || 'No firms to compare'}
             </h2>
             <p className="text-gray-600 mb-6">
-              Please select vendors to compare them side-by-side.
+              Please select firms to compare them side-by-side.
             </p>
             <Link
               href="/aeo-report"

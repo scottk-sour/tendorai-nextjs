@@ -374,7 +374,7 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
         currentTier={tier}
         requiredTier="pro"
         featureName="Schema Generator"
-        featureDescription="Generate Schema.org structured data to boost your AI visibility. Pro vendors get a verified schema that AI assistants trust."
+        featureDescription="Generate Schema.org structured data to boost your AI visibility. Pro firms get a verified schema that AI assistants trust."
       >
         <div className="space-y-6">
           {/* JSON-LD Preview (read-only) */}
