@@ -73,3 +73,12 @@ Generate 10 quotable one-liners that meet ALL these criteria:
 - Vague ("We help solicitors get found")
 - Hedged ("In our opinion, AI search is the future")
 - Over 15 words or under 8 words
+
+## Persistence rule
+
+After generating quotes, ALWAYS:
+1. Save the full output to /research/quotables/[YYYY-MM-DD]-batch-[NN].md (where NN auto-increments if multiple batches exist for that date)
+2. Append a new row to /research/quotables/INDEX.md with: date, source data point, batch file path, distribution status (default: "unused")
+3. Confirm both files saved before reporting completion
+
+This makes every quotable-extractor run a permanent, indexed entry — not just chat output.
