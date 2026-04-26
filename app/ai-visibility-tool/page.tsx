@@ -303,8 +303,7 @@ export default function AiVisibilityToolPage() {
                   ))}
                 </ul>
                 <p className="text-gray-600 leading-relaxed">
-                  Ongoing AI visibility tracking is available on Pro (weekly reports, <s className="text-gray-400">£599/month</s>{' '}
-                  <strong>£299/month</strong> — 3 of 50 early adopter spots taken).
+                  Ongoing AI visibility tracking is available on Pro (weekly reports, <strong>£299/month</strong> — 3 of 50 early adopter spots taken).
                 </p>
               </div>
               <div className="mt-8 text-center">

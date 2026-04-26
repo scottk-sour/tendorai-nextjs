@@ -589,12 +589,7 @@ export default function GeoMarketingPage() {
                   </span>
                 )}
                 <h4 className="text-lg font-semibold text-gray-900">{plan.name}</h4>
-                {plan.highlighted && (
-                  <div className="mt-2 mb-0.5">
-                    <s className="text-sm text-gray-400 font-semibold">£599/month</s>
-                  </div>
-                )}
-                <div className={plan.highlighted ? 'mb-0.5' : 'mt-2 mb-4'}>
+                <div className="mt-2 mb-4">
                   <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
                   <span className="text-sm text-gray-500 ml-1">{plan.priceLabel}</span>
                   {plan.highlighted && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}

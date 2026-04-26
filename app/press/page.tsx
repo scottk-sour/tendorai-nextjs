@@ -42,7 +42,7 @@ const differentiators = [
     description: 'Weekly visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI. Not just Google \u2014 every platform that gives business recommendations.',
   },
   {
-    title: 'AI blog writer in Yadav format',
+    title: 'AI blog writer in TendorAI AEO Format',
     description: 'Built-in content generation using a structured format specifically designed to perform well in AI search results \u2014 with LinkedIn and Facebook versions generated alongside each post.',
   },
 ];
