@@ -332,7 +332,7 @@ export default function HowToGetYourLawFirmVisiblePage() {
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
-                  For Vendors
+                  For Firms
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
                   See how TendorAI helps UK firms get recommended by AI

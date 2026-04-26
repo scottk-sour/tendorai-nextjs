@@ -126,7 +126,7 @@ export default async function SuppliersIndexPage() {
         name: 'How do I get my business listed on TendorAI?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'You can sign up for a free vendor profile at tendorai.com/vendor-signup. Once registered, you can add your business details, services, and coverage areas to start appearing in the directory.',
+          text: 'You can sign up for a free firm profile at tendorai.com/vendor-signup. Once registered, you can add your business details, services, and coverage areas to start appearing in the directory.',
         },
       },
     ],

@@ -376,7 +376,7 @@ export default function AeoReportUkPage() {
                 className="group p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100"
               >
                 <h3 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-1">
-                  For Vendors
+                  For Firms
                 </h3>
                 <p className="text-sm text-gray-500">
                   See how TendorAI helps UK businesses get recommended by AI platforms.

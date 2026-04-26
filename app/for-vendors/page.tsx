@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "For Vendors — AI is Recommending Your Competitors. We Fix That.",
+  title: "For Firms — AI is Recommending Your Competitors. We Fix That.",
   description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (47 spots remaining). No agency required.",
   alternates: { canonical: 'https://www.tendorai.com/for-vendors' },
   openGraph: {
-    title: 'For Vendors — AI is Recommending Your Competitors. We Fix That.',
+    title: 'For Firms — AI is Recommending Your Competitors. We Fix That.',
     description: '200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month. No agency required.',
     url: 'https://www.tendorai.com/for-vendors',
     type: 'website',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'For Vendors — AI is Recommending Your Competitors. We Fix That.',
+    title: 'For Firms — AI is Recommending Your Competitors. We Fix That.',
     description: '200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month.',
   },
 };
