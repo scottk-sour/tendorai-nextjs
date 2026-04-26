@@ -306,7 +306,7 @@ export default function AeoReportClient() {
             systems from understanding and citing your business.
           </p>
           <p className="text-gray-500 text-sm mt-3">
-            Want a quick check first? Try our <Link href="/ai-visibility-checker" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.
+            Want a quick check first? Try our <Link href="/aeo-report" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.
           </p>
         </div>
       </section>
