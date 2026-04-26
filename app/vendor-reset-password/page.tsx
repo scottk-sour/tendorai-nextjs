@@ -3,7 +3,7 @@ import ResetPasswordContent from './ResetPasswordContent';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
-  description: 'Create a new password for your TendorAI vendor account.',
+  description: 'Create a new password for your TendorAI firm account.',
 };
 
 export default async function VendorResetPasswordPage({

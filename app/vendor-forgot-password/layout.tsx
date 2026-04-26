@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Reset Password | TendorAI',
-  description: 'Reset your TendorAI vendor account password.',
+  description: 'Reset your TendorAI firm account password.',
   robots: 'noindex',
 };
 

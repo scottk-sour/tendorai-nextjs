@@ -121,7 +121,7 @@ function PricingCards() {
       name: 'Free',
       price: '£0',
       priceLabel: '/forever',
-      features: ['Basic vendor profile', 'AI Visibility Score', '1 AI Visibility (AEO) Audit', 'Category listing'],
+      features: ['Basic firm profile', 'AI Visibility Score', '1 AI Visibility (AEO) Audit', 'Category listing'],
       highlighted: false,
     },
     {

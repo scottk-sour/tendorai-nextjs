@@ -41,7 +41,7 @@ export default function ContactPage() {
             <div className="bg-white rounded-xl p-8 border border-[var(--border)]">
               <h2 className="font-serif text-xl font-semibold text-[var(--text)] mb-4">For Firms</h2>
               <p className="text-[var(--text2)] mb-6">
-                Want to claim your profile and get recommended by AI? Sign up for a vendor account.
+                Want to claim your profile and get recommended by AI? Sign up for a firm account.
               </p>
               <Link href="/vendor-signup" className="btn-secondary">
                 Claim Your Profile

@@ -3,7 +3,7 @@ import VendorLoginForm from './VendorLoginForm';
 
 export const metadata: Metadata = {
   title: 'Firm Login',
-  description: 'Log in to your TendorAI vendor account to manage listings, view leads, and track analytics.',
+  description: 'Log in to your TendorAI firm account to manage listings, view leads, and track analytics.',
   robots: { index: false, follow: false },
   alternates: { canonical: '/vendor-login' },
 };

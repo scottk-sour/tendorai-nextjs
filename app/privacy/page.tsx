@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'TendorAI Privacy Policy - Learn how we collect, use, and protect your data. We are committed to protecting the privacy of our users and vendors.',
+  description: 'TendorAI Privacy Policy - Learn how we collect, use, and protect your data. We are committed to protecting the privacy of our users and firms.',
   robots: { index: true, follow: true },
   alternates: { canonical: '/privacy' },
 };
@@ -93,11 +93,11 @@ export default function PrivacyPolicyPage() {
               <p className="text-gray-600 mb-4">We use your data to:</p>
               <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
                 <li>Match your business with relevant local suppliers</li>
-                <li>Forward your quote requests to selected vendors</li>
+                <li>Forward your quote requests to selected firms</li>
                 <li>Provide pricing estimates and savings calculations</li>
                 <li>Improve our AI matching algorithms</li>
                 <li>Send service-related communications</li>
-                <li>Process vendor subscriptions and payments</li>
+                <li>Process firm subscriptions and payments</li>
                 <li>Prevent fraud and ensure platform security</li>
                 <li>Comply with legal obligations</li>
               </ul>
@@ -191,7 +191,7 @@ export default function PrivacyPolicyPage() {
                   then automatically deleted.
                 </li>
                 <li>
-                  <strong>Vendor Accounts:</strong> Retained while your account is active. Upon account closure,
+                  <strong>Firm Accounts:</strong> Retained while your account is active. Upon account closure,
                   data is deleted within 30 days except where required for legal purposes.
                 </li>
                 <li>

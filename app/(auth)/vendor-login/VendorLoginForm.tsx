@@ -177,7 +177,7 @@ export default function VendorLoginForm({ redirectTo }: { redirectTo: string }) 
               </button>
 
               <p className="text-center text-sm text-gray-600">
-                Don&apos;t have a vendor account?{' '}
+                Don&apos;t have a firm account?{' '}
                 <Link href="/vendor-signup" className="link font-medium">
                   Sign up here
                 </Link>

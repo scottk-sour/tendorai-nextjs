@@ -53,7 +53,7 @@ This is the Next.js frontend. The Express/Node.js backend is a separate repo. Ne
 - Do not push to feature branches — always push to main
 - Do not create /ai-visibility-checker — deleted, redirects to /aeo-report
 - Do not add "Pricing" as a standalone nav item — lives at /for-vendors#pricing
-- Do not add "Home" to the nav — the logo handles this
+- Do not add "Home" to the main Header navigation — the logo handles this. BreadcrumbList breadcrumbs MAY include "Home" as the first item per Google's structured data guidelines and SEO best practice.
 - Do not use dark purple hero backgrounds on tool pages — match the light gradient style of /vendor-login
 - Do not create duplicate pages for the same content at different URLs
 

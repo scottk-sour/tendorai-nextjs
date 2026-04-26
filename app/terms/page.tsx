@@ -149,11 +149,11 @@ export default function TermsOfServicePage() {
                 responsible for:
               </p>
               <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>The quality, safety, or legality of any products or services offered by Vendors</li>
-                <li>The accuracy of information provided by Vendors or Users</li>
-                <li>The ability of Vendors to fulfil orders or provide services</li>
-                <li>Any disputes between Users and Vendors</li>
-                <li>Any loss or damage arising from transactions between Users and Vendors</li>
+                <li>The quality, safety, or legality of any products or services offered by Firms</li>
+                <li>The accuracy of information provided by Firms or Users</li>
+                <li>The ability of Firms to fulfil orders or provide services</li>
+                <li>Any disputes between Users and Firms</li>
+                <li>Any loss or damage arising from transactions between Users and Firms</li>
               </ul>
               <p className="text-gray-600 mb-4">
                 <strong>No warranty:</strong> The Service is provided &quot;as is&quot; without warranties of any kind,
@@ -179,8 +179,8 @@ export default function TermsOfServicePage() {
                 By submitting content, you grant us a licence to use it for providing the Service.
               </p>
               <p className="text-gray-600">
-                <strong>Vendor content:</strong> Vendors retain ownership of their product listings and business information.
-                By uploading content, Vendors grant us a licence to display it on our platform and share it with potential
+                <strong>Firm content:</strong> Firms retain ownership of their product listings and business information.
+                By uploading content, Firms grant us a licence to display it on our platform and share it with potential
                 customers.
               </p>
             </div>
@@ -200,7 +200,7 @@ export default function TermsOfServicePage() {
                 <li>Used the Service for unlawful purposes</li>
               </ul>
               <p className="text-gray-600">
-                For Vendor accounts, we will provide reasonable notice before termination except in cases of
+                For Firm accounts, we will provide reasonable notice before termination except in cases of
                 serious misconduct.
               </p>
             </div>
@@ -227,7 +227,7 @@ export default function TermsOfServicePage() {
                 to attempt informal resolution.
               </p>
               <p className="text-gray-600 mb-4">
-                <strong>User-Vendor disputes:</strong> Disputes between Users and Vendors should be resolved directly
+                <strong>User-Firm disputes:</strong> Disputes between Users and Firms should be resolved directly
                 between those parties. TendorAI may, at its discretion, assist with mediation but is not obligated to do so.
               </p>
               <p className="text-gray-600">

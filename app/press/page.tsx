@@ -31,7 +31,7 @@ const differentiators = [
   },
   {
     title: 'Done-for-you implementation',
-    description: 'Every other AI visibility tool monitors. TendorAI installs the fix \u2014 Schema.org markup on the vendor\u2019s website within 48 hours, auto-syncing when they update their dashboard. No developer required.',
+    description: 'Every other AI visibility tool monitors. TendorAI installs the fix \u2014 Schema.org markup on the firm\u2019s website within 48 hours, auto-syncing when they update their dashboard. No developer required.',
   },
   {
     title: 'Bidirectional AI citation network',

@@ -332,7 +332,7 @@ export default function VendorSignupForm({ plan }: { plan: string }) {
               </button>
 
               <p className="text-center text-sm text-gray-600">
-                Already have a vendor account?{' '}
+                Already have a firm account?{' '}
                 <Link href="/vendor-login" className="link font-medium">
                   Log in here
                 </Link>
