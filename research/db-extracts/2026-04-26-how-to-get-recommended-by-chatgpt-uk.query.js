@@ -1,17 +1,17 @@
 /**
  * Data extract for blog: "How to get recommended by ChatGPT UK"
  * Generated: 2026-04-26
- * Run: node 2026-04-26-how-to-get-recommended-by-chatgpt-uk.query.js > 2026-04-26-how-to-get-recommended-by-chatgpt-uk.json
+ * Run: MONGODB_URI=<uri> node research/db-extracts/2026-04-26-how-to-get-recommended-by-chatgpt-uk.query.js > research/db-extracts/2026-04-26-how-to-get-recommended-by-chatgpt-uk.json
  *
- * Requires: MONGODB_URI in env. Pulls schema-accurate completeness signals
- * from the Vendor collection — used as proxies for "AI-readiness" because
- * the Vendor model does NOT store aeoScore or hasSchema. AI Visibility
- * Scores live in AeoReport (per-scan), so true top/bottom-decile comparison
- * requires joining on company name + most-recent scan, which this script
- * does in the final block.
+ * Reads via mongoose (already a project dependency) — no new packages needed.
+ * Pulls schema-accurate completeness signals from the Vendor collection as
+ * proxies for "AI-readiness" because the Vendor model does NOT store aeoScore
+ * or hasSchema. AI Visibility Scores live in AeoReport (per-scan), so true
+ * top/bottom-decile comparison joins on companyName + most-recent scan in the
+ * AeoReport blocks at the end.
  */
 
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
 const URI = process.env.MONGODB_URI;
 if (!URI) {
@@ -22,9 +22,8 @@ if (!URI) {
 const REGULATED = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'];
 
 (async () => {
-  const client = new MongoClient(URI);
-  await client.connect();
-  const db = client.db();
+  await mongoose.connect(URI);
+  const db = mongoose.connection.db;
   const Vendor = db.collection('vendors');
   const AeoReport = db.collection('aeoreports');
 
@@ -179,8 +178,9 @@ const REGULATED = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'
   ]).toArray();
 
   console.log(JSON.stringify(out, null, 2));
-  await client.close();
-})().catch((err) => {
+  await mongoose.disconnect();
+})().catch(async (err) => {
   console.error(err);
+  try { await mongoose.disconnect(); } catch {}
   process.exit(1);
 });
