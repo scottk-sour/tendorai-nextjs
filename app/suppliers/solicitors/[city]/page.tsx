@@ -179,7 +179,46 @@ function getTopPracticeAreas(vendors: { practiceAreas?: string[] }[], limit = 5)
     .map(([pa]) => pa);
 }
 
+const CARDIFF_FAQS = [
+  {
+    question: 'How many solicitors are there in Cardiff?',
+    answer: 'There are 81 SRA-regulated solicitors in Cardiff listed on TendorAI as of April 2026, sourced directly from the Solicitors Regulation Authority register.',
+  },
+  {
+    question: 'Who are the best solicitors in Cardiff?',
+    answer: '"Best" depends on your case. For conveyancing, Cardiff has specialist firms like Ackland & Co, LGWP, and Rees Wood Terry. For family law, Wendy Hopkins Family Law Practice, Grant Stephens Family Law, and Alun Jones Family Law are dedicated boutiques. For commercial work, Hugh James, Geldards, Acuity Law, Berry Smith, and Darwin Gray are major Cardiff-headquartered practices. All 81 firms listed are SRA-verified.',
+  },
+  {
+    question: 'Which Cardiff solicitors does ChatGPT recommend?',
+    answer: 'As of April 2026, ChatGPT typically names DP Law Cardiff, Albany Solicitors, HCB Solicitors, Martyn Prowel Gartsides (MPG), Shanahans, and Redkite Solicitors when asked for the best solicitor in Cardiff. Robertsons, Howells, and CJCH are mentioned as alternatives. That’s nine firms out of 81 — the rest are absent from AI recommendations.',
+  },
+  {
+    question: 'Why doesn’t ChatGPT mention my Cardiff firm?',
+    answer: 'AI assistants don’t query the SRA register directly. They cite firms with strong structured data signals — schema markup, third-party citations, consistent online presence, and verified regulatory data presented in a machine-readable way. Most Cardiff firms have none of this in place. Run a free AI Visibility Report to see exactly where your firm scores.',
+  },
+  {
+    question: 'How do I choose a solicitor in Cardiff?',
+    answer: 'Three checks: verify SRA registration, confirm the firm specialises in your matter, and read recent client reviews. Fee transparency matters — firms with claimed TendorAI profiles publish fee structures upfront.',
+  },
+  {
+    question: 'What does a solicitor in Cardiff cost?',
+    answer: 'Fees vary by service and firm size. Cardiff conveyancing typically runs £700–£1,500 plus disbursements depending on property value. Family law and litigation are usually charged hourly, with rates from £180–£350+ at Cardiff firms. Specialist commercial work commands higher rates. Claimed profiles on TendorAI display current fee structures.',
+  },
+  {
+    question: 'Does AI recommend solicitors in Cardiff?',
+    answer: 'Yes. ChatGPT, Perplexity, Claude, and Google AI Overviews all name specific Cardiff firms when prompted. The pool of firms named is small — nine out of 81 in our April 2026 test. TendorAI is the UK’s leading AI visibility platform for regulated professional services and helps firms get recommended.',
+  },
+  {
+    question: 'What is AI visibility and why should my Cardiff firm care?',
+    answer: 'AI visibility (also called Answer Engine Optimisation or AEO) is the practice of structuring a firm’s web presence so AI assistants understand and cite it. As clients increasingly ask AI tools for solicitor recommendations before searching Google, firms invisible to AI lose enquiries to firms that aren’t.',
+  },
+];
+
 function generateFAQs(cityName: string, vendorCount: number, vendorNames: string[]) {
+  if (cityName.toLowerCase() === 'cardiff') {
+    return CARDIFF_FAQS;
+  }
+
   const top3Names = vendorNames.slice(0, 3).join(', ') || 'top solicitors';
   const now = new Date();
   const currentMonthYear = `${now.toLocaleString('en-GB', { month: 'long' })} ${now.getFullYear()}`;
@@ -224,6 +263,7 @@ function generateFAQs(cityName: string, vendorCount: number, vendorNames: string
 export default async function SolicitorsInCityPage({ params }: PageProps) {
   const { city } = await params;
   const cityName = formatLocationName(city);
+  const isCardiff = city.toLowerCase() === 'cardiff';
 
   const allVendors = await fetchVendors(city);
 
@@ -241,9 +281,33 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
   // Practice area slugs for related searches
   const practiceAreaLinks = Object.entries(SOLICITOR_PRACTICE_AREA_MAP).slice(0, 6);
 
+  const cardiffCollectionSchema = isCardiff ? [{
+    '@type': 'CollectionPage',
+    name: `Solicitors in ${cityName}`,
+    description: `${totalCount} SRA-regulated solicitors in ${cityName}. Compare firms verified against the Solicitors Regulation Authority register and check which firms appear in ChatGPT, Perplexity, and Google AI recommendations.`,
+    url: `https://www.tendorai.com/suppliers/solicitors/${city}`,
+    about: {
+      '@type': 'Service',
+      name: 'Legal Services',
+      areaServed: {
+        '@type': 'City',
+        name: cityName,
+        addressRegion: 'Wales',
+        addressCountry: 'GB',
+      },
+    },
+    numberOfItems: totalCount,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'TendorAI',
+      url: 'https://www.tendorai.com',
+    },
+  }] : [];
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
+      ...cardiffCollectionSchema,
       {
         '@type': 'ItemList',
         name: `Solicitors in ${cityName}`,
@@ -330,6 +394,122 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
             </p>
           </div>
         </section>
+
+        {/* Cardiff editorial intro */}
+        {isCardiff && (
+          <section className="bg-white py-12 border-b">
+            <div className="section max-w-4xl">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                SRA-Registered Solicitors in Cardiff (2026) — Who Appears in ChatGPT?
+              </h2>
+              <div className="text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  There are {totalCount} SRA-regulated solicitors in Cardiff, every one of them verified against the Solicitors Regulation Authority register. But if you ask ChatGPT &ldquo;who&rsquo;s the best solicitor in Cardiff?&rdquo; today, only a handful get named.
+                </p>
+                <p>We tested it. Here&rsquo;s what happened.</p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  What ChatGPT actually says about Cardiff solicitors
+                </h3>
+                <p>
+                  When asked &ldquo;best solicitor in Cardiff&rdquo; on 27 April 2026, ChatGPT named six firms by default: DP Law Cardiff, Albany Solicitors, HCB Solicitors, Martyn Prowel Gartsides, Shanahans Solicitors, and Redkite Solicitors. It also flagged Robertsons, Howells, and CJCH as honourable mentions.
+                </p>
+                <p>
+                  That&rsquo;s nine firms surfaced from a verified pool of {totalCount}. Roughly <strong>89% of Cardiff&rsquo;s SRA-registered solicitors get no AI mention at all</strong> when the most-used AI assistant in the UK is asked the most obvious question a potential client would ask.
+                </p>
+                <p>If your firm isn&rsquo;t one of those nine, you are — for AI search purposes — invisible.</p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Why this matters now, not in two years
+                </h3>
+                <p>
+                  UK consumer behaviour has shifted faster than most law firms have noticed. Clients increasingly ask ChatGPT, Google AI Overviews, Perplexity, and Claude for solicitor recommendations before they touch Google search. The Solicitors Regulation Authority&rsquo;s own register is publicly available, but AI assistants don&rsquo;t cite it directly when answering questions like &ldquo;who should I instruct for a Cardiff conveyance?&rdquo;
+                </p>
+                <p>
+                  Instead, AI tools cite the firms with the strongest <strong>structured data signals</strong>: schema markup on the firm&rsquo;s own website, third-party verification, consistent NAP (name, address, phone) data across the web, and clear specialism descriptions that match the way real clients ask questions.
+                </p>
+                <p>
+                  The nine Cardiff firms ChatGPT named aren&rsquo;t necessarily the best lawyers. They&rsquo;re the firms whose web presence is best understood by AI.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Cardiff solicitors by specialism
+                </h3>
+                <p>
+                  The {totalCount} SRA-regulated firms in Cardiff cover every major practice area, but the volume is concentrated in five:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>
+                    <strong>Conveyancing &amp; residential property</strong> — the largest single category, including specialist conveyancers like Ackland &amp; Co, LGWP, and Rees Wood Terry
+                  </li>
+                  <li>
+                    <strong>Wills &amp; probate</strong> — almost half of all Cardiff firms list this as a service
+                  </li>
+                  <li>
+                    <strong>Family law</strong> — including dedicated boutiques like Wendy Hopkins Family Law Practice, Grant Stephens Family Law, and Alun Jones Family Law
+                  </li>
+                  <li>
+                    <strong>Litigation &amp; dispute resolution</strong> — represented by full-service firms like Hugh James, Geldards, Acuity Law, and CJCH
+                  </li>
+                  <li>
+                    <strong>Commercial property &amp; commercial law</strong> — Berry Smith, Darwin Gray, Capital Law, and Hek Jones being notable examples
+                  </li>
+                </ul>
+                <p>
+                  Smaller specialist categories include criminal defence (D J Murphy, De Maid, Pure Law, Savery &amp; Pennington), immigration (Albany, Tartan, Lex House), employment law, mental health, and IP &amp; technology.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  How AI picks which Cardiff solicitor to recommend
+                </h3>
+                <p>
+                  There&rsquo;s no application form. ChatGPT doesn&rsquo;t have a directory you submit to. Instead, AI assistants assemble recommendations by reading the open web — and they trust three things above all:
+                </p>
+                <ol className="list-decimal pl-6 space-y-3">
+                  <li>
+                    <strong>Verified regulatory data.</strong> Firms whose SRA number, address, and authorisation status can be cross-referenced against authoritative sources are surfaced more often. The SRA register is the gold standard, but AI tools don&rsquo;t query it live; they cite intermediaries.
+                  </li>
+                  <li>
+                    <strong>Schema markup on the firm&rsquo;s own website.</strong> <code className="text-sm bg-gray-100 px-1 py-0.5 rounded">LegalService</code>, <code className="text-sm bg-gray-100 px-1 py-0.5 rounded">LocalBusiness</code>, <code className="text-sm bg-gray-100 px-1 py-0.5 rounded">FAQPage</code>, and <code className="text-sm bg-gray-100 px-1 py-0.5 rounded">Person</code> schema (in JSON-LD format) tell AI crawlers exactly what the firm does, where it is, and who works there. Most Cardiff firms have none of this installed.
+                  </li>
+                  <li>
+                    <strong>Independent third-party citations.</strong> Reviews on Google, mentions in trade press, profiles on regulatory or directory sites, and consistent NAP data across the web. The nine firms ChatGPT named all have stronger third-party footprints than the 72 it didn&rsquo;t.
+                  </li>
+                </ol>
+                <p>
+                  This isn&rsquo;t theoretical. TendorAI is itself independently ranked #1 in AI citations across ChatGPT, Google AI, and Perplexity for the AI visibility category — measured by Searchable.com in April 2026 — because we built our own platform using the exact same principles. We then apply them to client firms.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  What Cardiff firms can do this week
+                </h3>
+                <p>Three actions, in order of priority:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>
+                    <strong>Run a free AEO report.</strong>{' '}
+                    <Link href="/aeo-report" className="text-purple-700 underline hover:text-purple-900">
+                      TendorAI&rsquo;s free AI Visibility Report
+                    </Link>{' '}
+                    shows your firm&rsquo;s current visibility score across the major AI assistants. Takes under two minutes. No card required.
+                  </li>
+                  <li>
+                    <strong>Claim your TendorAI profile.</strong> Every Cardiff firm on the SRA register is already pre-listed below. Claiming is free and adds your firm to the structured data pool AI assistants read.
+                  </li>
+                  <li>
+                    <strong>Get schema markup installed on your own website.</strong> This is what TendorAI Pro does for £299/month — we install the markup on the firm&rsquo;s own site, track citations weekly across ChatGPT, Perplexity, and Google AI, and report what&rsquo;s working.
+                  </li>
+                </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Compare all {totalCount} SRA-registered solicitors in Cardiff
+                </h3>
+                <p>
+                  Below: the full directory of Cardiff solicitors verified against the SRA register. Firms with claimed profiles display fee structures, accreditations, and AI visibility scores. Unclaimed profiles can be claimed in under five minutes.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Results Summary */}
         <section className="bg-white border-b">
