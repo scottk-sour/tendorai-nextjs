@@ -9,6 +9,7 @@ const navigation = [
   { name: 'Vendors', href: '/admin/vendors', icon: 'building' },
   { name: 'Leads', href: '/admin/leads', icon: 'users' },
   { name: 'Posts', href: '/admin/posts', icon: 'document' },
+  { name: 'Approvals', href: '/admin/approvals', icon: 'clipboardCheck' },
   { name: 'Outreach', href: '/admin/outreach', icon: 'phone' },
   { name: 'Campaigns', href: '/admin/campaigns', icon: 'megaphone' },
   { name: 'Schema', href: '/admin/schema-requests', icon: 'code' },
@@ -49,6 +50,11 @@ function NavIcon({ icon, className }: { icon: string; className?: string }) {
     code: (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
+    clipboardCheck: (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
       </svg>
     ),
   };
