@@ -4,14 +4,22 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
+import { isProTier } from '@/app/components/dashboard/loop/types';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
-function getNavigation(vendorType: string) {
+interface NavItem {
+  name: string;
+  href: string;
+  icon: string;
+  proOnly?: boolean;
+}
+
+function getNavigation(vendorType: string): NavItem[] {
   const isEquipment = vendorType === 'office-equipment';
   const isRegulated = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'].includes(vendorType);
-  const servicesEntry = isRegulated
+  const servicesEntry: NavItem = isRegulated
     ? { name: 'Services', href: '/vendor-dashboard/services', icon: 'package' }
     : { name: isEquipment ? 'Products' : 'Services', href: '/vendor-dashboard/products', icon: 'package' };
   return [
@@ -21,6 +29,7 @@ function getNavigation(vendorType: string) {
     { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
     servicesEntry,
     { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
+    { name: 'Approvals', href: '/vendor-dashboard/approvals', icon: 'clipboardCheck', proOnly: true },
     { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
     { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
     { name: 'Settings', href: '/vendor-dashboard/settings', icon: 'cog' },
@@ -75,6 +84,11 @@ function NavIcon({ icon, className }: { icon: string; className?: string }) {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
       </svg>
     ),
+    clipboardCheck: (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
   };
   return icons[icon] || null;
 }
@@ -89,6 +103,7 @@ export default function VendorDashboardLayout({
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [vendorType, setVendorType] = useState('office-equipment');
+  const [vendorTier, setVendorTier] = useState<string>('free');
 
   // Redirect if not authenticated or not a vendor
   useEffect(() => {
@@ -108,6 +123,7 @@ export default function VendorDashboardLayout({
       if (res.ok) {
         const data = await res.json();
         setVendorType(data.vendor?.vendorType || 'office-equipment');
+        setVendorTier(data.vendor?.tier || 'free');
       }
     } catch { /* silent */ }
   }, [getCurrentToken]);
@@ -177,6 +193,7 @@ export default function VendorDashboardLayout({
             {navigation.map((item) => {
               const isActive = pathname === item.href ||
                 (item.href !== '/vendor-dashboard' && pathname.startsWith(item.href));
+              const showLock = item.proOnly && !isProTier(vendorTier);
 
               return (
                 <Link
@@ -190,7 +207,12 @@ export default function VendorDashboardLayout({
                   }`}
                 >
                   <NavIcon icon={item.icon} className="w-5 h-5 mr-3" />
-                  {item.name}
+                  <span className="flex-1">{item.name}</span>
+                  {showLock && (
+                    <svg className="w-3.5 h-3.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-label="Pro feature">
+                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
                 </Link>
               );
             })}
