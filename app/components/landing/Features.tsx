@@ -72,45 +72,73 @@ export default function Features() {
           ))}
         </div>
 
-        {/* What's Included */}
+        {/* The Loop \u2014 what Pro actually does */}
         <div className="mt-16">
           <div className="section-header">
-            <h2>Everything You Get</h2>
-            <p>Schema is just the start. TendorAI handles content, social, tracking, and auditing &mdash; automatically.</p>
+            <h2>The Loop</h2>
+            <p>Pro runs a continuous five-stage system on your firm. Every week. Forever.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {[
               {
-                title: 'AI Blog Writer',
-                text: 'Publish two AI-optimised blog posts a week automatically. Enter a topic, Claude writes it in the format AI loves, publishes to your TendorAI profile, LinkedIn, Facebook, and your own website. No writer needed.',
+                verb: 'Measure',
+                tagline: 'Where you appear in AI',
+                text: 'Every Monday we scan ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI for the queries your clients are asking. We log where your firm shows up, where it doesn\u2019t, and what changed since last week.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                ),
               },
               {
-                title: 'Social Publishing',
-                text: 'Every blog post syncs to LinkedIn and Facebook automatically. LinkedIn is cited in 48% of AI responses \u2014 consistent publishing builds the citation signals AI uses to recommend you.',
+                verb: 'Diagnose',
+                tagline: 'Why you\u2019re being missed',
+                text: 'We work out exactly why AI is passing you over: missing schema markup, vague specialism descriptions, weak third-party citations, broken NAP data. Every gap is logged and sized.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v6a4 4 0 008 0V7a2 2 0 00-2-2h-2M7 11v3a4 4 0 008 0v-3m-4 7v3a3 3 0 003 3h0a3 3 0 003-3v-1.5m-3-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                  </svg>
+                ),
               },
               {
-                title: 'Schema Auto-Sync',
-                text: 'Every dashboard update syncs to your website schema automatically. Fees change? Schema updates in minutes. New accreditation? Live the same day. No developer ever needed.',
+                verb: 'Fix',
+                tagline: 'What we\u2019re sorting',
+                text: 'We draft the schema, write the content, build the listings, and prepare the press releases. You see every item before it ships and approve in one click.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.7 6.3a4 4 0 105.656 5.656l-1.06 1.06-7.071 7.072a2 2 0 01-2.829 0l-1.414-1.414a2 2 0 010-2.829l7.071-7.071-1.06-1.06z M14.7 6.3l-3.535 3.536" />
+                  </svg>
+                ),
               },
               {
-                title: 'Website AI Audit',
-                text: "10-point technical audit of your website. Each failing item links to a plain English fix guide. We show you exactly what\u2019s stopping AI from recommending you \u2014 and how to fix it.",
+                verb: 'Deploy',
+                tagline: 'What we put live',
+                text: 'Approved fixes go live on your website, on third-party directories, on LinkedIn and Facebook, and across the citation sources AI assistants trust. You don\u2019t touch a CMS.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841" />
+                  </svg>
+                ),
               },
               {
-                title: 'AI Visibility Tracking',
-                text: 'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Get an email the moment any AI platform recommends you. Track your score trend week by week.',
+                verb: 'Track',
+                tagline: 'Did it work?',
+                text: 'The next Monday we re-measure. Score delta, new platforms now mentioning you, what improved, what didn\u2019t. Then the loop starts again.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                ),
               },
-              {
-                title: 'Export Your Schema',
-                text: 'Download your complete JSON-LD schema as a static file any time. If you ever leave TendorAI, your structured data stays with you \u2014 self-host it and it keeps working forever.',
-              },
-            ].map((feature) => (
+            ].map((stage) => (
               <div
-                key={feature.title}
+                key={stage.verb}
                 className="bg-white rounded-xl border border-[var(--border)] p-6 hover:border-[var(--purple-start)] hover:-translate-y-1 hover:shadow-md transition-[transform,box-shadow,border-color]"
               >
-                <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-2">{feature.title}</h3>
-                <p className="text-sm text-[var(--text2)] leading-relaxed">{feature.text}</p>
+                <div className="text-purple-600 mb-3">{stage.icon}</div>
+                <h3 className="font-serif font-bold uppercase tracking-wide text-sm text-[var(--text)] mb-1">{stage.verb}</h3>
+                <p className="text-sm text-[var(--text2)] mb-3">{stage.tagline}</p>
+                <p className="text-xs text-[var(--text2)] leading-relaxed">{stage.text}</p>
               </div>
             ))}
           </div>

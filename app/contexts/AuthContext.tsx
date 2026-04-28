@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isAuthenticated: true,
             user: {
               userId: vendorId || result.vendor?.vendorId || '',
-              name: userName || result.vendor?.name || 'Vendor',
+              name: userName || result.vendor?.name || '',
               email: result.vendor?.email || '',
               role: 'vendor',
             },
@@ -111,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (result.success && result.token) {
         login(result.token, {
           userId: result.vendorId || '',
-          name: result.name || 'Firm',
+          name: result.name || '',
           email: credentials.email,
           role: 'vendor',
         });

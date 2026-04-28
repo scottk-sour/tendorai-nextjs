@@ -56,34 +56,89 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
         {/* Subtitle */}
         <div className="py-4">
           <p className="text-lg text-[var(--text2)] max-w-2xl mx-auto leading-relaxed">
-            When someone asks ChatGPT for a solicitor in your city, your firm is either recommended &mdash; or it doesn&apos;t exist. AI selects a small number it can understand, verify, and cite with confidence.
+            Continuous AI visibility for UK regulated professional services. We measure where you appear in AI answers, fix the gaps, and track what worked. Every week.
           </p>
         </div>
 
-        {/* Feature cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 max-w-3xl mx-auto">
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-left flex flex-col gap-2">
-            <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-            <h3 className="text-sm font-semibold text-[var(--text1)]">Structured Schema Markup</h3>
-            <p className="text-xs text-[var(--text2)]">Installed on your website within 48 hours. Formatted exactly how AI models expect to read it.</p>
+        {/* The Loop — five-stage cycle */}
+        <div className="mt-8 max-w-4xl mx-auto">
+          {/* Desktop: horizontal row with arrows */}
+          <div className="hidden md:flex items-center justify-between gap-1">
+            {[
+              {
+                verb: 'Measure',
+                icon: (
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                ),
+              },
+              {
+                verb: 'Diagnose',
+                icon: (
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v6a4 4 0 008 0V7a2 2 0 00-2-2h-2M7 11v3a4 4 0 008 0v-3m-4 7v3a3 3 0 003 3h0a3 3 0 003-3v-1.5m-3-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                  </svg>
+                ),
+              },
+              {
+                verb: 'Fix',
+                icon: (
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a4 4 0 105.656 5.656l-1.06 1.06-7.071 7.072a2 2 0 01-2.829 0l-1.414-1.414a2 2 0 010-2.829l7.071-7.071-1.06-1.06z M14.7 6.3l-3.535 3.536" />
+                  </svg>
+                ),
+              },
+              {
+                verb: 'Deploy',
+                icon: (
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841" />
+                  </svg>
+                ),
+              },
+              {
+                verb: 'Track',
+                icon: (
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                ),
+              },
+            ].map((stage, idx, arr) => (
+              <div key={stage.verb} className="flex items-center gap-1">
+                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 flex flex-col items-center gap-1 min-w-[100px]">
+                  <div className="text-purple-600">{stage.icon}</div>
+                  <span className="font-serif font-bold uppercase tracking-wide text-xs text-[var(--text)]">{stage.verb}</span>
+                </div>
+                {idx < arr.length - 1 && (
+                  <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7M3 12h18" />
+                  </svg>
+                )}
+              </div>
+            ))}
           </div>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-left flex flex-col gap-2">
-            <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-            <h3 className="text-sm font-semibold text-[var(--text1)]">Weekly AI Tracking</h3>
-            <p className="text-xs text-[var(--text2)]">Scanned across ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI every week.</p>
+
+          {/* Mobile: stacked column with arrows */}
+          <div className="md:hidden flex flex-col items-stretch gap-1">
+            {['Measure', 'Diagnose', 'Fix', 'Deploy', 'Track'].map((verb, idx, arr) => (
+              <div key={verb} className="flex flex-col items-stretch gap-1">
+                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-center">
+                  <span className="font-serif font-bold uppercase tracking-wide text-xs text-[var(--text)]">{verb}</span>
+                </div>
+                {idx < arr.length - 1 && (
+                  <div className="flex justify-center text-gray-300" aria-hidden>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7m14-7l-7 7-7-7" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-left flex flex-col gap-2">
-            <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-            <h3 className="text-sm font-semibold text-[var(--text1)]">Built From Register Data</h3>
-            <p className="text-xs text-[var(--text2)]">SRA, ICAEW, and FCA data. No developer needed. No ongoing maintenance.</p>
-          </div>
+
+          <p className="text-center text-xs text-[var(--text3)] mt-3">Continues every Monday.</p>
         </div>
 
         {/* Stat line */}

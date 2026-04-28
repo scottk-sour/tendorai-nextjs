@@ -1,6 +1,31 @@
 import Link from 'next/link';
 
-const plans = [
+interface FeatureRow {
+  text: string;
+  included: boolean;
+}
+
+interface LoopStage {
+  verb: string;
+  summary: string;
+}
+
+interface Plan {
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  popular: boolean;
+  highlight: boolean;
+  features?: FeatureRow[];
+  loopStages?: LoopStage[];
+  loopFooter?: string;
+  cta: string;
+  ctaStyle: string;
+  href: string;
+}
+
+const plans: Plan[] = [
   {
     name: 'Free',
     price: '£0',
@@ -26,34 +51,17 @@ const plans = [
     name: 'Pro',
     price: '£299',
     period: '/month',
-    description: 'Everything you need to go from invisible to recommended by AI \u2014 schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge \u00a31,500\u2013\u00a33,900/month for this manually. You pay \u00a3299.',
+    description: 'TendorAI Pro runs a continuous system on your firm.',
     popular: true,
     highlight: true,
-    features: [
-      { text: 'AI-optimised schema installed on your website within 48 hours', included: true },
-      { text: 'Auto-sync \u2014 every dashboard update updates your website schema', included: true },
-      { text: 'Fees, accreditations, and practice areas visible to AI', included: true },
-      { text: 'Export your schema any time \u2014 your data stays with you', included: true },
-      { text: 'Done-for-you installation \u2014 just send us your website login', included: true },
-      { text: 'AI blog writer \u2014 2 posts/week, published automatically', included: true },
-      { text: 'LinkedIn and Facebook copy — post in one click from your dashboard', included: true },
-      { text: 'Blog content published to your TendorAI profile page and ready to share on LinkedIn and Facebook', included: true },
-      { text: 'Weekly AI scans across ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI', included: true },
-      { text: 'Email alert when any AI platform recommends you — ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI', included: true },
-      { text: 'Weekly AI Visibility Score with trend tracking', included: true },
-      { text: 'Competitor comparison \u2014 see who AI recommends instead', included: true },
-      { text: 'Profile gaps report \u2014 exact fields missing and why they matter', included: true },
-      { text: 'Ranked above free profiles in TendorAI directory', included: true },
-      { text: 'TendorAI Verified badge', included: true },
-      { text: 'Pre-built profile from SRA, ICAEW, or FCA register data', included: true },
-      { text: 'Unlimited products and services listed', included: true },
-      { text: 'Team members with individual specialisms', included: true },
-      { text: 'Weekly AI Visibility Report emailed every Monday', included: true },
-      { text: '10-point Website AI Audit with fix guides', included: true },
-      { text: 'Google Business Profile optimisation checklist', included: true },
-      { text: 'Priority support', included: true },
-      { text: "90-day promise \u2014 score reviewed and refunded if it isn't moving", included: true },
+    loopStages: [
+      { verb: 'Measure', summary: 'we check where you appear in AI answers every week' },
+      { verb: 'Diagnose', summary: 'we work out why you’re being missed' },
+      { verb: 'Fix', summary: 'we sort out what’s wrong' },
+      { verb: 'Deploy', summary: 'we put fixes live on your website and across the web' },
+      { verb: 'Track', summary: 'we measure whether it worked, then start again' },
     ],
+    loopFooter: 'Every week. Forever. £299/month.',
     cta: 'Start Pro',
     ctaStyle: 'btn-primary',
     href: '/vendor-signup?plan=pro',
@@ -108,20 +116,39 @@ export default function Pricing() {
 
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>
 
-                <ul className="space-y-2.5 mb-7">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm">
-                      {f.included ? (
-                        <svg className="w-4 h-4 text-[var(--purple-start)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      ) : (
-                        <span className="w-4 h-4 mt-0.5 flex-shrink-0 text-center text-gray-300 text-xs leading-4">—</span>
-                      )}
-                      <span className={f.included ? 'text-[var(--text)]' : 'text-gray-400'}>{f.text}</span>
-                    </li>
-                  ))}
-                </ul>
+                {plan.loopStages ? (
+                  <ul className="space-y-3 mb-7">
+                    {plan.loopStages.map((stage) => (
+                      <li key={stage.verb} className="flex items-start gap-3 text-sm">
+                        <span className="text-purple-600 font-semibold mt-0.5 flex-shrink-0" aria-hidden>&rarr;</span>
+                        <span className="text-[var(--text)]">
+                          <span className="font-serif font-bold uppercase tracking-wide text-xs text-purple-700">{stage.verb}</span>
+                          <span className="text-[var(--text2)]"> &mdash; {stage.summary}</span>
+                        </span>
+                      </li>
+                    ))}
+                    {plan.loopFooter && (
+                      <li className="text-sm font-semibold text-[var(--text)] pt-3 mt-2 border-t border-[var(--border)]">
+                        {plan.loopFooter}
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  <ul className="space-y-2.5 mb-7">
+                    {(plan.features ?? []).map((f, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm">
+                        {f.included ? (
+                          <svg className="w-4 h-4 text-[var(--purple-start)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <span className="w-4 h-4 mt-0.5 flex-shrink-0 text-center text-gray-300 text-xs leading-4">&mdash;</span>
+                        )}
+                        <span className={f.included ? 'text-[var(--text)]' : 'text-gray-400'}>{f.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <Link
                   href={plan.href}

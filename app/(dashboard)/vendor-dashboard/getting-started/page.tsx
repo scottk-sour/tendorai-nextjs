@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import Link from 'next/link';
-import { getDisplayTier } from '@/lib/constants/tiers';
 
 const API_URL =
   process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -47,309 +46,125 @@ Thanks,
 [Vendor name]`
 )}`;
 
-const CHECKLIST_CONFIG: Array<{
+interface ChecklistItem {
   key: keyof OnboardingChecklist;
   label: string;
   caption: string;
   href: string | null;
   tickable: boolean;
-}> = [
-  {
-    key: 'profileComplete',
-    label: 'Complete your company profile',
-    caption:
-      'Auto-completes when you save your profile with company name, city, description (50+ chars), vendor type, and at least one specialism.',
-    href: '/vendor-dashboard/settings',
-    tickable: false,
-  },
-  {
-    key: 'firstProductAdded',
-    label: 'Add at least one product or service',
-    caption: 'Auto-completes when you add your first product or service.',
-    href: '/vendor-dashboard/products',
-    tickable: false,
-  },
-  {
-    key: 'firstAuditRun',
-    label: 'Run your first AI Visibility Audit',
-    caption: 'Run your AI Visibility Audit from the dashboard, then mark as done.',
-    href: '/vendor-dashboard/analytics',
-    tickable: true,
-  },
-  {
-    key: 'schemaCallScheduled',
-    label: 'Schedule your schema installation call (Pro)',
-    caption: 'Book your 15-minute pair-install call with the TendorAI team, then mark as done.',
-    href: SCHEMA_CALL_MAILTO,
-    tickable: true,
-  },
-  {
-    key: 'firstPillarPostGenerated',
-    label: 'Generate your first pillar blog post',
-    caption: 'Auto-completes when you generate a blog post from the pillar library.',
-    href: '/vendor-dashboard/posts',
-    tickable: false,
-  },
-  {
-    key: 'firstPrimaryDataAdded',
-    label: 'Add your first primary data point to a blog',
-    caption: 'Auto-completes when you add primary data to a blog post.',
-    href: '/vendor-dashboard/posts',
-    tickable: false,
-  },
-  {
-    key: 'firstLiveAITestRun',
-    label: 'Try a Live AI Search Test',
-    caption: 'Try the Live AI Search Test from the dashboard, then mark as done.',
-    href: '/vendor-dashboard/analytics',
-    tickable: true,
-  },
-];
-
-// ── FAQ data ───────────────────────────────────────────────────────
-const FAQ_ITEMS = [
-  {
-    q: 'What is AI visibility?',
-    a: 'AI visibility is how often AI assistants like ChatGPT, Perplexity, Claude, and Gemini recommend your firm when users ask for a firm in your area. Unlike Google search, where users see ten links, AI gives one direct answer with two or three vendors named. AI visibility is the practice of being one of those named firms.',
-  },
-  {
-    q: 'How is this different from Google SEO?',
-    a: 'Google SEO ranks pages by backlinks and keywords. AI visibility (also called AEO — Answer Engine Optimisation) ranks firms by structured data, named-entity authority, and citable content. Both matter, but AI search is where buyers are increasingly going first. The firms that invest now will dominate the category for years — just like 2005 Google SEO.',
-  },
-  {
-    q: 'Will I get leads immediately?',
-    a: 'No. AI visibility is a 90-day-plus build. Schema installs in 10 minutes, but AI assistants need time to crawl, re-index, and update their training data. Pro customers typically see measurable AI mention growth within 4–8 weeks. Within 90 days, most firms see their AI Visibility Score improve by 15+ points. The 90-day promise covers this.',
-  },
-  {
-    q: 'What does the AI Visibility Score measure?',
-    a: 'A score from 0 to 100 combining your technical health (schema, mobile speed, structured data) and your AI visibility (citation rate across 6 AI platforms, named-entity coverage, primary data presence). Updated weekly. Pro customers see the full breakdown by category and per-platform.',
-  },
-  {
-    q: 'How do AI Mentions work?',
-    a: 'We run automated queries every week against ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI — the six AI platforms most often used to find professional services firms. When any of them recommend your firm by name, we capture it and email you. Pro customers see a full mention history with platform-by-platform breakdown.',
-  },
-  {
-    q: 'What is an AI Visibility Audit?',
-    a: "A 10-point check of your website's AI readiness — schema presence, structured data quality, mobile readiness, named-entity signals, content recency, FAQ structure, regulatory trust signals, and more. The audit produces a score with specific fix guides. Pro customers get the full audit; Free customers get a summary score.",
-  },
-  {
-    q: 'Do I need a paid plan?',
-    a: 'Free works if you just want a directory listing. Pro is required if you want schema installed, weekly AI mention tracking, the v7 AI blog writer, the 96-topic pillar library, and the 90-day promise. Most regulated firms benefit more from Pro than Free.',
-  },
-  {
-    q: 'How often should I check my dashboard?',
-    a: 'Once a week is enough. Open your weekly AI Visibility Report email each Monday, generate one or two pillar blog posts, and check your AI Mentions panel. The whole rhythm takes about an hour a week.',
-  },
-  {
-    q: 'Can I cancel my plan anytime?',
-    a: 'Yes. Cancel any time from your billing settings. If you cancel mid-month, your Pro features stay active until the end of your billing period. After cancellation the schema we installed will stop syncing — if you re-subscribe, sync resumes automatically.',
-  },
-];
-
-// ── Feature cards data ─────────────────────────────────────────────
-const FEATURES = [
-  {
-    name: 'AI Visibility Score',
-    description:
-      'Your overall score (0–100) showing how likely AI assistants are to recommend your business. Track improvements over time.',
-    icon: 'score',
-  },
-  {
-    name: 'AI Mentions',
-    description:
-      'Weekly scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI to see when your business gets recommended.',
-    icon: 'mentions',
-  },
-  {
-    name: 'Live AI Search Test',
-    description:
-      'Run real-time queries against ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI to instantly see if your business appears in the results.',
-    icon: 'search',
-  },
-  {
-    name: 'AI Visibility (AEO) Audit',
-    description:
-      'Answer Engine Optimisation audit — checks your website for the signals AI systems look for.',
-    icon: 'audit',
-  },
-  {
-    name: 'Reviews',
-    description:
-      'Collect and display customer reviews. AI systems use review signals as trust indicators when recommending vendors.',
-    icon: 'reviews',
-  },
-  {
-    name: 'Products & Pricing',
-    description:
-      'List your products and services with pricing. Structured product data helps AI assistants match you to buyer queries.',
-    icon: 'products',
-  },
-  {
-    name: 'Analytics',
-    description:
-      'Track profile views, quote requests, AI mention trends, and visibility score changes over time.',
-    icon: 'analytics',
-  },
-  {
-    name: 'Weekly Email Report',
-    description:
-      'Receive a weekly summary of your AI visibility metrics, new mentions, and actionable tips.',
-    icon: 'email',
-  },
-  {
-    name: 'Pillar Blog Library (Pro)',
-    description:
-      '96 strategic blog topics across six pillars. The v7-compliant AI writer generates direct-answer + bullet content optimised for AI citation, plus LinkedIn and Facebook variants alongside every blog.',
-    icon: 'blog',
-  },
-  {
-    name: 'Website AI Installation (Pro)',
-    description:
-      "We install your schema in a 15-minute screenshare with you. You stay logged into your own site. We guide you through pasting a small code block into your website's header, then verify it's reading correctly. No passwords change hands. Most installs take 10 minutes. Once installed, your TendorAI dashboard syncs to your website automatically — update your fees, accreditations, or services on TendorAI and the changes flow through to the structured data AI reads from your site.",
-    icon: 'schema',
-  },
-];
-
-// ── Feature icon component ─────────────────────────────────────────
-function FeatureIcon({ icon, className }: { icon: string; className?: string }) {
-  const c = className || 'w-6 h-6';
-  const map: Record<string, React.ReactNode> = {
-    score: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-      </svg>
-    ),
-    mentions: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-      </svg>
-    ),
-    search: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-    ),
-    audit: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
-    reviews: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-      </svg>
-    ),
-    products: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
-    analytics: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    email: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-    blog: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-      </svg>
-    ),
-    schema: (
-      <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-      </svg>
-    ),
-  };
-  return <>{map[icon] || null}</>;
 }
 
-// ── How-it-works steps ─────────────────────────────────────────────
-const STEPS = [
+interface LoopGroup {
+  verb: string;
+  tagline: string;
+  icon: React.ReactNode;
+  items: ChecklistItem[];
+}
+
+// Icons lifted from app/components/dashboard/loop/{Measure,Diagnose,Deploy}Card.tsx
+const MEASURE_ICON = (
+  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
+
+const DIAGNOSE_ICON = (
+  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v6a4 4 0 008 0V7a2 2 0 00-2-2h-2M7 11v3a4 4 0 008 0v-3m-4 7v3a3 3 0 003 3h0a3 3 0 003-3v-1.5m-3-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+  </svg>
+);
+
+const DEPLOY_ICON = (
+  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-6.233 0c-1.296 1.296-1.296 3.441.011 5.751 1.308-1.308 3.453-1.308 5.751.011a4.493 4.493 0 000-6.233" />
+  </svg>
+);
+
+const LOOP_GROUPS: LoopGroup[] = [
   {
-    num: 1,
-    title: 'Complete Your Profile',
-    desc: 'Add your company details, services, coverage areas, and a compelling description. This is the foundation AI systems read.',
+    verb: 'Measure',
+    tagline: 'first run scheduled',
+    icon: MEASURE_ICON,
+    items: [
+      {
+        key: 'profileComplete',
+        label: 'Complete your company profile',
+        caption: 'Auto-completes when you save your profile with company name, city, description (50+ chars), vendor type, and at least one specialism.',
+        href: '/vendor-dashboard/settings',
+        tickable: false,
+      },
+      {
+        key: 'firstProductAdded',
+        label: 'Add at least one product or service',
+        caption: 'Auto-completes when you add your first product or service.',
+        href: '/vendor-dashboard/products',
+        tickable: false,
+      },
+      {
+        key: 'firstAuditRun',
+        label: 'Run your first AI Visibility Audit',
+        caption: 'Run your AI Visibility Audit from the dashboard, then mark as done.',
+        href: '/vendor-dashboard/analytics',
+        tickable: true,
+      },
+    ],
   },
   {
-    num: 2,
-    title: 'Run Your AI Visibility Audit',
-    desc: 'Check how your firm scores for AI visibility. The audit identifies the technical and authority signals AI looks for.',
+    verb: 'Diagnose',
+    tagline: 'happens after first measurement',
+    icon: DIAGNOSE_ICON,
+    items: [
+      {
+        key: 'firstLiveAITestRun',
+        label: 'Try a Live AI Search Test',
+        caption: 'Try the Live AI Search Test from the dashboard, then mark as done.',
+        href: '/vendor-dashboard/analytics',
+        tickable: true,
+      },
+    ],
   },
   {
-    num: 3,
-    title: 'Install Your Schema (Pro)',
-    desc: 'We install AI-optimised structured data on your website in a 15-minute screenshare. We guide you, you stay logged into your own site — no passwords change hands.',
-  },
-  {
-    num: 4,
-    title: 'Generate Pillar Content',
-    desc: 'Your dashboard includes 24 strategic blog topics across six pillars. Each one is engineered to earn AI citations. Generate posts in minutes — we handle the v7 structure.',
-  },
-  {
-    num: 5,
-    title: 'Track and Improve',
-    desc: 'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI. Watch your citation rate climb week by week.',
+    verb: 'Deploy',
+    tagline: 'your site preparation',
+    icon: DEPLOY_ICON,
+    items: [
+      {
+        key: 'schemaCallScheduled',
+        label: 'Schedule your schema installation call (Pro)',
+        caption: 'Book your 15-minute pair-install call with the TendorAI team, then mark as done.',
+        href: SCHEMA_CALL_MAILTO,
+        tickable: true,
+      },
+      {
+        key: 'firstPillarPostGenerated',
+        label: 'Generate your first pillar blog post',
+        caption: 'Auto-completes when you generate a blog post from the pillar library.',
+        href: '/vendor-dashboard/posts',
+        tickable: false,
+      },
+      {
+        key: 'firstPrimaryDataAdded',
+        label: 'Add your first primary data point to a blog',
+        caption: 'Auto-completes when you add primary data to a blog post.',
+        href: '/vendor-dashboard/posts',
+        tickable: false,
+      },
+    ],
   },
 ];
 
-// ── Plans (page-local, with Free tier deliverables only) ───────────
-const PAGE_PLANS = [
-  {
-    id: 'free',
-    name: 'Free',
-    price: 0,
-    description: 'Claim your profile. Get listed in the TendorAI directory and visible to AI crawlers with your basic regulator details.',
-    features: [
-      'Company listing in TendorAI directory',
-      'Up to 3 products/services',
-      'Receive quote requests',
-      'AI Visibility Score (number only, no breakdown)',
-      'Basic profile from regulator data (SRA/ICAEW/FCA/Propertymark)',
-    ],
-    popular: false,
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    price: 299,
-    description: 'Get recommended first. We install AI-optimised structured data on your website, generate citation-ready content, and track your AI visibility weekly.',
-    features: [
-      '96-topic pillar library + v7 AI blog writer',
-      'Schema installed on your website (15-min pair session)',
-      'Your website and TendorAI stay in sync automatically',
-      'Weekly AI visibility scans across 6 AI platforms',
-      'AI mention tracking — know when AI talks about you',
-      'LinkedIn and Facebook variants of every blog',
-      'TendorAI Verified badge',
-      '+15 visibility score boost',
-      'Full AI Visibility Audit of your website',
-      'Google Business Profile optimisation checklist',
-      'Unlimited products and services',
-      'Full analytics dashboard',
-      'Priority support',
-      "90-day promise — score reviewed and refunded if it isn't moving",
-    ],
-    popular: true,
-  },
-];
+const ALL_ITEMS: ChecklistItem[] = LOOP_GROUPS.flatMap((g) => g.items);
 
 // ════════════════════════════════════════════════════════════════════
 // Main Page Component
 // ════════════════════════════════════════════════════════════════════
 export default function GettingStartedPage() {
-  const { getCurrentToken, auth } = useAuth();
+  const { getCurrentToken } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [tier, setTier] = useState<string>('free');
   const [vendorId, setVendorId] = useState<string>('');
   const [onboarding, setOnboarding] = useState<OnboardingChecklist>(DEFAULT_ONBOARDING);
   const [tickingItem, setTickingItem] = useState<TickableItem | null>(null);
   const [tickError, setTickError] = useState<string | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const fetchData = useCallback(async () => {
     const token = getCurrentToken();
@@ -365,7 +180,6 @@ export default function GettingStartedPage() {
         const data = await profileRes.json();
         const v = data.vendor || data;
         setVendorId(v._id || v.id || '');
-        setTier(v.tier || v.account?.tier || 'free');
         setOnboarding({ ...DEFAULT_ONBOARDING, ...(v.onboardingChecklist || {}) });
       }
     } catch (err) {
@@ -413,10 +227,10 @@ export default function GettingStartedPage() {
     [getCurrentToken, vendorId, tickingItem]
   );
 
-  const completedCount = CHECKLIST_CONFIG.filter((c) => onboarding[c.key]).length;
-  const totalCount = CHECKLIST_CONFIG.length;
+  const completedCount = ALL_ITEMS.filter((c) => onboarding[c.key]).length;
+  const totalCount = ALL_ITEMS.length;
   const progressPct = Math.round((completedCount / totalCount) * 100);
-  const displayTier = getDisplayTier(tier);
+  const allDone = completedCount === totalCount;
 
   // ── Loading state ──────────────────────────────────────────────
   if (loading) {
@@ -428,552 +242,180 @@ export default function GettingStartedPage() {
   }
 
   return (
-    <div className="space-y-10 pb-12">
-      {/* ═══ SECTION 1: Hero ═══ */}
-      <section className="rounded-2xl bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-700 p-8 sm:p-10 text-white relative overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full" />
-        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full" />
-
-        <div className="relative z-10 max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-            Welcome to TendorAI
-          </h1>
-          <p className="text-lg sm:text-xl text-purple-100 mb-6 leading-relaxed">
-            You&apos;re one of the first firms building an AI-visible
-            presence. Businesses are already using ChatGPT, Perplexity, Claude,
-            Gemini, Grok, and Meta AI to find suppliers &mdash; the firms who show
-            up in those results win.
-          </p>
-          <p className="text-purple-200">
-            This guide walks you through everything TendorAI does for you and how
-            to get the most out of your dashboard.
-          </p>
-        </div>
-      </section>
-
-      {/* ═══ SECTION 2: Not Instant Sales ═══ */}
-      <section className="card p-6 sm:p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          This is Not an Instant-Sales Tool
-        </h2>
-        <p className="text-gray-600 mb-6 max-w-3xl">
-          TendorAI is building your future pipeline. Think of it like SEO was in
-          2005 &mdash; the businesses that invested early dominated for years.
-          Here&apos;s how AI search compares:
+    <div className="space-y-8 pb-12 max-w-4xl mx-auto">
+      {/* Header */}
+      <header>
+        <h1 className="text-3xl font-bold text-gray-900">Setting up your account</h1>
+        <p className="text-gray-600 mt-2 text-base">
+          Your AI Visibility Loop runs every Monday. Here&rsquo;s what we&rsquo;re setting up first.
         </p>
+      </header>
 
-        <div className="grid sm:grid-cols-2 gap-6">
-          {/* Traditional SEO */}
-          <div className="rounded-xl border border-gray-200 p-5">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <span className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-sm font-bold">
-                G
-              </span>
-              Traditional SEO
-            </h3>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-start gap-2">
-                <span className="text-gray-400 mt-0.5">&#8226;</span>
-                Optimise for Google&apos;s link-based algorithm
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gray-400 mt-0.5">&#8226;</span>
-                Users click through 10 blue links
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gray-400 mt-0.5">&#8226;</span>
-                Rankings based on backlinks &amp; keywords
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gray-400 mt-0.5">&#8226;</span>
-                Decades of established competition
-              </li>
-            </ul>
-          </div>
-
-          {/* AI Search (AEO) */}
-          <div className="rounded-xl border-2 border-purple-200 bg-purple-50/50 p-5">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <span className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-sm font-bold">
-                AI
-              </span>
-              AI Search (AI Visibility / AEO)
-            </h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-start gap-2">
-                <span className="text-purple-400 mt-0.5">&#8226;</span>
-                Optimise for AI recommendation engines
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-purple-400 mt-0.5">&#8226;</span>
-                AI gives a direct answer with 2&ndash;3 vendors
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-purple-400 mt-0.5">&#8226;</span>
-                Rankings based on structured data &amp; authority
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-purple-400 mt-0.5">&#8226;</span>
-                <strong>Early mover advantage &mdash; act now</strong>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ SECTION 3: How It Works ═══ */}
-      <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          How It Works &mdash; 5 Steps
-        </h2>
-
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-purple-200 hidden sm:block" />
-
-          <div className="space-y-6">
-            {STEPS.map((step) => (
-              <div key={step.num} className="flex gap-4 sm:gap-6">
-                {/* Number circle */}
-                <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm">
-                  {step.num}
-                </div>
-
-                {/* Card */}
-                <div className="card p-5 flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-1">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-gray-600">{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ SECTION 4: Dashboard Features ═══ */}
-      <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Your Dashboard Features
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Every tool is designed to improve how AI assistants see and recommend
-          your business.
-        </p>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {FEATURES.map((f) => (
-            <div
-              key={f.name}
-              className="card p-5 hover:shadow-md transition-shadow"
-            >
-              <div className="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mb-3">
-                <FeatureIcon icon={f.icon} className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">{f.name}</h3>
-              <p className="text-sm text-gray-600">{f.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ SECTION 5: Founding-customer banner ═══ */}
-      <section className="card p-5 sm:p-6 border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50">
-        <div className="flex items-start gap-4">
-          <span className="flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full bg-purple-600 text-white text-xs font-semibold tracking-wide">
-            FOUNDING
+      {/* Progress bar */}
+      <div className="card p-5">
+        <div className="flex items-center justify-between text-sm mb-2">
+          <span className="text-gray-600">
+            {completedCount} of {totalCount} steps complete
           </span>
-          <div className="flex-1">
-            <h3 className="font-semibold text-gray-900 mb-1">
-              Founding 50 customers &mdash; &pound;299/month for life
-            </h3>
-            <p className="text-sm text-gray-700 mb-2">
-              TendorAI&apos;s Pro tier is locking in at &pound;299/month for our
-              first 50 paying customers. Customer 51 onwards will pay
-              &pound;599/month. Founding customers keep their &pound;299 rate
-              forever, with full access to all current and future Pro features.
-            </p>
-            <p className="text-xs font-medium text-purple-700">
-              Limited spaces remaining.
-            </p>
-          </div>
+          <span className="font-semibold text-purple-600">{progressPct}%</span>
         </div>
-      </section>
-
-      {/* ═══ SECTION 5b: Choose Your Plan ═══ */}
-      <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Choose Your Plan
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Higher tiers unlock more features and give your listing an AI
-          visibility boost.
-        </p>
-
-        <div className="grid sm:grid-cols-2 gap-5">
-          {PAGE_PLANS.map((plan) => {
-            const isCurrentPlan = displayTier === plan.id;
-
-            // Free-tier button text logic (Fix 2)
-            let freeButtonText = 'Get Free Plan';
-            if (displayTier === 'free') freeButtonText = 'Stay on Free';
-            else if (displayTier === 'pro') freeButtonText = 'Switch to Free';
-
-            return (
-              <div
-                key={plan.id}
-                className={`card p-6 flex flex-col relative ${
-                  plan.popular
-                    ? 'border-2 border-purple-500 shadow-lg'
-                    : ''
-                }`}
-              >
-                {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Recommended
-                  </span>
-                )}
-
-                <h3 className="text-lg font-bold text-gray-900">
-                  {plan.name}
-                </h3>
-                <p className="text-sm text-gray-500 mb-3">
-                  {plan.description}
-                </p>
-
-                <div className="mb-4">
-                  {plan.price === 0 ? (
-                    <span className="text-3xl font-bold text-gray-900">
-                      Free
-                    </span>
-                  ) : (
-                    <>
-                      <span className="text-3xl font-bold text-gray-900">
-                        &pound;{plan.price}
-                      </span>
-                      <span className="text-gray-500 text-sm">/mo</span>
-                      <p className="text-xs text-gray-500 mt-1">
-                        UK AEO agencies charge &pound;1,500&ndash;&pound;3,900/month to do this manually.
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                <ul className="space-y-2 mb-6 flex-1">
-                  {plan.features.map((feat) => (
-                    <li
-                      key={feat}
-                      className="flex items-start gap-2 text-sm"
-                    >
-                      <svg
-                        className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span className="text-gray-700">{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {plan.id === 'free' ? (
-                  isCurrentPlan ? (
-                    <button
-                      disabled
-                      className="w-full py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed"
-                    >
-                      {freeButtonText}
-                    </button>
-                  ) : (
-                    <Link
-                      href="/vendor-dashboard/settings?tab=subscription"
-                      className="w-full py-2.5 rounded-lg text-sm font-medium text-center block bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-                    >
-                      {freeButtonText}
-                    </Link>
-                  )
-                ) : isCurrentPlan ? (
-                  <button
-                    disabled
-                    className="w-full py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed"
-                  >
-                    Current Plan
-                  </button>
-                ) : (
-                  <Link
-                    href="/vendor-dashboard/settings?tab=subscription"
-                    className="w-full py-2.5 rounded-lg text-sm font-medium text-center block bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-colors"
-                  >
-                    Upgrade to {plan.name}
-                  </Link>
-                )}
-              </div>
-            );
-          })}
+        <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full transition-all duration-500"
+            style={{ width: `${progressPct}%` }}
+          />
         </div>
-      </section>
+      </div>
 
-      {/* ═══ SECTION 6: Quick Start Checklist ═══ */}
-      <section className="card p-6 sm:p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Quick Start Checklist
-        </h2>
-        <p className="text-gray-600 mb-5">
-          Complete these steps to maximise your AI visibility from day one.
-        </p>
-
-        {/* Progress bar */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between text-sm mb-2">
-            <span className="text-gray-600">
-              {completedCount} of {totalCount} completed
-            </span>
-            <span className="font-semibold text-purple-600">{progressPct}%</span>
-          </div>
-          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full transition-all duration-500"
-              style={{ width: `${progressPct}%` }}
-            />
-          </div>
+      {/* Tick error toast */}
+      {tickError && (
+        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+          {tickError}
         </div>
+      )}
 
-        {/* Tick error toast */}
-        {tickError && (
-          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
-            {tickError}
+      {/* Loop-verb groups */}
+      {LOOP_GROUPS.map((group) => (
+        <section key={group.verb} className="card p-6">
+          <div className="flex items-baseline gap-3 mb-1">
+            <span className="flex-shrink-0">{group.icon}</span>
+            <h2 className="font-serif font-bold uppercase tracking-wide text-sm text-gray-900">
+              {group.verb}
+            </h2>
+            <span className="text-xs text-gray-500">— {group.tagline}</span>
           </div>
-        )}
 
-        {/* Checklist items */}
-        <div className="space-y-3">
-          {CHECKLIST_CONFIG.map((cfg) => {
-            const done = onboarding[cfg.key];
-            const isTicking = cfg.tickable && tickingItem === cfg.key;
-            const isExternalHref = cfg.href?.startsWith('mailto:') || cfg.href?.startsWith('http');
+          <div className="mt-4 space-y-3">
+            {group.items.map((cfg) => {
+              const done = onboarding[cfg.key];
+              const isTicking = cfg.tickable && tickingItem === cfg.key;
+              const isExternalHref = cfg.href?.startsWith('mailto:') || cfg.href?.startsWith('http');
 
-            const labelEl = (
-              <span
-                className={`text-sm font-medium ${
-                  done ? 'text-green-700 line-through' : 'text-gray-800'
-                }`}
-              >
-                {cfg.label}
-              </span>
-            );
-
-            const labelWithLink =
-              !done && cfg.href ? (
-                isExternalHref ? (
-                  <a
-                    href={cfg.href}
-                    className="hover:text-purple-700 transition-colors"
-                  >
-                    {labelEl}
-                  </a>
-                ) : (
-                  <Link
-                    href={cfg.href}
-                    className="hover:text-purple-700 transition-colors"
-                  >
-                    {labelEl}
-                  </Link>
-                )
-              ) : (
-                labelEl
+              const labelEl = (
+                <span
+                  className={`text-sm font-medium ${
+                    done ? 'text-green-700 line-through' : 'text-gray-800'
+                  }`}
+                >
+                  {cfg.label}
+                </span>
               );
 
-            return (
-              <div
-                key={cfg.key}
-                className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                  done
-                    ? 'border-green-200 bg-green-50/50'
-                    : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
-                }`}
-              >
-                {/* Status indicator */}
-                <div
-                  className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    done ? 'bg-green-500' : 'border-2 border-gray-300'
-                  }`}
-                  aria-hidden="true"
-                >
-                  {done && (
-                    <svg
-                      className="w-3.5 h-3.5 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={3}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  )}
-                </div>
-
-                {/* Label + caption */}
-                <div className="flex-1 min-w-0">
-                  {labelWithLink}
-                  {!done && (
-                    <p className="mt-0.5 text-xs text-gray-500">{cfg.caption}</p>
-                  )}
-                </div>
-
-                {/* Right-hand action */}
-                {done ? (
-                  <span className="ml-auto text-xs font-semibold text-green-600 mt-0.5">
-                    Done
-                  </span>
-                ) : cfg.tickable ? (
-                  <button
-                    type="button"
-                    onClick={() => handleTick(cfg.key as TickableItem)}
-                    disabled={!!tickingItem}
-                    className="ml-auto text-xs font-medium px-3 py-1.5 rounded-md bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 flex-shrink-0"
-                  >
-                    {isTicking ? (
-                      <>
-                        <svg
-                          className="animate-spin w-3 h-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                          />
-                        </svg>
-                        Saving
-                      </>
-                    ) : (
-                      'Mark as done'
-                    )}
-                  </button>
-                ) : cfg.href ? (
+              const labelWithLink =
+                !done && cfg.href ? (
                   isExternalHref ? (
-                    <a
-                      href={cfg.href}
-                      className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
-                      aria-label={`Go to ${cfg.label}`}
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                    <a href={cfg.href} className="hover:text-purple-700 transition-colors">
+                      {labelEl}
                     </a>
                   ) : (
-                    <Link
-                      href={cfg.href}
-                      className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
-                      aria-label={`Go to ${cfg.label}`}
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                    <Link href={cfg.href} className="hover:text-purple-700 transition-colors">
+                      {labelEl}
                     </Link>
                   )
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
+                ) : (
+                  labelEl
+                );
 
-        {completedCount === totalCount && (
-          <div className="mt-6 p-4 rounded-lg bg-green-50 border border-green-200 text-center">
-            <p className="text-green-700 font-semibold">
-              All done! You&apos;re set up for maximum AI visibility.
-            </p>
-          </div>
-        )}
-      </section>
-
-      {/* ═══ SECTION 7: FAQ ═══ */}
-      <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Frequently Asked Questions
-        </h2>
-
-        <div className="space-y-3">
-          {FAQ_ITEMS.map((item, idx) => {
-            const isOpen = openFaq === idx;
-            return (
-              <div key={idx} className="card overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors"
+              return (
+                <div
+                  key={cfg.key}
+                  className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
+                    done
+                      ? 'border-green-200 bg-green-50/50'
+                      : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
+                  }`}
                 >
-                  <span className="font-medium text-gray-900 pr-4">
-                    {item.q}
-                  </span>
-                  <svg
-                    className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180' : ''
+                  {/* Status indicator */}
+                  <div
+                    className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      done ? 'bg-green-500' : 'border-2 border-gray-300'
                     }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                {isOpen && (
-                  <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">
-                    {item.a}
+                    {done && (
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+
+                  {/* Label + caption */}
+                  <div className="flex-1 min-w-0">
+                    {labelWithLink}
+                    {!done && <p className="mt-0.5 text-xs text-gray-500">{cfg.caption}</p>}
+                  </div>
+
+                  {/* Right-hand action */}
+                  {done ? (
+                    <span className="ml-auto text-xs font-semibold text-green-600 mt-0.5">Done</span>
+                  ) : cfg.tickable ? (
+                    <button
+                      type="button"
+                      onClick={() => handleTick(cfg.key as TickableItem)}
+                      disabled={!!tickingItem}
+                      className="ml-auto text-xs font-medium px-3 py-1.5 rounded-md bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 flex-shrink-0"
+                    >
+                      {isTicking ? (
+                        <>
+                          <svg className="animate-spin w-3 h-3" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          Saving
+                        </>
+                      ) : (
+                        'Mark as done'
+                      )}
+                    </button>
+                  ) : cfg.href ? (
+                    isExternalHref ? (
+                      <a
+                        href={cfg.href}
+                        className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
+                        aria-label={`Go to ${cfg.label}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <Link
+                        href={cfg.href}
+                        className="ml-auto text-gray-400 hover:text-purple-600 mt-0.5 flex-shrink-0"
+                        aria-label={`Go to ${cfg.label}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    )
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      {/* Footer note + CTA */}
+      <footer className="space-y-5 pt-2">
+        <p className="text-sm text-gray-600 max-w-2xl">
+          Once these are complete, your Loop will run automatically every Monday morning.
+          You won&rsquo;t need to come back to this page.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <Link
+            href="/vendor-dashboard"
+            className="btn-primary inline-flex items-center justify-center gap-2"
+          >
+            {allDone ? 'Open your Loop dashboard' : 'Next: View your Loop dashboard'} <span aria-hidden>&rarr;</span>
+          </Link>
+          {allDone && (
+            <span className="text-sm text-green-700 font-medium">All set. Welcome to the Loop.</span>
+          )}
         </div>
-      </section>
+      </footer>
     </div>
   );
 }

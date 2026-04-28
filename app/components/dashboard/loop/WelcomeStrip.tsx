@@ -5,6 +5,8 @@ import { formatWeekLabel } from '@/lib/loop/weekStarting';
 
 interface WelcomeStripProps {
   firstName: string;
+  /** Vendor company name — used when no real personal name is available. */
+  companyName?: string;
   weekStarting: Date;
   agentRuns: AgentRun[];
   pendingApprovals: Approval[];
@@ -13,6 +15,14 @@ interface WelcomeStripProps {
 interface PillSpec {
   status: LoopStatus;
   label: string;
+}
+
+function pickGreetingName(firstName: string, companyName: string | undefined): string {
+  const trimmedFirst = firstName.trim();
+  if (trimmedFirst) return trimmedFirst;
+  const trimmedCompany = (companyName ?? '').trim();
+  if (trimmedCompany) return trimmedCompany;
+  return 'there';
 }
 
 /**
@@ -57,9 +67,9 @@ const PILL_DOT: Record<LoopStatus, string> = {
   gray: 'bg-gray-400',
 };
 
-export default function WelcomeStrip({ firstName, weekStarting, agentRuns, pendingApprovals }: WelcomeStripProps) {
+export default function WelcomeStrip({ firstName, companyName, weekStarting, agentRuns, pendingApprovals }: WelcomeStripProps) {
   const pill = deriveStatus(agentRuns, pendingApprovals);
-  const greetingName = firstName.trim() || 'there';
+  const greetingName = pickGreetingName(firstName, companyName);
 
   return (
     <div

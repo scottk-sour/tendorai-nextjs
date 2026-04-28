@@ -272,6 +272,7 @@ export default function VendorDashboardOverview() {
 
       <WelcomeStrip
         firstName={firstName}
+        companyName={profile?.company}
         weekStarting={weekStarting}
         agentRuns={agentRuns}
         pendingApprovals={pendingApprovals}
