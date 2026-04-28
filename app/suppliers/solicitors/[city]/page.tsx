@@ -214,9 +214,48 @@ const CARDIFF_FAQS = [
   },
 ];
 
+const BRISTOL_FAQS = [
+  {
+    question: 'How many SRA-registered solicitors are there in Bristol?',
+    answer: 'There are 85 SRA-registered solicitor firms in Bristol as of April 2026, sourced directly from the Solicitors Regulation Authority register. Firms range from sole practitioners to large multi-partner practices including Burges Salmon LLP, TLT LLP, and Bevan Brittan LLP.',
+  },
+  {
+    question: 'How do I find a solicitor in Bristol using AI?',
+    answer: 'AI assistants like ChatGPT, Perplexity, and Google AI recommend Bristol solicitors based on structured data — verified profiles, SRA registration, fee transparency, and client reviews. Firms with stronger structured data appear more often in AI answers. TendorAI provides this data layer for SRA-registered Bristol firms.',
+  },
+  {
+    question: 'Why does AI not recommend my Bristol law firm?',
+    answer: 'Around 91% of Bristol solicitors do not appear when ChatGPT or Perplexity is asked to recommend a firm. The reason is structured data: most firm websites lack LegalService schema, verified SRA numbers, and machine-readable fee information. Firms with this data in place are recommended by name; firms without it are passed over.',
+  },
+  {
+    question: 'Is TendorAI a directory or a regulator?',
+    answer: 'Neither. TendorAI is an AI visibility platform. Regulation is the role of the Solicitors Regulation Authority (SRA). TendorAI sources firm data from the SRA register, structures it for AI consumption, and lets firms claim and enrich their profiles so AI assistants recommend them by name.',
+  },
+  {
+    question: 'How much does it cost to be listed on TendorAI?',
+    answer: 'Free profiles are available to every SRA-registered firm in Bristol. The free profile includes verified SRA data and a basic public listing. The Pro tier is £299 per month and includes schema installation on the firm’s website, weekly AI visibility tracking across ChatGPT, Perplexity, Google AI, and Claude, and monthly reporting.',
+  },
+  {
+    question: 'What are the most common solicitor specialisms in Bristol?',
+    answer: 'Bristol’s 85 SRA-registered firms cover conveyancing, employment law, wills and probate, commercial law, family law, and immigration. Bristol also hosts the largest cluster of corporate firms outside London, including Burges Salmon LLP and TLT LLP.',
+  },
+  {
+    question: 'How is Bristol different from other UK cities for legal services?',
+    answer: 'Bristol is a regional hub for finance, tech, and professional services, which drives steady demand for commercial law and employment law alongside the active residential conveyancing market across Clifton, Redland, Bishopston, and Bedminster.',
+  },
+  {
+    question: 'How current is the Bristol solicitor data on TendorAI?',
+    answer: 'Profile data is sourced from the SRA register and cross-referenced against Companies House. AI visibility scores are generated from a standardised test of ten prompts run weekly across ChatGPT, Perplexity, Google AI, and Claude. Last updated 28 April 2026.',
+  },
+];
+
 function generateFAQs(cityName: string, vendorCount: number, vendorNames: string[]) {
-  if (cityName.toLowerCase() === 'cardiff') {
+  const cityKey = cityName.toLowerCase();
+  if (cityKey === 'cardiff') {
     return CARDIFF_FAQS;
+  }
+  if (cityKey === 'bristol') {
+    return BRISTOL_FAQS;
   }
 
   const top3Names = vendorNames.slice(0, 3).join(', ') || 'top solicitors';
@@ -264,6 +303,7 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
   const { city } = await params;
   const cityName = formatLocationName(city);
   const isCardiff = city.toLowerCase() === 'cardiff';
+  const isBristol = city.toLowerCase() === 'bristol';
 
   const allVendors = await fetchVendors(city);
 
@@ -304,10 +344,34 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
     },
   }] : [];
 
+  const bristolCollectionSchema = isBristol ? [{
+    '@type': 'CollectionPage',
+    name: 'Solicitors in Bristol',
+    description: '85 SRA-regulated solicitors in Bristol. Compare firms verified against the Solicitors Regulation Authority register and check which firms appear in ChatGPT, Perplexity, and Google AI recommendations.',
+    url: 'https://www.tendorai.com/suppliers/solicitors/bristol',
+    about: {
+      '@type': 'Service',
+      name: 'Legal Services',
+      areaServed: {
+        '@type': 'City',
+        name: 'Bristol',
+        addressRegion: 'England',
+        addressCountry: 'GB',
+      },
+    },
+    numberOfItems: 85,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'TendorAI',
+      url: 'https://www.tendorai.com',
+    },
+  }] : [];
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       ...cardiffCollectionSchema,
+      ...bristolCollectionSchema,
       {
         '@type': 'ItemList',
         name: `Solicitors in ${cityName}`,
@@ -505,6 +569,117 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 </h3>
                 <p>
                   Below: the full directory of Cardiff solicitors verified against the SRA register. Firms with claimed profiles display fee structures, accreditations, and AI visibility scores. Unclaimed profiles can be claimed in under five minutes.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Bristol editorial intro */}
+        {isBristol && (
+          <section className="bg-white py-12 border-b">
+            <div className="section max-w-4xl">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                SRA-Registered Solicitors in Bristol (2026) — Who Appears in ChatGPT?
+              </h2>
+              <div className="text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  Bristol has {totalCount} SRA-registered solicitor firms. When ChatGPT, Perplexity, or Google AI is asked to recommend a Bristol solicitor, roughly <strong>91% of these firms are not mentioned in any answer</strong>. This page shows why — and what the visible firms have in common.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  How people now find solicitors in Bristol
+                </h3>
+                <p>
+                  The way people find a solicitor in Bristol has shifted. Google searches for &ldquo;solicitors Bristol&rdquo; still happen, but a rapidly growing share of legal enquiries now starts inside an AI assistant. A homeowner buying a flat in Clifton asks ChatGPT for a conveyancing solicitor. A small business owner in Temple Quay asks Perplexity for a commercial law firm. A professional facing dismissal asks Google AI for an employment solicitor.
+                </p>
+                <p>
+                  None of those queries return a list of ten blue links. They return a short list of named firms with reasoning attached. The firms recommended are not the firms that pay the most for ads — they are the firms whose data the AI can read, verify, and trust.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Bristol AI visibility — the numbers
+                </h3>
+                <p>
+                  TendorAI tested ten standard prompts a Bristol-based client might use across ChatGPT, Perplexity, and Google AI in April 2026. The prompts covered conveyancing, employment law, wills and probate, family law, commercial law, and immigration — the six largest specialisms in Bristol by firm count.
+                </p>
+                <p>
+                  Across all three platforms, a small group of firms appeared repeatedly. The remainder — approximately <strong>91% of Bristol&rsquo;s SRA-registered solicitors, around 77 firms</strong> — were not mentioned in any AI response. Many of those firms have strong reputations, long histories in Bristol, and active websites. None of that mattered. The AI could not read them.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Bristol solicitors by specialism
+                </h3>
+                <p>
+                  Based on TendorAI&rsquo;s analysis of SRA register data, Bristol&rsquo;s {totalCount} solicitor firms are concentrated in six specialisms:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>
+                    <strong>Conveyancing &amp; residential property</strong> — driven by Bristol&rsquo;s active property market across Clifton, Redland, Bishopston, and Bedminster
+                  </li>
+                  <li>
+                    <strong>Commercial law</strong> — Bristol hosts the largest cluster of corporate firms outside London, including Burges Salmon LLP, TLT LLP, and Bevan Brittan LLP
+                  </li>
+                  <li>
+                    <strong>Employment law</strong> — Bristol&rsquo;s status as a regional hub for finance, tech, and professional services drives steady demand
+                  </li>
+                  <li>
+                    <strong>Wills &amp; probate</strong> — long-established practices serving the wider Bristol and South Gloucestershire area
+                  </li>
+                  <li>
+                    <strong>Family law</strong> — strong demand across divorce, children law, and financial settlements
+                  </li>
+                  <li>
+                    <strong>Immigration</strong> — a smaller pool of specialist firms serving Bristol&rsquo;s diverse population
+                  </li>
+                </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  How AI picks which Bristol solicitor to recommend
+                </h3>
+                <p>
+                  ChatGPT, Perplexity, Google AI, and Claude do not crawl the web the way classic Google search did. They rely on structured data — machine-readable facts an AI can verify and quote with confidence. For a solicitor firm, that data has four parts:
+                </p>
+                <ol className="list-decimal pl-6 space-y-3">
+                  <li>
+                    <strong>SRA verification.</strong> The firm&rsquo;s SRA number is published on the SRA register and matched against its website. AI uses this to confirm the firm is authorised to practise.
+                  </li>
+                  <li>
+                    <strong>LegalService schema.</strong> Structured JSON-LD on the firm&rsquo;s website that names specialisms, fees, areas served, and contact details in a format AI can parse without ambiguity.
+                  </li>
+                  <li>
+                    <strong>Reviews tied to verified identity.</strong> Reviews from named clients on platforms AI trusts, not anonymous testimonials on the firm&rsquo;s own homepage.
+                  </li>
+                  <li>
+                    <strong>Specialism clarity.</strong> A firm that clearly advertises &ldquo;commercial property solicitor in Bristol&rdquo; is recommended for that query. A firm with a vague &ldquo;full-service&rdquo; positioning is not.
+                  </li>
+                </ol>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  What Bristol firms can do this week
+                </h3>
+                <p>Three actions, in order of priority:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>
+                    <strong>Run a free AEO report.</strong>{' '}
+                    <Link href="/aeo-report" className="text-purple-700 underline hover:text-purple-900">
+                      TendorAI&rsquo;s free AI Visibility Report
+                    </Link>{' '}
+                    shows your firm&rsquo;s current visibility score across the major AI assistants. Takes under two minutes. No card required.
+                  </li>
+                  <li>
+                    <strong>Claim your TendorAI profile.</strong> Every Bristol firm on the SRA register is already pre-listed below. Claiming is free and adds your firm to the structured data pool AI assistants read.
+                  </li>
+                  <li>
+                    <strong>Get schema markup installed on your own website.</strong> This is what TendorAI Pro does for £299/month — we install the markup on the firm&rsquo;s own site, track citations weekly across ChatGPT, Perplexity, Google AI, and Claude, and report what&rsquo;s working.
+                  </li>
+                </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Compare all {totalCount} SRA-registered solicitors in Bristol
+                </h3>
+                <p>
+                  Below: the full directory of Bristol solicitors verified against the SRA register. Firms with claimed profiles display fee structures, accreditations, and AI visibility scores. Unclaimed profiles can be claimed in under five minutes.
                 </p>
               </div>
             </div>
