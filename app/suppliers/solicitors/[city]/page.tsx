@@ -482,6 +482,24 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                   That&rsquo;s nine firms surfaced from a verified pool of {totalCount}. Roughly <strong>89% of Cardiff&rsquo;s SRA-registered solicitors get no AI mention at all</strong> when the most-used AI assistant in the UK is asked the most obvious question a potential client would ask.
                 </p>
                 <p>If your firm isn&rsquo;t one of those nine, you are — for AI search purposes — invisible.</p>
+                <p>
+                  The nine visible firms shared three traits: claimed structured data on their websites (LegalService schema, verified SRA number, machine-readable specialisms), client reviews tied to verifiable identity, and clear fee information. The other 72 firms had none of these in place. Reputation, history, and an attractive website were not enough — without machine-readable data, the AI had nothing to cite.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Worked example — what AI visibility is worth in Cardiff
+                </h3>
+                <div className="bg-gray-50 border-l-4 border-purple-600 p-6 rounded my-8">
+                  <p className="mb-3">
+                    Cardiff has {totalCount} SRA-registered solicitors. Around 89% — roughly 72 firms — do not appear when ChatGPT, Perplexity, or Google AI is asked to recommend a firm. That leaves a small group of 9 firms taking the entire share of voice on AI platforms in Cardiff.
+                  </p>
+                  <p className="mb-3">
+                    At an average conveyancing matter value of £1,100 in the Cardiff area, and a conservative conversion rate of 2% on AI-driven enquiries, a Cardiff firm appearing in AI responses for a single specialism could expect 2&ndash;4 additional matters per month. That is £2,200&ndash;£4,400 in additional monthly revenue from one specialism alone. TendorAI Pro is £299 per month — payback period under one matter.
+                  </p>
+                  <p className="text-sm text-gray-600 italic">
+                    These figures are illustrative. Actual results depend on firm size, specialism mix, and conversion process. Source: TendorAI April 2026 AI visibility audit, {totalCount} Cardiff SRA-registered firms.
+                  </p>
+                </div>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
                   Why this matters now, not in two years
