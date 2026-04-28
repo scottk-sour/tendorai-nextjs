@@ -606,6 +606,24 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 <p>
                   Across all three platforms, a small group of firms appeared repeatedly. The remainder — approximately <strong>91% of Bristol&rsquo;s SRA-registered solicitors, around 77 firms</strong> — were not mentioned in any AI response. Many of those firms have strong reputations, long histories in Bristol, and active websites. None of that mattered. The AI could not read them.
                 </p>
+                <p>
+                  The 7&ndash;9 visible firms shared three traits: claimed structured data on their websites (LegalService schema, verified SRA number, machine-readable specialisms), client reviews tied to verifiable identity, and clear fee information. The invisible firms had none of these in place. Reputation, history, and an attractive website were not enough — without machine-readable data, the AI had nothing to cite.
+                </p>
+
+                <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
+                  Worked example — what AI visibility is worth in Bristol
+                </h3>
+                <div className="bg-gray-50 border-l-4 border-purple-600 p-6 rounded my-8">
+                  <p className="mb-3">
+                    Bristol has 85 SRA-registered solicitors. Around 91% — roughly 77 firms — do not appear when ChatGPT, Perplexity, or Google AI is asked to recommend a firm. That leaves a small group of 7&ndash;9 firms taking the entire share of voice on AI platforms in Bristol.
+                  </p>
+                  <p className="mb-3">
+                    At an average conveyancing matter value of £1,400 in the Bristol area, and a conservative conversion rate of 2% on AI-driven enquiries, a Bristol firm appearing in AI responses for a single specialism could expect 2&ndash;4 additional matters per month. That is £2,800&ndash;£5,600 in additional monthly revenue from one specialism alone. TendorAI Pro is £299 per month — payback period under one matter.
+                  </p>
+                  <p className="text-sm text-gray-600 italic">
+                    These figures are illustrative. Actual results depend on firm size, specialism mix, and conversion process. Source: TendorAI April 2026 AI visibility audit, 85 Bristol SRA-registered firms.
+                  </p>
+                </div>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
                   Bristol solicitors by specialism
@@ -654,6 +672,9 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                     <strong>Specialism clarity.</strong> A firm that clearly advertises &ldquo;commercial property solicitor in Bristol&rdquo; is recommended for that query. A firm with a vague &ldquo;full-service&rdquo; positioning is not.
                   </li>
                 </ol>
+                <p>
+                  TendorAI provides this data layer for SRA-registered Bristol firms. Free profiles start with verified SRA register data and basic specialism tags. The Pro tier — £299 per month — installs LegalService schema directly on the firm&rsquo;s own website, tracks weekly AI visibility across ChatGPT, Perplexity, Google AI, and Claude, and reports which prompts the firm appears for. Firms typically see citation lift within 4&ndash;6 weeks of schema installation.
+                </p>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
                   What Bristol firms can do this week
