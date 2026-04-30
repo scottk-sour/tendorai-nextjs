@@ -9,6 +9,7 @@ import SectorBenefits from './components/landing/SectorBenefits';
 import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
+import CustomerTestimonial from './components/landing/CustomerTestimonial';
 import SeoAeo from './components/landing/SeoAeo';
 import Pricing from './components/landing/Pricing';
 import Verticals from './components/landing/Verticals';
@@ -276,6 +277,9 @@ export default async function HomePage() {
 
         {/* Conversation Demo */}
         <ConversationDemo />
+
+        {/* Customer Testimonial — verified Google review from Nathan / Ascari Office Ltd */}
+        <CustomerTestimonial />
 
         {/* What AI Platforms Say */}
         <AiTestimonials />
