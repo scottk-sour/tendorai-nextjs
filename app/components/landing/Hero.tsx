@@ -1,8 +1,42 @@
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 interface HeroProps {
   totalVendors?: number;
 }
+
+const loopStages = [
+  {
+    number: '01',
+    title: 'Measure',
+    oneLiner: 'We check where your firm appears across the AI platforms your clients use.',
+    proof: '6 platforms scanned weekly: ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI',
+  },
+  {
+    number: '02',
+    title: 'Diagnose',
+    oneLiner: "We work out why you're being missed when prospects ask AI for recommendations.",
+    proof: 'Schema gaps, content gaps, citation gaps — identified per platform',
+  },
+  {
+    number: '03',
+    title: 'Fix',
+    oneLiner: 'We draft new content and structured data to fill the gaps holding your firm back.',
+    proof: 'Approval queue — every fix reviewed before it touches your site',
+  },
+  {
+    number: '04',
+    title: 'Deploy',
+    oneLiner: 'We put fixes live on your website and across the directories AI tools cite.',
+    proof: 'Schema installed, content published, listings submitted — handled for you',
+  },
+  {
+    number: '05',
+    title: 'Track',
+    oneLiner: "We measure whether last week's work moved the needle, then start again.",
+    proof: 'Week-on-week visibility score — see what changed, see why',
+  },
+];
 
 export default function Hero({ totalVendors = 11000 }: HeroProps) {
   const stats = [
@@ -61,84 +95,102 @@ export default function Hero({ totalVendors = 11000 }: HeroProps) {
         </div>
 
         {/* The Loop — five-stage cycle */}
-        <div className="mt-8 max-w-4xl mx-auto">
-          {/* Desktop: horizontal row with arrows */}
-          <div className="hidden md:flex items-center justify-between gap-1">
-            {[
-              {
-                verb: 'Measure',
-                icon: (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                ),
-              },
-              {
-                verb: 'Diagnose',
-                icon: (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v6a4 4 0 008 0V7a2 2 0 00-2-2h-2M7 11v3a4 4 0 008 0v-3m-4 7v3a3 3 0 003 3h0a3 3 0 003-3v-1.5m-3-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
-                  </svg>
-                ),
-              },
-              {
-                verb: 'Fix',
-                icon: (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a4 4 0 105.656 5.656l-1.06 1.06-7.071 7.072a2 2 0 01-2.829 0l-1.414-1.414a2 2 0 010-2.829l7.071-7.071-1.06-1.06z M14.7 6.3l-3.535 3.536" />
-                  </svg>
-                ),
-              },
-              {
-                verb: 'Deploy',
-                icon: (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.841" />
-                  </svg>
-                ),
-              },
-              {
-                verb: 'Track',
-                icon: (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                ),
-              },
-            ].map((stage, idx, arr) => (
-              <div key={stage.verb} className="flex items-center gap-1">
-                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 flex flex-col items-center gap-1 min-w-[100px]">
-                  <div className="text-purple-600">{stage.icon}</div>
-                  <span className="font-serif font-bold uppercase tracking-wide text-xs text-[var(--text)]">{stage.verb}</span>
-                </div>
-                {idx < arr.length - 1 && (
-                  <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7M3 12h18" />
-                  </svg>
-                )}
-              </div>
-            ))}
-          </div>
+        <div className="mt-8 max-w-5xl mx-auto">
+          <div className="relative rounded-2xl px-3 py-6 sm:px-4 sm:py-8 lg:px-6 lg:py-10">
+            {/* Subtle gradient backdrop */}
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-2xl pointer-events-none opacity-[0.05]"
+              style={{ background: 'var(--gradient-hero)' }}
+            />
 
-          {/* Mobile: stacked column with arrows */}
-          <div className="md:hidden flex flex-col items-stretch gap-1">
-            {['Measure', 'Diagnose', 'Fix', 'Deploy', 'Track'].map((verb, idx, arr) => (
-              <div key={verb} className="flex flex-col items-stretch gap-1">
-                <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-center">
-                  <span className="font-serif font-bold uppercase tracking-wide text-xs text-[var(--text)]">{verb}</span>
-                </div>
-                {idx < arr.length - 1 && (
-                  <div className="flex justify-center text-gray-300" aria-hidden>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7m14-7l-7 7-7-7" />
-                    </svg>
+            {/* Desktop: 5 cards in a row with chevron connectors */}
+            <div className="relative hidden lg:flex items-stretch justify-center gap-2">
+              {loopStages.map((stage, idx) => (
+                <Fragment key={stage.title}>
+                  <div className="group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left">
+                    <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                      {stage.number}
+                    </span>
+                    <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
+                      {stage.title}
+                    </h3>
+                    <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                    <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
+                      {stage.oneLiner}
+                    </p>
+                    <p className="text-xs italic text-purple-600 mt-4 leading-snug">
+                      {stage.proof}
+                    </p>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  {idx < loopStages.length - 1 && (
+                    <div className="flex items-center text-[var(--border2)] flex-shrink-0" aria-hidden>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
+            </div>
 
-          <p className="text-center text-xs text-[var(--text3)] mt-3">Continues every Monday.</p>
+            {/* Loop-back dashed line (desktop only) */}
+            <div className="relative hidden lg:block mt-5 px-8" aria-hidden>
+              <svg
+                className="w-full h-10 text-[var(--border2)]"
+                viewBox="0 0 1000 40"
+                preserveAspectRatio="none"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M 970 4 Q 970 34 500 34 Q 30 34 30 4"
+                  strokeWidth="1"
+                  strokeDasharray="5 5"
+                />
+                <path d="M 30 4 L 22 12 M 30 4 L 38 12" strokeWidth="1.5" />
+              </svg>
+            </div>
+
+            {/* Mobile / tablet: stacked cards with vertical connectors */}
+            <div className="relative lg:hidden flex flex-col gap-3">
+              {loopStages.map((stage, idx) => (
+                <Fragment key={stage.title}>
+                  <div className="bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5">
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                        {stage.number}
+                      </span>
+                      <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] leading-tight">
+                        {stage.title}
+                      </h3>
+                    </div>
+                    <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                    <p className="text-sm text-[var(--text2)] leading-relaxed">{stage.oneLiner}</p>
+                    <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
+                  </div>
+                  {idx < loopStages.length - 1 && (
+                    <div className="flex justify-center text-gray-400" aria-hidden>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
+            </div>
+
+            {/* Closing line */}
+            <div className="relative text-center mt-6 lg:mt-3">
+              <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[var(--text3)] mb-2">
+                the loop continues
+              </p>
+              <p className="text-base font-medium text-[var(--text2)]">
+                Runs every Monday. Continues forever.{' '}
+                <span className="text-purple-600 font-bold">£299/month.</span>
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Stat line */}
