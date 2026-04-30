@@ -27,6 +27,167 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'why-isnt-my-business-showing-up-in-chatgpt-recommendations',
+    title: 'Why isn’t my business showing up in ChatGPT recommendations?',
+    excerpt: '87% of UK professional services firms don’t appear when ChatGPT is asked to recommend a solicitor, accountant, or mortgage adviser. Here are the seven reasons why — and how to fix each one.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-04-30',
+    updatedDate: '2026-04-30',
+    metaDescription: 'Why Isn’t My Business in ChatGPT Recommendations? (2026 Guide) — 87% of UK professional services firms don’t appear when ChatGPT is asked to recommend a solicitor, accountant, or mortgage adviser. Here are the seven reasons why — and how to fix each one.',
+    content: `**Your business isn't showing up in ChatGPT recommendations because ChatGPT has no verifiable, structured, third-party-validated data to confidently name you. Traditional Google rankings don't transfer. ChatGPT decides who to recommend based on schema markup, regulatory register matches, consistent NAP data, third-party citations on Reddit and Trustpilot, and named author profiles — not your domain authority or your ad spend.**
+
+**[AI visibility](/what-is-ai-visibility) is the likelihood that an AI assistant — ChatGPT, Perplexity, Google AI Mode, Claude — will recommend a specific business when a user asks a relevant question.** It is the new top-of-funnel for UK professional services. Buyers no longer scroll Google's page one. They ask ChatGPT for three names and ring one of them.
+
+**TendorAI's April 2026 audit of 12,793 UK regulated firms found that 87% of UK professional services firms do not appear in ChatGPT's top three recommendations for their core service area.** Methodology: 50 prompts run 10 times each across ChatGPT, Perplexity, Google AI Overviews and Claude, citation-share scored by named-entity match.
+
+**The seven reasons firms stay invisible are: missing schema, broken regulatory data, NAP inconsistency, no third-party validation, no named author, advertorial-style content, and unsigned data sources.** Each is fixable. Most are fixable in under 30 days.
+
+ChatGPT cites facts, not claims. This guide covers all seven gaps in order of impact, and shows what to fix first.
+
+## Key takeaways
+
+- 87% of UK professional services firms do not appear in ChatGPT's top three recommendations (TendorAI, April 2026).
+- AI visibility determines whether your firm is named or ignored in ChatGPT answers.
+- A firm without structured data is invisible to AI, regardless of its Google rankings.
+- Third-party mentions are the primary driver of AI citations in 2026.
+- ChatGPT cites verifiable entities, not self-claimed marketing content.
+- Brands are 6.5× more likely to be cited by AI from third-party sources than from their own domains.
+- TendorAI defines AI visibility as the likelihood an AI assistant will recommend a specific business when a user asks a relevant question.
+
+## What ChatGPT is actually doing when it recommends a business
+
+**AI visibility determines whether your firm is named or ignored in ChatGPT answers.** ChatGPT does not browse the web in real time for most recommendation queries. It pulls from training data, indexed snapshots, and increasingly from live retrieval through Bing and Perplexity-style sources. The retrieval favours structured, verifiable, cross-referenced facts.
+
+A business that exists only as marketing copy on its own website is invisible to that retrieval stack. There is nothing for the model to verify against. Your "About Us" page is not a fact — it is a claim. ChatGPT cites facts, not claims.
+
+The seven reasons below are the seven gaps between what your firm currently looks like to ChatGPT and what a citable entity looks like.
+
+## Reason 1 — You have no structured data on your website
+
+**TendorAI's analysis shows 94% of UK professional services firms have no JSON-LD schema markup on their primary service pages.** Schema is the machine-readable layer that tells ChatGPT what your business is, where it operates, what it does, and who regulates it. Without it, your homepage is prose to a human and noise to a model.
+
+Schema is not optional in 2026 — it is the only language ChatGPT speaks fluently about your business. **A firm without structured data is invisible to AI, regardless of its Google rankings.** JSON-LD is the format AI engines parse most reliably. The minimum stack for a UK professional services firm is Organization, LocalBusiness, and a profession-specific type — LegalService for solicitors, AccountingService for accountants, FinancialService for FCA-regulated firms.
+
+Fix: install JSON-LD schema with verified regulatory IDs (SRA number, ICAEW firm number, FCA reference number), accurate NAP data, and areaServed mapped to your real service area. This is a one-day technical job and the single highest-leverage fix on the list.
+
+## Reason 2 — Your regulatory register data is inconsistent or missing
+
+**Of the 12,793 UK firms in TendorAI's audit, 31% had no link between their website and their public regulatory record.** ChatGPT cross-references regulatory registers — SRA, ICAEW, FCA — because they are Tier 1 sources the model already trusts. If your website doesn't reference your regulatory ID, and your regulatory record doesn't reference your domain, you are two unconnected entities to a model trying to verify you exist.
+
+Regulatory data is the strongest verification signal a UK professional services firm has. It is the moat that distinguishes a real firm from a content site pretending to be one.
+
+Fix: display your SRA, ICAEW or FCA registration number on your homepage, footer, and contact page. Link to your regulator's record. In your schema, populate the relevant identifier field — identifier for Organization schema, with propertyID set to your regulator name.
+
+## Reason 3 — Your NAP data is inconsistent across the web
+
+**NAP — Name, Address, Phone — must be byte-identical across your website, Google Business Profile, Companies House, your regulator's record, and major directories.** ChatGPT treats inconsistency as ambiguity. An ambiguous entity does not get recommended.
+
+The most common breakage: trading name on the website, registered name on Companies House, third name on Google Business Profile. To a model, that's three different businesses. None of them get cited because none can be confidently resolved.
+
+Fix: pick one canonical name, address and phone format. Update Google Business Profile, Companies House, your regulator listing, your website footer, and the top 10 directories you appear in. Audit again in 30 days.
+
+## Reason 4 — You have no third-party validation
+
+**Stacker's December 2025 research found brands are 6.5× more likely to be cited by AI from third-party sources than from their own domains.** Combined with TendorAI's April 2026 finding that 87% of UK professional services firms do not appear in ChatGPT's top three recommendations, the conclusion is clear: most firms have neither structured data on-site nor authority off-site. ChatGPT does not trust you describing yourself. It trusts other people describing you.
+
+AI engines trust other people describing you, not you describing yourself. **Third-party mentions are the primary driver of AI citations in 2026.** If the only place on the internet that says you're good is your own homepage, that's not a citation — it's a self-claim.
+
+The third-party sources ChatGPT weights highest are Reddit, YouTube, Trustpilot, G2, Wikipedia, and earned editorial mentions on Tier 2 publications like the Law Society Gazette, Accountancy Age, or Mortgage Strategy. One genuine Reddit thread answering a real question with your firm named is worth 50 self-published blog posts.
+
+Fix: secure five named third-party mentions in 90 days. One Trustpilot review from a named client. Two Reddit answers in relevant UK subreddits — genuine, not promotional. One LinkedIn article from a real person — you, a partner, or a named client. One trade publication mention.
+
+## Reason 5 — Your content has no named author with credentials
+
+**ChatGPT cites authored content roughly four times more often than anonymous content.** A bylined expert is a citable entity. An anonymous post is not. A bylined article from "Sarah Williams, ACA, Partner at Williams & Co Accountants, Cardiff" is a named entity the model can verify. A blog post signed "the team" is not.
+
+Author entity matters because AI engines build trust at the person level, not just the firm level. Named authors with consistent profiles across LinkedIn, Companies House, and regulator records are easier to verify and easier to cite.
+
+Fix: every blog post and service page has a named author. Author has a dedicated /about/[name] page with Person schema, regulatory credentials, LinkedIn link, and at least three pieces of authored content.
+
+## Reason 6 — Your content is advertorial-shaped and gets downranked
+
+**AI engines increasingly detect and downrank content that reads like a long-form advert.** Embedded product screenshots in every section, "implementation" boxes after every paragraph, urgency language ("act now"), and three different CTAs in different colours all signal to a model that this is promotional copy rather than a citable answer.
+
+The conversion-optimised B2B structure that wins citations in 2026 is value → proof → FAQ → single CTA. The reader gets 90% of the solution free, then chooses to act. ChatGPT cites the 90%. Advertorial content gets cited at a fraction of the rate, even when the underlying claims are true.
+
+Fix: one CTA per piece, placed after the FAQ. No product boxes interrupting the body. No urgency language. No pop-ups overlapping the content during the reader's first scroll.
+
+## Reason 7 — Your data has no methodology or source
+
+**ChatGPT's source tier hierarchy heavily favours data with named methodology over claims without it.** Citable content includes the number, the sample, the date, and the method. "Most firms struggle with AI visibility" is a claim. "TendorAI's April 2026 analysis of 12,793 UK firms found 87% do not appear in ChatGPT's top three recommendations" is a Tier 0 data point with methodology — N, date, source, and a verifiable population.
+
+If you publish an opinion piece with no data anchor, ChatGPT has nothing to extract that survives a fact-check.
+
+Fix: every blog post includes at least one Tier 0 (your data) or Tier 1 (GOV.UK, ONS, regulator, academic) statistic with methodology. State the source, the date, the sample size, and the method in one sentence after the number.
+
+## What changed in 2026
+
+**Three structural shifts in 2026 made AI visibility a separate discipline from SEO.** TendorAI tracks Share of Model Voice across all four major AI platforms monthly, and the same pattern recurs: 87% of UK professional services firms do not appear in ChatGPT's top three recommendations for their core service area.
+
+Passage-level retrieval became the dominant ranking mechanism across Google AI Overviews, AI Mode, and ChatGPT. AI engines now score individual paragraphs rather than whole pages, meaning a strong page with one weak passage loses citations it should have won.
+
+Off-site authority became 6.5× more important than on-site content, per Stacker's December 2025 research. Reddit threads, Trustpilot reviews, YouTube videos, and earned editorial mentions drive the majority of AI citations — not your own blog.
+
+Statistical prompt testing replaced single-run testing as the only valid measurement protocol. SparkToro's January 2026 research found that the same ChatGPT prompt run 100 times produces the same brand list in fewer than 1% of pairs. One-shot AI testing is statistically broken. The current standard is N=10 runs per prompt per platform.
+
+---
+
+**In 2026, UK professional services firms appear in ChatGPT recommendations when they combine four things: regulatory-verified schema, NAP consistency, third-party validation, and named-author content with Tier 0 data.**
+
+**Run a free [AEO report](/aeo-report?utm_source=blog&utm_medium=resources&utm_campaign=chatgpt-recommendations) to see exactly which prompts mention your firm, which mention your competitors, and what to fix first.**
+
+---
+
+TendorAI is the UK platform built specifically for this — combining SRA, ICAEW, and FCA register data with schema installation and N=10 prompt testing across ChatGPT, Perplexity, Google AI Overviews, and Claude. If you've read this far, you already understand more about AI visibility than 90% of firms in your sector. The fix is structural, not cosmetic, and it doesn't reward whoever shouts loudest. It rewards whoever is easiest to verify.
+
+## Sources
+
+- TendorAI April 2026 audit, 12,793 UK regulated firms, 50 prompts × 10 runs across ChatGPT, Perplexity, Google AI Overviews, Claude
+- Semrush LLM citation distribution research, April 2026
+- Stacker third-party AI citation multiplier research, December 2025
+- SparkToro AI prompt consistency research, January 2026
+- Solicitors Regulation Authority (SRA) public register
+- Institute of Chartered Accountants in England and Wales (ICAEW) firm directory
+- Financial Conduct Authority (FCA) Financial Services Register
+
+---
+
+*Last updated: 30 April 2026. TendorAI runs monthly N=10 prompt tests across all four major AI platforms. This page is reviewed and updated quarterly.*
+`,
+    faqs: [
+      {
+        question: 'Why does ChatGPT recommend my competitor and not me?',
+        answer: 'Your competitor has at least one of the following that you don’t: structured schema with regulatory data, third-party citations on Reddit or Trustpilot, named author profiles, or Tier 1 editorial mentions. ChatGPT recommends the firm it can most confidently verify, not the firm with the best website. AI visibility determines whether ChatGPT names your business when a buyer asks for a recommendation.',
+      },
+      {
+        question: 'How long does it take to get into ChatGPT recommendations?',
+        answer: 'Schema and NAP fixes show citation impact within 4–8 weeks. Third-party authority builds across 3–6 months. Named author trust signals compound over 6–12 months. Firms expecting overnight visibility from a single fix consistently fail.',
+      },
+      {
+        question: 'Will paying for Google Ads help me appear in ChatGPT?',
+        answer: 'No. ChatGPT recommendations are not influenced by paid search. The retrieval stack draws from organic citations, structured data, regulatory records, and third-party mentions — none of which respond to ad spend.',
+      },
+      {
+        question: 'Is ChatGPT visibility the same as SEO?',
+        answer: 'No. SEO targets Google’s crawler and ranking algorithm. AI visibility targets retrieval-augmented generation across multiple AI engines, each with different citation patterns. A page that ranks #1 on Google can win zero AI citations if it lacks passage discipline, schema, and third-party validation.',
+      },
+      {
+        question: 'Do I need to publish content every week to be cited?',
+        answer: 'No. One well-structured pillar piece with strong schema, named author, and third-party amplification cites for longer than 50 thin blog posts. Volume without structure produces nothing. Structure without volume produces results.',
+      },
+      {
+        question: 'How many UK firms are invisible to ChatGPT?',
+        answer: 'According to TendorAI’s April 2026 audit of 12,793 UK regulated firms, 87% of UK professional services firms do not appear in ChatGPT’s top three recommendations for their core service area.',
+      },
+      {
+        question: 'Can I check for free whether ChatGPT recommends my firm?',
+        answer: 'Yes. TendorAI’s free AEO report runs your firm against the prompts your real prospects are asking and shows where you appear, where your competitors appear, and what’s missing.',
+      },
+    ],
+  },
+  {
     slug: 'how-to-get-accountancy-firm-found-chatgpt-uk-2026',
     title: 'How to Get Your Accountancy Firm Found on ChatGPT (UK Guide 2026)',
     excerpt: 'The 2026 playbook for UK accountants who want to be recommended by ChatGPT, Perplexity, and Gemini.',
