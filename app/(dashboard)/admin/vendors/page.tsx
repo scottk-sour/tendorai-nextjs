@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
+import Link from 'next/link';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -587,6 +588,12 @@ export default function AdminVendorsPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
+                      <Link
+                        href={`/admin/vendors/${vendor.id}`}
+                        className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+                      >
+                        View
+                      </Link>
                       <button
                         onClick={async () => {
                           const token = getToken();
