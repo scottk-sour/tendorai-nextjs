@@ -42,7 +42,12 @@ interface Approval {
   itemType: string;
   title: string;
   draftPayload: unknown;
-  metadata?: Record<string, unknown> | null;
+  metadata?: {
+    placeholderCount?: number;
+    topicSuitabilityFlag?: 'ok' | 'thin_data' | 'unsuitable';
+    agentReportedPlaceholderCount?: number;
+    [key: string]: unknown;
+  } | null;
   status: string;
   createdAt: string;
   decidedAt?: string | null;
@@ -167,6 +172,76 @@ function ExecutionResultView({ result }: { result: unknown }) {
     <pre className="bg-gray-50 border border-gray-200 rounded p-3 text-xs overflow-x-auto whitespace-pre-wrap">
       {jsonString(result)}
     </pre>
+  );
+}
+
+const SUITABILITY_BADGE: Record<string, { className: string; label: string; description: string }> = {
+  ok: {
+    className: 'bg-green-100 text-green-700 border-green-200',
+    label: 'Suitable',
+    description: 'Topic suitable for this firm — clean output with manageable placeholder count.',
+  },
+  thin_data: {
+    className: 'bg-amber-100 text-amber-700 border-amber-200',
+    label: 'Thin data',
+    description: 'Topic borderline — many placeholders required. Consider gathering firm data before publishing.',
+  },
+  unsuitable: {
+    className: 'bg-red-100 text-red-700 border-red-200',
+    label: 'Unsuitable',
+    description: 'Agent flagged this topic as unsuitable for the firm. No content body generated.',
+  },
+};
+
+function WriterAgentQualityPanel({ metadata, itemType }: {
+  metadata: { placeholderCount?: number; topicSuitabilityFlag?: string; agentReportedPlaceholderCount?: number } | null | undefined;
+  itemType: string;
+}) {
+  if (itemType !== 'content_draft') return null;
+  if (!metadata) return null;
+  const { placeholderCount, topicSuitabilityFlag, agentReportedPlaceholderCount } = metadata;
+  if (placeholderCount === undefined && !topicSuitabilityFlag) return null;
+
+  const badge = topicSuitabilityFlag ? SUITABILITY_BADGE[topicSuitabilityFlag] : null;
+  const countMismatch = typeof placeholderCount === 'number'
+    && typeof agentReportedPlaceholderCount === 'number'
+    && placeholderCount !== agentReportedPlaceholderCount;
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 className="text-sm font-semibold text-gray-900 mb-4">Writer Agent quality</h3>
+
+      <div className="space-y-3">
+        {badge && (
+          <div className="flex items-start gap-3">
+            <span className={`inline-flex px-2.5 py-0.5 text-xs font-medium rounded border ${badge.className}`}>
+              {badge.label}
+            </span>
+            <p className="text-sm text-gray-600 flex-1">{badge.description}</p>
+          </div>
+        )}
+
+        {typeof placeholderCount === 'number' && (
+          <div className="flex items-baseline gap-2 text-sm">
+            <span className="text-gray-500">Placeholder count (verified):</span>
+            <span className="font-medium text-gray-900">{placeholderCount}</span>
+            {placeholderCount > 8 && (
+              <span className="text-xs text-amber-600">over soft cap of 8</span>
+            )}
+          </div>
+        )}
+
+        {typeof agentReportedPlaceholderCount === 'number' && (
+          <div className="flex items-baseline gap-2 text-sm">
+            <span className="text-gray-500">Agent self-reported count:</span>
+            <span className="font-medium text-gray-900">{agentReportedPlaceholderCount}</span>
+            {countMismatch && (
+              <span className="text-xs text-red-600">mismatch with verified count</span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -450,6 +525,12 @@ export default function ApprovalDetailPage() {
         <h2 className="text-sm font-semibold text-gray-900">Draft payload</h2>
         <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
       </div>
+
+      {/* Writer Agent quality (content_draft only) */}
+      <WriterAgentQualityPanel
+        metadata={approval.metadata as { placeholderCount?: number; topicSuitabilityFlag?: string; agentReportedPlaceholderCount?: number } | null}
+        itemType={approval.itemType}
+      />
 
       {/* Metadata (collapsible) */}
       {hasMetadata && (

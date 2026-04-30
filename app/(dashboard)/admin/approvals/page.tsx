@@ -55,6 +55,12 @@ const STATUS_BADGE: Record<string, string> = {
   failed: 'bg-red-100 text-red-700',
 };
 
+const SUITABILITY_BADGE: Record<string, { className: string; label: string }> = {
+  ok: { className: 'bg-green-100 text-green-700', label: 'OK' },
+  thin_data: { className: 'bg-amber-100 text-amber-700', label: 'Thin data' },
+  unsuitable: { className: 'bg-red-100 text-red-700', label: 'Unsuitable' },
+};
+
 const PAGE_LIMIT = 20;
 
 interface ApprovalListItem {
@@ -67,6 +73,12 @@ interface ApprovalListItem {
   status: string;
   createdAt: string;
   source?: string;
+  metadata?: {
+    placeholderCount?: number;
+    topicSuitabilityFlag?: 'ok' | 'thin_data' | 'unsuitable';
+    agentReportedPlaceholderCount?: number;
+    [key: string]: unknown;
+  } | null;
 }
 
 interface PaginationInfo {
@@ -406,6 +418,16 @@ export default function AdminApprovalsPage() {
                             <span className={`inline-flex text-[10px] font-medium px-2 py-0.5 rounded-full mr-2 ${STATUS_BADGE[item.status] || 'bg-gray-100 text-gray-700'}`}>
                               {item.status}
                             </span>
+                            {item.itemType === 'content_draft' && item.metadata?.topicSuitabilityFlag && (
+                              <span className={`ml-2 px-2 py-0.5 text-xs rounded ${SUITABILITY_BADGE[item.metadata.topicSuitabilityFlag]?.className || 'bg-gray-100 text-gray-700'}`}>
+                                {SUITABILITY_BADGE[item.metadata.topicSuitabilityFlag]?.label || item.metadata.topicSuitabilityFlag}
+                              </span>
+                            )}
+                            {item.itemType === 'content_draft' && typeof item.metadata?.placeholderCount === 'number' && (
+                              <span className="ml-2 px-2 py-0.5 text-xs rounded bg-gray-100 text-gray-600">
+                                {item.metadata.placeholderCount} placeholder{item.metadata.placeholderCount === 1 ? '' : 's'}
+                              </span>
+                            )}
                             {item.source ? <span>via {item.source}</span> : null}
                           </p>
                         </td>
