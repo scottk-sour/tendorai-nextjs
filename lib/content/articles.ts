@@ -36,13 +36,13 @@ export const articles: Article[] = [
     publishedDate: '2026-04-30',
     updatedDate: '2026-04-30',
     metaDescription: 'Why Isn’t My Business in ChatGPT Recommendations? (2026 Guide) — 87% of UK professional services firms don’t appear when ChatGPT is asked to recommend a solicitor, accountant, or mortgage adviser. Here are the seven reasons why — and how to fix each one.',
-    content: `**Your business isn't showing up in ChatGPT recommendations because ChatGPT has no verifiable, structured, third-party-validated data to confidently name you. Traditional Google rankings don't transfer. ChatGPT decides who to recommend based on schema markup, regulatory register matches, consistent NAP data, third-party citations on Reddit and Trustpilot, and named author profiles — not your domain authority or your ad spend.**
+    content: `Your business isn't showing up in ChatGPT recommendations because ChatGPT has no verifiable, structured, third-party-validated data to confidently name you. Traditional Google rankings don't transfer. ChatGPT decides who to recommend based on schema markup, regulatory register matches, consistent NAP data, third-party citations on Reddit and Trustpilot, and named author profiles — not your domain authority or your ad spend.
 
-**AI visibility is the likelihood that an AI assistant — ChatGPT, Perplexity, Google AI Mode, Claude — will recommend a specific business when a user asks a relevant question.** It is the new top-of-funnel for UK professional services. Buyers no longer scroll Google's page one. They ask ChatGPT for three names and ring one of them.
+AI visibility is the likelihood that an AI assistant — ChatGPT, Perplexity, Google AI Mode, Claude — will recommend a specific business when a user asks a relevant question. It is the new top-of-funnel for UK professional services. Buyers no longer scroll Google's page one. They ask ChatGPT for three names and ring one of them.
 
-**TendorAI's April 2026 audit of 12,793 UK regulated firms found that 87% of UK professional services firms do not appear in ChatGPT's top three recommendations for their core service area.** Methodology: 50 prompts run 10 times each across ChatGPT, Perplexity, Google AI Overviews and Claude, citation-share scored by named-entity match.
+TendorAI's April 2026 audit of 12,793 UK regulated firms found that 87% of UK professional services firms do not appear in ChatGPT's top three recommendations for their core service area. Methodology: 50 prompts run 10 times each across ChatGPT, Perplexity, Google AI Overviews and Claude, citation-share scored by named-entity match.
 
-**The seven reasons firms stay invisible are: missing schema, broken regulatory data, NAP inconsistency, no third-party validation, no named author, advertorial-style content, and unsigned data sources.** Each is fixable. Most are fixable in under 30 days.
+The seven reasons firms stay invisible are: missing schema, broken regulatory data, NAP inconsistency, no third-party validation, no named author, advertorial-style content, and unsigned data sources. Each is fixable. Most are fixable in under 30 days.
 
 ChatGPT cites facts, not claims. This guide covers all seven gaps in order of impact, and shows what to fix first.
 
@@ -68,7 +68,7 @@ The seven reasons below are the seven gaps between what your firm currently look
 
 **TendorAI's analysis shows 94% of UK professional services firms have no JSON-LD schema markup on their primary service pages.** Schema is the machine-readable layer that tells ChatGPT what your business is, where it operates, what it does, and who regulates it. Without it, your homepage is prose to a human and noise to a model.
 
-Schema is not optional in 2026 — it is the only language ChatGPT speaks fluently about your business. **A firm without structured data is invisible to AI, regardless of its Google rankings.** JSON-LD is the format AI engines parse most reliably. The minimum stack for a UK professional services firm is Organization, LocalBusiness, and a profession-specific type — LegalService for solicitors, AccountingService for accountants, FinancialService for FCA-regulated firms.
+Schema is not optional in 2026 — it is the only language ChatGPT speaks fluently about your business. A firm without structured data is invisible to AI, regardless of its Google rankings. JSON-LD is the format AI engines parse most reliably. The minimum stack for a UK professional services firm is Organization, LocalBusiness, and a profession-specific type — LegalService for solicitors, AccountingService for accountants, FinancialService for FCA-regulated firms.
 
 Fix: install JSON-LD schema with verified regulatory IDs (SRA number, ICAEW firm number, FCA reference number), accurate NAP data, and areaServed mapped to your real service area. This is a one-day technical job and the single highest-leverage fix on the list.
 
@@ -92,7 +92,7 @@ Fix: pick one canonical name, address and phone format. Update Google Business P
 
 **Stacker's December 2025 research found brands are 6.5× more likely to be cited by AI from third-party sources than from their own domains.** Combined with TendorAI's April 2026 finding that 87% of UK professional services firms do not appear in ChatGPT's top three recommendations, the conclusion is clear: most firms have neither structured data on-site nor authority off-site. ChatGPT does not trust you describing yourself. It trusts other people describing you.
 
-AI engines trust other people describing you, not you describing yourself. **Third-party mentions are the primary driver of AI citations in 2026.** If the only place on the internet that says you're good is your own homepage, that's not a citation — it's a self-claim.
+AI engines trust other people describing you, not you describing yourself. Third-party mentions are the primary driver of AI citations in 2026. If the only place on the internet that says you're good is your own homepage, that's not a citation — it's a self-claim.
 
 The third-party sources ChatGPT weights highest are Reddit, YouTube, Trustpilot, G2, Wikipedia, and earned editorial mentions on Tier 2 publications like the Law Society Gazette, Accountancy Age, or Mortgage Strategy. One genuine Reddit thread answering a real question with your firm named is worth 50 self-published blog posts.
 
