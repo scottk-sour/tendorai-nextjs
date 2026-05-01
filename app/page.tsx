@@ -2,15 +2,12 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
-import AiShift from './components/landing/AiShift';
 import Features from './components/landing/Features';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
-import AeoReportCTA from './components/landing/AeoReportCTA';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
-import SeoAeo from './components/landing/SeoAeo';
 import Pricing from './components/landing/Pricing';
 import Verticals from './components/landing/Verticals';
 import FAQ from './components/landing/FAQ';
@@ -253,27 +250,14 @@ export default async function HomePage() {
         {/* Problem — Cost comparison cards */}
         <ProblemSection />
 
-        {/* AI Shift — Old vs New comparison */}
-        <AiShift />
-
         {/* How TendorAI Works — 4 steps */}
         <Features />
-
-        {/* Results timeline */}
-        <div className="bg-gray-50 py-6">
-          <p className="text-center text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
-            Most firms see their first AI recommendation within <strong className="text-gray-900">2&ndash;4 weeks</strong> of completing their profile.
-          </p>
-        </div>
 
         {/* Trust Bar — verified UK data sources */}
         <TrustBar />
 
         {/* Sector Benefits — 4 vertical cards */}
         <SectorBenefits />
-
-        {/* AEO Report CTA */}
-        <AeoReportCTA />
 
         {/* Conversation Demo */}
         <ConversationDemo />
@@ -288,9 +272,6 @@ export default async function HomePage() {
         <Suspense fallback={<div className="py-8" />}>
           <ProofSection />
         </Suspense>
-
-        {/* SEO vs AEO vs GEO */}
-        <SeoAeo />
 
         {/* Pricing */}
         <Suspense fallback={<div className="py-8" />}>
