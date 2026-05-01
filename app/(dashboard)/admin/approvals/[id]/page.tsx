@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import IndexingActionPanel from '@/components/admin/IndexingActionPanel';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -261,6 +262,9 @@ export default function ApprovalDetailPage() {
   const [metadataOpen, setMetadataOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  const [liveUrl, setLiveUrl] = useState<string | null>(null);
+  const [indexNowOk, setIndexNowOk] = useState<boolean | null>(null);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(''), 3000);
@@ -348,6 +352,17 @@ export default function ApprovalDetailPage() {
         const errData = await res.json().catch(() => null);
         showToast(errData?.error || `Approve failed (${res.status})`);
         return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (
+        data &&
+        typeof data.liveUrl === 'string' &&
+        data.liveUrl.length > 0 &&
+        approval.itemType === 'content_draft'
+      ) {
+        setLiveUrl(data.liveUrl);
+        setIndexNowOk(typeof data.indexNowOk === 'boolean' ? data.indexNowOk : false);
       }
 
       showToast('Approval recorded');
@@ -608,6 +623,11 @@ export default function ApprovalDetailPage() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Post-approval indexing actions (content_draft only) */}
+      {liveUrl && approval.itemType === 'content_draft' && (
+        <IndexingActionPanel liveUrl={liveUrl} indexNowOk={indexNowOk ?? false} />
       )}
 
       {/* Audit trail */}

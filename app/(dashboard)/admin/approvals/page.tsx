@@ -73,6 +73,7 @@ interface ApprovalListItem {
   status: string;
   createdAt: string;
   source?: string;
+  liveUrl?: string;
   metadata?: {
     placeholderCount?: number;
     topicSuitabilityFlag?: 'ok' | 'thin_data' | 'unsuitable';
@@ -400,6 +401,9 @@ export default function AdminApprovalsPage() {
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Title</th>
+                    {activeTab === 'approved' && (
+                      <th className="text-left px-4 py-3 font-medium text-gray-600">Live URL</th>
+                    )}
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Vendor</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Agent</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Type</th>
@@ -431,6 +435,23 @@ export default function AdminApprovalsPage() {
                             {item.source ? <span>via {item.source}</span> : null}
                           </p>
                         </td>
+                        {activeTab === 'approved' && (
+                          <td className="px-4 py-3">
+                            {item.itemType === 'content_draft' && item.liveUrl ? (
+                              <a
+                                href={item.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={item.liveUrl}
+                                className="text-purple-600 hover:underline text-sm"
+                              >
+                                {item.liveUrl.split('/').filter(Boolean).pop() || item.liveUrl}
+                              </a>
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </td>
+                        )}
                         <td className="px-4 py-3 text-gray-600">{getVendorLabel(item.vendorId)}</td>
                         <td className="px-4 py-3 text-gray-600">{item.agentName}</td>
                         <td className="px-4 py-3 text-gray-600">{ITEM_TYPE_LABELS[item.itemType] || item.itemType}</td>
@@ -445,6 +466,19 @@ export default function AdminApprovalsPage() {
                             >
                               View
                             </Link>
+                            {activeTab === 'approved' && item.itemType === 'content_draft' && item.liveUrl && (
+                              <>
+                                <span className="text-slate-300 text-sm" aria-hidden>|</span>
+                                <a
+                                  href={`https://search.google.com/search-console/inspect?resource_id=sc-domain%3Atendorai.com&id=${encodeURIComponent(item.liveUrl)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-purple-600 hover:underline"
+                                >
+                                  Re-submit to GSC
+                                </a>
+                              </>
+                            )}
                             {activeTab === 'pending' && (
                               <>
                                 <button
@@ -472,7 +506,7 @@ export default function AdminApprovalsPage() {
                   })}
                   {items.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-4 py-12 text-center text-gray-500">
+                      <td colSpan={activeTab === 'approved' ? 7 : 6} className="px-4 py-12 text-center text-gray-500">
                         {emptyMessage}
                       </td>
                     </tr>
