@@ -38,7 +38,7 @@ const loopStages = [
   },
 ];
 
-export default function Hero({ totalVendors = 11000 }: HeroProps) {
+export default function Hero({ totalVendors = 12793 }: HeroProps) {
   const stats = [
     { value: `${totalVendors.toLocaleString()}+`, label: 'UK Businesses' },
     { value: '6', label: 'AI Platforms Tracked' },

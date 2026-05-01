@@ -7,7 +7,7 @@ const faqItems = [
   },
   {
     question: 'Which industries does TendorAI cover?',
-    answer: 'We cover solicitors (10,000+ SRA-registered firms), accountants (ICAEW-registered), mortgage advisers (FCA-regulated), and estate agents across England and Wales. Over 12,000 UK professional services firms are listed.',
+    answer: 'We cover solicitors (8,600+ SRA-registered firms), accountants (ICAEW-registered), and mortgage advisers (FCA-regulated) across England and Wales. Estate agents are coming soon. 12,793 verified UK firms in total.',
   },
   {
     question: 'Is TendorAI free to use?',

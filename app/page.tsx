@@ -154,7 +154,7 @@ const howToSchema = {
   description: 'Four steps from invisible to AI-recommended',
   step: [
     { '@type': 'HowToStep', position: 1, name: 'Check Your AI Visibility', text: 'Your firm is already in our system — built from SRA, ICAEW, or FCA register data. Run a free AI Visibility report to see what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds.' },
-    { '@type': 'HowToStep', position: 2, name: 'Claim and Complete Your Profile', text: 'Add your fees, specialisms, accreditations, and services through a simple dashboard. This is the structured data AI needs to recommend you by name — not just mention you generically.' },
+    { '@type': 'HowToStep', position: 2, name: 'Claim and Complete Your Profile', text: 'Add your fees, specialisms, accreditations, and services through a simple dashboard. This is the structured data AI needs to recommend you by name — not just mention you generically. 12,793 verified UK firms across SRA, ICAEW, and FCA registers.' },
     { '@type': 'HowToStep', position: 3, name: 'We Install AI Data on Your Website', text: 'Pro only — we log into your website and install schema markup using your dashboard data. You give us the login. We handle everything. No developer needed. Live within 48 hours.' },
     { '@type': 'HowToStep', position: 4, name: 'One Update. Everywhere in Sync.', text: 'Every time you update your dashboard, your TendorAI directory profile and your website schema update simultaneously. AI platforms crawl both. You do nothing technical. Ever.' },
   ],
