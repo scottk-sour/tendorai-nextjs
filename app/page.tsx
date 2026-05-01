@@ -9,80 +9,12 @@ import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
 import Pricing from './components/landing/Pricing';
-import Verticals from './components/landing/Verticals';
-import FAQ from './components/landing/FAQ';
 import FinalCTA from './components/landing/FinalCTA';
 import ProofSection from './components/homepage/ProofSection';
-import ServiceCategoriesClient from './components/landing/ServiceCategoriesClient';
 import { connectDB } from '@/lib/db/connection';
 import { Vendor } from '@/lib/db/models';
 
 export const revalidate = 3600; // Revalidate every hour
-
-async function getCategoryCounts(): Promise<Record<string, number>> {
-  await connectDB();
-
-  const statusFilter = {
-    $or: [
-      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
-      { listingStatus: 'unclaimed' },
-    ],
-  };
-
-  const [equipmentStats, solicitorStats, accountantCount, mortgageStats, estateStats] = await Promise.all([
-    // Equipment: group by services field
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: { $nin: ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'] } } },
-      { $unwind: '$services' },
-      { $group: { _id: '$services', count: { $sum: 1 } } },
-    ]),
-    // Solicitors: group by practiceAreas
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: 'solicitor' } },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-    ]),
-    // Accountants: try practiceAreas aggregation, fall back to total
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: 'accountant' } },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-    ]),
-    // Mortgage advisors: group by practiceAreas
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: 'mortgage-advisor' } },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-    ]),
-    // Estate agents: group by practiceAreas
-    Vendor.aggregate([
-      { $match: { ...statusFilter, vendorType: 'estate-agent' } },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-    ]),
-  ]);
-
-  const counts: Record<string, number> = {};
-
-  // Equipment
-  equipmentStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-  // Solicitors
-  solicitorStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-  // Accountants — use per-subcategory counts if practiceAreas populated, else total
-  if (accountantCount.length > 0) {
-    accountantCount.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-  } else {
-    // practiceAreas not populated — show total at parent level only via 'Accountants' key
-    const totalAccountants = await Vendor.countDocuments({ ...statusFilter, vendorType: 'accountant' });
-    counts['Accountants'] = totalAccountants;
-  }
-  // Mortgage advisors
-  mortgageStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-  // Estate agents
-  estateStats.forEach((s: { _id: string; count: number }) => { counts[s._id] = s.count; });
-
-  return counts;
-}
 
 async function getTotalVendorCount(): Promise<number> {
   await connectDB();
@@ -157,75 +89,8 @@ const howToSchema = {
   ],
 };
 
-// FAQ schema — synced with the 6 questions in FAQ.tsx
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What is AI visibility?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'AI visibility is how likely AI assistants like ChatGPT, Claude, and Perplexity are to recommend your business. TendorAI provides structured data profiles and AI visibility reports so AI platforms can find and recommend you by name.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Which industries does TendorAI cover?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'We cover solicitors (10,000+ SRA-registered firms), accountants (ICAEW-registered), mortgage advisers (FCA-regulated), and estate agents across England and Wales. Over 12,000 UK professional services firms are listed.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is TendorAI free to use?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Free AI visibility reports are available for any UK business. Basic directory listings are also free. Paid plans start at \u00a3299/month for full AI visibility with structured data profiles.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How is this different from SEO?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "SEO optimises for Google search results. AI Visibility (AEO) optimises for AI recommendations. When someone asks ChatGPT \u201cfind me a solicitor in Bristol\u201d, AI needs structured data to give a specific answer \u2014 that\u2019s what TendorAI provides.",
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What does a free AI visibility report show?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Our free report scans how AI platforms currently see your business. It shows your AI visibility score (0-100), who AI recommends instead, gaps in your online presence, and specific steps to improve.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What areas does TendorAI cover?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'TendorAI covers all of England and Wales, including London, Birmingham, Manchester, Bristol, Cardiff, Leeds, Liverpool, Sheffield, Newcastle, and hundreds more cities and towns.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What happens if I cancel TendorAI Pro?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'If you cancel, your TendorAI profile remains on the free tier \u2014 still listed and AI-crawlable. Your website schema stops auto-updating but continues to work until you remove it. You can also download your complete schema as a static JSON-LD file from your dashboard any time \u2014 self-host it and it keeps working forever. There is no lock-in.',
-      },
-    },
-  ],
-};
-
 export default async function HomePage() {
-  const [categoryCounts, totalVendorCount] = await Promise.all([
-    getCategoryCounts(),
-    getTotalVendorCount(),
-  ]);
+  const totalVendorCount = await getTotalVendorCount();
 
   return (
     <>
@@ -237,10 +102,6 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <main>
@@ -276,19 +137,6 @@ export default async function HomePage() {
         {/* Pricing */}
         <Suspense fallback={<div className="py-8" />}>
           <Pricing />
-        </Suspense>
-
-        {/* Verticals */}
-        <Verticals />
-
-        {/* FAQ */}
-        <Suspense fallback={<div className="py-8" />}>
-          <FAQ />
-        </Suspense>
-
-        {/* Browse by Service (SEO value) */}
-        <Suspense fallback={<div className="py-8" />}>
-          <ServiceCategoriesClient categoryCounts={categoryCounts} />
         </Suspense>
 
         {/* Final CTA */}

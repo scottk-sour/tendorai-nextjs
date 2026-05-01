@@ -5,6 +5,7 @@ import AskAiButton from './AskAiButton';
 const footerNavigation = {
   product: [
     { name: 'Find Suppliers', href: '/suppliers' },
+    { name: 'Browse Services', href: '/services' },
     { name: 'AI Visibility Report', href: '/aeo-report' },
     { name: 'AI Visibility Platform', href: '/ai-visibility-platform' },
     { name: 'For Firms', href: '/for-vendors' },

@@ -5,6 +5,5 @@ export { default as ServiceCategories } from './ServiceCategories';
 export { default as Stats } from './Stats';
 export { default as StatCounter } from './StatCounter';
 export { default as CoverageAreas } from './CoverageAreas';
-export { default as FAQ } from './FAQ';
 export { default as FinalCTA } from './FinalCTA';
 export { default as NewsletterSignup } from './NewsletterSignup';
