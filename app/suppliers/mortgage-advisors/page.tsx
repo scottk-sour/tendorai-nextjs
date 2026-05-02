@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { connectDB } from '@/lib/db/connection';
-import { Vendor, VendorProduct } from '@/lib/db/models';
-import VendorCard from '@/app/components/VendorCard';
-import type { VendorCardData } from '@/app/components/VendorCard';
-import { SERVICES, getDisplayTier, calculatePriorityScore, canShowPricing } from '@/lib/constants';
+import { connectDB, withRetry } from '@/lib/db/connection';
+import { Vendor } from '@/lib/db/models';
+import { SERVICES } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Mortgage Advisors UK — FCA-Authorised Brokers | TendorAI',
@@ -25,115 +23,39 @@ const STATUS_FILTER = {
 };
 
 async function getData() {
-  await connectDB();
+  return withRetry(async () => {
+    await connectDB();
 
-  const baseFilter = { ...STATUS_FILTER, vendorType: 'mortgage-advisor' as const };
+    const baseFilter = { ...STATUS_FILTER, vendorType: 'mortgage-advisor' as const };
 
-  const [totalCount, practiceAreaStats, locationStats, vendors] = await Promise.all([
-    Vendor.countDocuments(baseFilter),
-    Vendor.aggregate([
-      { $match: baseFilter },
-      { $unwind: '$practiceAreas' },
-      { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-    ]),
-    Vendor.aggregate([
-      { $match: baseFilter },
-      { $group: { _id: '$location.city', count: { $sum: 1 } } },
-      { $match: { _id: { $nin: [null, ''] } } },
-      { $sort: { count: -1 } },
-      { $limit: 30 },
-    ]),
-    Vendor.find(baseFilter)
-      .select({
-        company: 1, services: 1, location: 1, performance: 1, businessProfile: 1,
-        brands: 1, tier: 1, contactInfo: 1, showPricing: 1, listingStatus: 1,
-        'account.loginCount': 1, vendorType: 1, practiceAreas: 1, fcaNumber: 1, slug: 1,
-      })
-      .lean()
-      .exec(),
-  ]);
+    const [totalCount, practiceAreaStats, locationStats] = await Promise.all([
+      Vendor.countDocuments(baseFilter),
+      Vendor.aggregate([
+        { $match: baseFilter },
+        { $unwind: '$practiceAreas' },
+        { $group: { _id: '$practiceAreas', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+      ]),
+      Vendor.aggregate([
+        { $match: baseFilter },
+        { $group: { _id: '$location.city', count: { $sum: 1 } } },
+        { $match: { _id: { $nin: [null, ''] } } },
+        { $sort: { count: -1 } },
+        { $limit: 12 },
+      ]),
+    ]);
 
-  // Get product counts for all vendors
-  const vendorIds = vendors.map((v) => v._id);
-  const productCounts = await VendorProduct.aggregate([
-    { $match: { vendorId: { $in: vendorIds }, isActive: { $ne: false } } },
-    { $group: { _id: '$vendorId', count: { $sum: 1 } } },
-  ]);
-  const productCountMap: Record<string, number> = {};
-  productCounts.forEach((p: { _id: { toString(): string }; count: number }) => {
-    productCountMap[p._id.toString()] = p.count;
+    const practiceAreaCountMap: Record<string, number> = {};
+    practiceAreaStats.forEach((stat: { _id: string; count: number }) => {
+      practiceAreaCountMap[stat._id] = stat.count;
+    });
+
+    return { totalCount, practiceAreaCountMap, locationStats };
   });
-
-  // Map to VendorCardData and sort by priority
-  const vendorCards: VendorCardData[] = vendors
-    .map((v) => {
-      const vendor = v as Record<string, unknown> & {
-        _id: { toString(): string };
-        company?: string; services?: string[]; vendorType?: string; practiceAreas?: string[];
-        fcaNumber?: string; slug?: string;
-        location?: { city?: string; region?: string; coverage?: string[]; postcode?: string };
-        performance?: { rating?: number; reviewCount?: number };
-        businessProfile?: { description?: string; yearsInBusiness?: number; accreditations?: string[] };
-        brands?: string[]; tier?: string; contactInfo?: { phone?: string; website?: string };
-        listingStatus?: string; account?: { loginCount?: number };
-      };
-      const displayTier = getDisplayTier(vendor.tier);
-      const hasPhone = !!(vendor.contactInfo?.phone);
-      const hasRating = (vendor.performance?.rating || 0) > 0;
-      const isPaid = displayTier !== 'free';
-      const ls = (vendor.listingStatus || 'unclaimed').toLowerCase();
-      const isClaimed = ls === 'claimed' || ls === 'verified' || hasPhone || isPaid || hasRating || (vendor.account?.loginCount || 0) > 0;
-      const pCount = productCountMap[vendor._id.toString()] || 0;
-
-      return {
-        card: {
-          id: vendor._id.toString(),
-          company: vendor.company || '',
-          services: vendor.services || [],
-          practiceAreas: vendor.practiceAreas || [],
-          location: {
-            city: vendor.location?.city,
-            region: vendor.location?.region,
-            coverage: vendor.location?.coverage || [],
-            postcode: vendor.location?.postcode,
-          },
-          distance: null,
-          rating: vendor.performance?.rating || 0,
-          reviewCount: vendor.performance?.reviewCount || 0,
-          tier: displayTier,
-          description: vendor.businessProfile?.description,
-          accreditations: vendor.businessProfile?.accreditations || [],
-          yearsInBusiness: vendor.businessProfile?.yearsInBusiness,
-          brands: vendor.brands || [],
-          productCount: pCount,
-          website: vendor.contactInfo?.website,
-          showPricing: canShowPricing(vendor.tier),
-          accountClaimed: isClaimed,
-          vendorType: vendor.vendorType,
-          fcaNumber: vendor.fcaNumber,
-          slug: vendor.slug,
-        } as VendorCardData,
-        priorityScore: calculatePriorityScore({
-          tier: vendor.tier, company: vendor.company, contactInfo: vendor.contactInfo, email: '',
-          businessProfile: vendor.businessProfile, brands: vendor.brands, location: vendor.location,
-          hasProducts: pCount > 0,
-        }),
-      };
-    })
-    .sort((a, b) => b.priorityScore - a.priorityScore)
-    .map((v) => v.card);
-
-  const practiceAreaCountMap: Record<string, number> = {};
-  practiceAreaStats.forEach((stat: { _id: string; count: number }) => {
-    practiceAreaCountMap[stat._id] = stat.count;
-  });
-
-  return { totalCount, practiceAreaCountMap, locationStats, vendorCards };
 }
 
 export default async function MortgageAdvisorsPage() {
-  const { totalCount, practiceAreaCountMap, locationStats, vendorCards } = await getData();
+  const { totalCount, practiceAreaCountMap, locationStats } = await getData();
 
   const mortgageServices = Object.values(SERVICES).filter((s) => s.group === 'mortgage-advisor');
 
@@ -323,33 +245,6 @@ export default async function MortgageAdvisorsPage() {
               </div>
             ) : (
               <p className="text-gray-500">Location data is being populated. Check back soon.</p>
-            )}
-          </div>
-        </section>
-
-        {/* All Mortgage Advisors */}
-        <section className="py-12">
-          <div className="section">
-            <h2 className="text-2xl font-bold mb-2">All Mortgage Advisors</h2>
-            <p className="text-gray-600 mb-8">
-              {vendorCards.length.toLocaleString()} FCA-authorised mortgage advisory firms across the UK
-            </p>
-            {vendorCards.length > 0 ? (
-              <div className="space-y-4">
-                {vendorCards.map((vendor) => (
-                  <VendorCard key={vendor.id} vendor={vendor} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 bg-white rounded-lg">
-                <div className="text-gray-400 text-5xl mb-4">&#128269;</div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  No mortgage advisors found yet
-                </h3>
-                <p className="text-gray-600">
-                  We&apos;re expanding our network. Check back soon.
-                </p>
-              </div>
             )}
           </div>
         </section>
