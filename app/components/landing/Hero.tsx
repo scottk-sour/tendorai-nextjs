@@ -8,35 +8,76 @@ interface HeroProps {
 const loopStages = [
   {
     number: '01',
-    title: 'Measure',
-    oneLiner: 'We check where your firm appears across the AI platforms your clients use.',
-    proof: '6 platforms scanned weekly: ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI',
+    title: 'See your AI visibility',
+    oneLiner: 'Know exactly where your firm appears across the six AI platforms your clients use.',
+    proof: 'Scanned weekly — ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI',
   },
   {
     number: '02',
-    title: 'Diagnose',
-    oneLiner: "We work out why you're being missed when prospects ask AI for recommendations.",
-    proof: 'Schema gaps, content gaps, citation gaps — identified per platform',
+    title: "Find out why you're missed",
+    oneLiner: "Understand the specific reasons prospects don't see your firm when they ask AI for recommendations.",
+    proof: 'Schema gaps, content gaps, citation gaps — diagnosed per platform',
   },
   {
     number: '03',
-    title: 'Fix',
-    oneLiner: 'We draft new content and structured data to fill the gaps holding your firm back.',
+    title: 'Get the gaps filled',
+    oneLiner: 'Receive ready-to-publish content and structured data drafted specifically for your firm.',
     proof: 'Approval queue — every fix reviewed before it touches your site',
   },
   {
     number: '04',
-    title: 'Deploy',
-    oneLiner: 'We put fixes live on your website and across the directories AI tools cite.',
-    proof: 'Schema installed, content published, listings submitted — handled for you',
+    title: 'Watch changes go live',
+    oneLiner: 'Approved fixes deploy to your site automatically — no developer needed.',
+    proof: 'One-click approval, automatic schema injection',
   },
   {
     number: '05',
-    title: 'Track',
-    oneLiner: "We measure whether last week's work moved the needle, then start again.",
-    proof: 'Week-on-week visibility score — see what changed, see why',
+    title: "Track what's working",
+    oneLiner: 'See your visibility score climb week-on-week with proof of which fixes moved the needle.',
+    proof: 'Weekly Monday report — visibility score and platform breakdown',
   },
 ];
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How TendorAI gets your firm recommended by AI platforms',
+  description:
+    "TendorAI runs a continuous five-stage loop that measures your AI visibility, diagnoses why you're missed, drafts fixes, deploys approved changes, and tracks results. Every week.",
+  totalTime: 'P90D',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'See your AI visibility',
+      text: 'Know exactly where your firm appears across the six AI platforms your clients use. Scanned weekly across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: "Find out why you're missed",
+      text: "Understand the specific reasons prospects don't see your firm when they ask AI for recommendations. Schema gaps, content gaps, and citation gaps are diagnosed per platform.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Get the gaps filled',
+      text: 'Receive ready-to-publish content and structured data drafted specifically for your firm. Every fix is reviewed in an approval queue before it touches your site.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Watch changes go live',
+      text: 'Approved fixes deploy to your site automatically with one-click approval and automatic schema injection. No developer needed.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 5,
+      name: "Track what's working",
+      text: 'See your visibility score climb week-on-week with proof of which fixes moved the needle. Delivered as a weekly Monday report covering visibility score and platform breakdown.',
+    },
+  ],
+};
 
 export default function Hero({ totalVendors = 12793 }: HeroProps) {
   const stats = [
@@ -94,6 +135,17 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
           </p>
         </div>
 
+        {/* HowTo JSON-LD — single source of truth for the Loop, lives with the visible content */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+        />
+
+        {/* 90-day outcome line — leads into the Loop */}
+        <p className="font-serif italic text-xl md:text-2xl text-[var(--text2)] text-center max-w-3xl mx-auto mt-4 mb-8 leading-relaxed">
+          In 90 days you go from invisible in AI answers to consistently recommended. Here&rsquo;s how.
+        </p>
+
         {/* The Loop — five-stage cycle */}
         <div className="mt-8 max-w-5xl mx-auto">
           <div className="relative rounded-2xl px-3 py-6 sm:px-4 sm:py-8 lg:px-6 lg:py-10">
@@ -105,10 +157,10 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             />
 
             {/* Desktop: 5 cards in a row with chevron connectors */}
-            <div className="relative hidden lg:flex items-stretch justify-center gap-2">
+            <ol className="relative hidden lg:flex items-stretch justify-center gap-2 list-none p-0 m-0">
               {loopStages.map((stage, idx) => (
                 <Fragment key={stage.title}>
-                  <div className="group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left">
+                  <li className="group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left">
                     <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
                       {stage.number}
                     </span>
@@ -122,7 +174,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                     <p className="text-xs italic text-purple-600 mt-4 leading-snug">
                       {stage.proof}
                     </p>
-                  </div>
+                  </li>
                   {idx < loopStages.length - 1 && (
                     <div className="flex items-center text-[var(--border2)] flex-shrink-0" aria-hidden>
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +184,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                   )}
                 </Fragment>
               ))}
-            </div>
+            </ol>
 
             {/* Loop-back dashed line (desktop only) */}
             <div className="relative hidden lg:block mt-5 px-8" aria-hidden>
@@ -153,10 +205,10 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             </div>
 
             {/* Mobile / tablet: stacked cards with vertical connectors */}
-            <div className="relative lg:hidden flex flex-col gap-3">
+            <ol className="relative lg:hidden flex flex-col gap-3 list-none p-0 m-0">
               {loopStages.map((stage, idx) => (
                 <Fragment key={stage.title}>
-                  <div className="bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5">
+                  <li className="bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5">
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
                         {stage.number}
@@ -168,7 +220,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                     <div className="border-t border-[var(--border)] mt-3 mb-3" />
                     <p className="text-sm text-[var(--text2)] leading-relaxed">{stage.oneLiner}</p>
                     <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
-                  </div>
+                  </li>
                   {idx < loopStages.length - 1 && (
                     <div className="flex justify-center text-gray-400" aria-hidden>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,7 +230,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                   )}
                 </Fragment>
               ))}
-            </div>
+            </ol>
 
             {/* Closing line */}
             <div className="relative text-center mt-6 lg:mt-3">
