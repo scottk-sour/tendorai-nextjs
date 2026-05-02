@@ -156,39 +156,31 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
               style={{ background: 'var(--gradient-hero)' }}
             />
 
-            {/* Desktop: 5 cards in a row with chevron connectors */}
+            {/* Desktop: 3+2 grid layout — cards 01/02/03 on row 1, 04/05 left-aligned on row 2 */}
             <ol
-              className="not-prose relative hidden lg:flex items-stretch justify-center gap-2 list-none p-0 m-0"
+              className="not-prose relative hidden lg:grid lg:grid-cols-3 gap-6 list-none p-0 m-0"
               style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
             >
-              {loopStages.map((stage, idx) => (
-                <Fragment key={stage.title}>
-                  <li
-                    className="list-none group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
-                    style={{ listStyle: 'none' }}
-                  >
-                    <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
-                      {stage.number}
-                    </span>
-                    <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
-                      {stage.title}
-                    </h3>
-                    <div className="border-t border-[var(--border)] mt-3 mb-3" />
-                    <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
-                      {stage.oneLiner}
-                    </p>
-                    <p className="text-xs italic text-purple-600 mt-4 leading-snug">
-                      {stage.proof}
-                    </p>
-                  </li>
-                  {idx < loopStages.length - 1 && (
-                    <div className="flex items-center text-[var(--border2)] flex-shrink-0" aria-hidden>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  )}
-                </Fragment>
+              {loopStages.map((stage) => (
+                <li
+                  key={stage.title}
+                  className="list-none group h-full bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
+                  style={{ listStyle: 'none' }}
+                >
+                  <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                    {stage.number}
+                  </span>
+                  <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
+                    {stage.title}
+                  </h3>
+                  <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                  <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
+                    {stage.oneLiner}
+                  </p>
+                  <p className="text-xs italic text-purple-600 mt-4 leading-snug">
+                    {stage.proof}
+                  </p>
+                </li>
               ))}
             </ol>
 
