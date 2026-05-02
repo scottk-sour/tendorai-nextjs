@@ -236,6 +236,70 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
               ))}
             </ol>
 
+            {/* Free tools row — separate from the Loop ol; Loop schema stays 5 steps */}
+            <div className="mt-12">
+              <p className="text-center font-serif italic text-xl lg:text-2xl text-[var(--text2)] mb-6">
+                Or see where you&rsquo;re going wrong right now &mdash; for free.
+              </p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Link
+                  href="/tools/schema-checker"
+                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
+                >
+                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
+                    Free tool
+                  </span>
+                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
+                    Schema Checker
+                  </h3>
+                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
+                    Check if your firm&rsquo;s website has the structured data AI platforms need to recommend you.
+                  </p>
+                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
+                    Run schema checker &rarr;
+                  </span>
+                </Link>
+
+                <Link
+                  href="/tools/robots-checker"
+                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
+                >
+                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
+                    Free tool
+                  </span>
+                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
+                    AI Crawler Checker
+                  </h3>
+                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
+                    Find out if ChatGPT, Perplexity, Claude and Gemini can actually access your site to read it.
+                  </p>
+                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
+                    Check crawler access &rarr;
+                  </span>
+                </Link>
+
+                <Link
+                  href="/aeo-report"
+                  className="group flex h-full flex-col text-left rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 p-5 text-white"
+                  style={{ background: 'var(--gradient-cta)' }}
+                >
+                  <span className="text-xs font-semibold tracking-wider uppercase text-white/85 mb-2">
+                    Free report
+                  </span>
+                  <h3 className="font-serif text-lg lg:text-xl font-bold text-white mb-2 leading-tight">
+                    AI Visibility Report
+                  </h3>
+                  <p className="text-sm text-white/90 mb-4 flex-1 leading-relaxed">
+                    Get a personalised report on where your firm appears across the six AI platforms your clients use.
+                  </p>
+                  <span className="text-sm font-bold text-white group-hover:underline">
+                    Get free report &rarr;
+                  </span>
+                </Link>
+              </div>
+            </div>
+
             {/* Closing line */}
             <div className="relative text-center mt-6 lg:mt-3">
               <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[var(--text3)] mb-2">
