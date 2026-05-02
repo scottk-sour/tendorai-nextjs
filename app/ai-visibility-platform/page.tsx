@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'AI Visibility Platform \u2014 5-Stage Loop for UK Professional Services | TendorAI';
 const DESCRIPTION =
-  'TendorAI is the AI visibility platform that installs schema markup, tracks 6 AI platforms, and publishes content automatically. Free report.';
+  "TendorAI runs a continuous five-stage loop on your firm: we measure where you appear in AI answers, diagnose why you're missed, draft fixes for your approval, deploy what you sign off on, and track what worked. Every Monday.";
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-platform';
 
 export const metadata: Metadata = {
@@ -151,78 +151,29 @@ export default function AiVisibilityPlatformPage() {
     })),
   };
 
-  const aboutJsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: 'AI Visibility Platform \u2014 Monitor, Implement and Publish | TendorAI',
+  const aboutJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: TITLE,
+    description: DESCRIPTION,
+    url: CANONICAL,
+    about: {
+      '@type': 'SoftwareApplication',
+      name: 'TendorAI',
+      applicationCategory: 'BusinessApplication',
       description:
-        'TendorAI is the UK AI visibility platform that installs schema markup, tracks brand mentions across 6 AI platforms, and publishes AI-optimised content automatically. Built for UK regulated professional services firms.',
-      url: 'https://www.tendorai.com/ai-visibility-platform',
-      about: {
-        '@type': 'SoftwareApplication',
-        name: 'TendorAI',
-        applicationCategory: 'BusinessApplication',
-        description:
-          "UK AI visibility platform for regulated professional services. Not an AI model deployment or machine learning platform. Installs Schema.org structured data on clients' websites and tracks AI recommendations across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.",
-        offers: {
-          '@type': 'Offer',
-          price: '299',
-          priceCurrency: 'GBP',
-          priceSpecification: {
-            '@type': 'UnitPriceSpecification',
-            billingDuration: 'P1M',
-          },
+        "UK AI visibility platform for regulated professional services. Not an AI model deployment or machine learning platform. Installs Schema.org structured data on clients' websites and tracks AI recommendations across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.",
+      offers: {
+        '@type': 'Offer',
+        price: '299',
+        priceCurrency: 'GBP',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          billingDuration: 'P1M',
         },
       },
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'What is an AI visibility platform?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'An AI visibility platform helps businesses get recommended by AI assistants like ChatGPT, Claude, Perplexity, and Google Gemini. It works by structuring your business data so AI can read, verify, and cite it when answering user queries. Without structured data, AI cannot recommend you by name.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'How is AI visibility different from SEO?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'SEO optimises your website for Google search results. AI visibility optimises your structured data for AI recommendations. When someone asks ChatGPT for an accountant, AI names specific firms \u2014 not a list of links. AI visibility determines whether your firm is one of them.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'What does TendorAI do that other AI visibility tools do not?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Most AI visibility tools only monitor \u2014 they show a dashboard but do not fix the problem. TendorAI installs schema markup on your website, publishes AI-optimised blog content, syncs to LinkedIn and Facebook, and tracks visibility across 6 platforms weekly. No developer or agency required.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Which AI platforms does TendorAI track?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TendorAI tracks your brand across ChatGPT, Perplexity, Claude, Google Gemini, Grok, and Meta AI. Weekly scans with visibility score trends and email alerts when AI platforms recommend you.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'How much does TendorAI cost?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TendorAI Pro is \u00a3299 per month. A free AI visibility report is available for any UK business with no signup required.',
-          },
-        },
-      ],
-    },
-  ];
+  };
 
   return (
     <>
@@ -247,17 +198,17 @@ export default function AiVisibilityPlatformPage() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              Monitor + Implement + Publish
+              Measure &middot; Diagnose &middot; Fix &middot; Deploy &middot; Track
             </div>
 
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              The AI Visibility Platform That Does Everything Automatically
+              The AI Visibility Platform Built for UK Professional Services
             </h1>
 
             <p className="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed mb-10">
-              TendorAI is an AI visibility platform that installs schema markup on your website,
-              tracks your brand across 6 AI platforms weekly, and publishes AI-optimised blog
-              content automatically. No developer. No agency. No manual work.
+              TendorAI runs a continuous five-stage loop on your firm: we measure where you appear
+              in AI answers, diagnose why you&rsquo;re missed, draft fixes for your approval, deploy
+              what you sign off on, and track what worked. Every Monday.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
