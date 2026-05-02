@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-const TITLE = 'AI Visibility Platform \u2014 Monitor, Implement and Publish | TendorAI';
+const TITLE = 'AI Visibility Platform \u2014 5-Stage Loop for UK Professional Services | TendorAI';
 const DESCRIPTION =
   'TendorAI is the AI visibility platform that installs schema markup, tracks 6 AI platforms, and publishes content automatically. Free report.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-platform';
@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: 'How much does an AI visibility platform cost?',
-    a: 'Monitoring-only tools like Otterly.ai start at $29/month. Enterprise tools like Profound start at $99/month. TendorAI \u2014 which monitors, implements, and publishes \u2014 is \u00a3299/month at the early adopter price (rising to \u00a3599). Free AI visibility reports are available for any business.',
+    a: 'TendorAI is \u00a3299 per month. Free AI visibility reports are available for any UK firm.',
   },
 ];
 
@@ -58,34 +58,40 @@ const comparisonRows = [
   { feature: 'AI blog writer (2 posts/week)', monitor: false, guidance: false, tendorai: true },
   { feature: 'Social publishing (LinkedIn, Facebook)', monitor: false, guidance: false, tendorai: true },
   { feature: '10-point website AI audit', monitor: false, guidance: false, tendorai: true },
-  { feature: 'Done-for-you installation', monitor: false, guidance: false, tendorai: true },
+  { feature: 'Approval-queue deployment', monitor: false, guidance: false, tendorai: true },
   { feature: 'Export your schema as a file', monitor: false, guidance: false, tendorai: true },
 ];
 
-const steps = [
+const loopStages = [
   {
-    number: '1',
-    title: 'Run a Free AI Visibility Report',
-    description:
-      'See what ChatGPT, Claude, and Perplexity currently say about your business. Takes 60 seconds. No signup required.',
+    number: '01',
+    title: 'See your AI visibility',
+    oneLiner: 'Know exactly where your firm appears across the six AI platforms your clients use.',
+    proof: 'Scanned weekly \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, Meta AI',
   },
   {
-    number: '2',
-    title: 'Claim and Complete Your Profile',
-    description:
-      'Add your fees, specialisms, accreditations, and services. This is the structured data AI needs to recommend you by name.',
+    number: '02',
+    title: "Find out why you're missed",
+    oneLiner: "Understand the specific reasons prospects don't see your firm when they ask AI for recommendations.",
+    proof: 'Schema gaps, content gaps, citation gaps \u2014 diagnosed per platform',
   },
   {
-    number: '3',
-    title: 'We Install Schema on Your Website',
-    description:
-      'Give us your website login. We install AI-optimised schema markup within 48 hours. No developer needed.',
+    number: '03',
+    title: 'Get the gaps filled',
+    oneLiner: 'Receive ready-to-publish content and structured data drafted specifically for your firm.',
+    proof: 'Approval queue \u2014 every fix reviewed before it touches your site',
   },
   {
-    number: '4',
-    title: 'Content, Social, and Tracking \u2014 Automatic',
-    description:
-      'AI blog posts publish weekly. Schema auto-syncs. LinkedIn and Facebook update automatically. Weekly tracking emails land every Monday.',
+    number: '04',
+    title: 'Watch changes go live',
+    oneLiner: 'Approved fixes deploy to your site automatically \u2014 no developer needed.',
+    proof: 'One-click approval, automatic schema injection',
+  },
+  {
+    number: '05',
+    title: "Track what's working",
+    oneLiner: 'See your visibility score climb week-on-week with proof of which fixes moved the needle.',
+    proof: 'Weekly Monday report \u2014 visibility score and platform breakdown',
   },
 ];
 
@@ -289,16 +295,13 @@ export default function AiVisibilityPlatformPage() {
                   <tr className="border-b-2 border-gray-200">
                     <th className="text-left py-4 pr-4 text-sm font-semibold text-gray-900">Feature</th>
                     <th className="text-center py-4 px-4 text-sm font-semibold text-gray-500">
-                      Monitor Only
-                      <span className="block text-xs font-normal text-gray-400 mt-0.5">Otterly, Peec AI</span>
+                      Monitor-only tools
                     </th>
                     <th className="text-center py-4 px-4 text-sm font-semibold text-gray-500">
-                      Monitor + Guidance
-                      <span className="block text-xs font-normal text-gray-400 mt-0.5">Profound</span>
+                      Monitor + guidance tools
                     </th>
                     <th className="text-center py-4 px-4 text-sm font-semibold text-purple-700">
-                      Monitor + Implement + Publish
-                      <span className="block text-xs font-normal text-purple-500 mt-0.5">TendorAI</span>
+                      TendorAI
                     </th>
                   </tr>
                 </thead>
@@ -367,29 +370,71 @@ export default function AiVisibilityPlatformPage() {
           </div>
         </section>
 
-        {/* How it works */}
+        {/* How it works — five-stage Loop, synced with homepage Hero */}
         <section className="py-16 md:py-24">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-12">
+            <div className="text-center mb-10">
               <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
-                How It Works
+                From invisible to AI-recommended in 90 days
               </h2>
-              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                From invisible to AI-recommended in four steps
+              <p className="font-serif italic text-xl lg:text-2xl text-[var(--text2)] max-w-3xl mx-auto leading-relaxed">
+                In 90 days you go from invisible in AI answers to consistently recommended. Here&rsquo;s how.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {steps.map((step) => (
-                <div key={step.number} className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 font-bold text-xl flex items-center justify-center mx-auto mb-4">
-                    {step.number}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
-                </div>
+            {/* Desktop: 3+2 grid */}
+            <ol
+              className="not-prose hidden lg:grid lg:grid-cols-3 gap-6 list-none p-0 m-0"
+              style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
+            >
+              {loopStages.map((stage) => (
+                <li
+                  key={stage.title}
+                  className="list-none group h-full bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
+                  style={{ listStyle: 'none' }}
+                >
+                  <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                    {stage.number}
+                  </span>
+                  <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
+                    {stage.title}
+                  </h3>
+                  <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                  <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
+                    {stage.oneLiner}
+                  </p>
+                  <p className="text-xs italic text-purple-600 mt-4 leading-snug">
+                    {stage.proof}
+                  </p>
+                </li>
               ))}
-            </div>
+            </ol>
+
+            {/* Mobile: stacked with purple left border */}
+            <ol
+              className="not-prose lg:hidden flex flex-col gap-3 list-none p-0 m-0"
+              style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
+            >
+              {loopStages.map((stage) => (
+                <li
+                  key={stage.title}
+                  className="list-none bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5"
+                  style={{ listStyle: 'none' }}
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                      {stage.number}
+                    </span>
+                    <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] leading-tight">
+                      {stage.title}
+                    </h3>
+                  </div>
+                  <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                  <p className="text-sm text-[var(--text2)] leading-relaxed">{stage.oneLiner}</p>
+                  <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
+                </li>
+              ))}
+            </ol>
 
             <div className="text-center mt-10">
               <Link
@@ -441,7 +486,7 @@ export default function AiVisibilityPlatformPage() {
               See What AI Says About Your Business
             </h2>
             <p className="text-purple-100 text-lg mb-8 max-w-xl mx-auto">
-              Run a free AI visibility report. See your score across ChatGPT, Claude, and Perplexity. Takes 30 seconds.
+              Run a free AI visibility report. See your score across ChatGPT, Claude, and Perplexity. Takes 60 seconds.
             </p>
             <Link
               href="/aeo-report"
