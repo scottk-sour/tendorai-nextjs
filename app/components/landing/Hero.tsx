@@ -157,10 +157,16 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             />
 
             {/* Desktop: 5 cards in a row with chevron connectors */}
-            <ol className="relative hidden lg:flex items-stretch justify-center gap-2 list-none p-0 m-0">
+            <ol
+              className="not-prose relative hidden lg:flex items-stretch justify-center gap-2 list-none p-0 m-0"
+              style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
+            >
               {loopStages.map((stage, idx) => (
                 <Fragment key={stage.title}>
-                  <li className="group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left">
+                  <li
+                    className="list-none group flex-1 max-w-[200px] bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
+                    style={{ listStyle: 'none' }}
+                  >
                     <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
                       {stage.number}
                     </span>
@@ -205,10 +211,16 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             </div>
 
             {/* Mobile / tablet: stacked cards with vertical connectors */}
-            <ol className="relative lg:hidden flex flex-col gap-3 list-none p-0 m-0">
+            <ol
+              className="not-prose relative lg:hidden flex flex-col gap-3 list-none p-0 m-0"
+              style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
+            >
               {loopStages.map((stage, idx) => (
                 <Fragment key={stage.title}>
-                  <li className="bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5">
+                  <li
+                    className="list-none bg-white rounded-xl border border-[var(--border)] border-l-4 border-l-purple-600 shadow-sm p-5"
+                    style={{ listStyle: 'none' }}
+                  >
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
                         {stage.number}
