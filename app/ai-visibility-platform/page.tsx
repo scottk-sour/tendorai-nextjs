@@ -104,7 +104,7 @@ export default function AiVisibilityPlatformPage() {
     operatingSystem: 'Web',
     url: 'https://www.tendorai.com',
     description:
-      'AI visibility platform that installs schema markup, tracks 6 AI platforms, and publishes AI-optimised content automatically.',
+      'TendorAI runs a continuous five-stage loop for UK professional services firms: measure AI visibility, diagnose gaps, draft fixes for approval, deploy approved changes, and track results. Every Monday.',
     offers: [
       {
         '@type': 'Offer',
