@@ -27,6 +27,21 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'ai-visibility-for-estate-agents',
+    title: 'AI Visibility for UK Estate Agents — The Complete Guide (2026)',
+    excerpt:
+      'How UK estate agents get recommended by ChatGPT, Perplexity and Google AI Overviews in 2026. The 12 things to fix, ranked by impact, with FAQ and regulatory data from 12,793 firms.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 12,
+    publishedDate: '2026-05-04',
+    updatedDate: '2026-05-04',
+    metaDescription:
+      'How UK estate agents get recommended by ChatGPT, Perplexity and Google AI Overviews in 2026. Ranked guide, FAQ, regulatory data from 12,793 firms.',
+    content: '',
+    href: '/ai-visibility-for-estate-agents',
+  },
+  {
     slug: 'why-isnt-my-business-showing-up-in-chatgpt-recommendations',
     title: 'Why isn’t my business showing up in ChatGPT recommendations?',
     excerpt: '87% of UK professional services firms don’t appear when ChatGPT is asked to recommend a solicitor, accountant, or mortgage adviser. Here are the seven reasons why — and how to fix each one.',
