@@ -222,6 +222,15 @@ export default async function ArticlePage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
+      {/* Optional augmentation blocks. Match mainEntityOfPage @id to the
+          canonical so search engines merge with the Article emitted above. */}
+      {article.extraJsonLd?.map((block, i) => (
+        <script
+          key={`extra-jsonld-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
+        />
+      ))}
 
       <main className="min-h-screen bg-white">
         {/* Header */}

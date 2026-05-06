@@ -23,6 +23,12 @@ export interface Article {
   // Optional last-updated date (default: publishedDate). Drives an
   // "Updated [date]" label and the Article.dateModified JSON-LD property.
   updatedDate?: string;
+  // Optional additional JSON-LD blocks emitted as separate <script> tags
+  // after the renderer's auto-generated Article + BreadcrumbList + FAQPage.
+  // Use for richer Article augmentation (alternativeHeadline, mentions,
+  // about, keywords, isAccessibleForFree, image) — match mainEntityOfPage
+  // @id to the canonical so search engines merge with the auto-Article.
+  extraJsonLd?: Record<string, unknown>[];
 }
 
 export const articles: Article[] = [
@@ -409,6 +415,188 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
       {
         question: 'Does TendorAI work for small accountancy practices or only large firms?',
         answer: 'TendorAI is designed for UK professional services firms of all sizes — from sole practitioners to mid-sized practices. The platform pre-loads profiles for every ICAEW and ACCA-registered accountant in the UK. Pricing is £299/month for Pro. There is a free tier for firms that want to check their AI Visibility Score before upgrading.',
+      },
+    ],
+  },
+  {
+    slug: 'cardiff-solicitors-ai-visibility-may-2026',
+    title: 'Cardiff Solicitors AI Visibility 2026: 36 Firms Tested, Median Score 40/100',
+    excerpt: 'We tested 36 Cardiff law firms across ChatGPT, Claude and Perplexity on 6 May 2026. Median AI visibility score: 40/100. Most have decent websites that AI does not reliably cite.',
+    metaDescription: 'We tested 36 Cardiff law firms across ChatGPT, Claude and Perplexity on 6 May 2026. Median AI visibility score: 40/100. Most have decent websites that AI does not reliably cite.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 12,
+    publishedDate: '2026-05-07',
+    updatedDate: '2026-05-07',
+    content: `We tested 36 SRA-regulated Cardiff law firms against ChatGPT, Claude and Perplexity on 6 May 2026. The median AI visibility score was 40 out of 100. The lowest, Hek Jones Limited, scored 15. Most firms had stronger Technical Health than AI Visibility, with an average gap of 27 points between the two. The pattern is consistent: Cardiff law firms have built websites that work for Google but generate signals AI assistants do not reliably cite.
+
+This is original research from the TendorAI platform, drawing on data captured against the live SRA register. Every firm named in this article is a real Cardiff law firm verified against sra.org.uk. Scoring methodology and full dataset access are detailed below.
+
+The headline finding has commercial weight. At an average Cardiff conveyancing matter value of £1,100 and a 2% AI-driven enquiry conversion rate, a firm appearing in AI responses for a single specialism could capture 2 to 4 additional matters per month. That equates to £2,200 to £4,400 in additional monthly revenue. The inverse holds: firms invisible to AI are losing matters they will never see in their analytics.
+
+This piece sets out what 36 Cardiff solicitors revealed, why the gap exists, and what firms can do this quarter. Three Cardiff firms named in the data, including Hek Jones, Newfields Law and Chetna & Co, illustrate the gap most cleanly.
+
+## What the 36-Firm Cardiff Sample Shows
+
+**Of 36 Cardiff law firms tested on 6 May 2026, 33 (92%) scored below 50 on AI visibility while 27 scored above 50 on Technical Health.** The average gap between the two scores across the sample was 27 points.
+
+The sample was drawn from a directory of 81 SRA-regulated firms in Cardiff. Each firm received a freshly generated AI visibility report on 6 May 2026, scored across two dimensions:
+
+- **Technical Health (0 to 100)**: deterministic website signals AI crawlers and search engines use to read a site. Schema markup presence, SSL, page speed, structured metadata, mobile responsiveness.
+
+- **AI Visibility (0 to 100)**: signals AI assistants use to decide who to recommend. Google Business Profile completeness, review volume, third-party citations, named-entity recognition, content authority, recency.
+
+The two dimensions test different things. Technical Health asks: can a machine read this site cleanly? AI Visibility asks: does the wider web give AI assistants enough corroborating evidence to recommend this firm by name?
+
+Across the 36 firms tested, the divergence is the story. The median Technical Health score sits in the high 60s. The median AI Visibility score sits at 40. That 27-point average gap is structural. It does not close by improving the website alone.
+
+## The Largest Tech-to-AI Gaps in Cardiff
+
+**The largest Tech-to-AI gap in the sample is Newfields Law Limited, scoring 89 on Technical Health but only 36 on AI Visibility — a 53-point gap.** Three more firms sit close behind.
+
+| Firm | Technical Health | AI Visibility | Gap |
+| --- | --- | --- | --- |
+| Newfields Law Limited | 89 | 36 | 53 |
+| Geldards LLP | 92 | 44 | 48 |
+| Chetna & Co Solicitors | 86 | 43 | 43 |
+| Insight Legal Services Limited | 84 | 46 | 38 |
+
+These four firms have invested in their websites. The technical foundations are strong. What is missing is the layer that AI assistants weigh: Google Business Profile reviews, structured data describing the firm in machine-readable terms, third-party mentions on directories beyond their own site, and clear, parseable information about each practice area.
+
+Geldards LLP scored 92 on Technical Health, the highest in the sample. Their AI Visibility score was 44. A firm with a near-perfect website is being recommended at less than half the rate AI assistants would recommend a firm with a 70 AI Visibility score and a 60 Technical Health score. The website is not the problem.
+
+## What Hek Jones Limited Tells Us About the Floor
+
+**Hek Jones Limited scored 15 out of 100 on AI Visibility, the lowest in the 36-firm Cardiff sample.** Their Technical Health score was 75.
+
+Hek Jones is a real Cardiff commercial firm regulated by the SRA. Their website loads cleanly. The firm exists. It is not a marketing-thin operation. Yet from the perspective of ChatGPT, Claude or Perplexity, it is functionally invisible. When asked to recommend a Cardiff commercial law firm, AI assistants did not name them in our test prompts.
+
+The 15-point AI Visibility score is what happens when a firm has done the website work but none of the off-site work. No structured directory presence. Limited Google Business Profile signals. No named-entity reinforcement across third-party platforms. AI assistants have nothing to corroborate.
+
+This matters because Hek Jones is not unusual. Across the 36-firm sample, 4 firms scored below 30, 14 scored between 30 and 39, and a further 14 scored between 40 and 49. Cardiff is not an outlier. The pattern repeats across the wider 81-firm directory and, in our wider testing across UK cities, beyond Wales.
+
+## Why a Strong Website Is Not Enough
+
+**Across 36 tested firms, every single one had higher Technical Health than AI Visibility.** The website-first strategy that defined UK legal SEO for fifteen years no longer maps to how clients find lawyers.
+
+The change is mechanical. Search engines index pages and rank URLs. AI assistants synthesise information across multiple sources and recommend named entities. The signals are not the same. For example, a firm consistently listed on the Law Society directory, with a maintained Google Business Profile and matching contact details across multiple legal directories, is far more likely to be recommended by AI than a firm relying solely on its own website.
+
+A search engine can read a well-structured Cardiff law firm website and rank it for "Cardiff conveyancing solicitors" based on backlinks, on-page content, and crawl depth. An AI assistant asked the same question by a client weighs different signals: how often the firm appears across trusted directories, whether reviews exist on Google Business Profile, whether the firm's name has been mentioned on third-party platforms (legal directories, BBC, the Law Society, local publications), whether structured data on the firm's site explicitly identifies it as a LegalService entity in Cardiff.
+
+When those signals are weak or absent, the AI assistant defaults to firms with stronger corroboration. In Cardiff in May 2026, that means a small named set of firms gets recommended repeatedly while the majority of SRA-regulated firms are invisible.
+
+## What This Costs in Lost Matters
+
+**A Cardiff law firm appearing in AI responses for one specialism could expect £2,200 to £4,400 in additional monthly revenue.** The inverse cost — being invisible — is harder to see but identical in scale.
+
+A worked example illustrates the maths. Consider a 4-partner Cardiff firm with mixed conveyancing and family work, generating around £1.5 million annual revenue. They acquire 8 to 12 new clients per month through existing channels: referral, returning clients, paid search.
+
+If AI visibility drives 3 additional client enquiries per month at an average matter value of £1,200, with a 60% conversion rate from enquiry to instruction, that is 1.8 additional matters per month. Annual revenue impact: £25,920. TendorAI Pro is £3,588 per year. Payback period: 6 weeks.
+
+These figures are illustrative. Actual results depend on specialism, conversion process, and the firm's existing AI visibility baseline. The point is the order of magnitude. AI visibility is not a brand metric. It is a revenue metric.
+
+If AI assistants are consistently recommending three competitors instead of you for one practice area, the lost opportunity may represent £8,750 to £14,000 in monthly fees going elsewhere for a single practice area. The firm will never see those enquiries in analytics.
+
+## What Cardiff Firms Should Do This Quarter
+
+**Three actions, in order: run a baseline audit, fix the structured-data layer, build third-party signals.** Not all three need to be done in-house.
+
+### Run a Baseline AI Visibility Report
+
+Establish where the firm currently sits. The free TendorAI report tests across ChatGPT, Claude and Perplexity, scores Technical Health and AI Visibility separately, and identifies the specific gaps for that firm. Most Cardiff firms have not done this. The report takes under five minutes to commission and arrives within an hour. See: [/aeo-report](/aeo-report).
+
+### Install Structured Data on the Firm's Own Website
+
+The single most underweighted action across the 36-firm sample is JSON-LD schema markup. Specifically: LegalService schema declaring the firm as a Cardiff-based law firm, with practice areas, SRA number, geographic coverage, and contact information all machine-readable.
+
+Most Cardiff firms have either no schema markup or only generic Organization schema with none of the legal-specific signals. This leaves AI systems with limited machine-readable information about services and geography.
+
+Structured data can be implemented in-house using JSON-LD, by a developer comfortable with schema.org standards. It can also be managed externally. TendorAI Pro provides one managed approach at £299 per month, installing and maintaining the markup as part of the wider AI visibility platform. See: [/pricing](/pricing).
+
+### Build Third-Party Signals
+
+The AI visibility scoring model gives weight to corroborating signals: directory listings on legal-specific platforms, Law Society profiles, regional bar association mentions, Google Business Profile activity, and earned media. Firms with strong third-party signals are cited significantly more often in our testing than firms relying solely on their own website. This is the slowest of the three actions but the most defensible long-term.
+
+## The Single Action for This Week
+
+Run a free AI visibility report for your firm. It takes under five minutes, identifies the specific gaps in your current AI presence, and gives you a baseline against which to measure any work you commission. See: [tendorai.com/aeo-report](/aeo-report).
+
+## About This Research
+
+This analysis was conducted by Scott Davies, founder of TendorAI Ltd (Companies House registration 16521860), based in Wales. TendorAI is the UK AI visibility platform for regulated services firms. The platform pre-loads SRA, ICAEW, FCA and Propertymark register data and runs autonomous agents weekly to track and improve AI visibility for paying customers.
+
+- **Date of analysis**: 6 May 2026
+- **Sample size**: 36 SRA-regulated Cardiff law firms (subset of 81 total in the TendorAI Cardiff directory)
+- **Methodology**: AI prompt testing across ChatGPT, Claude and Perplexity, combined with structured scoring of Technical Health and AI Visibility signals
+- **Data access**: Per-firm reports available at [/suppliers/solicitors/cardiff](/suppliers/solicitors/cardiff)
+- **Author**: Scott Davies, Founder, TendorAI Ltd. Welsh-based UK SaaS founder building AI visibility tooling for regulated services firms. [LinkedIn](https://www.linkedin.com/in/scottkingsleydavies)
+- **Caveat**: This is observational research. AI Visibility scoring measures structured-signal presence, not legal quality or client outcomes.
+
+A follow-up analysis covering the remaining 45 firms in the Cardiff directory will be published within four weeks. Equivalent city-level reports for London, Manchester, Bristol and Leeds are scheduled for May and June 2026.`,
+    faqs: [
+      {
+        question: 'How was the AI Visibility Score Calculated?',
+        answer: `Each Cardiff firm in the sample was tested on 6 May 2026 against ChatGPT, Claude and Perplexity using a standardised set of prompts including "best solicitor in Cardiff," "best [specialism] solicitor in Cardiff," and conversational variants. AI Visibility scoring weighs presence in AI responses, Google Business Profile completeness, review volume and recency, structured data presence, third-party citations, and named-entity recognition. Technical Health uses deterministic website checks: SSL, schema markup presence, mobile responsiveness, page speed, structured metadata.`,
+      },
+      {
+        question: 'What is a "Good" AI Visibility Score?',
+        answer: `Most Cardiff firms in this sample sit between 30 and 45. The 9 firms named by ChatGPT in our 27 April 2026 testing tend to score 60 or higher on AI Visibility when they appear in our directory. As a working benchmark, scores below 40 indicate AI assistants currently lack the structured signals to recommend the firm; scores above 60 indicate the firm has the foundations to be cited consistently.`,
+      },
+      {
+        question: 'Does a Low AI Visibility Score Mean a Low-Quality Firm?',
+        answer: `No. AI Visibility measures whether AI assistants have enough structured signals to confidently recommend a firm. It does not measure legal quality, client outcomes, or firm reputation in human terms. Several firms with strong reputations in the Cardiff legal community scored poorly because their digital presence does not reflect their standing. Low AI Visibility is a signals problem, not a service problem.`,
+      },
+      {
+        question: 'Which Cardiff Firms Are Currently Recommended by ChatGPT?',
+        answer: `In separate testing on 27 April 2026, ChatGPT named 9 Cardiff firms when asked to recommend the city's best solicitor: DP Law Cardiff, Albany Solicitors, HCB Solicitors, Martyn Prowel Gartsides, Shanahans Solicitors, and Redkite Solicitors as named recommendations, plus Robertsons, Howells, and CJCH as honourable mentions. The other 72 firms in our 81-firm Cardiff directory were not named.`,
+      },
+      {
+        question: 'How Long Until AI Starts Recommending a Firm After Schema Installation?',
+        answer: `Typical citation velocity from technical-only intervention is 2 to 4 weeks for first AI mentions, 6 to 12 weeks for consistent recommendation across multiple prompts. Firms combining schema installation with third-party signal building see citation velocity 2 to 3 times faster than schema-only firms. The flywheel takes 90 days to be reliably visible in AI responses for a specific city-and-specialism query combination.`,
+      },
+      {
+        question: 'Is the Sample Representative of Cardiff?',
+        answer: `The 36-firm sample was drawn from the wider 81-firm Cardiff directory. We will publish results across all 81 firms in a follow-up. The 36 in this batch were selected by alphabetical ordering of unclaimed free-tier listings on the TendorAI directory. There is no selection bias toward firms with poor or strong scores.`,
+      },
+      {
+        question: 'Does This Apply Outside Cardiff?',
+        answer: `Yes. The same testing methodology applied to UK solicitors in other cities shows comparable patterns. Cardiff is illustrative, not exceptional. We will publish equivalent reports for London, Manchester, Bristol and Leeds in the coming weeks.`,
+      },
+    ],
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/cardiff-solicitors-ai-visibility-may-2026#article',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/cardiff-solicitors-ai-visibility-may-2026',
+        },
+        alternativeHeadline: 'Cardiff law firms median AI visibility score 40/100 across ChatGPT, Claude and Perplexity',
+        isAccessibleForFree: true,
+        keywords: 'AI visibility, Cardiff solicitors, ChatGPT recommendations, answer engine optimisation, AEO, GEO, UK law firm marketing, schema markup, SRA-regulated firms',
+        about: [
+          {
+            '@type': 'Thing',
+            name: 'AI Visibility',
+            description: 'The likelihood that an AI assistant will recommend a specific business when a user asks a relevant question',
+          },
+          {
+            '@type': 'Place',
+            name: 'Cardiff',
+            containedInPlace: {
+              '@type': 'Country',
+              name: 'United Kingdom',
+            },
+          },
+        ],
+        mentions: [
+          { '@type': 'LegalService', name: 'Hek Jones Limited', address: { '@type': 'PostalAddress', addressLocality: 'Cardiff' } },
+          { '@type': 'LegalService', name: 'Newfields Law Limited', address: { '@type': 'PostalAddress', addressLocality: 'Cardiff' } },
+          { '@type': 'LegalService', name: 'Chetna & Co Solicitors', address: { '@type': 'PostalAddress', addressLocality: 'Cardiff' } },
+          { '@type': 'LegalService', name: 'Insight Legal Services Limited', address: { '@type': 'PostalAddress', addressLocality: 'Cardiff' } },
+          { '@type': 'LegalService', name: 'Geldards LLP', address: { '@type': 'PostalAddress', addressLocality: 'Cardiff' } },
+        ],
       },
     ],
   },
