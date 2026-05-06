@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import connectDB from '@/lib/db/connection';
 import { AeoReport, Vendor } from '@/lib/db/models';
 import AeoReportDisplay from './AeoReportDisplay';
@@ -54,6 +54,23 @@ export default async function AeoReportResultPage({ params }: Props) {
 
   if (!report || report.reportType !== 'full') {
     notFound();
+  }
+
+  // Legacy methodology: reports scored before the Technical Health + AI Visibility
+  // rewrite have neither of the new score fields populated. Rendering them shows
+  // "null/100" + a deprecated-banner — kill that UX. Redirect to the form prefilled
+  // with what we know so the user re-runs in one click.
+  const isLegacyScoring =
+    (report.technicalHealthScore === null || report.technicalHealthScore === undefined) &&
+    (report.aiVisibilityScore === null || report.aiVisibilityScore === undefined);
+
+  if (isLegacyScoring) {
+    const qs = new URLSearchParams({ legacy: 'true' });
+    if (report.companyName) qs.set('company', report.companyName);
+    if (report.category) qs.set('category', report.category);
+    if (report.city) qs.set('city', report.city);
+    if (report.email) qs.set('email', report.email);
+    redirect(`/aeo-report?${qs.toString()}`);
   }
 
   // Compute profile gaps if a matching vendor exists

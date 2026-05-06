@@ -119,13 +119,17 @@ export default function AeoReportClient() {
   const [loadingMessage, setLoadingMessage] = useState('Checking your AI visibility...');
   const [error, setError] = useState('');
 
+  const isLegacyReturn = searchParams.get('legacy') === 'true';
+
   useEffect(() => {
     const qCompany = searchParams.get('company');
     const qCategory = searchParams.get('category');
     const qCity = searchParams.get('city');
+    const qEmail = searchParams.get('email');
     if (qCompany) setCompanyName(qCompany);
     if (qCategory) setCategory(qCategory);
     if (qCity) setCity(qCity);
+    if (qEmail) setEmail(qEmail);
   }, [searchParams]);
 
   const normaliseWebsiteUrl = (raw: string) => {
@@ -314,6 +318,12 @@ export default function AeoReportClient() {
       {/* Form */}
       <section className="py-12 sm:py-16">
         <div className="max-w-xl mx-auto px-4 sm:px-6">
+          {isLegacyReturn && (
+            <div className="mb-6 bg-blue-50 border border-blue-200 text-blue-900 px-4 py-3 rounded-lg text-sm">
+              Your previous report used an older scoring method. Generate a fresh report using our
+              updated AI visibility analysis.
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 space-y-5">
             <div>
               <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
