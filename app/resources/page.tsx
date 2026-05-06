@@ -56,12 +56,19 @@ function ArticleCard({ article }: { article: Article }) {
   );
 }
 
+// Featured articles first, then everything else by publishedDate desc.
+// Stable across re-renders since articles[] is module-scoped.
+const sortedArticles = [...articles].sort((a, b) => {
+  if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+  return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+});
+
 export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const filteredArticles = selectedCategory === 'All'
-    ? articles
-    : articles.filter(a => a.category === selectedCategory);
+    ? sortedArticles
+    : sortedArticles.filter(a => a.category === selectedCategory);
 
   return (
     <main className="min-h-screen bg-gray-50">

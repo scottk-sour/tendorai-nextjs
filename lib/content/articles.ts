@@ -29,6 +29,10 @@ export interface Article {
   // about, keywords, isAccessibleForFree, image) — match mainEntityOfPage
   // @id to the canonical so search engines merge with the auto-Article.
   extraJsonLd?: Record<string, unknown>[];
+  // Optional flag promoting the article to the top of /resources.
+  // Featured articles are listed first; remaining articles are sorted by
+  // publishedDate desc.
+  featured?: boolean;
 }
 
 export const articles: Article[] = [
@@ -428,6 +432,7 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
     readTime: 12,
     publishedDate: '2026-05-07',
     updatedDate: '2026-05-07',
+    featured: true,
     content: `We tested 36 SRA-regulated Cardiff law firms against ChatGPT, Claude and Perplexity on 6 May 2026. The median AI visibility score was 40 out of 100. The lowest, Hek Jones Limited, scored 15. Most firms had stronger Technical Health than AI Visibility, with an average gap of 27 points between the two. The pattern is consistent: Cardiff law firms have built websites that work for Google but generate signals AI assistants do not reliably cite.
 
 This is original research from the TendorAI platform, drawing on data captured against the live SRA register. Every firm named in this article is a real Cardiff law firm verified against sra.org.uk. Scoring methodology and full dataset access are detailed below.
@@ -517,9 +522,10 @@ Structured data can be implemented in-house using JSON-LD, by a developer comfor
 
 The AI visibility scoring model gives weight to corroborating signals: directory listings on legal-specific platforms, Law Society profiles, regional bar association mentions, Google Business Profile activity, and earned media. Firms with strong third-party signals are cited significantly more often in our testing than firms relying solely on their own website. This is the slowest of the three actions but the most defensible long-term.
 
-## The Single Action for This Week
-
-Run a free AI visibility report for your firm. It takes under five minutes, identifies the specific gaps in your current AI presence, and gives you a baseline against which to measure any work you commission. See: [tendorai.com/aeo-report](/aeo-report).
+<div class="my-10 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200">
+<p class="text-gray-800 mb-4 font-medium">Run a free AI visibility report for your firm in under five minutes.</p>
+<a href="/aeo-report" class="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors no-underline">Get your free report →</a>
+</div>
 
 ## About This Research
 
