@@ -118,6 +118,31 @@ export default function VendorApprovalDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copyToClipboard = useCallback(async (text: string, label: string) => {
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      setTimeout(() => setCopied(null), 2000);
+    } catch {
+      // Fallback for browsers without clipboard API permission
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        setCopied(label);
+        setTimeout(() => setCopied(null), 2000);
+      } catch {
+        // Silent — clipboard unavailable
+      } finally {
+        document.body.removeChild(ta);
+      }
+    }
+  }, []);
 
   const fetchApproval = useCallback(async () => {
     if (!id) {
@@ -264,6 +289,95 @@ export default function VendorApprovalDetailPage() {
         <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
         <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
       </div>
+
+      {/* Social variants — only for approved/executed content drafts */}
+      {(() => {
+        if (approval.itemType !== 'content_draft') return null;
+        if (approval.status !== 'approved' && approval.status !== 'executed') return null;
+
+        const payload = (approval.draftPayload ?? {}) as Record<string, unknown>;
+        const linkedInText =
+          typeof payload.linkedInText === 'string' ? payload.linkedInText.trim() : '';
+        const facebookText =
+          typeof payload.facebookText === 'string' ? payload.facebookText.trim() : '';
+        const tweetText =
+          typeof payload.tweetText === 'string' ? payload.tweetText.trim() : '';
+
+        const hasAny = linkedInText || facebookText || tweetText;
+        if (!hasAny) return null;
+
+        const variants: Array<{ key: string; title: string; helper: string; text: string }> = [];
+        if (linkedInText) {
+          variants.push({
+            key: 'linkedin',
+            title: 'LinkedIn Post',
+            helper: 'Optimised for the LinkedIn feed. Copy and post from your firm’s account.',
+            text: linkedInText,
+          });
+        }
+        if (facebookText) {
+          variants.push({
+            key: 'facebook',
+            title: 'Facebook Post',
+            helper: 'Shaped for a Facebook business page. Copy and post when ready.',
+            text: facebookText,
+          });
+        }
+        if (tweetText) {
+          variants.push({
+            key: 'twitter',
+            title: 'X / Twitter Post',
+            helper: 'Concise version for X / Twitter. Copy and post from your firm’s account.',
+            text: tweetText,
+          });
+        }
+
+        return (
+          <div className="space-y-3">
+            <h2 className="text-sm font-semibold text-gray-900 px-1">Share this on social</h2>
+            {variants.map((v) => (
+              <details
+                key={v.key}
+                className="group bg-white border border-gray-200 rounded-lg overflow-hidden"
+              >
+                <summary className="flex items-center justify-between cursor-pointer px-5 py-4 hover:bg-gray-50">
+                  <span className="font-medium text-gray-900">{v.title}</span>
+                  <svg
+                    className="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-5 pb-5 space-y-3 border-t border-gray-100 pt-4">
+                  <p className="text-xs text-gray-500">{v.helper}</p>
+                  <textarea
+                    readOnly
+                    value={v.text}
+                    rows={Math.min(12, Math.max(4, v.text.split('\n').length + 1))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-gray-900 font-sans resize-y focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(v.text, v.key)}
+                      className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                    >
+                      {copied === v.key ? '✓ Copied' : 'Copy to clipboard'}
+                    </button>
+                    <span className="text-xs text-gray-400">
+                      {v.text.length.toLocaleString()} character{v.text.length === 1 ? '' : 's'}
+                    </span>
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Status timeline */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
