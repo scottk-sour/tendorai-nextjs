@@ -70,6 +70,34 @@ interface IndividualSolicitor {
   qualifications: string;
 }
 
+type ToneOfVoice = 'formal' | 'approachable' | 'plain-english' | 'expert' | '';
+
+interface FirmFactsPartner {
+  name: string;
+  role: string;
+  qualifications: string;
+  yearsAtFirm: number;
+}
+
+interface FirmFactsOffice {
+  city: string;
+  postcode: string;
+}
+
+interface FirmFacts {
+  clientTypes: string[];
+  uniqueSellingPoints: string[];
+  partners: FirmFactsPartner[];
+  feeEarnerCount: number;
+  yearFounded: number;
+  additionalOffices: FirmFactsOffice[];
+  awards: string[];
+  memberships: string[];
+  toneOfVoice: ToneOfVoice;
+  brandKeywords: string[];
+  competitors: string[];
+}
+
 interface ProfileData {
   company: string;
   name: string;
@@ -130,6 +158,60 @@ interface ProfileData {
   leaseVsPurchase: string;
   managedPrintService: boolean;
   monthlyCostRange: string;
+  // Firm Facts (cross-vertical)
+  firmFacts: FirmFacts;
+}
+
+const DEFAULT_FIRM_FACTS: FirmFacts = {
+  clientTypes: [],
+  uniqueSellingPoints: ['', '', '', '', ''],
+  partners: [],
+  feeEarnerCount: 0,
+  yearFounded: 0,
+  additionalOffices: [],
+  awards: [],
+  memberships: [],
+  toneOfVoice: '',
+  brandKeywords: [],
+  competitors: [],
+};
+
+// Helpers — convert structured firm-facts arrays to/from textarea text.
+function partnersToText(partners: FirmFactsPartner[]): string {
+  return partners
+    .map((p) => `${p.name || ''} | ${p.role || ''} | ${p.qualifications || ''} | ${p.yearsAtFirm || 0}`)
+    .join('\n');
+}
+function textToPartners(text: string): FirmFactsPartner[] {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split('|').map((s) => s.trim());
+      return {
+        name: parts[0] || '',
+        role: parts[1] || '',
+        qualifications: parts[2] || '',
+        yearsAtFirm: Number(parts[3]) || 0,
+      };
+    });
+}
+function officesToText(offices: FirmFactsOffice[]): string {
+  return offices.map((o) => `${o.city || ''} | ${o.postcode || ''}`).join('\n');
+}
+function textToOffices(text: string): FirmFactsOffice[] {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split('|').map((s) => s.trim());
+      return { city: parts[0] || '', postcode: parts[1] || '' };
+    });
+}
+function splitCommaList(value: string): string[] {
+  return value.split(',').map((s) => s.trim()).filter(Boolean);
 }
 
 interface SubscriptionData {
@@ -196,11 +278,18 @@ const DEFAULT_PROFILE: ProfileData = {
   averageSaleTime: '', achievedVsAskingPercent: 0, managementFeePercent: 0,
   tenantFindOrFullManagement: '', epcAssessor: false, propertyTypesHandled: [],
   leaseVsPurchase: '', managedPrintService: false, monthlyCostRange: '',
+  firmFacts: DEFAULT_FIRM_FACTS,
 };
 
 export default function SettingsContent({ initialTab }: { initialTab?: string }) {
   const { getCurrentToken } = useAuth();
-  const [activeTab, setActiveTab] = useState(initialTab === 'subscription' ? 'subscription' : 'profile');
+  const [activeTab, setActiveTab] = useState(
+    initialTab === 'subscription'
+      ? 'subscription'
+      : initialTab === 'firm-facts'
+      ? 'firm-facts'
+      : 'profile',
+  );
   const [profile, setProfile] = useState<ProfileData>(DEFAULT_PROFILE);
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -297,6 +386,24 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             leaseVsPurchase: data.vendor.leaseVsPurchase || '',
             managedPrintService: data.vendor.managedPrintService || false,
             monthlyCostRange: data.vendor.monthlyCostRange || '',
+            firmFacts: {
+              clientTypes: data.vendor.firmFacts?.clientTypes || [],
+              uniqueSellingPoints: (() => {
+                const usp = data.vendor.firmFacts?.uniqueSellingPoints || [];
+                // Always render exactly 5 inputs — pad or trim incoming data.
+                const five = [usp[0] || '', usp[1] || '', usp[2] || '', usp[3] || '', usp[4] || ''];
+                return five;
+              })(),
+              partners: data.vendor.firmFacts?.partners || [],
+              feeEarnerCount: data.vendor.firmFacts?.feeEarnerCount || 0,
+              yearFounded: data.vendor.firmFacts?.yearFounded || 0,
+              additionalOffices: data.vendor.firmFacts?.additionalOffices || [],
+              awards: data.vendor.firmFacts?.awards || [],
+              memberships: data.vendor.firmFacts?.memberships || [],
+              toneOfVoice: data.vendor.firmFacts?.toneOfVoice || '',
+              brandKeywords: data.vendor.firmFacts?.brandKeywords || [],
+              competitors: data.vendor.firmFacts?.competitors || [],
+            },
           });
         }
       }
@@ -600,6 +707,16 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             }`}
           >
             Profile
+          </button>
+          <button
+            onClick={() => setActiveTab('firm-facts')}
+            className={`pb-3 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'firm-facts'
+                ? 'border-purple-600 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Firm Facts
           </button>
           <button
             onClick={() => setActiveTab('subscription')}
@@ -1489,6 +1606,262 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               ) : (
                 'Save Changes'
               )}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* Firm Facts Tab */}
+      {activeTab === 'firm-facts' && (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="card p-6 space-y-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Firm Facts</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Help our agents write content that sounds like your firm. The more we know,
+                the more accurately AI assistants will recommend you.
+              </p>
+            </div>
+
+            {/* clientTypes */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Client types</label>
+              <p className="text-xs text-gray-500 mb-2">
+                Comma-separated. Who do you typically serve? e.g. SMEs, family offices, contractors.
+              </p>
+              <input
+                type="text"
+                value={profile.firmFacts.clientTypes.join(', ')}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, clientTypes: splitCommaList(e.target.value) },
+                  }))
+                }
+                className="input"
+              />
+            </div>
+
+            {/* uniqueSellingPoints — 5 inputs */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Unique selling points</label>
+              <p className="text-xs text-gray-500 mb-2">
+                Up to five &mdash; what makes your firm different from others in your area.
+              </p>
+              <div className="space-y-2">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    value={profile.firmFacts.uniqueSellingPoints[i] || ''}
+                    placeholder={`Selling point ${i + 1}`}
+                    onChange={(e) => {
+                      const usp = [
+                        profile.firmFacts.uniqueSellingPoints[0] || '',
+                        profile.firmFacts.uniqueSellingPoints[1] || '',
+                        profile.firmFacts.uniqueSellingPoints[2] || '',
+                        profile.firmFacts.uniqueSellingPoints[3] || '',
+                        profile.firmFacts.uniqueSellingPoints[4] || '',
+                      ];
+                      usp[i] = e.target.value;
+                      setProfile((prev) => ({
+                        ...prev,
+                        firmFacts: { ...prev.firmFacts, uniqueSellingPoints: usp },
+                      }));
+                    }}
+                    className="input"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* partners */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Partners</label>
+              <p className="text-xs text-gray-500 mb-2">
+                One per line. Format:{' '}
+                <code className="bg-gray-100 px-1 rounded">Name | Role | Qualifications | Years at firm</code>
+              </p>
+              <textarea
+                value={partnersToText(profile.firmFacts.partners)}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, partners: textToPartners(e.target.value) },
+                  }))
+                }
+                rows={6}
+                placeholder={'Sarah Williams | Partner | ACA, FCCA | 12\nJames Lee | Senior Solicitor | LLB, TEP | 8'}
+                className="input font-mono text-sm"
+              />
+            </div>
+
+            {/* feeEarnerCount + yearFounded */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Fee earner count</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={profile.firmFacts.feeEarnerCount || ''}
+                  onChange={(e) =>
+                    setProfile((prev) => ({
+                      ...prev,
+                      firmFacts: { ...prev.firmFacts, feeEarnerCount: Number(e.target.value) || 0 },
+                    }))
+                  }
+                  className="input"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Year founded</label>
+                <input
+                  type="number"
+                  min="1700"
+                  max={new Date().getFullYear()}
+                  placeholder="e.g. 1998"
+                  value={profile.firmFacts.yearFounded || ''}
+                  onChange={(e) =>
+                    setProfile((prev) => ({
+                      ...prev,
+                      firmFacts: { ...prev.firmFacts, yearFounded: Number(e.target.value) || 0 },
+                    }))
+                  }
+                  className="input"
+                />
+              </div>
+            </div>
+
+            {/* additionalOffices */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Additional offices</label>
+              <p className="text-xs text-gray-500 mb-2">
+                One per line. Format: <code className="bg-gray-100 px-1 rounded">City | Postcode</code>
+              </p>
+              <textarea
+                value={officesToText(profile.firmFacts.additionalOffices)}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, additionalOffices: textToOffices(e.target.value) },
+                  }))
+                }
+                rows={4}
+                placeholder={'Bristol | BS1 4AB\nCardiff | CF10 1EP'}
+                className="input font-mono text-sm"
+              />
+            </div>
+
+            {/* awards */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Awards</label>
+              <p className="text-xs text-gray-500 mb-2">One per line.</p>
+              <textarea
+                value={profile.firmFacts.awards.join('\n')}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: {
+                      ...prev.firmFacts,
+                      awards: e.target.value.split('\n').map((s) => s.trim()).filter(Boolean),
+                    },
+                  }))
+                }
+                rows={4}
+                className="input"
+              />
+            </div>
+
+            {/* memberships */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Memberships</label>
+              <p className="text-xs text-gray-500 mb-2">
+                One per line. Professional bodies, trade associations, accreditation schemes.
+              </p>
+              <textarea
+                value={profile.firmFacts.memberships.join('\n')}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: {
+                      ...prev.firmFacts,
+                      memberships: e.target.value.split('\n').map((s) => s.trim()).filter(Boolean),
+                    },
+                  }))
+                }
+                rows={4}
+                className="input"
+              />
+            </div>
+
+            {/* toneOfVoice */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tone of voice</label>
+              <p className="text-xs text-gray-500 mb-2">How our agents should write content for your firm.</p>
+              <select
+                value={profile.firmFacts.toneOfVoice}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, toneOfVoice: e.target.value as ToneOfVoice },
+                  }))
+                }
+                className="input"
+              >
+                <option value="">Select tone&hellip;</option>
+                <option value="formal">Formal</option>
+                <option value="approachable">Approachable</option>
+                <option value="plain-english">Plain English</option>
+                <option value="expert">Expert</option>
+              </select>
+            </div>
+
+            {/* brandKeywords */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Brand keywords</label>
+              <p className="text-xs text-gray-500 mb-2">
+                Comma-separated. Words your firm should be associated with in AI answers.
+              </p>
+              <input
+                type="text"
+                value={profile.firmFacts.brandKeywords.join(', ')}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, brandKeywords: splitCommaList(e.target.value) },
+                  }))
+                }
+                className="input"
+              />
+            </div>
+
+            {/* competitors */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Competitors</label>
+              <p className="text-xs text-gray-500 mb-2">
+                Comma-separated. Firms you regularly compete against locally.
+              </p>
+              <input
+                type="text"
+                value={profile.firmFacts.competitors.join(', ')}
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    firmFacts: { ...prev.firmFacts, competitors: splitCommaList(e.target.value) },
+                  }))
+                }
+                className="input"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 disabled:opacity-50 transition-colors"
+            >
+              {saving ? 'Saving…' : 'Save firm facts'}
             </button>
           </div>
         </form>

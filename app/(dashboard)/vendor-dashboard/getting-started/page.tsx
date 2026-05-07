@@ -17,6 +17,7 @@ type OnboardingChecklist = {
   firstPillarPostGenerated: boolean;
   firstPrimaryDataAdded: boolean;
   firstLiveAITestRun: boolean;
+  firmFactsComplete: boolean;
 };
 
 const DEFAULT_ONBOARDING: OnboardingChecklist = {
@@ -27,6 +28,7 @@ const DEFAULT_ONBOARDING: OnboardingChecklist = {
   firstPillarPostGenerated: false,
   firstPrimaryDataAdded: false,
   firstLiveAITestRun: false,
+  firmFactsComplete: false,
 };
 
 const TICKABLE_ITEMS = ['firstAuditRun', 'schemaCallScheduled', 'firstLiveAITestRun'] as const;
@@ -149,6 +151,14 @@ const LOOP_GROUPS: LoopGroup[] = [
         href: '/vendor-dashboard/posts',
         tickable: false,
       },
+      {
+        key: 'firmFactsComplete',
+        label: 'Complete firm facts',
+        caption:
+          'Auto-completes when your firm facts include at least 3 brand keywords and 1 unique selling point.',
+        href: '/vendor-dashboard/settings?tab=firm-facts',
+        tickable: false,
+      },
     ],
   },
 ];
@@ -180,7 +190,16 @@ export default function GettingStartedPage() {
         const data = await profileRes.json();
         const v = data.vendor || data;
         setVendorId(v._id || v.id || '');
-        setOnboarding({ ...DEFAULT_ONBOARDING, ...(v.onboardingChecklist || {}) });
+        // Auto-derive firmFactsComplete client-side from firmFacts data — backend
+        // doesn't manage this checklist key.
+        const firmFactsComplete =
+          (v.firmFacts?.brandKeywords?.length || 0) >= 3 &&
+          (v.firmFacts?.uniqueSellingPoints?.filter((p: string) => p && p.trim()).length || 0) >= 1;
+        setOnboarding({
+          ...DEFAULT_ONBOARDING,
+          ...(v.onboardingChecklist || {}),
+          firmFactsComplete,
+        });
       }
     } catch (err) {
       console.error('Failed to fetch getting-started data:', err);
@@ -216,7 +235,12 @@ export default function GettingStartedPage() {
         }
         const data = await res.json();
         if (data?.onboardingChecklist) {
-          setOnboarding({ ...DEFAULT_ONBOARDING, ...data.onboardingChecklist });
+          setOnboarding((prev) => ({
+            ...DEFAULT_ONBOARDING,
+            ...data.onboardingChecklist,
+            // Preserve client-derived flag (backend doesn't compute it).
+            firmFactsComplete: prev.firmFactsComplete,
+          }));
         }
       } catch (err) {
         setTickError(err instanceof Error ? err.message : "Couldn't mark as done.");

@@ -132,6 +132,24 @@ export interface IVendor extends Document {
   importSource?: string;
   showPricing?: boolean;
   slug?: string;
+  firmFacts?: {
+    clientTypes?: string[];
+    uniqueSellingPoints?: string[];
+    partners?: Array<{
+      name?: string;
+      role?: string;
+      qualifications?: string;
+      yearsAtFirm?: number;
+    }>;
+    feeEarnerCount?: number;
+    yearFounded?: number;
+    additionalOffices?: Array<{ city?: string; postcode?: string }>;
+    awards?: string[];
+    memberships?: string[];
+    toneOfVoice?: 'formal' | 'approachable' | 'plain-english' | 'expert';
+    brandKeywords?: string[];
+    competitors?: string[];
+  };
   createdAt: Date;
   updatedAt: Date;
 
@@ -362,6 +380,31 @@ const vendorSchema = new Schema<IVendor>(
     importSource: { type: String, trim: true },
     showPricing: { type: Boolean, default: false },
     slug: { type: String, unique: true, sparse: true, trim: true, lowercase: true, index: true },
+
+    firmFacts: {
+      clientTypes: [{ type: String, trim: true }],
+      uniqueSellingPoints: [{ type: String, trim: true }],
+      partners: [{
+        name: { type: String, trim: true },
+        role: { type: String, trim: true },
+        qualifications: { type: String, trim: true },
+        yearsAtFirm: { type: Number, min: 0 },
+      }],
+      feeEarnerCount: { type: Number, min: 0 },
+      yearFounded: { type: Number, min: 1700, max: new Date().getFullYear() + 1 },
+      additionalOffices: [{
+        city: { type: String, trim: true },
+        postcode: { type: String, trim: true },
+      }],
+      awards: [{ type: String, trim: true }],
+      memberships: [{ type: String, trim: true }],
+      toneOfVoice: {
+        type: String,
+        enum: ['formal', 'approachable', 'plain-english', 'expert'],
+      },
+      brandKeywords: [{ type: String, trim: true }],
+      competitors: [{ type: String, trim: true }],
+    },
   },
   {
     timestamps: true,
