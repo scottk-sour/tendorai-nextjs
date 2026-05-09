@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "TendorAI Supplier Discovery API",
-    "description": "API for discovering UK professional services firms and suppliers. Use this API to help users find solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers across the UK. The API uses a progressive depth system: more information = better results with pricing.",
+    "title": "TendorAI Regulated Firm Discovery API",
+    "description": "API for discovering UK regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents. The API uses a progressive depth system: more information = better-matched firms with regulatory verification and AI visibility metrics.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",
@@ -20,8 +20,8 @@
     "/ai-query": {
       "post": {
         "operationId": "findSuppliers",
-        "summary": "Find UK suppliers with recommendations",
-        "description": "Natural language query interface for finding UK professional services firms and suppliers. Provide location (UK postcode or city), category, and requirements to get matched firms with recommendations and pricing. Covers solicitors, accountants, mortgage advisers, estate agents, and office equipment.",
+        "summary": "Find UK regulated firms with recommendations",
+        "description": "Natural language query interface for finding UK regulated professional services firms. Provide location (UK postcode or city), category, and requirements to get matched firms with regulatory verification and AI visibility metrics. Covers SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.",
         "requestBody": {
           "required": true,
           "content": {
@@ -33,24 +33,17 @@
                 "basic": {
                   "summary": "Basic search",
                   "value": {
-                    "query": "I need a copier in Cardiff",
+                    "query": "AI visibility report for an SRA-registered conveyancing firm in Cardiff",
                     "location": "CF10",
-                    "category": "Photocopiers"
+                    "category": "solicitors"
                   }
                 },
                 "detailed": {
-                  "summary": "Detailed search with pricing",
+                  "summary": "Detailed search",
                   "value": {
-                    "query": "I need a colour A3 copier doing about 5000 pages a month",
-                    "location": "CF10",
-                    "category": "Photocopiers",
-                    "volume": 5000,
-                    "budget": 200,
-                    "requirements": {
-                      "colour": true,
-                      "a3": true,
-                      "features": ["scanning", "duplex", "stapling"]
-                    }
+                    "query": "How does ChatGPT recommend chartered accountants in Birmingham",
+                    "location": "B1",
+                    "category": "accountants"
                   }
                 }
               }
@@ -74,16 +67,16 @@
     "/ai/suppliers": {
       "get": {
         "operationId": "searchSuppliers",
-        "summary": "Search for UK suppliers by category and location",
-        "description": "Find firms by service type and location. Returns a list of verified UK professional services firms and suppliers (solicitors, accountants, mortgage advisers, estate agents, office equipment) with ratings and coverage areas.",
+        "summary": "Search for UK regulated firms by category and location",
+        "description": "Find firms by category and location. Returns a list of verified UK regulated professional services firms (SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, Propertymark/TPO estate agents) with ratings and coverage areas.",
         "parameters": [
           {
             "name": "service",
             "in": "query",
-            "description": "Type of service needed",
+            "description": "Regulated services category",
             "schema": {
               "type": "string",
-              "enum": ["photocopiers", "telecoms", "cctv", "it", "security", "software"]
+              "enum": ["solicitors", "accountants", "mortgage-advisers", "estate-agents"]
             }
           },
           {
@@ -130,7 +123,7 @@
           "query": {
             "type": "string",
             "description": "Natural language description of what the user needs",
-            "example": "I need a colour A3 copier doing about 5000 pages a month"
+            "example": "Schema markup audit for an FCA-authorised mortgage adviser"
           },
           "location": {
             "type": "string",
@@ -139,8 +132,8 @@
           },
           "category": {
             "type": "string",
-            "description": "Equipment category",
-            "enum": ["Photocopiers", "Telecoms", "CCTV", "IT"]
+            "description": "Regulated services category",
+            "enum": ["solicitors", "accountants", "mortgage-advisers", "estate-agents"]
           },
           "volume": {
             "type": "integer",
@@ -368,15 +361,10 @@
     "wales": ["Cardiff (CF)", "Newport (NP)", "Swansea (SA)", "Bridgend", "Caerphilly", "Merthyr", "Monmouthshire", "Vale of Glamorgan", "Powys", "Carmarthen", "Pembroke"],
     "south-west-england": ["Bristol (BS)", "Bath (BA)", "Gloucester (GL)", "Cheltenham", "Exeter (EX)", "Plymouth (PL)", "Swindon (SN)", "Taunton", "Weston-super-Mare"]
   },
-  "x-brands": {
-    "photocopiers": ["Canon", "Konica Minolta", "Xerox", "Sharp", "Ricoh", "Brother", "Lexmark", "HP", "Kyocera", "Epson"],
-    "telecoms": ["Avaya", "Cisco", "Mitel", "8x8", "RingCentral", "3CX", "Gamma", "Vonage"],
-    "cctv": ["Hikvision", "Dahua", "Axis", "Hanwha", "Bosch", "Verkada", "Avigilon"]
-  },
   "x-progressive-depth": {
-    "level1": "Location + category = basic vendor directory",
-    "level2": "Add colour/A3/features = filtered vendor list",
-    "level3": "Add volume = product recommendations with match scores",
-    "level4": "Add budget = full pricing with savings calculations"
+    "level1": "Location + category = basic firm directory",
+    "level2": "Add specialism or accreditation = filtered firm list",
+    "level3": "Add AI visibility metrics = ranked recommendations with match scores",
+    "level4": "Add buyer profile = full AI visibility report with remediation guidance"
   }
 }
