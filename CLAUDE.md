@@ -15,13 +15,74 @@ This is the Next.js frontend. The Express/Node.js backend is a separate repo. Ne
 - Email: Resend
 
 ## Architecture Rules
-- ALWAYS commit and push to main, never to feature branches unless explicitly told otherwise
+- Commit content and documentation changes via feature branch + PR. Direct commits to main are reserved for trivial operational fixes only.
 - ALWAYS run `npx tsc --noEmit` before committing and fix all errors first
 - NEVER create a Next.js API route for data that comes from the Express backend
 - NEVER duplicate pages that already exist — search before creating
 - ALWAYS check that internal links point to routes that actually exist in the app directory
 - ALWAYS match the existing design system — colours, fonts, component patterns
 - ALWAYS use the /session-start command at the beginning of every new session
+
+## Content production
+
+All content produced by Claude Code in this repository — blog posts, landing pages, comparison pages, city pages, vertical pages, proof assets, FAQ content, schema markup, llms.txt updates — follows the TendorAI Content OS at /docs/content-os/tendorai-content-os.md.
+
+This is the canonical, enforced framework. There is no v6, v7, v8, v9, or v9.1. Earlier versions are archived under /docs/content-os/archive/ and are not authoritative.
+
+### Mandatory workflow
+
+Before producing any content task:
+
+1. Read the relevant sections of /docs/content-os/tendorai-content-os.md.
+2. Read /docs/content-os/brief-template.md and fill it out as the first deliverable. No approved brief, no draft (Content OS Section 4).
+3. Cite which OS sections govern the work being produced.
+4. Apply the Content OS rules — passage discipline (Section 5), single-CTA discipline (Section 16), worked £ example on pillar / comparison / pricing pages (Section 17), timeframe table on pillar and how-to pages (Section 22), H2 Formula Bank (Section 18), vertical playbook (Section 34), and all 46 core rules (Section 40).
+5. Run the pre-publish checklist at /docs/content-os/pre-publish-checklist.md before any commit that ships content.
+
+### Highest-frequency sections to cite
+
+When briefing or producing content, the most-referenced sections are:
+
+- Section 4 — 14-point structured planning
+- Section 5 — GEO and passage discipline
+- Section 7 — Pre-publish verification checklist
+- Section 11 — Content refresh protocol
+- Section 16 — Conversion layer (single-CTA rule)
+- Section 17 — Worked £ example rule
+- Section 18 — H2 Formula Bank
+- Section 19 — Tier 0 / Tier 0+ data hierarchy
+- Section 21 — Revenue attribution with UTMs
+- Section 22 — Timeframe table rule
+- Section 25 — Intro citation stack (44.2% rule)
+- Section 26 — Off-site authority engine
+- Section 27 — Proof asset doctrine
+- Section 28 — AI-Recommended vs Market Alternatives comparison framing
+- Section 29 — Platform divergence per AI engine
+- Section 30 — Query fan-out mapping
+- Section 34 — Vertical signal playbooks (solicitors, accountants, mortgage advisers, estate agents)
+- Section 40 — The 46 core rules
+
+### Vertical compliance
+
+Every content piece declares its vertical and applies the relevant playbook from Section 34. Verticals: solicitors (SRA), accountants (ICAEW / ACCA), mortgage advisers (FCA), estate agents (Propertymark / TPO). Cross-vertical content is permitted but must declare which verticals it crosses and apply each playbook to its respective section.
+
+### Proof assets
+
+Third-party citations of TendorAI follow the 48-Hour Citation Loop (Section 32). Capture within 6 hours, verify within 24, deploy within 48. Perplexity citations are priority-one and deploy within 24 hours.
+
+### Forbidden behaviour
+
+Claude Code does not:
+- Produce content without first reading the Content OS section relevant to the task
+- Skip the brief stage, the draft gate, or the pre-publish gate
+- Reference v6, v7, v8, v9, or v9.1 — those are archived
+- Use the deprecated terminology from before the brand fix (no "office equipment", "copiers", "telecoms", "CCTV" framing of TendorAI's product)
+- Ship content with multiple CTAs, missing worked £ examples on pillar pages, missing timeframe tables on pillar / how-to pages, or missing vertical playbook compliance
+- Produce content that fails the standalone passage extraction test (Section 5.9)
+
+### Format definition
+
+The canonical TendorAI content format is defined by the Content OS. Earlier shorthand names ("TendorAI AEO Format", "Yadav format") are retired. When format conformance is required, reference /docs/content-os/tendorai-content-os.md by section number.
 
 ## Key URLs & Routes
 - Homepage: /
@@ -47,10 +108,10 @@ This is the Next.js frontend. The Express/Node.js backend is a separate repo. Ne
 - Always use "Firm Login" not "Vendor Login" in UI
 - Pro tier is £299/month — never display any other price without being explicitly told
 - The product is called "TendorAI" — one word, capital T and AI
-- Blog/content format is called "TendorAI AEO Format" — never "Yadav format"
+- Content production follows the **TendorAI Content OS** at `docs/content-os/tendorai-content-os.md` — the canonical format and process definition. Never reference legacy framework names (v6, v7, v8, v9, v9.1, "AEO Format", "Yadav format") in code, copy, or documentation.
 
 ## Known Issues to Never Repeat
-- Do not push to feature branches — always push to main
+- Push content and documentation changes to feature branches and merge via PR. Direct push to main is reserved for trivial operational fixes only and may be blocked by branch protection.
 - Do not create /ai-visibility-checker — deleted, redirects to /aeo-report
 - Do not add "Pricing" as a standalone nav item — lives at /for-vendors#pricing
 - Do not add "Home" to the main Header navigation — the logo handles this. BreadcrumbList breadcrumbs MAY include "Home" as the first item per Google's structured data guidelines and SEO best practice.
