@@ -186,13 +186,14 @@ const serviceJsonLd = {
   areaServed: { '@type': 'Country', name: 'United Kingdom' },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'UK Business Verticals',
+    name: 'AI Visibility Platform',
+    description:
+      'AI search visibility, GEO and AEO measurement, and structured data services for UK regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.',
     itemListElement: [
-      { '@type': 'OfferCatalog', name: 'Solicitors', description: 'Conveyancing, Family Law, Criminal Law, Commercial, Employment, Wills & Probate, Immigration, Personal Injury' },
-      { '@type': 'OfferCatalog', name: 'Accountants', description: 'Tax Advisory, Audit & Assurance, Bookkeeping, Payroll, Corporate Finance, Business Advisory, VAT, Financial Planning' },
-      { '@type': 'OfferCatalog', name: 'Mortgage Advisors', description: 'Residential Mortgages, Buy to Let, Remortgage, First Time Buyer, Equity Release, Commercial Mortgages, Protection Insurance' },
-      { '@type': 'OfferCatalog', name: 'Estate Agents', description: 'Sales, Lettings, Property Management, Block Management, Auctions, Commercial Property, Inventory' },
-      { '@type': 'OfferCatalog', name: 'Office Equipment', description: 'Photocopiers, Telecoms, CCTV, IT Services, Security, Software' },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Solicitors' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Accountants' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Mortgage Advisers' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Estate Agents' } },
     ],
   },
 };

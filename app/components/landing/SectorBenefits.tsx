@@ -32,10 +32,10 @@ const sectors = [
     iconColor: 'text-emerald-600',
   },
   {
-    title: 'Office Equipment',
+    title: 'Regulated Professional Services',
     description:
-      '1,300+ verified suppliers. Photocopiers, telecoms, CCTV, and IT services. The original TendorAI vertical \u2014 structured data for office equipment dealers across the UK.',
-    cta: 'Find Suppliers',
+      '12,793+ regulatory profiles loaded from SRA, ICAEW, FCA and Propertymark/TPO registers. TendorAI tracks how AI engines respond to buyer queries about regulated UK firms \u2014 and tells you exactly what\u2019s missing from your firm\u2019s AI visibility.',
+    cta: 'Find Firms',
     href: '/suppliers',
     comingSoon: false,
     icon: (

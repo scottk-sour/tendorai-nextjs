@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "TendorAI — UK AI Visibility Platform & Supplier Directory",
-    "description": "TendorAI is the UK's AI visibility platform for professional services. Search verified solicitors, accountants, mortgage advisers, estate agents, and office equipment suppliers. Over 12,000 structured data profiles optimised for AI recommendation engines.",
+    "title": "TendorAI — UK AI Visibility Platform for Regulated Professional Services",
+    "description": "TendorAI is the UK's AI visibility platform for regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents. The API exposes structured firm profiles built from public regulatory registers and weekly AI-mention tracking across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",
@@ -20,16 +20,16 @@
     "/api/public/vendors": {
       "get": {
         "operationId": "searchVendors",
-        "summary": "Search and list verified UK suppliers",
-        "description": "Returns a paginated list of verified UK professional services firms and suppliers (solicitors, accountants, mortgage advisers, estate agents, office equipment), optionally filtered by category, location, postcode, or brand. Results are sorted by tier priority then rating.",
+        "summary": "Search and list verified UK regulated professional services firms",
+        "description": "Returns a paginated list of verified UK regulated professional services firms (SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, Propertymark/TPO estate agents), optionally filtered by category, location, or postcode. Results are sorted by tier priority then rating.",
         "parameters": [
           {
             "name": "category",
             "in": "query",
-            "description": "Filter by service category",
+            "description": "Filter by regulated services category",
             "schema": {
               "type": "string",
-              "enum": ["Photocopiers", "Telecoms", "CCTV", "IT", "Security", "Software"]
+              "enum": ["solicitors", "accountants", "mortgage-advisers", "estate-agents"]
             }
           },
           {
@@ -53,7 +53,7 @@
           {
             "name": "brand",
             "in": "query",
-            "description": "Filter by brand or accreditation",
+            "description": "Filter by accreditation or regulator membership (e.g. CQS, Lexcel, Xero, FCA, Propertymark)",
             "schema": { "type": "string" }
           },
           {
@@ -94,8 +94,8 @@
     "/api/ai-query": {
       "post": {
         "operationId": "aiVendorMatch",
-        "summary": "AI-powered vendor matching with natural language requirements",
-        "description": "Accepts a natural language query describing business needs and returns matched vendors with products, pricing, and match scores.",
+        "summary": "AI-powered firm matching with natural language requirements",
+        "description": "Accepts a natural language query describing what a buyer is looking for in a UK regulated professional services firm and returns matched firms with match scores.",
         "requestBody": {
           "required": true,
           "content": {
@@ -107,11 +107,11 @@
                   "query": {
                     "type": "string",
                     "description": "Natural language description of requirements",
-                    "example": "I need a colour A3 photocopier for 10,000 pages a month in Cardiff"
+                    "example": "AI visibility report for an SRA-registered conveyancing firm in Cardiff"
                   },
                   "category": {
                     "type": "string",
-                    "enum": ["Photocopiers", "Telecoms", "CCTV", "IT", "Security", "Software"]
+                    "enum": ["solicitors", "accountants", "mortgage-advisers", "estate-agents"]
                   },
                   "location": {
                     "type": "string",

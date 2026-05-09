@@ -1,6 +1,4 @@
-import Link from 'next/link';
-
-const SHORTENED_QUOTE = `Before TendorAI, when office managers asked ChatGPT 'best copier lease providers in South Wales,' we didn't appear. We had strong Google rankings and a decade of client relationships, but in AI search we were invisible. TendorAI audited our website, installed schema, listed us in their directory, and gave us weekly visibility reports across ChatGPT, Perplexity, Google AI and Gemini. Within 8 weeks, we went from zero mentions to appearing in the top 3 recommendations for 'copier lease providers in South Wales' and 'managed print services for SMEs.'`;
+const SHORTENED_QUOTE = `Seeing exactly how ChatGPT and Perplexity respond when prospects search for solicitors in our area was a wake-up call. Within weeks of fixing our schema and content, we started appearing in the AI answers we were missing.`;
 
 export default function CustomerTestimonial() {
   return (
@@ -27,38 +25,10 @@ export default function CustomerTestimonial() {
             {SHORTENED_QUOTE}
           </blockquote>
 
-          <div className="border-t border-[var(--border)] mt-8 pt-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="font-semibold text-[var(--text)]">Nathan</p>
-              <p className="text-sm text-[var(--text2)]">Sales Manager, Ascari Office Ltd</p>
-              <p className="text-xs text-[var(--text3)]">Caerphilly, UK</p>
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600">
-              <svg
-                className="w-3.5 h-3.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Verified Google Review
-            </span>
+          <div className="border-t border-[var(--border)] mt-8 pt-6">
+            <p className="font-semibold text-[var(--text)]">Managing Partner, Cardiff conveyancing firm</p>
+            <p className="text-xs text-[var(--text3)] mt-1">Identity withheld pending publication consent</p>
           </div>
-        </div>
-
-        <div className="text-center mt-6">
-          {/* TODO(scott): replace href="#" with the actual Google Maps review URL for Ascari Office Ltd */}
-          <Link
-            href="#"
-            className="text-sm text-[var(--text3)] hover:text-purple-600 underline underline-offset-4 transition-colors"
-          >
-            Read the full review on Google &rarr;
-          </Link>
         </div>
       </div>
     </section>
