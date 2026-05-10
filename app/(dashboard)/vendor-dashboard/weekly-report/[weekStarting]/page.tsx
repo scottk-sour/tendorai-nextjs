@@ -141,7 +141,7 @@ export default function WeeklyReportPage({ params }: PageProps) {
       }
       try {
         const snapshotJson = await snapshotR.value.json();
-        const digest = snapshotJson.report as WeeklyReportDigest | null | undefined;
+        const digest = snapshotJson.report?.digest as WeeklyReportDigest | null | undefined;
         // Defensive: backend returned 200 but report is null/undefined →
         // treat as snapshot-not-found (same UX as a true 404).
         if (!digest) {
