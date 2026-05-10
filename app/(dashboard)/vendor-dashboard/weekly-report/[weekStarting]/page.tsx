@@ -8,6 +8,9 @@ import WeeklyReportHeader from '@/app/components/dashboard/weekly-report/WeeklyR
 import HeroSection from '@/app/components/dashboard/weekly-report/HeroSection';
 import PlatformBreakdownSection from '@/app/components/dashboard/weekly-report/PlatformBreakdownSection';
 import LoopSection from '@/app/components/dashboard/weekly-report/LoopSection';
+import DetectiveReasoningSection from '@/app/components/dashboard/weekly-report/DetectiveReasoningSection';
+import CitationsGallerySection from '@/app/components/dashboard/weekly-report/CitationsGallerySection';
+import CompetitorMovesSection from '@/app/components/dashboard/weekly-report/CompetitorMovesSection';
 import {
   type WeeklyReportDigest,
   type WeekHeader,
@@ -328,9 +331,18 @@ export default function WeeklyReportPage({ params }: PageProps) {
 
         <LoopSection digest={digest} vendorId={auth.user?.userId ?? ''} />
 
-        {/* TODO Section 4 — Detective reasoning */}
-        {/* TODO Section 5 — Citations gallery */}
-        {/* TODO Section 6 — Competitor moves */}
+        <DetectiveReasoningSection
+          detective={digest.agentActivity?.detective}
+          vendorId={auth.user?.userId ?? ''}
+        />
+
+        <CitationsGallerySection citations={digest.citations} />
+
+        <CompetitorMovesSection
+          competitorMoves={digest.competitorMoves}
+          citations={digest.citations}
+        />
+
         {/* TODO Section 7 — Next-week plan */}
         {/* TODO Section 8 — Items needing input */}
         {/* TODO Section 9 — Footer */}

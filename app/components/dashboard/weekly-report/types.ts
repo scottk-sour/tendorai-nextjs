@@ -42,6 +42,19 @@ export const ENGINE_LABELS: Record<EngineKey, string> = {
   meta_ai: 'Meta AI',
 };
 
+// Display name for any platform string the backend may emit. Known engines
+// use the canonical label; unknown ones get a humanised fallback so a future
+// engine doesn't render as raw 'snake_case'.
+export function displayPlatform(raw: string | null | undefined): string {
+  if (!raw) return 'Unknown platform';
+  if ((ENGINE_ORDER as readonly string[]).includes(raw)) {
+    return ENGINE_LABELS[raw as EngineKey];
+  }
+  return raw
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export interface PlatformCount {
   mentioned: number;
   target: number;
@@ -58,6 +71,28 @@ export interface ScoreBlock {
 export interface CitationsBlock {
   total: number;
   byPlatform?: ByPlatform | null;
+  // Per-citation detail surfaced in Section 5 (Citations Gallery). Optional
+  // for forward-compat — the field only ships once the backend captures
+  // citation snippets. Each entry maps to one AI response where the firm
+  // was mentioned.
+  captured?: Array<{
+    platform: string;          // EngineKey-ish — keep loose so backend can
+                               // add new engines without a UI rebuild.
+    query: string;
+    position?: string;         // e.g. "1 of 3 sources" — free-form text.
+    snippet?: string | null;   // The cited sentence. May be null if the
+                               // platform doesn't expose snippet text.
+    capturedAt: string;        // ISO datetime.
+  }> | null;
+}
+
+// Section 6 — observed competitor citations in queries where the firm did
+// not appear. Surfaces visibility gaps competitively.
+export interface CompetitorMove {
+  platform: string;
+  query: string;
+  competitor: string;
+  capturedAt: string;
 }
 
 export interface AgentActivityBlock {
@@ -126,7 +161,10 @@ export interface WeeklyReportDigest {
   citations: CitationsBlock;
   agentActivity?: AgentActivityBlock | null;
   needsAttention?: NeedsAttentionItem[] | null;
-  // Sections 3-9 fields are present on the backend response but not yet
+  // Section 6 — competitors who appeared in tracked queries where the firm
+  // did not. Optional until the backend ships the field.
+  competitorMoves?: CompetitorMove[] | null;
+  // Sections 7-9 fields are present on the backend response but not yet
   // consumed in this PR.
 }
 
