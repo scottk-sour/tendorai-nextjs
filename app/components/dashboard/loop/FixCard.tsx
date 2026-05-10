@@ -22,8 +22,10 @@ export default function FixCard({
   agentRunsError,
   approvalsError,
   onRetry,
+  mode = 'live',
 }: LoopCardProps) {
   const router = useRouter();
+  const isHistorical = mode === 'historical';
 
   const fixAgentRuns = agentRuns.filter((r) =>
     r.agentName === 'writer' || r.agentName === 'builder' || r.agentName === 'listings',
@@ -40,7 +42,9 @@ export default function FixCard({
   }, 0);
 
   const awaitingCount = pendingApprovals.length;
-  const needsAction = awaitingCount > 0;
+  // Amber "Action needed" pill + border are live-only — historical view is
+  // read-only, snapshot approvals may already be decided.
+  const needsAction = !isHistorical && awaitingCount > 0;
 
   const handleClick = () => router.push('/vendor-dashboard/approvals');
 
@@ -50,9 +54,7 @@ export default function FixCard({
     'flex',
     'flex-col',
     'h-full',
-    'cursor-pointer',
-    'hover:shadow-md',
-    'transition-shadow',
+    isHistorical ? '' : 'cursor-pointer hover:shadow-md transition-shadow',
     'relative',
     needsAction ? 'border-2 border-amber-500' : '',
   ].filter(Boolean).join(' ');
@@ -60,12 +62,16 @@ export default function FixCard({
   return (
     <div
       className={cardClasses}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
+      onClick={isHistorical ? undefined : handleClick}
+      role={isHistorical ? undefined : 'button'}
+      tabIndex={isHistorical ? undefined : 0}
+      onKeyDown={
+        isHistorical
+          ? undefined
+          : (e) => {
+              if (e.key === 'Enter' || e.key === ' ') handleClick();
+            }
+      }
     >
       <div className="flex items-start justify-between mb-2">
         <WrenchIcon />
@@ -84,7 +90,7 @@ export default function FixCard({
       {agentRunsError && approvalsError ? (
         <div className="flex-1 flex flex-col gap-2 text-sm">
           <p className="text-red-600">Couldn&apos;t load this week&apos;s data.</p>
-          {onRetry && (
+          {onRetry && !isHistorical && (
             <button
               type="button"
               onClick={(e) => {
@@ -99,8 +105,14 @@ export default function FixCard({
         </div>
       ) : fixAgentRuns.length === 0 && awaitingCount === 0 && !approvalsError ? (
         <div className="flex-1 flex flex-col text-sm text-gray-500">
-          <p>No fixes queued this week.</p>
-          <p className="mt-1">Next diagnosis runs Monday.</p>
+          {isHistorical ? (
+            <p>No fixes deployed this week.</p>
+          ) : (
+            <>
+              <p>No fixes queued this week.</p>
+              <p className="mt-1">Next diagnosis runs Monday.</p>
+            </>
+          )}
         </div>
       ) : (
         <ul className="flex-1 space-y-1.5 text-sm">

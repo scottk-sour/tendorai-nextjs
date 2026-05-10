@@ -40,6 +40,16 @@ export interface LoopCardProps {
   approvalsError?: string | null;
   /** Force a per-card retry (re-runs the page-level fetch). */
   onRetry?: () => void;
+  /**
+   * 'live' (default) — current state, click handlers active, free-tier
+   * fallbacks fire, retry buttons surface. Same as before this prop existed.
+   *
+   * 'historical' — read-only display of a past week's snapshot. No click
+   * handlers, no hover affordances, alternate empty-state copy framed for
+   * a past week, no FixCard amber pill, no Pro upsell paths. Pass via
+   * the new weekly-report page only.
+   */
+  mode?: 'live' | 'historical';
 }
 
 export const PRO_TIER_KEYS = ['pro', 'managed', 'verified'] as const;

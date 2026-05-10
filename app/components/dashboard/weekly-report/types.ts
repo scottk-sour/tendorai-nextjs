@@ -61,11 +61,54 @@ export interface CitationsBlock {
 }
 
 export interface AgentActivityBlock {
-  writer?: { draftsProduced?: number } | null;
-  listings?: { live?: number } | null;
-  reviews?: { sent?: number } | null;
-  builder?: { schemasDeployed?: number; schemasLive?: number } | null;
-  // Backend may add other agents — we ignore unknown keys for the count.
+  // Reconnaissance — backend writes per PR #44.
+  reconnaissance?: {
+    ran?: boolean;
+    queriesScanned?: number;
+    platformsScanned?: number;
+  } | null;
+  // Detective — backend writes per PR #44.
+  detective?: {
+    ran?: boolean;
+    findingsCount?: number;
+    topFinding?: {
+      type?: string;
+      severity?: string;
+      title?: string;
+      detail?: string;
+      recommendation?: string;
+    } | null;
+  } | null;
+  // Writer — backend writes per PR #44.
+  writer?: {
+    ran?: boolean;
+    draftsProduced?: number;
+    draftTitles?: string[];
+    pendingApproval?: number;
+  } | null;
+  // Listings — backend writes per PR #44.
+  listings?: {
+    ran?: boolean;
+    submitted?: number;
+    live?: number;
+    pending?: number;
+    directories?: Array<{ directory: string; status: string }>;
+  } | null;
+  // Reviews — backend writes per PR #44.
+  reviews?: {
+    ran?: boolean;
+    sent?: number;
+    skipped?: {
+      optedOut?: number;
+      cooldown?: number;
+      alreadyReviewed?: number;
+    };
+  } | null;
+  // Builder — backend may write later (forward-compat).
+  builder?: {
+    schemasDeployed?: number;
+    schemasLive?: number;
+  } | null;
 }
 
 export interface NeedsAttentionItem {
