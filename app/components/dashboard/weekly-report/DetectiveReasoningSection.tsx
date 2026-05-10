@@ -159,8 +159,11 @@ export default function DetectiveReasoningSection({ detective }: Props) {
           </h3>
         )}
 
-        {/* Row 3 — detail (left-border blockquote) */}
-        {detail && (
+        {/* Row 3 — detail (left-border blockquote). Suppressed when detail
+            duplicates title — Detective's first-sentence extraction returns
+            the full string for single-sentence findings, which renders as
+            visually-duplicated text below the Fraunces title. */}
+        {detail && detail !== title && (
           <div className="border-l-4 border-gray-200 pl-4 py-1 mb-5">
             <p className="text-base text-[var(--text2)] leading-relaxed">
               {detail}
