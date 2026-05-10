@@ -17,8 +17,14 @@ function TrendingUpIcon() {
  * surfaced here, but the brief specifies a metrics-driven view rather than a
  * narrative one.
  */
-export default function TrackCard({ agentRuns, agentRunsError, onRetry }: LoopCardProps) {
+export default function TrackCard({
+  agentRuns,
+  agentRunsError,
+  onRetry,
+  mode = 'live',
+}: LoopCardProps) {
   const router = useRouter();
+  const isHistorical = mode === 'historical';
 
   const reconRun = agentRuns.find((r) => r.agentName === 'reconnaissance');
   const before = reconRun?.metricsBefore;
@@ -44,13 +50,19 @@ export default function TrackCard({ agentRuns, agentRunsError, onRetry }: LoopCa
 
   return (
     <div
-      className="card p-5 flex flex-col h-full cursor-pointer hover:shadow-md transition-shadow"
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
+      className={`card p-5 flex flex-col h-full ${
+        isHistorical ? '' : 'cursor-pointer hover:shadow-md transition-shadow'
+      }`}
+      onClick={isHistorical ? undefined : handleClick}
+      role={isHistorical ? undefined : 'button'}
+      tabIndex={isHistorical ? undefined : 0}
+      onKeyDown={
+        isHistorical
+          ? undefined
+          : (e) => {
+              if (e.key === 'Enter' || e.key === ' ') handleClick();
+            }
+      }
     >
       <div className="flex items-start justify-between mb-2">
         <TrendingUpIcon />
@@ -79,8 +91,14 @@ export default function TrackCard({ agentRuns, agentRunsError, onRetry }: LoopCa
         </div>
       ) : !hasComparison ? (
         <div className="flex-1 flex flex-col text-sm text-gray-500">
-          <p>Tracking compares this week to last week.</p>
-          <p className="mt-1">Two weeks of data needed before tracking starts.</p>
+          {isHistorical ? (
+            <p>No score recorded for this week.</p>
+          ) : (
+            <>
+              <p>Tracking compares this week to last week.</p>
+              <p className="mt-1">Two weeks of data needed before tracking starts.</p>
+            </>
+          )}
         </div>
       ) : (
         <ul className="flex-1 space-y-1.5 text-sm">

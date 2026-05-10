@@ -7,6 +7,7 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import WeeklyReportHeader from '@/app/components/dashboard/weekly-report/WeeklyReportHeader';
 import HeroSection from '@/app/components/dashboard/weekly-report/HeroSection';
 import PlatformBreakdownSection from '@/app/components/dashboard/weekly-report/PlatformBreakdownSection';
+import LoopSection from '@/app/components/dashboard/weekly-report/LoopSection';
 import {
   type WeeklyReportDigest,
   type WeekHeader,
@@ -318,7 +319,8 @@ export default function WeeklyReportPage({ params }: PageProps) {
 
         <PlatformBreakdownSection byPlatform={digest.citations?.byPlatform} />
 
-        {/* TODO Section 3 — Loop pinned to week */}
+        <LoopSection digest={digest} vendorId={auth.user?.userId ?? ''} />
+
         {/* TODO Section 4 — Detective reasoning */}
         {/* TODO Section 5 — Citations gallery */}
         {/* TODO Section 6 — Competitor moves */}

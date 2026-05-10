@@ -21,7 +21,13 @@ interface DeployedItem {
  * Each item may have { title, type, url? } — url is rendered as an external
  * link with rel="noopener noreferrer" when present.
  */
-export default function DeployCard({ agentRuns, agentRunsError, onRetry }: LoopCardProps) {
+export default function DeployCard({
+  agentRuns,
+  agentRunsError,
+  onRetry,
+  mode = 'live',
+}: LoopCardProps) {
+  const isHistorical = mode === 'historical';
   const deployAgentRuns = agentRuns.filter((r) =>
     r.agentName === 'writer' || r.agentName === 'builder' || r.agentName === 'listings',
   );
@@ -51,7 +57,7 @@ export default function DeployCard({ agentRuns, agentRunsError, onRetry }: LoopC
       {agentRunsError ? (
         <div className="flex-1 flex flex-col gap-2 text-sm">
           <p className="text-red-600">Couldn&apos;t load this week&apos;s data.</p>
-          {onRetry && (
+          {onRetry && !isHistorical && (
             <button
               type="button"
               onClick={onRetry}
@@ -63,8 +69,14 @@ export default function DeployCard({ agentRuns, agentRunsError, onRetry }: LoopC
         </div>
       ) : allItems.length === 0 ? (
         <div className="flex-1 flex flex-col text-sm text-gray-500">
-          <p>Deployments happen after approvals.</p>
-          <p className="mt-1">Approved items will appear here once live.</p>
+          {isHistorical ? (
+            <p>Nothing was deployed this week.</p>
+          ) : (
+            <>
+              <p>Deployments happen after approvals.</p>
+              <p className="mt-1">Approved items will appear here once live.</p>
+            </>
+          )}
         </div>
       ) : (
         <div className="flex-1 space-y-2 text-sm">

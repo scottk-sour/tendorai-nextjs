@@ -28,8 +28,10 @@ export default function MeasureCard({
   existingScoreData,
   agentRunsError,
   onRetry,
+  mode = 'live',
 }: LoopCardProps) {
   const router = useRouter();
+  const isHistorical = mode === 'historical';
   const isPro = isProTier(vendorTier);
 
   const reconRun = agentRuns.find((r) => r.agentName === 'reconnaissance');
@@ -53,13 +55,19 @@ export default function MeasureCard({
 
   return (
     <div
-      className="card p-5 flex flex-col h-full cursor-pointer hover:shadow-md transition-shadow"
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
+      className={`card p-5 flex flex-col h-full ${
+        isHistorical ? '' : 'cursor-pointer hover:shadow-md transition-shadow'
+      }`}
+      onClick={isHistorical ? undefined : handleClick}
+      role={isHistorical ? undefined : 'button'}
+      tabIndex={isHistorical ? undefined : 0}
+      onKeyDown={
+        isHistorical
+          ? undefined
+          : (e) => {
+              if (e.key === 'Enter' || e.key === ' ') handleClick();
+            }
+      }
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-2">
@@ -75,7 +83,7 @@ export default function MeasureCard({
       {agentRunsError ? (
         <div className="flex-1 flex flex-col gap-2 text-sm">
           <p className="text-red-600">Couldn&apos;t load this week&apos;s data.</p>
-          {onRetry && (
+          {onRetry && !isHistorical && (
             <button
               type="button"
               onClick={(e) => {
@@ -88,7 +96,7 @@ export default function MeasureCard({
             </button>
           )}
         </div>
-      ) : !isPro ? (
+      ) : !isPro && !isHistorical ? (
         <div className="flex-1 flex flex-col gap-2 text-sm">
           {typeof existingScoreData?.score === 'number' ? (
             <p className="text-gray-700">
@@ -108,8 +116,14 @@ export default function MeasureCard({
         </div>
       ) : !reconRun ? (
         <div className="flex-1 flex flex-col text-sm text-gray-500">
-          <p>Measurement runs every Monday morning.</p>
-          <p className="mt-1">Next run: {nextMondayLabel()}</p>
+          {isHistorical ? (
+            <p>Reconnaissance didn&apos;t run this week.</p>
+          ) : (
+            <>
+              <p>Measurement runs every Monday morning.</p>
+              <p className="mt-1">Next run: {nextMondayLabel()}</p>
+            </>
+          )}
         </div>
       ) : (
         <ul className="flex-1 space-y-1.5 text-sm">
