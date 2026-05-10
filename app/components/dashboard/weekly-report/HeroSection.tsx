@@ -18,18 +18,35 @@ interface Props {
   joinedAt: string | null;
 }
 
+// Read a finite number from one of the shapes the backend may have shipped
+// across versions: { current }, { value }, { latest }, or score as a bare
+// number. Returns null for anything else — including NaN — so the caller
+// can render "—" only when there is genuinely no score, not when the score
+// is 0.
+function readFiniteNumber(raw: unknown, ...keys: string[]): number | null {
+  if (typeof raw === 'number' && Number.isFinite(raw)) return raw;
+  if (raw && typeof raw === 'object') {
+    const obj = raw as Record<string, unknown>;
+    for (const k of keys) {
+      const v = obj[k];
+      if (typeof v === 'number' && Number.isFinite(v)) return v;
+    }
+  }
+  return null;
+}
+
 export default function HeroSection({
   digest,
   scoreHistory,
   joinedScore,
   joinedAt,
 }: Props) {
-  const score = digest.score?.current;
-  const delta = digest.score?.delta;
+  const score = readFiniteNumber(digest.score, 'current', 'value', 'latest');
+  const delta = readFiniteNumber(digest.score, 'delta', 'change');
   const fixesCount = countFixesDeployed(digest.agentActivity);
   const awaitingCount = digest.needsAttention?.length ?? 0;
   const sinceJoiningDelta =
-    typeof score === 'number' && typeof joinedScore === 'number'
+    score !== null && typeof joinedScore === 'number'
       ? score - joinedScore
       : null;
 
@@ -43,7 +60,7 @@ export default function HeroSection({
           </p>
           <div className="flex items-baseline gap-2">
             <span className="text-5xl font-bold text-[var(--text)] tabular-nums">
-              {typeof score === 'number' ? score : '—'}
+              {score !== null ? score : '—'}
             </span>
             <span className="text-base text-[var(--text3)] font-medium">/100</span>
           </div>
@@ -124,7 +141,9 @@ export default function HeroSection({
 }
 
 function DeltaPill({ value }: { value: number | null | undefined }) {
-  if (typeof value !== 'number' || !Number.isFinite(value) || value === 0) {
+  // null/undefined/NaN → "—" (no measurement). A literal 0 is a real value
+  // meaning "no change this week" — render it explicitly, not as missing.
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
     return (
       <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
         —
@@ -138,9 +157,16 @@ function DeltaPill({ value }: { value: number | null | undefined }) {
       </span>
     );
   }
+  if (value < 0) {
+    return (
+      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+        {value} ↓
+      </span>
+    );
+  }
   return (
-    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
-      {value} ↓
+    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+      no change
     </span>
   );
 }

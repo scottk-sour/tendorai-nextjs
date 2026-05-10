@@ -29,8 +29,26 @@ export default function ScoreHistoryChart({
 }: Props) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  // Empty state — no data points yet.
-  if (!history || history.length === 0) {
+  // Defensive: filter for entries with both a numeric score and a parseable
+  // date. Anything missing either is silently dropped — the source endpoint
+  // already validates, but a sibling change could shift the shape.
+  const validPoints = (history ?? [])
+    .filter(
+      (h) =>
+        h &&
+        typeof h.score === 'number' &&
+        Number.isFinite(h.score) &&
+        typeof h.weekStarting === 'string',
+    )
+    .map((h) => ({
+      ...h,
+      timestamp: new Date(h.weekStarting).getTime(),
+    }))
+    .filter((h) => Number.isFinite(h.timestamp))
+    .sort((a, b) => a.timestamp - b.timestamp);
+
+  // Empty state — nothing to plot at all.
+  if (validPoints.length === 0) {
     return (
       <div className="card p-6">
         <h3 className="text-base font-semibold text-[var(--text)] mb-4">
@@ -71,19 +89,39 @@ export default function ScoreHistoryChart({
     );
   }
 
-  const points = history.map((h) => ({ ...h }));
-  const xStep =
-    points.length > 1
-      ? (VIEW_W - PADDING.left - PADDING.right) / (points.length - 1)
-      : 0;
+  // X-axis range covers the full span of history points, AND includes the
+  // snapshot week if it lies outside that span — so e.g. viewing a historic
+  // /2026-05-04 snapshot whose history runs Mar 30–May 6 still places the
+  // current week in view. With a single point we synthesise a tiny padding
+  // around it so the dot doesn't sit at x=0.
+  const currentTs = (() => {
+    const t = new Date(currentWeekStarting).getTime();
+    return Number.isFinite(t) ? t : null;
+  })();
 
-  const pointCoords = points.map((p, i) => ({
-    x: PADDING.left + i * xStep,
+  let xMin = validPoints[0].timestamp;
+  let xMax = validPoints[validPoints.length - 1].timestamp;
+  if (currentTs !== null) {
+    if (currentTs < xMin) xMin = currentTs;
+    if (currentTs > xMax) xMax = currentTs;
+  }
+  if (xMin === xMax) {
+    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+    xMin -= ONE_WEEK;
+    xMax += ONE_WEEK;
+  }
+
+  const usableW = VIEW_W - PADDING.left - PADDING.right;
+  const mapX = (ts: number) =>
+    PADDING.left + ((ts - xMin) / (xMax - xMin)) * usableW;
+
+  const pointCoords = validPoints.map((p) => ({
+    x: mapX(p.timestamp),
     y: mapY(p.score),
     score: p.score,
     weekStarting: p.weekStarting,
     weekEnding: p.weekEnding,
-    isCurrent: p.weekStarting === currentWeekStarting,
+    isCurrent: currentTs !== null && p.timestamp === currentTs,
   }));
 
   const polyline = pointCoords.map((p) => `${p.x},${p.y}`).join(' ');
