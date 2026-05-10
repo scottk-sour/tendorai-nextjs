@@ -16,6 +16,18 @@ interface Props {
   currentWeekStarting: string;
 }
 
+// Backend serialises weekStarting as a full ISO datetime
+// ("2026-05-04T00:00:00.000Z"). The URL segment must be YYYY-MM-DD only —
+// otherwise the link points at /vendor-dashboard/weekly-report/<full-iso>
+// (URL-encoded by Next.js to a 404).
+function toDateOnly(iso: string): string {
+  if (!iso) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toISOString().split('T')[0];
+}
+
 export default function WeeklyReportHeader({
   firmName,
   weekStarting,
@@ -28,13 +40,21 @@ export default function WeeklyReportHeader({
   const sorted = [...weeksList].sort(
     (a, b) => new Date(b.weekStarting).getTime() - new Date(a.weekStarting).getTime(),
   );
-  const latestWeek = sorted[0]?.weekStarting ?? null;
-  const currentIndex = sorted.findIndex((w) => w.weekStarting === currentWeekStarting);
+  // Normalise both sides of the equality so date-only and full-ISO compare
+  // correctly — otherwise the "Latest report" detection always says false
+  // when weeksList items are ISO datetimes but currentWeekStarting is the
+  // URL segment.
+  const currentKey = toDateOnly(currentWeekStarting);
+  const latestWeekRaw = sorted[0]?.weekStarting ?? null;
+  const latestWeek = latestWeekRaw ? toDateOnly(latestWeekRaw) : null;
+  const currentIndex = sorted.findIndex(
+    (w) => toDateOnly(w.weekStarting) === currentKey,
+  );
   const previousWeek =
     currentIndex !== -1 && currentIndex < sorted.length - 1
-      ? sorted[currentIndex + 1].weekStarting
+      ? toDateOnly(sorted[currentIndex + 1].weekStarting)
       : null;
-  const isLatest = latestWeek !== null && currentWeekStarting === latestWeek;
+  const isLatest = latestWeek !== null && currentKey === latestWeek;
 
   return (
     <header className="mb-8">

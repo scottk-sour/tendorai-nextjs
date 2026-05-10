@@ -252,16 +252,23 @@ export default function WeeklyReportPage({ params }: PageProps) {
                   Available weeks
                 </p>
                 <ul className="space-y-2">
-                  {data.weeksList.map((w) => (
-                    <li key={w.weekStarting}>
-                      <Link
-                        href={`/vendor-dashboard/weekly-report/${w.weekStarting}`}
-                        className="text-sm text-purple-700 hover:text-purple-900 font-medium"
-                      >
-                        Week of {formatLongDate(w.weekStarting)} →
-                      </Link>
-                    </li>
-                  ))}
+                  {data.weeksList.map((w) => {
+                    // Backend may serialise weekStarting as full ISO datetime
+                    // — strip to YYYY-MM-DD so the link matches the route.
+                    const datePart = w.weekStarting.includes('T')
+                      ? new Date(w.weekStarting).toISOString().split('T')[0]
+                      : w.weekStarting;
+                    return (
+                      <li key={w.weekStarting}>
+                        <Link
+                          href={`/vendor-dashboard/weekly-report/${datePart}`}
+                          className="text-sm text-purple-700 hover:text-purple-900 font-medium"
+                        >
+                          Week of {formatLongDate(w.weekStarting)} →
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}

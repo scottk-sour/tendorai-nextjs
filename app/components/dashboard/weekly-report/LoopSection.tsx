@@ -146,13 +146,33 @@ function synthesisePseudoAgentRuns(
   }
 
   // ── detective ───────────────────────────────────────────────────────────
+  // Trigger on findingsCount > 0 OR a populated topFinding — not just `ran`.
+  // The backend post-PR #47 may emit findings without setting `ran` to true
+  // explicitly, and a populated topFinding is itself proof the agent ran.
   const detective = activity.detective;
-  if (detective?.ran) {
+  const detectiveFindings =
+    typeof detective?.findingsCount === 'number' ? detective.findingsCount : 0;
+  const detectiveTop = detective?.topFinding;
+  const detectiveHasContent =
+    detectiveFindings > 0 ||
+    (typeof detectiveTop?.title === 'string' && detectiveTop.title.trim().length > 0) ||
+    (typeof detectiveTop?.recommendation === 'string' &&
+      detectiveTop.recommendation.trim().length > 0);
+  if (detective?.ran || detectiveHasContent) {
+    // Prefer topFinding.title; fall back to recommendation if title is empty
+    // (older snapshots had title blank but recommendation populated).
+    const topTitle = detectiveTop?.title;
+    const topRec = detectiveTop?.recommendation;
+    const chosen =
+      typeof topTitle === 'string' && topTitle.trim()
+        ? topTitle.trim()
+        : typeof topRec === 'string' && topRec.trim()
+        ? topRec.trim()
+        : null;
+    const gaps: string[] = chosen ? [chosen] : [];
+    // If findingsCount is missing but we do have a finding, report at least 1.
     const gapsIdentified =
-      typeof detective.findingsCount === 'number' ? detective.findingsCount : 0;
-    const topTitle = detective.topFinding?.title;
-    const gaps: string[] =
-      typeof topTitle === 'string' && topTitle.trim() ? [topTitle.trim()] : [];
+      detectiveFindings > 0 ? detectiveFindings : gaps.length > 0 ? 1 : 0;
 
     runs.push({
       ...baseRun,
