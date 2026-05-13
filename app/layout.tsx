@@ -81,6 +81,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: {
+      'msvalidate.01': 'C01C14A4D8A4568082B849C3E50BB1B4',
+    },
   },
   alternates: {
     canonical: '/',
