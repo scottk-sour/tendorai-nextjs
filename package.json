@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "npm run indexnow",
+    "indexnow": "tsx scripts/submit-indexnow.ts",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit"
@@ -29,6 +31,7 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.20.3"
   }
 }
