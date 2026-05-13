@@ -24,6 +24,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const description = article.metaDescription || article.excerpt;
+  const url = `https://www.tendorai.com/resources/${slug}`;
+  // Site default OG image. Per-page openGraph replaces (not merges with)
+  // the root metadata's images, so the asset is referenced here too.
+  const ogImage = {
+    url: 'https://www.tendorai.com/og-image.png',
+    width: 1200,
+    height: 630,
+    alt: article.title,
+  };
 
   return {
     title: article.title,
@@ -35,10 +44,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: article.publishedDate,
       modifiedTime: article.updatedDate || article.publishedDate,
       authors: [article.author || 'TendorAI'],
-      url: `https://www.tendorai.com/resources/${slug}`,
+      url,
+      images: [ogImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description,
+      images: [ogImage.url],
     },
     alternates: {
-      canonical: `https://www.tendorai.com/resources/${slug}`,
+      canonical: url,
     },
   };
 }
@@ -66,8 +82,13 @@ function parseMarkdown(content: string): string {
     // Headers
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">$1</h2>')
-    // Bold
+    // Bold — must run before italic so the double asterisks are consumed
+    // first; otherwise `**x**` would be misread as `*<em>x</em>*`.
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic — single-asterisk pairs. Inner pattern forbids `*` and newline
+    // so one italic span can't swallow across a second `*` pair on the same
+    // line, and stray unmatched asterisks don't false-match.
+    .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
     // Links
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-purple-600 hover:text-purple-700 underline">$1</a>')
     // Tables

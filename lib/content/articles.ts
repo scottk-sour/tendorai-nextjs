@@ -37,6 +37,80 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'claude-for-legal-uk-solicitors-ai-visibility',
+    title: 'What Claude for Legal means for UK law firms — and why AI visibility just became a board-level question',
+    excerpt:
+      "Anthropic's Claude for Legal launch puts AI inside the daily workflow of solicitors, in-house counsel and legal buyers. Here's what it means for firms that don't yet appear in AI assistant recommendations.",
+    metaDescription:
+      "Anthropic's Claude for Legal launch puts AI inside the daily workflow of solicitors, in-house counsel and legal buyers. Here's what it means for firms that don't yet appear in AI assistant recommendations.",
+    category: 'AI Visibility',
+    author: 'TendorAI',
+    readTime: 7,
+    publishedDate: '2026-05-13',
+    updatedDate: '2026-05-13',
+    featured: true,
+    content: `**The short answer:** On 12 May 2026, Anthropic launched [Claude for Legal](https://claude.com/solutions/legal) — a dedicated AI workflow tool for law firms with 20+ legal-tech connectors (iManage, NetDocuments, DocuSign, Ironclad, Thomson Reuters, Harvey, LexisNexis, Everlaw and more) and 12 practice-area plugins. Freshfields has already deployed Claude firmwide. The launch matters to every UK law firm — not just the ones planning to use Claude — because it accelerates a broader shift: AI is moving directly into the workflow of lawyers, in-house counsel and legal buyers. Once AI sits inside that workflow, recommendation queries become inevitable. *"Who should we instruct?" "Which firm handles this locally?" "Who's credible in this practice area?"* Firms that cannot be found, verified and cited by AI assistants risk losing visibility before they even know they were considered.
+
+If your firm has never checked whether it appears in Claude, ChatGPT, Perplexity or Gemini's recommendations, this is the moment to start.
+
+## What is Claude for Legal?
+
+Claude for Legal is Anthropic's first vertical product launch. It bundles three things: practice-area plugins for commercial, corporate, litigation, employment, privacy, IP, product and AI governance work; MCP connectors to the legal tech stack solicitors already use; and deep integration with Microsoft Word, Outlook, Excel and PowerPoint so context carries across drafting, email and reporting without re-explanation.
+
+The connector list reads like a directory of British and global legal tech: [iManage, NetDocuments, DocuSign, Ironclad, Definely, Thomson Reuters CoCounsel, LexisNexis, Harvey, Legora, Everlaw, Relativity, Consilio, Box and Datasite](https://www.law.com/legaltechnews/2026/05/12/anthropic-announces-legal-practice-plug-ins-for-claude-legal-tech-integrations/). Document permissions, ethical walls and matter-level restrictions are preserved end-to-end. Anthropic has framed legal as a sector where firms that move on AI early are pulling ahead of those that wait.
+
+## Why does this matter for UK law firms that don't use Claude?
+
+Because Claude for Legal accelerates a shift that was already underway: AI tools are starting to become a real referral channel.
+
+When a finance director needs corporate counsel, when an HR head needs an employment specialist, when a property buyer needs a commercial conveyancer — asking an AI assistant is starting to become a normal first step. Claude for Legal pushes that further: now in-house counsel will be using Claude in-workflow, and the same Claude session that drafts a contract can be asked *"who should we instruct on the property side of this deal?"* between tasks.
+
+If your firm isn't cited when AI assistants answer that question, your firm is invisible in that channel. There is no second page of results to fall to. There are typically one to three names returned, and that's the shortlist.
+
+## So how does a UK law firm get cited by AI assistants?
+
+Three things determine whether your firm appears in AI recommendations, and most firms haven't been investing in any of them.
+
+**Structured data on your own website.** AI models cite firms whose websites publish machine-readable signals — schema markup for legal services, jurisdiction, regulatory status (SRA number, ICO registration), practice areas, locations and the credentials of named solicitors. Most UK law firm websites have none of this. They were built for human readers and Google's 2018-era SEO. AI models read them and find little to cite.
+
+**Presence in the third-party sources AI models trust.** AI assistants don't make recommendations from thin air. They synthesise from sources the model considers authoritative — the SRA register, Law Society directories, Chambers, Legal 500, regulator publications and recognised press. If your firm has thin coverage in those sources, AI has little to work with.
+
+**Active tracking of what AI assistants currently say about you.** Most firms have no idea whether they're cited, mis-cited or invisible. There is no AI equivalent of Google Search Console. Without tracking, you can't know whether the work you're doing is moving the needle — or whether competitors are pulling ahead.
+
+## What does the visibility gap actually look like?
+
+TendorAI tracks AI assistant recommendations across UK legal prompts — the questions in-house counsel, business owners and the public actually ask when looking for a solicitor. The pattern we see is consistent: a small number of firms dominate citations, a large middle is invisible, and most SRA-regulated firms have zero AI citations across the prompts that matter for their practice area and region.
+
+Across the UK legal categories we monitor, TendorAI tracks the firms that currently hold the **#1 share of voice in AI assistant recommendations** — and the much larger group that don't appear at all. Most firms don't know which group they're in, because they have no way to measure it.
+
+That's the gap. It's not a technology gap. It's a measurement-and-positioning gap, and it can be closed.
+
+## What should a UK law firm do this week?
+
+Not consultancy. Not a pilot. Not a six-month strategy review. Three practical steps:
+
+1. **Find out where you stand.** Run an AI visibility check across the prompts your prospective clients are actually using. *"Best commercial property solicitors in Manchester"*, *"who handles SRA compliance for small firms"*, *"employment tribunal lawyers near me"* — whatever maps to your practice. If you don't appear, that's a problem worth knowing about now rather than next year.
+
+2. **Fix the structured data on your own site.** Schema for your firm, your solicitors, your practice areas, your locations and your regulatory status. This is a one-off technical job and it is the single highest-leverage thing most firms can do.
+
+3. **Track what AI says about you, weekly.** Not annually. Not when you remember. Weekly — because the models change, the sources they cite change, and competitors are actively working on this.
+
+Firms that act on AI visibility now are more likely to be cited as AI assistants become a routine part of how clients find legal services. Firms that wait may find their referral pipeline quietly thinning before they understand why.
+
+## How TendorAI helps
+
+TendorAI is the AI visibility platform built specifically for SRA-regulated UK law firms. We measure where you currently appear in AI assistant recommendations across Claude, ChatGPT, Perplexity and Gemini; install the structured data and schema your website is missing; and run weekly tracking so you can see your share of voice moving over time. Pro tier is £299/month, all-in.
+
+[**Run a free AI visibility check for your firm →**](/solicitors)
+
+No call required. We'll show you which AI prompts your firm appears in, which competitors are dominating, and what's missing from your site. Takes under a minute to start.
+
+---
+
+*TendorAI Ltd is registered in England and Wales (Companies House 16521860). We work exclusively with regulated professional services firms — SRA solicitors, ICAEW accountants, FCA mortgage advisers and Propertymark estate agents.*
+`,
+  },
+  {
     slug: 'ai-visibility-for-estate-agents',
     title: 'AI Visibility for UK Estate Agents — The Complete Guide (2026)',
     excerpt:

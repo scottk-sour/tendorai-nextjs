@@ -92,7 +92,12 @@ function parseMarkdown(content: string): string {
     .replace(/^---$/gm, '<hr class="my-8 border-gray-200" />')
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">$1</h2>')
+    // Bold runs before italic so `**x**` is consumed as <strong>, not as
+    // `*<em>x</em>*`.
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic — inner pattern forbids `*` and newline so one italic span
+    // can't swallow across a second `*` pair on the same line.
+    .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-purple-600 hover:text-purple-700 underline">$1</a>')
     .replace(/^- (.*$)/gm, '<li class="ml-4 text-gray-600">$1</li>')
     .replace(/(<li.*<\/li>\n?)+/g, '<ul class="list-disc pl-4 my-4 space-y-2">$&</ul>')
