@@ -1001,6 +1001,17 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
     href: '/blog/how-much-conveyancing-cost-cardiff-2026',
   },
   {
+    slug: 'uk-solicitors-sra-referral-ai-citations-2026',
+    title: 'UK Solicitors Referred to the SRA Over AI Citations: What It Means for AI Visibility in 2026',
+    excerpt: 'A UK judge has referred solicitors to the SRA for submitting AI-generated legal citations that did not exist. Here is what it signals for AI visibility, trust, and authority in 2026.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 9,
+    publishedDate: '2026-05-15',
+    content: '',
+    href: '/blog/uk-solicitors-sra-referral-ai-citations-2026',
+  },
+  {
     slug: 'ai-visibility-report-solicitors-london',
     title: 'AI Visibility Report: London Solicitors 2025',
     excerpt: 'TendorAI tracks 2,331 SRA-registered solicitors in London. 17% have no website. Here\'s what the data shows about AI visibility for London law firms.',
