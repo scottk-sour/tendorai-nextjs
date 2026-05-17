@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { ProgressBar } from './components/ProgressBar';
 import { Stage1Form } from './components/Stage1Form';
+import { Stage2Form } from './components/Stage2Form';
 import { useFirmFacts } from './hooks/useFirmFacts';
 
 const API_URL =
@@ -19,8 +20,6 @@ function FirmFactsOnboarding() {
   const searchParams = useSearchParams();
   const { auth, getCurrentToken } = useAuth();
   const [gate, setGate] = useState<GateState>('checking');
-  const [stageComplete, setStageComplete] = useState(false);
-  const [comingSoon, setComingSoon] = useState(false);
 
   const fromStripe = searchParams?.get('source') === 'stripe';
 
@@ -63,47 +62,20 @@ function FirmFactsOnboarding() {
     };
   }, [auth.isAuthenticated, auth.isLoading, getCurrentToken, router]);
 
-  const handleStageComplete = useCallback(() => {
-    setStageComplete(true);
-  }, []);
-
-  const handleContinueToStage2 = useCallback(() => {
-    setComingSoon(true);
-    window.setTimeout(() => setComingSoon(false), 2500);
-  }, []);
-
   if (gate !== 'allowed') {
     return (
       <div className="text-sm text-gray-600">Checking your account…</div>
     );
   }
 
-  return (
-    <OnboardingBody
-      fromStripe={fromStripe}
-      stageComplete={stageComplete}
-      comingSoon={comingSoon}
-      onStageComplete={handleStageComplete}
-      onContinueToStage2={handleContinueToStage2}
-    />
-  );
+  return <OnboardingBody fromStripe={fromStripe} />;
 }
 
-interface OnboardingBodyProps {
-  fromStripe: boolean;
-  stageComplete: boolean;
-  comingSoon: boolean;
-  onStageComplete: () => void;
-  onContinueToStage2: () => void;
-}
+const CONTINUE_BUTTON_CLASS =
+  'inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2';
 
-function OnboardingBody({
-  fromStripe,
-  stageComplete,
-  comingSoon,
-  onStageComplete,
-  onContinueToStage2,
-}: OnboardingBodyProps) {
+function OnboardingBody({ fromStripe }: { fromStripe: boolean }) {
+  const router = useRouter();
   const {
     firmFacts,
     completion,
@@ -112,6 +84,17 @@ function OnboardingBody({
     saveStates,
     updateField,
   } = useFirmFacts();
+
+  const [currentStage, setCurrentStage] = useState<1 | 2>(1);
+  const [stage1Done, setStage1Done] = useState(false);
+  const [stage2Done, setStage2Done] = useState(false);
+
+  const handleStage1Complete = useCallback(() => setStage1Done(true), []);
+  const handleStage2Complete = useCallback(() => setStage2Done(true), []);
+
+  // Stage 1 must be complete before Stage 2 can be reached, so going back
+  // can never strand a half-filled Stage 1.
+  const stage1Reachable = stage1Done || completion.stage1Complete;
 
   return (
     <div className="space-y-8">
@@ -124,8 +107,9 @@ function OnboardingBody({
       <header className="space-y-2">
         <h1 className="text-2xl font-bold text-gray-900">Your firm facts</h1>
         <p className="text-sm text-gray-600">
-          Eight quick fields so our agents can write content that uses your real
-          numbers, not generic placeholders.
+          {currentStage === 1
+            ? 'Eight quick fields so our agents can write content that uses your real numbers, not generic placeholders.'
+            : 'Operational and brand facts so AI assistants can recommend your firm with confidence.'}
         </p>
       </header>
 
@@ -134,38 +118,80 @@ function OnboardingBody({
         stage1Complete={completion.stage1Complete}
       />
 
-      <Stage1Form
-        firmFacts={firmFacts}
-        loading={loading}
-        error={error}
-        saveStates={saveStates}
-        backendStage1Complete={completion.stage1Complete}
-        updateField={updateField}
-        onStageComplete={onStageComplete}
-      />
+      {currentStage === 1 && (
+        <>
+          <Stage1Form
+            firmFacts={firmFacts}
+            loading={loading}
+            error={error}
+            saveStates={saveStates}
+            backendStage1Complete={completion.stage1Complete}
+            updateField={updateField}
+            onStageComplete={handleStage1Complete}
+          />
 
-      {stageComplete && (
-        <div className="space-y-3 rounded-md border border-green-200 bg-green-50 p-5">
-          <p className="text-sm font-medium text-green-900">
-            Stage 1 complete — your articles will now use your real numbers.
-          </p>
-          <p className="text-sm text-green-800">
-            Stage 2 adds operational and brand identity facts so AI assistants
-            can recommend your firm with confidence.
-          </p>
-          <button
-            type="button"
-            onClick={onContinueToStage2}
-            className="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-          >
-            Continue to Stage 2
-          </button>
-          {comingSoon && (
-            <p role="status" className="text-sm text-blue-900">
-              Stage 2 is coming soon — we&apos;ll let you know.
-            </p>
+          {stage1Done && (
+            <div className="space-y-3 rounded-md border border-green-200 bg-green-50 p-5">
+              <p className="text-sm font-medium text-green-900">
+                Stage 1 complete — your articles will now use your real numbers.
+              </p>
+              <p className="text-sm text-green-800">
+                Stage 2 adds operational and brand identity facts so AI
+                assistants can recommend your firm with confidence.
+              </p>
+              <button
+                type="button"
+                onClick={() => setCurrentStage(2)}
+                className={CONTINUE_BUTTON_CLASS}
+              >
+                Continue to Stage 2
+              </button>
+            </div>
           )}
-        </div>
+        </>
+      )}
+
+      {currentStage === 2 && (
+        <>
+          {stage1Reachable && (
+            <button
+              type="button"
+              onClick={() => setCurrentStage(1)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              ← Back to Stage 1
+            </button>
+          )}
+
+          <Stage2Form
+            firmFacts={firmFacts}
+            loading={loading}
+            error={error}
+            saveStates={saveStates}
+            backendStage2Complete={completion.stage2Complete}
+            updateField={updateField}
+            onStageComplete={handleStage2Complete}
+          />
+
+          {stage2Done && (
+            <div className="space-y-3 rounded-md border border-green-200 bg-green-50 p-5">
+              <p className="text-sm font-medium text-green-900">
+                Stage 2 complete — your firm profile is ready for AI assistants.
+              </p>
+              <p className="text-sm text-green-800">
+                Our agents now have everything they need to write content that
+                sounds like your firm.
+              </p>
+              <button
+                type="button"
+                onClick={() => router.push('/vendor-dashboard')}
+                className={CONTINUE_BUTTON_CLASS}
+              >
+                Continue to dashboard
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       <footer className="border-t border-gray-200 pt-6 text-sm text-gray-500">

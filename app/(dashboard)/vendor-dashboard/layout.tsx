@@ -9,6 +9,9 @@ import { isProTier } from '@/app/components/dashboard/loop/types';
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
+// localStorage key for the 24h dismissal window on the firmFacts nudge.
+const NUDGE_KEY = 'dismissed_firmfacts_nudge_until';
+
 interface NavItem {
   name: string;
   href: string;
@@ -104,6 +107,9 @@ export default function VendorDashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [vendorType, setVendorType] = useState('office-equipment');
   const [vendorTier, setVendorTier] = useState<string>('free');
+  // firmFacts onboarding nudge — null until the completion check resolves.
+  const [stage1Complete, setStage1Complete] = useState<boolean | null>(null);
+  const [nudgeDismissed, setNudgeDismissed] = useState(true);
 
   // Redirect if not authenticated or not a vendor
   useEffect(() => {
@@ -131,6 +137,60 @@ export default function VendorDashboardLayout({
   useEffect(() => {
     if (auth.isAuthenticated) fetchVendorType();
   }, [auth.isAuthenticated, fetchVendorType]);
+
+  // Pro tiers that should be nudged to finish firmFacts onboarding.
+  const isNudgeProTier = ['managed', 'verified', 'enterprise'].includes(
+    vendorTier.toLowerCase(),
+  );
+
+  // Read any active dismissal window (24h) from localStorage on mount.
+  useEffect(() => {
+    try {
+      const until = Number(localStorage.getItem(NUDGE_KEY) || '0');
+      setNudgeDismissed(Date.now() < until);
+    } catch {
+      setNudgeDismissed(false);
+    }
+  }, []);
+
+  // Check Stage 1 completion for Pro vendors.
+  useEffect(() => {
+    if (!auth.isAuthenticated || !isNudgeProTier) return;
+    let cancelled = false;
+    (async () => {
+      const token = getCurrentToken();
+      if (!token) return;
+      try {
+        const res = await fetch(`${API_URL}/api/firmfacts/me/completion`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) setStage1Complete(Boolean(data.stage1Complete));
+        }
+      } catch {
+        /* silent — the nudge simply stays hidden */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [auth.isAuthenticated, isNudgeProTier, getCurrentToken]);
+
+  const dismissNudge = useCallback(() => {
+    try {
+      localStorage.setItem(
+        NUDGE_KEY,
+        String(Date.now() + 24 * 60 * 60 * 1000),
+      );
+    } catch {
+      /* ignore — dismissal just won't persist */
+    }
+    setNudgeDismissed(true);
+  }, []);
+
+  const showFirmFactsNudge =
+    isNudgeProTier && stage1Complete === false && !nudgeDismissed;
 
   const navigation = getNavigation(vendorType);
 
@@ -249,6 +309,35 @@ export default function VendorDashboardLayout({
       {/* Main content */}
       <main className="lg:ml-64 pt-14 lg:pt-0">
         <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+          {showFirmFactsNudge && (
+            <div className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-amber-900">
+                  <span className="font-semibold">
+                    Your firm setup is incomplete.
+                  </span>{' '}
+                  Complete Stage 1 of firmFacts to get articles using your real
+                  numbers.
+                </p>
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => router.push('/onboarding/firm-facts')}
+                    className="rounded-md bg-amber-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-amber-700"
+                  >
+                    Complete setup
+                  </button>
+                  <button
+                    type="button"
+                    onClick={dismissNudge}
+                    className="rounded-md border border-amber-300 bg-white px-3 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100"
+                  >
+                    Skip for now
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           {children}
         </div>
       </main>
