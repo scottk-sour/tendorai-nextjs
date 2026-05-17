@@ -183,7 +183,7 @@ const serviceJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'AI Visibility Platform for UK Professional Services',
-  description: 'TendorAI installs schema markup on professional services websites, tracks brand mentions across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI weekly, and publishes AI-optimised content automatically. Built for UK solicitors, accountants, mortgage advisers, and estate agents.',
+  description: 'TendorAI installs schema markup on professional services websites, tracks brand mentions across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews weekly, and publishes AI-optimised content automatically. Built for UK solicitors, accountants, mortgage advisers, and estate agents.',
   serviceType: 'AI Visibility Platform',
   provider: { '@type': 'Organization', name: 'TendorAI' },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },

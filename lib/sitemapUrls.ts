@@ -27,6 +27,7 @@ const STATIC_PAGES: Array<{
   { path: '/aeo-report', changefreq: 'monthly', priority: 0.9 },
   { path: '/for-vendors', changefreq: 'monthly', priority: 0.8 },
   { path: '/ai-visibility-platform', changefreq: 'monthly', priority: 0.9 },
+  { path: '/best-ai-visibility-tools-uk-solicitors', changefreq: 'monthly', priority: 0.8 },
   { path: '/ai-visibility-tool', changefreq: 'monthly', priority: 0.7 },
   { path: '/ai-visibility-uk', changefreq: 'monthly', priority: 0.7 },
   { path: '/resources', changefreq: 'daily', priority: 0.8 },

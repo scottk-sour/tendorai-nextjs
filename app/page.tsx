@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
-import Features from './components/landing/Features';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
 import ConversationDemo from './components/landing/ConversationDemo';
@@ -10,21 +9,8 @@ import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
 import Pricing from './components/landing/Pricing';
 import FinalCTA from './components/landing/FinalCTA';
-import ProofSection from './components/homepage/ProofSection';
-import { connectDB } from '@/lib/db/connection';
-import { Vendor } from '@/lib/db/models';
 
 export const revalidate = 3600; // Revalidate every hour
-
-async function getTotalVendorCount(): Promise<number> {
-  await connectDB();
-  return Vendor.countDocuments({
-    $or: [
-      { 'account.status': 'active', 'account.verificationStatus': 'verified' },
-      { listingStatus: 'unclaimed' },
-    ],
-  });
-}
 
 const newDescription = "TendorAI is an AI visibility platform for UK solicitors, accountants and mortgage advisers. Free AI visibility report \u2014 30-second results.";
 
@@ -75,11 +61,46 @@ const webPageSchema = {
   description: "The UK's AI Visibility Platform for professional services. Free AI Visibility reports for solicitors, accountants, mortgage advisors and estate agents.",
 };
 
+// SoftwareApplication schema — the canonical TendorAI product entity. Mirrors
+// the offer and description used on /ai-visibility-platform.
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'AI Visibility Platform',
+  description:
+    'UK AI visibility platform for regulated professional services firms. A six-agent autonomous fleet measures, diagnoses, and fixes AI visibility across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews. 63,406 UK firms indexed from SRA, ICAEW, FCA, Propertymark, and Companies House.',
+  operatingSystem: 'Web',
+  url: 'https://www.tendorai.com',
+  offers: {
+    '@type': 'Offer',
+    price: '299',
+    priceCurrency: 'GBP',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: '299',
+      priceCurrency: 'GBP',
+      billingDuration: 'P1M',
+    },
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'TendorAI Ltd',
+    url: 'https://www.tendorai.com',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Cwmbran',
+      addressRegion: 'Wales',
+      addressCountry: 'GB',
+    },
+    identifier: '16521860',
+  },
+};
+
 // HowTo schema for the Loop now lives in app/components/landing/Hero.tsx alongside the visible content.
 
-export default async function HomePage() {
-  const totalVendorCount = await getTotalVendorCount();
-
+export default function HomePage() {
   return (
     <>
       {/* JSON-LD schemas (Organization + LocalBusiness are in layout.tsx) */}
@@ -87,36 +108,32 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+      />
 
       <main>
-        {/* Hero */}
-        <Hero totalVendors={totalVendorCount} />
+        {/* Hero — includes the canonical definition + Five-Stage Loop */}
+        <Hero />
 
         {/* Problem — Cost comparison cards */}
         <ProblemSection />
 
-        {/* How TendorAI Works — 4 steps */}
-        <Features />
-
         {/* Trust Bar — verified UK data sources */}
         <TrustBar />
 
-        {/* Sector Benefits — 4 vertical cards */}
+        {/* Sector Benefits — vertical cards */}
         <SectorBenefits />
 
         {/* Conversation Demo */}
         <ConversationDemo />
 
-        {/* Customer Testimonial — verified Google review from Nathan / Ascari Office Ltd */}
+        {/* Case study — TendorAI's own Searchable.com proof */}
         <CustomerTestimonial />
 
         {/* What AI Platforms Say */}
         <AiTestimonials />
-
-        {/* Proof — TendorAI's own AI visibility stats */}
-        <Suspense fallback={<div className="py-8" />}>
-          <ProofSection />
-        </Suspense>
 
         {/* Pricing */}
         <Suspense fallback={<div className="py-8" />}>

@@ -33,11 +33,31 @@ const webPageJsonLd = {
   publisher: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
 };
 
+const softwareApplicationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI Accountancy AI Visibility Checklist',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'AI Visibility Tool',
+  description:
+    'Free ICAEW-specific AI visibility checklist for UK accountancy practices — audit schema, regulatory data, directories and content across ChatGPT, Perplexity and Google AI Overviews.',
+  operatingSystem: 'Web',
+  url: CANONICAL,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP' },
+  provider: { '@type': 'Organization', name: 'TendorAI Ltd', url: 'https://www.tendorai.com' },
+  isPartOf: {
+    '@type': 'SoftwareApplication',
+    name: 'TendorAI',
+    url: 'https://www.tendorai.com/ai-visibility-platform',
+  },
+};
+
 export default function AccountantChecklistPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }} />
 
       <main className="min-h-screen bg-gray-50 pt-16">
         {/* Hero */}

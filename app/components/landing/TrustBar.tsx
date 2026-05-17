@@ -22,8 +22,8 @@ export default function TrustBar() {
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
             TendorAI profiles are built from authoritative UK sources &mdash; SRA Solicitors Register,
             ICAEW Chartered Accountant directory, FCA Financial Services Register, and Companies House.
-            12,793 verified UK firms across SRA, ICAEW, FCA, and Companies House &mdash; so AI systems see
-            accurate, trustworthy information from day one.
+            63,406 verified UK firms across SRA, ICAEW, FCA, Propertymark, and Companies House &mdash; so AI
+            systems see accurate, trustworthy information from day one.
           </p>
         </div>
       </div>
