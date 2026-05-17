@@ -15,7 +15,7 @@ This is the Next.js frontend. The Express/Node.js backend is a separate repo. Ne
 - Email: Resend
 
 ## Architecture Rules
-- Commit content and documentation changes via feature branch + PR. Direct commits to main are reserved for trivial operational fixes only.
+- Branch workflow: main is branch-protected. All changes go through feature branches and PRs. Feature branch naming: fix/[description] or feat/[description]. One PR per logical unit of work. Scott merges manually after reviewing Vercel preview.
 - ALWAYS run `npx tsc --noEmit` before committing and fix all errors first
 - NEVER create a Next.js API route for data that comes from the Express backend
 - NEVER duplicate pages that already exist — search before creating
@@ -111,7 +111,7 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 - Content production follows the **TendorAI Content OS** at `docs/content-os/tendorai-content-os.md` — the canonical format and process definition. Never reference legacy framework names (v6, v7, v8, v9, v9.1, "AEO Format", "Yadav format") in code, copy, or documentation.
 
 ## Known Issues to Never Repeat
-- Push content and documentation changes to feature branches and merge via PR. Direct push to main is reserved for trivial operational fixes only and may be blocked by branch protection.
+- main is branch-protected. Never push directly to main — it will be rejected. All changes go through a feature branch (fix/[description] or feat/[description]) and a PR that Scott merges manually after reviewing the Vercel preview.
 - Do not create /ai-visibility-checker — deleted, redirects to /aeo-report
 - Do not add "Pricing" as a standalone nav item — lives at /for-vendors#pricing
 - Do not add "Home" to the main Header navigation — the logo handles this. BreadcrumbList breadcrumbs MAY include "Home" as the first item per Google's structured data guidelines and SEO best practice.
@@ -155,6 +155,6 @@ Run these with /command-name in Claude Code:
 ## Before Committing
 1. Run /pre-deploy
 2. Run `npx tsc --noEmit` — fix all errors
-3. Verify you are on main branch
+3. Verify you are on a feature branch (fix/[description] or feat/[description]), never main
 4. Write a descriptive commit message
-5. Push to main
+5. Push the feature branch to origin and open a PR — Scott merges manually after reviewing the Vercel preview
