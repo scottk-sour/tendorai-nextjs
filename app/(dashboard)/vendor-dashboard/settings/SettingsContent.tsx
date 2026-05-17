@@ -89,7 +89,7 @@ interface FirmFacts {
   uniqueSellingPoints: string[];
   partners: FirmFactsPartner[];
   feeEarnerCount: number;
-  yearFounded: number;
+  yearEstablished: number;
   additionalOffices: FirmFactsOffice[];
   awards: string[];
   memberships: string[];
@@ -167,7 +167,7 @@ const DEFAULT_FIRM_FACTS: FirmFacts = {
   uniqueSellingPoints: ['', '', '', '', ''],
   partners: [],
   feeEarnerCount: 0,
-  yearFounded: 0,
+  yearEstablished: 0,
   additionalOffices: [],
   awards: [],
   memberships: [],
@@ -396,7 +396,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               })(),
               partners: data.vendor.firmFacts?.partners || [],
               feeEarnerCount: data.vendor.firmFacts?.feeEarnerCount || 0,
-              yearFounded: data.vendor.firmFacts?.yearFounded || 0,
+              yearEstablished: data.vendor.firmFacts?.yearEstablished || 0,
               additionalOffices: data.vendor.firmFacts?.additionalOffices || [],
               awards: data.vendor.firmFacts?.awards || [],
               memberships: data.vendor.firmFacts?.memberships || [],
@@ -485,7 +485,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
           ],
           partners: ff.partners || [],
           feeEarnerCount: ff.feeEarnerCount || 0,
-          yearFounded: ff.yearFounded ?? ff.yearEstablished ?? 0,
+          yearEstablished: ff.yearEstablished || 0,
           additionalOffices: ff.additionalOffices || [],
           awards: ff.awards || [],
           memberships: ff.memberships || [],
@@ -553,7 +553,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
       ['uniqueSellingPoints', ff.uniqueSellingPoints],
       ['partners', ff.partners],
       ['feeEarnerCount', ff.feeEarnerCount],
-      ['yearFounded', ff.yearFounded],
+      ['yearEstablished', ff.yearEstablished],
       ['additionalOffices', ff.additionalOffices],
       ['awards', ff.awards],
       ['memberships', ff.memberships],
@@ -1817,7 +1817,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               />
             </div>
 
-            {/* feeEarnerCount + yearFounded */}
+            {/* feeEarnerCount + yearEstablished */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Fee earner count</label>
@@ -1842,14 +1842,14 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                   min="1700"
                   max={new Date().getFullYear()}
                   placeholder="e.g. 1998"
-                  value={profile.firmFacts.yearFounded || ''}
+                  value={profile.firmFacts.yearEstablished || ''}
                   onChange={(e) =>
                     setProfile((prev) => ({
                       ...prev,
-                      firmFacts: { ...prev.firmFacts, yearFounded: Number(e.target.value) || 0 },
+                      firmFacts: { ...prev.firmFacts, yearEstablished: Number(e.target.value) || 0 },
                     }))
                   }
-                  onBlur={() => handleFirmFactBlur('yearFounded', profile.firmFacts.yearFounded)}
+                  onBlur={() => handleFirmFactBlur('yearEstablished', profile.firmFacts.yearEstablished)}
                   className="input"
                 />
               </div>
