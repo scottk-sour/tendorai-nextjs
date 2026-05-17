@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: "For Firms — AI is Recommending Your Competitors. We Fix That.",
-  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month (47 spots remaining). No agency required.",
+  description: "200M people now ask ChatGPT instead of Google. Get your business recommended by AI platforms. Free profile, Pro plan at £299/month. No agency required.",
   alternates: { canonical: 'https://www.tendorai.com/for-vendors' },
   openGraph: {
     title: 'For Firms — AI is Recommending Your Competitors. We Fix That.',
@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: 'How does TendorAI get my firm recommended by AI?',
-    a: 'TendorAI installs structured schema markup on your website that tells ChatGPT, Claude, Perplexity, Gemini, Grok, and Meta AI exactly what your firm does, where you are, and what credentials you hold. AI platforms use this structured data to decide which firms to recommend. Without it, AI has to guess from unstructured page content — and usually recommends a competitor who has made it easier.',
+    a: 'TendorAI installs structured schema markup on your website that tells ChatGPT, Claude, Perplexity, Gemini, Grok, and Google AI Overviews exactly what your firm does, where you are, and what credentials you hold. AI platforms use this structured data to decide which firms to recommend. Without it, AI has to guess from unstructured page content — and usually recommends a competitor who has made it easier.',
   },
   {
     q: 'What is AI visibility and why does it matter?',
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: 'How is TendorAI different from SEO agencies?',
-    a: 'SEO agencies optimise your website for Google search rankings. TendorAI optimises your structured data for AI recommendation engines — ChatGPT, Claude, Perplexity, Gemini, Grok, and Meta AI. We install schema markup on your website, write AI-optimised blog content, generate LinkedIn and Facebook posts, and scan six AI platforms weekly. Agencies charge £1,500 to £8,000 per month for manual work. TendorAI is £299 per month and everything is automatic.',
+    a: 'SEO agencies optimise your website for Google search rankings. TendorAI optimises your structured data for AI recommendation engines — ChatGPT, Claude, Perplexity, Gemini, Grok, and Google AI Overviews. We install schema markup on your website, write AI-optimised blog content, generate LinkedIn and Facebook posts, and scan six AI platforms weekly. Agencies charge £1,500 to £8,000 per month for manual work. TendorAI is £299 per month and everything is automatic.',
   },
   {
     q: 'How long before I see results?',
@@ -51,7 +51,7 @@ const pricingJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: 'TendorAI Pro',
-  description: 'AI visibility platform for UK professional services firms. Schema markup installation, AI blog writer, social publishing, weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.',
+  description: 'AI visibility platform for UK professional services firms. Schema markup installation, AI blog writer, social publishing, weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews.',
   brand: { '@type': 'Organization', name: 'TendorAI' },
   offers: [
     {
@@ -167,15 +167,16 @@ export default function ForVendorsPage() {
               How It Works
             </h2>
             <p className="text-[var(--text2)] text-lg max-w-2xl mx-auto">
-              From invisible to AI-recommended in four steps
+              The five-stage loop TendorAI runs on every Pro account
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
             {[
-              { step: '1', title: 'We list you', description: 'Your business gets a free profile built from public data — regulatory registers (SRA, ICAEW, FCA) or Companies House.' },
-              { step: '2', title: 'You claim & enrich', description: 'Add pricing, accreditations, and specialisms — the structured data AI needs.' },
-              { step: '3', title: 'AI crawlers index us', description: 'ChatGPT, Claude, Perplexity, and Google AI all crawl your enriched profile.' },
-              { step: '4', title: 'You get the client', description: 'AI recommends you by name. Customer comes direct. No bidding. No shared leads.' },
+              { step: '1', title: 'Measure', description: 'Reconnaissance Agent scans six AI platforms daily and scores your visibility.' },
+              { step: '2', title: 'Diagnose', description: "Detective Agent identifies why you're missed, per platform, per prompt." },
+              { step: '3', title: 'Fix', description: 'Writer Agent drafts content; engineering updates schema. Held in your approval queue.' },
+              { step: '4', title: 'Deploy', description: 'Approved fixes go live automatically — to your profile, your website, and directories.' },
+              { step: '5', title: 'Track', description: 'Reporter Agent aggregates the week into a single dashboard — the Weekly Pro Report.' },
             ].map((step) => (
               <div key={step.step} className="text-center">
                 <div className="w-12 h-12 rounded-full bg-purple-100 text-[var(--purple-start)] font-bold text-xl flex items-center justify-center mx-auto mb-4">
@@ -266,9 +267,8 @@ export default function ForVendorsPage() {
                   <div className="mb-1">
                     <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">£299</span>
                     <span className="text-gray-500">/month</span>
-                    <span className="ml-2 text-sm font-semibold text-amber-600">47 spots remaining</span>
                   </div>
-                  <p className="text-xs text-gray-400 italic">Early-adopter pricing &mdash; the first 50 firms lock in at &pound;299/month. 47 spots remaining.</p>
+                  <p className="text-xs text-gray-400 italic">Early-adopter pricing &mdash; first 50 customers lock in &pound;299/month.</p>
                 </div>
                 <p className="text-sm text-gray-500 text-center mb-6">Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.</p>
 
@@ -314,8 +314,8 @@ export default function ForVendorsPage() {
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tracking &amp; Visibility</p>
                 <ul className="space-y-2.5 mb-5">
                   {[
-                    'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
-                    'Email alert when any AI platform recommends you — ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
+                    'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews',
+                    'Email alert when any AI platform recommends you — ChatGPT, Perplexity, Claude, Gemini, Grok, or Google AI Overviews',
                     'Weekly AI Visibility Score with trend tracking',
                     'Competitor comparison \u2014 see who AI recommends instead',
                     'Profile gaps report \u2014 exact fields missing and why they matter',
@@ -397,12 +397,12 @@ export default function ForVendorsPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
-                    ['Monthly cost', '£1,500 — £8,000', '£299/month (47 spots remaining)'],
+                    ['Monthly cost', '£1,500 — £8,000', '£299/month'],
                     ['Contract', '12 months minimum', 'Month-to-month, cancel anytime'],
                     ['Time to go live', '3–6 months', 'Installed within 48 hours'],
                     ['You need to do', 'Attend meetings, approve content, provide assets', 'Just give us your website login'],
                     ['What gets installed', 'Manual audit, maybe some schema', 'AI-optimised data that syncs with your profile'],
-                    ['AI platforms covered', 'Usually 1–2', 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI'],
+                    ['AI platforms covered', 'Usually 1–2', 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews'],
                     ['If you cancel', 'You keep whatever they built', 'Download your schema file and self-host it — your data stays yours forever'],
                     ['Content & reputation', 'Manual, £800–£2,000/month extra', 'AI blog writer, social publishing, review collection — included'],
                     ['Ongoing updates', 'You pay for every change', 'Automatic — update TendorAI, your website updates too'],

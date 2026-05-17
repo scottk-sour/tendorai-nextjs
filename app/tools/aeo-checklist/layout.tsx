@@ -6,6 +6,33 @@ export const metadata: Metadata = {
   alternates: { canonical: '/tools/aeo-checklist' },
 };
 
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI AEO Checklist',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'AI Visibility Tool',
+  description:
+    'Interactive AI visibility readiness checklist for UK professional services firms — score your firm across directory presence, schema, content, and AI signals.',
+  operatingSystem: 'Web',
+  url: 'https://www.tendorai.com/tools/aeo-checklist',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP' },
+  provider: { '@type': 'Organization', name: 'TendorAI Ltd', url: 'https://www.tendorai.com' },
+  isPartOf: {
+    '@type': 'SoftwareApplication',
+    name: 'TendorAI',
+    url: 'https://www.tendorai.com/ai-visibility-platform',
+  },
+};
+
 export default function AeoChecklistLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+      />
+      {children}
+    </>
+  );
 }

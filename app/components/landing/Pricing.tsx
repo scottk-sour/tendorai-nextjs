@@ -69,12 +69,12 @@ const plans: Plan[] = [
 ];
 
 const comparisonRows = [
-  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month (47 spots remaining)' },
+  { label: 'Monthly cost', agency: '£1,500–£8,000', tendorai: '£299/month' },
   { label: 'Contract', agency: '12 months minimum', tendorai: 'Month-to-month, cancel anytime' },
   { label: 'Time to go live', agency: '3–6 months', tendorai: 'Installed within 48 hours' },
   { label: 'You need to do', agency: 'Attend meetings, approve content', tendorai: 'Just give us your website login' },
   { label: 'What gets installed', agency: 'Manual audit, maybe some schema', tendorai: 'AI-optimised data that syncs with your profile' },
-  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI' },
+  { label: 'AI platforms covered', agency: 'Usually 1–2', tendorai: 'ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews' },
   { label: 'If you cancel', agency: 'You keep whatever they built', tendorai: 'Download your schema file and self-host it — your data stays yours forever' },
   { label: 'Content & reputation', agency: 'Manual, £800–£2,000/month extra', tendorai: 'AI blog writer, social publishing, review collection — included' },
   { label: 'Ongoing updates', agency: 'You pay for every change', tendorai: 'Automatic — update TendorAI, your website updates too' },
@@ -108,10 +108,9 @@ export default function Pricing() {
                 <div className="mb-0.5">
                   <span className="text-3xl font-bold text-[var(--text)]">{plan.price}</span>
                   <span className="text-[var(--text2)] text-sm">{plan.period}</span>
-                  {plan.popular && <span className="ml-2 text-xs font-semibold text-purple-600">47 spots remaining</span>}
                 </div>
                 {plan.popular && (
-                  <p className="text-[10px] text-gray-400 italic mb-1">Early-adopter pricing &mdash; the first 50 firms lock in at &pound;299/month. 47 spots remaining.</p>
+                  <p className="text-[10px] text-gray-400 italic mb-1">Early-adopter pricing &mdash; first 50 customers lock in &pound;299/month.</p>
                 )}
 
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>

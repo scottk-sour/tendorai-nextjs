@@ -63,12 +63,43 @@ const faqSchema = {
   ],
 };
 
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI AI Visibility Report',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'AI Visibility Tool',
+  description:
+    'Free AI visibility checker — see whether ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews recommend your UK business.',
+  operatingSystem: 'Web',
+  url: 'https://www.tendorai.com/aeo-report',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'GBP',
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'TendorAI Ltd',
+    url: 'https://www.tendorai.com',
+  },
+  isPartOf: {
+    '@type': 'SoftwareApplication',
+    name: 'TendorAI',
+    url: 'https://www.tendorai.com/ai-visibility-platform',
+  },
+};
+
 export default function AeoReportPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
       />
       <Suspense>
         <AeoReportClient />

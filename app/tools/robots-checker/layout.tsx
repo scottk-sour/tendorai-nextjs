@@ -7,6 +7,33 @@ export const metadata: Metadata = {
   alternates: { canonical: '/tools/robots-checker' },
 };
 
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'TendorAI AI Crawler Checker',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'AI Visibility Tool',
+  description:
+    'Free check of whether AI crawlers — GPTBot, ClaudeBot, PerplexityBot and others — are allowed to reach and read a website.',
+  operatingSystem: 'Web',
+  url: 'https://www.tendorai.com/tools/robots-checker',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP' },
+  provider: { '@type': 'Organization', name: 'TendorAI Ltd', url: 'https://www.tendorai.com' },
+  isPartOf: {
+    '@type': 'SoftwareApplication',
+    name: 'TendorAI',
+    url: 'https://www.tendorai.com/ai-visibility-platform',
+  },
+};
+
 export default function RobotsCheckerLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+      />
+      {children}
+    </>
+  );
 }
