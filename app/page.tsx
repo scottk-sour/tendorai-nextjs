@@ -7,6 +7,7 @@ import SectorBenefits from './components/landing/SectorBenefits';
 import ConversationDemo from './components/landing/ConversationDemo';
 import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
+import BeforeAfterProof from './components/landing/BeforeAfterProof';
 import Pricing from './components/landing/Pricing';
 import FinalCTA from './components/landing/FinalCTA';
 
@@ -131,6 +132,9 @@ export default function HomePage() {
 
         {/* Case study — TendorAI's own Searchable.com proof */}
         <CustomerTestimonial />
+
+        {/* Before/After — TendorAI's own 6-week visibility journey */}
+        <BeforeAfterProof />
 
         {/* What AI Platforms Say */}
         <AiTestimonials />

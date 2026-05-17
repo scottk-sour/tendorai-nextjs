@@ -172,50 +172,62 @@ export default function Hero() {
               style={{ background: 'var(--gradient-hero)' }}
             />
 
-            {/* Desktop: 3+2 grid layout — cards 01/02/03 on row 1, 04/05 left-aligned on row 2 */}
+            {/* Desktop: horizontal flow — five stages connected left-to-right by chevrons */}
             <ol
-              className="not-prose relative hidden lg:grid lg:grid-cols-3 gap-6 list-none p-0 m-0"
+              className="not-prose relative hidden lg:flex items-stretch list-none p-0 m-0"
               style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
             >
-              {loopStages.map((stage) => (
-                <li
-                  key={stage.title}
-                  className="list-none group h-full bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
-                  style={{ listStyle: 'none' }}
-                >
-                  <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
-                    {stage.number}
-                  </span>
-                  <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
-                    {stage.title}
-                  </h3>
-                  <div className="border-t border-[var(--border)] mt-3 mb-3" />
-                  <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
-                    {stage.oneLiner}
-                  </p>
-                  <p className="text-xs italic text-purple-600 mt-4 leading-snug">
-                    {stage.proof}
-                  </p>
-                </li>
+              {loopStages.map((stage, idx) => (
+                <Fragment key={stage.title}>
+                  <li
+                    className="list-none group flex-1 min-w-0 bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-4 flex flex-col text-left"
+                    style={{ listStyle: 'none' }}
+                  >
+                    <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                      {stage.number}
+                    </span>
+                    <h3 className="font-serif text-base font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
+                      {stage.title}
+                    </h3>
+                    <div className="border-t border-[var(--border)] mt-2.5 mb-2.5" />
+                    <p className="text-xs text-[var(--text2)] leading-relaxed flex-1">
+                      {stage.oneLiner}
+                    </p>
+                    <p className="text-[11px] italic text-purple-600 mt-3 leading-snug">
+                      {stage.proof}
+                    </p>
+                  </li>
+                  {idx < loopStages.length - 1 && (
+                    <div className="flex items-center px-1 text-purple-400" aria-hidden>
+                      <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  )}
+                </Fragment>
               ))}
             </ol>
 
-            {/* Loop-back dashed line (desktop only) */}
-            <div className="relative hidden lg:block mt-5 px-8" aria-hidden>
+            {/* Loop-back curve — visual cue that the five stages run as a continuous cycle */}
+            <div className="relative hidden lg:block mt-3">
               <svg
-                className="w-full h-10 text-[var(--border2)]"
-                viewBox="0 0 1000 40"
+                className="w-full h-12 text-purple-300"
+                viewBox="0 0 1000 48"
                 preserveAspectRatio="none"
                 fill="none"
                 stroke="currentColor"
+                aria-hidden
               >
                 <path
-                  d="M 970 4 Q 970 34 500 34 Q 30 34 30 4"
-                  strokeWidth="1"
+                  d="M 968 4 Q 968 42 500 42 Q 32 42 32 4"
+                  strokeWidth="1.5"
                   strokeDasharray="5 5"
                 />
-                <path d="M 30 4 L 22 12 M 30 4 L 38 12" strokeWidth="1.5" />
+                <path d="M 32 4 L 24 13 M 32 4 L 40 13" strokeWidth="2" />
               </svg>
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs font-semibold text-purple-600">
+                Continuous loop. Every week.
+              </span>
             </div>
 
             {/* Mobile / tablet: stacked cards with vertical connectors */}
@@ -242,7 +254,7 @@ export default function Hero() {
                     <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
                   </li>
                   {idx < loopStages.length - 1 && (
-                    <div className="flex justify-center text-gray-400" aria-hidden>
+                    <div className="flex justify-center text-purple-400" aria-hidden>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
                       </svg>
@@ -251,6 +263,14 @@ export default function Hero() {
                 </Fragment>
               ))}
             </ol>
+
+            {/* Mobile loop-back cue — the five stages run as a continuous cycle */}
+            <div className="lg:hidden mt-3 flex items-center justify-center gap-2 text-purple-600">
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span className="text-xs font-semibold">Continuous loop. Every week.</span>
+            </div>
 
             {/* Free tools row — separate from the Loop ol; Loop schema stays 5 steps */}
             <div className="mt-12">
