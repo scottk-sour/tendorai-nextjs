@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { SERVICES, SERVICE_KEYS } from '@/lib/constants/services';
 import { PLANS } from '@/lib/constants/plans';
@@ -433,13 +433,18 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     setMessage(null);
 
     try {
+      // firmFacts is persisted via the dedicated /api/firmfacts API, not the
+      // vendor profile blob — exclude it explicitly from this payload.
+      const profilePayload: Record<string, unknown> = { ...profile };
+      delete profilePayload.firmFacts;
+
       const response = await fetch(`${API_URL}/api/vendors/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(profile),
+        body: JSON.stringify(profilePayload),
       });
 
       const data = await response.json();
@@ -455,6 +460,117 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
     } finally {
       setSaving(false);
     }
+  };
+
+  // ─── Firm Facts — wired to the dedicated /api/firmfacts API ─────────
+  const firmFactsLoadedRef = useRef(false);
+
+  const loadFirmFacts = useCallback(async () => {
+    const token = getCurrentToken();
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_URL}/api/firmfacts/me`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const ff = data.firmFacts || data || {};
+      const usp: string[] = ff.uniqueSellingPoints || [];
+      setProfile((prev) => ({
+        ...prev,
+        firmFacts: {
+          clientTypes: ff.clientTypes || [],
+          uniqueSellingPoints: [
+            usp[0] || '', usp[1] || '', usp[2] || '', usp[3] || '', usp[4] || '',
+          ],
+          partners: ff.partners || [],
+          feeEarnerCount: ff.feeEarnerCount || 0,
+          yearFounded: ff.yearFounded ?? ff.yearEstablished ?? 0,
+          additionalOffices: ff.additionalOffices || [],
+          awards: ff.awards || [],
+          memberships: ff.memberships || [],
+          toneOfVoice: (ff.toneOfVoice || '') as ToneOfVoice,
+          brandKeywords: ff.brandKeywords || [],
+          competitors: ff.competitors || [],
+        },
+      }));
+    } catch (error) {
+      console.error('Failed to load firm facts:', error);
+    }
+  }, [getCurrentToken]);
+
+  // Load firmFacts from its own endpoint the first time the tab is opened.
+  useEffect(() => {
+    if (activeTab === 'firm-facts' && !firmFactsLoadedRef.current) {
+      firmFactsLoadedRef.current = true;
+      loadFirmFacts();
+    }
+  }, [activeTab, loadFirmFacts]);
+
+  const putFirmFact = useCallback(
+    async (fieldName: string, value: unknown): Promise<boolean> => {
+      const token = getCurrentToken();
+      if (!token) return false;
+      try {
+        const res = await fetch(`${API_URL}/api/firmfacts/me`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ fieldName, value, source: 'settings' }),
+        });
+        return res.ok;
+      } catch (error) {
+        console.error('Failed to save firm fact:', fieldName, error);
+        return false;
+      }
+    },
+    [getCurrentToken],
+  );
+
+  // Save a single firmFacts field as it loses focus.
+  const handleFirmFactBlur = useCallback(
+    async (fieldName: string, value: unknown) => {
+      const ok = await putFirmFact(fieldName, value);
+      if (!ok) {
+        setMessage({
+          text: 'Failed to save firm facts — please retry',
+          type: 'error',
+        });
+      }
+    },
+    [putFirmFact],
+  );
+
+  const handleFirmFactsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    setMessage(null);
+    const ff = profile.firmFacts;
+    const entries: Array<[string, unknown]> = [
+      ['clientTypes', ff.clientTypes],
+      ['uniqueSellingPoints', ff.uniqueSellingPoints],
+      ['partners', ff.partners],
+      ['feeEarnerCount', ff.feeEarnerCount],
+      ['yearFounded', ff.yearFounded],
+      ['additionalOffices', ff.additionalOffices],
+      ['awards', ff.awards],
+      ['memberships', ff.memberships],
+      ['toneOfVoice', ff.toneOfVoice],
+      ['brandKeywords', ff.brandKeywords],
+      ['competitors', ff.competitors],
+    ];
+    let allOk = true;
+    for (const [fieldName, value] of entries) {
+      if (!(await putFirmFact(fieldName, value))) allOk = false;
+    }
+    setMessage(
+      allOk
+        ? { text: 'Firm facts saved successfully!', type: 'success' }
+        : { text: 'Some firm facts failed to save — please retry', type: 'error' },
+    );
+    setSaving(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -1613,7 +1729,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
 
       {/* Firm Facts Tab */}
       {activeTab === 'firm-facts' && (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleFirmFactsSubmit} className="space-y-6">
           <div className="card p-6 space-y-6">
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Firm Facts</h2>
@@ -1638,6 +1754,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     firmFacts: { ...prev.firmFacts, clientTypes: splitCommaList(e.target.value) },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('clientTypes', profile.firmFacts.clientTypes)}
                 className="input"
               />
             </div>
@@ -1669,6 +1786,9 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                         firmFacts: { ...prev.firmFacts, uniqueSellingPoints: usp },
                       }));
                     }}
+                    onBlur={() =>
+                      handleFirmFactBlur('uniqueSellingPoints', profile.firmFacts.uniqueSellingPoints)
+                    }
                     className="input"
                   />
                 ))}
@@ -1690,6 +1810,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     firmFacts: { ...prev.firmFacts, partners: textToPartners(e.target.value) },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('partners', profile.firmFacts.partners)}
                 rows={6}
                 placeholder={'Sarah Williams | Partner | ACA, FCCA | 12\nJames Lee | Senior Solicitor | LLB, TEP | 8'}
                 className="input font-mono text-sm"
@@ -1710,6 +1831,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                       firmFacts: { ...prev.firmFacts, feeEarnerCount: Number(e.target.value) || 0 },
                     }))
                   }
+                  onBlur={() => handleFirmFactBlur('feeEarnerCount', profile.firmFacts.feeEarnerCount)}
                   className="input"
                 />
               </div>
@@ -1727,6 +1849,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                       firmFacts: { ...prev.firmFacts, yearFounded: Number(e.target.value) || 0 },
                     }))
                   }
+                  onBlur={() => handleFirmFactBlur('yearFounded', profile.firmFacts.yearFounded)}
                   className="input"
                 />
               </div>
@@ -1745,6 +1868,9 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     ...prev,
                     firmFacts: { ...prev.firmFacts, additionalOffices: textToOffices(e.target.value) },
                   }))
+                }
+                onBlur={() =>
+                  handleFirmFactBlur('additionalOffices', profile.firmFacts.additionalOffices)
                 }
                 rows={4}
                 placeholder={'Bristol | BS1 4AB\nCardiff | CF10 1EP'}
@@ -1767,6 +1893,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('awards', profile.firmFacts.awards)}
                 rows={4}
                 className="input"
               />
@@ -1789,6 +1916,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('memberships', profile.firmFacts.memberships)}
                 rows={4}
                 className="input"
               />
@@ -1806,6 +1934,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     firmFacts: { ...prev.firmFacts, toneOfVoice: e.target.value as ToneOfVoice },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('toneOfVoice', profile.firmFacts.toneOfVoice)}
                 className="input"
               >
                 <option value="">Select tone&hellip;</option>
@@ -1831,6 +1960,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     firmFacts: { ...prev.firmFacts, brandKeywords: splitCommaList(e.target.value) },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('brandKeywords', profile.firmFacts.brandKeywords)}
                 className="input"
               />
             </div>
@@ -1850,6 +1980,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                     firmFacts: { ...prev.firmFacts, competitors: splitCommaList(e.target.value) },
                   }))
                 }
+                onBlur={() => handleFirmFactBlur('competitors', profile.firmFacts.competitors)}
                 className="input"
               />
             </div>

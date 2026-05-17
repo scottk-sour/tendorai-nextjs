@@ -5,8 +5,8 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import type {
   CompletionState,
   FirmFacts,
+  FirmFactsField,
   SaveState,
-  Stage1Field,
 } from '../types';
 
 const API_URL =
@@ -18,6 +18,7 @@ const DEBOUNCE_MS = 300;
 const DEFAULT_COMPLETION: CompletionState = {
   percentage: 0,
   stage1Complete: false,
+  stage2Complete: false,
   missingFields: [],
 };
 
@@ -26,8 +27,8 @@ interface UseFirmFactsReturn {
   completion: CompletionState;
   loading: boolean;
   error: string | null;
-  saveStates: Partial<Record<Stage1Field, SaveState>>;
-  updateField: (fieldName: Stage1Field, value: unknown) => void;
+  saveStates: Partial<Record<FirmFactsField, SaveState>>;
+  updateField: (fieldName: FirmFactsField, value: unknown) => void;
   refresh: () => Promise<void>;
 }
 
@@ -38,10 +39,10 @@ export function useFirmFacts(): UseFirmFactsReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saveStates, setSaveStates] = useState<
-    Partial<Record<Stage1Field, SaveState>>
+    Partial<Record<FirmFactsField, SaveState>>
   >({});
 
-  const debounceTimers = useRef<Partial<Record<Stage1Field, NodeJS.Timeout>>>({});
+  const debounceTimers = useRef<Partial<Record<FirmFactsField, NodeJS.Timeout>>>({});
 
   const fetchCompletion = useCallback(async () => {
     const token = getCurrentToken();
@@ -55,6 +56,7 @@ export function useFirmFacts(): UseFirmFactsReturn {
         setCompletion({
           percentage: Number(data.percentage) || 0,
           stage1Complete: Boolean(data.stage1Complete),
+          stage2Complete: Boolean(data.stage2Complete),
           missingFields: Array.isArray(data.missingFields)
             ? data.missingFields
             : [],
@@ -95,7 +97,7 @@ export function useFirmFacts(): UseFirmFactsReturn {
   }, [refresh]);
 
   const sendUpdate = useCallback(
-    async (fieldName: Stage1Field, value: unknown) => {
+    async (fieldName: FirmFactsField, value: unknown) => {
       const token = getCurrentToken();
       if (!token) {
         setSaveStates((s) => ({ ...s, [fieldName]: 'error' }));
@@ -112,7 +114,7 @@ export function useFirmFacts(): UseFirmFactsReturn {
           body: JSON.stringify({
             fieldName,
             value,
-            source: 'onboarding-stage-1',
+            source: 'onboarding',
           }),
         });
         if (!res.ok) {
@@ -129,7 +131,7 @@ export function useFirmFacts(): UseFirmFactsReturn {
   );
 
   const updateField = useCallback(
-    (fieldName: Stage1Field, value: unknown) => {
+    (fieldName: FirmFactsField, value: unknown) => {
       setFirmFacts((prev) => ({ ...(prev || {}), [fieldName]: value }));
       const existing = debounceTimers.current[fieldName];
       if (existing) clearTimeout(existing);
