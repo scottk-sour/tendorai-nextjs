@@ -350,6 +350,16 @@ export default function Hero() {
                   </span>
                 </Link>
               </div>
+
+              <p className="text-center text-sm text-[var(--text2)] mt-6">
+                Comparing AI visibility tools?{' '}
+                <Link
+                  href="/best-ai-visibility-tools-uk-solicitors"
+                  className="font-semibold text-purple-600 hover:underline"
+                >
+                  See the 2026 UK solicitor comparison &rarr;
+                </Link>
+              </p>
             </div>
 
             {/* Closing line */}

@@ -28,6 +28,22 @@ export default function Page() {
   return (
     <>
       <VerticalLandingPage config={config} />
+
+      {/* Comparison page cross-link */}
+      <section className="bg-purple-50 border-y border-purple-100 py-5">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-sm md:text-base text-[var(--text)]">
+            Choosing a tool?{' '}
+            <Link
+              href="/best-ai-visibility-tools-uk-solicitors"
+              className="font-semibold text-purple-700 hover:underline"
+            >
+              Compare TendorAI vs Rank4AI, MLT Digital, Peec AI, Searchable &rarr;
+            </Link>
+          </p>
+        </div>
+      </section>
+
       <section className="py-16 bg-white border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold text-[var(--text)] mb-8 text-center">

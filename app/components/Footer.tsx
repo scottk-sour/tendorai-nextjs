@@ -14,6 +14,7 @@ const footerNavigation = {
     { name: 'AI Crawler Checker', href: '/tools/robots-checker' },
     { name: 'AEO Checklist', href: '/tools/aeo-checklist' },
     { name: 'Accountancy AI Checklist', href: '/tools/ai-visibility-checklist-accountants' },
+    { name: 'Solicitor Tool Comparison', href: '/best-ai-visibility-tools-uk-solicitors' },
     { name: 'Blog', href: '/resources' },
   ],
   company: [
