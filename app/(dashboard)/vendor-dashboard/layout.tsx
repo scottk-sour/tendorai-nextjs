@@ -33,6 +33,7 @@ function getNavigation(vendorType: string): NavItem[] {
     servicesEntry,
     { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
     { name: 'Approvals', href: '/vendor-dashboard/approvals', icon: 'clipboardCheck', proOnly: true },
+    { name: 'Reports', href: '/vendor-dashboard/reports', icon: 'reports' },
     { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
     { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
     { name: 'Settings', href: '/vendor-dashboard/settings', icon: 'cog' },
@@ -90,6 +91,11 @@ function NavIcon({ icon, className }: { icon: string; className?: string }) {
     clipboardCheck: (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+    reports: (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
   };
