@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import mongoose from 'mongoose';
 import { connectDB, withRetry } from '@/lib/db/connection';
 import { Vendor, VendorPost, Review } from '@/lib/db/models';
@@ -176,11 +176,15 @@ async function getVendorBySlug(slug: string) {
   return withRetry(async () => {
     await connectDB();
     try {
-      const vendor = await Vendor.findOne({ slug })
+      // Match the canonical slug, or any historical slug (PR #77 migration).
+      const vendor = await Vendor.findOne({
+        $or: [{ slug }, { previousSlugs: slug }],
+      })
         .select({
           company: 1,
           email: 1,
           slug: 1,
+          previousSlugs: 1,
           services: 1,
           location: 1,
           businessProfile: 1,
@@ -306,6 +310,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Supplier Not Found | TendorAI' };
   }
 
+  // Accessed via a historical slug — send metadata resolution to the
+  // canonical URL so it never indexes the old slug.
+  if (vendor.slug && vendor.slug !== slug) {
+    redirect(`/suppliers/vendor/${vendor.slug}`);
+  }
+
   const isProfessional = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'].includes(vendor.vendorType || '');
   const vendorTypeLabels: Record<string, string> = {
     solicitor: 'Solicitors',
@@ -396,6 +406,13 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
 
   if (!vendor) {
     notFound();
+  }
+
+  // Accessed via a historical slug (PR #77 migration) → 307 redirect to
+  // the canonical URL. Loop-safe: only redirects when the matched
+  // vendor's canonical slug differs from the slug in the URL.
+  if (vendor.slug && vendor.slug !== slug) {
+    redirect(`/suppliers/vendor/${vendor.slug}`);
   }
 
   const [vendorPosts, vendorReviews] = await Promise.all([

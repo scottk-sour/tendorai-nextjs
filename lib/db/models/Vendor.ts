@@ -132,6 +132,7 @@ export interface IVendor extends Document {
   importSource?: string;
   showPricing?: boolean;
   slug?: string;
+  previousSlugs?: string[];
   firmFacts?: {
     clientTypes?: string[];
     uniqueSellingPoints?: string[];
@@ -380,6 +381,9 @@ const vendorSchema = new Schema<IVendor>(
     importSource: { type: String, trim: true },
     showPricing: { type: Boolean, default: false },
     slug: { type: String, unique: true, sparse: true, trim: true, lowercase: true, index: true },
+    // Historical slugs migrated by backend PR #77 — old profile URLs
+    // resolve through these and 307-redirect to the canonical `slug`.
+    previousSlugs: { type: [String], default: [], index: true },
 
     firmFacts: {
       clientTypes: [{ type: String, trim: true }],
