@@ -1,22 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState, use } from 'react';
-import Link from 'next/link';
+import { use, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/contexts/AuthContext';
-import WeeklyReportHeader from '@/app/components/dashboard/weekly-report/WeeklyReportHeader';
-import HeroSection from '@/app/components/dashboard/weekly-report/HeroSection';
-import PlatformBreakdownSection from '@/app/components/dashboard/weekly-report/PlatformBreakdownSection';
-import LoopSection from '@/app/components/dashboard/weekly-report/LoopSection';
-import DetectiveReasoningSection from '@/app/components/dashboard/weekly-report/DetectiveReasoningSection';
-import CitationsGallerySection from '@/app/components/dashboard/weekly-report/CitationsGallerySection';
-import CompetitorMovesSection from '@/app/components/dashboard/weekly-report/CompetitorMovesSection';
-import {
-  type WeeklyReportDigest,
-  type WeekHeader,
-  type ScoreHistoryEntry,
-  formatLongDate,
-} from '@/app/components/dashboard/weekly-report/types';
+import type { ReportListItem } from '@/app/components/report/types';
 
 const API_URL =
   process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -26,327 +13,84 @@ interface PageProps {
   params: Promise<{ weekStarting: string }>;
 }
 
-interface FetchState {
-  digest: WeeklyReportDigest | null;
-  weeksList: WeekHeader[];
-  scoreHistory: ScoreHistoryEntry[];
-  joinedScore: number | null;
-  joinedAt: string | null;
+// Normalise any ISO date/datetime to a YYYY-MM-DD string for comparison.
+function toDateOnly(iso: string | undefined | null): string {
+  if (!iso) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toISOString().split('T')[0];
 }
 
-type LoadStatus = 'loading' | 'ready' | 'snapshot-not-found' | 'no-history';
-
-export default function WeeklyReportPage({ params }: PageProps) {
-  // Next.js 15 — params is a Promise. Unwrap with React `use`.
+/**
+ * Backwards-compatibility redirect.
+ *
+ * The old PR #45 weekly-report system was replaced by the AI Visibility
+ * Intelligence Report (PR #74). Existing email links and bookmarks to
+ * /vendor-dashboard/weekly-report/YYYY-MM-DD still arrive here — we look up
+ * the matching report by its week start date and forward to the new page.
+ */
+export default function WeeklyReportRedirectPage({ params }: PageProps) {
   const { weekStarting } = use(params);
-
   const router = useRouter();
   const { auth, getCurrentToken } = useAuth();
+  const [message] = useState('Looking up your report…');
 
-  const [data, setData] = useState<FetchState>({
-    digest: null,
-    weeksList: [],
-    scoreHistory: [],
-    joinedScore: null,
-    joinedAt: null,
-  });
-  const [status, setStatus] = useState<LoadStatus>('loading');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const loginRedirect = `/vendor-login?redirect=${encodeURIComponent(
+    `/vendor-dashboard/weekly-report/${weekStarting}`,
+  )}`;
 
-  const loadAll = useCallback(async () => {
+  const resolve = useCallback(async () => {
     const token = getCurrentToken();
-    if (!token) return;
-
-    setStatus('loading');
-    setErrorMessage(null);
-
-    const headers = { Authorization: `Bearer ${token}` };
-
-    let saw401 = false;
-    const guard = (res: Response): Response => {
-      if (res.status === 401) saw401 = true;
-      return res;
-    };
-
-    const [snapshotR, listR, historyR] = await Promise.allSettled([
-      fetch(`${API_URL}/api/vendor/weekly-report/${encodeURIComponent(weekStarting)}`, {
-        headers,
-      }).then(guard),
-      fetch(`${API_URL}/api/vendor/weekly-report/list`, { headers }).then(guard),
-      fetch(
-        `${API_URL}/api/vendor/weekly-report/${encodeURIComponent(weekStarting)}/score-history`,
-        { headers },
-      ).then(guard),
-    ]);
-
-    if (saw401) {
-      router.replace(
-        `/vendor-login?redirect=/vendor-dashboard/weekly-report/${encodeURIComponent(weekStarting)}`,
-      );
+    const vendorId = auth.user?.userId;
+    if (!token || !vendorId) {
+      router.replace(loginRedirect);
       return;
     }
 
-    // Weeks list — always attempted (needed for both ready and 404 states).
-    // Wrapper key: { reports: WeekHeader[] }
-    let weeksList: WeekHeader[] = [];
-    if (listR.status === 'fulfilled' && listR.value.ok) {
-      try {
-        const listJson = await listR.value.json();
-        const reports = listJson.reports;
-        if (Array.isArray(reports)) {
-          weeksList = (reports as WeekHeader[]).filter(
-            (w) => w && typeof w.weekStarting === 'string' && typeof w.weekEnding === 'string',
-          );
-        }
-        // Non-array response → treat as empty list. Defensive against backend
-        // returning an error envelope where the 200 status was misleading.
-      } catch {
-        // ignore — weeksList stays []
-      }
-    }
-
-    // Score history — flat shape: { history, joinedScore, joinedAt }
-    let scoreHistory: ScoreHistoryEntry[] = [];
-    let joinedScore: number | null = null;
-    let joinedAt: string | null = null;
-    if (historyR.status === 'fulfilled' && historyR.value.ok) {
-      try {
-        const historyJson = await historyR.value.json();
-        if (Array.isArray(historyJson.history)) {
-          scoreHistory = (historyJson.history as ScoreHistoryEntry[]).filter(
-            (h) =>
-              h && typeof h.weekStarting === 'string' && typeof h.score === 'number',
-          );
-        }
-        if (typeof historyJson.joinedScore === 'number') joinedScore = historyJson.joinedScore;
-        if (typeof historyJson.joinedAt === 'string') joinedAt = historyJson.joinedAt;
-      } catch {
-        // ignore
-      }
-    }
-
-    // Snapshot — wrapper key: { report: WeeklyReportDigest }.
-    // 404 → no report for this week.
-    if (snapshotR.status === 'fulfilled') {
-      if (snapshotR.value.status === 404) {
-        setData({
-          digest: null,
-          weeksList,
-          scoreHistory,
-          joinedScore,
-          joinedAt,
-        });
-        setStatus(weeksList.length === 0 ? 'no-history' : 'snapshot-not-found');
+    try {
+      const res = await fetch(`${API_URL}/api/vendors/${vendorId}/reports`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) {
+        router.replace(loginRedirect);
         return;
       }
-      if (!snapshotR.value.ok) {
-        throw new Error(`Snapshot request failed (${snapshotR.value.status})`);
-      }
-      try {
-        const snapshotJson = await snapshotR.value.json();
-        const digest = snapshotJson.report?.digest as WeeklyReportDigest | null | undefined;
-        // Defensive: backend returned 200 but report is null/undefined →
-        // treat as snapshot-not-found (same UX as a true 404).
-        if (!digest) {
-          setData({
-            digest: null,
-            weeksList,
-            scoreHistory,
-            joinedScore,
-            joinedAt,
-          });
-          setStatus(weeksList.length === 0 ? 'no-history' : 'snapshot-not-found');
-          return;
-        }
-        setData({
-          digest,
-          weeksList,
-          scoreHistory,
-          joinedScore,
-          joinedAt,
-        });
-        setStatus('ready');
+      if (!res.ok) {
+        // Can't resolve the specific week — fall back to the reports list.
+        router.replace('/vendor-dashboard/reports');
         return;
-      } catch (err) {
-        throw new Error(
-          err instanceof Error ? err.message : 'Failed to parse snapshot response',
-        );
       }
-    } else {
-      throw snapshotR.reason instanceof Error
-        ? snapshotR.reason
-        : new Error('Snapshot request failed');
+      const json = await res.json();
+      const list = json.reports ?? json.data ?? json;
+      const rows: ReportListItem[] = Array.isArray(list)
+        ? list.filter((r) => r && r._id)
+        : [];
+      const target = toDateOnly(weekStarting);
+      const match = rows.find((r) => toDateOnly(r.weekStartDate) === target);
+      router.replace(
+        match
+          ? `/vendor-dashboard/reports/${match._id}`
+          : '/vendor-dashboard/reports',
+      );
+    } catch {
+      router.replace('/vendor-dashboard/reports');
     }
-  }, [getCurrentToken, weekStarting, router]);
+  }, [auth.user?.userId, getCurrentToken, router, weekStarting, loginRedirect]);
 
   useEffect(() => {
     if (auth.isLoading) return;
     if (!auth.isAuthenticated) {
-      router.replace(
-        `/vendor-login?redirect=/vendor-dashboard/weekly-report/${encodeURIComponent(weekStarting)}`,
-      );
+      router.replace(loginRedirect);
       return;
     }
-    loadAll().catch((err: unknown) => {
-      const msg = err instanceof Error ? err.message : 'Unable to load report';
-      setErrorMessage(msg);
-      setStatus('ready'); // surfaces error UI below; error.tsx is for thrown errors
-    });
-  }, [auth.isAuthenticated, auth.isLoading, loadAll, router, weekStarting]);
-
-  // Auth still resolving — render nothing (loading.tsx covers initial nav).
-  if (auth.isLoading || status === 'loading') {
-    return null;
-  }
-
-  // No-history state — vendor has zero reports yet (just upgraded).
-  if (status === 'no-history') {
-    return (
-      <main className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="card p-8 text-center">
-            <h1
-              className="text-2xl font-bold text-[var(--text)] mb-3"
-              style={{ fontFamily: 'var(--font-serif)' }}
-            >
-              Welcome to Pro
-            </h1>
-            <p className="text-[var(--text2)] max-w-xl mx-auto">
-              Your first weekly report will be generated next Monday morning at 8am
-              UK time. We’ll email you when it’s ready.
-            </p>
-            <Link
-              href="/vendor-dashboard"
-              className="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-            >
-              Back to dashboard
-            </Link>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  // Snapshot 404 — there's no report for this specific week, but other
-  // weeks exist.
-  if (status === 'snapshot-not-found') {
-    const sorted = [...data.weeksList].sort(
-      (a, b) => new Date(a.weekStarting).getTime() - new Date(b.weekStarting).getTime(),
-    );
-    const firstReport = sorted[0]?.weekStarting ?? null;
-    return (
-      <main className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="card p-8">
-            <h1
-              className="text-2xl font-bold text-[var(--text)] mb-3"
-              style={{ fontFamily: 'var(--font-serif)' }}
-            >
-              No report for the week of {formatLongDate(weekStarting)}
-            </h1>
-            {firstReport && (
-              <p className="text-[var(--text2)] mb-6">
-                Reports begin from {formatLongDate(firstReport)}.
-              </p>
-            )}
-            {data.weeksList.length > 0 && (
-              <div>
-                <p className="text-sm font-semibold text-[var(--text)] mb-3">
-                  Available weeks
-                </p>
-                <ul className="space-y-2">
-                  {data.weeksList.map((w) => {
-                    // Backend may serialise weekStarting as full ISO datetime
-                    // — strip to YYYY-MM-DD so the link matches the route.
-                    const datePart = w.weekStarting.includes('T')
-                      ? new Date(w.weekStarting).toISOString().split('T')[0]
-                      : w.weekStarting;
-                    return (
-                      <li key={w.weekStarting}>
-                        <Link
-                          href={`/vendor-dashboard/weekly-report/${datePart}`}
-                          className="text-sm text-purple-700 hover:text-purple-900 font-medium"
-                        >
-                          Week of {formatLongDate(w.weekStarting)} →
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  // Soft-error fallback (network blip etc.) — error.tsx handles thrown.
-  if (errorMessage || !data.digest) {
-    return (
-      <main className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="card p-8">
-            <h1 className="text-xl font-bold text-[var(--text)] mb-2">
-              Couldn’t load this report
-            </h1>
-            <p className="text-[var(--text2)] mb-6">
-              {errorMessage || 'No data returned for this week.'}
-            </p>
-            <button
-              type="button"
-              onClick={() => loadAll().catch(() => undefined)}
-              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-            >
-              Try again
-            </button>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  const digest = data.digest;
+    resolve();
+  }, [auth.isAuthenticated, auth.isLoading, resolve, router, loginRedirect]);
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <WeeklyReportHeader
-          firmName={digest.firmName}
-          weekStarting={digest.weekStarting}
-          weekEnding={digest.weekEnding}
-          generatedAt={digest.generatedAt}
-          weeksList={data.weeksList}
-          currentWeekStarting={weekStarting}
-        />
-
-        <HeroSection
-          digest={digest}
-          scoreHistory={data.scoreHistory}
-          joinedScore={data.joinedScore}
-          joinedAt={data.joinedAt}
-        />
-
-        <PlatformBreakdownSection byPlatform={digest.citations?.byPlatform} />
-
-        <LoopSection digest={digest} vendorId={auth.user?.userId ?? ''} />
-
-        <DetectiveReasoningSection
-          detective={digest.agentActivity?.detective}
-          vendorId={auth.user?.userId ?? ''}
-        />
-
-        <CitationsGallerySection citations={digest.citations} />
-
-        <CompetitorMovesSection
-          competitorMoves={digest.competitorMoves}
-          citations={digest.citations}
-        />
-
-        {/* TODO Section 7 — Next-week plan */}
-        {/* TODO Section 8 — Items needing input */}
-        {/* TODO Section 9 — Footer */}
-      </div>
-    </main>
+    <div className="flex flex-col items-center justify-center py-24 gap-4">
+      <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+      <p className="text-sm text-[var(--text2)]">{message}</p>
+    </div>
   );
 }

@@ -1,12 +1,12 @@
 'use client';
 
 import type { LoopCardProps } from './types';
+import { formatLongDate } from './types';
 import MeasureCard from './MeasureCard';
 import DiagnoseCard from './DiagnoseCard';
 import FixCard from './FixCard';
 import DeployCard from './DeployCard';
 import TrackCard from './TrackCard';
-import { formatLongDate } from '@/app/components/dashboard/weekly-report/types';
 
 function RightArrow() {
   return (

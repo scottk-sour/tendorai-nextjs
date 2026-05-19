@@ -58,3 +58,16 @@ export function isProTier(tier: string | undefined | null): boolean {
   if (!tier) return false;
   return (PRO_TIER_KEYS as readonly string[]).includes(tier.toLowerCase());
 }
+
+// Format a YYYY-MM-DD or ISO date as "5 May 2026" (UK English).
+// Previously lived in the deleted weekly-report module.
+export function formatLongDate(iso: string): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
