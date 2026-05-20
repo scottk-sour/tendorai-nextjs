@@ -43,7 +43,13 @@ export type ApprovalItemType =
   | 'outreach_pitch'
   | 'other';
 
-export type ApprovalStatus = 'pending' | 'approved' | 'rejected' | 'executed' | 'failed';
+export type ApprovalStatus =
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+  | 'executed'
+  | 'failed'
+  | 'firm_completed';
 
 export interface Approval {
   _id: string;
