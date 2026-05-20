@@ -107,11 +107,13 @@ function parseMarkdown(content: string): string {
     })
     // Wrap tables
     .replace(/(<tr>.*?<\/tr>\n?)+/g, '<table class="w-full border-collapse my-6 text-sm">$&</table>')
-    // Lists
-    .replace(/^- (.*$)/gm, '<li class="ml-4 text-gray-600">$1</li>')
-    .replace(/(<li.*<\/li>\n?)+/g, '<ul class="list-disc pl-4 my-4 space-y-2">$&</ul>')
-    // Numbered lists
-    .replace(/^\d+\. (.*$)/gm, '<li class="ml-4 text-gray-600">$1</li>')
+    // Lists — bullets and numbered items get a `data-list` marker so the
+    // wrap rules below can distinguish them; otherwise numbered items
+    // would be stranded as bare <li> (no surrounding <ol>).
+    .replace(/^- (.*$)/gm, '<li data-list="ul" class="ml-4 text-gray-600">$1</li>')
+    .replace(/^\d+\. (.*$)/gm, '<li data-list="ol" class="ml-4 text-gray-600">$1</li>')
+    .replace(/(<li data-list="ul"[^>]*>.*<\/li>\n?)+/g, '<ul class="list-disc pl-4 my-4 space-y-2">$&</ul>')
+    .replace(/(<li data-list="ol"[^>]*>.*<\/li>\n?)+/g, '<ol class="list-decimal pl-4 my-4 space-y-2">$&</ol>')
     // Code blocks
     .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto my-4 text-sm"><code>$1</code></pre>')
     // Inline code
