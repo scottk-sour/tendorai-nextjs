@@ -7,6 +7,9 @@ import ReactMarkdown from 'react-markdown';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Approval } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS, ITEM_TYPE_DESCRIPTIONS } from '@/lib/loop/types';
+import PlaceholderEditor, {
+  parseUniquePlaceholders,
+} from '@/app/components/dashboard/approvals/PlaceholderEditor';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
@@ -28,6 +31,7 @@ const STATUS_BADGE: Record<string, string> = {
   rejected: 'bg-red-100 text-red-700',
   executed: 'bg-green-100 text-green-700',
   failed: 'bg-red-100 text-red-700',
+  firm_completed: 'bg-green-100 text-green-700',
 };
 
 function formatDateTime(iso?: string | null): string {
@@ -261,6 +265,28 @@ export default function VendorApprovalDetailPage() {
         </Link>
       </div>
 
+      {/* firm_completed success banner */}
+      {approval.status === 'firm_completed' && (
+        <div className="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg flex items-start gap-3">
+          <svg
+            className="w-5 h-5 mt-0.5 text-green-600 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <div>
+            <p className="font-semibold">Submitted for final review.</p>
+            <p className="text-sm mt-1">
+              Your details are filled in and the draft is with our team. We&apos;ll be in
+              touch when it&apos;s published.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -285,10 +311,41 @@ export default function VendorApprovalDetailPage() {
       </div>
 
       {/* What it says */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
-        <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
-        <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
-      </div>
+      {(() => {
+        // Interactive placeholder editor only for editable content drafts.
+        // Anything else (other item types, already-decided drafts) keeps the
+        // existing read-only PayloadView.
+        const draftMarkdown =
+          approval.itemType === 'content_draft'
+            ? extractMarkdown(approval.draftPayload)
+            : null;
+        const placeholders =
+          draftMarkdown !== null ? parseUniquePlaceholders(draftMarkdown) : [];
+        const showEditor =
+          approval.status === 'pending' &&
+          draftMarkdown !== null &&
+          placeholders.length > 0;
+
+        return (
+          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+            <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
+            {showEditor ? (
+              <PlaceholderEditor
+                approval={approval}
+                initialDraftText={draftMarkdown as string}
+                initialPlaceholders={placeholders}
+                onApproved={() =>
+                  setApproval((prev) =>
+                    prev ? { ...prev, status: 'firm_completed' } : prev,
+                  )
+                }
+              />
+            ) : (
+              <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
+            )}
+          </div>
+        );
+      })()}
 
       {/* Social variants — only for approved/executed content drafts */}
       {(() => {
