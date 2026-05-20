@@ -37,6 +37,161 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'how-to-get-recommended-by-chatgpt',
+    title: 'How to Get Recommended by ChatGPT: A 2026 Guide for UK Firms',
+    excerpt:
+      'Most UK firms are invisible when clients ask ChatGPT for a recommendation. Here is exactly why, and the steps to get your firm cited by AI in 2026.',
+    metaDescription:
+      'Most UK firms are invisible when clients ask ChatGPT for a recommendation. Here is exactly why, and the steps to get your firm cited by AI in 2026.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-05-20',
+    updatedDate: '2026-05-20',
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/how-to-get-recommended-by-chatgpt',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/how-to-get-recommended-by-chatgpt',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder',
+          url: 'https://www.tendorai.com/about',
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can you pay to be recommended by ChatGPT?',
+        answer:
+          'No. ChatGPT does not sell recommendation placements. You earn a recommendation by being structured, consistent and verifiable enough for the engine to name you with confidence.',
+      },
+      {
+        question: 'Is getting recommended by ChatGPT the same as SEO?',
+        answer:
+          'No. SEO improves where your pages rank in Google results. AI visibility determines whether AI engines name your firm at all. A firm can rank well on Google and still be completely absent from ChatGPT.',
+      },
+      {
+        question: 'Why is my competitor recommended and I’m not?',
+        answer:
+          'Usually because their structured data, regulator listing and business details line up cleanly enough for AI to verify them, and yours do not yet. It is rarely about which firm is better — it is about which firm AI can confidently identify.',
+      },
+      {
+        question: 'Does this apply to firms outside the major cities?',
+        answer:
+          'Yes. The May 2026 test covered firms across South Wales and Bristol — multiple towns and cities, not a single location — and the pattern of invisibility held throughout. Location does not exempt a firm; missing structured data is the common factor.',
+      },
+      {
+        question: 'How do I know if my firm is currently recommended?',
+        answer:
+          'Test it directly: ask ChatGPT, Perplexity and Claude to recommend a firm in your field and area, several times each, and note whether your name appears. A free AI visibility report does this systematically across engines.',
+      },
+    ],
+    content: `**To get recommended by ChatGPT, your firm needs three things AI engines can read and verify: a crawlable website with structured data, consistent regulatory and business details across the public web, and citations from sources AI already trusts.** Ranking well on Google does not get you recommended. Being structured, consistent and verifiable does.
+
+Across 216 SRA-regulated solicitor firms tested ten times each on ChatGPT, Perplexity and Claude in May 2026, only 7.4% appeared when AI was asked to recommend a solicitor in their city. The other 92.6% were absent — many with strong reputations, good websites and years of experience. (Full methodology is set out at the end of this article.)
+
+For a firm, that gap is direct lost work. When a prospective client asks ChatGPT to recommend a solicitor, accountant or mortgage adviser near them, the engine names two or three firms. If you are not one of them, you are not in the running — and unlike a Google results page, there is no second page to scroll to.
+
+This guide explains why most firms are missed, how ChatGPT actually decides who to recommend, the specific steps to fix it, and how long each stage takes.
+
+## What does it mean to be "recommended" by ChatGPT?
+
+Being recommended by ChatGPT means the model names your firm directly when a user asks for a provider in your field and location. AI assistants do not return a ranked list of ten links the way Google does. They narrow the field and name a handful of firms they can describe with confidence.
+
+This is a different mechanism from search ranking. Google ranks pages. AI engines cite sources. To be cited, your firm’s information has to be structured, consistent and verifiable — not just present on a website somewhere.
+
+The shift matters because this is no longer a fringe behaviour. Many people now ask ChatGPT, Perplexity or Claude for a recommendation before they open a search engine, and the firms those tools name are the ones that get the enquiry.
+
+## Why doesn’t ChatGPT recommend your firm?
+
+In the May 2026 test, 92.6% of solicitor firms across South Wales and Bristol were absent from AI recommendations — and the single most common reason was the absence of machine-readable data, not the absence of a website.
+
+AI systems are significantly more reliable when a firm’s information is available in structured, machine-readable form than when it is embedded only in prose. A firm can have a polished website describing its services in plain paragraphs and still be skipped, because the engine cannot confidently extract and verify what the firm does, where it operates, and what credentials it holds.
+
+The most frequent gaps are straightforward and fixable:
+
+- No structured data (schema) on the website declaring services, location and credentials
+- Inconsistent firm details across the regulator register, Companies House, Google Business Profile and the website
+- No citations from third-party sources AI treats as authoritative
+- Reliance on portals or directories that AI weights lightly, instead of the firm’s own verifiable signals
+
+None of these are about reputation or quality. They are about whether AI can confidently identify you.
+
+## How does ChatGPT decide which firms to recommend?
+
+In testing, firms were more likely to appear when the structured data on their website matched the independent sources AI can check — and for regulated firms, the regulator’s register carries particular weight.
+
+For a solicitor, that means the [Solicitors Regulation Authority (SRA)](https://www.sra.org.uk) register. For an accountant, ICAEW or ACCA. For a mortgage adviser, the [Financial Conduct Authority (FCA)](https://www.fca.org.uk) register. For an estate agent, schemes such as the Property Ombudsman. When the structured data on your website matches your regulator listing and your Companies House record, the engine can resolve you as a single, verifiable entity — and that consistency is what correlates with being recommended.
+
+The firms AI consistently recommends share three traits:
+
+- A crawlable website AI bots can read in full
+- Structured schema declaring services, credentials and coverage area
+- Citations from authoritative third-party sources
+
+A firm with all three is verifiable. A firm missing any one of them is a guess the engine usually declines to make.
+
+## How to get recommended by ChatGPT: the steps
+
+Getting recommended by ChatGPT is a sequence of fixes that make your firm machine-readable and verifiable, in priority order.
+
+1. **Add structured data to your website.** Implement [Schema.org](https://schema.org) JSON-LD declaring your services, location, credentials and regulatory registration. For solicitors use LegalService; for accountants, AccountingService; for mortgage advisers, FinancialService. This is the single highest-impact change and the one most firms have not made.
+2. **Make your details consistent everywhere.** Your firm name, address and phone number must match exactly across your website, regulator register, Companies House, Google Business Profile and any directory listings. Inconsistency stops AI resolving you as a single, confident entity.
+3. **Complete your regulator profile.** A complete, current SRA, ICAEW or FCA listing is one of the strongest trust signals available, because AI treats the regulator as the source of truth for who is genuinely authorised.
+4. **Complete your Google Business Profile.** Fill every field, use the most specific category available, and define your service area by named towns and postcodes rather than a vague region.
+5. **Build authoritative citations.** Earn mentions on sources AI already trusts — trade press, established directories, and verifiable third-party listings — rather than relying on portals AI weights lightly.
+6. **Make your content extractable.** Where you publish content, lead each section with a direct answer and use clear, structured formatting. AI extracts specific passages, not whole pages.
+
+## How long does it take to get recommended by ChatGPT?
+
+It typically takes four to eight weeks to start appearing in AI recommendations after the structured data goes live, and three to four months to be cited consistently. The stages are observable and sequential.
+
+| Stage | Timeframe | What happens |
+| --- | --- | --- |
+| Schema deployment | 24–48 hours | JSON-LD structured data goes live on the firm’s website |
+| First AI crawl | 1–2 weeks | ChatGPT, Perplexity and Claude crawlers index the new structured data |
+| Citation appearance | 4–8 weeks | The firm starts appearing in AI answers on target queries |
+| Consistent ranking | 12–16 weeks | The firm is cited consistently on the main buyer queries |
+| Compounding authority | 6+ months | Citations reinforce each other; the effect builds on itself |
+
+The timeline depends on the starting point. A firm with a clean regulator listing and a crawlable website moves faster than one fixing inconsistent details across several platforms first.
+
+## What this looks like for a four-partner South Wales firm
+
+Consider a four-partner SRA-registered solicitor firm in South Wales, the kind of firm that made up the 92.6% absent from AI recommendations in the May 2026 test. A firm this size might take on a few new conveyancing matters a month through direct enquiry.
+
+If becoming AI-visible brings in two additional enquiries a month at an average matter value of around £1,200, that is roughly £28,800 in additional fee income over a year. Against the cost of a structured visibility programme, the return sits comfortably in multiples, not fractions — and the firm is capturing enquiries that were previously going to the 7.4% who already appeared.
+
+This is an illustrative example only, not a guarantee of results. Actual outcomes depend on each firm’s fee structure, conversion rate and market, and many factors affect whether an enquiry becomes a matter. The point is the shape, not the precise figure: the cost of being invisible to AI is measured in lost matters, not in software fees.
+
+## Methodology
+
+This article references original testing conducted by TendorAI in May 2026.
+
+- **Sample:** 216 SRA-regulated solicitor firms across South Wales and Bristol.
+- **Engines:** ChatGPT, Perplexity and Claude.
+- **Repetitions:** Each firm’s target query was run ten times (N=10) per engine, on clean sessions, because AI responses vary between runs and a single run is not reliable.
+- **Query:** Each engine was asked to recommend a solicitor in the firm’s city.
+- **Scoring:** A firm was recorded as "appearing" if it was named in the engine’s response. The headline figure — 7.4% — is the share of the 216 firms that appeared.
+- **Date:** May 2026.
+- **Limitations:** Results reflect this sample at the test date. AI responses shift between runs and over time, so figures are a snapshot, not a fixed property of any firm. "Appearing" measures whether a firm was named, not its position or prominence within an answer. The test covered solicitors only; other professions may behave differently.
+
+---
+
+Run your free AI visibility report to see exactly where your firm appears across ChatGPT, Perplexity and Claude — and what is keeping you out: [tendorai.com/aeo-report](https://tendorai.com/aeo-report?utm_source=how-to-get-recommended-by-chatgpt&utm_medium=blog&utm_campaign=ai-visibility-cluster&utm_content=in-article-cta)`,
+  },
+  {
     slug: 'ai-recommends-uk-solicitors-study',
     title: 'We Asked AI to Recommend 216 UK Solicitors. It Named 16.',
     excerpt:
