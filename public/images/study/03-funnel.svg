@@ -1,0 +1,7 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 675' font-family='-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif'>
+  <rect width='1200' height='675' fill='#ffffff'/>
+  <text x='600' y='95' text-anchor='middle' font-size='38' font-weight='700' fill='#1e293b'>From 216 firms to 7 top recommendations</text>
+  <text x='600' y='140' text-anchor='middle' font-size='22' fill='#64748b'>Where the funnel collapses</text>
+  <g><rect x='200' y='200' width='800' height='90' rx='8' fill='#a78bfa'/><text x='600' y='242' text-anchor='middle' font-size='34' font-weight='700' fill='#ffffff'>216</text><text x='600' y='272' text-anchor='middle' font-size='18' fill='#ffffff' opacity='0.92'>firms tested</text></g><g><rect x='360' y='320' width='480' height='90' rx='8' fill='#7c3aed'/><text x='600' y='362' text-anchor='middle' font-size='34' font-weight='700' fill='#ffffff'>16</text><text x='600' y='392' text-anchor='middle' font-size='18' fill='#ffffff' opacity='0.92'>recommended</text></g><g><rect x='470' y='440' width='260' height='90' rx='8' fill='#5b21b6'/><text x='600' y='482' text-anchor='middle' font-size='34' font-weight='700' fill='#ffffff'>7</text><text x='600' y='512' text-anchor='middle' font-size='18' fill='#ffffff' opacity='0.92'>in the top 3</text></g>
+  <path d='M 600 292 L 590 310 L 610 310 Z' fill='#64748b'/><path d='M 600 412 L 590 430 L 610 430 Z' fill='#64748b'/>
+</svg>

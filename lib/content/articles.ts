@@ -37,6 +37,99 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: 'ai-recommends-uk-solicitors-study',
+    title: 'We Asked AI to Recommend 216 UK Solicitors. It Named 16.',
+    excerpt:
+      'We tested how AI recommends UK solicitors across 216 firms in four cities. Only 7.4% were ever named. Here is the data, the method, and what separates the firms that get recommended from the ones that do not.',
+    metaDescription:
+      'We tested how AI recommends UK solicitors across 216 firms in four cities. Only 7.4% were ever named. Here is the data, the method, and what separates the firms that get recommended from the ones that do not.',
+    category: 'Legal',
+    author: 'TendorAI',
+    readTime: 5,
+    publishedDate: '2026-05-20',
+    updatedDate: '2026-05-20',
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/ai-recommends-uk-solicitors-study',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/ai-recommends-uk-solicitors-study',
+        },
+        image: 'https://www.tendorai.com/images/study/01-named-vs-invisible.svg',
+      },
+    ],
+    content: `When a potential client asks an AI assistant "who's a good conveyancing solicitor in Bristol?", the AI doesn't return ten blue links. It names two or three firms. Everyone else is invisible — not ranked low, not on page two, but absent from the answer entirely.
+
+We wanted to know how many UK solicitors actually get named. So we tested it.
+
+## The headline
+
+We ran live recommendation queries against 216 solicitor firms across four UK cities — Bristol, Cardiff, Newport, and Swansea — covering practice areas from conveyancing to criminal law. We asked an AI assistant to recommend firms exactly the way a real client would, then recorded which of our 216 firms it actually named.
+
+**It named 16. That's 7.4%.**
+
+![Of 216 solicitor firms tested, AI recommended only 16 — the other 200 were invisible](/images/study/01-named-vs-invisible.svg)
+
+The other 92.6% were not recommended. And here's the part that matters: in nearly every case where a firm wasn't named, the AI still confidently recommended other real firms for that exact query. It wasn't stuck. It wasn't refusing. It simply had nothing to retrieve about the firms it skipped, so it recommended their competitors instead.
+
+## How we ran it
+
+We were deliberate about method, because a sloppy test produces a useless number.
+
+- *Real firms.* All 216 are genuine, regulated solicitor firms in our directory, drawn from four cities.
+- *A neutral prompt.* We asked the AI to name up to five real firms providing a given service in a given city. Critically, we never mentioned the firm's own name in the prompt. A test that names the firm and asks "would you recommend them?" is rigged toward a yes. We measured whether the AI named each firm unprompted — the way a real client's question works.
+- *Practice-area specific.* We didn't ask the generic "best solicitors in Cardiff." We asked the question buyers actually ask: best conveyancing solicitor, best family law firm, best criminal defence solicitor, and so on.
+- *Verified misses.* For every firm that wasn't named, we checked what the AI returned instead. In every case we examined, it named other real firms — confirming a genuine miss, not a system error.
+
+## What the data shows
+
+![AI recommendation rate by city: Newport 16.7 percent, Bristol 8.2 percent, Cardiff 4.9 percent, Swansea 3.8 percent](/images/study/02-rate-by-city.svg)
+
+The pattern is revealing. Cardiff — the largest Welsh legal market — had one of the lowest recommendation rates. More firms competing for the same two or three recommendation slots means most get squeezed out. Newport, a smaller market with less competition, had more than three times Cardiff's rate. Visibility isn't only about how good your firm is. It's about how crowded your slot is and whether the AI can find structured, consistent information about you at all.
+
+![Funnel showing 216 firms tested, 16 recommended, 7 reaching the top three positions](/images/study/03-funnel.svg)
+
+The 16 firms that were recommended weren't random. They appeared at clear positions in the AI's answer — several at position one or two — across commercial, criminal, family, conveyancing, immigration, employment, IP, and personal injury work. What they had in common wasn't louder marketing. It was being findable: consistent, retrievable information that an AI could pull and trust enough to put in front of a client.
+
+## The finding most articles miss
+
+Here's something our test surfaced that almost no one writes about honestly. Not all AI works the same way.
+
+![Two types of AI: retrieval-based AI names specific firms, memory-only AI refuses to name anyone](/images/study/04-retrieval-vs-memory.svg)
+
+The assistants that search the live web before answering will name specific firms. Those are the systems where your visibility is a fight you can win: get your information structured and consistent, and you can earn a slot.
+
+But AI assistants that answer purely from memory, without searching, behave completely differently. When we asked one to recommend solicitors, it declined: "I don't have reliable, current knowledge of specific firms." It wouldn't name anyone — not the good firms, not the bad ones. No amount of website work changes that, because the model isn't looking anything up.
+
+This splits the entire AI visibility problem in two. For retrieval-based AI, your data quality directly decides whether you're recommended. For memory-only AI, the recommendation game isn't being played at all. Any solicitor being told "just fix your website and AI will recommend you" is being sold half the picture.
+
+## Why most firms are invisible
+
+Across the firms that weren't named, the same gaps appeared again and again:
+
+- *Information the AI can't retrieve.* If your practice areas, location, and credentials aren't structured in a way machines can read, you're not in the retrieval pool.
+- *Inconsistency across sources.* When your trading name, address, or services differ between your website, your directory listings, and the public register, an AI can't confidently confirm you're the same firm — so it plays safe and names someone else.
+- *A crowded slot with no differentiation.* In big markets like Cardiff, being one of two hundred "Cardiff solicitors" isn't enough. The firms that get named are the ones an AI can clearly match to a specific need.
+
+None of this is about being a better solicitor. It's about being a more findable one.
+
+## What this means for your firm
+
+If you're a UK solicitor, the practical question is simple: when someone asks an AI to recommend a firm like yours, are you named — or is a competitor?
+
+On our numbers, the odds are against you. More than nine in ten firms weren't. But the 16 that were prove it's winnable — and the gaps are fixable.
+
+You can see exactly where your firm stands. Run a free AI visibility check and find out whether AI assistants can find, verify, and recommend your firm — and what's stopping them if they can't.
+
+[Check your firm's AI visibility — free](https://www.tendorai.com)
+
+---
+
+*Methodology note: This study tested 216 regulated UK solicitor firms across Bristol, Cardiff, Newport, and Swansea using live AI recommendation queries in May 2026. Recommendation rates reflect a single test run on one retrieval-based AI assistant; rates vary between platforms and over time. We publish our method in full because proof should be checkable, not asserted.*`,
+  },
+  {
     slug: 'claude-for-legal-uk-solicitors-ai-visibility',
     title: 'What Claude for Legal means for UK law firms — and why AI visibility just became a board-level question',
     excerpt:

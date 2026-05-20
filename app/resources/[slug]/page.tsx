@@ -89,6 +89,9 @@ function parseMarkdown(content: string): string {
     // so one italic span can't swallow across a second `*` pair on the same
     // line, and stray unmatched asterisks don't false-match.
     .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
+    // Images — must run before links so ![alt](src) isn't caught by the
+    // links regex (which would emit `!<a>alt</a>`).
+    .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" loading="lazy" style="width:100%;height:auto;display:block;margin:2rem auto;border:1px solid #eee;border-radius:8px;" />')
     // Links
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-purple-600 hover:text-purple-700 underline">$1</a>')
     // Tables
