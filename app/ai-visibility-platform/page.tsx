@@ -59,7 +59,7 @@ const includedFeatures: Array<{ title: string; description: string }> = [
   {
     title: 'Listings Agent',
     description:
-      'Submits your firm to UK business directories and sector-specific bodies — Yell, FreeIndex, Trustpilot, Bing Places, Propertymark, ARLA, Law Society register, ICAEW register. Pro tier customers typically end up with 12–20 verified listings.',
+      'Audits the UK directories AI assistants cross-reference — Yell, FreeIndex, Trustpilot, Bing Places, Propertymark, ARLA, the Law Society register, the ICAEW register — shows you where your firm is missing, and flags where your name, address or phone number don’t match, so you can fix them.',
   },
   {
     title: 'Weekly Pro Report',
@@ -97,7 +97,7 @@ const agentFleet: Array<{ agent: string; cadence: string; what: string }> = [
   {
     agent: 'Listings',
     cadence: 'Daily',
-    what: 'Submits your firm to UK directories and sector-specific registers.',
+    what: 'Audits UK directories and sector-specific registers, and flags where your firm is missing or its details are inconsistent.',
   },
   {
     agent: 'Reporter',
@@ -133,7 +133,7 @@ const loopStages: Array<{ number: string; title: string; oneLiner: string; proof
   {
     number: '04',
     title: 'Deploy',
-    oneLiner: 'Approved fixes go live automatically — content to your profile, schema to your website, listings to directories.',
+    oneLiner: 'Approved fixes go live automatically — content to your profile, schema to your website.',
     proof: 'One-click approval, automatic deployment',
   },
   {
@@ -172,7 +172,7 @@ const timelinePhases: Array<{ phase: string; what: string }> = [
   },
   {
     phase: 'Week 3–6',
-    what: 'AI engines begin indexing your new content. Tracked prompts start surfacing your firm — first occasionally, then more frequently. Listings Agent submits your firm to 8–12 vertical directories.',
+    what: 'AI engines begin indexing your new content. Tracked prompts start surfacing your firm — first occasionally, then more frequently. Listings Agent audits the vertical directories AI assistants check and reports where your firm is missing or inconsistent.',
   },
   {
     phase: 'Week 7–12',
@@ -410,9 +410,9 @@ export default function AiVisibilityPlatformPage() {
               When a prospect asks ChatGPT &ldquo;best conveyancing solicitor in Cardiff&rdquo; or Perplexity
               &ldquo;recommend an ICAEW accountant in Bristol&rdquo;, AI assistants return named firms — not a list of
               links. TendorAI is the platform that gets your firm named. We install AI-readable structured data on your
-              website, publish three professionally-written articles per week under your byline, submit your firm to
-              12–20 verified directories, monitor six AI platforms daily, and deliver a Weekly Pro Report showing
-              exactly which AI assistants cited you and why.
+              website, publish three professionally-written articles per week under your byline, audit the UK
+              directories AI assistants cross-reference and flag where your details don’t match, monitor six AI
+              platforms daily, and deliver a Weekly Pro Report showing exactly which AI assistants cited you and why.
             </p>
           </div>
         </section>

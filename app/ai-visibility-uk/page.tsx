@@ -377,7 +377,7 @@ export default function AIVisibilityUKPage() {
                   desc: 'Your website needs proper schema markup for AI tools to parse your services, reviews, contact details, and FAQs. TendorAI audits your existing markup and provides specific recommendations through our GEO Audit tool.',
                 },
                 {
-                  title: 'Verified Directory Listings',
+                  title: 'Structured Directory Profile',
                   desc: 'Being listed on a verified, structured directory gives AI platforms a trusted source to draw from. TendorAI\'s directory is purpose-built for AI readability, with consistent data formats that AI models prefer.',
                 },
                 {

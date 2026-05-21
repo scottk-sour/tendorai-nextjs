@@ -23,7 +23,7 @@ const loopStages = [
   {
     number: '04',
     title: 'Deploy',
-    oneLiner: 'Approved fixes go live automatically — content to your profile, schema to your website, listings to directories.',
+    oneLiner: 'Approved fixes go live automatically — content to your profile, schema to your website.',
     proof: 'One-click approval, automatic deployment',
   },
   {
@@ -64,7 +64,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 4,
       name: 'Deploy',
-      text: 'Approved fixes go live automatically — content to your profile, schema to your website, listings to directories. One-click approval, automatic deployment.',
+      text: 'Approved fixes go live automatically — content to your profile, schema to your website. One-click approval, automatic deployment.',
     },
     {
       '@type': 'HowToStep',
@@ -143,9 +143,10 @@ export default function Hero() {
             Perplexity &lsquo;recommend an ICAEW accountant in Bristol&rsquo;, AI assistants return
             named firms &mdash; not a list of links. TendorAI is the UK platform that gets your firm
             named. We install AI-readable structured data on your website, publish three
-            professionally-written articles per week under your byline, submit your firm to 12&ndash;20
-            verified UK directories, monitor six AI platforms daily &mdash; ChatGPT, Perplexity,
-            Claude, Gemini, Grok, and Google AI Overviews &mdash; and deliver a Weekly Pro Report
+            professionally-written articles per week under your byline, audit the UK directories AI
+            assistants cross-reference and flag where your details don&rsquo;t match, monitor six AI
+            platforms daily &mdash; ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI
+            Overviews &mdash; and deliver a Weekly Pro Report
             showing exactly which AI assistants cited you and why. &pound;299/month, all in. Built
             around a six-agent autonomous fleet running on every Pro account.
           </p>
