@@ -87,7 +87,7 @@ export default function AccountantChecklistPage() {
           <div className="bg-gradient-to-r from-[#1B4F72] to-[#2d1b4e] rounded-2xl p-8 md:p-10 text-white text-center">
             <h2 className="text-2xl font-bold mb-3">Not sure where to start?</h2>
             <p className="text-blue-100 mb-6 max-w-lg mx-auto">
-              TendorAI audits your accountancy practice against all 24 checklist items automatically. We pull your ICAEW or ACCA data, fix your schema, and get you listed in the right directories &mdash; within 48 hours.
+              TendorAI audits your accountancy practice against all 24 checklist items automatically. We pull your ICAEW or ACCA data, fix your schema, and show you which directories AI assistants check and where your details don&rsquo;t match &mdash; within 48 hours.
             </p>
             <Link href="/for-vendors" className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg text-lg">
               Get your free AI visibility audit

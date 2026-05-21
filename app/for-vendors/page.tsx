@@ -175,7 +175,7 @@ export default function ForVendorsPage() {
               { step: '1', title: 'Measure', description: 'Reconnaissance Agent scans six AI platforms daily and scores your visibility.' },
               { step: '2', title: 'Diagnose', description: "Detective Agent identifies why you're missed, per platform, per prompt." },
               { step: '3', title: 'Fix', description: 'Writer Agent drafts content; engineering updates schema. Held in your approval queue.' },
-              { step: '4', title: 'Deploy', description: 'Approved fixes go live automatically — to your profile, your website, and directories.' },
+              { step: '4', title: 'Deploy', description: 'Approved fixes go live automatically — to your profile and your website.' },
               { step: '5', title: 'Track', description: 'Reporter Agent aggregates the week into a single dashboard — the Weekly Pro Report.' },
             ].map((step) => (
               <div key={step.step} className="text-center">

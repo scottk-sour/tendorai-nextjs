@@ -40,7 +40,7 @@ const tools: Tool[] = [
     name: 'TendorAI',
     positioning: 'UK AI visibility platform for regulated professional services firms.',
     whatItDoes:
-      'TendorAI indexes 63,406 UK firms from the SRA Solicitors Register, ICAEW Chartered Accountant directory, FCA Financial Services Register, Propertymark, and Companies House. The platform installs AI-readable structured data on a firm’s own website, publishes three professionally-written articles per week, submits the firm to 12–20 verified UK directories, and monitors six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews — through an autonomous six-agent fleet.',
+      'TendorAI indexes 63,406 UK firms from the SRA Solicitors Register, ICAEW Chartered Accountant directory, FCA Financial Services Register, Propertymark, and Companies House. The platform installs AI-readable structured data on a firm’s own website, publishes three professionally-written articles per week, audits the UK directories AI assistants cross-reference and flags where the firm’s details don’t match, and monitors six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews — through an autonomous six-agent fleet.',
     bestForLimitation:
       'Built and operated in South Wales. Direct contact with the founding team — no agency layer, no account managers, no offshored support. The £299/month price reflects the actual delivery cost rather than loss-leader pricing.',
     pricing: '£299/month, all in. Free tier available.',
@@ -302,7 +302,7 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
               <p>
                 If you are an SRA-regulated solicitor firm in England or Wales, an ICAEW-registered
                 accountant, an FCA-regulated mortgage adviser, or a Propertymark-registered estate agent,
-                and you want schema installation, weekly content production, directory listings, and
+                and you want schema installation, weekly content production, directory auditing, and
                 six-platform tracking included in a single £299/month price, TendorAI is the platform
                 built specifically for you. The platform indexes 63,406 UK firms from official registers
                 and operates a six-agent autonomous fleet on every Pro account.

@@ -64,7 +64,7 @@ const loopStages: Array<{
     agent: 'Listings Agent',
     cadence: 'Daily',
     body:
-      'You approve. Approved articles publish to your TendorAI profile and your byline. Approved schema deploys to your website. The Listings Agent submits your firm to verified UK directories and sector-specific registers — Yell, FreeIndex, Trustpilot, Bing Places, Propertymark, ARLA, the Law Society register, the ICAEW register. Pro tier customers typically end up with 12–20 verified listings.',
+      'You approve. Approved articles publish to your TendorAI profile and your byline. Approved schema deploys to your website. The Listings Agent audits the UK directories and sector-specific registers AI assistants cross-reference — Yell, FreeIndex, Trustpilot, Bing Places, Propertymark, ARLA, the Law Society register, the ICAEW register — shows you where your firm is missing, and flags where your name, address or phone don’t match, so you can fix them.',
   },
   {
     number: '05',
@@ -104,7 +104,7 @@ const timelinePhases: Array<{ phase: string; what: string }> = [
   {
     phase: 'Week 3–6',
     what:
-      'AI engines reindex your new content. Tracked prompts start surfacing your firm — first occasionally, then more frequently. Listings Agent reaches 8–12 vertical directories.',
+      'AI engines reindex your new content. Tracked prompts start surfacing your firm — first occasionally, then more frequently. Listings Agent audits the vertical directories AI assistants check and reports where your firm is missing.',
   },
   {
     phase: 'Week 7–12',
@@ -130,9 +130,9 @@ const youDont: Array<{ title: string; description: string }> = [
       'No account managers, no project managers, no agency layer. Direct contact with the team building the platform — not a ticketing queue or offshored support desk.',
   },
   {
-    title: 'You don’t chase listings',
+    title: 'You don’t guess where you’re missing',
     description:
-      'The Listings Agent submits your firm to UK directories and sector-specific registers, tracks acceptance, and logs the verified URLs in your report. You never log into Yell or FreeIndex.',
+      'The Listings Agent audits the UK directories and sector-specific registers AI assistants cross-reference, shows where your firm is missing, and flags where your name, address or phone don’t match — so you know exactly what to fix.',
   },
   {
     title: 'You don’t guess if it’s working',
@@ -144,7 +144,7 @@ const youDont: Array<{ title: string; description: string }> = [
 const faqs: Array<{ q: string; a: string }> = [
   {
     q: 'What exactly do the six agents do?',
-    a: 'Reconnaissance scans six AI platforms for your firm daily. Detective diagnoses citation gaps with recommended fixes. Writer drafts three articles a week. Listings submits to UK directories. Reporter aggregates the Weekly Pro Report. Reviews drafts monthly review-request batches. You approve content and outgoing reviews — roughly 30 minutes a week.',
+    a: 'Reconnaissance scans six AI platforms for your firm daily. Detective diagnoses citation gaps with recommended fixes. Writer drafts three articles a week. Listings audits UK directories and flags where you’re missing. Reporter aggregates the Weekly Pro Report. Reviews drafts monthly review-request batches. You approve content and outgoing reviews — roughly 30 minutes a week.',
   },
   {
     q: 'How much of my time does it take?',
