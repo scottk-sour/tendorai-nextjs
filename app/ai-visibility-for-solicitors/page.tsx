@@ -228,9 +228,10 @@ export default function SolicitorsAiVisibilityPage() {
             </p>
             <p>
               Conveyancing, family law, wills and probate, immigration and personal injury are the
-              highest-volume recommendation queries in the legal vertical. Firms that match the structured-
-              data, consistency and citation signals on those queries are the firms AI assistants are
-              confident enough to name. The two disciplines — SEO and AI visibility — share some inputs
+              highest-volume recommendation queries in the legal vertical. Firms that match the
+              structured-data, consistency and citation signals on those queries are the firms AI
+              assistants are confident enough to name. The two disciplines — SEO and AI visibility —
+              share some inputs
               but reward different outcomes: SEO improves the order of links, AI visibility decides
               whether your firm is named at all.
             </p>
