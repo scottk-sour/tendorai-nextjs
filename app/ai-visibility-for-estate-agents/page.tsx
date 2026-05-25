@@ -2,27 +2,31 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { CITIES } from '@/lib/constants/cities';
 
-const TITLE = 'AI Visibility for UK Estate Agents 2026 — Get Recommended by ChatGPT';
+// ─── Page constants ───────────────────────────────────────────────────
+const TITLE = 'AI Visibility for UK Estate Agents';
 const DESCRIPTION =
-  'How UK estate agents get recommended by ChatGPT, Perplexity and Google AI Overviews in 2026. Ranked guide, FAQ, regulatory data from 12,793 firms.';
+  'How UK estate agents and letting agents get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — TPO/PRS/Propertymark data, structured signals, worked £ example.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-estate-agents';
-const PUBLISHED = '2024-01-01';
-const UPDATED = '2026-05-04';
+const PUBLISHED = '2026-05-24';
+const UPDATED = '2026-05-24';
+
+const CTA_URL =
+  '/aeo-report?utm_source=ai-visibility-for-estate-agents&utm_medium=landing&utm_campaign=estate-agents-cluster&utm_content=primary-cta';
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: CANONICAL },
   openGraph: {
-    title: 'AI Visibility for UK Estate Agents — The Complete Guide (2026)',
+    title: TITLE,
     description: DESCRIPTION,
-    url: CANONICAL,
-    siteName: 'TendorAI',
-    locale: 'en_GB',
     type: 'article',
     publishedTime: PUBLISHED,
     modifiedTime: UPDATED,
-    authors: ['Scott Kingsley Davies'],
+    authors: ['TendorAI'],
+    url: CANONICAL,
+    siteName: 'TendorAI',
+    locale: 'en_GB',
     images: [{ url: '/logo.png', width: 873, height: 873, alt: TITLE }],
   },
   twitter: {
@@ -33,290 +37,294 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs = [
+const faqs: Array<{ q: string; a: string }> = [
   {
-    q: 'How do AI assistants like ChatGPT decide which estate agents to recommend?',
-    a: 'AI assistants build their answers from structured data they can verify, third-party citations they can cross-reference, and the sources their training and retrieval pipelines treat as authoritative. For UK estate agents that means The Property Ombudsman or Property Redress Scheme membership, ARLA Propertymark accreditation where it applies, schema markup on the firm’s own website, consistent name, address and phone data across the web, and reviews on platforms the model already trusts. The firms that show up in answers are the firms easiest for an AI to verify.',
+    q: 'Does Propertymark, TPO or PRS membership automatically mean AI assistants will recommend my agency?',
+    a: 'No. Membership of a redress scheme (TPO or PRS) and a professional body (Propertymark, NAEA for sales agents or ARLA for letting agents) is legally required and necessary, but not sufficient. AI engines need that membership data structured and machine-readable on the agency’s own website, consistent with each scheme’s register, Companies House and HMRC AML registration. The scheme registers themselves are rarely cited directly by AI engines as a recommendation source.',
   },
   {
-    q: 'Does my estate agency need to be on TendorAI to appear in ChatGPT?',
-    a: 'No. AI assistants pull from many sources, and a well-structured website with TPO or PRS membership clearly displayed and reviews on a third-party platform can be cited without TendorAI. What TendorAI does is shorten the path: we publish your verified profile in the structured format AI engines parse most reliably, link it to your regulatory data, and make sure the schema on your own site stays current. If you do nothing else, fix your website schema and your review presence first — that alone moves the needle.',
+    q: 'What’s the difference between an estate agent and a letting agent for AI visibility purposes?',
+    a: 'An estate agent handles property sales between vendor and purchaser. A letting agent handles rentals between landlord and tenant. The two activities are regulated differently — letting agents must be in a government-backed redress scheme and (for client money) a Client Money Protection scheme; sales agents have separate obligations. For AI visibility, the agency should declare which activities it offers, and which scheme memberships cover them, in structured form on its website.',
   },
   {
-    q: 'What schema markup do estate agents need for AI visibility?',
-    a: 'At minimum: Organization, LocalBusiness and RealEstateAgent JSON-LD on your homepage and every branch location page. Add PostalAddress with a real UK postcode, areaServed mapped to the towns and postcodes you actually cover, sameAs links to your TPO or PRS register entry and your social profiles, and aggregateRating only when you have a verified review source to back it up. Use FAQPage schema on your sales, lettings and valuations pages where you answer common buyer and landlord questions. Don’t mark up content that isn’t visible — Google penalises hidden schema.',
+    q: 'Is AI visibility the same as being on Rightmove or Zoopla?',
+    a: 'No. Rightmove and Zoopla are property listing portals, not structured directories of agencies. AI engines build recommendations from structured data about the agency itself — services, scheme memberships, coverage area, fee transparency — not from individual property listings. Strong portal presence does not translate to AI visibility for the agency.',
   },
   {
-    q: 'How long does it take for a UK estate agency to appear in ChatGPT recommendations?',
-    a: 'Schema and NAP fixes show citation impact within four to eight weeks. Building third-party authority — Reddit answers in UK property subs, YouTube market commentary, earned mentions on local news sites — takes three to six months. Named-author content with consistent profiles across LinkedIn and Companies House compounds over six to twelve months. There is no overnight path. The estate agencies recommended consistently in 2026 are the ones who started fixing the basics in 2025.',
+    q: 'Which AI platforms cite UK estate agents most consistently in 2026?',
+    a: 'Perplexity is the most active in citing specific UK firms by name in May 2026. ChatGPT and Claude follow. Google AI Overviews pulls heavily from Google Business Profile and on-site schema. Results shift between platforms and over time; a single test on a single platform is not a fixed property of any firm.',
   },
   {
-    q: 'Do client reviews affect AI recommendations for estate agents?',
-    a: 'Yes — but only reviews on third-party platforms AI assistants already trust. Reviews on your own website are largely ignored because the model can’t verify them independently. Google reviews and reviews on accredited estate-agent platforms carry weight. So do mentions in property-press articles and earned coverage in local newspapers. Aim for a steady cadence of recent reviews — five reviews from the last six months beat fifty reviews from 2019. Quality and recency outweigh raw count.',
+    q: 'Does TendorAI guarantee my agency will be recommended by AI?',
+    a: 'No. TendorAI is an AI visibility platform, not a source of property advice and not an outcome guarantee. The platform installs the structured signals AI engines use, audits the gaps and tracks citation frequency — but AI engine behaviour is platform-specific and changes over time.',
   },
   {
-    q: 'How is AI visibility different from SEO for estate agents?',
-    a: 'SEO targets Google’s ranking algorithm — keywords, backlinks, site speed, page authority. AI visibility targets retrieval-augmented generation across ChatGPT, Perplexity, Claude, Google AI Overviews and Meta AI, each of which has different citation patterns. A page that ranks first on Google for "estate agents in Bristol" can win zero AI citations if it lacks structured data, named-entity verification and third-party authority. Conversely, a smaller firm with strong schema and verified TPO membership can be cited by AI when a much larger competitor is ignored.',
+    q: 'Can I implement this without using TendorAI?',
+    a: 'Yes. Schema.org JSON-LD, a structured website, consistent Propertymark, TPO/PRS, Companies House and HMRC AML entries and an active citation programme can be implemented manually. TendorAI automates the work and tracks the outcome — the citation gains are available either way.',
   },
 ];
 
-const cityBlogLinks = [
-  { name: 'Cardiff', href: '/blog/ai-visibility-report-estate-agents-cardiff' },
-  { name: 'Bristol', href: '/blog/ai-visibility-report-estate-agents-bristol' },
-  { name: 'Manchester', href: '/blog/ai-visibility-report-estate-agents-manchester' },
-  { name: 'Birmingham', href: '/blog/ai-visibility-report-estate-agents-birmingham' },
-  { name: 'London', href: '/blog/ai-visibility-report-estate-agents-london' },
-];
+function FAQSection() {
+  return (
+    <div className="space-y-3">
+      {faqs.map((faq, i) => (
+        <details key={i} className="group bg-white border border-gray-200 rounded-lg">
+          <summary className="flex items-center justify-between cursor-pointer p-5 text-left">
+            <span className="font-medium text-gray-900 pr-4">{faq.q}</span>
+            <svg className="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div className="px-5 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4">{faq.a}</div>
+        </details>
+      ))}
+    </div>
+  );
+}
 
-export default function EstateAgentsPillarPage() {
-  const articleSchema = {
+export default function EstateAgentsAiVisibilityPage() {
+  const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'AI Visibility for UK Estate Agents — The Complete Guide (2026)',
+    headline: TITLE,
     description: DESCRIPTION,
-    author: {
-      '@type': 'Person',
-      name: 'Scott Kingsley Davies',
-      jobTitle: 'Founder',
-      worksFor: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
-    },
+    datePublished: PUBLISHED,
+    dateModified: UPDATED,
+    author: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     publisher: {
       '@type': 'Organization',
       name: 'TendorAI',
       url: 'https://www.tendorai.com',
-      logo: { '@type': 'ImageObject', url: 'https://www.tendorai.com/logo.png' },
+      logo: { '@type': 'ImageObject', url: 'https://www.tendorai.com/logo.png', width: 873, height: 873 },
     },
-    datePublished: PUBLISHED,
-    dateModified: UPDATED,
     mainEntityOfPage: { '@type': 'WebPage', '@id': CANONICAL },
+    image: 'https://www.tendorai.com/logo.png',
+    inLanguage: 'en-GB',
   };
 
-  const faqSchema = {
+  const organizationJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
+    '@type': 'Organization',
+    '@id': 'https://www.tendorai.com/#organization',
+    name: 'TendorAI',
+    url: 'https://www.tendorai.com',
+    logo: 'https://www.tendorai.com/logo.png',
+    areaServed: { '@type': 'Country', name: 'United Kingdom' },
   };
 
-  // Per CLAUDE.md: BreadcrumbList may include Home as the first item per Google guidance.
-  // Spec for this page asks for no Home in breadcrumb — honouring spec.
-  const breadcrumbSchema = {
+  const realEstateAgentJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'AI Visibility', item: 'https://www.tendorai.com/ai-visibility-platform' },
-      { '@type': 'ListItem', position: 2, name: 'Estate Agents', item: CANONICAL },
-    ],
+    '@type': 'RealEstateAgent',
+    name: 'AI Visibility Coverage for UK Estate Agents',
+    description:
+      'AI visibility platform for UK estate agents and letting agents — Schema.org JSON-LD on the agency’s website, structured content drafted under the agency’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+    provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
+    serviceType: 'AI visibility for UK estate agents and letting agents',
+    areaServed: { '@type': 'Country', name: 'United Kingdom' },
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(realEstateAgentJsonLd) }} />
 
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="bg-brand-gradient text-white py-12 md:py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav className="text-sm mb-4 text-purple-200" aria-label="Breadcrumb">
-              <Link href="/ai-visibility-platform" className="hover:text-white">AI Visibility</Link>
-              <span className="mx-2">/</span>
-              <span className="text-white">Estate Agents</span>
-            </nav>
-            <h1 className="font-serif text-3xl md:text-5xl font-bold mb-4 leading-tight">
-              AI Visibility for UK Estate Agents — The Complete Guide (2026)
+            <p className="text-xs uppercase tracking-[0.2em] text-white/80 mb-3">UK Estate Agents · Propertymark · TPO · PRS</p>
+            <h1 className="text-3xl md:text-5xl font-bold leading-tight" style={{ fontFamily: 'var(--font-serif)' }}>
+              {TITLE}
             </h1>
-            <p className="text-sm text-purple-200">
-              By Scott Kingsley Davies, Founder, TendorAI. Last updated: 4 May 2026.
+            <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
+              Get your sales or letting agency cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews when prospective vendors, purchasers, landlords and tenants ask for an agent — by name, by service, by city.
             </p>
           </div>
         </section>
 
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Direct-answer paragraph for AI extraction */}
-          <p className="text-lg leading-relaxed text-[var(--text)] mb-8 font-medium">
-            UK estate agents get recommended by ChatGPT, Perplexity and Google AI Overviews when their firm is verifiable, structured and cited by third parties. Based on TendorAI&rsquo;s analysis of 12,793 UK regulated firms, the estate agencies that win AI citations have three traits in common: visible Property Ombudsman or Property Redress Scheme membership, RealEstateAgent and LocalBusiness schema on every branch page, and recent reviews on platforms AI engines already trust.
-          </p>
-
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Independent tracking by Searchable.com on 3 May 2026 showed UK estate agents cited zero out of three across ChatGPT, Perplexity and Google AI Overviews when prompted for property recommendations — the only vertical actively losing share. The fix is structural and well understood. The firms that act first will own the answers.
-          </p>
-
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mt-12 mb-6">
-            The 12 things UK estate agents must do to get recommended by ChatGPT in 2026
-          </h2>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            1. Get listed in a verified UK estate agent directory with structured data
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            AI assistants pull from sources they can cross-reference. A standalone agency website is one signal; a verified directory listing is a second, independent signal that confirms the firm exists, is active and matches the regulator records. Directories that publish JSON-LD profiles are read more reliably than those that don&rsquo;t. The firms that consistently appear in ChatGPT answers for &quot;best estate agent in Manchester&quot; are almost always present in at least two structured directories that AI engines can parse without guessing. Get your firm onto a directory that publishes verified, machine-readable profiles — one that links your TPO membership, your branch addresses and your covered postcodes in a single record.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            2. Install LocalBusiness + RealEstateAgent schema on your website
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Schema markup is the only language AI engines parse fluently. Without it, your homepage is prose to a human and noise to a model. The minimum stack for a UK estate agency is Organization, LocalBusiness and RealEstateAgent JSON-LD, with PostalAddress, areaServed mapped to real postcodes, and sameAs links to your regulator and social profiles. If you operate multiple branches, each branch page needs its own LocalBusiness block with the branch&rsquo;s specific address and phone. Generic site-wide schema is worse than no schema because it confuses the model. Install JSON-LD per branch, link it to your TPO or PRS register entry, and validate with Google&rsquo;s Rich Results Test.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            3. Display Property Ombudsman or Property Redress Scheme membership prominently
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Every UK estate agent must belong to{' '}
-            <a href="https://www.tpos.co.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline">The Property Ombudsman</a>{' '}or the{' '}
-            <a href="https://www.theprs.co.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 underline">Property Redress Scheme</a>{' '}— it&rsquo;s a regulatory requirement. AI engines treat these memberships as ground-truth verification. The problem is most agency websites bury the badge in the footer or omit it entirely from machine-readable markup. Place the membership scheme name and your member number visibly on your homepage, your About page and your contact page, and add it to your schema as an identifier or memberOf field. AI cross-references regulator registers; if your website doesn&rsquo;t match the public record, you lose the citation.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            4. Show client reviews on a third-party verified platform
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Reviews on your own website are not citation-grade for AI. The model can&rsquo;t verify them independently. Reviews on Google, Trustpilot, allAgents or industry-specific platforms are. Aim for a steady cadence — five recent reviews from the last six months are worth more than fifty reviews from 2019. AI engines weight recency heavily. The firms cited in 2026 ChatGPT answers for residential lettings or sales typically have at least 25 verified reviews from the last twelve months across one or two third-party platforms. Don&rsquo;t game it; ask every completed client for a review and make the link one click on your follow-up email.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            5. Maintain a Google Business Profile with up-to-date opening hours
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Google AI Overviews lean heavily on Google Business Profile data. An incomplete or stale profile pushes you out of local property recommendations entirely. The basics: complete every field, add photos of every branch, list opening hours including bank holiday variations, set the correct service area, and respond to every review within seven days. Add a Q&amp;A section answering common buyer and landlord questions. Update the profile whenever a branch moves or a phone number changes. Inconsistency between your Google Business Profile and your website is one of the most common reasons UK estate agents are skipped in AI answers.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            6. Publish location-specific pages for every area you cover
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            A single &quot;Areas We Cover&quot; page listing fifty postcodes wins nothing. AI engines reward dedicated, substantive pages per area. If you cover ten Cardiff suburbs, write ten pages — each with the area&rsquo;s actual character, average sale price ranges from your own data, your branch contact for that area, and area-specific testimonials. Each page gets its own LocalBusiness schema with areaServed scoped to that postcode. This is also how you compete with corporate estate agency chains in AI answers — they have national content; you have a local depth they can&rsquo;t match. Publish ten genuine area pages over a quarter, not fifty thin ones in a week.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            7. Use FAQ schema on key service pages
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            FAQPage JSON-LD is the highest-leverage on-page schema you can add for AI visibility. ChatGPT and Perplexity actively extract FAQ blocks as direct answers. Add eight to twelve real questions to your sales page, your lettings page and your valuations page — questions actual clients ask, with concise 60-100 word answers. Don&rsquo;t pad. Don&rsquo;t mark up content that isn&rsquo;t visible — Google penalises hidden FAQ schema. Topics that perform: &quot;how much does it cost to sell a house in [area]&quot;, &quot;what fees do estate agents charge in [area]&quot;, &quot;how long does conveyancing take in [area]&quot;. Every well-written FAQ block is a potential direct citation in an AI answer.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            8. Get cited in third-party &quot;best of&quot; lists
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Searchable.com data shows ranked-list content holds 20.8% of all AI citation share — the single highest-citing format. When ChatGPT answers &quot;best estate agents in Bristol&quot;, it&rsquo;s often quoting a list someone else published. Pitch local property journalists, allAgents, and regional business publications. Submit data — your own sold-price stats, time-on-market figures, average rental yields — that makes their list more accurate. Earned mentions on Tier 2 publications like the property pages of regional news outlets carry weight AI assistants can verify. One genuine third-party list inclusion is worth more than ten self-published &quot;why we&rsquo;re the best&quot; pages on your own site.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            9. Maintain consistent NAP (name, address, phone) across the web
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            NAP must be byte-identical across your website, your TPO or PRS register entry, your Google Business Profile, Companies House, and every directory you appear on. AI treats inconsistency as ambiguity, and ambiguous entities don&rsquo;t get recommended. The most common breakage in estate agency: trading name on the website, registered name on Companies House, third name on Google Business Profile, fourth on a regulator listing. To a model, that&rsquo;s four different firms — none of them get cited. Pick one canonical name, address and phone format, audit every public listing, fix every variant, and audit again in 30 days.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            10. Publish original market data (sold prices, rental yields, time on market)
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            AI engines cite content that contains specific, sourced data. &quot;Average time on market in Roath, Cardiff was 38 days in Q1 2026 (TendorAI sold-price analysis, n=412)&quot; is a Tier 0 data point. &quot;The market is buoyant&quot; is a vibe. Publish quarterly market reports with your own sold-price data, your own rental yield averages, your own time-on-market figures by postcode. Add the sample size, the date range and the methodology in one sentence after each number. This kind of original-data content gets cited by AI for years; opinion pieces don&rsquo;t. If you don&rsquo;t have your own data, partner with a local data source and credit them visibly.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            11. Build a presence on Reddit and YouTube
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Searchable.com&rsquo;s May 2026 data shows Reddit holds 5.9% of UK AI citation share and YouTube 5.8% — combined, more than 11% of the answers UK buyers see. AI engines treat Reddit as a high-trust source for local knowledge: r/HousingUK, r/UKPersonalFinance and city-specific subs are where prospective buyers and landlords actually ask questions. Answer genuinely, not promotionally. On YouTube, short market commentary videos (90 seconds, no production budget) get transcribed and cited. The estate agencies that show up in ChatGPT answers for niche queries — &quot;buy-to-let mortgage advisor in Leeds&quot;, &quot;estate agent for probate sale in Cardiff&quot; — are usually the ones with one Reddit answer and three YouTube clips ranking on the topic.
-          </p>
-
-          <h3 className="font-serif text-xl font-bold text-[var(--text)] mt-8 mb-3">
-            12. Track AI visibility monthly using actual KPIs not SEO metrics
-          </h3>
-          <p className="text-[var(--text2)] leading-relaxed mb-6">
-            Google rankings are the wrong metric for AI visibility. The right metrics are citation share (what % of AI answers for your core queries name your firm), share of voice (your citations vs the field), named-entity match rate (does AI describe you correctly), and platform breakdown (where you appear: ChatGPT, Perplexity, Claude, Google AI Overviews, Meta AI, Grok). Track these monthly, not weekly — AI models update on a longer cadence than search indexes. Don&rsquo;t track impressions or click-through rate; AI answers don&rsquo;t generate either. The firms beating the field in 2026 are the ones who switched their dashboards from SEO KPIs to AI visibility KPIs in 2025.
-          </p>
-
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mt-12 mb-6">
-            Frequently asked questions
-          </h2>
-
-          {faqs.map((faq, i) => (
-            <div key={i} className="mb-6">
-              <h3 className="font-serif text-lg font-bold text-[var(--text)] mb-2">{faq.q}</h3>
-              <p className="text-[var(--text2)] leading-relaxed">{faq.a}</p>
-            </div>
-          ))}
-
-          {/* Sister pillars */}
-          <div className="mt-12 border-t border-[var(--border)] pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text3)] mb-3">
-              AI visibility for other UK regulated services
+        {/* Intro — Section 25 */}
+        <section className="py-12 md:py-16">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
+            <p>
+              AI visibility for UK estate agents is the process of making an agency&rsquo;s redress-scheme, professional-body and trading data structured and verifiable so AI assistants — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — name the agency when a prospective vendor, purchaser, landlord or tenant asks for an estate agent or letting agent. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which agency names an AI assistant says out loud in the answer it gives.
             </p>
-            <ul className="text-sm space-y-2 text-[var(--text2)]">
-              <li>
-                <Link href="/ai-visibility-for-solicitors" className="text-purple-600 hover:underline">
-                  AI visibility for UK solicitors
-                </Link>
-              </li>
-              <li>
-                <Link href="/ai-visibility-for-accountants" className="text-purple-600 hover:underline">
-                  AI visibility for UK accountants
-                </Link>
-              </li>
-              <li>
-                <Link href="/ai-visibility-for-mortgage-advisors" className="text-purple-600 hover:underline">
-                  AI visibility for UK mortgage advisers
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Estate agent city reports */}
-          <div className="mt-10">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text3)] mb-3">
-              Estate agent city reports
+            <p>
+              As of 23 May 2026, TendorAI&rsquo;s independently tracked AI visibility score reached 61.1%, up from 22.2% four days earlier (Searchable.com). The signal that moved the score was the same signal AI assistants use to decide which agencies to name: structured, dated, verifiable content cross-referenced against Propertymark, TPO, PRS, Companies House and HMRC anti-money-laundering (AML) registrations.
             </p>
-            <ul className="text-sm space-y-2 text-[var(--text2)]">
-              {cityBlogLinks.map((c) => (
-                <li key={c.href}>
-                  <Link href={c.href} className="text-purple-600 hover:underline">
-                    AI visibility report — estate agents in {c.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <p>
+              For a UK independent agency, the buyer-side consequence is direct. A prospective vendor asking an AI for an &ldquo;estate agent in Cardiff to value my house&rdquo; or a tenant asking for a &ldquo;letting agent in Bristol for a two-bed flat&rdquo; is returned two or three named agencies. Agencies outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
+            </p>
+            <p>
+              An independent sales agency that wins one additional AI-driven instruction per month — and converts it to a completed sale — at an illustrative £4,500 average commission (1.2% on a £375,000 sale) would add roughly £54,000 in commission income over twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
+            </p>
           </div>
-        </article>
+        </section>
 
-        {/* CTA */}
-        <section className="bg-purple-50 py-12 border-t border-[var(--border)]">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mb-3">
-              Get your estate agency&rsquo;s free AI visibility report
+        {/* H2-1 What is AI visibility for estate agents? */}
+        <section className="py-10 md:py-14 bg-gray-50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
+              What is AI visibility for estate agents?
             </h2>
-            <p className="text-[var(--text2)] leading-relaxed mb-6">
-              See exactly which queries AI assistants are answering with your competitors&rsquo; names instead of yours, and the specific structural fixes that close the gap. Free, 60 seconds, no signup.
+            <p>
+              AI visibility for estate agents is the discipline of making an agency&rsquo;s scheme memberships, services and credible citations machine-readable, so AI assistants name the agency in answers to recommendation queries. The agencies cited consistently in 2026 share the same three signals: Schema.org JSON-LD on the agency&rsquo;s own website, identity consistency across Propertymark, TPO or PRS, Companies House and HMRC AML registration, and citations from sources AI engines treat as authoritative for UK property information.
             </p>
-            <Link
-              href="/aeo-report"
-              className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-            >
-              Run the free AI visibility report
-            </Link>
-            <p className="mt-4 text-sm text-[var(--text3)]">
-              Pricing for ongoing AI visibility tracking is available on{' '}
-              <Link href="/for-vendors#pricing" className="text-purple-600 hover:underline">
-                the Pro tier
-              </Link>
-              .
+            <p>
+              UK estate-agency regulation is fragmented across several bodies. Every agent must belong to a government-backed redress scheme — The Property Ombudsman (TPO) or the Property Redress Scheme (PRS). Most reputable firms are also members of Propertymark — through NAEA Propertymark for sales agents or ARLA Propertymark for letting agents. Firms handling client money must hold Client Money Protection. Estate-agency businesses must register with HMRC for anti-money-laundering supervision. National Trading Standards Estate and Letting Agency Team (NTSELAT) provides national guidance. AI engines that find consistent data across these sources have something to verify; agencies that don&rsquo;t are skipped.
+            </p>
+            <p>
+              AI assistants do not return ranked link lists. They return short, confident answers naming one to three agencies by name, then move on. When a user asks ChatGPT, Perplexity, Claude, Gemini, Grok or Google AI Overviews for an &ldquo;estate agent in Newport to sell my flat&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
+            </p>
+            <p>
+              Residential sales, lettings, property management, block management, commercial and new homes are the highest-volume recommendation categories in this vertical. Agencies that match the structured-data, consistency and citation signals on those queries are the agencies AI assistants are confident enough to name. SEO and AI visibility share some inputs but reward different outcomes — SEO improves the order of links, AI visibility decides whether your agency is named at all.
             </p>
           </div>
         </section>
 
-        {/* City links grid */}
-        <section className="py-16 bg-white border-t border-[var(--border)]">
+        {/* H2-2 Why are most agencies invisible? */}
+        <section className="py-10 md:py-14">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
+              Why are most UK estate agents invisible in AI answers?
+            </h2>
+            <p>
+              On TendorAI&rsquo;s own AI visibility score — independently tracked by Searchable.com — the move from 22.2% to 61.1% in four days (19 to 23 May 2026) was driven by structured, dated content. Most UK independent agencies are missing that structured layer entirely.
+            </p>
+            <p>
+              The single most common cause is the absence of machine-readable schema on the agency&rsquo;s own website. A polished site full of property listings and area guides in plain prose is not the same as a site that declares RealEstateAgent schema with scheme memberships, named branch managers, services offered and coverage postcodes in JSON-LD. AI engines cannot reliably extract entity claims from prose; they read structured data first.
+            </p>
+            <p>
+              The second common cause is identity inconsistency across the fragmented regulatory map. When an agency&rsquo;s trading name on the website, its Propertymark entry, its TPO or PRS listing, its Companies House record and its HMRC AML registration do not match exactly, the engine cannot resolve the agency as a single entity. AI engines that cannot confidently identify an agency tend to name a competitor with cleaner signals instead.
+            </p>
+            <p>
+              The third cause is citation deficit. AI engines weight UK-specific property sources — Propertymark, TPO, Estate Agent Today, Property Industry Eye, Companies House — more heavily than generic directory listings or property portals. Portal listings (Rightmove, Zoopla) are about individual properties, not about the agency itself, so they do little to verify the agency as an entity. Agencies with no presence on the agency-level sources have nothing for the engine to cross-reference.
+            </p>
+            <p>
+              None of these gaps reflect quality of service. They reflect how findable, verifiable and consistent the agency&rsquo;s identity is across the public web.
+            </p>
+          </div>
+        </section>
+
+        {/* H2-3 How does TendorAI get an estate agent cited? */}
+        <section className="py-10 md:py-14 bg-gray-50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
+              How does TendorAI get an estate agent cited?
+            </h2>
+            <p>
+              TendorAI&rsquo;s six-agent fleet runs daily on every Pro account with a single outcome metric: AI citation frequency. The platform is not a source of property advice; it is a visibility platform built around the citation signals AI engines actually use.
+            </p>
+            <p>
+              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — for the agency&rsquo;s service-and-postcode queries every day and records citation frequency. Detective diagnoses why the agency is missed, per platform, per prompt, with a specific recommended fix.
+            </p>
+            <p>
+              Writer drafts three professionally-written articles per week under the agency&rsquo;s byline. Each article is structured for passage-level retrieval: every H2 opens with a direct answer, claims are dated, and references — Propertymark, TPO/PRS, Estate Agent Today, Property Industry Eye, Companies House — are linked. Articles publish to the agency&rsquo;s TendorAI profile and are formatted to deploy on the agency&rsquo;s own website.
+            </p>
+            <p>
+              Engineering installs Schema.org JSON-LD — RealEstateAgent, Person entries for named valuers and branch managers, Service entries for sales, lettings and property management, and PostalAddress entries for each branch — on the agency&rsquo;s website. Listings audits the UK directories AI assistants cross-reference and flags where the agency is missing, or where its name, address or phone do not match.
+            </p>
+            <p>
+              Reporter aggregates the week into a single Weekly Pro Report: visibility score, citations captured, missed queries, competitor moves and queued actions. Every change ships through an approval queue — the agency sees and approves every article and every schema change before it goes live.
+            </p>
+          </div>
+        </section>
+
+        {/* H2-4 Timeframe table */}
+        <section className="py-10 md:py-14">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
+              How long does it take to get AI-recommended?
+            </h2>
+            <p>
+              It typically takes four to eight weeks for a UK independent agency with no prior structured data to appear in AI recommendations after deployment, and twelve to sixteen weeks to be cited consistently. The timeline depends on starting point — an agency with clean Propertymark and TPO or PRS entries and a crawlable website moves faster than one fixing inconsistent details across several schemes first.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                <thead className="bg-gray-50">
+                  <tr className="text-left">
+                    <th className="py-3 px-4 font-semibold text-gray-900">Stage</th>
+                    <th className="py-3 px-4 font-semibold text-gray-900">Timeframe</th>
+                    <th className="py-3 px-4 font-semibold text-gray-900">What happens</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr><td className="py-3 px-4">Schema deployment</td><td className="py-3 px-4 whitespace-nowrap">24–48 hours</td><td className="py-3 px-4">JSON-LD goes live on the agency&rsquo;s website</td></tr>
+                  <tr><td className="py-3 px-4">First AI crawl</td><td className="py-3 px-4 whitespace-nowrap">1–2 weeks</td><td className="py-3 px-4">ChatGPT, Perplexity and Claude crawlers index it</td></tr>
+                  <tr><td className="py-3 px-4">Citation appearance</td><td className="py-3 px-4 whitespace-nowrap">4–8 weeks</td><td className="py-3 px-4">Agency starts appearing on target queries</td></tr>
+                  <tr><td className="py-3 px-4">Consistent citation</td><td className="py-3 px-4 whitespace-nowrap">12–16 weeks</td><td className="py-3 px-4">Cited consistently on main buyer queries</td></tr>
+                  <tr><td className="py-3 px-4">Compounding authority</td><td className="py-3 px-4 whitespace-nowrap">6+ months</td><td className="py-3 px-4">Citations reinforce each other</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              AI engine responses shift between runs and over time. The figures above are a snapshot, not a fixed property of any agency; results depend on platform behaviour and the agency&rsquo;s existing data quality.
+            </p>
+          </div>
+        </section>
+
+        {/* H2-5 Worked £ example */}
+        <section className="py-10 md:py-14 bg-gray-50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
+              What this looks like for an independent UK sales agency
+            </h2>
+            <p>
+              An independent UK estate agency running TendorAI Pro at £299 per month — £3,588 per year — that wins one additional AI-driven instruction per month and converts it to a completed sale, at an illustrative £4,500 average commission (1.2% on a £375,000 sale), would add approximately £54,000 in commission income over twelve months.
+            </p>
+            <p>
+              The figures above are illustrative, not a guarantee. Actual outcomes depend on the agency&rsquo;s commission structure, instruction-to-completion conversion rate, average sale price in the local market, and the AI platforms used by the agency&rsquo;s target vendors. Many factors decide whether an instruction reaches completion.
+            </p>
+            <p>
+              The shape of the example matters more than the exact figures. Higher-value markets — central London, prime regional towns — would change the worked total upward. Lower-value markets would change it downward. The cost anchor — £3,588 per year — is fixed regardless of average sale price.
+            </p>
+            <p>
+              Against that £3,588 annual cost, the break-even point in this example is approximately one additional completion per year at the £4,500 commission level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost instructions, not in software fees.
+            </p>
+          </div>
+        </section>
+
+        {/* H2-6 FAQ */}
+        <section className="py-10 md:py-14">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
+              Frequently asked questions
+            </h2>
+            <FAQSection />
+          </div>
+        </section>
+
+        {/* Single CTA */}
+        <section className="py-12 md:py-16 bg-brand-gradient text-white">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <p className="text-lg md:text-xl text-white/95">
+              See where your agency appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — the report runs in 60 seconds.
+            </p>
+            <Link href={CTA_URL} className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-purple-700 font-semibold hover:bg-gray-100 transition-colors">
+              Run your free AI visibility report
+            </Link>
+          </div>
+        </section>
+
+        {/* Internal links */}
+        <section className="py-10 bg-white border-t border-gray-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-3 gap-4 text-sm">
+            <Link href="/blog/how-to-get-estate-agency-recommended-by-chatgpt" className="text-purple-700 hover:underline">
+              How to get your estate agency recommended by ChatGPT &rarr;
+            </Link>
+            <Link href="/ai-visibility-platform" className="text-purple-700 hover:underline">
+              How the TendorAI platform works &rarr;
+            </Link>
+            <Link href="/best-ai-visibility-tools-uk-solicitors" className="text-purple-700 hover:underline">
+              Compare TendorAI to other AI visibility tools &rarr;
+            </Link>
+          </div>
+        </section>
+
+        {/* By-city grid */}
+        <section className="py-14 bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text)] mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
               AI Visibility for Estate Agents by City
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-w-5xl mx-auto">
@@ -324,34 +332,20 @@ export default function EstateAgentsPillarPage() {
                 <Link
                   key={city.slug}
                   href={`/ai-visibility-for-estate-agents/${city.slug}`}
-                  className="text-sm text-[var(--text2)] hover:text-purple-600 hover:bg-purple-50 rounded-lg px-3 py-2 transition-colors text-center"
+                  className="text-sm text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg px-3 py-2 transition-colors text-center"
                 >
-                  Estate Agents in {city.name}
+                  Estate agents in {city.name}
                 </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {/* External authority links */}
-        <section className="bg-gray-50 py-10 border-t border-[var(--border)]">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text3)] mb-3">
-              Regulatory references
-            </p>
-            <ul className="text-sm text-[var(--text2)] space-y-2">
-              <li>
-                <a href="https://www.tpos.co.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">The Property Ombudsman (tpos.co.uk)</a>
-              </li>
-              <li>
-                <a href="https://www.theprs.co.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">Property Redress Scheme (theprs.co.uk)</a>
-              </li>
-              <li>
-                <a href="https://www.propertymark.co.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">ARLA Propertymark (propertymark.co.uk)</a>
-              </li>
-            </ul>
-            <p className="text-xs text-[var(--text3)] mt-6">
-              Sources: TendorAI database of 12,793 UK regulated firms (May 2026). Searchable.com AI citation tracker, 3 May 2026 snapshot. The Property Ombudsman public register. Property Redress Scheme public register.
+        {/* Compliance footer */}
+        <section className="py-8 bg-gray-50 border-t border-gray-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-xs text-gray-500">
+              TendorAI is an AI visibility platform. It is not a source of property advice. No outcome guarantees are made or implied.
             </p>
           </div>
         </section>
