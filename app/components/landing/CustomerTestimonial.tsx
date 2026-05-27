@@ -49,7 +49,7 @@ export default function CustomerTestimonial() {
 
           <div className="border-t border-[var(--border)] mt-8 pt-6">
             <p className="font-semibold text-[var(--text)]">
-              Scott Methven, Founder, TendorAI Ltd &middot; Companies House 16521860
+              Scott Davies, Founder, TendorAI Ltd &middot; Companies House 16521860
             </p>
           </div>
 
