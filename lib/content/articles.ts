@@ -37,6 +37,25 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    // The full article body for this slug lives at
+    // app/resources/tendorai-vs-ultrascout/page.tsx — that static segment
+    // wins over the dynamic [slug] route. This entry exists so the article
+    // appears in the /resources listing and the sitemap.
+    slug: 'tendorai-vs-ultrascout',
+    title:
+      'TendorAI vs UltraScout AI: Which AI Visibility Platform Wins for UK Regulated Firms?',
+    excerpt:
+      'Direct comparison of TendorAI (£299/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
+    metaDescription:
+      'Direct comparison of TendorAI (£299/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 12,
+    publishedDate: '2026-05-27',
+    updatedDate: '2026-05-27',
+    content: `Side-by-side comparison of TendorAI and UltraScout AI for UK regulated professional services. TendorAI is a UK-only platform at £299/month built around four regulator datasets (SRA, ICAEW, FCA, Propertymark) with schema installation included. UltraScout AI is a horizontal GEO/AEO platform priced from £49/month for self-serve tracking to £1,995/month for done-for-you agency packages, without regulatory data or schema installation. Full article at /resources/tendorai-vs-ultrascout.`,
+  },
+  {
     slug: 'how-to-get-recommended-by-chatgpt',
     title: 'How to Get Recommended by ChatGPT: A 2026 Guide for UK Firms',
     excerpt:
