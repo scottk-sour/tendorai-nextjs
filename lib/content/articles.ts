@@ -43,11 +43,11 @@ export const articles: Article[] = [
     // is also the canonical URL.
     slug: 'manchester-solicitors-chatgpt-recommendations',
     title:
-      'Is your Manchester firm in the 24 names ChatGPT recommends — or one of the 76 it ignores?',
+      'We tested 100 Manchester solicitor firms. Only 24 are recommended by ChatGPT.',
     excerpt:
-      'We tested 100 Manchester solicitor firms across ChatGPT, Claude, and Perplexity. Only 24 appeared consistently in AI recommendations.',
+      'Of the 84 we could measure cleanly, only 24 appeared consistently in AI recommendations.',
     metaDescription:
-      'We tested 100 Manchester solicitor firms across ChatGPT, Claude, and Perplexity. Only 24 appeared consistently in AI recommendations. Find out which group your firm is in — free, 90 seconds.',
+      'We tested 100 Manchester SRA-registered solicitor firms across ChatGPT, Claude, and Perplexity. Of the 84 scored cleanly, only 24 appeared consistently in AI recommendations.',
     category: 'Research',
     author: 'Scott Davies',
     readTime: 4,

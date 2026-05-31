@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 const TITLE =
-  'Is your Manchester firm in the 24 names ChatGPT recommends — or one of the 76 it ignores?';
+  'We tested 100 Manchester solicitor firms. Only 24 are recommended by ChatGPT.';
 const DESCRIPTION =
-  'We tested 100 Manchester solicitor firms across ChatGPT, Claude, and Perplexity. Only 24 appeared consistently in AI recommendations. Find out which group your firm is in — free, 90 seconds.';
+  'We tested 100 Manchester SRA-registered solicitor firms across ChatGPT, Claude, and Perplexity. Of the 84 scored cleanly, only 24 appeared consistently in AI recommendations.';
 const CANONICAL =
   'https://www.tendorai.com/blog/manchester-solicitors-chatgpt-recommendations';
 const PUBLISHED = '2026-06-01';
@@ -171,8 +171,8 @@ export default function ManchesterSolicitorsChatGPTPage() {
         {/* Body */}
         <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12 prose prose-slate lg:prose-lg">
           <p className="lead font-semibold text-lg text-gray-900">
-            We tested 100 Manchester solicitor firms last week. Only 24 appeared consistently in AI
-            recommendations. The other 76 are invisible. Find out which group your firm is in — free,
+            We tested 100 Manchester solicitor firms last week. Of the 84 we could measure cleanly,
+            only 24 appeared consistently in AI recommendations. Find out where your firm sits — free,
             90 seconds.
           </p>
 
@@ -233,16 +233,20 @@ export default function ManchesterSolicitorsChatGPTPage() {
 
           <CtaButton label="Find your firm in the Manchester data" ctaId="cta_3" />
 
-          <h2>What we found across 100 Manchester firms</h2>
-          <p>We segmented results into three clean groups:</p>
+          <h2>What we found across the 84 firms we scored cleanly</h2>
+          <p>
+            We tested 100 SRA-registered firms. 84 returned complete scoring data; 16 returned
+            partial data and were excluded from the score-band analysis below. Of the 84 we
+            measured cleanly:
+          </p>
           <ul>
-            <li><strong>24 firms consistently cited</strong> by AI — the recommended group</li>
+            <li><strong>24 firms consistently cited</strong> by AI — the recommended group, scoring 50+</li>
             <li><strong>44 firms occasionally cited</strong> — sporadic mentions, never first in queue</li>
-            <li><strong>16 firms effectively invisible</strong> — absent from AI recommendations</li>
+            <li><strong>16 firms effectively invisible</strong> — scoring below 30, absent from AI recommendations</li>
           </ul>
           <p>
             The UK average AI Visibility Score sits around 34/100. The 24 cited Manchester firms
-            score 50+. Most firms we tested fall below that line.
+            score 50+. Most firms we tested fall well below that line.
           </p>
           <p>One Manchester firm scored 5/100. Total AI invisibility.</p>
 
@@ -315,7 +319,8 @@ export default function ManchesterSolicitorsChatGPTPage() {
             your website within 48 hours.
           </p>
           <p>
-            The 24 Manchester firms scoring above 50 figured this out. The other 76 haven&rsquo;t.
+            The 24 Manchester firms scoring above 50 figured this out. The other 60 we scored
+            cleanly haven&rsquo;t.
           </p>
 
           <h2>Your free report</h2>
@@ -342,7 +347,9 @@ export default function ManchesterSolicitorsChatGPTPage() {
             Each firm tested against ChatGPT, Claude, and Perplexity using practice-area-specific
             consumer recommendation prompts (e.g. &ldquo;recommend a conveyancing solicitor in
             Manchester&rdquo;), run multiple times across the test period to control for response
-            variance. National plcs and regional giants (DWF, JMW, Kuits, Pannone) were tested as
+            variance. 84 firms returned complete scoring across all signals; 16 returned partial
+            data and were excluded from the score-band analysis but included in the qualitative
+            findings. National plcs and regional giants (DWF, JMW, Kuits, Pannone) were tested as
             comparison points but excluded from the SME cohort. TendorAI is operated by TendorAI
             Ltd (Companies House 16521860).
           </p>
