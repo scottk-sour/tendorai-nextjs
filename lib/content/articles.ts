@@ -37,6 +37,27 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    // Full article body lives at app/blog/manchester-solicitors-chatgpt-recommendations/page.tsx.
+    // This entry surfaces the article in the /resources listing and the
+    // sitemap; `href` points the listing card at the /blog/ route, which
+    // is also the canonical URL.
+    slug: 'manchester-solicitors-chatgpt-recommendations',
+    title:
+      'Is your Manchester firm in the 24 names ChatGPT recommends — or one of the 76 it ignores?',
+    excerpt:
+      'We tested 100 Manchester solicitor firms across ChatGPT, Claude, and Perplexity. Only 24 appeared consistently in AI recommendations.',
+    metaDescription:
+      'We tested 100 Manchester solicitor firms across ChatGPT, Claude, and Perplexity. Only 24 appeared consistently in AI recommendations. Find out which group your firm is in — free, 90 seconds.',
+    category: 'Research',
+    author: 'Scott Davies',
+    readTime: 4,
+    publishedDate: '2026-06-01',
+    updatedDate: '2026-06-01',
+    featured: true,
+    href: '/blog/manchester-solicitors-chatgpt-recommendations',
+    content: '',
+  },
+  {
     // The full article body for this slug lives at
     // app/resources/tendorai-vs-ultrascout/page.tsx — that static segment
     // wins over the dynamic [slug] route. This entry exists so the article
