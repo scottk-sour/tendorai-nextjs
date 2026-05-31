@@ -259,9 +259,9 @@ export default function ManchesterSolicitorsChatGPTPage() {
           </p>
           <p>
             If even a small proportion of legal enquiries are now concentrated among the 24 firms
-            consistently cited, that&rsquo;s a measurable shift in client routing — and the 76
-            less-visible firms are competing for everything AI didn&rsquo;t route. They don&rsquo;t
-            realise the AI-routed enquiries existed.
+            consistently cited, that&rsquo;s a measurable shift in client routing — and the other
+            60 we scored cleanly are competing for everything AI didn&rsquo;t route. They
+            don&rsquo;t realise the AI-routed enquiries existed.
           </p>
           <p>
             Every month you don&rsquo;t know your AI Visibility Score, the routing shift continues
