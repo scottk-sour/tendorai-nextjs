@@ -1511,7 +1511,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-uk-solicitors-2025',
-    title: 'AI Visibility Report: UK Solicitors',
+    title: 'AI Visibility Report: UK Solicitors 2026',
     excerpt: '1,458 SRA-registered law firms have no website. Every single one is invisible to ChatGPT, Gemini, and Perplexity. TendorAI\'s data on 8,625 solicitors reveals the AI visibility gap — and what it means for every firm in the UK.',
     category: 'Research',
     author: 'TendorAI',

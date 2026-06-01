@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-const TITLE = 'AI Visibility Report: UK Solicitors';
+const TITLE = 'AI Visibility Report: UK Solicitors 2026';
 const DESCRIPTION =
   '1,458 SRA-registered law firms have no website. Every single one is invisible to ChatGPT, Gemini, and Perplexity. TendorAI\'s data on 8,625 solicitors reveals the AI visibility gap — and what it means for every firm in the UK.';
 const CANONICAL =
@@ -139,7 +139,7 @@ export default function AIVisibilityReportSolicitors() {
       'law firm AI recommendations',
       'ChatGPT solicitor visibility',
       'UK solicitors data report',
-      'AI visibility report 2025',
+      'AI visibility report 2026',
       'solicitor AI discovery',
     ],
     wordCount: 2400,
@@ -192,7 +192,7 @@ export default function AIVisibilityReportSolicitors() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-              AI Visibility Report: UK Solicitors
+              AI Visibility Report: UK Solicitors 2026
             </h1>
 
             <p className="text-lg text-blue-100 leading-relaxed max-w-3xl">
@@ -447,7 +447,7 @@ export default function AIVisibilityReportSolicitors() {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Cardiff Case Study</h2>
 
             <p className="text-gray-600 leading-relaxed mb-4">
-              Gemini&apos;s response to &ldquo;best conveyancing solicitor Cardiff&rdquo; cited three sources: CJCH Solicitors&apos; own award page, Trustpilot, and Wales 247.
+              Gemini&apos;s response to &ldquo;best conveyancing solicitor Cardiff 2026&rdquo; cited three sources: CJCH Solicitors&apos; own award page, Trustpilot, and Wales 247.
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-4">
