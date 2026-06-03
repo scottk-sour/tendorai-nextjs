@@ -229,6 +229,43 @@ export default function AIVisibilityReportSolicitors() {
 
         {/* Article content */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+          {/* Updated 2026 findings — consolidated stats from prior reports */}
+          <section className="mb-12 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-2 py-0.5 text-xs font-bold uppercase tracking-wide rounded bg-amber-500 text-white">
+                Updated 2026 findings
+              </span>
+            </div>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              TendorAI&apos;s ongoing analysis across the full UK regulated-professional-services
+              dataset &mdash; 12,793 firms covering solicitors, accountants, mortgage advisers,
+              and estate agents &mdash; reveals how thin AI visibility actually is among UK
+              solicitor firms:
+            </p>
+            <ul className="space-y-2 text-gray-700">
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600 font-bold mt-0.5">&#9679;</span>
+                <span><strong>28/100</strong> &mdash; average AI Visibility Score across SRA-registered firms</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600 font-bold mt-0.5">&#9679;</span>
+                <span><strong>91%</strong> of firms with websites have no structured schema data &mdash; invisible to AI even with a website</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600 font-bold mt-0.5">&#9679;</span>
+                <span><strong>Zero firms scored above 60/100</strong> in the sample &mdash; no UK solicitor is &ldquo;AI-optimised&rdquo;</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600 font-bold mt-0.5">&#9679;</span>
+                <span><strong>1,458 firms have no website at all</strong> &mdash; 17% of the SRA register</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600 font-bold mt-0.5">&#9679;</span>
+                <span><strong>12,793 regulated firms</strong> tracked across all four verticals</span>
+              </li>
+            </ul>
+          </section>
+
           {/* Opening */}
           <section className="mb-12">
             <p className="text-lg text-gray-600 leading-relaxed mb-4">

@@ -309,8 +309,8 @@ export default function MortgageAdvisersAiVisibilityPage() {
         {/* Internal links */}
         <section className="py-10 bg-white border-t border-gray-200">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-3 gap-4 text-sm">
-            <Link href="/blog/ai-visibility-mortgage-advisors-uk" className="text-purple-700 hover:underline">
-              AI visibility for UK mortgage advisers — full guide &rarr;
+            <Link href="/blog/how-to-get-mortgage-adviser-recommended-by-chatgpt" className="text-purple-700 hover:underline">
+              How to get your mortgage adviser business recommended by ChatGPT &rarr;
             </Link>
             <Link href="/ai-visibility-platform" className="text-purple-700 hover:underline">
               How the TendorAI platform works &rarr;

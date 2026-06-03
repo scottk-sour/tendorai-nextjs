@@ -765,34 +765,34 @@ export default function SraAiCitationsPage() {
             </h2>
             <div className="grid sm:grid-cols-3 gap-4">
               <Link
-                href="/blog/how-to-get-found-on-chatgpt-as-a-solicitor"
+                href="/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt"
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-[#1B4F72] transition-colors">
-                  How to Get Found on ChatGPT as a Solicitor
+                  How to Get Your Solicitor Firm Recommended by ChatGPT
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  7 steps to get your law firm recommended by AI assistants.
+                  The UK solicitor playbook for getting recommended by AI assistants.
                 </p>
               </Link>
               <Link
-                href="/blog/how-to-get-your-law-firm-visible-to-ai-assistants"
+                href="/blog/how-to-get-recommended-by-chatgpt"
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-[#1B4F72] transition-colors">
-                  Law Firm AI Visibility Guide
+                  How to Get Recommended by ChatGPT (2026 Guide)
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  Step-by-step guide to getting your law firm visible to AI
-                  search.
+                  The 2026 guide for UK regulated firms — covers solicitors,
+                  accountants, mortgage advisers, and estate agents.
                 </p>
               </Link>
               <Link
-                href="/blog/schema-markup-why-ai-recommends-your-competitor"
+                href="/blog/does-structured-data-help-ai-visibility"
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-[#1B4F72] transition-colors">
-                  Schema Markup &amp; Why AI Recommends Your Competitor
+                  Does Structured Data Actually Help With AI Visibility?
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
                   Why structured data is now decisive for AI visibility.
