@@ -1193,7 +1193,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-london',
-    title: 'AI Visibility Report: London Solicitors 2025',
+    title: 'AI Visibility Report: London Solicitors 2026',
     excerpt: 'TendorAI tracks 2,331 SRA-registered solicitors in London. 17% have no website. Here\'s what the data shows about AI visibility for London law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1204,7 +1204,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-birmingham',
-    title: 'AI Visibility Report: Birmingham Solicitors 2025',
+    title: 'AI Visibility Report: Birmingham Solicitors 2026',
     excerpt: 'TendorAI tracks 249 SRA-registered solicitors in Birmingham. 24% have no website. Here\'s what the data shows about AI visibility for Birmingham law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1215,7 +1215,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-leeds',
-    title: 'AI Visibility Report: Leeds Solicitors 2025',
+    title: 'AI Visibility Report: Leeds Solicitors 2026',
     excerpt: 'TendorAI tracks 138 SRA-registered solicitors in Leeds. 15% have no website. Here\'s what the data shows about AI visibility for Leeds law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1226,7 +1226,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-liverpool',
-    title: 'AI Visibility Report: Liverpool Solicitors 2025',
+    title: 'AI Visibility Report: Liverpool Solicitors 2026',
     excerpt: 'TendorAI tracks 118 SRA-registered solicitors in Liverpool. 15% have no website. Here\'s what the data shows about AI visibility for Liverpool law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1237,7 +1237,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-nottingham',
-    title: 'AI Visibility Report: Nottingham Solicitors 2025',
+    title: 'AI Visibility Report: Nottingham Solicitors 2026',
     excerpt: 'TendorAI tracks 89 SRA-registered solicitors in Nottingham. 15% have no website. Here\'s what the data shows about AI visibility for Nottingham law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1248,7 +1248,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-bristol',
-    title: 'AI Visibility Report: Bristol Solicitors 2025',
+    title: 'AI Visibility Report: Bristol Solicitors 2026',
     excerpt: 'TendorAI tracks 85 SRA-registered solicitors in Bristol. 18% have no website. Here\'s what the data shows about AI visibility for Bristol law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1259,7 +1259,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-leicester',
-    title: 'AI Visibility Report: Leicester Solicitors 2025',
+    title: 'AI Visibility Report: Leicester Solicitors 2026',
     excerpt: 'TendorAI tracks 84 SRA-registered solicitors in Leicester. 18% have no website. Here\'s what the data shows about AI visibility for Leicester law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1270,7 +1270,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-bradford',
-    title: 'AI Visibility Report: Bradford Solicitors 2025',
+    title: 'AI Visibility Report: Bradford Solicitors 2026',
     excerpt: 'TendorAI tracks 82 SRA-registered solicitors in Bradford. 26% have no website. Here\'s what the data shows about AI visibility for Bradford law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1281,7 +1281,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-ilford',
-    title: 'AI Visibility Report: Ilford Solicitors 2025',
+    title: 'AI Visibility Report: Ilford Solicitors 2026',
     excerpt: 'TendorAI tracks 81 SRA-registered solicitors in Ilford. 25% have no website. Here\'s what the data shows about AI visibility for Ilford law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1292,7 +1292,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-bolton',
-    title: 'AI Visibility Report: Bolton Solicitors 2025',
+    title: 'AI Visibility Report: Bolton Solicitors 2026',
     excerpt: 'TendorAI tracks 72 SRA-registered solicitors in Bolton. 19% have no website. Here\'s what the data shows about AI visibility for Bolton law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1303,7 +1303,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-newcastle',
-    title: 'AI Visibility Report: Newcastle Solicitors 2025',
+    title: 'AI Visibility Report: Newcastle Solicitors 2026',
     excerpt: 'TendorAI tracks 60 SRA-registered solicitors in Newcastle. 25% have no website. Here\'s what the data shows about AI visibility for Newcastle law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1314,7 +1314,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-sheffield',
-    title: 'AI Visibility Report: Sheffield Solicitors 2025',
+    title: 'AI Visibility Report: Sheffield Solicitors 2026',
     excerpt: 'TendorAI tracks 50 SRA-registered solicitors in Sheffield. 18% have no website. Here\'s what the data shows about AI visibility for Sheffield law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1325,7 +1325,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-stockport',
-    title: 'AI Visibility Report: Stockport Solicitors 2025',
+    title: 'AI Visibility Report: Stockport Solicitors 2026',
     excerpt: 'TendorAI tracks 47 SRA-registered solicitors in Stockport. 9% have no website. Here\'s what the data shows about AI visibility for Stockport law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1336,7 +1336,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-luton',
-    title: 'AI Visibility Report: Luton Solicitors 2025',
+    title: 'AI Visibility Report: Luton Solicitors 2026',
     excerpt: 'TendorAI tracks 47 SRA-registered solicitors in Luton. 19% have no website. Here\'s what the data shows about AI visibility for Luton law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1347,7 +1347,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-preston',
-    title: 'AI Visibility Report: Preston Solicitors 2025',
+    title: 'AI Visibility Report: Preston Solicitors 2026',
     excerpt: 'TendorAI tracks 46 SRA-registered solicitors in Preston. 4% have no website. Here\'s what the data shows about AI visibility for Preston law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1358,7 +1358,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-york',
-    title: 'AI Visibility Report: York Solicitors 2025',
+    title: 'AI Visibility Report: York Solicitors 2026',
     excerpt: 'TendorAI tracks 42 SRA-registered solicitors in York. 12% have no website. Here\'s what the data shows about AI visibility for York law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1369,7 +1369,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-norwich',
-    title: 'AI Visibility Report: Norwich Solicitors 2025',
+    title: 'AI Visibility Report: Norwich Solicitors 2026',
     excerpt: 'TendorAI tracks 41 SRA-registered solicitors in Norwich. 20% have no website. Here\'s what the data shows about AI visibility for Norwich law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1380,7 +1380,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-cheltenham',
-    title: 'AI Visibility Report: Cheltenham Solicitors 2025',
+    title: 'AI Visibility Report: Cheltenham Solicitors 2026',
     excerpt: 'TendorAI tracks 39 SRA-registered solicitors in Cheltenham. 31% have no website. Here\'s what the data shows about AI visibility for Cheltenham law firms.',
     category: 'Research' as const,
     author: 'TendorAI',
@@ -1391,7 +1391,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   },
   {
     slug: 'ai-visibility-report-solicitors-blackburn',
-    title: 'AI Visibility Report: Blackburn Solicitors 2025',
+    title: 'AI Visibility Report: Blackburn Solicitors 2026',
     excerpt: 'TendorAI tracks 39 SRA-registered solicitors in Blackburn. 15% have no website. Here\'s what the data shows about AI visibility for Blackburn law firms.',
     category: 'Research' as const,
     author: 'TendorAI',

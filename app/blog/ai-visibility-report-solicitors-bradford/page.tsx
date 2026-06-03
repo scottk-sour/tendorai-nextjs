@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-const TITLE = 'AI Visibility Report: Bradford Solicitors 2025 — TendorAI Research';
+const TITLE = 'AI Visibility Report: Bradford Solicitors 2026 — TendorAI Research';
 const DESCRIPTION =
   'TendorAI tracks 82 SRA-registered solicitors in Bradford. 26% have no website. Here\'s what the data shows about AI visibility for Bradford law firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-solicitors-bradford';
@@ -190,7 +190,7 @@ export default function AIVisibilityReportBradfordSolicitors() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-              AI Visibility Report: Bradford Solicitors 2025
+              AI Visibility Report: Bradford Solicitors 2026
             </h1>
 
             <p className="text-lg text-blue-100 leading-relaxed max-w-3xl">
