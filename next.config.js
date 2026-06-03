@@ -69,6 +69,77 @@ const nextConfig = {
       { source: '/suppliers/vendor/premier-copier-solutions-ltd', destination: '/suppliers', permanent: true },
       { source: '/suppliers/vendor/print-logic-cardiff', destination: '/suppliers', permanent: true },
       { source: '/suppliers/vendor/team-metalogic', destination: '/suppliers', permanent: true },
+
+      // === Blog consolidation (claude/blog-consolidation) ===
+      // Cluster 1: How to Get Recommended by ChatGPT (UK Firms 2026) — keeper /blog/how-to-get-recommended-by-chatgpt
+      { source: '/blog/how-to-get-recommended-by-chatgpt-uk', destination: '/blog/how-to-get-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/how-to-enhance-ai-visibility-professional-services-firm', destination: '/blog/how-to-get-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/how-to-get-recommended-by-ai', destination: '/blog/how-to-get-recommended-by-chatgpt', permanent: true },
+      // Cluster 2: Solicitor firm recommended by ChatGPT — keeper /blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt
+      { source: '/blog/how-to-get-found-on-chatgpt-as-a-solicitor', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/ai-visibility-for-solicitors-uk', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/how-to-get-your-law-firm-visible-to-ai-assistants', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/how-to-get-solicitor-profile-into-ai-search-results', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      { source: '/blog/why-wont-chatgpt-recommend-my-law-firm', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      // Cluster 3: Accountancy on ChatGPT — keeper /blog/how-to-get-accountancy-firm-found-chatgpt-uk-2026
+      { source: '/blog/how-to-get-your-accountancy-practice-into-ai-search-results', destination: '/blog/how-to-get-accountancy-firm-found-chatgpt-uk-2026', permanent: true },
+      { source: '/blog/how-to-get-your-accountancy-firm-found-on-chatgpt', destination: '/blog/how-to-get-accountancy-firm-found-chatgpt-uk-2026', permanent: true },
+      // Cluster 4: Mortgage adviser recommended — keeper /blog/how-to-get-mortgage-adviser-recommended-by-chatgpt
+      { source: '/blog/ai-visibility-mortgage-advisors-uk', destination: '/blog/how-to-get-mortgage-adviser-recommended-by-chatgpt', permanent: true },
+      // Cluster 5: Why isn't my business showing up — keeper /blog/why-isnt-my-business-showing-up-in-chatgpt-recommendations
+      { source: '/blog/why-isnt-my-business-appearing-in-chatgpt-recommendations', destination: '/blog/why-isnt-my-business-showing-up-in-chatgpt-recommendations', permanent: true },
+      { source: '/blog/why-business-not-showing-up-chatgpt-recommendations', destination: '/blog/why-isnt-my-business-showing-up-in-chatgpt-recommendations', permanent: true },
+      // Cluster 6: Estate agents complete guide — keeper /ai-visibility-for-estate-agents (NOT under /blog)
+      { source: '/blog/how-to-get-estate-agency-recommended-by-chatgpt', destination: '/ai-visibility-for-estate-agents', permanent: true },
+      // Cluster 7: Best AI Visibility Tools UK — keeper /blog/best-ai-visibility-tools-uk-professional-services
+      { source: '/blog/best-ai-visibility-tool-uk', destination: '/blog/best-ai-visibility-tools-uk-professional-services', permanent: true },
+      { source: '/best-ai-visibility-tool-uk', destination: '/blog/best-ai-visibility-tools-uk-professional-services', permanent: true },
+      { source: '/blog/ai-visibility-tools-professional-services-firms-uk', destination: '/blog/best-ai-visibility-tools-uk-professional-services', permanent: true },
+      { source: '/blog/tendorai-vs-otterly-vs-profound-uk-professional-services', destination: '/blog/best-ai-visibility-tools-uk-professional-services', permanent: true },
+      // Cluster 8: Structured data — keeper /blog/does-structured-data-help-ai-visibility
+      { source: '/blog/schema-markup-why-ai-recommends-your-competitor', destination: '/blog/does-structured-data-help-ai-visibility', permanent: true },
+      // Cluster 9: GEO for UK businesses — keeper /blog/geo-marketing-uk-businesses
+      { source: '/blog/will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
+      { source: '/blog/geo-for-uk-solicitors', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
+      { source: '/blog/ai-visibility-vs-seo-agencies', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
+      // Cluster 10: AI Visibility Report UK Solicitors — keeper /blog/ai-visibility-report-uk-solicitors-2025
+      { source: '/blog/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      { source: '/blog/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      // Cluster 11: 216 UK Solicitors study — keeper /blog/ai-recommends-uk-solicitors-study
+      { source: '/blog/ai-recommends-solicitors-uk-cities', destination: '/blog/ai-recommends-uk-solicitors-study', permanent: true },
+      // Cluster 12: Why AI visibility is critical for UK solicitors — keeper /blog/ai-visibility-crucial-solicitors-uk
+      { source: '/blog/are-clients-finding-you-on-chatgpt', destination: '/blog/ai-visibility-crucial-solicitors-uk', permanent: true },
+      { source: '/are-clients-finding-you-on-chatgpt', destination: '/blog/ai-visibility-crucial-solicitors-uk', permanent: true },
+      // Cluster 13: TendorAI Review — keeper /blog/tendorai-review-what-uk-professional-services-firms-get
+      { source: '/blog/tendorai-is-not-a-monitoring-tool', destination: '/blog/tendorai-review-what-uk-professional-services-firms-get', permanent: true },
+      // Cluster 14: Cardiff Solicitors AI Visibility — keeper /blog/cardiff-solicitors-ai-visibility-may-2026
+      { source: '/blog/ai-visibility-report-solicitors-cardiff', destination: '/blog/cardiff-solicitors-ai-visibility-may-2026', permanent: true },
+      // Cluster 15: Manchester Solicitors — keeper /blog/manchester-solicitors-chatgpt-recommendations
+      { source: '/blog/ai-visibility-report-solicitors-manchester', destination: '/blog/manchester-solicitors-chatgpt-recommendations', permanent: true },
+
+      // === Office equipment blog prune (no keeper — back to blog index) ===
+      { source: '/blog/photocopier-costs-uk-2026', destination: '/blog', permanent: true },
+      { source: '/blog/copier-lease-vs-buy-uk', destination: '/blog', permanent: true },
+      { source: '/blog/voip-vs-traditional-phone-systems', destination: '/blog', permanent: true },
+      { source: '/blog/average-cpc-rates-uk-2026', destination: '/blog', permanent: true },
+      { source: '/blog/business-cctv-guide-uk', destination: '/blog', permanent: true },
+      { source: '/blog/switching-office-equipment-suppliers', destination: '/blog', permanent: true },
+
+      // === Mirror /resources/<slug> for entries that had no href (rendered at both URLs) ===
+      { source: '/resources/how-to-get-recommended-by-chatgpt-uk', destination: '/blog/how-to-get-recommended-by-chatgpt', permanent: true },
+      { source: '/resources/ai-visibility-for-solicitors-uk', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
+      { source: '/resources/geo-for-uk-solicitors', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
+      { source: '/resources/ai-visibility-vs-seo-agencies', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
+      { source: '/resources/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      { source: '/resources/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      { source: '/resources/ai-recommends-solicitors-uk-cities', destination: '/blog/ai-recommends-uk-solicitors-study', permanent: true },
+      { source: '/resources/tendorai-is-not-a-monitoring-tool', destination: '/blog/tendorai-review-what-uk-professional-services-firms-get', permanent: true },
+      { source: '/resources/photocopier-costs-uk-2026', destination: '/blog', permanent: true },
+      { source: '/resources/copier-lease-vs-buy-uk', destination: '/blog', permanent: true },
+      { source: '/resources/voip-vs-traditional-phone-systems', destination: '/blog', permanent: true },
+      { source: '/resources/average-cpc-rates-uk-2026', destination: '/blog', permanent: true },
+      { source: '/resources/business-cctv-guide-uk', destination: '/blog', permanent: true },
+      { source: '/resources/switching-office-equipment-suppliers', destination: '/blog', permanent: true },
     ];
   },
 

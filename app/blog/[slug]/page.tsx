@@ -10,29 +10,13 @@ interface PageProps {
 // Only generate pages for articles with href pointing to /blog/
 // that don't already have a static directory
 const STATIC_BLOG_DIRS = new Set([
-  'how-to-enhance-ai-visibility-professional-services-firm',
-  'why-isnt-my-business-appearing-in-chatgpt-recommendations',
-  'ai-visibility-tools-professional-services-firms-uk',
   'how-to-get-your-solicitor-firm-recommended-by-chatgpt',
-  'how-to-get-your-accountancy-practice-into-ai-search-results',
   'does-structured-data-help-ai-visibility',
   'tendorai-review-what-uk-professional-services-firms-get',
-  'how-to-get-estate-agency-recommended-by-chatgpt',
-  'ai-visibility-mortgage-advisors-uk',
   'how-much-conveyancing-cost-cardiff-2026',
-  'will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know',
   'ai-visibility-report-uk-solicitors-2025',
   'best-ai-visibility-tools-uk-professional-services',
   'how-to-check-if-business-appears-in-ai-recommendations',
-  'how-to-get-found-on-chatgpt-as-a-solicitor',
-  'how-to-get-recommended-by-ai',
-  'how-to-get-solicitor-profile-into-ai-search-results',
-  'how-to-get-your-accountancy-firm-found-on-chatgpt',
-  'how-to-get-your-law-firm-visible-to-ai-assistants',
-  'schema-markup-why-ai-recommends-your-competitor',
-  'tendorai-vs-otterly-vs-profound-uk-professional-services',
-  'why-business-not-showing-up-chatgpt-recommendations',
-  'why-wont-chatgpt-recommend-my-law-firm',
 ]);
 
 export async function generateStaticParams() {
