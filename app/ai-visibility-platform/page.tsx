@@ -146,7 +146,7 @@ const loopStages: Array<{ number: string; title: string; oneLiner: string; proof
 
 const audienceSegments: Array<{ vertical: string; regulator: string; count: string }> = [
   { vertical: 'Solicitors', regulator: 'SRA-regulated practices', count: '8,625 firms' },
-  { vertical: 'Accountants', regulator: 'ICAEW and ACCA members', count: '25,852 firms' },
+  { vertical: 'Accountants', regulator: 'UK accountancy firms (Companies House)', count: '25,852 firms' },
   { vertical: 'Mortgage advisers', regulator: 'FCA-regulated', count: '8,083 firms' },
   { vertical: 'Estate agents', regulator: 'Propertymark, ARLA, and NAEA members', count: '19,158 firms' },
   { vertical: 'Office equipment suppliers', regulator: 'Photocopiers, IT, managed print', count: '1,049 firms' },

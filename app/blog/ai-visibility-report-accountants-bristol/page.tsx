@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'AI Visibility Report: Bristol Accountants 2026 — TendorAI Research';
 const DESCRIPTION =
-  'TendorAI tracks 52 ICAEW-registered accountants in Bristol. Nearly all have websites but most lack structured data for AI. Here\'s what the data shows.';
+  'TendorAI tracks 52 accountancy firms in Bristol. Nearly all have websites but most lack structured data for AI. Here\'s what the data shows.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-accountants-bristol';
 const PUBLISHED = '2026-04-03';
 
@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: 'How many Bristol accountants are AI-visible?',
-    a: 'TendorAI tracks 52 ICAEW-registered accountants in Bristol. Only 1 has no website. However, the vast majority of the remaining 51 have no structured schema data — meaning even firms with professional websites are likely invisible to AI recommendation engines.',
+    a: 'TendorAI tracks 52 accountancy firms in Bristol. Only 1 has no website. However, the vast majority of the remaining 51 have no structured schema data — meaning even firms with professional websites are likely invisible to AI recommendation engines.',
   },
   {
     q: 'Why do accountants have such a low invisibility rate compared to solicitors?',
@@ -211,7 +211,7 @@ export default function AIVisibilityReportBristolAccountants() {
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col sm:flex-row items-center gap-6">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#1B4F72]">52</div>
-              <div className="text-sm text-gray-500">ICAEW firms in Bristol</div>
+              <div className="text-sm text-gray-500">Accountancy firms in Bristol</div>
             </div>
             <div className="h-px sm:h-12 sm:w-px bg-gray-200 w-full sm:w-auto" />
             <div className="text-center">
@@ -231,7 +231,7 @@ export default function AIVisibilityReportBristolAccountants() {
           {/* The Data */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Data</h2>
-            <p className="text-gray-700 mb-2">TendorAI tracks 52 ICAEW-registered accountants in Bristol.</p>
+            <p className="text-gray-700 mb-2">TendorAI tracks 52 accountancy firms in Bristol.</p>
             <ul className="space-y-1 mb-4">
               <li className="text-gray-700">&bull; 51 firms have a website</li>
               <li className="text-gray-700">&bull; 1 firm has no website</li>
@@ -264,7 +264,7 @@ export default function AIVisibilityReportBristolAccountants() {
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">City</th>
-                    <th className="p-3 text-left font-semibold">ICAEW Firms</th>
+                    <th className="p-3 text-left font-semibold">Accountancy Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
                     <th className="p-3 text-left font-semibold">No-Website Rate</th>
                   </tr>
@@ -415,7 +415,7 @@ export default function AIVisibilityReportBristolAccountants() {
           {/* TendorAI Position */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The TendorAI Position</h2>
-            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 regulated UK firms, sourced from SRA, ICAEW, and FCA registers.</p>
+            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 UK firms — solicitors from the SRA register, mortgage advisers from the FCA register, and UK accountancy firms from Companies House.</p>
             <p className="text-gray-700 mb-4">Each firm has a machine-readable profile.</p>
             <p className="text-gray-700 mb-2">For Pro firms:</p>
             <ul className="space-y-1 mb-4">
@@ -441,7 +441,7 @@ export default function AIVisibilityReportBristolAccountants() {
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Data sourced from TendorAI&apos;s database of ICAEW-registered firms, April 2026. Firm counts reflect registered practices as of the most recent regulatory register import.
+            Data sourced from TendorAI&apos;s database of UK accountancy firms (Companies House), April 2026. Firm counts reflect Companies House records as of the most recent import.
           </div>
 
           {/* Author / date */}
