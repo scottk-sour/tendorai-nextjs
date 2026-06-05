@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'AI Visibility Report: London Accountants 2026 — TendorAI Research';
 const DESCRIPTION =
-  'TendorAI tracks 412 ICAEW-registered accountants in London. With 98% having websites, the real battle is structured data. Here\'s what AI visibility looks like for London accounting firms.';
+  'TendorAI tracks 412 accountancy firms in London. With 98% having websites, the real battle is structured data. Here\'s what AI visibility looks like for London accounting firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-accountants-london';
 const PUBLISHED = '2026-04-03';
 
@@ -49,11 +49,11 @@ const verticalData = [
 const faqs = [
   {
     q: 'Does my London accountancy firm appear when someone asks AI for an accountant recommendation?',
-    a: 'Almost certainly not — unless you have structured data on your website. TendorAI tracks 412 ICAEW-registered accountants in London. Only 8 have no website, but the vast majority of those with websites have no structured schema data. Without it, AI engines cannot confidently recommend your firm. TendorAI offers a free AI Visibility Report that scans ChatGPT, Perplexity, and Gemini to show you exactly where you stand.',
+    a: 'Almost certainly not — unless you have structured data on your website. TendorAI tracks 412 accountancy firms in London. Only 8 have no website, but the vast majority of those with websites have no structured schema data. Without it, AI engines cannot confidently recommend your firm. TendorAI offers a free AI Visibility Report that scans ChatGPT, Perplexity, and Gemini to show you exactly where you stand.',
   },
   {
     q: 'How many London accountants are AI-visible right now?',
-    a: 'Of the 412 ICAEW-registered accountants in London, 404 have a website — giving London accountants a 98% web presence rate. However, having a website is only the baseline. The real differentiator is structured data: schema markup that declares your services, credentials, and location in a machine-readable format. Most London firms lack this entirely, which means AI engines skip them in favour of the few that have it.',
+    a: 'Of the 412 accountancy firms in London, 404 have a website — giving London accountants a 98% web presence rate. However, having a website is only the baseline. The real differentiator is structured data: schema markup that declares your services, credentials, and location in a machine-readable format. Most London firms lack this entirely, which means AI engines skip them in favour of the few that have it.',
   },
   {
     q: 'Can smaller London accountancy firms compete with the Big 4 in AI recommendations?',
@@ -211,7 +211,7 @@ export default function AIVisibilityReportLondonAccountants() {
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col sm:flex-row items-center gap-6">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#1B4F72]">412</div>
-              <div className="text-sm text-gray-500">ICAEW firms in London</div>
+              <div className="text-sm text-gray-500">Accountancy firms in London</div>
             </div>
             <div className="h-px sm:h-12 sm:w-px bg-gray-200 w-full sm:w-auto" />
             <div className="text-center">
@@ -231,7 +231,7 @@ export default function AIVisibilityReportLondonAccountants() {
           {/* The Data */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Data</h2>
-            <p className="text-gray-700 mb-2">TendorAI tracks 412 ICAEW-registered accountants in London.</p>
+            <p className="text-gray-700 mb-2">TendorAI tracks 412 accountancy firms in London.</p>
             <ul className="space-y-1 mb-4">
               <li className="text-gray-700">&bull; 404 firms have a website</li>
               <li className="text-gray-700">&bull; 8 firms have no website</li>
@@ -264,7 +264,7 @@ export default function AIVisibilityReportLondonAccountants() {
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">City</th>
-                    <th className="p-3 text-left font-semibold">ICAEW Firms</th>
+                    <th className="p-3 text-left font-semibold">Accountancy Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
                     <th className="p-3 text-left font-semibold">No-Website Rate</th>
                   </tr>
@@ -415,7 +415,7 @@ export default function AIVisibilityReportLondonAccountants() {
           {/* TendorAI Position */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The TendorAI Position</h2>
-            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 regulated UK firms, sourced from SRA, ICAEW, and FCA registers.</p>
+            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 UK firms — solicitors from the SRA register, mortgage advisers from the FCA register, and UK accountancy firms from Companies House.</p>
             <p className="text-gray-700 mb-4">Each firm has a machine-readable profile.</p>
             <p className="text-gray-700 mb-2">For Pro firms:</p>
             <ul className="space-y-1 mb-4">
@@ -441,7 +441,7 @@ export default function AIVisibilityReportLondonAccountants() {
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Data sourced from TendorAI&apos;s database of SRA, ICAEW, and FCA-registered firms, April 2026. Firm counts reflect registered practices as of the most recent regulatory register import.
+            Data sourced from TendorAI&apos;s database of UK accountancy firms (Companies House), April 2026. Firm counts reflect Companies House records as of the most recent import.
           </div>
 
           {/* Author / date */}

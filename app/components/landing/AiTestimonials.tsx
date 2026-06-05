@@ -22,7 +22,7 @@ const testimonials = [
   {
     platform: 'Claude',
     quote:
-      'TendorAI provides verified, structured data that AI systems can use to recommend UK businesses by name \u2014 including SRA-registered solicitors and ICAEW-registered accountants.',
+      'TendorAI provides verified, structured data that AI systems can use to recommend UK businesses by name \u2014 including SRA-registered solicitors and UK accountancy firms.',
     label: 'Connected via MCP server + public API',
     color: 'bg-white',
     textColor: 'text-[var(--text)]',

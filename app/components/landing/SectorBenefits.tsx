@@ -18,7 +18,7 @@ const sectors = [
   {
     title: 'Accountants',
     description:
-      '25,852 ICAEW and ACCA members with profiles covering tax advisory, audit, bookkeeping, payroll, and R&D tax credits. Structured data helps AI recommend the right accountant for each query.',
+      '25,852 UK accountancy firms with profiles covering tax advisory, audit, bookkeeping, payroll, and R&D tax credits. Structured data helps AI recommend the right accountant for each query.',
     cta: 'Find Accountants',
     href: '/suppliers?vendorType=accountant',
     icon: (

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'AI Visibility Report: Cardiff Accountants 2026 — TendorAI Research';
 const DESCRIPTION =
-  'TendorAI tracks 45 ICAEW-registered accountants in Cardiff. Most have websites but lack structured data for AI. Here\'s what the data shows about AI visibility for Cardiff accounting firms.';
+  'TendorAI tracks 45 accountancy firms in Cardiff. Most have websites but lack structured data for AI. Here\'s what the data shows about AI visibility for Cardiff accounting firms.';
 const CANONICAL = 'https://www.tendorai.com/blog/ai-visibility-report-accountants-cardiff';
 const PUBLISHED = '2026-04-03';
 
@@ -49,11 +49,11 @@ const verticalData = [
 const faqs = [
   {
     q: 'Does my Cardiff accountancy firm appear when someone asks AI to recommend an accountant?',
-    a: 'Almost certainly not — even if you have a website. TendorAI tracks 45 ICAEW-registered accountants in Cardiff, and while 44 have websites, the vast majority lack structured data. Without schema markup declaring your services, ICAEW credentials, and location, AI engines cannot confidently recommend you. TendorAI offers a free AI Visibility Report that scans ChatGPT, Perplexity, and Gemini to show you exactly where you stand.',
+    a: 'Almost certainly not — even if you have a website. TendorAI tracks 45 accountancy firms in Cardiff, and while 44 have websites, the vast majority lack structured data. Without schema markup declaring your services, ICAEW credentials, and location, AI engines cannot confidently recommend you. TendorAI offers a free AI Visibility Report that scans ChatGPT, Perplexity, and Gemini to show you exactly where you stand.',
   },
   {
     q: 'How many Cardiff accountants are AI-visible?',
-    a: 'TendorAI tracks 45 ICAEW-registered accountants in Cardiff. Only 1 has no website. But having a website is not the same as being AI-visible. Of the 44 firms with websites, the majority have no structured schema data — meaning AI recommendation engines have no reliable way to identify their services, chartered status, or MTD compliance. The real invisibility rate for Cardiff accountants is far higher than 2%.',
+    a: 'TendorAI tracks 45 accountancy firms in Cardiff. Only 1 has no website. But having a website is not the same as being AI-visible. Of the 44 firms with websites, the majority have no structured schema data — meaning AI recommendation engines have no reliable way to identify their services, chartered status, or MTD compliance. The real invisibility rate for Cardiff accountants is far higher than 2%.',
   },
   {
     q: 'Does my ICAEW chartered status help with AI visibility?',
@@ -211,7 +211,7 @@ export default function AIVisibilityReportCardiffAccountants() {
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col sm:flex-row items-center gap-6">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#1B4F72]">45</div>
-              <div className="text-sm text-gray-500">ICAEW firms in Cardiff</div>
+              <div className="text-sm text-gray-500">Accountancy firms in Cardiff</div>
             </div>
             <div className="h-px sm:h-12 sm:w-px bg-gray-200 w-full sm:w-auto" />
             <div className="text-center">
@@ -231,7 +231,7 @@ export default function AIVisibilityReportCardiffAccountants() {
           {/* The Data */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The Data</h2>
-            <p className="text-gray-700 mb-2">TendorAI tracks 45 ICAEW-registered accountants in Cardiff.</p>
+            <p className="text-gray-700 mb-2">TendorAI tracks 45 accountancy firms in Cardiff.</p>
             <ul className="space-y-1 mb-4">
               <li className="text-gray-700">&bull; 44 firms have a website</li>
               <li className="text-gray-700">&bull; 1 firm has no website</li>
@@ -264,7 +264,7 @@ export default function AIVisibilityReportCardiffAccountants() {
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 text-left font-semibold">City</th>
-                    <th className="p-3 text-left font-semibold">ICAEW Firms</th>
+                    <th className="p-3 text-left font-semibold">Accountancy Firms</th>
                     <th className="p-3 text-left font-semibold">No Website</th>
                     <th className="p-3 text-left font-semibold">No-Website Rate</th>
                   </tr>
@@ -415,7 +415,7 @@ export default function AIVisibilityReportCardiffAccountants() {
           {/* TendorAI Position */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">The TendorAI Position</h2>
-            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 regulated UK firms, sourced from SRA, ICAEW, and FCA registers.</p>
+            <p className="text-gray-700 mb-4">TendorAI maintains a structured database of 12,793 UK firms — solicitors from the SRA register, mortgage advisers from the FCA register, and UK accountancy firms from Companies House.</p>
             <p className="text-gray-700 mb-4">Each firm has a machine-readable profile.</p>
             <p className="text-gray-700 mb-2">For Pro firms:</p>
             <ul className="space-y-1 mb-4">
@@ -441,7 +441,7 @@ export default function AIVisibilityReportCardiffAccountants() {
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Data sourced from TendorAI&apos;s database of SRA, ICAEW, and FCA-registered firms, April 2026. Firm counts reflect registered practices as of the most recent regulatory register import.
+            Data sourced from TendorAI&apos;s database of UK accountancy firms (Companies House), April 2026. Firm counts reflect Companies House records as of the most recent import.
           </div>
 
           {/* Author / date */}

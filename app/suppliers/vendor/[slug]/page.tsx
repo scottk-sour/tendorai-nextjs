@@ -748,12 +748,17 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                   SRA Regulated
                 </span>
               )}
-              {vendor.vendorType === 'mortgage-advisor' && (
+              {vendor.vendorType === 'accountant' && vendor.icaewFirmNumber && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
+                  ICAEW Regulated
+                </span>
+              )}
+              {vendor.vendorType === 'mortgage-advisor' && vendor.fcaNumber && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-500/80 text-white">
                   FCA Authorised
                 </span>
               )}
-              {vendor.vendorType === 'estate-agent' && (
+              {vendor.vendorType === 'estate-agent' && vendor.propertymarkNumber && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/80 text-white">
                   Propertymark Member
                 </span>

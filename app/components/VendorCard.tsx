@@ -148,15 +148,30 @@ function PremiumCard({ vendor }: { vendor: VendorCardData }) {
             >
               {isVerified ? 'Verified' : 'Visible'}
             </span>
-            {isSolicitor && (
+            {isSolicitor && vendor.sraNumber && (
+              <a
+                href={`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0 hover:bg-green-100"
+              >
+                SRA Regulated
+              </a>
+            )}
+            {isSolicitor && !vendor.sraNumber && (
               <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
                 SRA Regulated
               </span>
             )}
-            {isAccountant && (
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+            {isAccountant && vendor.icaewFirmNumber && (
+              <a
+                href="https://find.icaew.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0 hover:bg-green-100"
+              >
                 ICAEW Regulated
-              </span>
+              </a>
             )}
             {isMortgageAdvisor && vendor.fcaNumber && (
               <a
@@ -248,15 +263,30 @@ function ActiveCard({ vendor }: { vendor: VendorCardData }) {
                 {vendor.company}
               </Link>
             </h3>
-            {isSolicitor && (
+            {isSolicitor && vendor.sraNumber && (
+              <a
+                href={`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0 hover:bg-green-100"
+              >
+                SRA Regulated
+              </a>
+            )}
+            {isSolicitor && !vendor.sraNumber && (
               <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
                 SRA Regulated
               </span>
             )}
-            {isAccountant && (
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0">
+            {isAccountant && vendor.icaewFirmNumber && (
+              <a
+                href="https://find.icaew.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 flex-shrink-0 hover:bg-green-100"
+              >
                 ICAEW Regulated
-              </span>
+              </a>
             )}
             {isMortgageAdvisor && vendor.fcaNumber && (
               <a
@@ -339,15 +369,30 @@ function UnclaimedCard({ vendor }: { vendor: VendorCardData }) {
               <h3 className="text-lg font-semibold text-gray-700 truncate">
                 <Link href={profileUrl} className="hover:text-purple-600">{vendor.company}</Link>
               </h3>
-              {isSolicitor && (
+              {isSolicitor && vendor.sraNumber && (
+                <a
+                  href={`https://www.sra.org.uk/consumers/register/organisation/?sraNumber=${vendor.sraNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0 hover:bg-green-200"
+                >
+                  SRA Regulated
+                </a>
+              )}
+              {isSolicitor && !vendor.sraNumber && (
                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
                   SRA Regulated
                 </span>
               )}
-              {isAccountant && (
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
+              {isAccountant && vendor.icaewFirmNumber && (
+                <a
+                  href="https://find.icaew.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0 hover:bg-green-200"
+                >
                   ICAEW Regulated
-                </span>
+                </a>
               )}
               {isMortgageAdvisor && vendor.fcaNumber && (
                 <a
