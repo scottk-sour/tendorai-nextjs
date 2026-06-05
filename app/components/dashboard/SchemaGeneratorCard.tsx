@@ -89,7 +89,7 @@ function buildDescriptionFallback(v: VendorData): string {
     case 'solicitor':
       return `${v.company} is an SRA-authorised solicitor firm based in ${city}.${areas ? ` Practice areas include ${areas}.` : ''}`;
     case 'accountant':
-      return `${v.company} is an ICAEW-registered accountancy practice based in ${city}.${areas ? ` Services include ${areas}.` : ''}`;
+      return `${v.company} is a UK accountancy practice based in ${city}.${areas ? ` Services include ${areas}.` : ''}`;
     case 'mortgage-advisor':
       return `${v.company} is an FCA-regulated mortgage adviser based in ${city}.${areas ? ` Services include ${areas}.` : ''}`;
     case 'estate-agent':

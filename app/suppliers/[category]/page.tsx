@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description = isSolicitor
     ? `Find verified ${service.name.toLowerCase()} solicitors across the UK. SRA-regulated firms with reviews, accreditations, and pricing on TendorAI.`
     : isAccountant
-      ? `Find verified ${service.name.toLowerCase()} accountants across the UK. ICAEW-regulated firms with reviews, accreditations, and pricing on TendorAI.`
+      ? `Find ${service.name.toLowerCase()} accountancy firms across the UK. Compare firms with reviews, accreditations, and pricing on TendorAI; ICAEW-verified firms badged where confirmed.`
       : isMortgageAdvisor
         ? `Find FCA-authorised ${service.name.toLowerCase()} mortgage advisors across the UK. Compare fees, lender panels and reviews on TendorAI.`
         : isEstateAgent
@@ -213,15 +213,15 @@ export default async function CategoryPage({ params }: PageProps) {
       ? [
           {
             question: `How do I find ${service.name.toLowerCase()} accountants near me?`,
-            answer: `Use TendorAI to browse ${service.name.toLowerCase()} accountants by location. Select your city from the list below to see ICAEW-regulated firms in your area.`,
+            answer: `Use TendorAI to browse ${service.name.toLowerCase()} accountancy firms by location. Select your city from the list below to see firms in your area. Firms with a verified ICAEW firm number are badged accordingly.`,
           },
           {
             question: `How many ${service.name.toLowerCase()} accountants are listed on TendorAI?`,
-            answer: `TendorAI currently lists ${vendorCount.toLocaleString()} ${service.name.toLowerCase()} accountancy firms across England and Wales, sourced from ICAEW data.`,
+            answer: `TendorAI currently lists ${vendorCount.toLocaleString()} ${service.name.toLowerCase()} accountancy firms across England and Wales, sourced from Companies House.`,
           },
           {
             question: `Are these accountants regulated?`,
-            answer: `Yes — all accountancy firms listed on TendorAI are regulated by the Institute of Chartered Accountants in England and Wales (ICAEW). Each listing links to the firm's ICAEW directory entry for verification.`,
+            answer: `Firms in the UK accountancy sector are not subject to a single statutory regulator — many are members of ICAEW, ACCA, or other recognised bodies, but membership is not compulsory. TendorAI shows an "ICAEW Regulated" badge only where we hold a verified ICAEW firm number for that firm. Where you need a regulated practitioner (for example, for reserved audit work), check the relevant register directly.`,
           },
         ]
       : isMortgageAdvisor
@@ -358,9 +358,9 @@ export default async function CategoryPage({ params }: PageProps) {
             )}
             {isAccountant && (
               <p className="text-sm text-purple-300 mt-2">
-                Data supplied by the{' '}
-                <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
-                  ICAEW
+                Firm data sourced from{' '}
+                <a href="https://find-and-update.company-information.service.gov.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
+                  Companies House
                 </a>
               </p>
             )}

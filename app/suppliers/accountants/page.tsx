@@ -5,9 +5,9 @@ import { Vendor } from '@/lib/db/models';
 import { SERVICES } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Accountants UK — ICAEW-Registered Accountancy Firms | TendorAI',
+  title: 'Accountants UK — Accountancy Firms Directory | TendorAI',
   description:
-    'Find ICAEW-registered accountants across England and Wales. Browse verified accountancy firms by service type and location on TendorAI.',
+    'Find UK accountancy firms across England and Wales. Browse firms by service type and location on TendorAI, with ICAEW-verified firms badged where membership is confirmed.',
   alternates: {
     canonical: 'https://www.tendorai.com/suppliers/accountants',
   },
@@ -51,11 +51,11 @@ export default async function AccountantsPage() {
   const faqs = [
     {
       question: 'How do I find an accountant near me?',
-      answer: `Use TendorAI to browse ${totalCount.toLocaleString()} ICAEW-registered accountancy firms across England and Wales. Select a service type or location to narrow your search.`,
+      answer: `Use TendorAI to browse ${totalCount.toLocaleString()} UK accountancy firms across England and Wales. Select a service type or location to narrow your search.`,
     },
     {
       question: 'Are these accountants regulated?',
-      answer: 'Yes — all accountancy firms listed on TendorAI are regulated by the Institute of Chartered Accountants in England and Wales (ICAEW). Each listing links to the firm\'s ICAEW directory entry for verification.',
+      answer: 'Firms in the UK accountancy sector are not subject to a single statutory regulator — many are members of ICAEW, ACCA, or other recognised bodies, but membership is not compulsory. TendorAI shows an "ICAEW Regulated" badge only where we hold a verified ICAEW firm number for that firm. Where you need a regulated practitioner (for example, for reserved audit work), check the relevant register directly.',
     },
     {
       question: 'What services do accountants on TendorAI offer?',
@@ -73,8 +73,8 @@ export default async function AccountantsPage() {
       {
         '@type': 'CollectionPage',
         '@id': 'https://www.tendorai.com/suppliers/accountants',
-        name: 'Accountants UK — ICAEW-Registered Accountancy Firms',
-        description: `Find ICAEW-registered accountants across England and Wales. Browse ${totalCount.toLocaleString()} verified accountancy firms by service type and location.`,
+        name: 'Accountants UK — Accountancy Firms Directory',
+        description: `Find UK accountancy firms across England and Wales. Browse ${totalCount.toLocaleString()} firms by service type and location, with ICAEW-verified firms badged where membership is confirmed.`,
         url: 'https://www.tendorai.com/suppliers/accountants',
         datePublished: '2024-01-01',
         dateModified: new Date().toISOString().split('T')[0],
@@ -82,7 +82,7 @@ export default async function AccountantsPage() {
         about: {
           '@type': 'AccountingService',
           name: 'Accountants UK',
-          description: 'Find ICAEW-registered accountants across England and Wales. Browse verified accountancy firms by service type and location on TendorAI.',
+          description: 'Find UK accountancy firms across England and Wales. Browse firms by service type and location on TendorAI, with ICAEW-verified firms badged where membership is confirmed.',
           serviceType: 'Accounting Services',
           provider: {
             '@type': 'Organization',
@@ -136,13 +136,13 @@ export default async function AccountantsPage() {
               </h1>
             </div>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Find ICAEW-registered accountants across England and Wales. Browse {totalCount.toLocaleString()} verified
-              accountancy firms by service type and location.
+              Find UK accountancy firms across England and Wales. Browse {totalCount.toLocaleString()} firms
+              by service type and location.
             </p>
             <p className="text-sm text-purple-300 mt-2">
-              Data supplied by the{' '}
-              <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
-                ICAEW
+              Firm data sourced from{' '}
+              <a href="https://find-and-update.company-information.service.gov.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">
+                Companies House
               </a>
             </p>
           </div>
@@ -162,10 +162,10 @@ export default async function AccountantsPage() {
           <div className="section max-w-4xl">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">About Our Accountant Directory</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              TendorAI lists ICAEW-registered accountancy practices across England and Wales. Our directory covers
-              a wide range of accounting services including tax advisory, audit and assurance, bookkeeping, payroll,
-              corporate finance, business advisory, VAT, and financial planning. Every firm is verified against
-              ICAEW data.
+              TendorAI lists UK accountancy firms across England and Wales, sourced from Companies House. Our
+              directory covers a wide range of accounting services including tax advisory, audit and assurance,
+              bookkeeping, payroll, corporate finance, business advisory, VAT, and financial planning. Firms with
+              a verified ICAEW firm number are badged accordingly.
             </p>
             <p className="text-gray-700 leading-relaxed mb-4">
               Small businesses and individuals increasingly use AI assistants like ChatGPT, Perplexity, and Claude

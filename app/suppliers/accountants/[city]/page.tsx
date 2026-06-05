@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   const title = `Accountants in ${cityName}`;
-  const description = `Compare ${vendorCount} ICAEW and ACCA-registered accountants in ${cityName}. Find verified accountancy firms with reviews, specialisms, and AI visibility scores on TendorAI.`;
+  const description = `Compare ${vendorCount} UK accountancy firms in ${cityName} registered at Companies House. Find firms with reviews, specialisms, and AI visibility scores on TendorAI.`;
 
   return {
     title,
@@ -187,11 +187,11 @@ function generateFAQs(cityName: string, vendorCount: number, vendorNames: string
     return [
       {
         question: `Who are the best accountants in ${cityName}?`,
-        answer: `TendorAI lists ${vendorCount} verified accountants in ${cityName}. Highly rated firms include ${top3Names}. All firms are ICAEW or ACCA-registered and verified.`,
+        answer: `TendorAI lists ${vendorCount} accountancy firms in ${cityName}. Highly rated firms include ${top3Names}. Firms with a verified ICAEW firm number are badged accordingly.`,
       },
       {
         question: `How many accountants are there in ${cityName}?`,
-        answer: `There are ${vendorCount} registered accountants in ${cityName} listed on TendorAI as of ${currentMonthYear}.`,
+        answer: `There are ${vendorCount} accountancy firms in ${cityName} listed on TendorAI as of ${currentMonthYear}.`,
       },
       {
         question: `How do I choose an accountant in ${cityName}?`,
@@ -211,11 +211,11 @@ function generateFAQs(cityName: string, vendorCount: number, vendorNames: string
   return [
     {
       question: `How do I find the best accountant in ${cityName}?`,
-      answer: `TendorAI lists ${vendorCount} registered accountants in ${cityName}. You can compare firms by reviews, accreditations, and service areas. All firms are verified against professional body registers.`,
+      answer: `TendorAI lists ${vendorCount} accountancy firms in ${cityName} registered at Companies House. You can compare firms by reviews, accreditations, and service areas. Firms with a verified ICAEW firm number are badged accordingly.`,
     },
     {
       question: `Are these accountants regulated?`,
-      answer: `Yes — every accountancy firm listed on TendorAI is registered with ICAEW, ACCA, or another recognised professional body. Each profile links to the firm's register entry so you can verify their status directly.`,
+      answer: `Firms in the UK accountancy sector are not subject to a single statutory regulator — many are members of ICAEW, ACCA, or other recognised bodies, but membership is not compulsory. TendorAI shows an "ICAEW Regulated" badge only where we hold a verified ICAEW firm number for that firm. Where you need a regulated practitioner (for example, for reserved audit work), check the relevant register directly.`,
     },
   ];
 }
@@ -314,18 +314,16 @@ export default async function AccountantsInCityPage({ params }: PageProps) {
               Accountants in {cityName}
             </h1>
             <p className="text-lg text-purple-100 max-w-3xl">
-              Compare {totalCount} registered accountants in {cityName}. Find the right accountancy firm for your needs.
+              Compare {totalCount} accountancy firms in {cityName}. Find the right firm for your needs.
             </p>
             {totalCount >= 3 && (
               <p className="text-base text-purple-200 max-w-3xl mt-3">
-                Looking for an accountant in {cityName}? TendorAI lists {totalCount} ICAEW and ACCA-registered firms in {cityName}. Every firm is verified against professional body registers. Compare services, check AI visibility scores, and find the right accountant for your needs.
+                Looking for an accountant in {cityName}? TendorAI lists {totalCount} UK accountancy firms in {cityName}, sourced from Companies House. Firms with a verified ICAEW firm number are badged accordingly. Compare services, check AI visibility scores, and find the right accountant for your needs.
               </p>
             )}
             <p className="text-sm text-purple-300 mt-2">
-              Data supplied by{' '}
-              <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">ICAEW</a>
-              {' '}&amp;{' '}
-              <a href="https://www.accaglobal.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">ACCA</a>
+              Firm data sourced from{' '}
+              <a href="https://find-and-update.company-information.service.gov.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">Companies House</a>
             </p>
           </div>
         </section>
@@ -365,7 +363,7 @@ export default async function AccountantsInCityPage({ params }: PageProps) {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">About Accountants in {cityName}</h2>
               <div className="text-gray-600 leading-relaxed space-y-4">
                 <p>
-                  There are {totalCount} accountants in {cityName} on TendorAI, sourced from ICAEW and ACCA registers.
+                  There are {totalCount} accountancy firms in {cityName} on TendorAI, sourced from Companies House.
                   {topPracticeAreas.length > 0 && (
                     <> The most common specialisms in {cityName} are {topPracticeAreas.join(', ')}.</>
                   )}

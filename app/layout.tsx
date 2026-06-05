@@ -191,7 +191,7 @@ const serviceJsonLd = {
     '@type': 'OfferCatalog',
     name: 'AI Visibility Platform',
     description:
-      'AI search visibility, GEO and AEO measurement, and structured data services for UK regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.',
+      'AI search visibility, GEO and AEO measurement, and structured data services for UK professional services firms — SRA-registered solicitors, UK accountancy firms (ICAEW-verified members badged), FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Solicitors' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Accountants' } },

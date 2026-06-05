@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description = isSolicitor
     ? `Compare verified ${service.name.toLowerCase()} solicitors in ${locationName}. SRA-regulated firms with reviews and accreditations on TendorAI.`
     : isAccountant
-      ? `Compare verified ${service.name.toLowerCase()} accountants in ${locationName}. ICAEW-regulated firms with reviews and accreditations on TendorAI.`
+      ? `Compare ${service.name.toLowerCase()} accountancy firms in ${locationName}. UK firms with reviews and accreditations on TendorAI; ICAEW-verified firms badged.`
       : isMortgageAdvisor
         ? `Find FCA-authorised ${service.name.toLowerCase()} mortgage advisors in ${locationName}. Compare fees, lender panels and reviews on TendorAI.`
         : isEstateAgent
@@ -419,7 +419,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
               {isSolicitor
                 ? `Compare ${totalCount} SRA-regulated ${service.name.toLowerCase()} solicitors in ${locationName}.`
                 : isAccountant
-                  ? `Compare ${totalCount} ICAEW-regulated ${service.name.toLowerCase()} accountants in ${locationName}.`
+                  ? `Compare ${totalCount} ${service.name.toLowerCase()} accountancy firms in ${locationName}.`
                   : isMortgageAdvisor
                     ? `Compare ${totalCount} FCA-authorised ${service.name.toLowerCase()} mortgage advisors in ${locationName}.`
                     : isEstateAgent
@@ -428,9 +428,13 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             </p>
             {totalCount >= 3 && (
               <p className="text-base text-purple-200 max-w-3xl mt-3">
-                {vertical.regulatoryAbbr
-                  ? `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} ${vertical.regulatoryAbbr}-regulated firms in ${locationName}. Every firm is verified against the ${vertical.regulatoryBody} register. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`
-                  : `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} verified suppliers in ${locationName}. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`}
+                {isSolicitor
+                  ? `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} SRA-regulated firms in ${locationName}. Every firm is verified against the Solicitors Regulation Authority register. Compare services, check AI visibility scores, and find the right solicitor for your needs.`
+                  : isAccountant
+                    ? `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} UK accountancy firms in ${locationName}, sourced from Companies House. Firms with a verified ICAEW firm number are badged accordingly. Compare services, check AI visibility scores, and find the right accountant for your needs.`
+                    : vertical.regulatoryAbbr
+                      ? `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} ${vertical.regulatoryAbbr}-regulated firms in ${locationName}. Every firm is verified against the ${vertical.regulatoryBody} register. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`
+                      : `Looking for ${service.name.toLowerCase()} in ${locationName}? TendorAI lists ${totalCount} suppliers in ${locationName}. Compare services, check AI visibility scores, and find the right ${vertical.profession} for your needs.`}
               </p>
             )}
             {isSolicitor && (
@@ -441,8 +445,8 @@ export default async function CategoryLocationPage({ params }: PageProps) {
             )}
             {isAccountant && (
               <p className="text-sm text-purple-300 mt-2">
-                Data supplied by the{' '}
-                <a href="https://www.icaew.com" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">ICAEW</a>
+                Firm data sourced from{' '}
+                <a href="https://find-and-update.company-information.service.gov.uk" className="underline hover:text-white" target="_blank" rel="noopener noreferrer">Companies House</a>
               </p>
             )}
             {isMortgageAdvisor && (
@@ -712,11 +716,11 @@ function generateFAQs(
     return [
       {
         question: `How do I find the best ${serviceName.toLowerCase()} accountant in ${locationName}?`,
-        answer: `TendorAI lists ${vendorCount} ICAEW-regulated ${serviceName.toLowerCase()} accountants in ${locationName}. You can compare firms by reviews, accreditations, and practice areas.`,
+        answer: `TendorAI lists ${vendorCount} ${serviceName.toLowerCase()} accountancy firms in ${locationName} sourced from Companies House. You can compare firms by reviews, accreditations, and practice areas. Firms with a verified ICAEW firm number are badged accordingly.`,
       },
       {
         question: `Are these accountants regulated?`,
-        answer: `Yes — every accountancy firm listed on TendorAI is regulated by the ICAEW. Each profile links to the firm's ICAEW directory entry so you can verify their status directly.`,
+        answer: `Firms in the UK accountancy sector are not subject to a single statutory regulator — many are members of ICAEW, ACCA, or other recognised bodies, but membership is not compulsory. TendorAI shows an "ICAEW Regulated" badge only where we hold a verified ICAEW firm number for that firm. Where you need a regulated practitioner (for example, for reserved audit work), check the relevant register directly.`,
       },
     ];
   }
