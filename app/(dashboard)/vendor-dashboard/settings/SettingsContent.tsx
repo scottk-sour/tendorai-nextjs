@@ -280,67 +280,6 @@ const DEFAULT_PROFILE: ProfileData = {
   firmFacts: DEFAULT_FIRM_FACTS,
 };
 
-// Module-scope component. Originally defined inside SettingsContent, which
-// caused a new function reference on every render — React treated it as a
-// different component type and remounted the <input>, killing focus after
-// every keystroke. Module scope = stable identity = stable input.
-const TAG_INPUT_COLOR_MAP = {
-  gray: 'bg-gray-100 text-gray-700',
-  blue: 'bg-blue-100 text-blue-700',
-  green: 'bg-green-100 text-green-700',
-  purple: 'bg-purple-100 text-purple-700',
-} as const;
-
-interface TagInputProps {
-  label: string;
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-  onAdd: () => void;
-  tags: string[];
-  onRemove: (i: number) => void;
-  color?: 'gray' | 'blue' | 'green' | 'purple';
-}
-
-function TagInput({
-  label,
-  placeholder,
-  value,
-  onChange,
-  onAdd,
-  tags,
-  onRemove,
-  color = 'gray',
-}: TagInputProps) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <div className="flex gap-2 mb-2">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="input flex-1"
-          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onAdd(); } }}
-        />
-        <button type="button" onClick={onAdd} className="btn-secondary px-4">Add</button>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag, i) => (
-          <span
-            key={`${tag}-${i}`}
-            className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${TAG_INPUT_COLOR_MAP[color]}`}
-          >
-            {tag}
-            <button type="button" onClick={() => onRemove(i)} className="ml-2 hover:opacity-70">&times;</button>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function SettingsContent({ initialTab }: { initialTab?: string }) {
   const { getCurrentToken } = useAuth();
   const [activeTab, setActiveTab] = useState(
@@ -825,6 +764,44 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
   const currentPlanId = getCurrentPlanId();
 
   // ─── Tag input helper component ──────────────────────────────────────
+  const TagInput = ({ label, placeholder, value, onChange, onAdd, tags, onRemove, color = 'gray' }: {
+    label: string; placeholder: string; value: string;
+    onChange: (v: string) => void; onAdd: () => void;
+    tags: string[]; onRemove: (i: number) => void;
+    color?: 'gray' | 'blue' | 'green' | 'purple';
+  }) => {
+    const colorMap = {
+      gray: 'bg-gray-100 text-gray-700',
+      blue: 'bg-blue-100 text-blue-700',
+      green: 'bg-green-100 text-green-700',
+      purple: 'bg-purple-100 text-purple-700',
+    };
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="input flex-1"
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onAdd(); } }}
+          />
+          <button type="button" onClick={onAdd} className="btn-secondary px-4">Add</button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag, i) => (
+            <span key={i} className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${colorMap[color]}`}>
+              {tag}
+              <button type="button" onClick={() => onRemove(i)} className="ml-2 hover:opacity-70">&times;</button>
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
