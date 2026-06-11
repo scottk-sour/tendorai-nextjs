@@ -253,7 +253,6 @@ const MISSING_BY_TIER: Record<string, string[]> = {
     'Detailed AI query analytics',
     'Featured placement',
     'Priority support',
-    '+15 extra visibility points',
   ],
 };
 
@@ -1693,13 +1692,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               value={profile.description}
               onChange={handleChange}
               rows={4}
-              placeholder={
-                isSolicitor ? 'Tell potential clients about your firm, areas of expertise, and what sets you apart...'
-                : isAccountant ? 'Tell potential clients about your practice, specialisms, and approach...'
-                : isMortgageAdvisor ? 'Tell potential clients about your brokerage, specialist areas, and what sets you apart...'
-                : isEstateAgent ? 'Tell potential clients about your agency, local expertise, and what makes you different...'
-                : 'Tell potential customers about your business, experience, and what makes you different...'
-              }
+              placeholder="Describe your firm in your own words — AI assistants read this."
               className="input"
             />
           </div>
@@ -1734,8 +1727,8 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Firm Facts</h2>
               <p className="text-sm text-gray-600 mt-1">
-                Help our agents write content that sounds like your firm. The more we know,
-                the more accurately AI assistants will recommend you.
+                This is what TendorAI and AI assistants learn about your firm — the more you add,
+                the more accurately you&apos;ll be recommended.
               </p>
             </div>
 
@@ -1925,7 +1918,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
             {/* toneOfVoice */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Tone of voice</label>
-              <p className="text-xs text-gray-500 mb-2">How our agents should write content for your firm.</p>
+              <p className="text-xs text-gray-500 mb-2">How TendorAI should write content for your firm.</p>
               <select
                 value={profile.firmFacts.toneOfVoice}
                 onChange={(e) =>

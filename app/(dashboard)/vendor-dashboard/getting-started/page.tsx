@@ -54,6 +54,7 @@ interface ChecklistItem {
   caption: string;
   href: string | null;
   tickable: boolean;
+  proOnly?: boolean;
 }
 
 interface LoopGroup {
@@ -105,8 +106,8 @@ const LOOP_GROUPS: LoopGroup[] = [
       {
         key: 'firstAuditRun',
         label: 'Run your first AI Visibility Audit',
-        caption: 'Run your AI Visibility Audit from the dashboard, then mark as done.',
-        href: '/vendor-dashboard/analytics',
+        caption: 'Opens the Analytics page — click "Run First Scan" on the AI Visibility Score card.',
+        href: '/vendor-dashboard/analytics#ai-visibility-score',
         tickable: true,
       },
     ],
@@ -119,8 +120,8 @@ const LOOP_GROUPS: LoopGroup[] = [
       {
         key: 'firstLiveAITestRun',
         label: 'Try a Live AI Search Test',
-        caption: 'Try the Live AI Search Test from the dashboard, then mark as done.',
-        href: '/vendor-dashboard/analytics',
+        caption: 'Opens the Analytics page — run a Live AI Search Test to see what AI says about your firm.',
+        href: '/vendor-dashboard/analytics#live-ai-test',
         tickable: true,
       },
     ],
@@ -132,28 +133,23 @@ const LOOP_GROUPS: LoopGroup[] = [
     items: [
       {
         key: 'schemaCallScheduled',
-        label: 'Schedule your schema installation call (Pro)',
+        label: 'Schedule your schema installation call',
+        proOnly: true,
         caption: 'Book your 15-minute pair-install call with the TendorAI team, then mark as done.',
         href: SCHEMA_CALL_MAILTO,
         tickable: true,
       },
       {
         key: 'firstPillarPostGenerated',
-        label: 'Generate your first pillar blog post',
-        caption: 'Auto-completes when you generate a blog post from the pillar library.',
-        href: '/vendor-dashboard/posts',
-        tickable: false,
-      },
-      {
-        key: 'firstPrimaryDataAdded',
-        label: 'Add your first primary data point to a blog',
-        caption: 'Auto-completes when you add primary data to a blog post.',
+        label: 'Generate your first article',
+        proOnly: true,
+        caption: 'Auto-completes when TendorAI generates your first article (Pro).',
         href: '/vendor-dashboard/posts',
         tickable: false,
       },
       {
         key: 'firmFactsComplete',
-        label: 'Complete firm facts',
+        label: 'Tell us about your firm — powers your AI content',
         caption:
           'Auto-completes when your firm facts include at least 3 brand keywords and 1 unique selling point.',
         href: '/vendor-dashboard/settings?tab=firm-facts',
@@ -322,6 +318,11 @@ export default function GettingStartedPage() {
                   }`}
                 >
                   {cfg.label}
+                  {cfg.proOnly && (
+                    <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide bg-purple-100 text-purple-700">
+                      Pro
+                    </span>
+                  )}
                 </span>
               );
 

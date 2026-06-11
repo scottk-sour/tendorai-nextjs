@@ -179,7 +179,7 @@ function OnboardingBody({ fromStripe }: { fromStripe: boolean }) {
                 Stage 2 complete — your firm profile is ready for AI assistants.
               </p>
               <p className="text-sm text-green-800">
-                Our agents now have everything they need to write content that
+                TendorAI now has everything it needs to write content that
                 sounds like your firm.
               </p>
               <button

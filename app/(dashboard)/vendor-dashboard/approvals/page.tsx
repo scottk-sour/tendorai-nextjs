@@ -39,13 +39,13 @@ const STATUS_BADGE: Record<string, string> = {
 const PAGE_LIMIT = 20;
 
 const AGENT_DISPLAY: Record<string, string> = {
-  reconnaissance: 'Reconnaissance Agent',
-  detective: 'Detective Agent',
-  writer: 'Writer Agent',
-  builder: 'Builder Agent',
-  listings: 'Listings Agent',
-  reviews: 'Reviews Agent',
-  reporter: 'Reporter Agent',
+  reconnaissance: 'TendorAI Reconnaissance',
+  detective: 'TendorAI Diagnosis',
+  writer: 'TendorAI Writer',
+  builder: 'TendorAI Builder',
+  listings: 'TendorAI Listings',
+  reviews: 'TendorAI Reviews',
+  reporter: 'TendorAI Reporter',
   manual: 'Admin team',
 };
 
@@ -152,7 +152,7 @@ export default function VendorApprovalsListPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Items awaiting approval</h1>
         <p className="text-gray-500 mt-1">
-          TendorAI drafts work for your firm. Items appear here while we review them on your behalf.
+          TendorAI drafts and integrity-checks work for your firm. Nothing goes live until you approve it here.
         </p>
       </div>
 

@@ -15,13 +15,13 @@ const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
 const AGENT_DISPLAY: Record<string, string> = {
-  reconnaissance: 'Reconnaissance Agent',
-  detective: 'Detective Agent',
-  writer: 'Writer Agent',
-  builder: 'Builder Agent',
-  listings: 'Listings Agent',
-  reviews: 'Reviews Agent',
-  reporter: 'Reporter Agent',
+  reconnaissance: 'TendorAI Reconnaissance',
+  detective: 'TendorAI Diagnosis',
+  writer: 'TendorAI Writer',
+  builder: 'TendorAI Builder',
+  listings: 'TendorAI Listings',
+  reviews: 'TendorAI Reviews',
+  reporter: 'TendorAI Reporter',
   manual: 'Admin team',
 };
 

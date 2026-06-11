@@ -257,7 +257,7 @@ export default function VendorReviewsPage() {
       {/* Upgrade nudge for free tier */}
       <UpgradeNudge
         tier={tier}
-        message="Reviews boost your AI visibility score by up to 5 points. Upgrade to see your full score breakdown and get actionable tips."
+        message="Genuine client reviews are a trust signal AI assistants weigh when recommending firms. Upgrade to see your full score breakdown and get actionable tips."
       />
 
       {/* Recommend percentage */}
@@ -317,9 +317,9 @@ export default function VendorReviewsPage() {
               Reviews from your customers will appear here.
             </p>
             <div className="mt-4 p-4 bg-purple-50 rounded-lg text-left max-w-md mx-auto">
-              <p className="text-sm font-medium text-purple-900 mb-2">Reviews boost your AI visibility</p>
+              <p className="text-sm font-medium text-purple-900 mb-2">Reviews are an AI trust signal</p>
               <p className="text-xs text-purple-700">
-                Businesses with 3+ reviews score up to 5 extra visibility points. Ask your best clients to leave a review — it helps AI tools trust and recommend you.
+                Genuine client reviews are a trust signal AI assistants weigh when recommending firms. Ask your best clients to leave a review — it helps AI tools trust and recommend you.
               </p>
             </div>
           </div>

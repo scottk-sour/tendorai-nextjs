@@ -32,7 +32,7 @@ function getNavigation(vendorType: string): NavItem[] {
     { name: 'Quote Requests', href: '/vendor-dashboard/quotes', icon: 'mail' },
     servicesEntry,
     { name: 'Posts', href: '/vendor-dashboard/posts', icon: 'pencil' },
-    { name: 'Approvals', href: '/vendor-dashboard/approvals', icon: 'clipboardCheck', proOnly: true },
+    { name: 'Approvals', href: '/vendor-dashboard/approvals', icon: 'clipboardCheck' },
     { name: 'Reports', href: '/vendor-dashboard/reports', icon: 'reports' },
     { name: 'Reviews', href: '/vendor-dashboard/reviews', icon: 'star' },
     { name: 'Analytics', href: '/vendor-dashboard/analytics', icon: 'chart' },
@@ -113,6 +113,7 @@ export default function VendorDashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [vendorType, setVendorType] = useState('office-equipment');
   const [vendorTier, setVendorTier] = useState<string>('free');
+  const [companyName, setCompanyName] = useState<string>('');
   // firmFacts onboarding nudge — null until the completion check resolves.
   const [stage1Complete, setStage1Complete] = useState<boolean | null>(null);
   const [nudgeDismissed, setNudgeDismissed] = useState(true);
@@ -136,6 +137,7 @@ export default function VendorDashboardLayout({
         const data = await res.json();
         setVendorType(data.vendor?.vendorType || 'office-equipment');
         setVendorTier(data.vendor?.tier || 'free');
+        setCompanyName(data.vendor?.company || '');
       }
     } catch { /* silent */ }
   }, [getCurrentToken]);
@@ -242,12 +244,12 @@ export default function VendorDashboardLayout({
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
                 <span className="text-purple-600 font-semibold text-sm">
-                  {auth.user?.name?.charAt(0) || 'V'}
+                  {(auth.user?.name || companyName)?.charAt(0) || 'A'}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">
-                  {auth.user?.name || 'Vendor'}
+                  {auth.user?.name || companyName || 'Account'}
                 </p>
                 <p className="text-xs text-gray-500 truncate">{auth.user?.email}</p>
               </div>
