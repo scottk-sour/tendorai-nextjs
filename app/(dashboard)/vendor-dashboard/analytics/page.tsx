@@ -415,6 +415,9 @@ export default function AnalyticsPage() {
 
       {/* AI Visibility Score - Full version */}
       <div id="ai-visibility-score">
+        <p className="text-sm text-gray-600 mb-2">
+          <span className="font-semibold text-gray-900">AI Visibility Score</span> — whether AI assistants mention your business when asked about your category. The outcome.
+        </p>
         <AIVisibilityScoreCard
           token={token || ''}
           tier={tier}
@@ -433,12 +436,22 @@ export default function AnalyticsPage() {
         vendorCoverage={vendorCoverage}
       />
 
+      {/* Connector: outcome ← inputs */}
+      <p className="text-sm text-center text-gray-500 italic px-4">
+        Fix what the audit finds, and your visibility score is what improves.
+      </p>
+
       {/* AEO Audit */}
-      <AeoAuditCard
-        token={token || ''}
-        tier={tier}
-        vendorWebsite={vendorWebsite}
-      />
+      <div id="audit">
+        <p className="text-sm text-gray-600 mb-2">
+          <span className="font-semibold text-gray-900">AEO Audit</span> — whether your website gives AI assistants the data they need. The inputs that drive your score.
+        </p>
+        <AeoAuditCard
+          token={token || ''}
+          tier={tier}
+          vendorWebsite={vendorWebsite}
+        />
+      </div>
 
       {/* Schema Generator */}
       <SchemaGeneratorCard

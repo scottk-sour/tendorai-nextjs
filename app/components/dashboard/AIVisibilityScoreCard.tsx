@@ -1,7 +1,26 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+
+// Minimum profile fields a scan needs to return a meaningful score.
+// Missing any of these → block the scan and prompt the firm to complete
+// their profile first. Description has a 20-char floor so a placeholder
+// like "TBC" doesn't pass.
+interface MinimalProfile {
+  website?: string | null;
+  city?: string | null;
+  description?: string | null;
+}
+
+function missingProfileFields(p: MinimalProfile | null): string[] {
+  if (!p) return ['website', 'city', 'description'];
+  const missing: string[] = [];
+  if (!p.website?.trim()) missing.push('website');
+  if (!p.city?.trim()) missing.push('city');
+  if (!p.description || p.description.trim().length < 20) missing.push('description');
+  return missing;
+}
 
 interface ScoreBreakdown {
   websiteOptimisation?: number | null;
@@ -75,25 +94,43 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [profile, setProfile] = useState<MinimalProfile | null>(null);
+
+  const missing = useMemo(() => missingProfileFields(profile), [profile]);
+  const profileComplete = missing.length === 0;
 
   const fetchScore = useCallback(async () => {
     if (!token) return;
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/vendors/aeo-score`, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
+      const [scoreRes, profileRes] = await Promise.all([
+        fetch(`${API_URL}/api/vendors/aeo-score`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+        fetch(`${API_URL}/api/vendors/profile`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+      ]);
 
-      if (!res.ok) throw new Error('Failed to fetch AI visibility score');
+      if (!scoreRes.ok) throw new Error('Failed to fetch AI visibility score');
 
-      const result = await res.json();
+      const result = await scoreRes.json();
       if (result.success) {
         setHasReport(result.hasReport);
         setData(result.data);
       } else {
         throw new Error(result.error || 'Failed to load score');
       }
+
+      if (profileRes.ok) {
+        const pdata = await profileRes.json();
+        const v = pdata.vendor || {};
+        setProfile({ website: v.website, city: v.city, description: v.description });
+      } else {
+        setProfile({});
+      }
+
       setError(null);
     } catch (err) {
       console.error('AEO score error:', err);
@@ -107,6 +144,11 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
     if (scanning) return;
     if (!token) {
       setError('You need to be signed in to run a scan. Try refreshing the page.');
+      return;
+    }
+    if (!profileComplete) {
+      // Defensive: the button is hidden when profile is incomplete, but if
+      // any caller bypasses that the request still won't waste a backend cycle.
       return;
     }
 
@@ -205,27 +247,46 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
             </svg>
           </div>
           <h3 className="font-semibold text-gray-900 mb-1">AI Visibility Score</h3>
-          <p className="text-sm text-gray-500 mb-4">
-            Your AI visibility hasn&apos;t been scored yet. Run your first scan to see how AI platforms like ChatGPT see your business.
-          </p>
-          <button
-            onClick={handleRescan}
-            disabled={scanning}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {scanning ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Scanning (this may take a minute)...
-              </span>
-            ) : (
-              'Run First Scan'
-            )}
-          </button>
-          {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+          {!profileComplete ? (
+            <>
+              <p className="text-sm text-gray-700 max-w-md mx-auto mb-4">
+                Your scan needs your website and location to give a meaningful result. Complete your profile first — it takes 2 minutes.
+              </p>
+              <Link
+                href="/vendor-dashboard/settings?tab=profile"
+                className="inline-block px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Complete your profile
+              </Link>
+              <p className="text-xs text-gray-400 mt-3">
+                Still missing: {missing.join(', ')}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-gray-500 mb-4">
+                Your AI visibility hasn&apos;t been scored yet. Run your first scan to see how AI platforms like ChatGPT see your business.
+              </p>
+              <button
+                onClick={handleRescan}
+                disabled={scanning}
+                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {scanning ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Scanning (this may take a minute)...
+                  </span>
+                ) : (
+                  'Run First Scan'
+                )}
+              </button>
+              {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+            </>
+          )}
         </div>
       </div>
     );
@@ -263,8 +324,8 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
             Last scanned: {formatDate(data.createdAt)}
           </p>
           {data.score < 50 && (
-            <p className="text-xs text-amber-600 mt-1">
-              Most businesses in your category score 20-40. Paid firms average 55+.
+            <p className="text-xs text-gray-500 mt-1">
+              A complete, verified profile gives AI assistants the data they need to find and recommend you.
             </p>
           )}
         </div>
@@ -321,32 +382,47 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
         </div>
       )}
 
-      {/* View full report link + Rescan button */}
-      <div className="mt-4 flex items-center justify-between">
+      {/* View full report link + Rescan button (gated on profile completeness) */}
+      <div className="mt-4 flex items-center justify-between gap-3">
         <Link
           href={`/aeo-report/results/${data.reportId}`}
           className="text-sm text-blue-600 hover:text-blue-700 font-medium"
         >
           View full report &rarr;
         </Link>
-        <button
-          onClick={handleRescan}
-          disabled={scanning}
-          className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {scanning ? (
-            <span className="flex items-center gap-1.5">
-              <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Scanning...
-            </span>
-          ) : (
-            'Rescan'
-          )}
-        </button>
+        {profileComplete ? (
+          <button
+            onClick={handleRescan}
+            disabled={scanning}
+            className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {scanning ? (
+              <span className="flex items-center gap-1.5">
+                <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Scanning...
+              </span>
+            ) : (
+              'Rescan'
+            )}
+          </button>
+        ) : (
+          <Link
+            href="/vendor-dashboard/settings?tab=profile"
+            className="px-3 py-1.5 text-sm font-medium text-purple-700 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+            title={`Add: ${missing.join(', ')} to enable rescan`}
+          >
+            Complete profile to rescan
+          </Link>
+        )}
       </div>
+      {!profileComplete && (
+        <p className="text-xs text-gray-500 mt-2">
+          Add your {missing.join(', ')} so the next scan can give you a meaningful result.
+        </p>
+      )}
       {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
     </div>
   );

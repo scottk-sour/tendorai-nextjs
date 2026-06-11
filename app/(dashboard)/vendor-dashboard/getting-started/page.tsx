@@ -106,7 +106,7 @@ const LOOP_GROUPS: LoopGroup[] = [
       {
         key: 'firstAuditRun',
         label: 'Run your first AI Visibility Audit',
-        caption: 'Opens the Analytics page — click "Run First Scan" on the AI Visibility Score card.',
+        caption: 'Opens the Analytics page — your profile needs a website, city, and description for the scan to give a meaningful result.',
         href: '/vendor-dashboard/analytics#ai-visibility-score',
         tickable: true,
       },
