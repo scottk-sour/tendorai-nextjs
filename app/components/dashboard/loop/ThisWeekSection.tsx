@@ -11,13 +11,13 @@ interface ThisWeekSectionProps {
 }
 
 const AGENT_DISPLAY: Record<string, string> = {
-  reconnaissance: 'Reconnaissance Agent',
-  detective: 'Detective Agent',
-  writer: 'Writer Agent',
-  builder: 'Builder Agent',
-  listings: 'Listings Agent',
-  reviews: 'Reviews Agent',
-  reporter: 'Reporter Agent',
+  reconnaissance: 'TendorAI Reconnaissance',
+  detective: 'TendorAI Diagnosis',
+  writer: 'TendorAI Writer',
+  builder: 'TendorAI Builder',
+  listings: 'TendorAI Listings',
+  reviews: 'TendorAI Reviews',
+  reporter: 'TendorAI Reporter',
   manual: 'Admin team',
 };
 
@@ -48,7 +48,7 @@ export default function ThisWeekSection({ agentRuns, pendingApprovals }: ThisWee
       <h2 className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-4">This week on your account</h2>
 
       {allHidden && (
-        <p className="text-sm text-gray-500">Everything&apos;s running smoothly. Next update Monday.</p>
+        <p className="text-sm text-gray-500">Your account is set up. Your visibility cycle starts Monday.</p>
       )}
 
       {showApprovals && (

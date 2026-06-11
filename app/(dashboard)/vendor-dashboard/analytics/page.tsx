@@ -414,11 +414,13 @@ export default function AnalyticsPage() {
       </div>
 
       {/* AI Visibility Score - Full version */}
-      <AIVisibilityScoreCard
-        token={token || ''}
-        tier={tier}
-        compact={false}
-      />
+      <div id="ai-visibility-score">
+        <AIVisibilityScoreCard
+          token={token || ''}
+          tier={tier}
+          compact={false}
+        />
+      </div>
 
       {/* AI Search Test */}
       <AISearchTest
@@ -555,9 +557,19 @@ export default function AnalyticsPage() {
         </div>
       )}
       {!hasVisibleAccess && (
-        <div className="card p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">AI Mentions Over Time</h3>
-          <MockChart />
+        <div className="card p-6 relative">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">AI Mentions Over Time</h3>
+            <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded bg-amber-100 text-amber-700">
+              Example data
+            </span>
+          </div>
+          <div className="opacity-60 pointer-events-none">
+            <MockChart />
+          </div>
+          <p className="mt-3 text-xs text-gray-500 text-center">
+            Your own AI mentions will appear here after your first weekly scan.
+          </p>
         </div>
       )}
 
@@ -575,14 +587,21 @@ export default function AnalyticsPage() {
             <SourceBreakdown />
           </TierGate>
           {!hasVisibleAccess && (
-            <div className="grid grid-cols-2 gap-4 opacity-50">
-              {['ChatGPT', 'Claude', 'Perplexity', 'Other'].map((name) => (
-                <div key={name} className="p-4 bg-gray-50 rounded-lg">
-                  <div className="font-medium text-gray-900 mb-2">{name}</div>
-                  <div className="text-2xl font-bold text-gray-400">--</div>
-                </div>
-              ))}
-            </div>
+            <>
+              <div className="flex justify-end mb-2">
+                <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded bg-amber-100 text-amber-700">
+                  Example data
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 opacity-50">
+                {['ChatGPT', 'Claude', 'Perplexity', 'Other'].map((name) => (
+                  <div key={name} className="p-4 bg-gray-50 rounded-lg">
+                    <div className="font-medium text-gray-900 mb-2">{name}</div>
+                    <div className="text-2xl font-bold text-gray-400">--</div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
@@ -602,7 +621,18 @@ export default function AnalyticsPage() {
           >
             <RecentQueries />
           </TierGate>
-          {!hasVerifiedAccess && <MockQueries />}
+          {!hasVerifiedAccess && (
+            <>
+              <div className="flex justify-end mb-2">
+                <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded bg-amber-100 text-amber-700">
+                  Example data
+                </span>
+              </div>
+              <div className="opacity-70 pointer-events-none">
+                <MockQueries />
+              </div>
+            </>
+          )}
         </div>
       </div>
 

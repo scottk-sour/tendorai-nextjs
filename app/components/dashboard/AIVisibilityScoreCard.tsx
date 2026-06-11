@@ -104,7 +104,11 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
   }, [token]);
 
   const handleRescan = async () => {
-    if (!token || scanning) return;
+    if (scanning) return;
+    if (!token) {
+      setError('You need to be signed in to run a scan. Try refreshing the page.');
+      return;
+    }
 
     setScanning(true);
     setError(null);
@@ -117,9 +121,15 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
         },
       });
 
-      const result = await res.json();
-      if (!res.ok || !result.success) {
-        throw new Error(result.error || 'Scan failed');
+      let result: { success?: boolean; data?: AeoScoreData; error?: string };
+      try {
+        result = await res.json();
+      } catch {
+        throw new Error(`Scan failed (status ${res.status}). Please try again in a moment.`);
+      }
+
+      if (!res.ok || !result.success || !result.data) {
+        throw new Error(result.error || `Scan failed (status ${res.status})`);
       }
 
       setHasReport(true);

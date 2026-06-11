@@ -107,6 +107,13 @@ export default function MeasureCard({
             <p className="text-gray-500">Run your first AI Visibility Report to see a score.</p>
           )}
           <Link
+            href="/vendor-dashboard/analytics#ai-visibility-score"
+            className="inline-flex items-center justify-center w-full px-3 py-2 mt-1 text-xs font-semibold rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Run your free scan
+          </Link>
+          <Link
             href="/for-vendors#pricing"
             className="text-xs font-medium text-purple-700 hover:underline mt-auto"
             onClick={(e) => e.stopPropagation()}

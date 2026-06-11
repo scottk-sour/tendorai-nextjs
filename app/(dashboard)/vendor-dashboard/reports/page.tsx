@@ -44,6 +44,7 @@ export default function ReportsListPage() {
   const { auth, getCurrentToken } = useAuth();
   const [reports, setReports] = useState<ReportListItem[]>([]);
   const [status, setStatus] = useState<LoadStatus>('loading');
+  const [tier, setTier] = useState<string>('free');
 
   const load = useCallback(async () => {
     const token = getCurrentToken();
@@ -54,6 +55,16 @@ export default function ReportsListPage() {
     }
     setStatus('loading');
     try {
+      // Profile fetch in parallel — we need tier to pick the right empty-state copy.
+      fetch(`${API_URL}/api/vendors/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data?.vendor?.tier) setTier(data.vendor.tier);
+        })
+        .catch(() => { /* silent — defaults to 'free' */ });
+
       const res = await fetch(`${API_URL}/api/vendors/${vendorId}/reports`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -135,10 +146,25 @@ export default function ReportsListPage() {
           >
             No reports yet
           </h2>
-          <p className="text-[var(--text2)] max-w-md mx-auto">
-            Your first AI Visibility Intelligence Report will be generated next
-            Monday at 8am UK time. We&apos;ll email you when it&apos;s ready.
-          </p>
+          {tier === 'pro' || tier === 'managed' || tier === 'enterprise' ? (
+            <p className="text-[var(--text2)] max-w-md mx-auto">
+              Your first AI Visibility Intelligence Report will be generated Monday morning UK
+              time. We&apos;ll email you when it&apos;s ready.
+            </p>
+          ) : (
+            <div className="max-w-md mx-auto">
+              <p className="text-[var(--text2)] mb-4">
+                AI Visibility Intelligence Reports are generated weekly on Pro. Upgrade to get
+                yours every Monday.
+              </p>
+              <Link
+                href="/vendor-dashboard/settings?tab=subscription"
+                className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700"
+              >
+                Upgrade to Pro
+              </Link>
+            </div>
+          )}
         </div>
       )}
 

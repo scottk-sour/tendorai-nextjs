@@ -51,17 +51,17 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
             <h3 className="font-semibold text-lg">You&apos;re on the Free Plan</h3>
           </div>
           <p className="text-blue-100 text-sm max-w-xl mb-2">
-            Free profiles are ranked below paid firms in AI results. Upgrade to unlock:
+            Upgrade to unlock:
           </p>
           <ul className="text-blue-100 text-sm space-y-0.5">
             <li className="flex items-center gap-1.5">
               <span className="text-white">&#10003;</span> AI mention tracking — see when ChatGPT recommends you
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-white">&#10003;</span> Unlimited products with pricing visible to AI
+              <span className="text-white">&#10003;</span> Featured placement in the TendorAI directory, where AI assistants source firm data
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-white">&#10003;</span> Monthly AI Visibility (AEO) reports
+              <span className="text-white">&#10003;</span> Weekly AI Visibility (AEO) reports
             </li>
           </ul>
         </div>

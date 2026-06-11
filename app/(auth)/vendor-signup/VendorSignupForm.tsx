@@ -95,7 +95,16 @@ export default function VendorSignupForm({ plan }: { plan: string }) {
         setSuccess('Registration successful! Redirecting to login...');
         setTimeout(() => router.push('/vendor-login'), 2000);
       } else {
-        setError(result.message || 'Error signing up. Please try again.');
+        // Rewrite internal-jargon collision messages into actionable copy.
+        const raw = result.message || '';
+        let friendly = raw || 'Error signing up. Please try again.';
+        const lower = raw.toLowerCase();
+        if (lower.includes('vendor already exists') || lower.includes('email already')) {
+          friendly = 'An account with this email already exists. Try logging in or use a different email.';
+        } else if (lower.includes('company') && lower.includes('exists')) {
+          friendly = 'A firm with this company name already exists. Check the directory or contact support if this is your firm.';
+        }
+        setError(friendly);
       }
     } catch {
       setError('A network error occurred. Please try again.');
