@@ -51,6 +51,19 @@ export type ApprovalStatus =
   | 'failed'
   | 'firm_completed';
 
+// Backend qualitative-mode Writer emits gaps as structured metadata on the
+// approval record instead of inline [FIRM_DATA: key | label] markers in the
+// body. The customer-facing capture surface (StrengthenArticleSection) reads
+// from this array. `key` matches the firmFacts field name the value will be
+// written under via POST /api/vendors/{vid}/approvals/{aid}/firm-data.
+export interface DataGap {
+  key: string;
+  label: string;
+  prompt?: string;
+  fieldType?: 'text' | 'number' | 'textarea' | 'select';
+  suggestedValues?: string[];
+}
+
 export interface Approval {
   _id: string;
   vendorId: string;
@@ -60,6 +73,12 @@ export interface Approval {
   status: ApprovalStatus;
   draftPayload?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
+  /**
+   * Qualitative-mode capture surface — present on drafts produced by the
+   * new Writer mode. Absent on legacy drafts (which still embed
+   * [FIRM_DATA: key | label] markers in the body for PlaceholderEditor).
+   */
+  dataGaps?: DataGap[];
   createdAt: string;
   decidedAt?: string;
   decisionReason?: string;
