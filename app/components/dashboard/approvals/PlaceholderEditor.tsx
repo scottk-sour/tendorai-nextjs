@@ -133,7 +133,7 @@ export default function PlaceholderEditor({
 
       try {
         const res = await fetch(
-          `${API_URL}/api/vendors/${approval.vendorId}/approvals/${approval._id}/firm-data`,
+          `${API_URL}/api/vendor/approvals/${approval._id}/firm-data`,
           {
             method: 'POST',
             headers: {
@@ -173,7 +173,7 @@ export default function PlaceholderEditor({
         setFieldErrors((e) => ({ ...e, [key]: 'Network error — please retry.' }));
       }
     },
-    [approval._id, approval.vendorId, getCurrentToken, values],
+    [approval._id, getCurrentToken, values],
   );
 
   const handleApprove = useCallback(async () => {
@@ -186,7 +186,7 @@ export default function PlaceholderEditor({
     setSubmitError('');
     try {
       const res = await fetch(
-        `${API_URL}/api/vendors/${approval.vendorId}/approvals/${approval._id}/firm-approve`,
+        `${API_URL}/api/vendor/approvals/${approval._id}/firm-approve`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
@@ -209,7 +209,7 @@ export default function PlaceholderEditor({
     } finally {
       setSubmitting(false);
     }
-  }, [approval._id, approval.vendorId, getCurrentToken, onApproved]);
+  }, [approval._id, getCurrentToken, onApproved]);
 
   return (
     <div className="space-y-6">

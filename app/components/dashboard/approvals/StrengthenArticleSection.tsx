@@ -60,7 +60,7 @@ export default function StrengthenArticleSection({
         // the value to Vendor.firmFacts[key] and removes the gap from the
         // approval's dataGaps array server-side.
         const res = await fetch(
-          `${API_URL}/api/vendors/${approval.vendorId}/approvals/${approval._id}/firm-data`,
+          `${API_URL}/api/vendor/approvals/${approval._id}/firm-data`,
           {
             method: 'POST',
             headers: {
@@ -93,7 +93,7 @@ export default function StrengthenArticleSection({
         setFieldErrors((e) => ({ ...e, [key]: 'Network error — please retry.' }));
       }
     },
-    [approval._id, approval.vendorId, getCurrentToken, values],
+    [approval._id, getCurrentToken, values],
   );
 
   const handleApprove = useCallback(async () => {
@@ -106,7 +106,7 @@ export default function StrengthenArticleSection({
     setSubmitError('');
     try {
       const res = await fetch(
-        `${API_URL}/api/vendors/${approval.vendorId}/approvals/${approval._id}/firm-approve`,
+        `${API_URL}/api/vendor/approvals/${approval._id}/firm-approve`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
@@ -129,7 +129,7 @@ export default function StrengthenArticleSection({
     } finally {
       setSubmitting(false);
     }
-  }, [approval._id, approval.vendorId, getCurrentToken, onApproved]);
+  }, [approval._id, getCurrentToken, onApproved]);
 
   return (
     <div className="rounded-lg border border-purple-200 bg-purple-50/50 p-5 sm:p-6 space-y-5">
