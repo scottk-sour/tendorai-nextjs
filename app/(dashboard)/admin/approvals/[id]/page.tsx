@@ -132,6 +132,29 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+// Qualitative-mode dataGaps live at draftPayload.dataGaps (canonical) and
+// metadata.dataGaps (mirror). The top-level Approval.dataGaps field exists
+// for forward compatibility but the backend doesn't populate it. Read all
+// three locations so we surface whichever the backend supplies.
+function extractDataGaps(approval: Approval): AdminDataGap[] {
+  const candidates: unknown[] = [
+    isPlainObject(approval.draftPayload) ? (approval.draftPayload as Record<string, unknown>).dataGaps : undefined,
+    isPlainObject(approval.metadata) ? approval.metadata.dataGaps : undefined,
+    approval.dataGaps,
+  ];
+  for (const c of candidates) {
+    if (Array.isArray(c) && c.length > 0) {
+      return c.filter(
+        (g): g is AdminDataGap =>
+          isPlainObject(g) &&
+          typeof g.key === 'string' &&
+          typeof g.label === 'string',
+      );
+    }
+  }
+  return [];
+}
+
 function PayloadView({ itemType, payload }: { itemType: string; payload: unknown }) {
   if (payload === null || payload === undefined || payload === '') {
     return <p className="text-sm text-gray-500 italic">No draft payload was attached to this item.</p>;
@@ -563,10 +586,14 @@ export default function ApprovalDetailPage() {
         itemType={approval.itemType}
       />
 
-      {/* Data gaps — qualitative-mode capture queue (content_draft only) */}
-      {approval.itemType === 'content_draft' &&
-        Array.isArray(approval.dataGaps) &&
-        approval.dataGaps.length > 0 && (
+      {/* Data gaps — qualitative-mode capture queue (content_draft only).
+          Read via extractDataGaps because the backend stores them at
+          draftPayload.dataGaps / metadata.dataGaps, not the top level. */}
+      {(() => {
+        if (approval.itemType !== 'content_draft') return null;
+        const gaps = extractDataGaps(approval);
+        if (gaps.length === 0) return null;
+        return (
           <div className="bg-white rounded-lg border border-purple-200 p-6 space-y-3">
             <div>
               <h2 className="text-sm font-semibold text-gray-900">
@@ -595,7 +622,7 @@ export default function ApprovalDetailPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {approval.dataGaps.map((gap) => (
+                  {gaps.map((gap) => (
                     <tr key={gap.key} className="border-t border-gray-100">
                       <td className="px-3 py-2 font-mono text-xs text-gray-700">{gap.key}</td>
                       <td className="px-3 py-2 text-gray-900">{gap.label}</td>
@@ -612,7 +639,8 @@ export default function ApprovalDetailPage() {
               </table>
             </div>
           </div>
-        )}
+        );
+      })()}
 
       {/* Metadata (collapsible) */}
       {hasMetadata && (
