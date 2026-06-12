@@ -34,7 +34,7 @@ export default function PlainApproveBar({ approval, onApproved }: Props) {
     setError('');
     try {
       const res = await fetch(
-        `${API_URL}/api/vendors/${approval.vendorId}/approvals/${approval._id}/firm-approve`,
+        `${API_URL}/api/vendor/approvals/${approval._id}/firm-approve`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
@@ -57,7 +57,7 @@ export default function PlainApproveBar({ approval, onApproved }: Props) {
     } finally {
       setSubmitting(false);
     }
-  }, [approval._id, approval.vendorId, getCurrentToken, onApproved]);
+  }, [approval._id, getCurrentToken, onApproved]);
 
   return (
     <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-5 space-y-2">
