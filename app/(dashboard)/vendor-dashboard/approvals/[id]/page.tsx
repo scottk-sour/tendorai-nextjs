@@ -5,11 +5,13 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '@/app/contexts/AuthContext';
-import type { Approval } from '@/lib/loop/types';
+import type { Approval, DataGap } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS, ITEM_TYPE_DESCRIPTIONS } from '@/lib/loop/types';
 import PlaceholderEditor, {
   parseUniquePlaceholders,
 } from '@/app/components/dashboard/approvals/PlaceholderEditor';
+import StrengthenArticleSection from '@/app/components/dashboard/approvals/StrengthenArticleSection';
+import PlainApproveBar from '@/app/components/dashboard/approvals/PlainApproveBar';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
@@ -312,36 +314,69 @@ export default function VendorApprovalDetailPage() {
 
       {/* What it says */}
       {(() => {
-        // Interactive placeholder editor only for editable content drafts.
-        // Anything else (other item types, already-decided drafts) keeps the
-        // existing read-only PayloadView.
+        // Three surfaces fork off the same pending content_draft:
+        //   1. Legacy [FIRM_DATA: key | label] markers in body → PlaceholderEditor
+        //      (parses markers, renders inputs inline with live preview).
+        //   2. Qualitative-mode dataGaps metadata array → StrengthenArticleSection
+        //      (clean body via PayloadView + capture surface beneath).
+        //   3. Neither → PayloadView + PlainApproveBar (read-only body + approve).
+        // Anything else (non-content_draft items, already-decided drafts) keeps
+        // the read-only PayloadView with no action surface.
         const draftMarkdown =
           approval.itemType === 'content_draft'
             ? extractMarkdown(approval.draftPayload)
             : null;
         const placeholders =
           draftMarkdown !== null ? parseUniquePlaceholders(draftMarkdown) : [];
-        const showEditor =
-          approval.status === 'pending' &&
+        const dataGaps: DataGap[] = Array.isArray(approval.dataGaps)
+          ? approval.dataGaps
+          : [];
+
+        const isPendingContentDraft =
+          approval.status === 'pending' && approval.itemType === 'content_draft';
+        const showPlaceholderEditor =
+          isPendingContentDraft &&
           draftMarkdown !== null &&
           placeholders.length > 0;
+        const showStrengthenSection =
+          isPendingContentDraft &&
+          !showPlaceholderEditor &&
+          dataGaps.length > 0;
+        const showPlainApprove =
+          isPendingContentDraft &&
+          !showPlaceholderEditor &&
+          !showStrengthenSection;
+
+        const onApproved = () =>
+          setApproval((prev) =>
+            prev ? { ...prev, status: 'firm_completed' } : prev,
+          );
 
         return (
-          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
             <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
-            {showEditor ? (
+
+            {showPlaceholderEditor ? (
               <PlaceholderEditor
                 approval={approval}
                 initialDraftText={draftMarkdown as string}
                 initialPlaceholders={placeholders}
-                onApproved={() =>
-                  setApproval((prev) =>
-                    prev ? { ...prev, status: 'firm_completed' } : prev,
-                  )
-                }
+                onApproved={onApproved}
               />
             ) : (
-              <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
+              <>
+                <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
+                {showStrengthenSection && (
+                  <StrengthenArticleSection
+                    approval={approval}
+                    initialGaps={dataGaps}
+                    onApproved={onApproved}
+                  />
+                )}
+                {showPlainApprove && (
+                  <PlainApproveBar approval={approval} onApproved={onApproved} />
+                )}
+              </>
             )}
           </div>
         );

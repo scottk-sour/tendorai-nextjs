@@ -35,6 +35,14 @@ interface VendorRef {
   website?: string;
 }
 
+interface AdminDataGap {
+  key: string;
+  label: string;
+  prompt?: string;
+  fieldType?: 'text' | 'number' | 'textarea' | 'select';
+  suggestedValues?: string[];
+}
+
 interface Approval {
   _id?: string;
   id?: string;
@@ -49,6 +57,14 @@ interface Approval {
     agentReportedPlaceholderCount?: number;
     [key: string]: unknown;
   } | null;
+  /**
+   * Qualitative-mode capture queue. Present on drafts produced by the new
+   * Writer mode (instead of inline [FIRM_DATA] markers). The vendor surface
+   * renders these via StrengthenArticleSection; the admin view surfaces
+   * them in a diagnostic panel so we can verify the Writer is emitting
+   * the right gaps.
+   */
+  dataGaps?: AdminDataGap[];
   status: string;
   createdAt: string;
   decidedAt?: string | null;
@@ -546,6 +562,57 @@ export default function ApprovalDetailPage() {
         metadata={approval.metadata as { placeholderCount?: number; topicSuitabilityFlag?: string; agentReportedPlaceholderCount?: number } | null}
         itemType={approval.itemType}
       />
+
+      {/* Data gaps — qualitative-mode capture queue (content_draft only) */}
+      {approval.itemType === 'content_draft' &&
+        Array.isArray(approval.dataGaps) &&
+        approval.dataGaps.length > 0 && (
+          <div className="bg-white rounded-lg border border-purple-200 p-6 space-y-3">
+            <div>
+              <h2 className="text-sm font-semibold text-gray-900">
+                Data gaps — qualitative-mode capture queue
+              </h2>
+              <p className="text-xs text-gray-500 mt-1">
+                The customer sees these as &ldquo;Strengthen this article&rdquo; on
+                their approval page. Each gap writes to{' '}
+                <code className="px-1 py-0.5 bg-gray-100 rounded">Vendor.firmFacts[key]</code>{' '}
+                via{' '}
+                <code className="px-1 py-0.5 bg-gray-100 rounded">
+                  POST /api/vendors/{'{vid}'}/approvals/{'{aid}'}/firm-data
+                </code>
+                .
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-gray-100 rounded">
+                <thead className="bg-gray-50 text-left text-xs text-gray-600">
+                  <tr>
+                    <th className="px-3 py-2">Key</th>
+                    <th className="px-3 py-2">Label</th>
+                    <th className="px-3 py-2">Prompt</th>
+                    <th className="px-3 py-2">Type</th>
+                    <th className="px-3 py-2">Suggested</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {approval.dataGaps.map((gap) => (
+                    <tr key={gap.key} className="border-t border-gray-100">
+                      <td className="px-3 py-2 font-mono text-xs text-gray-700">{gap.key}</td>
+                      <td className="px-3 py-2 text-gray-900">{gap.label}</td>
+                      <td className="px-3 py-2 text-gray-600">{gap.prompt ?? '—'}</td>
+                      <td className="px-3 py-2 text-gray-600">{gap.fieldType ?? 'text'}</td>
+                      <td className="px-3 py-2 text-gray-600">
+                        {gap.suggestedValues?.length
+                          ? gap.suggestedValues.join(', ')
+                          : '—'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
       {/* Metadata (collapsible) */}
       {hasMetadata && (
