@@ -66,6 +66,31 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+// Qualitative-mode dataGaps are persisted by the Writer at draftPayload.dataGaps
+// (canonical) and mirrored at metadata.dataGaps. We previously read
+// approval.dataGaps (top-level) which was always undefined — so the
+// StrengthenArticleSection gate never fired even when the data was present.
+// This helper checks all three locations in priority order.
+function extractDataGaps(approval: Approval): DataGap[] {
+  const candidates: unknown[] = [
+    isPlainObject(approval.draftPayload) ? approval.draftPayload.dataGaps : undefined,
+    isPlainObject(approval.metadata) ? approval.metadata.dataGaps : undefined,
+    approval.dataGaps,
+  ];
+  for (const c of candidates) {
+    if (Array.isArray(c) && c.length > 0) {
+      // Trust runtime shape: each item should have at least key+label strings.
+      return c.filter(
+        (g): g is DataGap =>
+          isPlainObject(g) &&
+          typeof g.key === 'string' &&
+          typeof g.label === 'string',
+      );
+    }
+  }
+  return [];
+}
+
 function PayloadView({ itemType, payload }: { itemType: string; payload: unknown }) {
   if (payload === null || payload === undefined || payload === '') {
     return <p className="text-sm text-gray-500 italic">No draft content was attached to this item.</p>;
@@ -328,9 +353,7 @@ export default function VendorApprovalDetailPage() {
             : null;
         const placeholders =
           draftMarkdown !== null ? parseUniquePlaceholders(draftMarkdown) : [];
-        const dataGaps: DataGap[] = Array.isArray(approval.dataGaps)
-          ? approval.dataGaps
-          : [];
+        const dataGaps: DataGap[] = extractDataGaps(approval);
 
         const isPendingContentDraft =
           approval.status === 'pending' && approval.itemType === 'content_draft';
