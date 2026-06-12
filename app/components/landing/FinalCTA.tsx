@@ -10,14 +10,9 @@ export default function FinalCTA() {
       </div>
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-          AI is already recommending your competitors.{' '}
-          <em className="italic">Are you listed?</em>
+        <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-10 leading-tight">
+          See what AI says about your firm today.
         </h2>
-        <p className="text-lg text-white/80 mb-10 max-w-xl mx-auto leading-relaxed">
-          Run a free AI visibility report and see what ChatGPT, Claude, and
-          Perplexity say about your business. Takes 30 seconds.
-        </p>
 
         <Link
           href="/aeo-report"
