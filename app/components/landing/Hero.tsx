@@ -5,32 +5,27 @@ const loopStages = [
   {
     number: '01',
     title: 'Measure',
-    oneLiner: 'Reconnaissance Agent scans six AI platforms daily and scores your visibility.',
-    proof: 'ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, Grok',
+    oneLiner: 'See where AI assistants mention your firm.',
   },
   {
     number: '02',
     title: 'Diagnose',
-    oneLiner: "Detective Agent identifies why you're missed, per platform, per prompt.",
-    proof: 'Findings with severity, evidence, and a specific fix',
+    oneLiner: 'Identify why competitors are recommended instead.',
   },
   {
     number: '03',
     title: 'Fix',
-    oneLiner: 'Writer Agent drafts content; engineering updates schema. Everything held in your approval queue.',
-    proof: 'You see every change before it ships',
+    oneLiner: 'Content, schema and profile improvements prepared for your approval.',
   },
   {
     number: '04',
     title: 'Deploy',
-    oneLiner: 'Approved fixes go live automatically — content to your profile, schema to your website.',
-    proof: 'One-click approval, automatic deployment',
+    oneLiner: 'Approved changes go live automatically.',
   },
   {
     number: '05',
     title: 'Track',
-    oneLiner: 'Reporter Agent aggregates the week into a single dashboard.',
-    proof: 'Weekly Pro Report — score, citations, agent activity, competitor moves',
+    oneLiner: 'Weekly reporting and ongoing monitoring.',
   },
 ];
 
@@ -39,38 +34,38 @@ const howToSchema = {
   '@type': 'HowTo',
   name: 'How TendorAI gets your firm recommended by AI platforms',
   description:
-    "TendorAI runs a continuous five-stage loop that measures your AI visibility, diagnoses why you're missed, drafts fixes, deploys approved changes, and tracks results. Every week.",
+    'TendorAI runs a continuous five-stage loop: measure, diagnose, fix, deploy, track.',
   totalTime: 'P90D',
   step: [
     {
       '@type': 'HowToStep',
       position: 1,
       name: 'Measure',
-      text: 'Reconnaissance Agent scans six AI platforms daily and scores your visibility — ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
+      text: 'See where AI assistants mention your firm.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Diagnose',
-      text: "Detective Agent identifies why you're missed, per platform, per prompt. Findings ship with severity, evidence, and a specific fix.",
+      text: 'Identify why competitors are recommended instead.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Fix',
-      text: 'Writer Agent drafts content and engineering updates schema. Everything is held in your approval queue so you see every change before it ships.',
+      text: 'Content, schema and profile improvements prepared for your approval.',
     },
     {
       '@type': 'HowToStep',
       position: 4,
       name: 'Deploy',
-      text: 'Approved fixes go live automatically — content to your profile, schema to your website. One-click approval, automatic deployment.',
+      text: 'Approved changes go live automatically.',
     },
     {
       '@type': 'HowToStep',
       position: 5,
       name: 'Track',
-      text: 'Reporter Agent aggregates the week into a single dashboard — the Weekly Pro Report covering score, citations, agent activity, and competitor moves.',
+      text: 'Weekly reporting and ongoing monitoring.',
     },
   ],
 };
@@ -233,9 +228,6 @@ export default function Hero() {
                     <p className="text-xs text-[var(--text2)] leading-relaxed flex-1">
                       {stage.oneLiner}
                     </p>
-                    <p className="text-[11px] italic text-purple-600 mt-3 leading-snug">
-                      {stage.proof}
-                    </p>
                   </li>
                   {idx < loopStages.length - 1 && (
                     <div className="flex items-center px-1 text-purple-400" aria-hidden>
@@ -291,7 +283,6 @@ export default function Hero() {
                     </div>
                     <div className="border-t border-[var(--border)] mt-3 mb-3" />
                     <p className="text-sm text-[var(--text2)] leading-relaxed">{stage.oneLiner}</p>
-                    <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
                   </li>
                   {idx < loopStages.length - 1 && (
                     <div className="flex justify-center text-purple-400" aria-hidden>
@@ -312,126 +303,14 @@ export default function Hero() {
               <span className="text-xs font-semibold">Continuous loop. Every week.</span>
             </div>
 
-            {/* Free tools row — separate from the Loop ol; Loop schema stays 5 steps */}
-            <div className="mt-12">
-              <p className="text-center font-serif italic text-xl lg:text-2xl text-[var(--text2)] mb-6">
-                Or see where you&rsquo;re going wrong right now &mdash; for free.
-              </p>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Link
-                  href="/tools/schema-checker"
-                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
-                >
-                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
-                    Free tool
-                  </span>
-                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
-                    Schema Checker
-                  </h3>
-                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
-                    Check if your firm&rsquo;s website has the structured data AI platforms need to recommend you.
-                  </p>
-                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
-                    Run schema checker &rarr;
-                  </span>
-                </Link>
-
-                <Link
-                  href="/tools/robots-checker"
-                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
-                >
-                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
-                    Free tool
-                  </span>
-                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
-                    AI Crawler Checker
-                  </h3>
-                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
-                    Find out if ChatGPT, Perplexity, Claude and Gemini can actually access your site to read it.
-                  </p>
-                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
-                    Check crawler access &rarr;
-                  </span>
-                </Link>
-
-                <Link
-                  href="/aeo-report"
-                  className="group flex h-full flex-col text-left rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 p-5 text-white"
-                  style={{ background: 'var(--gradient-cta)' }}
-                >
-                  <span className="text-xs font-semibold tracking-wider uppercase text-white/85 mb-2">
-                    Free report
-                  </span>
-                  <h3 className="font-serif text-lg lg:text-xl font-bold text-white mb-2 leading-tight">
-                    AI Visibility Report
-                  </h3>
-                  <p className="text-sm text-white/90 mb-4 flex-1 leading-relaxed">
-                    Get a personalised report on where your firm appears across the six AI platforms your clients use.
-                  </p>
-                  <span className="text-sm font-bold text-white group-hover:underline">
-                    Get free report &rarr;
-                  </span>
-                </Link>
-
-                <Link
-                  href="/tools/aeo-checklist"
-                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
-                >
-                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
-                    Free download
-                  </span>
-                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
-                    AEO Checklist
-                  </h3>
-                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
-                    The 30-point AI visibility checklist used by every TendorAI Pro customer. Free PDF, no signup required.
-                  </p>
-                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
-                    Download checklist &rarr;
-                  </span>
-                </Link>
-
-                <Link
-                  href="/tools/ai-visibility-checklist-accountants"
-                  className="group flex h-full flex-col text-left bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5"
-                >
-                  <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 mb-2">
-                    Free download
-                  </span>
-                  <h3 className="font-serif text-lg lg:text-xl font-bold text-[var(--text)] mb-2 leading-tight">
-                    Accountancy AI Checklist
-                  </h3>
-                  <p className="text-sm text-[var(--text2)] mb-4 flex-1 leading-relaxed">
-                    ICAEW-specific AI visibility checklist for UK accounting firms. Free PDF, no signup required.
-                  </p>
-                  <span className="text-sm font-semibold text-purple-600 group-hover:underline">
-                    Download checklist &rarr;
-                  </span>
-                </Link>
-              </div>
-
-              <p className="text-center text-sm text-[var(--text2)] mt-6">
-                Comparing AI visibility tools?{' '}
-                <Link
-                  href="/best-ai-visibility-tools-uk-solicitors"
-                  className="font-semibold text-purple-600 hover:underline"
-                >
-                  See the 2026 UK solicitor comparison &rarr;
-                </Link>
-              </p>
-            </div>
-
-            {/* Closing line */}
-            <div className="relative text-center mt-6 lg:mt-3">
-              <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[var(--text3)] mb-2">
-                the loop continues
-              </p>
-              <p className="text-base font-medium text-[var(--text2)]">
-                Runs every Monday. Continues forever.{' '}
-                <span className="text-purple-600 font-bold">£299/month.</span>
-              </p>
-            </div>
+            {/* Closing line — single clean line replacing the prior
+                "the loop continues" eyebrow + "Runs every Monday..." footer.
+                Free tools moved out of the Loop into their own section beneath
+                Hero on /page.tsx (FreeTools.tsx). */}
+            <p className="text-center text-base font-medium text-[var(--text2)] mt-6 lg:mt-3">
+              Continuous improvement, managed for you.{' '}
+              <span className="text-purple-600 font-bold">£299/month.</span>
+            </p>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
+import FreeTools from './components/landing/FreeTools';
 import ProblemSection from './components/landing/ProblemSection';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
@@ -116,6 +117,10 @@ export default function HomePage() {
         {/* 1. Hero — packages the headline, the Five-Stage Loop, and the
             authority stats bar. Brief slots 1, 2, and 4 all live inside Hero. */}
         <Hero />
+
+        {/* Free Tools — lifted out of the Loop section in Hero, where it
+            previously crammed three messages into one block. */}
+        <FreeTools />
 
         {/* 2. Why this matters / problem — also carries the cost-comparison
             cards (£1,500–£8,000 vs the £299/month reveal at the bottom).
