@@ -56,24 +56,28 @@ async function getSupplierStats() {
   solicitorStats.forEach((stat: { _id: string; count: number }) => {
     categoryCountMap[stat._id] = stat.count;
   });
-  // All accountant categories share the same pool until practiceAreas is populated
-  const accountantServiceValues = [
-    'Tax Advisory', 'Audit & Assurance', 'Bookkeeping', 'Payroll',
-    'Corporate Finance', 'Business Advisory', 'VAT', 'Financial Planning',
-  ];
-  accountantServiceValues.forEach((val) => {
-    categoryCountMap[val] = accountantTotal;
-  });
+  // Accountant per-category counts: NOT available. The Vendor.services /
+  // practiceAreas fields aren't yet populated for accountancy firms at the
+  // sub-category level. Previously we stamped accountantTotal on every
+  // accounting sub-category, which made all 8 cards show the same number
+  // ("24,473 firms" × 8) and looked like a placeholder. The accounting
+  // section now shows the honest total once at section level and omits
+  // per-card counts entirely until real per-category data lands.
 
-  return { totalCount, categoryCountMap, mortgageAdvisorTotal, estateAgentTotal };
+  return { totalCount, categoryCountMap, accountantTotal, mortgageAdvisorTotal, estateAgentTotal };
 }
 
 export default async function SuppliersIndexPage() {
-  const { totalCount, categoryCountMap, mortgageAdvisorTotal, estateAgentTotal } = await getSupplierStats();
+  const { totalCount, categoryCountMap, accountantTotal, mortgageAdvisorTotal, estateAgentTotal } = await getSupplierStats();
 
-  const officeEquipment = Object.values(SERVICES).filter((s) => s.group === 'office-equipment');
   const solicitorCategories = Object.values(SERVICES).filter((s) => s.group === 'solicitor');
   const accountantCategories = Object.values(SERVICES).filter((s) => s.group === 'accountant');
+  // Office equipment: hide cards whose category has zero suppliers in the
+  // database (Security Systems, Business Software) — empty tiles with
+  // "0 suppliers" look like dead links, not real options.
+  const officeEquipment = Object.values(SERVICES)
+    .filter((s) => s.group === 'office-equipment')
+    .filter((s) => (categoryCountMap[s.value] ?? 0) > 0);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -198,35 +202,37 @@ export default async function SuppliersIndexPage() {
           </div>
         </section>
 
-        {/* Accounting Services */}
+        {/* Accounting Services. We don't have real per-category counts yet
+            (services / practiceAreas aren't tagged on the accountancy firm
+            records), so the cards omit the count line. The honest total
+            sits once at section level — much better than stamping the same
+            "24,473 firms" on every card and pretending it's per-category
+            data. */}
         <section className="py-12 bg-white">
           <div className="section">
             <h2 className="text-2xl font-bold mb-2">Accounting Services</h2>
-            <p className="text-gray-600 mb-8">ICAEW-regulated accountancy firms across England and Wales</p>
+            <p className="text-gray-600 mb-2">ICAEW-regulated accountancy firms across England and Wales</p>
+            <p className="text-sm text-purple-600 font-medium mb-8">
+              {accountantTotal.toLocaleString()} accountancy firms
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {accountantCategories.map((service) => {
-                const count = categoryCountMap[service.value] || 0;
-                return (
-                  <Link
-                    key={service.slug}
-                    href={`/suppliers/${service.slug}`}
-                    className="card-hover p-5 group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="text-3xl">{service.icon}</div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-semibold mb-0.5 group-hover:text-purple-600 transition-colors">
-                          {service.name}
-                        </h3>
-                        <p className="text-gray-500 text-xs mb-1.5 line-clamp-1">{service.description}</p>
-                        <span className="text-sm text-purple-600 font-medium">
-                          {count.toLocaleString()} firms
-                        </span>
-                      </div>
+              {accountantCategories.map((service) => (
+                <Link
+                  key={service.slug}
+                  href={`/suppliers/${service.slug}`}
+                  className="card-hover p-5 group"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="text-3xl">{service.icon}</div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold mb-0.5 group-hover:text-purple-600 transition-colors">
+                        {service.name}
+                      </h3>
+                      <p className="text-gray-500 text-xs line-clamp-1">{service.description}</p>
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
