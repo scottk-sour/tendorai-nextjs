@@ -116,11 +116,10 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
         {/* Title */}
         <div className="py-4">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gray-900 mb-6 leading-[1.15] tracking-tight">
-            Your firm is already listed.{' '}
+            The UK AI Visibility Platform for{' '}
             <em className="gradient-text not-italic font-bold" style={{ fontStyle: 'italic' }}>
-              Claim it
-            </em>{' '}
-            and AI will recommend you by name.
+              Regulated Professional Services Firms
+            </em>
           </h1>
 
           {/* Badge */}
@@ -134,13 +133,47 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
           </div>
         </div>
 
-        {/* Subtitle */}
-        <div className="py-4">
-          <p className="text-lg text-[var(--text2)] max-w-2xl mx-auto leading-relaxed">
-            Continuous AI visibility for UK regulated professional services. We measure where you appear in AI answers, fix the gaps, and track what worked. Every week.
-          </p>
-          <p className="text-sm text-[var(--text2)] max-w-2xl mx-auto leading-relaxed mt-4">
-            Built around a <strong>six-agent fleet</strong> — Reconnaissance, Writer, Detective, Listings, Reporter, Reviews — running autonomously on every Pro account.
+        {/* How Firms Get Recommended By AI */}
+        <div className="py-6 max-w-3xl mx-auto text-left">
+          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] text-center mb-6">
+            How Firms Get Recommended By AI
+          </h2>
+          <ul className="space-y-4">
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We build your AI profile</strong> — Structured data, services, locations, FAQs and trust signals on your website.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We create AI-citable content</strong> — Three professionally-written articles every week under your firm&apos;s name.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We monitor the market</strong> — Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We report what changed</strong> — A weekly report showing where your firm appeared, who was recommended, and what to do next.
+              </p>
+            </li>
+          </ul>
+          <p className="text-sm text-[var(--text2)] text-center mt-6 leading-relaxed">
+            Everything runs continuously through TendorAI&apos;s AI visibility system. Available from <span className="text-purple-600 font-semibold">£299/month</span>. No contract.
           </p>
         </div>
 
