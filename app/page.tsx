@@ -1,13 +1,12 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
+import FreeTools from './components/landing/FreeTools';
 import ProblemSection from './components/landing/ProblemSection';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
 import ConversationDemo from './components/landing/ConversationDemo';
-import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
-import BeforeAfterProof from './components/landing/BeforeAfterProof';
 import Pricing from './components/landing/Pricing';
 import FinalCTA from './components/landing/FinalCTA';
 
@@ -115,36 +114,40 @@ export default function HomePage() {
       />
 
       <main>
-        {/* Hero — includes the canonical definition + Five-Stage Loop */}
+        {/* 1. Hero — packages the headline, the Five-Stage Loop, and the
+            authority stats bar. Brief slots 1, 2, and 4 all live inside Hero. */}
         <Hero />
 
-        {/* Problem — Cost comparison cards */}
+        {/* Free Tools — lifted out of the Loop section in Hero, where it
+            previously crammed three messages into one block. */}
+        <FreeTools />
+
+        {/* 2. Why this matters / problem — also carries the cost-comparison
+            cards (£1,500–£8,000 vs the £299/month reveal at the bottom).
+            Brief slots 3 + 6. */}
         <ProblemSection />
 
-        {/* Trust Bar — verified UK data sources */}
-        <TrustBar />
-
-        {/* Sector Benefits — vertical cards */}
-        <SectorBenefits />
-
-        {/* Conversation Demo */}
-        <ConversationDemo />
-
-        {/* Case study — TendorAI's own Searchable.com proof */}
+        {/* 3. What TendorAI builds — case-study deliverables (Searchable.com
+            proof). Moved up from position 6 so deliverables land BEFORE price
+            per the brief. */}
         <CustomerTestimonial />
 
-        {/* Before/After — TendorAI's own 6-week visibility journey */}
-        <BeforeAfterProof />
+        {/* 4. Built on Verified UK Data — authority / trust signal. */}
+        <TrustBar />
 
-        {/* What AI Platforms Say */}
-        <AiTestimonials />
+        {/* 5. What AI recommendations look like — outcome demo. */}
+        <ConversationDemo />
 
-        {/* Pricing */}
+        {/* 6. Industries — vertical cards. Moved down from position 4 so it
+            sits between Demo and Pricing per the brief. */}
+        <SectorBenefits />
+
+        {/* 7. Pricing — tiers + how-we-compare table. */}
         <Suspense fallback={<div className="py-8" />}>
           <Pricing />
         </Suspense>
 
-        {/* Final CTA */}
+        {/* 8. Final CTA */}
         <Suspense fallback={<div className="py-8" />}>
           <FinalCTA />
         </Suspense>

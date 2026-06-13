@@ -23,7 +23,11 @@ const proofImages = [
 export default function CustomerTestimonial() {
   return (
     <section aria-label="case study" className="py-20 md:py-24 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Outer container at max-w-6xl matches every other body section so the
+          left/right edges line up. Narrative card capped at max-w-4xl inside
+          to keep reading line-length comfortable. */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <p className="font-serif text-xs font-bold uppercase tracking-[0.2em] text-purple-600 mb-3">
             Case study
@@ -86,6 +90,7 @@ export default function CustomerTestimonial() {
             Independently tracked by Searchable.com. Screenshots taken 19 March 2026. TendorAI is not
             affiliated with Searchable.
           </p>
+        </div>
         </div>
       </div>
     </section>
