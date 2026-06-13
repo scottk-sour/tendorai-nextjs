@@ -11,21 +11,21 @@ const loopStages = [
     number: '01',
     title: 'Measure',
     oneLiner:
-      'Reconnaissance Agent scans six AI platforms daily and scores your visibility.',
+      'Scans six AI platforms daily and scores your visibility.',
     proof: 'ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, Grok',
   },
   {
     number: '02',
     title: 'Diagnose',
     oneLiner:
-      "Detective Agent identifies why you're missed, per platform, per prompt.",
+      'Identifies why competitors are recommended instead.',
     proof: 'Findings with severity, evidence, and a specific fix',
   },
   {
     number: '03',
     title: 'Fix',
     oneLiner:
-      'Writer Agent drafts content; engineering updates schema. Everything held in your approval queue.',
+      'Content, schema and profile improvements prepared for your approval.',
     proof: 'You see every change before it ships',
   },
   {
@@ -39,8 +39,8 @@ const loopStages = [
     number: '05',
     title: 'Track',
     oneLiner:
-      'Reporter Agent aggregates the week into a single dashboard.',
-    proof: 'Weekly Pro Report — score, citations, agent activity, competitor moves',
+      'Weekly reporting and ongoing monitoring.',
+    proof: 'Weekly Pro Report — score, citations, activity, competitor moves',
   },
 ];
 
@@ -49,26 +49,26 @@ const howToSchema = {
   '@type': 'HowTo',
   name: 'How the TendorAI Platform Works',
   description:
-    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — using a six-agent fleet to get UK regulated professional services firms recommended across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
+    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
   totalTime: 'P90D',
   step: [
     {
       '@type': 'HowToStep',
       position: 1,
       name: 'Measure',
-      text: 'Reconnaissance Agent scans six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok — and scores your visibility.',
+      text: 'Scans six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok — and scores your visibility.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Diagnose',
-      text: "Detective Agent identifies why you're missed, per platform and per prompt, with severity, evidence, and a specific fix.",
+      text: 'Identifies why competitors are recommended instead, per platform and per prompt, with severity, evidence, and a specific fix.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Fix',
-      text: 'Writer Agent drafts content and engineering updates schema. Every change is held in your approval queue so you see it before it ships.',
+      text: 'Content, schema and profile improvements are prepared for your approval. Every change is held in your approval queue so you see it before it ships.',
     },
     {
       '@type': 'HowToStep',
@@ -80,7 +80,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 5,
       name: 'Track',
-      text: 'Reporter Agent aggregates the week into a single dashboard. The Weekly Pro Report covers visibility score, citations, agent activity, and competitor moves.',
+      text: 'Weekly reporting and ongoing monitoring — the Weekly Pro Report covers visibility score, citations, activity, and competitor moves.',
     },
   ],
 };
@@ -287,8 +287,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                 the loop continues
               </p>
               <p className="text-base font-medium text-[var(--text2)]">
-                Runs every Monday. Continues forever.{' '}
-                <span className="text-purple-600 font-bold">£299/month.</span>
+                Runs every Monday. Continues forever.
               </p>
               <p className="mt-3">
                 <Link
