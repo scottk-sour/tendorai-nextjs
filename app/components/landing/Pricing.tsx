@@ -94,7 +94,7 @@ export default function Pricing() {
           {plans.map((plan, i) => (
             <div
               key={plan.name}
-              className={`relative p-7 ${i > 0 ? 'border-t md:border-t-0 md:border-l border-[var(--border)]' : ''} ${plan.highlight ? 'bg-[#f8f6fd]' : ''}`}
+              className={`relative p-7 flex flex-col h-full ${i > 0 ? 'border-t md:border-t-0 md:border-l border-[var(--border)]' : ''} ${plan.highlight ? 'bg-[#f8f6fd]' : ''}`}
             >
               {plan.popular && (
                 <div className="absolute -top-0 left-0 right-0 bg-[var(--gradient-hero)] text-white text-center py-1.5 text-xs font-bold uppercase tracking-wider" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -102,7 +102,7 @@ export default function Pricing() {
                 </div>
               )}
 
-              <div className={plan.popular ? 'pt-6' : ''}>
+              <div className={`flex flex-col flex-1 ${plan.popular ? 'pt-6' : ''}`}>
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">{plan.name}</h3>
 
                 <div className="mb-0.5">
@@ -116,7 +116,7 @@ export default function Pricing() {
                 <p className="text-xs text-[var(--text2)] mb-5">{plan.description}</p>
 
                 {plan.loopStages ? (
-                  <ul className="space-y-3 mb-7">
+                  <ul className="space-y-3 mb-7 flex-1">
                     {plan.loopStages.map((stage) => (
                       <li key={stage.verb} className="flex items-start gap-3 text-sm">
                         <span className="text-purple-600 font-semibold mt-0.5 flex-shrink-0" aria-hidden>&rarr;</span>
@@ -133,7 +133,7 @@ export default function Pricing() {
                     )}
                   </ul>
                 ) : (
-                  <ul className="space-y-2.5 mb-7">
+                  <ul className="space-y-2.5 mb-7 flex-1">
                     {(plan.features ?? []).map((f, j) => (
                       <li key={j} className="flex items-start gap-2 text-sm">
                         {f.included ? (
