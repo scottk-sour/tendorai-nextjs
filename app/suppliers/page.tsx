@@ -211,7 +211,7 @@ export default async function SuppliersIndexPage() {
         <section className="py-12 bg-white">
           <div className="section">
             <h2 className="text-2xl font-bold mb-2">Accounting Services</h2>
-            <p className="text-gray-600 mb-2">ICAEW-regulated accountancy firms across England and Wales</p>
+            <p className="text-gray-600 mb-2">UK accountancy firms across England and Wales</p>
             <p className="text-sm text-purple-600 font-medium mb-8">
               {accountantTotal.toLocaleString()} accountancy firms
             </p>
