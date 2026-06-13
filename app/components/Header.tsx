@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -15,8 +15,16 @@ const industryLinks = [
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Desktop and mobile Industries dropdowns are independent. They used to
+  // share a single piece of state, but the desktop click-outside listener
+  // would then incorrectly close the mobile collapsible too. Keeping them
+  // separate keeps each viewport's toggle self-contained.
   const [isIndustriesOpen, setIsIndustriesOpen] = useState(false);
+  const [isMobileIndustriesOpen, setIsMobileIndustriesOpen] = useState(false);
   const pathname = usePathname();
+  // Desktop Industries wrapper — used by the click-outside listener to
+  // detect whether a mousedown happened inside the dropdown subtree.
+  const industriesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let ticking = false;
@@ -36,7 +44,35 @@ const Header = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsIndustriesOpen(false);
+    setIsMobileIndustriesOpen(false);
   }, [pathname]);
+
+  // Close the Industries dropdown when the user clicks outside it (mouse or
+  // touch) or presses Escape. Attached only while the menu is open to avoid
+  // an always-on document listener. Listens on mousedown rather than click
+  // so the menu doesn't briefly persist if the user taps a non-Link area.
+  useEffect(() => {
+    if (!isIndustriesOpen) return;
+
+    const handlePointer = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node | null;
+      if (target && industriesRef.current && !industriesRef.current.contains(target)) {
+        setIsIndustriesOpen(false);
+      }
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsIndustriesOpen(false);
+    };
+
+    document.addEventListener('mousedown', handlePointer);
+    document.addEventListener('touchstart', handlePointer);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handlePointer);
+      document.removeEventListener('touchstart', handlePointer);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [isIndustriesOpen]);
 
   const navLinks = [
     { href: '/suppliers', label: 'Find Suppliers' },
@@ -84,13 +120,25 @@ const Header = () => {
               </Link>
             ))}
 
-            {/* Industries Dropdown */}
+            {/* Industries Dropdown — works on hover (mouse), click (mouse +
+                touch) and keyboard (Enter/Space on the button, Escape to
+                close, click-outside to close). The outer absolute wrapper
+                uses `pt-2` rather than `mt-1` so the hit-box is continuous
+                from the button's bottom edge to the visible menu card —
+                previously the 4px transparent margin gap dropped the cursor
+                out of the hover subtree and slammed the menu shut before
+                the user could reach the items. */}
             <div
+              ref={industriesRef}
               className="relative"
               onMouseEnter={() => setIsIndustriesOpen(true)}
               onMouseLeave={() => setIsIndustriesOpen(false)}
             >
               <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={isIndustriesOpen}
+                onClick={() => setIsIndustriesOpen((o) => !o)}
                 className={`text-sm font-medium transition-colors flex items-center gap-1 ${
                   isIndustriesActive ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600'
                 }`}
@@ -101,20 +149,26 @@ const Header = () => {
                 </svg>
               </button>
               {isIndustriesOpen && (
-                <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-lg border border-[var(--border)] py-2 z-50">
-                  {industryLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`block px-4 py-2.5 text-sm transition-colors ${
-                        pathname === link.href
-                          ? 'text-purple-600 bg-purple-50'
-                          : 'text-gray-600 hover:text-purple-600 hover:bg-gray-50'
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                <div
+                  className="absolute top-full left-0 pt-2 w-56 z-50"
+                  role="menu"
+                >
+                  <div className="bg-white rounded-xl shadow-lg border border-[var(--border)] py-2">
+                    {industryLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        role="menuitem"
+                        className={`block px-4 py-2.5 text-sm transition-colors ${
+                          pathname === link.href
+                            ? 'text-purple-600 bg-purple-50'
+                            : 'text-gray-600 hover:text-purple-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -184,9 +238,12 @@ const Header = () => {
                 </Link>
               ))}
 
-              {/* Mobile Industries Section */}
+              {/* Mobile Industries Section — independent state from the
+                  desktop dropdown above. */}
               <button
-                onClick={() => setIsIndustriesOpen(!isIndustriesOpen)}
+                type="button"
+                aria-expanded={isMobileIndustriesOpen}
+                onClick={() => setIsMobileIndustriesOpen((o) => !o)}
                 className={`text-sm font-medium px-3 py-2 rounded-lg transition-colors flex items-center justify-between w-full ${
                   isIndustriesActive
                     ? 'text-purple-600 bg-purple-50'
@@ -194,11 +251,11 @@ const Header = () => {
                 }`}
               >
                 Industries
-                <svg className={`w-4 h-4 transition-transform ${isIndustriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className={`w-4 h-4 transition-transform ${isMobileIndustriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              {isIndustriesOpen && (
+              {isMobileIndustriesOpen && (
                 <div className="pl-4 space-y-1">
                   {industryLinks.map((link) => (
                     <Link
