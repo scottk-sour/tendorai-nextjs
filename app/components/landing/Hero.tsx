@@ -135,7 +135,7 @@ export default function Hero() {
             from /ai-visibility-platform; the cross-page repetition is
             deliberate so AI assistants treat it as a verified entity fact. */}
         <div className="py-6 max-w-3xl mx-auto text-left">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mb-4">
+          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mb-4 text-center">
             What TendorAI Does
           </h2>
 
@@ -186,7 +186,7 @@ export default function Hero() {
             ))}
           </ul>
 
-          <p className="mt-6 text-base md:text-lg font-semibold text-[var(--text)]">
+          <p className="mt-6 text-base md:text-lg font-semibold text-[var(--text)] text-center">
             &pound;299/month. No contracts.
           </p>
         </div>
