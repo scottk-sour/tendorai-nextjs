@@ -1,81 +1,96 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 
+interface HeroProps {
+  totalVendors?: number;
+}
+
+// The Five-Stage AI Visibility Loop — single source of truth, matches /ai-visibility-platform.
 const loopStages = [
   {
     number: '01',
     title: 'Measure',
-    oneLiner: 'See where AI assistants mention your firm.',
+    oneLiner:
+      'Scans six AI platforms daily and scores your visibility.',
+    proof: 'ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, Grok',
   },
   {
     number: '02',
     title: 'Diagnose',
-    oneLiner: 'Identify why competitors are recommended instead.',
+    oneLiner:
+      'Identifies why competitors are recommended instead.',
+    proof: 'Findings with severity, evidence, and a specific fix',
   },
   {
     number: '03',
     title: 'Fix',
-    oneLiner: 'Content, schema and profile improvements prepared for your approval.',
+    oneLiner:
+      'Content, schema and profile improvements prepared for your approval.',
+    proof: 'You see every change before it ships',
   },
   {
     number: '04',
     title: 'Deploy',
-    oneLiner: 'Approved changes go live automatically.',
+    oneLiner:
+      'Approved fixes go live automatically — content to your profile, schema to your website.',
+    proof: 'One-click approval, automatic deployment',
   },
   {
     number: '05',
     title: 'Track',
-    oneLiner: 'Weekly reporting and ongoing monitoring.',
+    oneLiner:
+      'Weekly reporting and ongoing monitoring.',
+    proof: 'Weekly Pro Report — score, citations, activity, competitor moves',
   },
 ];
 
 const howToSchema = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: 'How TendorAI gets your firm recommended by AI platforms',
+  name: 'How the TendorAI Platform Works',
   description:
-    'TendorAI runs a continuous five-stage loop: measure, diagnose, fix, deploy, track.',
+    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
   totalTime: 'P90D',
   step: [
     {
       '@type': 'HowToStep',
       position: 1,
       name: 'Measure',
-      text: 'See where AI assistants mention your firm.',
+      text: 'Scans six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok — and scores your visibility.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Diagnose',
-      text: 'Identify why competitors are recommended instead.',
+      text: 'Identifies why competitors are recommended instead, per platform and per prompt, with severity, evidence, and a specific fix.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Fix',
-      text: 'Content, schema and profile improvements prepared for your approval.',
+      text: 'Content, schema and profile improvements are prepared for your approval. Every change is held in your approval queue so you see it before it ships.',
     },
     {
       '@type': 'HowToStep',
       position: 4,
       name: 'Deploy',
-      text: 'Approved changes go live automatically.',
+      text: 'Approved fixes go live automatically — content to your profile, schema to your website. One-click approval, automatic deployment.',
     },
     {
       '@type': 'HowToStep',
       position: 5,
       name: 'Track',
-      text: 'Weekly reporting and ongoing monitoring.',
+      text: 'Weekly reporting and ongoing monitoring — the Weekly Pro Report covers visibility score, citations, activity, and competitor moves.',
     },
   ],
 };
 
-export default function Hero() {
+export default function Hero({ totalVendors = 12793 }: HeroProps) {
   const stats = [
-    { value: '63,406+', label: 'UK Firms' },
+    { value: `${totalVendors.toLocaleString()}+`, label: 'UK Businesses' },
     { value: '6', label: 'AI Platforms Tracked' },
-    { value: '3', label: 'Regulatory Registers' },
-    { value: 'Free', label: 'AI Visibility (AEO) Reports' },
+    { value: '6', label: 'Agents in the Fleet' },
+    { value: 'Free', label: 'AI Visibility Reports' },
   ];
 
   return (
@@ -101,11 +116,10 @@ export default function Hero() {
         {/* Title */}
         <div className="py-4">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gray-900 mb-6 leading-[1.15] tracking-tight">
-            Your firm is already listed.{' '}
+            The UK AI Visibility Platform for{' '}
             <em className="gradient-text not-italic font-bold" style={{ fontStyle: 'italic' }}>
-              Claim it
-            </em>{' '}
-            and AI will recommend you by name.
+              Regulated Professional Services Firms
+            </em>
           </h1>
 
           {/* Badge */}
@@ -119,70 +133,47 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Subtitle */}
-        <div className="py-4">
-          <p className="text-lg text-[var(--text2)] max-w-2xl mx-auto leading-relaxed">
-            Continuous AI visibility for UK regulated professional services. We measure where you appear in AI answers, fix the gaps, and track what worked. Every week.
-          </p>
-        </div>
-
-        {/* What TendorAI Does — canonical definition paragraph. Near-verbatim
-            from /ai-visibility-platform; the cross-page repetition is
-            deliberate so AI assistants treat it as a verified entity fact. */}
+        {/* How Firms Get Recommended By AI */}
         <div className="py-6 max-w-3xl mx-auto text-left">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mb-4 text-center">
-            What TendorAI Does
+          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] text-center mb-6">
+            How Firms Get Recommended By AI
           </h2>
-
-          {/* Four scannable features. Bullet uses the same purple-check SVG
-              the Free-tier features list in Pricing uses, so the icon set
-              stays consistent with the rest of the page. */}
           <ul className="space-y-4">
-            {[
-              {
-                lead: 'We build your AI profile',
-                detail:
-                  'Structured data, services, locations, FAQs and trust signals on your website.',
-              },
-              {
-                lead: 'We create AI-citable content',
-                detail:
-                  "Three professionally-written articles every week under your firm's name.",
-              },
-              {
-                lead: 'We monitor the market',
-                detail:
-                  'Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.',
-              },
-              {
-                lead: 'We report what changed',
-                detail:
-                  'A weekly report showing where your firm appeared, who was recommended, and what to do next.',
-              },
-            ].map((item) => (
-              <li key={item.lead} className="flex items-start gap-3">
-                <svg
-                  className="w-5 h-5 text-[var(--purple-start)] mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <p className="text-base md:text-lg leading-relaxed">
-                  <span className="font-bold text-[var(--text)]">{item.lead}</span>
-                  <span className="text-[var(--text2)]"> &mdash; {item.detail}</span>
-                </p>
-              </li>
-            ))}
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We build your AI profile</strong> — Structured data, services, locations, FAQs and trust signals on your website.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We create AI-citable content</strong> — Three professionally-written articles every week under your firm&apos;s name.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We monitor the market</strong> — Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.
+              </p>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-purple-600 font-bold mt-1" aria-hidden>
+                &bull;
+              </span>
+              <p className="text-[var(--text2)] leading-relaxed">
+                <strong className="text-[var(--text)]">We report what changed</strong> — A weekly report showing where your firm appeared, who was recommended, and what to do next.
+              </p>
+            </li>
           </ul>
-
-          <p className="mt-6 text-base md:text-lg font-semibold text-[var(--text)] text-center">
-            &pound;299/month. No contracts.
+          <p className="text-sm text-[var(--text2)] text-center mt-6 leading-relaxed">
+            Everything runs continuously through TendorAI&apos;s AI visibility system. Available from <span className="text-purple-600 font-semibold">£299/month</span>. No contract.
           </p>
         </div>
 
@@ -192,9 +183,12 @@ export default function Hero() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
 
-        {/* 90-day outcome line — leads into the Loop */}
-        <p className="font-serif italic text-xl md:text-2xl text-[var(--text2)] text-center max-w-3xl mx-auto mt-4 mb-8 leading-relaxed">
-          In 90 days you go from invisible in AI answers to consistently recommended. Here&rsquo;s how.
+        {/* Loop intro line */}
+        <p className="font-serif italic text-xl md:text-2xl text-[var(--text2)] text-center max-w-3xl mx-auto mt-4 mb-2 leading-relaxed">
+          How the TendorAI Platform Works
+        </p>
+        <p className="text-sm text-[var(--text3)] text-center max-w-2xl mx-auto mb-8">
+          The Five-Stage AI Visibility Loop. One platform.
         </p>
 
         {/* The Loop — five-stage cycle */}
@@ -207,59 +201,50 @@ export default function Hero() {
               style={{ background: 'var(--gradient-hero)' }}
             />
 
-            {/* Desktop: horizontal flow — five stages connected left-to-right by chevrons */}
+            {/* Desktop: 3+2 grid layout — cards 01/02/03 on row 1, 04/05 left-aligned on row 2 */}
             <ol
-              className="not-prose relative hidden lg:flex items-stretch list-none p-0 m-0"
+              className="not-prose relative hidden lg:grid lg:grid-cols-3 gap-6 list-none p-0 m-0"
               style={{ listStyle: 'none', listStyleType: 'none', paddingLeft: 0 }}
             >
-              {loopStages.map((stage, idx) => (
-                <Fragment key={stage.title}>
-                  <li
-                    className="list-none group flex-1 min-w-0 bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-4 flex flex-col text-left"
-                    style={{ listStyle: 'none' }}
-                  >
-                    <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
-                      {stage.number}
-                    </span>
-                    <h3 className="font-serif text-base font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
-                      {stage.title}
-                    </h3>
-                    <div className="border-t border-[var(--border)] mt-2.5 mb-2.5" />
-                    <p className="text-xs text-[var(--text2)] leading-relaxed flex-1">
-                      {stage.oneLiner}
-                    </p>
-                  </li>
-                  {idx < loopStages.length - 1 && (
-                    <div className="flex items-center px-1 text-purple-400" aria-hidden>
-                      <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  )}
-                </Fragment>
+              {loopStages.map((stage) => (
+                <li
+                  key={stage.title}
+                  className="list-none group h-full bg-white rounded-xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col text-left"
+                  style={{ listStyle: 'none' }}
+                >
+                  <span className="font-serif text-xs font-bold tracking-[0.12em] text-purple-600">
+                    {stage.number}
+                  </span>
+                  <h3 className="font-serif text-lg font-bold uppercase tracking-wide text-[var(--text)] mt-1 leading-tight">
+                    {stage.title}
+                  </h3>
+                  <div className="border-t border-[var(--border)] mt-3 mb-3" />
+                  <p className="text-sm text-[var(--text2)] leading-relaxed flex-1">
+                    {stage.oneLiner}
+                  </p>
+                  <p className="text-xs italic text-purple-600 mt-4 leading-snug">
+                    {stage.proof}
+                  </p>
+                </li>
               ))}
             </ol>
 
-            {/* Loop-back curve — visual cue that the five stages run as a continuous cycle */}
-            <div className="relative hidden lg:block mt-3">
+            {/* Loop-back dashed line (desktop only) */}
+            <div className="relative hidden lg:block mt-5 px-8" aria-hidden>
               <svg
-                className="w-full h-12 text-purple-300"
-                viewBox="0 0 1000 48"
+                className="w-full h-10 text-[var(--border2)]"
+                viewBox="0 0 1000 40"
                 preserveAspectRatio="none"
                 fill="none"
                 stroke="currentColor"
-                aria-hidden
               >
                 <path
-                  d="M 968 4 Q 968 42 500 42 Q 32 42 32 4"
-                  strokeWidth="1.5"
+                  d="M 970 4 Q 970 34 500 34 Q 30 34 30 4"
+                  strokeWidth="1"
                   strokeDasharray="5 5"
                 />
-                <path d="M 32 4 L 24 13 M 32 4 L 40 13" strokeWidth="2" />
+                <path d="M 30 4 L 22 12 M 30 4 L 38 12" strokeWidth="1.5" />
               </svg>
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs font-semibold text-purple-600">
-                Continuous loop. Every week.
-              </span>
             </div>
 
             {/* Mobile / tablet: stacked cards with vertical connectors */}
@@ -283,9 +268,10 @@ export default function Hero() {
                     </div>
                     <div className="border-t border-[var(--border)] mt-3 mb-3" />
                     <p className="text-sm text-[var(--text2)] leading-relaxed">{stage.oneLiner}</p>
+                    <p className="text-xs italic text-purple-600 mt-3 leading-snug">{stage.proof}</p>
                   </li>
                   {idx < loopStages.length - 1 && (
-                    <div className="flex justify-center text-purple-400" aria-hidden>
+                    <div className="flex justify-center text-gray-400" aria-hidden>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
                       </svg>
@@ -295,22 +281,23 @@ export default function Hero() {
               ))}
             </ol>
 
-            {/* Mobile loop-back cue — the five stages run as a continuous cycle */}
-            <div className="lg:hidden mt-3 flex items-center justify-center gap-2 text-purple-600">
-              <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              <span className="text-xs font-semibold">Continuous loop. Every week.</span>
+            {/* Closing line */}
+            <div className="relative text-center mt-8 lg:mt-6">
+              <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[var(--text3)] mb-2">
+                the loop continues
+              </p>
+              <p className="text-base font-medium text-[var(--text2)]">
+                Runs every Monday. Continues forever.
+              </p>
+              <p className="mt-3">
+                <Link
+                  href="/ai-visibility-platform"
+                  className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors"
+                >
+                  See the full platform &rarr;
+                </Link>
+              </p>
             </div>
-
-            {/* Closing line — single clean line replacing the prior
-                "the loop continues" eyebrow + "Runs every Monday..." footer.
-                Free tools moved out of the Loop into their own section beneath
-                Hero on /page.tsx (FreeTools.tsx). */}
-            <p className="text-center text-base font-medium text-[var(--text2)] mt-6 lg:mt-3">
-              Continuous improvement, managed for you.{' '}
-              <span className="text-purple-600 font-bold">£299/month.</span>
-            </p>
           </div>
         </div>
 
@@ -320,22 +307,12 @@ export default function Hero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex justify-center gap-4 flex-wrap mb-6">
+        <div className="flex justify-center gap-4 flex-wrap mb-14">
           <Link href="/aeo-report" className="btn-primary">
             Check Your AI Visibility — Free
           </Link>
           <Link href="/vendor-signup" className="btn-secondary">
             Claim Your Profile
-          </Link>
-        </div>
-        <div className="text-center mb-4">
-          <Link href="/aeo-report" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] transition-colors">
-            Not sure where to start? &rarr; <span className="underline underline-offset-2">Run a free AI visibility check</span>
-          </Link>
-        </div>
-        <div className="text-center mb-14">
-          <Link href="/ai-visibility-platform" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors">
-            See what an AI visibility platform actually does &rarr;
           </Link>
         </div>
 
