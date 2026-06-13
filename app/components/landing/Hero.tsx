@@ -116,10 +116,11 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
         {/* Title */}
         <div className="py-4">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gray-900 mb-6 leading-[1.15] tracking-tight">
-            The UK AI Visibility Platform for{' '}
+            Your firm is already listed.{' '}
             <em className="gradient-text not-italic font-bold" style={{ fontStyle: 'italic' }}>
-              Regulated Professional Services Firms
-            </em>
+              Claim it
+            </em>{' '}
+            and AI will recommend you by name.
           </h1>
 
           {/* Badge */}
@@ -136,7 +137,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
         {/* Subtitle */}
         <div className="py-4">
           <p className="text-lg text-[var(--text2)] max-w-2xl mx-auto leading-relaxed">
-            Get your firm recommended by ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews. £299/month, all in. Built for SRA solicitors, ICAEW accountants, FCA mortgage advisers, and Propertymark estate agents.
+            Continuous AI visibility for UK regulated professional services. We measure where you appear in AI answers, fix the gaps, and track what worked. Every week.
           </p>
           <p className="text-sm text-[var(--text2)] max-w-2xl mx-auto leading-relaxed mt-4">
             Built around a <strong>six-agent fleet</strong> — Reconnaissance, Writer, Detective, Listings, Reporter, Reviews — running autonomously on every Pro account.
@@ -154,7 +155,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
           How the TendorAI Platform Works
         </p>
         <p className="text-sm text-[var(--text3)] text-center max-w-2xl mx-auto mb-8">
-          The Five-Stage AI Visibility Loop. One platform. £299/month.
+          The Five-Stage AI Visibility Loop. One platform.
         </p>
 
         {/* The Loop — five-stage cycle */}
@@ -247,24 +248,22 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
               ))}
             </ol>
 
-            {/* See the full platform CTA */}
-            <div className="relative text-center mt-8">
-              <Link
-                href="/ai-visibility-platform"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700 transition-colors"
-              >
-                See the full platform &rarr;
-              </Link>
-            </div>
-
             {/* Closing line */}
-            <div className="relative text-center mt-6 lg:mt-4">
+            <div className="relative text-center mt-8 lg:mt-6">
               <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[var(--text3)] mb-2">
                 the loop continues
               </p>
               <p className="text-base font-medium text-[var(--text2)]">
                 Runs every Monday. Continues forever.{' '}
                 <span className="text-purple-600 font-bold">£299/month.</span>
+              </p>
+              <p className="mt-3">
+                <Link
+                  href="/ai-visibility-platform"
+                  className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors"
+                >
+                  See the full platform &rarr;
+                </Link>
               </p>
             </div>
           </div>
@@ -276,17 +275,12 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex justify-center gap-4 flex-wrap mb-6">
+        <div className="flex justify-center gap-4 flex-wrap mb-14">
           <Link href="/aeo-report" className="btn-primary">
             Check Your AI Visibility — Free
           </Link>
           <Link href="/vendor-signup" className="btn-secondary">
             Claim Your Profile
-          </Link>
-        </div>
-        <div className="text-center mb-14">
-          <Link href="/ai-visibility-platform" className="text-sm text-[var(--text3)] hover:text-[var(--purple-start)] underline underline-offset-2 transition-colors">
-            See what an AI visibility platform actually does &rarr;
           </Link>
         </div>
 
