@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Hero from './components/landing/Hero';
+import FreeTools from './components/landing/FreeTools';
 import ProblemSection from './components/landing/ProblemSection';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
@@ -117,6 +118,10 @@ export default function HomePage() {
       <main>
         {/* Hero — includes the canonical definition + Five-Stage Loop */}
         <Hero />
+
+        {/* Free Tools — lifted out of the Loop section in Hero where it
+            previously crammed three messages into one block. */}
+        <FreeTools />
 
         {/* Problem — Cost comparison cards */}
         <ProblemSection />
