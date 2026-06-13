@@ -138,17 +138,56 @@ export default function Hero() {
           <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--text)] mb-4">
             What TendorAI Does
           </h2>
-          <p className="text-base md:text-lg text-[var(--text2)] leading-relaxed">
-            When a prospect asks ChatGPT &lsquo;best conveyancing solicitor in Cardiff&rsquo; or
-            Perplexity &lsquo;recommend an ICAEW accountant in Bristol&rsquo;, AI assistants return
-            named firms &mdash; not a list of links. TendorAI is the UK platform that gets your firm
-            named. We install AI-readable structured data on your website, publish three
-            professionally-written articles per week under your byline, audit the UK directories AI
-            assistants cross-reference and flag where your details don&rsquo;t match, monitor six AI
-            platforms daily &mdash; ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI
-            Overviews &mdash; and deliver a Weekly Pro Report
-            showing exactly which AI assistants cited you and why. &pound;299/month, all in. Built
-            around a six-agent autonomous fleet running on every Pro account.
+
+          {/* Four scannable features. Bullet uses the same purple-check SVG
+              the Free-tier features list in Pricing uses, so the icon set
+              stays consistent with the rest of the page. */}
+          <ul className="space-y-4">
+            {[
+              {
+                lead: 'We build your AI profile',
+                detail:
+                  'Structured data, services, locations, FAQs and trust signals on your website.',
+              },
+              {
+                lead: 'We create AI-citable content',
+                detail:
+                  "Three professionally-written articles every week under your firm's name.",
+              },
+              {
+                lead: 'We monitor the market',
+                detail:
+                  'Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.',
+              },
+              {
+                lead: 'We report what changed',
+                detail:
+                  'A weekly report showing where your firm appeared, who was recommended, and what to do next.',
+              },
+            ].map((item) => (
+              <li key={item.lead} className="flex items-start gap-3">
+                <svg
+                  className="w-5 h-5 text-[var(--purple-start)] mt-0.5 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-base md:text-lg leading-relaxed">
+                  <span className="font-bold text-[var(--text)]">{item.lead}</span>
+                  <span className="text-[var(--text2)]"> &mdash; {item.detail}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 text-base md:text-lg font-semibold text-[var(--text)]">
+            &pound;299/month. No contracts.
           </p>
         </div>
 
