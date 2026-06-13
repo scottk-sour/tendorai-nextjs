@@ -32,7 +32,7 @@ const loopStages = [
     number: '04',
     title: 'Deploy',
     oneLiner:
-      'Approved fixes go live automatically — content to your profile, schema to your website, listings to directories.',
+      'Approved fixes go live automatically — content to your profile, schema to your website.',
     proof: 'One-click approval, automatic deployment',
   },
   {
@@ -74,7 +74,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 4,
       name: 'Deploy',
-      text: 'Approved fixes go live automatically — content to your profile, schema to your website, listings to directories. One-click approval, automatic deployment.',
+      text: 'Approved fixes go live automatically — content to your profile, schema to your website. One-click approval, automatic deployment.',
     },
     {
       '@type': 'HowToStep',
