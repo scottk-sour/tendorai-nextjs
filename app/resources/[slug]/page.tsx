@@ -105,8 +105,10 @@ function parseMarkdown(content: string): string {
       const cellHtml = cells.map(c => `<${cellTag} class="px-4 py-2 border border-gray-200">${c.trim()}</${cellTag}>`).join('');
       return `<tr>${cellHtml}</tr>`;
     })
-    // Wrap tables
-    .replace(/(<tr>.*?<\/tr>\n?)+/g, '<table class="w-full border-collapse my-6 text-sm">$&</table>')
+    // Wrap tables — `\s*` (not `\n?`) lets us span the blank line left
+    // behind by the removed separator row, so the whole table is one
+    // <table> instead of splitting into two (header + body).
+    .replace(/(<tr>.*?<\/tr>\s*)+/g, '<table class="w-full border-collapse my-6 text-sm">$&</table>')
     // Lists — bullets and numbered items get a `data-list` marker so the
     // wrap rules below can distinguish them; otherwise numbered items
     // would be stranded as bare <li> (no surrounding <ol>).
