@@ -85,8 +85,7 @@ export const articles: Article[] = [
           jobTitle: 'Founder, TendorAI',
           description: '10+ years in B2B and UK professional services',
           url: 'https://www.tendorai.com/about',
-          // TODO: replace placeholder with Scott's LinkedIn URL before publishing.
-          sameAs: ['ADD_LINKEDIN_URL'],
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
           worksFor: {
             '@type': 'Organization',
             name: 'TendorAI',
