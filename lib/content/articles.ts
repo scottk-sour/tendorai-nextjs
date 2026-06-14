@@ -58,6 +58,146 @@ export const articles: Article[] = [
     content: '',
   },
   {
+    slug: 'ai-visibility-platform-vs-agency',
+    title: 'AI Visibility: Platform vs Agency for UK Regulated Firms',
+    excerpt:
+      'AI visibility platform vs agency: which gets a UK regulated firm recommended by ChatGPT and Perplexity? A register-led comparison for solicitors, accountants and more.',
+    metaDescription:
+      'AI visibility platform vs agency: which gets a UK regulated firm recommended by ChatGPT and Perplexity? A register-led comparison for solicitors, accountants and more.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 10,
+    publishedDate: '2026-06-14',
+    updatedDate: '2026-06-14',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/ai-visibility-platform-vs-agency',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-platform-vs-agency',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          // TODO: replace placeholder with Scott's LinkedIn URL before publishing.
+          sameAs: ['ADD_LINKEDIN_URL'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    content: `When a regulated firm wants to appear in AI assistant answers, the choice is between a generalist agency that optimises across every industry and a specialist platform built on the regulators' own data. For solicitors, accountants, mortgage advisers and estate agents, the specialist platform wins — because being recommended by ChatGPT, Perplexity or Claude depends on verified regulatory data and machine-readable structure that a horizontal agency does not hold and cannot replicate.
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+This comparison sets out the real difference for a regulated firm: where each option comes from, what each can actually do, and which gets you cited. Across 216 SRA-regulated firms tested in South Wales and Bristol in May 2026, only 7.4% appeared when ChatGPT, Perplexity or Claude were asked to recommend a solicitor in their city — so for most firms this is not a question of staying ahead, but of appearing at all.
+
+**Should a regulated firm choose an AI visibility platform or an agency?**
+
+In most cases a regulated firm benefits more from a specialist platform, because AI assistants rely on structured regulatory data, consistent entity information, and machine-readable trust signals to decide who to recommend. A generalist agency can improve content and branding, but typically does not hold the SRA, FCA, ICAEW or Propertymark datasets, or install the infrastructure, that AI assistants use to verify a regulated firm.
+
+## What is an AI visibility platform?
+
+An AI visibility platform is software that makes a firm machine-readable and verifiable to AI assistants, then tracks whether those assistants recommend it. It starts from the firm's regulatory record — its SRA, FCA, ICAEW or Propertymark registration — and turns that into structured data the engines can read, rather than treating the firm as a generic brand to be marketed.
+
+A generalist agency works the opposite way. It applies one horizontal playbook — built for software companies, retailers and service brands alike — to whatever client it signs that month. The register, the regulator and the regulated vocabulary are not its starting point because they are not the starting point for most of its clients.
+
+## Why generalist agencies struggle with regulated firms
+
+Across the four UK registers a regulated firm sits on — SRA, FCA, ICAEW and Propertymark — none are part of a horizontal agency's standard toolkit, and that absence decides outcomes. AI assistants lean heavily on whether a firm's regulated identity is verifiable in a structured form. A provider that does not work with those registers cannot supply the one signal that matters most.
+
+A horizontal provider treats your firm as a generic entity to be associated with a generic category. But a solicitor's visibility problem is not a software company's. The constraints differ, the buyer differs, and the language differs. When ChatGPT is asked to recommend a conveyancing solicitor in Manchester, it is reasoning about a regulated entity with verifiable credentials — not about which app has the sharpest tagline.
+
+The gap shows up in the detail. Low appearance rates are only half the problem — when regulated firms do appear, AI assistants frequently describe them wrongly. In one Cardiff estate agency we analysed, Claude described the firm as specialising in "commercial" property when it actually handles sales, lettings and property management. A generalist provider optimising keywords would not catch that, because it does not know what the firm is. A register-led system does, because the firm's real specialisms sit in its structured profile.
+
+## Platform vs agency: what's the difference for a regulated firm?
+
+The single biggest difference is provenance: a platform starts from your verified regulatory record, while an agency starts from a marketing brief. That difference cascades into data, terminology, delivery and what you are left holding at the end of the month.
+
+A platform built on the register does not begin by asking who you are. It already knows — registration number, regulator, registered name, the permissions that define what you are allowed to do. TendorAI is pre-loaded from the SRA, FCA, ICAEW and Propertymark registers, covering 63,406 UK firms. That is the firm's actual regulatory record used as the foundation, not a scraped, best-guess directory.
+
+A generalist agency cannot replicate this, because it does not hold the registers and would not know what to do with them. To a horizontal provider, an SRA number or an FCA permission is just another field on a form. To your buyer, and to the AI deciding whether to recommend you, it is the point.
+
+## What "AEO" means to a solicitor vs a marketer
+
+Three letters expose the gap faster than any feature list: AEO. In the generalist corner of this market, firms are sold "AEO services" — Answer Engine Optimisation, the practice of getting a brand named in AI answers.
+
+Now say "AEO" to a solicitor. To a solicitor, AEO means an Attachment of Earnings Order — a court instruction to deduct money directly from a debtor's wages. It is a working term in legal practice, not optimisation jargon.
+
+A provider that leads with "AEO services" to a law firm has announced, in its own headline, that it does not speak the language of the firm it is courting. That is not a branding slip; it is a tell. It reveals a provider running a generic playbook with no idea those three letters already mean something specific — and unrelated — to the regulated buyer in front of it. A specialist does not make that mistake, because the specialist lives in the vocabulary.
+
+## The AI-recommended approach: what actually gets a regulated firm cited
+
+AI assistants reward a consistent set of signals, and TendorAI's own analysis across UK regulated verticals in May 2026 shows the firms that appear share the same profile: verified credentials, machine-readable structure, and consistent data across the public web. The table below maps each signal to who delivers it.
+
+| Signal AI engines reward | Register-led platform | Generalist agency |
+|---|---|---|
+| Verified regulatory identity (SRA/FCA/ICAEW/Propertymark) | Pre-loaded from the register | Not held; re-keyed by hand if at all |
+| Machine-readable schema on your own site | Installed for you | Often advised, rarely installed |
+| Consistent NAP across directories | Audited against regulator data | Generic checklist |
+| Correct, current specialisms | Drawn from your structured profile | Inferred from your marketing copy |
+| Citation tracking across engines | Built in, per engine | Bolt-on report, if offered |
+
+## Platform vs generalist agency: the market alternatives compared
+
+The market alternative to a register-led platform is a retainer-and-report agency, and the difference is structural, not cosmetic. One installs the infrastructure and tracks the outcome; the other sells you activity to review.
+
+| | Register-led platform | Generalist agency |
+|---|---|---|
+| Starting point | Your verified regulatory record | A marketing brief |
+| Data foundation | SRA, FCA, ICAEW, Propertymark | Scraped or self-reported |
+| Knows your terminology | Native (AEO is a court order) | Generic (AEO is a service) |
+| Regulatory constraints | Built around them | Often unaware |
+| Delivery model | Schema installed, citations tracked | Retainer plus a monthly report |
+| What you keep | Working infrastructure | A document to read |
+| UK price point | £299/month, fixed | Variable retainer |
+
+## What this looks like for a 4-partner firm
+
+For a worked example, take an SRA-regulated firm of 4 partners in Cardiff turning over roughly £2m — the figures below are illustrative assumptions, and you should replace them with your own actuals.
+
+A firm of that size might win around 10 new private-client matters a month through direct enquiry. Assume AI visibility surfaces the firm for two additional enquiries a month that would otherwise have gone to a competitor, and assume an average matter value of £1,500 — a defensible mid-range figure for private-client work, which you should adjust to your fee scales.
+
+That is 2 × £1,500 × 12 = £36,000 in additional annual fee income on these assumptions. Against TendorAI Pro at £299/month — £3,588 a year — that is roughly a tenfold return at the lower bound of the assumptions. The point is not the exact figure; it is that one additional matter a month covers the cost many times over, and the firm keeps the infrastructure regardless.
+
+This is also where the difference from an agency retainer is sharpest: the same two enquiries justify the spend, but with a platform the schema stays installed on your site whether or not you renew, whereas a retainer stops delivering the day it ends.
+
+## Frequently asked questions
+
+### Can a marketing agency improve my firm's AI visibility?
+
+A generalist agency can publish content and advise on structure, but it does not hold the SRA, FCA, ICAEW or Propertymark registers, so it cannot supply the verified regulatory signal AI assistants weight most heavily for regulated firms. For a regulated firm, that missing foundation is usually why the agency's work does not translate into AI recommendations.
+
+### What does a specialist AI visibility platform do that an agency doesn't?
+
+A specialist platform starts from your verified regulatory record, installs machine-readable schema on your own website, keeps your specialisms accurate, and tracks citations across ChatGPT, Perplexity and Claude. An agency typically advises on these things and leaves implementation, and the regulatory data layer, to you.
+
+### Why does my agency keep talking about AEO?
+
+AEO stands for Answer Engine Optimisation in the marketing world, and generalist providers use it as a service label. For a solicitor it collides with Attachment of Earnings Order, which is a useful signal: a provider leading with "AEO" is applying a horizontal playbook rather than working from your regulated context.
+
+### How much does AI visibility cost for a UK firm?
+
+TendorAI Pro is £299/month, fixed, which includes directory visibility, schema installed on your own website, and citation tracking. Generalist agency retainers vary, and typically bill for activity and reporting rather than installed infrastructure.
+
+### How quickly will my firm appear in AI recommendations?
+
+Structural fixes such as schema installation typically take four to eight weeks to be reflected in AI responses, with Perplexity usually updating fastest — often within two to three weeks — and ChatGPT taking longer. Timelines depend on your starting point and how consistent your data is across the public web.
+
+See whether ChatGPT, Claude and Perplexity describe your firm correctly — [run your free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=platform-vs-agency).
+
+For a regulated firm, the question was never "platform or agency" in the abstract. It is whether the thing shaping how AI assistants describe you understands that you are regulated, knows which register defines you, and works from the verified facts your clients and your regulator rely on. A horizontal provider optimises everyone the same way and hopes it transfers. A register-led platform starts from what makes your firm specifically, verifiably what it is.`,
+  },
+  {
     // The full article body for this slug lives at
     // app/resources/tendorai-vs-ultrascout/page.tsx — that static segment
     // wins over the dynamic [slug] route. This entry exists so the article
