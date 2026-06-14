@@ -75,6 +75,11 @@ export default function PostsPage() {
   const [generating, setGenerating] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [error, setError] = useState('');
+  // When the backend blocks a draft for fabrication it returns HTTP 422 with
+  // a specific reason. We surface that distinctly from the generic error
+  // banner so the user gets the reason and a Regenerate button instead of a
+  // "try again" message.
+  const [fabricationError, setFabricationError] = useState<string | null>(null);
   const [tierInfo, setTierInfo] = useState<{ tier: string; postsThisMonth: number; limit: number } | null>(null);
   const [vendorType, setVendorType] = useState('');
   const [vendorCity, setVendorCity] = useState('');
@@ -235,6 +240,7 @@ export default function PostsPage() {
     setSavedPost(null);
     setEditorTab('blog');
     setError('');
+    setFabricationError(null);
   };
 
   const handleGenerate = async () => {
@@ -247,6 +253,7 @@ export default function PostsPage() {
     if (!token || !vendorId) return;
 
     setError('');
+    setFabricationError(null);
     setGenerating(true);
     try {
       const body: Record<string, unknown> = {
@@ -283,6 +290,13 @@ export default function PostsPage() {
         setShowEditor(true);
         setSavedPost(null);
         setEditorTab('blog');
+      } else if (response.status === 422) {
+        // Fabrication block — surface the reason and let the user regenerate.
+        // Existing handling for auth / missing-topic / other failures is unchanged.
+        const reason = typeof data.error === 'string' && data.error.trim()
+          ? data.error
+          : 'This draft was blocked because parts of it could not be verified. Try regenerating.';
+        setFabricationError(reason);
       } else {
         setError(data.error || 'AI generation failed. Please try again.');
       }
@@ -485,6 +499,24 @@ export default function PostsPage() {
             <div id="ai-writer-card" className="card p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Write with AI</h2>
 
+              {fabricationError && (
+                <div
+                  role="alert"
+                  className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-3 rounded-lg text-sm mb-4 space-y-2"
+                >
+                  <p className="font-semibold">Draft blocked for accuracy</p>
+                  <p>{fabricationError}</p>
+                  <button
+                    type="button"
+                    onClick={handleGenerate}
+                    disabled={generating || !canPost || !topic.trim()}
+                    className="btn-primary text-sm px-3 py-1.5 mt-1 disabled:opacity-50"
+                  >
+                    {generating ? 'Checking…' : 'Regenerate'}
+                  </button>
+                </div>
+              )}
+
               {error && (
                 <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">
                   {error}
@@ -567,7 +599,7 @@ export default function PostsPage() {
                   {generating ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Writing your post...
+                      Checking draft for accuracy…
                     </>
                   ) : (
                     'Generate Post'
