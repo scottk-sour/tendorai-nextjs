@@ -2,6 +2,12 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import {
+  aOrAn,
+  getCategoryLabel,
+  getCategoryLabelPlural,
+  getCategoryLabelTitle,
+} from '@/lib/aeo/categoryLabels';
 
 interface Competitor {
   name: string;
@@ -101,13 +107,6 @@ interface Props {
   report: Report;
   pdfUrl: string;
 }
-
-const CATEGORY_LABELS: Record<string, string> = {
-  copiers: 'Photocopiers & Managed Print',
-  telecoms: 'Business Telecoms & VoIP',
-  cctv: 'CCTV & Security Systems',
-  it: 'IT Support & Managed Services',
-};
 
 function getScoreColor(score: number): string {
   if (score <= 30) return '#C0392B';
@@ -1030,18 +1029,19 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2 text-center">AI Visibility Report</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 text-center">{report.companyName}</h1>
           <p className="text-gray-500 mb-8 text-center">
-            {report.category === 'other' ? (report.customIndustry || 'Other') : (CATEGORY_LABELS[report.category] || report.category)} &mdash; {report.city}
+            {report.category === 'other' ? (report.customIndustry || 'Other') : getCategoryLabelTitle(report.category)} &mdash; {report.city}
           </p>
 
           {(() => {
             const topCompetitor = getFirstRealCompetitor(report.competitors);
             const categoryLabel = report.category === 'other'
               ? (report.customIndustry || 'your industry').toLowerCase()
-              : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+              : getCategoryLabel(report.category);
+            const categoryArticle = aOrAn(categoryLabel);
             return (
               <div className="mb-8 text-center sm:text-left">
                 <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                  When someone in {report.city} asks ChatGPT for a {categoryLabel} right now &mdash;{' '}
+                  When someone in {report.city} asks ChatGPT for {categoryArticle} {categoryLabel} right now &mdash;{' '}
                   <span className="text-red-600">you don&apos;t appear.</span>
                   {topCompetitor && (
                     <> {topCompetitor.name} does. You don&apos;t.</>
@@ -1119,7 +1119,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         const highEst = `£${(Math.round(instrData.value * 4)).toLocaleString()}`;
         const categoryLabel = report.category === 'other'
           ? (report.customIndustry || 'your industry').toLowerCase()
-          : (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+          : getCategoryLabel(report.category);
         return (
           <section className="max-w-3xl mx-auto px-4 mt-8">
             <div className="bg-gray-900 text-white rounded-xl p-6">
@@ -1468,16 +1468,29 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Who AI Recommends Instead</h2>
           <p className="text-sm text-gray-500 mb-2">
             {report.aiMentioned
-              ? `These companies appear alongside or ahead of you when buyers ask AI for ${report.category} suppliers in ${report.city}.`
+              ? `These companies appear alongside or ahead of you when buyers ask AI for ${
+                  report.category === 'other'
+                    ? (report.customIndustry || 'businesses')
+                    : getCategoryLabelPlural(report.category)
+                } in ${report.city}.`
               : `These are the companies AI recommends instead of you in ${report.city}.`}
           </p>
 
           {report.competitors.length > 0 ? (
             <>
               <p className="text-sm text-gray-500 mb-4">
-                These businesses appear when someone asks AI to recommend a{' '}
-                {report.category === 'other' ? (report.customIndustry || 'business') : (CATEGORY_LABELS[report.category] || report.category).toLowerCase()} in {report.city}.
-                Every time AI recommends them instead of you, that&apos;s a potential client you lose.
+                {(() => {
+                  const competitorLabel = report.category === 'other'
+                    ? (report.customIndustry || 'business')
+                    : getCategoryLabel(report.category);
+                  return (
+                    <>
+                      These businesses appear when someone asks AI to recommend{' '}
+                      {aOrAn(competitorLabel)} {competitorLabel} in {report.city}.
+                      Every time AI recommends them instead of you, that&apos;s a potential client you lose.
+                    </>
+                  );
+                })()}
               </p>
 
               <div className="space-y-6">
@@ -1563,10 +1576,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           {/* What this means box — copy keys off aiVisibilityBand under new
               scoring, falls back to legacy score-based copy otherwise. */}
           {(() => {
-            const categoryCopy = (report.category === 'other'
-              ? (report.customIndustry || 'your industry')
-              : (CATEGORY_LABELS[report.category] || report.category)
-            ).toLowerCase();
+            // Plural — used inside "ask for X in city", "queries for X in city",
+            // "find X in city". For 'other' we don't pluralise the user's free
+            // text, since it's typically already an industry name.
+            const categoryCopy = report.category === 'other'
+              ? (report.customIndustry || 'your industry').toLowerCase()
+              : getCategoryLabelPlural(report.category);
 
             let bodyCopy: React.ReactNode;
             if (!isLegacyScoring && aiVisibilityBand) {
@@ -1814,7 +1829,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             {(() => {
               const topCompetitor = getFirstRealCompetitor(report.competitors);
               const competitorName = topCompetitor?.name || 'your competitors';
-              const categoryLabel = (CATEGORY_LABELS[report.category] || report.category).toLowerCase();
+              // Search-query phrasing — "AI searches Cardiff estate agents".
+              // Always plural here; this branch only fires for non-'other'.
+              const categoryLabel = getCategoryLabelPlural(report.category);
               const verticalField = getVerticalSpecificField(report.category);
               return (
                 <>
