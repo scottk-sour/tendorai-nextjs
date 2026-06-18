@@ -58,6 +58,132 @@ export const articles: Article[] = [
     content: '',
   },
   {
+    slug: 'how-do-i-know-if-chatgpt-recommends-my-business',
+    title: 'How Do I Know If ChatGPT Recommends My Business?',
+    excerpt:
+      'How to check whether ChatGPT, Perplexity and Google AI Overviews recommend your business — the prompts to test, why one test is not enough, and what counts as a real recommendation.',
+    metaDescription:
+      'How to check whether ChatGPT, Perplexity and Google AI Overviews recommend your business — the prompts to test, why one test is not enough, and what counts as a real recommendation.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-06-17',
+    updatedDate: '2026-06-17',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/how-do-i-know-if-chatgpt-recommends-my-business',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/how-do-i-know-if-chatgpt-recommends-my-business',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    content: `The fastest way to find out whether ChatGPT recommends your business is to ask it the question a client would and see if you're named. Open ChatGPT and type "best [your service] in [your city]" — for example, "best accountant in Cardiff" or "best conveyancing solicitor in Bristol" — and read the answer. If your business isn't in the response, ChatGPT isn't recommending you in that instance.
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+That's the one-minute version, and most businesses have never run it. But a single test is unreliable, because AI answers vary between runs and differ across assistants. To know where you actually stand, you need to test properly — across the major assistants, several times, with the right prompts. This page shows you how, and what counts as a real recommendation versus a near-miss.
+
+## How to test ChatGPT manually
+
+Ask ChatGPT the questions your clients ask, in their words, not yours. A client doesn't search "AI visibility" — they ask for the service in their town. Run prompts like:
+
+- "Best [service] in [city]" — e.g. "best mortgage adviser in Manchester"
+- "Who should I use for [specific need] in [city]" — e.g. "who should I use for a will in Leeds"
+- "Recommend a [service] near [area]"
+- "[Service] in [city] for [specific situation]" — e.g. "accountant in Cardiff for Making Tax Digital"
+
+Read the full answer and note whether your business is named, and where. Then repeat each prompt a few times, because the result won't be identical each time.
+
+## Which prompts should I test?
+
+Test across the different ways a real client phrases the question, not just one. Each type catches a different slice of how AI answers:
+
+| Prompt type | Example |
+|---|---|
+| Generic service | Best accountant in Cardiff |
+| Local intent | Accountant near Cardiff Bay |
+| Specialist service | Accountant in Cardiff for Making Tax Digital |
+| Comparison intent | Who are the top-rated accountants in Cardiff? |
+| Recommendation intent | Can you recommend an accountant in Cardiff? |
+
+Swap in your own service and city. A business can appear for one phrasing and be absent from another — so testing only "best [service] in [city]" gives you a partial picture.
+
+## Why testing once isn't reliable
+
+AI assistants don't return a fixed answer the way a search engine returns a fixed ranking. Ask the same question twice and you can get two different sets of businesses. The same prompt can name different businesses on different runs — so a single test tells you almost nothing.
+
+To get a real read, run each prompt several times and look at how often you appear, not whether you appeared once. Being named in one run out of ten is not a recommendation — it's noise. Being named in most runs is.
+
+## How ChatGPT, Perplexity and AI Overviews differ
+
+You're not testing one system, you're testing several, and they behave differently. Checking only ChatGPT gives you a partial picture.
+
+- ChatGPT often answers without source links, especially on the free tier, and leans on what it can recall and retrieve.
+- Perplexity is the most transparent — it cites dated, linked sources, so it's the clearest place to see why a business was named.
+- Google's AI Overviews often correlate more closely with traditional search visibility than ChatGPT or Perplexity, though all three draw on a range of signals.
+
+A business can appear in one and be absent from the others. Test all three before concluding anything — strength in Perplexity doesn't mean you're visible in ChatGPT.
+
+## What counts as a recommendation
+
+Not every mention is a recommendation. Be honest with yourself about what you're seeing:
+
+- A recommendation is your business named, by name, as an answer to the question — ideally consistently across runs.
+- A near-miss is your business mentioned in passing, listed among many, or named only once across several runs.
+- Not visible is your business absent while competitors are named — the most common result, and the one that matters.
+
+If competitors appear and you don't, that's the signal to act on. It usually means the model can identify and trust them as businesses and can't yet do the same for you — explained in full in [Why Doesn't ChatGPT Recommend My Business?](/resources/why-doesnt-chatgpt-recommend-my-business).
+
+## Why competitors may appear instead of you
+
+When ChatGPT names a competitor and not you, it's rarely about quality. The model builds answers from businesses it can identify as verifiable entities, read in machine-readable form, and confirm across more than one trusted source. A competitor that's consistent across Companies House, their regulator's register, reviews and directories is easier to name than a business whose only footprint is its own website — even a larger, better-regarded one. Why that happens, and what closes the gap, is covered in [the pillar guide below](/resources/how-to-get-recommended-by-chatgpt).
+
+## How to run an AI visibility audit
+
+Doing the manual test properly — every key prompt, several runs each, across ChatGPT, Perplexity and Google's AI Overviews — takes time, and it's easy to test inconsistently. For a structured version, TendorAI's free AI visibility report runs the queries for you across the major assistants and shows whether your business is being named and what's missing if it isn't. It's a diagnostic, not a sales pitch — it tells you where you stand, which is the thing you can't act on until you know.
+
+## Frequently asked questions
+
+### How do I check if ChatGPT mentions my business?
+
+Ask ChatGPT to recommend a business like yours in your area — "best [service] in [city]" — and see if you're named. Run it several times, because answers vary, and check Perplexity and Google's AI Overviews too, since they behave differently.
+
+### Why does ChatGPT name my business once but not the next time?
+
+Because AI assistants don't return fixed answers. The same prompt can produce different businesses on different runs. Consistency across runs is what matters — being named once is noise, not a recommendation.
+
+### Should I test more than just ChatGPT?
+
+Yes. ChatGPT, Perplexity and Google's AI Overviews each weigh signals differently, and a business can appear in one and be absent from the others. Test all three for a true picture.
+
+### What if competitors appear and I don't?
+
+That's the clearest sign to act on. It usually means AI can identify and trust those competitors as verifiable businesses and can't yet do the same for you — an identity, structured-data and corroboration gap, not a quality gap.
+
+### Is there a faster way than testing manually?
+
+A free AI visibility report runs the prompts across the major assistants for you and shows where you stand, rather than testing each one by hand.
+
+Want this done for you across ChatGPT, Perplexity and Google's AI Overviews in one go? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-do-i-know-if-chatgpt-recommends).`,
+  },
+  {
     slug: 'ai-visibility-platform-vs-agency',
     title: 'AI Visibility: Platform vs Agency for UK Regulated Firms',
     excerpt:
