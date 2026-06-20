@@ -480,9 +480,100 @@ And because it's measurable, it's manageable. [A firm that's invisible today](/r
 
 So: AI visibility is whether AI assistants recommend your business when asked for a firm like yours. It's a distinct discipline from search rankings, made up of identity, corroboration, structured data and citeable content, and it's measurable enough to manage on purpose.
 
-Two questions follow naturally from here. The first is how exactly it differs from the SEO work most firms have already been doing — because the overlap is real, but the difference is where firms get caught out. The second is the one every firm asks the moment they realise they're invisible: if your AI visibility is weak today, can it actually be improved? Both have clear answers.
+Two questions follow naturally from here. The first is [how exactly it differs from the SEO work most firms have already been doing](/resources/ai-visibility-vs-seo-whats-the-difference) — because the overlap is real, but the difference is where firms get caught out. The second is the one every firm asks the moment they realise they're invisible: if your AI visibility is weak today, can it actually be improved? Both have clear answers.
 
 Want to see where your firm stands right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=what-is-ai-visibility).`,
+  },
+  {
+    slug: 'ai-visibility-vs-seo-whats-the-difference',
+    title: "AI Visibility vs SEO: What's the Difference?",
+    excerpt:
+      "Isn't AI visibility just SEO? No. SEO earns rankings on a list; AI visibility earns the recommendation itself. Here's where the two overlap and where they part.",
+    metaDescription:
+      "Isn't AI visibility just SEO? No. SEO earns rankings on a list; AI visibility earns the recommendation itself. Here's where the two overlap and where they part.",
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-06-21',
+    updatedDate: '2026-06-21',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/ai-visibility-vs-seo-whats-the-difference',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-vs-seo-whats-the-difference',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    content: `The first thing almost every firm says when they hear the phrase "[AI visibility](/resources/what-is-ai-visibility)" is some version of: *isn't that just SEO?*
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+It's a fair question, and the honest answer is: no, but they're related — and the overlap is exactly what trips firms up. If you treat AI visibility as a new label for the search work you've already been doing, you'll do the wrong things and wonder why nothing changes. The two disciplines share some plumbing, but they're optimising for fundamentally different outcomes. Here's where they meet and where they part.
+
+## The core difference: ranking versus recommendation
+
+Everything else follows from this one distinction.
+
+Search engine optimisation is about *ranking*. The goal is to get your page to appear as high as possible on a list of results for a given query. Google gathers every relevant page, scores them, and returns an ordered list — and you're competing for position on that list. A good SEO outcome is "we're in the top three for 'conveyancing solicitor Cardiff'."
+
+AI visibility is about *recommendation*. There is no list. When someone asks an assistant "who's a good conveyancing solicitor in Cardiff?", it returns one or two named firms as a direct answer. A good AI visibility outcome is "the assistant names us." You're not competing for a position on a list — you're competing to *be the answer*.
+
+That single shift — from ranking on a list to being the named answer — is the root of every other difference below.
+
+## Where the two overlap
+
+It's worth being straight about this, because pretending the disciplines are unrelated would be its own kind of dishonesty. Some of the foundational work genuinely helps both.
+
+A real business with a legitimate, crawlable website helps both. Clean technical setup helps both. Structured data helps both — Google uses it for rich results, AI assistants use it to verify facts. A genuine reputation across the web helps both. If you've done serious SEO, you haven't wasted your time; you've built foundations that AI visibility can stand on.
+
+The mistake is assuming that because the foundations overlap, the *wins* are the same. They aren't. You can do all the shared groundwork and still be invisible to AI assistants, because the things that earn a recommendation go beyond the things that earn a ranking.
+
+## Where they diverge
+
+This is the part that matters. Four differences decide most outcomes.
+
+**Pages versus entities.** SEO is largely page-centric: you optimise a specific page to rank for a specific query. AI visibility is entity-centric: the assistant is trying to understand and verify your *business as a whole* — who it is, where it operates, what it's regulated to do. You can have a beautifully optimised page and still be an entity the model can't confidently pin down.
+
+**Your property versus the whole web.** A great deal of SEO can be won on your own website — your pages, your structure, your content. AI visibility depends heavily on what's said about you *off* your own site: whether your name, location, specialism and credentials are described consistently across independent sources the model already trusts. You control your website. You don't fully control the corroboration, and corroboration is what convinces the model.
+
+**Authority versus corroboration.** SEO's classic currency is authority, often built through backlinks. AI visibility's currency is corroboration — whether the facts about your firm *agree* across multiple independent sources. They're related but not the same. Plenty of links pointing at a firm whose details are inconsistent across the web still leaves an assistant unsure which facts to trust. Consistency beats volume.
+
+**Position versus presence.** SEO measures where you sit — position four, position eight. AI visibility is closer to binary per query: you were named, or you weren't. There's no "we came eighth" in a two-line recommendation. You're either in the answer or you're not, which is why being merely "quite good" at this rarely shows up.
+
+## Why a firm can win one and lose the other
+
+Put those differences together and you get the situation that surprises firms most: you can rank on page one of Google and be completely invisible to ChatGPT.
+
+It happens constantly. A firm has invested in SEO, ranks well for its key terms, gets steady traffic from search — and when you ask an AI assistant to recommend a firm like it, the assistant names a competitor instead, or invents a firm that doesn't exist. The SEO worked. It did its job: it earned rankings. But ranking a page well is a different achievement from being a business an AI model can confidently identify, verify and stand behind. The firm optimised for the list and never became the answer.
+
+The reverse is rarer but real: a firm with modest search rankings but unusually consistent, well-corroborated, machine-readable information can get named by assistants ahead of bigger competitors who out-rank it on Google. The model isn't impressed by traffic. It's looking for the firm it can most safely recommend.
+
+## So what should a firm actually do differently?
+
+If you've already done good SEO, keep it — it's foundation, not waste. But the additional work that earns AI recommendations is distinct, and it's worth naming plainly. Make your business unmistakably identifiable as a single, real entity. Get your core facts — name, location, specialism, regulation — described consistently everywhere they appear, not just on your own site. Publish structured data so those facts are machine-verifiable rather than inferred. And write content that's specific and citeable, not keyword-stuffed, so a model has something concrete to justify naming you.
+
+None of that replaces SEO. It runs alongside it, aimed at a different target: not a higher position on a list, but a place in the answer itself.
+
+Which leaves the obvious next question. If your AI visibility is weak today — if the assistants are naming everyone but you — can that actually be fixed? That's where this gets practical.
+
+Want to see whether the assistants currently name your firm? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=ai-visibility-vs-seo).`,
   },
   {
     slug: 'ai-visibility-platform-vs-agency',
