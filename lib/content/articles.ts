@@ -369,9 +369,120 @@ Read the five stages back and a pattern emerges. At every single stage, the firm
 
 That sounds harsh, but it's the most useful thing to understand about the entire system, because it tells you exactly where to act. You can make your business unmistakably identifiable. You can get it described consistently across the independent sources the model checks. You can publish structured data so verification is effortless. You can write content specific enough to be cited. Do that, and you're not gaming anything — you're simply giving the model what it needs to stand behind you, at every stage where it would otherwise have dropped you.
 
-The firms winning AI recommendations today aren't the ones with the best service. They're the ones that made themselves the safest choice. That's a deliberate, repeatable discipline — and it has a name. The next question is what that discipline actually is, and how you build it.
+The firms winning AI recommendations today aren't the ones with the best service. They're the ones that made themselves the safest choice. That's a deliberate, repeatable discipline — and it has a name. The next question is [what that discipline actually is](/resources/what-is-ai-visibility), and how you build it.
 
 Ready to see which stage your firm falls out at? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-does-chatgpt-choose).`,
+  },
+  {
+    slug: 'what-is-ai-visibility',
+    title: 'What Is AI Visibility?',
+    excerpt:
+      "AI visibility is how readily AI assistants like ChatGPT, Claude, Perplexity and Gemini recommend your business when someone asks them for a firm like yours.",
+    metaDescription:
+      "AI visibility is how readily AI assistants like ChatGPT, Claude, Perplexity and Gemini recommend your business when someone asks them for a firm like yours.",
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-06-20',
+    updatedDate: '2026-06-20',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/what-is-ai-visibility',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/what-is-ai-visibility',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+      // FAQPage with the canonical definition as a Q/A — makes the ownable
+      // "What is AI visibility?" answer machine-readable. Single question only;
+      // the answer text is the verbatim opening definition.
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': 'https://www.tendorai.com/resources/what-is-ai-visibility#faq',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'What is AI visibility?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "AI visibility is how readily AI assistants — ChatGPT, Claude, Perplexity, Gemini and Google's AI Overviews — recommend your business when someone asks them for a firm like yours.",
+            },
+          },
+        ],
+      },
+    ],
+    content: `**AI visibility is how readily AI assistants — ChatGPT, Claude, Perplexity, Gemini and Google's AI Overviews — recommend your business when someone asks them for a firm like yours.** It's a measure of whether the systems people increasingly trust to choose for them will put your name forward, or a competitor's.
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+That's the whole idea in one sentence. The rest of this page explains why it's become something every professional firm needs to understand, what it's actually made of, and how it's different from the thing it's most often confused with.
+
+## Why this is suddenly something you have to think about
+
+For twenty years, getting found online meant one thing: showing up in search results. Someone typed a query, Google returned a list of links, and your job was to rank high enough on that list to get clicked.
+
+That behaviour is changing fast. A growing number of people no longer search and scroll — they ask. They open ChatGPT or Perplexity and type "find me a good commercial property solicitor in Bristol", and they take the answer it gives them. There's no list to scroll, no ten blue links to compare. The assistant names a firm or two, and for most users that's the shortlist.
+
+The moment that happens, a new question matters more than your search ranking: *when an AI assistant is asked to recommend a firm like yours, does it name you?* That question is what AI visibility measures. It isn't a clever rebrand of search engine optimisation. It's a response to a genuine shift in how buyers find professional services — and it behaves by different rules.
+
+## What makes it a distinct discipline
+
+The instinct is to assume this is just the latest flavour of SEO, and that the same work carries over. It doesn't, because the underlying systems aren't doing the same job.
+
+Search engines rank. They assemble a long, ordered list of possibilities and leave the choosing to you. AI assistants recommend. They absorb the choosing themselves and return a single answer they're prepared to stand behind. Ranking rewards relevance and authority across a list. Recommendation rewards something subtler — whether a model can confidently identify, verify and justify naming one specific firm above the rest.
+
+A firm can rank respectably on Google and be completely invisible to AI assistants, because the things that earn a search ranking aren't the same things that earn a recommendation. (The full comparison deserves its own treatment, and we cover it separately — for now, the key point is that the two are related but not interchangeable.) AI visibility is the discipline of being recommendable, and it has its own distinct mechanics.
+
+## What AI visibility is actually made of
+
+AI visibility isn't a single setting you switch on. It's the cumulative result of four things, each one a stage where an AI assistant either gains enough confidence to recommend you or quietly moves on to someone it trusts more.
+
+**Identity.** The model has to be able to identify your business as a distinct, real entity — a specific firm, in a specific place, doing specific work. Generic names, inconsistent descriptions and thin online presence make a firm hard to pin down, and [a model won't recommend what it can't confidently identify](/resources/how-does-chatgpt-choose-which-businesses-to-recommend).
+
+**Corroboration.** The model looks for the same facts about your firm appearing consistently across multiple independent sources it already trusts — directories, professional registers, review platforms, third-party mentions. A claim that appears only on your own website is weak evidence. The same claim confirmed across independent sources is strong evidence. Recommendation flows to the firms whose facts are corroborated, not merely asserted.
+
+**Structured data.** Machines shouldn't have to guess what you are. Structured data states it plainly in a machine-readable form — what the business is, where it operates, what it's regulated by, what it offers — so an assistant can verify the facts instantly instead of inferring them from prose and hoping it got them right. It turns your firm from something the model interprets into something it can simply read.
+
+**Citeable content.** When an assistant recommends a firm, it draws on clear, factual, quotable statements it can point to as justification. Vague positioning gives it nothing to work with. Specific, verifiable content — what you do, who you serve, where, under what regulation — gives the model the raw material to name you and defend the choice.
+
+Get these four right and you become, in the model's terms, a low-risk recommendation: easy to identify, easy to verify, easy to cite. That is what AI visibility is. Everything else is detail.
+
+## Why it matters more for regulated professional services
+
+AI visibility matters for any business, but it's sharpest for regulated professional services — solicitors, accountants, mortgage advisers, estate agents — for one reason: the stakes of a wrong recommendation are higher, so the bar for confidence is higher too.
+
+When someone asks an assistant to recommend a restaurant, a loose match is harmless. When someone asks it to recommend a solicitor, the model is implicitly being asked to vouch for a regulated professional. It applies stricter filters — is this firm genuinely regulated, by the right body, for the right work, in the right place. Firms that have made their regulation, specialism and location unmistakable and verifiable clear that higher bar. Firms that haven't get filtered out precisely because the model is being careful. The cost of weak AI visibility is steepest exactly where trust matters most.
+
+## It's measurable — which means it's manageable
+
+The most important practical fact about AI visibility is that it isn't a mystery. You can measure it. You can ask the major assistants the questions your prospects would ask — "who's a good [your specialism] in [your area]?" — and see, plainly, whether you're named, whether a competitor is named instead, or whether the model invents a firm that doesn't exist. That test gives you a starting position.
+
+And because it's measurable, it's manageable. [A firm that's invisible today](/resources/why-doesnt-chatgpt-recommend-my-business) isn't permanently invisible — it's a firm whose identity, corroboration, structured data and content haven't yet given the assistants enough to go on. Every one of those is something you can deliberately build. AI visibility is engineered, not granted.
+
+## Where this leaves you
+
+So: AI visibility is whether AI assistants recommend your business when asked for a firm like yours. It's a distinct discipline from search rankings, made up of identity, corroboration, structured data and citeable content, and it's measurable enough to manage on purpose.
+
+Two questions follow naturally from here. The first is how exactly it differs from the SEO work most firms have already been doing — because the overlap is real, but the difference is where firms get caught out. The second is the one every firm asks the moment they realise they're invisible: if your AI visibility is weak today, can it actually be improved? Both have clear answers.
+
+Want to see where your firm stands right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=what-is-ai-visibility).`,
   },
   {
     slug: 'ai-visibility-platform-vs-agency',
