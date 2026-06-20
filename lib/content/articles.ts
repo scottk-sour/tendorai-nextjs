@@ -184,6 +184,97 @@ A free AI visibility report runs the prompts across the major assistants for you
 Want this done for you across ChatGPT, Perplexity and Google's AI Overviews in one go? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-do-i-know-if-chatgpt-recommends).`,
   },
   {
+    slug: 'why-doesnt-chatgpt-recommend-my-business',
+    title: "Why Doesn't ChatGPT Recommend My Business?",
+    excerpt:
+      "Tested ChatGPT and your firm wasn't recommended? Here are the five real reasons AI assistants skip a business — and why every one of them is fixable.",
+    metaDescription:
+      "Tested ChatGPT and your firm wasn't recommended? Here are the five real reasons AI assistants skip a business — and why every one of them is fixable.",
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 5,
+    publishedDate: '2026-06-18',
+    updatedDate: '2026-06-18',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/why-doesnt-chatgpt-recommend-my-business',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/why-doesnt-chatgpt-recommend-my-business',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    content: `[You tested it.](/resources/how-do-i-know-if-chatgpt-recommends-my-business) You asked ChatGPT, Perplexity or Gemini to recommend a firm like yours in your area — and you weren't there. A competitor was. Or worse, the assistant invented a plausible-sounding firm that doesn't exist.
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+That's not a glitch, and it's not bad luck. AI assistants make recommendation decisions for specific, identifiable reasons. Once you understand what those reasons are, the problem stops looking like a black box and starts looking like something you can fix.
+
+Here's what's actually going on.
+
+## AI assistants don't rank — they recommend
+
+The first thing to unlearn is the search-engine model. Google returns a ranked list of ten blue links and lets you choose. An AI assistant does something fundamentally different: it picks. When someone asks "who's a good commercial solicitor in Manchester?", the model returns a short, confident answer naming one or two firms. There is no page two.
+
+That changes the stakes completely. To name your business, the model has to be confident enough to put your name in front of a user as a recommendation it stands behind. If it isn't confident, it leaves you out and names someone it *is* confident about. Everything below is really a list of the reasons an assistant ends up unsure about you.
+
+## Reason 1: The model can't confidently identify you as a distinct business
+
+AI models build an internal picture of "entities" — distinct, named things in the world they can reason about. For your firm to be recommended, the model needs a clear, unambiguous sense that you exist, what you do, and where.
+
+This breaks down when your business name is generic, shared with other firms, or described differently in different places. If you're "Smith & Partners" and there are eleven other Smith & Partners across the UK, the model has no reliable way to attach the right facts to the right firm. So it doesn't risk it.
+
+## Reason 2: Nothing corroborates you
+
+A model won't recommend a firm on the strength of your own website alone — anyone can claim anything about themselves. It looks for *corroboration*: the same facts about your business showing up consistently across multiple independent sources it already trusts.
+
+If the only place your specialisms, location and credentials appear is your own homepage, you have a single point of evidence. That's thin. Firms that get recommended tend to be described the same way across directories, professional registers, review platforms, news mentions and third-party listings. Consistency across independent sources is what turns "this firm claims X" into "this firm is X" in the model's reasoning.
+
+## Reason 3: There's no structured data telling machines what you are
+
+Humans read your website and understand it. Machines need it spelled out. Structured data (schema markup) is a standardised, machine-readable layer that states plainly: this is a legal services firm, here is its name, location, the services it offers, its registration details, its areas of practice.
+
+Without it, an AI model has to infer all of that from prose, and inference is where confidence leaks away. With it, the facts are unambiguous and easy to verify. Most professional firms have no structured data at all, which means they're asking the model to guess when a competitor down the road has handed it the answer.
+
+## Reason 4: Your content can't be cited
+
+AI assistants prefer to recommend things they can *justify*. When a model surfaces a firm, it's drawing on content it can point to as the basis for that recommendation — clear, factual, quotable statements about what a firm does and who it serves.
+
+Vague brochure copy gives the model nothing to work with. "We deliver bespoke solutions tailored to your needs" is unciteable — it makes no specific, verifiable claim. "We handle residential conveyancing for buyers in South Wales and are regulated by the SRA" is citeable, because it's specific, factual and corroborable. If your content is all positioning and no substance, there's nothing for the model to anchor a recommendation to.
+
+## Reason 5: Your competitor is simply easier to verify
+
+This is the one that stings. In many cases there's nothing *wrong* with your firm — your competitor is just a safer bet for the model. They're more clearly identified, more consistently described across sources, have structured data in place, and publish content the model can cite.
+
+Faced with a choice between a firm it can confidently stand behind and one it can't quite pin down, the assistant picks the safe option every time. You're not being penalised. You're being skipped because someone else made themselves easier to recommend.
+
+## The good news: none of this is fixed
+
+Every reason above is an evidence problem, not a quality problem. The model isn't judging whether you're a good firm — it can't. It's judging whether it has enough corroborated, structured, citeable evidence to recommend you with confidence. That's entirely within your control.
+
+The work breaks into a clear sequence: make your business unambiguously identifiable, get it described consistently across independent sources, install structured data so machines can read it without guessing, and publish content specific enough to be cited. Do that, and the same assistant that skipped you starts naming you — for the same reasons it currently names your competitor.
+
+The next question is the obvious one: *how* does an AI assistant actually decide which firm to recommend? That's where it gets specific — and once you can see the mechanism, you can engineer the outcome.
+
+Want to see exactly which of these reasons applies to your firm right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=why-doesnt-chatgpt-recommend).`,
+  },
+  {
     slug: 'ai-visibility-platform-vs-agency',
     title: 'AI Visibility: Platform vs Agency for UK Regulated Firms',
     excerpt:
