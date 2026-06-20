@@ -275,6 +275,105 @@ The next question is the obvious one: *how* does an AI assistant actually decide
 Want to see exactly which of these reasons applies to your firm right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=why-doesnt-chatgpt-recommend).`,
   },
   {
+    slug: 'how-does-chatgpt-choose-which-businesses-to-recommend',
+    title: 'How Does ChatGPT Choose Which Businesses to Recommend?',
+    excerpt:
+      "AI assistants don't rank businesses — they pick one. Here's the five-stage process behind how ChatGPT decides which firm to recommend, and where you get filtered out.",
+    metaDescription:
+      "AI assistants don't rank businesses — they pick one. Here's the five-stage process behind how ChatGPT decides which firm to recommend, and where you get filtered out.",
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 7,
+    publishedDate: '2026-06-19',
+    updatedDate: '2026-06-19',
+    featured: true,
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': 'https://www.tendorai.com/resources/how-does-chatgpt-choose-which-businesses-to-recommend',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/how-does-chatgpt-choose-which-businesses-to-recommend',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Scott Davies',
+          jobTitle: 'Founder, TendorAI',
+          description: '10+ years in B2B and UK professional services',
+          url: 'https://www.tendorai.com/about',
+          sameAs: ['https://www.linkedin.com/in/scott-davies-b7952abb/'],
+          worksFor: {
+            '@type': 'Organization',
+            name: 'TendorAI',
+            url: 'https://www.tendorai.com',
+          },
+        },
+      },
+    ],
+    content: `Ask ChatGPT to recommend a solicitor in Leeds, an accountant in Bristol or an estate agent in Cardiff, and it won't hand you a list of fifty options to sift through. It names one or two firms, with confidence, as if it already knows them. Behind that short, decisive answer is a process — and once you can see the process, you can work out exactly why some firms get named and others never do.
+
+*By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
+
+This is the mechanism. Not a metaphor, not marketing copy — the actual sequence of decisions an AI assistant runs through before it puts a name in front of a user.
+
+## It isn't ranking. It's reasoning towards an answer it can defend
+
+Start here, because everything else follows from it. A search engine ranks. It gathers every page that might be relevant, scores them, and returns an ordered list — the responsibility for choosing sits with you. An AI assistant does the opposite. It absorbs the responsibility of choosing and gives you a single answer it's willing to stand behind.
+
+That one shift changes everything about how a business gets surfaced. A search engine can afford to show you a mediocre result at position eight — you'll just scroll past it. An assistant can't afford a weak recommendation at all, because there's no position eight. If it names a firm, it's vouching for that firm. So the entire process is built around one question the model is constantly asking itself: *can I confidently stand behind this?* Every firm that gets recommended is a firm that cleared that bar. [Every firm that doesn't, didn't.](/resources/why-doesnt-chatgpt-recommend-my-business)
+
+Here's how it gets there.
+
+## Stage 1: It works out what's actually being asked
+
+Before the model thinks about any specific business, it interprets the request. "Who's a good conveyancing solicitor near me?" carries far more than the words suggest. The model has to resolve the location, infer the specialism, and apply the implicit filters a human would apply without thinking — is this firm regulated, does it actually do this type of work, is it plausibly local.
+
+This matters more for professional services than almost any other category, because the implicit filters are strict. A user asking for a solicitor expects a regulated solicitor, not a general legal-services website. A firm that hasn't made its regulation, location and specialism unmistakably clear is already at a disadvantage before a single candidate has been considered — because the model can't confidently match it to what was actually asked.
+
+## Stage 2: It assembles a shortlist of candidates
+
+Now the model gathers businesses that might fit. It draws on two different sources, and the difference between them is one of the most important things for any firm to understand.
+
+The first source is what the model already holds internally — the patterns it absorbed during training. If your firm was described consistently across the public web when the model was trained, it may already "know" you exist and what you do. The second source is live retrieval: many assistants now look things up at the moment of asking, pulling in current information from the web to supplement what they hold.
+
+A firm wants to be reachable through both. Being present in the model's internal knowledge gives you a head start; being clearly described in sources the model can retrieve live keeps you eligible even for the most current queries. A business that exists in neither — thin online presence, inconsistent descriptions, nothing a retrieval system can latch onto — simply never makes the shortlist. It isn't rejected later. It's never a candidate in the first place.
+
+## Stage 3: It tries to verify each candidate
+
+This is the stage that decides most outcomes, and it's the one firms understand least.
+
+For every candidate on the shortlist, the model is effectively running a background check. It's looking for corroboration — the same facts about a business appearing consistently across multiple independent sources it already trusts. Does this firm's name, location and specialism line up across directories, professional registers, review platforms and third-party mentions? Or does the only evidence come from the firm's own website?
+
+A single source is weak evidence, because anyone can claim anything about themselves. Independent, consistent corroboration is strong evidence, because it's hard to fake at scale. The firm that says "we're regulated by the SRA and handle commercial property in Manchester" on its own homepage is making a claim. The firm whose SRA registration, location and specialism are confirmed across the regulator's register, multiple directories and consistent third-party descriptions has had that claim *verified*. At this stage, verified beats claimed every time.
+
+Structured data does its work here too. When a firm publishes machine-readable structured data — stating plainly what it is, where it operates, what it's regulated by and what it offers — it removes the guesswork. The model doesn't have to infer the facts from prose and hope it got them right; the facts are stated unambiguously and are trivial to cross-check. Firms that make verification easy clear this stage. Firms that force the model to guess tend not to.
+
+## Stage 4: It weighs confidence against risk
+
+By now the model has a small set of candidates it has been able to verify to varying degrees. It doesn't simply pick the "best" firm — it has no way to judge which firm is genuinely best at conveyancing or audit work. What it can judge is which firm it's most confident recommending without being wrong.
+
+So it weighs confidence against risk. A firm it can identify cleanly, that's corroborated across independent sources, with structured data and citeable content, is a low-risk recommendation — the model can name it and defend the choice. A firm it can only partly verify is a higher-risk recommendation, and the model is built to avoid risk. Faced with a confident option and an uncertain one, it takes the confident option and quietly drops the rest.
+
+This is the uncomfortable truth behind most "why wasn't I recommended" questions. In a great many cases the omitted firm was perfectly good — better, even, than the one that got named. It just gave the model less to be confident about. The recommendation went to the most *verifiable* firm, not the most capable one.
+
+## Stage 5: It writes a short, decisive answer
+
+Finally, the model composes its response — and it leans on content it can point to. When it names a firm, it's drawing on clear, factual, quotable statements about what that firm does and who it serves. Specific, citeable content gives the model the raw material to justify the recommendation in its own answer. Vague positioning gives it nothing to work with, which makes a firm harder to name even if it survived the earlier stages.
+
+The output is what the user sees: a confident, two-line answer naming the firm the model could most safely stand behind. Everything that produced it is invisible.
+
+## What this means for your firm
+
+Read the five stages back and a pattern emerges. At every single stage, the firm that progresses is the one that's easier to identify, easier to verify and easier to cite — not the one that's better at the actual job. The model is filtering for confidence, not quality, because confidence is the only thing it can measure.
+
+That sounds harsh, but it's the most useful thing to understand about the entire system, because it tells you exactly where to act. You can make your business unmistakably identifiable. You can get it described consistently across the independent sources the model checks. You can publish structured data so verification is effortless. You can write content specific enough to be cited. Do that, and you're not gaming anything — you're simply giving the model what it needs to stand behind you, at every stage where it would otherwise have dropped you.
+
+The firms winning AI recommendations today aren't the ones with the best service. They're the ones that made themselves the safest choice. That's a deliberate, repeatable discipline — and it has a name. The next question is what that discipline actually is, and how you build it.
+
+Ready to see which stage your firm falls out at? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-does-chatgpt-choose).`,
+  },
+  {
     slug: 'ai-visibility-platform-vs-agency',
     title: 'AI Visibility: Platform vs Agency for UK Regulated Firms',
     excerpt:
