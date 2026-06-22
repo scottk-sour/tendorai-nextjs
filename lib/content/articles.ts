@@ -1849,6 +1849,22 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
     href: '/blog/uk-solicitors-sra-referral-ai-citations-2026',
   },
   {
+    // Full body lives at app/blog/why-ai-checks-sra-registration/page.tsx.
+    // This entry exists so the post appears in the /resources listing and
+    // the sitemap. `href` points the listing card at the canonical /blog/
+    // URL; sitemapUrls dedupes by URL so we don't get both /blog and
+    // /resources entries.
+    slug: 'why-ai-checks-sra-registration',
+    title: 'Why AI Assistants Check Your SRA Registration Before Recommending Your Firm',
+    excerpt: 'Before ChatGPT, Claude or Perplexity names a UK solicitor, it has to confirm the firm is genuinely SRA-regulated. Where your website and the SRA register disagree, the assistant hedges or leaves you out. Here is how that check works and how to pass it.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-06-22',
+    content: '',
+    href: '/blog/why-ai-checks-sra-registration',
+  },
+  {
     slug: 'ai-visibility-report-solicitors-london',
     title: 'AI Visibility Report: London Solicitors 2025',
     excerpt: 'TendorAI tracks 2,331 SRA-registered solicitors in London. 17% have no website. Here\'s what the data shows about AI visibility for London law firms.',
