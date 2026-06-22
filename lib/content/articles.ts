@@ -37,6 +37,25 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    // Full body lives at app/blog/why-ai-checks-sra-registration/page.tsx.
+    // Newest entry — sits at the top of /resources via `featured: true` plus
+    // publishedDate 2026-06-22 (the renderer sorts featured-first, then by
+    // date desc). `href` points the listing card at the canonical /blog/
+    // URL; sitemapUrls dedupes by URL so we don't get both /blog and
+    // /resources entries in the sitemap.
+    slug: 'why-ai-checks-sra-registration',
+    title: 'Why AI Assistants Check Your SRA Registration Before Recommending Your Firm',
+    excerpt: 'Before ChatGPT, Claude or Perplexity names a UK solicitor, it has to confirm the firm is genuinely SRA-regulated. Where your website and the SRA register disagree, the assistant hedges or leaves you out. Here is how that check works and how to pass it.',
+    category: 'Legal',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-06-22',
+    updatedDate: '2026-06-22',
+    featured: true,
+    content: '',
+    href: '/blog/why-ai-checks-sra-registration',
+  },
+  {
     // Full article body lives at app/blog/manchester-solicitors-chatgpt-recommendations/page.tsx.
     // This entry surfaces the article in the /resources listing and the
     // sitemap; `href` points the listing card at the /blog/ route, which
