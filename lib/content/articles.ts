@@ -33,6 +33,13 @@ export interface Article {
   // Featured articles are listed first; remaining articles are sorted by
   // publishedDate desc.
   featured?: boolean;
+  // When true: drops the article from the /resources listing and the
+  // sitemap, and the dynamic /resources/[slug] + /blog/[slug] renderers
+  // emit `<meta name="robots" content="noindex,follow">` in metadata.
+  // Use to retire posts that need revision without deleting the content
+  // from the repo. The Article entry stays in this file as the source
+  // of the body, just not crawlable / linkable while parked.
+  noindex?: boolean;
 }
 
 export const articles: Article[] = [
@@ -919,6 +926,10 @@ Run your free AI visibility report to see exactly where your firm appears across
     readTime: 5,
     publishedDate: '2026-05-20',
     updatedDate: '2026-05-20',
+    // Parked for revision. Drops from /resources listing + sitemap; the
+    // dynamic renderers emit noindex,follow. Content preserved in this
+    // file as source for the revised version.
+    noindex: true,
     extraJsonLd: [
       {
         '@context': 'https://schema.org',

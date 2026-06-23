@@ -56,6 +56,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: url,
     },
+    // Parked articles emit noindex,follow. follow stays on so any
+    // outbound links keep their authority for the rest of the site.
+    ...(article.noindex && {
+      robots: { index: false, follow: true },
+    }),
   };
 }
 
@@ -236,10 +241,19 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
+      {/* Article + extraJsonLd Article augmentations are suppressed when
+          the article is parked (noindex). The meta robots tag already
+          says "don't index this", so leaving Article structured data on
+          a noindex page is contradictory — search engines and AI
+          assistants treat it as a signal mismatch. BreadcrumbList and
+          FAQPage stay; they're not Article and the page is still
+          navigable. */}
+      {!article.noindex && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -251,8 +265,10 @@ export default async function ArticlePage({ params }: PageProps) {
         />
       )}
       {/* Optional augmentation blocks. Match mainEntityOfPage @id to the
-          canonical so search engines merge with the Article emitted above. */}
-      {article.extraJsonLd?.map((block, i) => (
+          canonical so search engines merge with the Article emitted above.
+          Suppressed when the article is parked (noindex) — extraJsonLd
+          augments the Article above, which isn't emitted in that case. */}
+      {!article.noindex && article.extraJsonLd?.map((block, i) => (
         <script
           key={`extra-jsonld-${i}`}
           type="application/ld+json"

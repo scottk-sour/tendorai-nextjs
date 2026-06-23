@@ -52,6 +52,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: article.excerpt,
     },
     alternates: { canonical },
+    // Parked articles emit noindex,follow. Mirrors the equivalent in
+    // app/resources/[slug]/page.tsx — articles render at both routes.
+    ...(article.noindex && {
+      robots: { index: false, follow: true },
+    }),
   };
 }
 
@@ -161,7 +166,14 @@ export default async function BlogArticlePage({ params }: PageProps) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      {/* BlogPosting structured data is suppressed when the article is
+          parked (noindex). BlogPosting is an Article subtype, and the
+          meta robots tag on this page already says "don't index" —
+          leaving the Article schema on a noindex page is a contradictory
+          signal to search engines and AI assistants. */}
+      {!article.noindex && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      )}
 
       <main className="min-h-screen bg-white">
         {/* Hero */}

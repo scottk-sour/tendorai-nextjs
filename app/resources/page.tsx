@@ -58,10 +58,14 @@ function ArticleCard({ article }: { article: Article }) {
 
 // Featured articles first, then everything else by publishedDate desc.
 // Stable across re-renders since articles[] is module-scoped.
-const sortedArticles = [...articles].sort((a, b) => {
-  if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
-  return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
-});
+// Articles flagged `noindex` are excluded — they're parked for revision
+// (sitemap drops them too; see lib/sitemapUrls.ts).
+const sortedArticles = [...articles]
+  .filter((a) => !a.noindex)
+  .sort((a, b) => {
+    if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+    return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+  });
 
 export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');

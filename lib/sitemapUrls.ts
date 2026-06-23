@@ -152,6 +152,10 @@ export function getAllStaticEntries(): SitemapEntry[] {
   }
 
   for (const article of articles) {
+    // Parked / under-revision posts are flagged noindex on their Article
+    // entry — keep them out of the sitemap so search engines stop
+    // crawling them while the body is being rewritten.
+    if (article.noindex) continue;
     const lastmod = article.updatedDate || article.publishedDate || ts;
     // Convert YYYY-MM-DD → ISO datetime for sitemap consumers.
     const lastmodIso =
