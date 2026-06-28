@@ -37,6 +37,24 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    // Full body lives at app/blog/why-ai-checks-icaew-registration/page.tsx.
+    // Second entry in the regulator-AI sector library (sibling of the SRA
+    // post immediately below). Same publishedDate so the listing pairs them
+    // naturally; this one is inserted first so it sorts first within the
+    // featured tier (stable sort, insertion-order tiebreaker).
+    slug: 'why-ai-checks-icaew-registration',
+    title: 'Why AI Assistants Check Your ICAEW Registration Before Recommending Your Accountancy Firm',
+    excerpt: 'Before ChatGPT, Claude or Perplexity recommends an accountant, it has to work out which firms are genuinely chartered and ICAEW-registered. Where your website and the ICAEW record disagree, the assistant hedges or leaves you out. Here is how that check works and how to pass it.',
+    category: 'AI Visibility',
+    author: 'Scott Davies',
+    readTime: 8,
+    publishedDate: '2026-06-22',
+    updatedDate: '2026-06-22',
+    featured: true,
+    content: '',
+    href: '/blog/why-ai-checks-icaew-registration',
+  },
+  {
     // Full body lives at app/blog/why-ai-checks-sra-registration/page.tsx.
     // Newest entry — sits at the top of /resources via `featured: true` plus
     // publishedDate 2026-06-22 (the renderer sorts featured-first, then by
