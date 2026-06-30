@@ -1,207 +1,161 @@
-import { Metadata } from 'next';
+// app/about/page.tsx
+// Before merge: FILL the live firm count (search "FILL:") — same number as the FAQ.
+
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+const FIRM_COUNT = '[FILL: live firm count, e.g. 11,000+]';
 
 export const metadata: Metadata = {
   title: "About TendorAI — The UK's AI Visibility Platform",
-  description: "TendorAI is the structured data layer between UK businesses and AI. When someone asks ChatGPT for a supplier, our data powers the answer.",
-  alternates: { canonical: '/about' },
-};
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What is TendorAI?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'TendorAI is a UK AI visibility platform for regulated professional services firms — solicitors, accountants, mortgage advisers, and estate agents. It is not an AI deployment tool, machine learning platform, or generic SEO tool.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How difficult is TendorAI to set up?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'There is no technical setup required. Firms claim their free pre-loaded profile in under 5 minutes. TendorAI pre-loads data from official UK registers including the SRA, ICAEW, and FCA.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Who is TendorAI for?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'TendorAI is built exclusively for UK regulated professional services firms: SRA-regulated solicitors, ICAEW or ACCA-registered accountants, FCA-authorised mortgage advisers, and estate agents.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How is TendorAI different from Peec AI or OtterlyAI?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Peec AI and OtterlyAI are monitoring-only tools — they show you how visible you are but do not fix it. TendorAI installs Schema.org structured data on your own website, maintains a verified regulatory data profile, and actively improves AI recommendations. No competitor installs schema or holds UK regulatory data.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does TendorAI require a developer or technical knowledge?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No. TendorAI handles schema installation on your behalf. Firms do not need a developer, IT team, or technical knowledge to use TendorAI.',
-      },
-    },
-  ],
-};
-
-const webPageSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: "About TendorAI — The UK's AI Visibility Platform for Professional Services",
-  description: "TendorAI is the UK's AI visibility platform for regulated professional services firms. Not an AI deployment tool. Built for solicitors, accountants, mortgage advisers and estate agents.",
-  url: 'https://www.tendorai.com/about',
-  about: {
-    '@type': 'SoftwareApplication',
-    name: 'TendorAI',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    description: 'UK AI visibility platform for regulated professional services. Installs Schema.org structured data and maintains verified regulatory profiles for SRA solicitors, ICAEW accountants, FCA mortgage advisers, and estate agents.',
+  description:
+    'TendorAI is the structured data layer between UK regulated firms and AI assistants. Built by a founder with 15 years in marketing and a pivot from procurement to AI visibility.',
+  alternates: { canonical: 'https://www.tendorai.com/about' },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "About TendorAI — The UK's AI Visibility Platform",
+    description:
+      'The structured data layer between UK regulated firms and AI assistants. Measure, diagnose and improve how AI describes your firm.',
+    url: 'https://www.tendorai.com/about',
+    siteName: 'TendorAI',
+    locale: 'en_GB',
+    type: 'website',
   },
 };
 
+const stats: { value: string; label: string }[] = [
+  { value: FIRM_COUNT, label: 'UK regulated firms profiled' },
+  { value: '4', label: 'Regulated verticals covered' },
+  { value: 'Free', label: 'AI visibility score for every firm' },
+  { value: 'Wales', label: 'Founded in Cwmbran' },
+];
+
+const verticals: { name: string; body: string }[] = [
+  {
+    name: 'Solicitors',
+    body: 'When someone asks an AI assistant to recommend a solicitor for conveyancing, probate or family law, SRA-registered firms are often missed or misdescribed. We make sure your firm is read correctly.',
+  },
+  {
+    name: 'Accountants',
+    body: 'Accountancy practices are increasingly found through AI rather than search. We structure your data so assistants represent your services and credentials accurately — with ICAEW membership shown only where confirmed.',
+  },
+  {
+    name: 'Mortgage advisers',
+    body: 'FCA-regulated advisers compete on trust. We help AI assistants describe your regulated status and specialisms correctly when a potential client asks for a recommendation.',
+  },
+  {
+    name: 'Estate agents',
+    body: 'Buyers and sellers increasingly ask AI for local agents. We make your firm visible and accurate in those answers, drawing on verified, structured data.',
+  },
+];
+
 export default function AboutPage() {
   return (
-    <main className="pt-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-      />
-      {/* Hero */}
-      <section className="bg-brand-gradient text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-white">
-            About TendorAI
-          </h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto">
-            The UK&apos;s AI Visibility Platform
-          </p>
-        </div>
-      </section>
+    <main className="mx-auto max-w-3xl px-5 py-14">
+      <header className="mb-12">
+        <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">About TendorAI</h1>
+        <p className="text-lg text-gray-500">The UK&apos;s AI visibility platform.</p>
+      </header>
 
       {/* Mission */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="font-serif text-3xl font-semibold text-[var(--text)] mb-6">Our Mission</h2>
-            <p className="text-[var(--text2)] mb-6">
-              TendorAI is the UK&apos;s AI Visibility Platform &mdash; the structured data layer
-              between UK businesses and AI.
-            </p>
-            <p className="text-[var(--text2)] mb-6">
-              When someone asks ChatGPT, Claude, or Perplexity for a supplier
-              recommendation, AI needs structured data to give a useful answer.
-              TendorAI is that data.
-            </p>
-            <p className="text-[var(--text2)] mb-6">
-              We build verified profiles for every UK solicitor firm, accountancy
-              practice, mortgage adviser and estate agent &mdash; enriched with pricing,
-              accreditations, specialisms, and reviews. AI crawlers index our platform.
-              When someone asks AI for a recommendation, our data powers the answer.
-            </p>
-            <p className="text-[var(--text2)] mb-4">
-              Every firm gets a free profile and AI Visibility Score &mdash; no technical knowledge
-              required. You&apos;ll see exactly how leading AI platforms currently interpret your firm,
-              where you appear, and where competitors are being recommended instead.
-            </p>
-            <p className="text-[var(--text2)] mb-6">
-              Paid plans give you everything needed to close those gaps: AI-readable structured data,
-              a verified profile badge for your website, monthly tracking across six AI platforms, and
-              a clear, prioritised action plan. No jargon. No agencies. No long contracts.
-            </p>
-            <p className="text-[var(--text2)]">
-              Founded in Cwmbran, Wales. Built for every UK professional services vertical.
-            </p>
-          </div>
-        </div>
+      <section className="mb-14">
+        <h2 className="mb-3 text-xl font-semibold text-gray-900">Our mission</h2>
+        <p className="mb-4 text-[15px] leading-relaxed text-gray-700">
+          TendorAI is the structured data layer between UK regulated firms and AI assistants. When
+          someone asks ChatGPT, Claude, Gemini or Perplexity to recommend a solicitor, accountant,
+          mortgage adviser or estate agent, the assistant relies on clear, trustworthy information to
+          answer. Most firms are invisible or misrepresented in that moment. We exist to fix that.
+        </p>
+        <p className="text-[15px] leading-relaxed text-gray-700">
+          We build a profile for every firm in our verticals from public register data. You can claim
+          it, verify your details, and add the information AI assistants look for. We then structure
+          that data so AI platforms can read your firm accurately — no technical knowledge required.
+        </p>
+      </section>
+
+      {/* Founder story */}
+      <section className="mb-14">
+        <h2 className="mb-3 text-xl font-semibold text-gray-900">Why we built TendorAI</h2>
+        <p className="mb-4 text-[15px] leading-relaxed text-gray-700">
+          TendorAI started as something else. After 15 years in marketing and the UK office-equipment
+          industry, I set out to build a procurement platform to help firms find suppliers. But the
+          deeper I got — and with five years spent watching how AI was changing the way people find and
+          choose businesses — the clearer it became that the bigger problem wasn&apos;t procurement. It
+          was visibility.
+        </p>
+        <p className="text-[15px] leading-relaxed text-gray-700">
+          Firms were being asked about by AI assistants and coming up invisible, or worse, wrong. So I
+          pivoted. TendorAI now does the thing that genuinely helps firms most: making sure AI describes
+          them accurately when a potential client asks. Built solo, in Cwmbran, Wales — for UK regulated
+          professional-services firms.
+        </p>
       </section>
 
       {/* Stats */}
-      <section className="bg-[var(--surface)] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="gradient-text text-4xl font-bold mb-2">12,000+</div>
-              <div className="text-[var(--text2)]">UK Businesses Listed</div>
+      <section className="mb-14">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-gray-200 bg-gray-200 sm:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="bg-white p-5 text-center">
+              <div className="text-2xl font-bold text-indigo-600">{s.value}</div>
+              <div className="mt-1 text-xs leading-snug text-gray-600">{s.label}</div>
             </div>
-            <div>
-              <div className="gradient-text text-4xl font-bold mb-2">6</div>
-              <div className="text-[var(--text2)]">AI Platforms Tracked</div>
-            </div>
-            <div>
-              <div className="gradient-text text-4xl font-bold mb-2">10,000+</div>
-              <div className="text-[var(--text2)]">Solicitor Firms</div>
-            </div>
-            <div>
-              <div className="gradient-text text-4xl font-bold mb-2">UK</div>
-              <div className="text-[var(--text2)]">Wide Coverage</div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* How We're Different */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif text-3xl font-semibold text-[var(--text)] mb-8 text-center">
-            Why We&apos;re Different
-          </h2>
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl p-6 border border-[var(--border)]">
-              <h3 className="font-serif font-semibold text-[var(--text)] mb-2">Built for AI, Not Google</h3>
-              <p className="text-[var(--text2)]">
-                SEO agencies optimise your website for Google search. TendorAI optimises your
-                structured data for AI platforms &mdash; ChatGPT, Claude, Perplexity, Google AI.
-                Different technology, different audience, different results.
-              </p>
+      {/* How we measure */}
+      <section className="mb-14">
+        <h2 className="mb-3 text-xl font-semibold text-gray-900">How we measure visibility</h2>
+        <p className="mb-4 text-[15px] leading-relaxed text-gray-700">
+          Most of this space is built on guesswork and bold promises. We took a different approach. We
+          run real buyer-style questions across leading AI assistants and record which firms actually
+          get referenced in the answers.
+        </p>
+        <p className="text-[15px] leading-relaxed text-gray-700">
+          Crucially, we only count mentions from assistants that genuinely browse and cite their
+          sources — not answers generated from memory that can&apos;t be verified. That discipline means
+          your score reflects what AI really says about your firm, not what we&apos;d like it to say. We
+          never promise guaranteed rankings, because no AI platform allows them. What we promise is an
+          honest measurement and a clear plan to improve it.
+        </p>
+      </section>
+
+      {/* Who it's for */}
+      <section className="mb-14">
+        <h2 className="mb-5 text-xl font-semibold text-gray-900">Who it&apos;s for</h2>
+        <div className="space-y-5">
+          {verticals.map((v) => (
+            <div key={v.name} className="rounded-lg border border-gray-200 p-5">
+              <h3 className="mb-2 text-base font-semibold text-gray-900">{v.name}</h3>
+              <p className="text-[15px] leading-relaxed text-gray-700">{v.body}</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-[var(--border)]">
-              <h3 className="font-serif font-semibold text-[var(--text)] mb-2">Self-Serve, Not Agency</h3>
-              <p className="text-[var(--text2)]">
-                No 12-month contracts. No £5,000/month retainers. TendorAI is a self-serve
-                platform starting at £299/month (3 of 50 early adopter spots taken). Your profile goes live in 24 hours, not 3-6 months.
-              </p>
-            </div>
-            <div className="bg-white rounded-xl p-6 border border-[var(--border)]">
-              <h3 className="font-serif font-semibold text-[var(--text)] mb-2">Data-Driven Visibility</h3>
-              <p className="text-[var(--text2)]">
-                Every business gets a real-time AI visibility score, mention tracking across all
-                major AI platforms, and actionable tips to improve. No guesswork &mdash; just data.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
+      </section>
+
+      {/* Why different */}
+      <section className="mb-14">
+        <h2 className="mb-3 text-xl font-semibold text-gray-900">Why we&apos;re different</h2>
+        <p className="text-[15px] leading-relaxed text-gray-700">
+          Traditional SEO optimises your website for search engines; we focus on how AI assistants read
+          and represent your firm. We&apos;re self-serve, not an agency — no long lock-in contracts and
+          no four-figure monthly retainers. Pro is £299 per month, billed monthly, cancel any time. And
+          every decision we make starts from measurement, not marketing claims.
+        </p>
       </section>
 
       {/* CTA */}
-      <section className="py-16" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-3xl font-bold text-white mb-6">
-            Check Your AI Visibility
-          </h2>
-          <p className="text-white/80 mb-8 text-lg">
-            Run a free AI visibility report &mdash; see what ChatGPT, Claude, and Perplexity say about your business.
-          </p>
-          <Link
-            href="/aeo-report"
-            className="btn-primary"
-          >
-            Check AI Visibility &mdash; Free
-          </Link>
-        </div>
+      <section className="rounded-lg border border-indigo-100 bg-indigo-50/60 p-6 text-center">
+        <h2 className="mb-2 text-lg font-semibold text-indigo-900">Check your AI visibility</h2>
+        <p className="mb-4 text-[15px] leading-relaxed text-indigo-900/90">
+          Run a free report and see how AI assistants currently describe your firm.
+        </p>
+        <Link
+          href="/aeo-report"
+          className="inline-block rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+        >
+          Check AI visibility — free
+        </Link>
       </section>
     </main>
   );
