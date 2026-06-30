@@ -7,65 +7,79 @@ export const metadata: Metadata = {
   alternates: { canonical: '/faq' },
 };
 
-const allFaqs = [
-    {
-      question: 'What is TendorAI?',
-      answer: "TendorAI is the UK's AI Visibility Platform. We help businesses get recommended by AI platforms like ChatGPT, Claude, and Perplexity through structured data profiles and AI visibility optimisation.",
-    },
-    {
-      question: 'How does it work?',
-      answer: "Every UK business in our verticals gets a free profile built from public register data. You claim your profile, add pricing and accreditations, and AI crawlers index your enriched data. Paid plans rank you higher when AI recommends suppliers.",
-    },
-    {
-      question: 'How much does it cost?',
-      answer: "Free to be listed. Paid plans start at £299/month (3 of 50 early adopter spots taken) for full AI visibility including priority ranking, AI Visibility (AEO) reports, and mention tracking.",
-    },
-    {
-      question: 'What industries do you cover?',
-      answer: "Solicitors (10,000+ SRA-registered firms), UK accountancy firms (with ICAEW-verified members badged where confirmed), mortgage advisers (FCA-regulated), estate agents, and office equipment suppliers. Over 12,000 UK professional services firms are listed.",
-    },
-    {
-      question: 'Is it free?',
-      answer: "Free to be listed with a basic profile. Paid plans from £299/month (3 of 50 early adopter spots taken) give you priority ranking in AI results, pricing visibility, and AI visibility reports.",
-    },
-    {
-      question: 'What is an AI Visibility (AEO) report?',
-      answer: "An AI Engine Optimisation report that audits how AI platforms see your business. It shows what AI says about you, who it recommends instead, and what to fix.",
-    },
-    {
-      question: 'How is this different from SEO?',
-      answer: "SEO optimises your website for Google search. TendorAI optimises your structured data for AI platforms — ChatGPT, Claude, Perplexity, Google AI. Different technology, different audience.",
-    },
-    {
-      question: 'How is this different from Trustpilot?',
-      answer: "Trustpilot manages reviews. TendorAI manages your visibility across all AI platforms — structured data, pricing, accreditations, and ranking. Reviews are one input; we optimise the full picture.",
-    },
-    {
-      question: 'What do you install on my website?',
-      answer: "A small piece of code that tells AI platforms about your business — your services, location, reviews, and that you're verified on TendorAI. It's invisible to visitors but makes your business readable to AI. We handle the installation — you don't need to do anything technical.",
-    },
-    {
-      question: 'What happens if I cancel my Pro subscription?',
-      answer: "The code we installed on your website stops working. It won't break your site — it just stops telling AI about your business. Your TendorAI profile also reverts to the free tier.",
-    },
-    {
-      question: 'How is this different from hiring a GEO agency?',
-      answer: "GEO agencies charge £1,500–8,000 per month on 12-month contracts and take 3–6 months to deliver results. TendorAI Pro costs £299/month (3 of 50 early adopter spots taken), has no lock-in, and we install everything within 48 hours. Our data also syncs automatically with your TendorAI profile — agencies require manual updates every time something changes.",
-    },
-    {
-      question: 'Do I need to give you my website password?',
-      answer: "Yes — we need temporary access to add the code to your site. Your credentials are encrypted with AES-256 encryption and only accessible to the TendorAI team. If you prefer, you can create a temporary admin account for us and remove it after installation.",
-    },
+const FIRM_COUNT = '[FILL: firm count]';
+
+const faqs: { q: string; a: string }[] = [
+  {
+    q: 'What is TendorAI?',
+    a: "TendorAI is the UK's AI visibility platform. We help regulated professional-services firms — solicitors, accountants, mortgage advisers and estate agents — become accurate, readable and easy to cite for AI assistants like ChatGPT, Claude, Gemini, Perplexity and similar tools, using structured data and verified firm information.",
+  },
+  {
+    q: 'How does it work?',
+    a: 'Every firm in our verticals starts with a free profile built from public register data. You claim it, verify your details, and add the information AI assistants look for. We structure that data so AI platforms can read it correctly. Pro adds deeper diagnostics, draft content and tracking. No AI platform lets anyone pay for a higher ranking, and we do not claim to influence rankings directly — we make your information clear and trustworthy so you are more likely to be referenced.',
+  },
+  {
+    q: 'How do you measure AI visibility?',
+    a: 'We run real buyer-style questions across the AI assistants we support and record which firms get referenced in the answers. Scores are based on those live results, not on self-reported data. We only count mentions from assistants that genuinely browse or cite sources, so a score reflects what AI actually says about a firm. Because AI platforms change frequently, our method evolves over time.',
+  },
+  {
+    q: 'How much does it cost?',
+    a: 'Being listed is free. Pro costs £299 per month, billed monthly with no lock-in contract. You can cancel at any time and keep Pro access until the end of your paid month.',
+  },
+  {
+    q: 'Do I need to give you my website login details?',
+    a: 'No. The recommended method is to add the structured-data snippet yourself, or through your tag manager — no credentials required. If you would prefer hands-on help, you can create a temporary, limited admin account and remove it once we are done. We do not ask for, or need, your main website password.',
+  },
+  {
+    q: 'What do you add to my website?',
+    a: "We generate a small piece of code called schema markup — structured data that helps AI assistants and search engines understand your firm more accurately. It is invisible to visitors and does not change how your site looks or works. You can add it yourself in a few minutes or via your tag manager, and we will guide you.",
+  },
+  {
+    q: 'What industries do you cover?',
+    a: `Solicitors (SRA-registered), accountancy firms (ICAEW membership shown only where we have confirmed it), mortgage advisers (FCA-regulated) and estate agents (Propertymark). ${FIRM_COUNT} UK regulated firms are currently profiled.`,
+  },
+  {
+    q: "Where does my firm's information come from?",
+    a: 'We build free profiles from publicly available regulatory information and published business details — for example the SRA, Companies House, ICAEW, FCA and Propertymark registers. You can claim your profile, update it, or ask us to correct or remove your information at any time. This is explained in full in our Privacy Policy.',
+  },
+  {
+    q: 'What is an AI visibility report?',
+    a: 'It audits how AI assistants currently describe your firm: what they say about you, which firms they name instead, and the specific gaps to address. It is based on live queries to real AI platforms. Like all our outputs, it is generated using AI and should be treated as a starting point, not a finished assessment.',
+  },
+  {
+    q: 'Can you guarantee my firm will be recommended by AI assistants?',
+    a: 'No — and be cautious of anyone who promises that. We do not control third-party AI platforms or their models, and they change without notice. What we can do is make your firm’s information accurate, structured and easy for AI to read, which improves your chances of being referenced.',
+  },
+  {
+    q: 'Are the reports and draft content guaranteed accurate?',
+    a: 'No. Scores, reports and draft content are generated using AI and are drafts and suggestions, not finished work or professional advice. You should always review and approve anything before you publish it or rely on it. This is set out in full in our Terms of Service.',
+  },
+  {
+    q: 'How is this different from SEO?',
+    a: 'SEO optimises your website for traditional search engines like Google. TendorAI focuses on your structured data and how AI assistants read and represent your firm. Related goals, different technology and audience.',
+  },
+  {
+    q: 'How is this different from Trustpilot?',
+    a: 'Trustpilot manages customer reviews. TendorAI manages how your firm appears to AI assistants — your structured data, services, accreditations and verified details. Reviews can be one input; we focus on the wider picture.',
+  },
+  {
+    q: 'How is this different from a specialist AI or GEO agency?',
+    a: 'Specialist agencies typically charge four figures a month on annual contracts. TendorAI Pro is £299 per month with no lock-in, and your data stays in sync with your profile automatically rather than needing manual updates.',
+  },
+  {
+    q: 'What happens if I cancel Pro?',
+    a: 'Your account reverts to the free tier and Pro features stop at the end of your paid month. Any structured-data snippet you added to your own site remains there unless you remove it — if you want it gone, we will tell you exactly what to take out.',
+  },
 ];
 
 export default function FAQPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: allFaqs.map((faq) => ({
+    mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
     })),
   };
 
@@ -92,13 +106,13 @@ export default function FAQPage() {
       <section className="py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-5">
-            {allFaqs.map((faq, index) => (
+            {faqs.map((faq, index) => (
               <div key={index} className="bg-white rounded-xl p-6 border border-[var(--border)]">
                 <h3 className="font-serif text-lg font-semibold text-[var(--text)] mb-3">
-                  {faq.question}
+                  {faq.q}
                 </h3>
                 <p className="text-[var(--text2)] leading-relaxed">
-                  {faq.answer}
+                  {faq.a}
                 </p>
               </div>
             ))}
