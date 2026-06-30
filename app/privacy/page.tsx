@@ -1,285 +1,412 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+// app/privacy/page.tsx
+//
+// ─────────────────────────────────────────────────────────────────────────────
+// BEFORE YOU MERGE — fill these two placeholders (search "FILL:"):
+//   1. REGISTERED_OFFICE  – your TendorAI Ltd registered office address (Wales)
+//   2. ICO_REGISTRATION   – your ICO reference (ZA……) AFTER you've registered
+//                            and paid the £52 fee at ico.org.uk. Until then,
+//                            replace the §10 line with "ICO registration in
+//                            progress" rather than claiming a reference you
+//                            don't hold.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import type { Metadata } from 'next';
+
+const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
+const ICO_REGISTRATION = '[FILL: ICO reference, e.g. ZA123456]';
+const CONTACT_EMAIL = 'scott.davies@tendorai.com';
+const LAST_UPDATED = '30 June 2026';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'TendorAI Privacy Policy - Learn how we collect, use, and protect your data. We are committed to protecting the privacy of our users and firms.',
+  title: 'Privacy Policy | TendorAI',
+  description:
+    'How TendorAI Ltd collects, uses, stores and protects personal data, including data sourced from public registers under Article 14 UK GDPR.',
+  alternates: { canonical: 'https://www.tendorai.com/privacy' },
   robots: { index: true, follow: true },
-  alternates: { canonical: '/privacy' },
+  openGraph: {
+    title: 'Privacy Policy | TendorAI',
+    description:
+      'How TendorAI Ltd handles your data, including firm data sourced from public registers.',
+    url: 'https://www.tendorai.com/privacy',
+    siteName: 'TendorAI',
+    locale: 'en_GB',
+    type: 'website',
+  },
 };
 
-export default function PrivacyPolicyPage() {
+function P({ children }: { children: React.ReactNode }) {
+  return <p className="mb-4 text-[15px] leading-relaxed text-gray-700">{children}</p>;
+}
+
+function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <main className="pt-16">
-      {/* Hero */}
-      <section className="bg-brand-gradient text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Privacy Policy
-          </h1>
-          <p className="text-purple-100">
-            Last updated: February 2026
-          </p>
-        </div>
-      </section>
+    <h2 id={id} className="mt-12 mb-3 scroll-mt-24 text-xl font-semibold text-gray-900">
+      {children}
+    </h2>
+  );
+}
 
-      {/* Content */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
+function H3({ children }: { children: React.ReactNode }) {
+  return <h3 className="mt-6 mb-2 text-base font-semibold text-gray-900">{children}</h3>;
+}
 
-            {/* Introduction */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
-              <p className="text-gray-600 mb-4">
-                TendorAI (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to protecting and respecting your privacy.
-                This Privacy Policy explains how we collect, use, store, and protect your personal data when you use
-                our website at tendorai.com and our services.
-              </p>
-              <p className="text-gray-600 mb-4">
-                TendorAI is a trading name registered in England and Wales. We operate as an AI visibility
-                platform helping UK businesses get recommended by AI search engines and assistants.
-              </p>
-              <p className="text-gray-600">
-                By using our services, you agree to the collection and use of information in accordance with this policy.
-              </p>
-            </div>
+function UL({ children }: { children: React.ReactNode }) {
+  return (
+    <ul className="mb-4 ml-5 list-disc space-y-1.5 text-[15px] leading-relaxed text-gray-700">
+      {children}
+    </ul>
+  );
+}
 
-            {/* Data We Collect */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Data We Collect</h2>
+function A({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} className="text-indigo-600 underline underline-offset-2 hover:text-indigo-800">
+      {children}
+    </a>
+  );
+}
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Quote Request Information</h3>
-              <p className="text-gray-600 mb-4">
-                When you submit a quote request, we collect:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Company name and business address</li>
-                <li>Contact name and job title</li>
-                <li>Email address and telephone number</li>
-                <li>Postcode (for supplier matching)</li>
-                <li>Equipment requirements (volume, features, timeline)</li>
-                <li>Current provider details (if provided)</li>
-              </ul>
+export default function PrivacyPage() {
+  return (
+    <main className="mx-auto max-w-3xl px-5 py-14">
+      <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">Privacy Policy</h1>
+      <p className="mb-10 text-sm text-gray-500">Last updated: {LAST_UPDATED}</p>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Firm Account Information</h3>
-              <p className="text-gray-600 mb-4">
-                If you register as a supplier, we collect:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Business name, registration number, and VAT number</li>
-                <li>Business address and service coverage areas</li>
-                <li>Contact details for your account</li>
-                <li>Product and pricing information you upload</li>
-                <li>Payment details for subscription services (processed securely by Stripe)</li>
-              </ul>
+      {/* Plain-English summary */}
+      <div className="mb-10 rounded-lg border border-indigo-100 bg-indigo-50/60 p-5">
+        <p className="mb-2 text-sm font-semibold text-indigo-900">In plain terms</p>
+        <p className="mb-0 text-[15px] leading-relaxed text-indigo-900/90">
+          TendorAI holds two kinds of personal data: (1) data about regulated firms that we have
+          taken from public registers such as the SRA, Companies House, ICAEW, FCA and Propertymark,
+          and (2) data about people who create an account or contact us. If your firm appears on our
+          platform and you did not give us your data directly, Section 6 explains exactly where we
+          got it, why we hold it, and how to ask us to stop. You can object or ask for removal at any
+          time by emailing{' '}
+          <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>.
+        </p>
+      </div>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Analytics Data</h3>
-              <p className="text-gray-600 mb-4">
-                We automatically collect:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Page views and navigation patterns</li>
-                <li>Search queries and filter selections</li>
-                <li>AI assistant referrals and mentions</li>
-                <li>Device type, browser, and operating system</li>
-                <li>IP address (anonymised for analytics)</li>
-              </ul>
-            </div>
+      <H2 id="introduction">1. Who we are</H2>
+      <P>
+        This Privacy Policy explains how TendorAI Ltd (&quot;TendorAI&quot;, &quot;we&quot;,
+        &quot;us&quot;, &quot;our&quot;) collects, uses, stores and protects personal data when you
+        use our website at tendorai.com and our services, and when we hold data about your firm that
+        we have obtained from public sources.
+      </P>
+      <P>
+        TendorAI Ltd is a company registered in England and Wales under company number{' '}
+        <strong>16521860</strong>, with its registered office at {REGISTERED_OFFICE}. We are the
+        data controller responsible for your personal data.
+      </P>
+      <P>
+        TendorAI is an AI visibility platform. We measure how often AI assistants recommend regulated
+        professional-services firms, diagnose why a firm may be invisible to those assistants, and
+        help firms close the underlying technical gaps.
+      </P>
 
-            {/* Why We Collect Data */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Why We Collect Your Data</h2>
-              <p className="text-gray-600 mb-4">We use your data to:</p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Match your business with relevant local suppliers</li>
-                <li>Forward your quote requests to selected firms</li>
-                <li>Provide pricing estimates and savings calculations</li>
-                <li>Improve our AI matching algorithms</li>
-                <li>Send service-related communications</li>
-                <li>Process firm subscriptions and payments</li>
-                <li>Prevent fraud and ensure platform security</li>
-                <li>Comply with legal obligations</li>
-              </ul>
-            </div>
+      <H2 id="data-we-collect">2. The data we collect</H2>
 
-            {/* Legal Basis */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Legal Basis for Processing</h2>
-              <p className="text-gray-600 mb-4">
-                We process your personal data under the following legal bases:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
-                <li>
-                  <strong>Legitimate Interest:</strong> As a B2B service, we have a legitimate interest in
-                  processing business contact information to facilitate supplier matching and provide our services.
-                </li>
-                <li>
-                  <strong>Contractual Necessity:</strong> Processing is necessary to fulfil our service agreement
-                  with firm subscribers.
-                </li>
-                <li>
-                  <strong>Consent:</strong> For optional cookies and marketing communications, we rely on your consent.
-                </li>
-                <li>
-                  <strong>Legal Obligation:</strong> We may process data to comply with legal requirements.
-                </li>
-              </ul>
-            </div>
+      <H3>(a) Firm data from public registers</H3>
+      <P>
+        We maintain profiles for UK regulated firms using information published in public registers.
+        For each firm this may include:
+      </P>
+      <UL>
+        <li>Firm or trading name and any branch/office names</li>
+        <li>
+          Regulatory and registration identifiers (for example SRA ID, Companies House number, VAT
+          number, ICAEW firm number, FCA reference, Propertymark membership)
+        </li>
+        <li>Business address and service-coverage areas</li>
+        <li>Regulatory status and areas of practice</li>
+        <li>
+          Business contact details published in the register (such as a business email address,
+          telephone number and website)
+        </li>
+        <li>
+          Where published, the names of principals, partners or named contacts — which, for sole
+          practitioners and partnerships, constitutes personal data
+        </li>
+      </UL>
+      <P>
+        Section 6 sets out the specific sources, legal basis and retention for this category, as
+        required by Article 14 UK GDPR.
+      </P>
 
-            {/* Data Sharing */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Who We Share Data With</h2>
-              <p className="text-gray-600 mb-4">
-                <strong>Suppliers:</strong> When you submit a quote request, your contact details and requirements
-                are shared with the suppliers you select (or our AI matches for you). This is the core function of our service.
-              </p>
-              <p className="text-gray-600 mb-4">
-                <strong>Service Providers:</strong> We use trusted third-party services:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>MongoDB Atlas (database hosting)</li>
-                <li>Render.com (application hosting)</li>
-                <li>Vercel (website hosting)</li>
-                <li>Stripe (payment processing)</li>
-                <li>Google Analytics (anonymised usage analytics)</li>
-              </ul>
-              <p className="text-gray-600 mb-4">
-                <strong>We do not sell your data</strong> to third parties for marketing purposes.
-              </p>
-            </div>
+      <H3>(b) Account data</H3>
+      <P>If you register for a free or Pro account, we collect:</P>
+      <UL>
+        <li>Your name, job title and business email address</li>
+        <li>Login credentials</li>
+        <li>The firm you represent and details you choose to add or correct on your profile</li>
+        <li>Your communication preferences</li>
+      </UL>
 
-            {/* Data Storage & Security */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Data Storage and Security</h2>
-              <p className="text-gray-600 mb-4">
-                Your data is stored securely on MongoDB Atlas servers located in the EU/UK region.
-                Our backend services are hosted on Render.com with industry-standard security measures including:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Encryption in transit (HTTPS/TLS)</li>
-                <li>Encryption at rest for sensitive data</li>
-                <li>Regular security updates and monitoring</li>
-                <li>Access controls and authentication</li>
-              </ul>
-            </div>
+      <H3>(c) Billing data</H3>
+      <P>
+        If you subscribe to our Pro plan (£299/month), payment is processed securely by Stripe. We do
+        not store full card details on our own systems. We retain transaction records (such as
+        invoices and the subscription status) as required for accounting and tax purposes.
+      </P>
 
-            {/* Cookies */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Cookies</h2>
-              <p className="text-gray-600 mb-4">We use the following types of cookies:</p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
-                <li>
-                  <strong>Essential Cookies:</strong> Required for the website to function (session management, authentication).
-                </li>
-                <li>
-                  <strong>Analytics Cookies:</strong> Google Analytics cookies to understand how visitors use our site.
-                  These are anonymised and do not identify you personally.
-                </li>
-              </ul>
-              <p className="text-gray-600">
-                You can control cookies through your browser settings. Disabling essential cookies may affect site functionality.
-              </p>
-            </div>
+      <H3>(d) Reports and diagnostic data</H3>
+      <P>
+        When you use the platform we generate AI-visibility scores, diagnostics and content drafts
+        relating to your firm. Where these are linked to your account, they are treated as your
+        personal data.
+      </P>
 
-            {/* Data Retention */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Data Retention</h2>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
-                <li>
-                  <strong>Quote Requests:</strong> Retained for 24 months to allow follow-up and service improvement,
-                  then automatically deleted.
-                </li>
-                <li>
-                  <strong>Firm Accounts:</strong> Retained while your account is active. Upon account closure,
-                  data is deleted within 30 days except where required for legal purposes.
-                </li>
-                <li>
-                  <strong>Analytics Data:</strong> Aggregated analytics retained indefinitely; individual session data
-                  retained for 14 months.
-                </li>
-              </ul>
-            </div>
+      <H3>(e) Website and analytics data</H3>
+      <UL>
+        <li>Page views, navigation and search/filter activity</li>
+        <li>Device type, browser and operating system</li>
+        <li>IP address</li>
+      </UL>
 
-            {/* Your Rights */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Your Rights Under GDPR</h2>
-              <p className="text-gray-600 mb-4">
-                Under the UK General Data Protection Regulation (UK GDPR), you have the right to:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
-                <li><strong>Rectification:</strong> Request correction of inaccurate data</li>
-                <li><strong>Erasure:</strong> Request deletion of your data (&quot;right to be forgotten&quot;)</li>
-                <li><strong>Portability:</strong> Request your data in a machine-readable format</li>
-                <li><strong>Objection:</strong> Object to processing based on legitimate interests</li>
-                <li><strong>Restriction:</strong> Request limited processing in certain circumstances</li>
-              </ul>
-              <p className="text-gray-600">
-                To exercise any of these rights, please contact us at{' '}
-                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  scott.davies@tendorai.com
-                </a>. We will respond within 30 days.
-              </p>
-            </div>
+      <H3>(f) Communications</H3>
+      <P>
+        If you email us or use our contact form, we keep a record of that correspondence and the
+        information you provide.
+      </P>
 
-            {/* ICO */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Regulatory Information</h2>
-              <p className="text-gray-600 mb-4">
-                TendorAI is registered with the Information Commissioner&apos;s Office (ICO) as a data controller.
-              </p>
-              <p className="text-gray-600">
-                If you have concerns about how we handle your data that we cannot resolve, you have the right
-                to lodge a complaint with the ICO at{' '}
-                <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-700">
-                  ico.org.uk
-                </a>.
-              </p>
-            </div>
+      <H2 id="sources">3. Where we obtain your data</H2>
+      <UL>
+        <li>
+          <strong>Directly from you</strong> — when you register, subscribe, complete your profile or
+          contact us.
+        </li>
+        <li>
+          <strong>From public registers and published sources</strong> — including the Solicitors
+          Regulation Authority (SRA), Companies House, the Institute of Chartered Accountants in
+          England and Wales (ICAEW), the Financial Conduct Authority (FCA) and Propertymark, and from
+          firms&apos; own public websites.
+        </li>
+        <li>
+          <strong>Automatically</strong> — through cookies and similar technologies when you use the
+          website (see Section 9).
+        </li>
+      </UL>
 
-            {/* Changes */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Changes to This Policy</h2>
-              <p className="text-gray-600">
-                We may update this Privacy Policy from time to time. We will notify you of any significant
-                changes by posting a notice on our website. Your continued use of our services after changes
-                are posted constitutes acceptance of the updated policy.
-              </p>
-            </div>
+      <H2 id="why">4. Why we use your data and our legal basis</H2>
+      <P>We process personal data for the following purposes, on the bases shown:</P>
+      <UL>
+        <li>
+          <strong>Operating the platform and firm profiles</strong> — to measure and report AI
+          visibility for regulated firms. Legal basis: <strong>legitimate interests</strong> (running
+          a B2B benchmarking and visibility service for professional-services firms), balanced against
+          the rights of the individuals concerned (see Section 5).
+        </li>
+        <li>
+          <strong>Providing the service to account holders</strong> — to create and manage your
+          account, generate reports and deliver features. Legal basis: <strong>contract</strong>.
+        </li>
+        <li>
+          <strong>Billing and payments</strong> — to take payment and keep financial records. Legal
+          basis: <strong>contract</strong> and <strong>legal obligation</strong> (accounting/tax law).
+        </li>
+        <li>
+          <strong>Marketing communications to firms</strong> — to tell firms about the platform.
+          Legal basis: <strong>legitimate interests</strong> for corporate subscribers, and{' '}
+          <strong>consent</strong> where required by the Privacy and Electronic Communications
+          Regulations (PECR). You can opt out at any time.
+        </li>
+        <li>
+          <strong>Website analytics</strong> — to understand and improve how the site is used. Legal
+          basis: <strong>consent</strong>.
+        </li>
+        <li>
+          <strong>Security, fraud prevention and legal compliance</strong>. Legal basis:{' '}
+          <strong>legitimate interests</strong> and <strong>legal obligation</strong>.
+        </li>
+      </UL>
 
-            {/* Contact */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Contact Us</h2>
-              <p className="text-gray-600 mb-4">
-                If you have any questions about this Privacy Policy or our data practices, please contact us:
-              </p>
-              <p className="text-gray-600">
-                <strong>Email:</strong>{' '}
-                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  scott.davies@tendorai.com
-                </a>
-              </p>
-            </div>
+      <H2 id="legitimate-interests">5. Our legitimate interests</H2>
+      <P>
+        Where we rely on legitimate interests, we have weighed our interest in operating an AI
+        visibility platform against your interests, rights and freedoms. We only process business and
+        professional contact information that is already published in public registers or on firms&apos;
+        own websites, we limit the data to what is needed to run the service, and we give every firm a
+        clear and easy route to object or be removed. You can ask for a copy of our balancing
+        assessment by emailing us.
+      </P>
 
-          </div>
-        </div>
-      </section>
+      <H2 id="article-14">6. Firm data obtained from public registers (Article 14 UK GDPR)</H2>
+      <P>
+        If your firm appears on our platform and you did not provide your data to us directly, this
+        section is your privacy notice under Article 14 UK GDPR.
+      </P>
+      <UL>
+        <li>
+          <strong>What we hold:</strong> the firm-data categories listed in Section 2(a).
+        </li>
+        <li>
+          <strong>Where we got it:</strong> publicly accessible registers and published sources,
+          namely the SRA, Companies House, ICAEW, the FCA, Propertymark, and firms&apos; own public
+          websites.
+        </li>
+        <li>
+          <strong>Why we hold it and our legal basis:</strong> our legitimate interest in operating an
+          AI visibility benchmarking platform for UK regulated professional-services firms (Article
+          6(1)(f) UK GDPR), as explained in Section 5.
+        </li>
+        <li>
+          <strong>How long we keep it:</strong> for as long as we operate the platform and the firm
+          remains on the relevant public register, reviewed periodically, and removed promptly on a
+          valid objection or erasure request (see Section 7).
+        </li>
+        <li>
+          <strong>Your rights:</strong> you have the rights set out in Section 10, including the right
+          to object to this processing and to ask us to remove your firm&apos;s profile.
+        </li>
+      </UL>
+      <P>
+        To object, correct your details, or ask for your firm&apos;s profile to be removed, email{' '}
+        <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>. We will action valid requests without
+        undue delay.
+      </P>
 
-      {/* Footer CTA */}
-      <section className="bg-gray-50 py-12">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-600 mb-4">
-            Have questions about your data?
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Contact Us
-          </Link>
-        </div>
-      </section>
+      <H2 id="sharing">7. Who we share data with</H2>
+      <P>
+        We do not sell your personal data. We share it only with the service providers (processors)
+        that help us run the platform, each under a data-processing agreement:
+      </P>
+      <UL>
+        <li>
+          <strong>Vercel</strong> — website/frontend hosting
+        </li>
+        <li>
+          <strong>Render</strong> — backend application hosting
+        </li>
+        <li>
+          <strong>MongoDB Atlas</strong> — database hosting (UK/EU region)
+        </li>
+        <li>
+          <strong>Stripe</strong> — payment processing
+        </li>
+        <li>
+          <strong>Resend</strong> — transactional and service email delivery
+        </li>
+        <li>
+          <strong>Google Analytics</strong> — website analytics
+        </li>
+        <li>
+          <strong>AI service providers</strong> (including Anthropic) — used to generate content and
+          to measure how AI assistants respond to queries about firms. To perform this core function,
+          firm identifiers and public profile information may be sent to third-party AI platforms.
+        </li>
+      </UL>
+      <P>
+        We may also disclose data where required by law, to enforce our terms, or to protect our
+        rights, property or safety.
+      </P>
+
+      <H2 id="transfers">8. International transfers</H2>
+      <P>
+        Some of our providers (including Stripe, Google and certain AI service providers) process data
+        outside the UK, including in the United States. Where personal data is transferred outside the
+        UK, we rely on appropriate safeguards — such as the UK International Data Transfer Agreement,
+        the UK Addendum to the EU Standard Contractual Clauses, UK adequacy regulations, or the UK
+        extension to the EU–US Data Privacy Framework — so that your data receives equivalent
+        protection. You can ask us for details of the safeguards that apply.
+      </P>
+
+      <H2 id="cookies">9. Cookies</H2>
+      <UL>
+        <li>
+          <strong>Essential cookies</strong> — required for the site to work (for example session
+          management and authentication). These are set without consent because the site cannot
+          function without them.
+        </li>
+        <li>
+          <strong>Analytics cookies</strong> — Google Analytics cookies that help us understand site
+          usage. These are only set after you give consent through our cookie banner, and you can
+          withdraw consent at any time.
+        </li>
+      </UL>
+      <P>You can also control cookies through your browser settings.</P>
+
+      <H2 id="retention">10. How long we keep data</H2>
+      <UL>
+        <li>
+          <strong>Firm register data:</strong> as described in Section 6.
+        </li>
+        <li>
+          <strong>Accounts:</strong> while your account is active; deleted within 30 days of closure,
+          except where we must keep it for legal reasons.
+        </li>
+        <li>
+          <strong>Billing and financial records:</strong> retained for 6 years to meet UK accounting
+          and tax (HMRC) requirements.
+        </li>
+        <li>
+          <strong>Analytics data:</strong> individual analytics data retained for up to 14 months;
+          aggregated data may be kept longer.
+        </li>
+        <li>
+          <strong>Marketing opt-outs:</strong> if you opt out, we keep a minimal record indefinitely
+          so that we can honour your choice.
+        </li>
+      </UL>
+
+      <H2 id="rights">11. Your rights</H2>
+      <P>Under the UK GDPR you have the right to:</P>
+      <UL>
+        <li>
+          <strong>Access</strong> a copy of the personal data we hold about you
+        </li>
+        <li>
+          <strong>Rectification</strong> of inaccurate or incomplete data
+        </li>
+        <li>
+          <strong>Erasure</strong> of your data (the &quot;right to be forgotten&quot;)
+        </li>
+        <li>
+          <strong>Restriction</strong> of processing in certain circumstances
+        </li>
+        <li>
+          <strong>Portability</strong> — to receive your data in a machine-readable format
+        </li>
+        <li>
+          <strong>Object</strong> to processing based on legitimate interests, including profile
+          listings; and an <strong>absolute right to object to direct marketing</strong> at any time
+        </li>
+        <li>
+          <strong>Withdraw consent</strong> at any time where we rely on consent
+        </li>
+      </UL>
+      <P>
+        To exercise any of these rights, email{' '}
+        <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>. We will respond within one month. You
+        will not normally have to pay a fee.
+      </P>
+
+      <H2 id="complaints">12. Complaints</H2>
+      <P>
+        If you are unhappy with how we have handled your data, please contact us first at{' '}
+        <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>. We will acknowledge your complaint
+        within 30 days and work to resolve it.
+      </P>
+      <P>
+        You also have the right to complain to the Information Commissioner&apos;s Office (ICO) at any
+        time. TendorAI Ltd is registered with the ICO as a data controller under reference{' '}
+        {ICO_REGISTRATION}. You can contact the ICO at <A href="https://ico.org.uk">ico.org.uk</A>.
+      </P>
+
+      <H2 id="changes">13. Changes to this policy</H2>
+      <P>
+        We may update this Privacy Policy from time to time. We will post any significant changes on
+        this page and update the &quot;last updated&quot; date above. Your continued use of our
+        services after changes are posted constitutes acceptance of the updated policy.
+      </P>
+
+      <H2 id="contact">14. Contact us</H2>
+      <P>
+        TendorAI Ltd
+        <br />
+        {REGISTERED_OFFICE}
+        <br />
+        Email: <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>
+      </P>
     </main>
   );
 }
