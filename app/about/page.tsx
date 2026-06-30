@@ -4,7 +4,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const FIRM_COUNT = '[FILL: live firm count, e.g. 11,000+]';
+const FIRM_COUNT = '62,026+';
 
 export const metadata: Metadata = {
   title: "About TendorAI — The UK's AI Visibility Platform",
