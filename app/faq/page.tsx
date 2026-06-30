@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/faq' },
 };
 
-const FIRM_COUNT = '[FILL: firm count]';
+const FIRM_COUNT = '62,026+';
 
 const faqs: { q: string; a: string }[] = [
   {
