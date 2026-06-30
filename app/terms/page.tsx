@@ -1,303 +1,304 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+// app/terms/page.tsx
+//
+// ─────────────────────────────────────────────────────────────────────────────
+// BEFORE YOU MERGE:
+//   1. Fill REGISTERED_OFFICE (search "FILL:").
+//   2. Three business decisions are baked in below — change the wording in
+//      §4 (refunds/cancellation) or §11 (liability cap) if you want different:
+//        • Refunds:      no refunds for part-periods
+//        • Cancellation: cancel anytime, access to end of paid month
+//        • Liability cap: greater of fees-paid-in-12-months or £100
+// ─────────────────────────────────────────────────────────────────────────────
+
+import type { Metadata } from 'next';
+
+const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
+const CONTACT_EMAIL = 'scott.davies@tendorai.com';
+const LAST_UPDATED = '30 June 2026';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description: 'TendorAI Terms of Service - The terms and conditions governing use of our B2B supplier directory and quote comparison platform.',
+  title: 'Terms of Service | TendorAI',
+  description:
+    'The terms governing use of TendorAI, the UK AI visibility platform for regulated professional-services firms.',
+  alternates: { canonical: 'https://www.tendorai.com/terms' },
   robots: { index: true, follow: true },
-  alternates: { canonical: '/terms' },
+  openGraph: {
+    title: 'Terms of Service | TendorAI',
+    description: 'The terms governing use of the TendorAI AI visibility platform.',
+    url: 'https://www.tendorai.com/terms',
+    siteName: 'TendorAI',
+    locale: 'en_GB',
+    type: 'website',
+  },
 };
 
-export default function TermsOfServicePage() {
+function P({ children }: { children: React.ReactNode }) {
+  return <p className="mb-4 text-[15px] leading-relaxed text-gray-700">{children}</p>;
+}
+
+function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <main className="pt-16">
-      {/* Hero */}
-      <section className="bg-brand-gradient text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Terms of Service
-          </h1>
-          <p className="text-purple-100">
-            Last updated: February 2026
-          </p>
-        </div>
-      </section>
+    <h2 id={id} className="mt-12 mb-3 scroll-mt-24 text-xl font-semibold text-gray-900">
+      {children}
+    </h2>
+  );
+}
 
-      {/* Content */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
+function UL({ children }: { children: React.ReactNode }) {
+  return (
+    <ul className="mb-4 ml-5 list-disc space-y-1.5 text-[15px] leading-relaxed text-gray-700">
+      {children}
+    </ul>
+  );
+}
 
-            {/* Introduction */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
-              <p className="text-gray-600 mb-4">
-                Welcome to TendorAI. These Terms of Service (&quot;Terms&quot;) govern your use of the TendorAI
-                website at tendorai.com and all related services (collectively, the &quot;Service&quot;).
-              </p>
-              <p className="text-gray-600 mb-4">
-                TendorAI is a trading name registered in England and Wales. By accessing or using our Service,
-                you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Service.
-              </p>
-              <p className="text-gray-600">
-                These Terms apply to all users, including businesses seeking quotes (&quot;Users&quot;) and
-                suppliers offering products and services (&quot;Firms&quot;).
-              </p>
-            </div>
+function A({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} className="text-indigo-600 underline underline-offset-2 hover:text-indigo-800">
+      {children}
+    </a>
+  );
+}
 
-            {/* Service Description */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Service Description</h2>
-              <p className="text-gray-600 mb-4">
-                TendorAI operates a free B2B supplier directory and quote comparison platform. Our Service:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Lists verified UK suppliers of office equipment (photocopiers, telecoms, CCTV, IT services)</li>
-                <li>Allows businesses to search for suppliers by location and service type</li>
-                <li>Facilitates quote requests from businesses to suppliers</li>
-                <li>Uses AI to match requirements with suitable suppliers</li>
-                <li>Provides pricing estimates based on supplier data</li>
-              </ul>
-              <p className="text-gray-600">
-                TendorAI acts as an intermediary platform. We do not sell, lease, or provide office equipment directly.
-              </p>
-            </div>
+export default function TermsPage() {
+  return (
+    <main className="mx-auto max-w-3xl px-5 py-14">
+      <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">Terms of Service</h1>
+      <p className="mb-10 text-sm text-gray-500">Last updated: {LAST_UPDATED}</p>
 
-            {/* User Obligations */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">3. User Obligations</h2>
-              <p className="text-gray-600 mb-4">As a User of our Service, you agree to:</p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
-                <li>
-                  <strong>Provide accurate information:</strong> All information submitted in quote requests must be
-                  accurate and truthful, including company details and requirements.
-                </li>
-                <li>
-                  <strong>Business use only:</strong> The Service is intended for B2B purposes. You represent that
-                  you are acting on behalf of a business, not as a consumer.
-                </li>
-                <li>
-                  <strong>No misuse:</strong> You will not use the Service for any unlawful purpose, to harass firms,
-                  or to submit fake or spam requests.
-                </li>
-                <li>
-                  <strong>No scraping or automation:</strong> You will not use automated tools to scrape data,
-                  submit bulk requests, or interfere with the Service&apos;s operation.
-                </li>
-                <li>
-                  <strong>Respect intellectual property:</strong> You will not copy, reproduce, or distribute
-                  content from our platform without permission.
-                </li>
-              </ul>
-            </div>
+      <div className="mb-10 rounded-lg border border-indigo-100 bg-indigo-50/60 p-5">
+        <p className="mb-2 text-sm font-semibold text-indigo-900">In plain terms</p>
+        <p className="mb-0 text-[15px] leading-relaxed text-indigo-900/90">
+          TendorAI is an AI visibility platform for UK regulated firms. We generate scores,
+          diagnostics and draft content using AI. Those outputs are starting points, not finished
+          work or professional advice — you are responsible for checking and approving anything before
+          you publish it or rely on it. We can&apos;t guarantee that any AI assistant will recommend
+          your firm. These Terms set out the rest.
+        </p>
+      </div>
 
-            {/* Vendor Obligations */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Firm Obligations</h2>
-              <p className="text-gray-600 mb-4">As a Firm using our Service, you agree to:</p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-2">
-                <li>
-                  <strong>Accurate business information:</strong> Your company details, service areas, and contact
-                  information must be accurate and kept up to date.
-                </li>
-                <li>
-                  <strong>Accurate product and pricing data:</strong> Any products, pricing, and specifications you
-                  upload must be accurate and reflect your actual offerings.
-                </li>
-                <li>
-                  <strong>Respond to enquiries in good faith:</strong> You agree to respond to quote requests
-                  professionally and in a timely manner (typically within 1-2 business days).
-                </li>
-                <li>
-                  <strong>No misleading claims:</strong> You will not make false claims about your products, services,
-                  accreditations, or capabilities.
-                </li>
-                <li>
-                  <strong>Subscription terms:</strong> If you subscribe to a paid tier, you agree to our subscription
-                  terms including payment obligations and cancellation policies.
-                </li>
-              </ul>
-            </div>
+      <H2 id="introduction">1. Who we are and these Terms</H2>
+      <P>
+        These Terms of Service (&quot;Terms&quot;) govern your access to and use of the TendorAI
+        website at tendorai.com and all related services, tools and content (together, the
+        &quot;Service&quot;).
+      </P>
+      <P>
+        The Service is provided by TendorAI Ltd (&quot;TendorAI&quot;, &quot;we&quot;,
+        &quot;us&quot;, &quot;our&quot;), a company registered in England and Wales under company
+        number <strong>16521860</strong>, with its registered office at {REGISTERED_OFFICE}.
+      </P>
+      <P>
+        By accessing or using the Service, or by registering for an account, you agree to be bound by
+        these Terms. If you do not agree, do not use the Service.
+      </P>
 
-            {/* Quote Requests */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Quote Requests and Introductions</h2>
-              <p className="text-gray-600 mb-4">
-                <strong>Facilitation only:</strong> TendorAI facilitates introductions between Users and Firms.
-                We do not guarantee that any Firm will respond to a quote request, provide a quote, or offer any
-                particular pricing.
-              </p>
-              <p className="text-gray-600 mb-4">
-                <strong>Pricing estimates:</strong> Any pricing estimates shown on our platform are indicative only,
-                based on data provided by Firms. Final pricing is determined directly between User and Firm.
-              </p>
-              <p className="text-gray-600 mb-4">
-                <strong>No obligation:</strong> Submitting a quote request does not obligate you to purchase anything.
-                Similarly, Firms listing on our platform are not obligated to accept every enquiry.
-              </p>
-              <p className="text-gray-600">
-                <strong>Direct relationship:</strong> Any contract for goods or services is formed directly between
-                User and Firm. TendorAI is not a party to such contracts.
-              </p>
-            </div>
+      <H2 id="service">2. What TendorAI is</H2>
+      <P>
+        TendorAI is an AI visibility platform. The Service measures how often AI assistants reference
+        or recommend regulated professional-services firms, diagnoses why a firm may be under-
+        represented, and produces recommendations and draft content intended to help close those
+        gaps. The Service includes free tools, a free account tier, and a paid &quot;Pro&quot;
+        subscription.
+      </P>
 
-            {/* Limitation of Liability */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Limitation of Liability</h2>
-              <p className="text-gray-600 mb-4">
-                <strong>Intermediary role:</strong> TendorAI acts solely as an intermediary platform. We are not
-                responsible for:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>The quality, safety, or legality of any products or services offered by Firms</li>
-                <li>The accuracy of information provided by Firms or Users</li>
-                <li>The ability of Firms to fulfil orders or provide services</li>
-                <li>Any disputes between Users and Firms</li>
-                <li>Any loss or damage arising from transactions between Users and Firms</li>
-              </ul>
-              <p className="text-gray-600 mb-4">
-                <strong>No warranty:</strong> The Service is provided &quot;as is&quot; without warranties of any kind,
-                either express or implied, including but not limited to merchantability, fitness for a particular
-                purpose, or non-infringement.
-              </p>
-              <p className="text-gray-600">
-                <strong>Liability cap:</strong> To the maximum extent permitted by law, TendorAI&apos;s total liability
-                for any claims arising from use of the Service shall not exceed the amount you have paid us (if any)
-                in the 12 months preceding the claim.
-              </p>
-            </div>
+      <H2 id="accounts">3. Eligibility and accounts</H2>
+      <UL>
+        <li>
+          The Service is for business and professional use only. By using it you confirm you are
+          acting on behalf of a business and not as a consumer.
+        </li>
+        <li>
+          You confirm you are authorised to act for the firm whose account you create or manage, and
+          to accept these Terms on its behalf.
+        </li>
+        <li>
+          You must provide accurate account information and keep it up to date, and you are
+          responsible for keeping your login credentials secure and for activity under your account.
+        </li>
+      </UL>
 
-            {/* Intellectual Property */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Intellectual Property</h2>
-              <p className="text-gray-600 mb-4">
-                <strong>Our property:</strong> The TendorAI platform, including our website, AI matching algorithms,
-                software, logos, and original content, is owned by TendorAI and protected by intellectual property laws.
-              </p>
-              <p className="text-gray-600 mb-4">
-                <strong>User content:</strong> You retain ownership of content you submit (e.g., quote request details).
-                By submitting content, you grant us a licence to use it for providing the Service.
-              </p>
-              <p className="text-gray-600">
-                <strong>Firm content:</strong> Firms retain ownership of their product listings and business information.
-                By uploading content, Firms grant us a licence to display it on our platform and share it with potential
-                customers.
-              </p>
-            </div>
+      <H2 id="subscription">4. Free tier, Pro subscription and billing</H2>
+      <UL>
+        <li>
+          <strong>Free tier:</strong> certain features are available at no cost. We may change or
+          withdraw free features at any time.
+        </li>
+        <li>
+          <strong>Pro subscription:</strong> the Pro plan costs £299 per month. Prices are inclusive
+          of any applicable taxes; we are not currently VAT-registered, and if that changes we will
+          give you notice before VAT is added.
+        </li>
+        <li>
+          <strong>Payment and renewal:</strong> payment is taken in advance via Stripe. The
+          subscription renews automatically each month until cancelled.
+        </li>
+        <li>
+          <strong>Cancellation:</strong> you may cancel at any time. Cancellation takes effect at the
+          end of your current paid month; you keep Pro access until then and are not billed again
+          afterwards.
+        </li>
+        <li>
+          <strong>Refunds:</strong> fees already paid are non-refundable, including for partial
+          periods, except where required by law.
+        </li>
+        <li>
+          <strong>Price changes:</strong> we may change the Pro price on at least 30 days&apos; notice
+          before your next renewal. Continuing after the change takes effect means you accept the new
+          price.
+        </li>
+        <li>
+          <strong>Failed payment:</strong> if a payment fails, we may suspend Pro features or downgrade
+          your account to the free tier until payment is resolved.
+        </li>
+      </UL>
 
-            {/* Account Termination */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Account Suspension and Termination</h2>
-              <p className="text-gray-600 mb-4">
-                We reserve the right to suspend or terminate accounts and access to our Service if we reasonably
-                believe you have:
-              </p>
-              <ul className="list-disc pl-6 text-gray-600 mb-4 space-y-1">
-                <li>Violated these Terms of Service</li>
-                <li>Provided false or misleading information</li>
-                <li>Engaged in fraudulent or abusive behaviour</li>
-                <li>Harassed other users or our staff</li>
-                <li>Used the Service for unlawful purposes</li>
-              </ul>
-              <p className="text-gray-600">
-                For Firm accounts, we will provide reasonable notice before termination except in cases of
-                serious misconduct.
-              </p>
-            </div>
+      <H2 id="ai-outputs">5. AI-generated content and outputs</H2>
+      <P>
+        Scores, diagnostics, recommendations and draft content produced by the Service are generated
+        using artificial intelligence and automated analysis. You acknowledge and agree that:
+      </P>
+      <UL>
+        <li>
+          These outputs may contain errors, omissions or inaccuracies, and are provided as drafts and
+          suggestions only.
+        </li>
+        <li>
+          You are responsible for reviewing, verifying and approving any output before you publish it,
+          send it, or otherwise rely on it.
+        </li>
+        <li>
+          The outputs are not legal, regulatory, accounting, financial or other professional advice,
+          and do not replace your own professional judgement or that of a qualified adviser.
+        </li>
+        <li>
+          You remain solely responsible for any content you publish and for your firm&apos;s
+          compliance with its regulator (for example the SRA, ICAEW, FCA or Propertymark) and with
+          advertising, consumer and other applicable law.
+        </li>
+      </UL>
 
-            {/* Indemnification */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Indemnification</h2>
-              <p className="text-gray-600">
-                You agree to indemnify and hold harmless TendorAI, its officers, directors, employees, and agents
-                from any claims, losses, damages, liabilities, and expenses (including legal fees) arising from
-                your use of the Service, your violation of these Terms, or your violation of any rights of a third party.
-              </p>
-            </div>
+      <H2 id="no-guarantee">6. No guarantee of results</H2>
+      <P>
+        The Service depends on third-party AI assistants and search platforms that we do not control
+        and that change their models and behaviour without notice. We do not warrant or guarantee that
+        your firm will be recommended, cited or ranked by any AI assistant, that any visibility score
+        will improve, or that any particular outcome will be achieved. Any examples or projected
+        results are illustrative only.
+      </P>
 
-            {/* Dispute Resolution */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Dispute Resolution</h2>
-              <p className="text-gray-600 mb-4">
-                <strong>Informal resolution:</strong> If you have a dispute with TendorAI, we encourage you to
-                contact us first at{' '}
-                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  scott.davies@tendorai.com
-                </a>{' '}
-                to attempt informal resolution.
-              </p>
-              <p className="text-gray-600 mb-4">
-                <strong>User-Firm disputes:</strong> Disputes between Users and Firms should be resolved directly
-                between those parties. TendorAI may, at its discretion, assist with mediation but is not obligated to do so.
-              </p>
-              <p className="text-gray-600">
-                <strong>Legal proceedings:</strong> If informal resolution fails, any legal proceedings shall be
-                brought in the courts of England and Wales.
-              </p>
-            </div>
+      <H2 id="acceptable-use">7. Acceptable use</H2>
+      <P>You agree not to:</P>
+      <UL>
+        <li>use the Service unlawfully, or in breach of any third party&apos;s rights;</li>
+        <li>
+          scrape, harvest, or use automated tools against the Service, or attempt to copy, reverse
+          engineer or extract its underlying data, models or software;
+        </li>
+        <li>resell, sublicense or make the Service available to third parties except as permitted;</li>
+        <li>interfere with, overload, or attempt to gain unauthorised access to the Service;</li>
+        <li>submit content you do not have the right to submit, or that is false or misleading.</li>
+      </UL>
 
-            {/* Governing Law */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Governing Law</h2>
-              <p className="text-gray-600">
-                These Terms shall be governed by and construed in accordance with the laws of England and Wales,
-                without regard to conflict of law principles. You agree to submit to the exclusive jurisdiction
-                of the courts of England and Wales for any disputes arising from these Terms or your use of the Service.
-              </p>
-            </div>
+      <H2 id="ip">8. Intellectual property</H2>
+      <UL>
+        <li>
+          <strong>Our property:</strong> the Service, including the platform, software, models,
+          scoring methods, branding and original content, is owned by TendorAI and protected by
+          intellectual property laws.
+        </li>
+        <li>
+          <strong>Your content:</strong> you retain ownership of the firm information and materials you
+          provide. You grant us a non-exclusive licence to host, process and use that content, and to
+          send it to our service providers (including AI providers), to operate and provide the
+          Service.
+        </li>
+        <li>
+          <strong>Outputs:</strong> subject to your compliance with these Terms and payment of any
+          fees due, you may use the outputs the Service generates for your firm&apos;s own business
+          purposes.
+        </li>
+      </UL>
 
-            {/* Changes to Terms */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to These Terms</h2>
-              <p className="text-gray-600">
-                We may update these Terms from time to time. We will notify you of material changes by posting
-                a notice on our website or, for Firms with accounts, by email. Your continued use of the Service
-                after changes are posted constitutes acceptance of the updated Terms.
-              </p>
-            </div>
+      <H2 id="third-party">9. Third-party services and data</H2>
+      <P>
+        The Service relies on third-party providers, and your use involves the processing of personal
+        data as described in our <A href="/privacy">Privacy Policy</A>, which forms part of these
+        Terms. We are not responsible for the availability or acts of third-party platforms.
+      </P>
 
-            {/* Severability */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">13. Severability</h2>
-              <p className="text-gray-600">
-                If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions
-                shall continue in full force and effect. The invalid provision shall be modified to the minimum
-                extent necessary to make it valid and enforceable.
-              </p>
-            </div>
+      <H2 id="termination">10. Suspension and termination</H2>
+      <P>
+        We may suspend or terminate your access if you breach these Terms, provide false information,
+        or act unlawfully or abusively. Except in cases of serious breach, we will give reasonable
+        notice before terminating a paid account. You may stop using the Service and close your
+        account at any time. Clauses that by their nature should survive termination (including
+        Sections 5, 6, 8, 11 and 12) will continue to apply.
+      </P>
 
-            {/* Contact */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">14. Contact Us</h2>
-              <p className="text-gray-600 mb-4">
-                If you have any questions about these Terms of Service, please contact us:
-              </p>
-              <p className="text-gray-600">
-                <strong>Email:</strong>{' '}
-                <a href="mailto:scott.davies@tendorai.com" className="text-purple-600 hover:text-purple-700">
-                  scott.davies@tendorai.com
-                </a>
-              </p>
-            </div>
+      <H2 id="liability">11. Disclaimers and limitation of liability</H2>
+      <P>
+        Nothing in these Terms excludes or limits our liability for death or personal injury caused by
+        our negligence, for fraud or fraudulent misrepresentation, or for any other liability that
+        cannot be excluded or limited under English law.
+      </P>
+      <P>
+        Subject to that, the Service is provided &quot;as is&quot; and &quot;as available&quot;
+        without warranties of any kind, whether express or implied, including any implied warranties of
+        satisfactory quality, fitness for a particular purpose, or non-infringement.
+      </P>
+      <P>
+        Subject to the first paragraph of this Section, we are not liable for any loss of profits,
+        revenue, goodwill, business or anticipated savings, or for any indirect or consequential loss;
+        and our total aggregate liability arising out of or in connection with the Service shall not
+        exceed the greater of (a) the total fees you paid us in the 12 months before the claim and
+        (b) £100.
+      </P>
 
-          </div>
-        </div>
-      </section>
+      <H2 id="indemnity">12. Indemnity</H2>
+      <P>
+        You agree to indemnify us against all claims, losses, damages and reasonable costs (including
+        legal fees) arising from content you publish using outputs from the Service, your breach of
+        these Terms, or your infringement of any third party&apos;s rights or of applicable law.
+      </P>
 
-      {/* Footer CTA */}
-      <section className="bg-gray-50 py-12">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-600 mb-4">
-            Have questions about our terms?
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-purple-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Contact Us
-          </Link>
-        </div>
-      </section>
+      <H2 id="changes">13. Changes to the Service and these Terms</H2>
+      <P>
+        We may change or discontinue features of the Service, and we may update these Terms from time
+        to time. We will post material changes on this page and, for account holders, may notify you by
+        email. Your continued use of the Service after changes take effect constitutes acceptance.
+      </P>
+
+      <H2 id="law">14. Governing law and jurisdiction</H2>
+      <P>
+        These Terms are governed by the laws of England and Wales. The courts of England and Wales have
+        exclusive jurisdiction over any dispute arising out of or in connection with these Terms or the
+        Service. If you have a dispute, please contact us first at{' '}
+        <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A> so we can try to resolve it informally.
+      </P>
+
+      <H2 id="general">15. General</H2>
+      <UL>
+        <li>
+          If any provision of these Terms is found invalid or unenforceable, the remaining provisions
+          continue in full force, and the invalid provision will be modified to the minimum extent
+          necessary to make it enforceable.
+        </li>
+        <li>
+          These Terms, together with the Privacy Policy, are the entire agreement between you and us
+          regarding the Service.
+        </li>
+        <li>Our failure to enforce any provision is not a waiver of it.</li>
+      </UL>
+
+      <H2 id="contact">16. Contact us</H2>
+      <P>
+        TendorAI Ltd
+        <br />
+        {REGISTERED_OFFICE}
+        <br />
+        Email: <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>
+      </P>
     </main>
   );
 }
