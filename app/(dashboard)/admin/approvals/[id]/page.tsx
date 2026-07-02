@@ -285,6 +285,350 @@ function WriterAgentQualityPanel({ metadata, itemType }: {
   );
 }
 
+// ─── Suggested corrections + editable body (content_draft only) ───────────
+
+interface SuggestedFix {
+  flaggedSentence?: string;
+  sentence?: string;
+  text?: string;
+  original?: string;
+
+  reason?: string;
+  issue?: string;
+  message?: string;
+
+  suggestedRepair?: string;
+  repair?: string;
+  suggestion?: string;
+  fix?: string;
+  replacement?: string;
+}
+
+// Backend attaches findings at metadata.suggestedFixes (primary) or
+// metadata.claimVerification.issues (fallback for older content-review runs).
+function extractSuggestedFixes(approval: Approval): SuggestedFix[] {
+  const meta = approval.metadata;
+  if (!isPlainObject(meta)) return [];
+  if (Array.isArray(meta.suggestedFixes)) {
+    return meta.suggestedFixes.filter(isPlainObject) as SuggestedFix[];
+  }
+  const cv = meta.claimVerification;
+  if (isPlainObject(cv) && Array.isArray(cv.issues)) {
+    return cv.issues.filter(isPlainObject) as SuggestedFix[];
+  }
+  return [];
+}
+
+function getFlaggedText(fix: SuggestedFix): string {
+  return (
+    fix.flaggedSentence?.trim() ||
+    fix.sentence?.trim() ||
+    fix.original?.trim() ||
+    fix.text?.trim() ||
+    ''
+  );
+}
+
+function getReasonText(fix: SuggestedFix): string {
+  return fix.reason?.trim() || fix.issue?.trim() || fix.message?.trim() || '';
+}
+
+function getRepairText(fix: SuggestedFix): string {
+  return (
+    fix.suggestedRepair?.trim() ||
+    fix.repair?.trim() ||
+    fix.suggestion?.trim() ||
+    fix.fix?.trim() ||
+    fix.replacement?.trim() ||
+    ''
+  );
+}
+
+// Prefers draftPayload.body per spec; falls back to markdown/content/text so
+// existing content shapes still render.
+function extractBody(payload: unknown): string {
+  if (typeof payload === 'string') return payload;
+  if (!payload || typeof payload !== 'object') return '';
+  const obj = payload as Record<string, unknown>;
+  for (const key of ['body', 'markdown', 'content', 'text']) {
+    const v = obj[key];
+    if (typeof v === 'string') return v;
+  }
+  return '';
+}
+
+function SuggestedCorrectionsPanel({
+  fixes,
+  onApply,
+  applyToast,
+}: {
+  fixes: SuggestedFix[];
+  onApply: (fix: SuggestedFix, index: number) => void;
+  applyToast: string;
+}) {
+  if (fixes.length === 0) return null;
+  return (
+    <div className="bg-white rounded-lg border border-amber-200 p-6 space-y-4">
+      <div>
+        <h2 className="text-sm font-semibold text-gray-900">Suggested corrections</h2>
+        <p className="text-xs text-gray-500 mt-1">
+          Flagged by the content-review pipeline. Apply a fix to replace the sentence in
+          the editor, then Save changes.
+        </p>
+      </div>
+
+      <ul className="space-y-4">
+        {fixes.map((fix, i) => {
+          const flagged = getFlaggedText(fix);
+          const reason = getReasonText(fix);
+          const repair = getRepairText(fix);
+          const canApply = flagged.length > 0 && repair.length > 0;
+          return (
+            <li
+              key={i}
+              className="border border-amber-100 bg-amber-50/60 rounded-lg p-4 space-y-3"
+            >
+              {flagged && (
+                <div>
+                  <p className="text-xs font-medium text-amber-800 uppercase tracking-wide">
+                    Flagged sentence
+                  </p>
+                  <p className="text-sm text-gray-900 mt-1 whitespace-pre-wrap break-words">
+                    {flagged}
+                  </p>
+                </div>
+              )}
+              {reason && (
+                <div>
+                  <p className="text-xs font-medium text-amber-800 uppercase tracking-wide">
+                    Reason
+                  </p>
+                  <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap break-words">
+                    {reason}
+                  </p>
+                </div>
+              )}
+              {repair && (
+                <div>
+                  <p className="text-xs font-medium text-emerald-800 uppercase tracking-wide">
+                    Suggested repair
+                  </p>
+                  <p className="text-sm text-gray-900 mt-1 whitespace-pre-wrap break-words">
+                    {repair}
+                  </p>
+                </div>
+              )}
+              <div className="flex items-center justify-between pt-1 gap-2 flex-wrap">
+                <p className="text-xs text-gray-400">
+                  {!flagged && 'No flagged text on this fix — cannot auto-apply.'}
+                  {flagged && !repair && 'No repair provided — cannot auto-apply.'}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => onApply(fix, i)}
+                  disabled={!canApply}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                >
+                  Apply to draft
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {applyToast && (
+        <p className="text-xs text-gray-600 border-t border-gray-100 pt-3">{applyToast}</p>
+      )}
+    </div>
+  );
+}
+
+function EditableContentDraftPanel({
+  approvalId,
+  draftPayload,
+  fixes,
+  onSaved,
+}: {
+  approvalId: string;
+  draftPayload: unknown;
+  fixes: SuggestedFix[];
+  onSaved: () => void;
+}) {
+  const router = useRouter();
+  const initialBody = extractBody(draftPayload);
+
+  const [body, setBody] = useState(initialBody);
+  const [savedBody, setSavedBody] = useState(initialBody);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [applyToast, setApplyToast] = useState('');
+  const isDirty = body !== savedBody;
+
+  const handleApply = (fix: SuggestedFix) => {
+    const flagged = getFlaggedText(fix);
+    const repair = getRepairText(fix);
+    if (!flagged || !repair) {
+      setApplyToast('Fix has no flagged sentence or repair text.');
+      return;
+    }
+    const idx = body.indexOf(flagged);
+    if (idx < 0) {
+      setApplyToast(
+        'Flagged sentence not found in the current body — it may already be corrected or edited.',
+      );
+      return;
+    }
+    const newBody = body.slice(0, idx) + repair + body.slice(idx + flagged.length);
+    setBody(newBody);
+    setEditing(true);
+    setApplyToast('Applied. Review the change, then Save changes.');
+  };
+
+  const handleDiscard = () => {
+    setBody(savedBody);
+    setEditing(false);
+    setSaveError('');
+    setApplyToast('');
+  };
+
+  const handleSave = async () => {
+    if (!approvalId) return;
+    setSaving(true);
+    setSaveError('');
+    try {
+      const token = getToken();
+      const basePayload = isPlainObject(draftPayload) ? draftPayload : {};
+      const newPayload = { ...basePayload, body };
+
+      const res = await fetch(`${API_URL}/api/admin/approvals/${approvalId}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ draftPayload: newPayload }),
+      });
+
+      if (res.status === 401) {
+        router.replace('/admin/login');
+        return;
+      }
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setSaveError(errData?.error || `Save failed (${res.status})`);
+        return;
+      }
+
+      setSavedBody(body);
+      setEditing(false);
+      setApplyToast('');
+      onSaved();
+    } catch {
+      setSaveError('Network error — please retry');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <>
+      <SuggestedCorrectionsPanel
+        fixes={fixes}
+        onApply={handleApply}
+        applyToast={applyToast}
+      />
+
+      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-gray-900">Draft payload</h2>
+            {isDirty && (
+              <p className="text-xs text-amber-600 mt-1">Unsaved changes</p>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {editing ? (
+              <>
+                <button
+                  type="button"
+                  onClick={handleDiscard}
+                  disabled={saving || !isDirty}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                >
+                  Discard
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditing(false)}
+                  disabled={saving}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 transition"
+                >
+                  Preview
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saving || !isDirty}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                >
+                  {saving ? 'Saving…' : 'Save changes'}
+                </button>
+              </>
+            ) : (
+              <>
+                {isDirty && (
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 transition"
+                  >
+                    {saving ? 'Saving…' : 'Save changes'}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setEditing(true)}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+                >
+                  Edit
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {editing ? (
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows={20}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono leading-relaxed focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-y"
+          />
+        ) : body.trim() ? (
+          <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
+            <ReactMarkdown>{body}</ReactMarkdown>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500 italic">
+            No draft body was attached to this item.
+          </p>
+        )}
+
+        {saveError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+            {saveError}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function ApprovalDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -574,11 +918,22 @@ export default function ApprovalDetailPage() {
         </div>
       </div>
 
-      {/* Draft payload */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
-        <h2 className="text-sm font-semibold text-gray-900">Draft payload</h2>
-        <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
-      </div>
+      {/* Suggested corrections + editable draft payload (content_draft only);
+          read-only PayloadView for every other item type so JSON/directory
+          submissions/etc. render unchanged. */}
+      {approval.itemType === 'content_draft' ? (
+        <EditableContentDraftPanel
+          approvalId={id}
+          draftPayload={approval.draftPayload}
+          fixes={extractSuggestedFixes(approval)}
+          onSaved={fetchApproval}
+        />
+      ) : (
+        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+          <h2 className="text-sm font-semibold text-gray-900">Draft payload</h2>
+          <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
+        </div>
+      )}
 
       {/* Writer Agent quality (content_draft only) */}
       <WriterAgentQualityPanel
