@@ -2,8 +2,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { connectDB } from '@/lib/db/connection';
 import { VendorPost, Vendor } from '@/lib/db/models';
+import { markdownExcerpt } from '@/lib/utils/markdown';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const vendorName = post.vendor?.company || 'TendorAI Firm';
   const title = `${post.title} | ${vendorName}`;
-  const description = post.body.slice(0, 160).replace(/\n/g, ' ');
+  const description = markdownExcerpt(post.body, 160);
 
   return {
     title,
@@ -163,8 +165,8 @@ export default async function PostPage({ params }: PageProps) {
         {/* Content */}
         <section className="section max-w-3xl py-8">
           <article className="bg-white rounded-lg shadow-sm p-6 md:p-8">
-            <div className="prose prose-gray max-w-none text-gray-700 leading-relaxed">
-              <ReactMarkdown>{post.body}</ReactMarkdown>
+            <div className="prose prose-gray max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-a:text-purple-600">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
             </div>
 
             {/* Tags */}

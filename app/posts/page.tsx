@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { connectDB } from '@/lib/db/connection';
 import { VendorPost } from '@/lib/db/models';
+import { markdownExcerpt } from '@/lib/utils/markdown';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,7 +99,7 @@ export default async function PostsFeedPage() {
                 </h2>
 
                 <p className="text-sm text-gray-600 line-clamp-3 flex-1">
-                  {post.body.substring(0, 200).replace(/\n/g, ' ')}...
+                  {markdownExcerpt(post.body, 200)}
                 </p>
 
                 <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
