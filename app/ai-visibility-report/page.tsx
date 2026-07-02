@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description:
     'Free AI visibility checker for UK businesses. Find out if ChatGPT, Perplexity and Claude recommend you. Instant AI visibility report — enter your company name and get results in 60 seconds.',
   alternates: {
-    canonical: 'https://www.tendorai.com/aeo-report',
+    canonical: 'https://www.tendorai.com/ai-visibility-report',
   },
   openGraph: {
     type: 'website',
-    url: 'https://www.tendorai.com/aeo-report',
+    url: 'https://www.tendorai.com/ai-visibility-report',
     title: 'Free AI Visibility Tool — Is AI Recommending Your Business?',
     description:
       'Free AI visibility checker for UK businesses. Find out if ChatGPT, Perplexity and Claude recommend you. Instant AI visibility report in 60 seconds.',
@@ -38,10 +38,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is AI Visibility (AEO)?',
+      name: 'What is AI Visibility?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'AI Visibility (AEO — Answer Engine Optimisation) is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility (AEO) is becoming essential for business visibility.',
+        text: 'AI Visibility (AI visibility — Answer Engine Optimisation) is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility is becoming essential for business visibility.',
       },
     },
     {
@@ -49,7 +49,7 @@ const faqSchema = {
       name: 'How do I check if AI recommends my business?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Use TendorAI's free AI Visibility (AEO) Report tool. Enter your company name, category, and location, and we'll check whether AI assistants recommend your business when customers search for suppliers in your area.",
+        text: "Use TendorAI's free AI Visibility Report tool. Enter your company name, category, and location, and we'll check whether AI assistants recommend your business when customers search for suppliers in your area.",
       },
     },
     {
@@ -72,7 +72,7 @@ const softwareApplicationSchema = {
   description:
     'Free AI visibility checker — see whether ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews recommend your UK business.',
   operatingSystem: 'Web',
-  url: 'https://www.tendorai.com/aeo-report',
+  url: 'https://www.tendorai.com/ai-visibility-report',
   offers: {
     '@type': 'Offer',
     price: '0',

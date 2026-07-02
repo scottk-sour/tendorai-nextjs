@@ -196,7 +196,7 @@ export default function AboutPage() {
             Run a free AI visibility report &mdash; see what ChatGPT, Claude, and Perplexity say about your business.
           </p>
           <Link
-            href="/aeo-report"
+            href="/ai-visibility-report"
             className="btn-primary"
           >
             Check AI Visibility &mdash; Free

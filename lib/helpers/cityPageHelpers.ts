@@ -22,7 +22,7 @@ export function resolveParams(
 
 export function buildCityMetadata(config: VerticalConfig, city: CityConfig): Metadata {
   const title = `AI Visibility for ${config.name} in ${city.name} | TendorAI`;
-  const description = `Most ${config.name.toLowerCase()} firms in ${city.name} are invisible to AI. Check your firm\u2019s AI Visibility (AEO) score for free. ${config.name} in ${city.name} already profiled on TendorAI.`;
+  const description = `Most ${config.name.toLowerCase()} firms in ${city.name} are invisible to AI. Check your firm\u2019s AI Visibility score for free. ${config.name} in ${city.name} already profiled on TendorAI.`;
 
   return {
     title,

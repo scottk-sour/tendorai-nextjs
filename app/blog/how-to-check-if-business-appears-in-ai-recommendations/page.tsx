@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: 'How do I check if ChatGPT recommends my business?',
-    a: 'Open ChatGPT, ask "Can you recommend a [your service] in [your city]?" and see if your business appears. For automated multi-platform testing, use TendorAI\'s free AEO report.',
+    a: 'Open ChatGPT, ask "Can you recommend a [your service] in [your city]?" and see if your business appears. For automated multi-platform testing, use TendorAI\'s free AI visibility report.',
   },
   {
     q: 'Which AI platforms should I check for my business?',
@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "Why doesn't my business show up in AI recommendations?",
-    a: 'Common reasons: no structured data, inconsistent NAP data, thin online presence, no reviews, missing directory listings. Your AEO report identifies the specific gaps.',
+    a: 'Common reasons: no structured data, inconsistent NAP data, thin online presence, no reviews, missing directory listings. Your AI visibility report identifies the specific gaps.',
   },
   {
     q: 'How often should I check my AI visibility?',
@@ -51,7 +51,7 @@ const faqs = [
   },
   {
     q: 'Is there a free tool to check AI recommendations?',
-    a: 'Yes. TendorAI offers a free AEO report that scans 6 AI platforms and shows whether each recommends your business, your position, and who ranks above you.',
+    a: 'Yes. TendorAI offers a free AI visibility report that scans 6 AI platforms and shows whether each recommends your business, your position, and who ranks above you.',
   },
 ];
 
@@ -207,8 +207,8 @@ export default function HowToCheckAIRecommendationsPage() {
           <p className="text-gray-600 leading-relaxed mb-6">
             There are two ways to do this. The manual method involves opening each
             AI platform and typing test prompts yourself. The automated method uses{' '}
-            <Link href="/aeo-report" className="text-purple-600 underline hover:text-purple-800">
-              TendorAI&apos;s free AEO report
+            <Link href="/ai-visibility-report" className="text-purple-600 underline hover:text-purple-800">
+              TendorAI&apos;s free AI visibility report
             </Link>{' '}
             to scan 6 AI platforms simultaneously and deliver your results in about
             60 seconds. This guide covers both approaches step by step.
@@ -415,15 +415,15 @@ export default function HowToCheckAIRecommendationsPage() {
 
           {/* Section 4: Automated Method */}
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">
-            4. The Automated Method: TendorAI&apos;s Free AEO Report
+            4. The Automated Method: TendorAI&apos;s Free AI Visibility Report
           </h2>
 
           <p className="text-gray-600 leading-relaxed mb-4">
             The manual method works, but it is time-consuming and inconsistent.
             You would need to test dozens of prompt variations across multiple
             platforms to get a reliable picture.{' '}
-            <Link href="/aeo-report" className="text-purple-600 underline hover:text-purple-800">
-              TendorAI&apos;s free AEO report
+            <Link href="/ai-visibility-report" className="text-purple-600 underline hover:text-purple-800">
+              TendorAI&apos;s free AI visibility report
             </Link>{' '}
             automates this across 50+ prompt variations and 6 AI platforms
             simultaneously. Here is what it does:
@@ -561,8 +561,8 @@ export default function HowToCheckAIRecommendationsPage() {
 
           <p className="text-gray-600 leading-relaxed mb-6">
             Your{' '}
-            <Link href="/aeo-report" className="text-purple-600 underline hover:text-purple-800">
-              free AEO report
+            <Link href="/ai-visibility-report" className="text-purple-600 underline hover:text-purple-800">
+              free AI visibility report
             </Link>{' '}
             identifies which of these gaps apply to your business specifically, so
             you know exactly where to start. For a deeper dive into{' '}
@@ -594,10 +594,10 @@ export default function HowToCheckAIRecommendationsPage() {
               60 seconds.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors text-lg"
             >
-              Get Your Free AEO Report
+              Get Your Free AI Visibility Report
               <svg
                 className="w-5 h-5 ml-2"
                 fill="none"

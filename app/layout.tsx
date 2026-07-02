@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: '%s | TendorAI',
   },
   description:
-    "Check if AI recommends your business. TendorAI provides free AI Visibility (AEO) reports and structured data profiles for UK solicitors, accountants, mortgage advisers and estate agents. Get your AI Visibility (AEO) score in 60 seconds.",
+    "Check if AI recommends your business. TendorAI provides free AI Visibility reports and structured data profiles for UK solicitors, accountants, mortgage advisers and estate agents. Get your AI Visibility score in 60 seconds.",
   keywords: [
     'AI visibility platform UK',
     'get recommended by ChatGPT',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     'AI visibility for accountants',
     'AI visibility for suppliers',
     'structured data profiles',
-    'AI Visibility AEO audit',
-    'AI Visibility AEO report',
+    'AI visibility audit',
+    'AI visibility report',
   ],
   icons: {
     icon: '/logo.png',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     siteName: 'TendorAI',
     title: "TendorAI \u2014 The UK's AI Visibility Platform",
     description:
-      "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AI Visibility (AEO) reports and AI recommendation tracking.",
+      "TendorAI is the UK's AI visibility platform. Structured data profiles for solicitors, accountants, mortgage advisors, and estate agents. Free AI Visibility reports and AI recommendation tracking.",
     images: [{ url: 'https://www.tendorai.com/logo.png', width: 873, height: 873, alt: "TendorAI - The UK's AI Visibility Platform" }],
   },
   twitter: {
@@ -99,7 +99,7 @@ const websiteJsonLd = {
   name: 'TendorAI',
   datePublished: '2024-01-01',
   dateModified: today,
-  description: "The UK's AI Visibility Platform. Free AI Visibility (AEO) reports and structured data profiles for solicitors, accountants, mortgage advisers and estate agents \u2014 so AI recommends them by name.",
+  description: "The UK's AI Visibility Platform. Free AI Visibility reports and structured data profiles for solicitors, accountants, mortgage advisers and estate agents \u2014 so AI recommends them by name.",
   url: 'https://www.tendorai.com/',
   potentialAction: {
     '@type': 'SearchAction',
@@ -150,10 +150,10 @@ const organisationJsonLd = {
 const softwareAppJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'TendorAI AI Visibility (AEO) Report',
+  name: 'TendorAI AI Visibility Report',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AI Visibility (AEO) audits, and AI mention tracking.',
+  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AI Visibility audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
   offers: [
     {
@@ -161,14 +161,14 @@ const softwareAppJsonLd = {
       name: 'Free',
       price: '0',
       priceCurrency: 'GBP',
-      description: 'Free AI Visibility (AEO) report and basic directory listing',
+      description: 'Free AI Visibility report and basic directory listing',
     },
     {
       '@type': 'Offer',
       name: 'Pro',
       price: '299',
       priceCurrency: 'GBP',
-      description: 'Priority ranking in AI responses with full structured data and weekly AI Visibility (AEO) reports',
+      description: 'Priority ranking in AI responses with full structured data and weekly AI Visibility reports',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
         price: '299',
@@ -191,7 +191,7 @@ const serviceJsonLd = {
     '@type': 'OfferCatalog',
     name: 'AI Visibility Platform',
     description:
-      'AI search visibility, GEO and AEO measurement, and structured data services for UK professional services firms — SRA-registered solicitors, UK accountancy firms (ICAEW-verified members badged), FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.',
+      'AI search visibility, GEO and AI visibility measurement, and structured data services for UK professional services firms — SRA-registered solicitors, UK accountancy firms (ICAEW-verified members badged), FCA-authorised mortgage advisers, and Propertymark/TPO estate agents.',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Solicitors' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Visibility for Accountants' } },

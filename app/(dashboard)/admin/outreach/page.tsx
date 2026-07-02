@@ -75,7 +75,7 @@ const statusColors: Record<string, string> = {
 const statusLabels: Record<string, string> = {
   'prospect': 'Prospect',
   'new': 'New',
-  'aeo_sent': 'AEO Sent',
+  'aeo_sent': 'AI visibility Sent',
   'email_sent': 'Email Sent',
   'email-sent': 'Email Sent',
   'opened': 'Opened',
@@ -93,8 +93,8 @@ const statusLabels: Record<string, string> = {
 };
 
 const nextActionLabels: Record<string, string> = {
-  'run_aeo': 'Run AEO Report',
-  'send_aeo': 'Send AEO Report',
+  'run_aeo': 'Run AI Visibility Report',
+  'send_aeo': 'Send AI Visibility Report',
   'send_email': 'Send Email',
   'call': 'Call',
   'send_followup': 'Send Follow-up',
@@ -300,7 +300,7 @@ export default function OutreachPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Sales Outreach</h1>
-          <p className="text-sm text-gray-500 mt-1">Track firms through the AEO sales sequence</p>
+          <p className="text-sm text-gray-500 mt-1">Track firms through the AI visibility sales sequence</p>
         </div>
         <button onClick={() => setShowCreate(true)} className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700">
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
@@ -373,7 +373,7 @@ export default function OutreachPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {todaySendAeo.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-sky-700 uppercase mb-2">Send AEO Reports ({todaySendAeo.length})</h3>
+                <h3 className="text-xs font-bold text-sky-700 uppercase mb-2">Send AI Visibility Reports ({todaySendAeo.length})</h3>
                 {todaySendAeo.map(r => (
                   <Link key={r._id} href={`/admin/outreach/${r._id}`} className="block p-2 rounded hover:bg-sky-50 text-sm">
                     <span className="font-medium">{r.firmName}</span>
@@ -597,7 +597,7 @@ export default function OutreachPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">City</label><input type="text" value={form.reportCity} onChange={(e) => setForm({ ...form, reportCity: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" /></div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">AEO Score</label><input type="number" min="0" max="100" value={form.reportScore} onChange={(e) => setForm({ ...form, reportScore: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" /></div>
+                <div><label className="block text-sm font-medium text-gray-700 mb-1">AI Visibility Score</label><input type="number" min="0" max="100" value={form.reportScore} onChange={(e) => setForm({ ...form, reportScore: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" /></div>
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Report Link</label><input type="url" value={form.reportLink} onChange={(e) => setForm({ ...form, reportLink: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" /></div>
               </div>
               <div className="flex justify-end gap-3 pt-2">

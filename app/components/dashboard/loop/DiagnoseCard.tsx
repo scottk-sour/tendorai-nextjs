@@ -109,14 +109,14 @@ export default function DiagnoseCard({
               </ul>
             </>
           ) : (
-            <p className="text-gray-500">Run your free AEO audit to see what&apos;s missing.</p>
+            <p className="text-gray-500">Run your free AI visibility audit to see what&apos;s missing.</p>
           )}
           <Link
             href="/vendor-dashboard/analytics#audit"
             className="inline-flex items-center justify-center w-full px-3 py-2 mt-1 text-xs font-semibold rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            Run free AEO audit
+            Run free AI visibility audit
           </Link>
           <Link
             href="/for-vendors#pricing"

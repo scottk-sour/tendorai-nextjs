@@ -277,7 +277,7 @@ export default function HowItWorksPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
               >
                 Check Your AI Visibility — Free
@@ -477,7 +477,7 @@ export default function HowItWorksPage() {
               and Google AI Overviews. Takes 60 seconds. No card required.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
               Check Your AI Visibility — Free

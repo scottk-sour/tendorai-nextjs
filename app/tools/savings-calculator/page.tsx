@@ -152,7 +152,7 @@ export default function SavingsCalculatorPage() {
     if (postcode) params.set('postcode', postcode);
     if (monthlyVolume) params.set('volume', monthlyVolume);
     if (currentCost) params.set('budget', currentCost);
-    return `/aeo-report`;
+    return `/ai-visibility-report`;
   };
 
   return (

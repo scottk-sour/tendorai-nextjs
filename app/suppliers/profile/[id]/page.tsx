@@ -769,8 +769,8 @@ export default async function VendorProfilePage({ params }: PageProps) {
     ? new Date().getFullYear() - vendor.businessProfile.yearsInBusiness
     : null;
 
-  // Build AEO report URL
-  const getQuoteUrl = '/aeo-report';
+  // Build AI visibility report URL
+  const getQuoteUrl = '/ai-visibility-report';
 
   const claimedIsSolicitor = vendor.vendorType === 'solicitor';
 

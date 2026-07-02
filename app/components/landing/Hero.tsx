@@ -308,7 +308,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
 
         {/* CTA Buttons */}
         <div className="flex justify-center gap-4 flex-wrap mb-14">
-          <Link href="/aeo-report" className="btn-primary">
+          <Link href="/ai-visibility-report" className="btn-primary">
             Check Your AI Visibility — Free
           </Link>
           <Link href="/vendor-signup" className="btn-secondary">

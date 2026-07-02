@@ -50,7 +50,7 @@ const sections: Section[] = [
     title: 'AI Visibility Signals',
     maxPoints: 25,
     items: [
-      { id: 'ai-aeo', label: 'Firm has run an AEO report on TendorAI', points: 10 },
+      { id: 'ai-aeo', label: 'Firm has run an AI visibility report on TendorAI', points: 10 },
       { id: 'ai-named', label: 'AI tools return the firm\u2019s name when queried', points: 5 },
       { id: 'ai-local', label: 'Firm appears in at least one AI-generated local result', points: 5 },
       { id: 'ai-pro', label: 'TendorAI Pro schema is installed and syncing', points: 5 },
@@ -77,13 +77,13 @@ function getScoreBand(score: number) {
     label: 'Good foundations. Focus on content and citation building.',
     color: 'text-blue-600',
     bg: 'bg-blue-50 border-blue-200',
-    cta: { label: 'Run Your AI Visibility Report', href: '/aeo-report' },
+    cta: { label: 'Run Your AI Visibility Report', href: '/ai-visibility-report' },
   };
   return {
     label: 'Excellent. Your firm is well positioned for AI visibility.',
     color: 'text-green-600',
     bg: 'bg-green-50 border-green-200',
-    cta: { label: 'Check Your AI Visibility', href: '/aeo-report' },
+    cta: { label: 'Check Your AI Visibility', href: '/ai-visibility-report' },
   };
 }
 

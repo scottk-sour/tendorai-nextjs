@@ -260,7 +260,7 @@ It's free to claim, takes a couple of minutes, and lets you:
 If you want, I can show you exactly what AI is seeing and where you're being missed.
 
 Just reply to this email or check your report here:
-https://www.tendorai.com/aeo-report
+https://www.tendorai.com/ai-visibility-report
 
 Scott Davies
 Founder, TendorAI

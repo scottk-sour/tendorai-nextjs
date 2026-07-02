@@ -12,7 +12,7 @@ const tools: Tool[] = [
     name: 'AI Visibility Report',
     description:
       'See exactly how ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews respond when asked about your firm. 60-second diagnostic, 0–100 score.',
-    href: '/aeo-report',
+    href: '/ai-visibility-report',
     cta: 'Run Free Report',
   },
   {
@@ -30,10 +30,10 @@ const tools: Tool[] = [
     cta: 'Check Crawlers',
   },
   {
-    name: 'AEO Checklist',
+    name: 'AI Visibility Checklist',
     description:
       'The 30-point AI visibility checklist used by every TendorAI Pro customer. Free PDF.',
-    href: '/tools/aeo-checklist',
+    href: '/tools/ai-visibility-checklist',
     cta: 'Download Checklist',
   },
   {

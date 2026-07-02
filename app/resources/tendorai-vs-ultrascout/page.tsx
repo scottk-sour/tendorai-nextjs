@@ -105,7 +105,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "What is the difference between TendorAI and UltraScout AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "TendorAI is a UK-only AI visibility platform built specifically for regulated professional services firms (SRA solicitors, ICAEW accountants, FCA mortgage advisers, Propertymark estate agents), priced at £299/month and including schema installation on the firm's own website. UltraScout AI is a horizontal GEO/AEO platform serving any industry, priced from £49/month for self-serve tracking up to £1,995/month for done-for-you agency packages, without regulatory register data or schema installation included.",
+                  text: "TendorAI is a UK-only AI visibility platform built specifically for regulated professional services firms (SRA solicitors, ICAEW accountants, FCA mortgage advisers, Propertymark estate agents), priced at £299/month and including schema installation on the firm's own website. UltraScout AI is a horizontal GEO/AI visibility platform serving any industry, priced from £49/month for self-serve tracking up to £1,995/month for done-for-you agency packages, without regulatory register data or schema installation included.",
                 },
               },
               {
@@ -113,7 +113,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "How much does TendorAI cost compared to UltraScout AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "TendorAI Pro is £299 per month, billed monthly with no setup fee. UltraScout AI's platform tier starts at £49 per month for limited tracking and scales to £999+/month for agency tiers. UltraScout's SME AEO packages are £795 to £1,995 per month after a £495 three-month introductory rate. TendorAI is 40 to 85 percent cheaper than UltraScout's comparable execution-layer packages.",
+                  text: "TendorAI Pro is £299 per month, billed monthly with no setup fee. UltraScout AI's platform tier starts at £49 per month for limited tracking and scales to £999+/month for agency tiers. UltraScout's SME AI visibility packages are £795 to £1,995 per month after a £495 three-month introductory rate. TendorAI is 40 to 85 percent cheaper than UltraScout's comparable execution-layer packages.",
                 },
               },
               {
@@ -268,7 +268,7 @@ export default function TendorAIVsUltraScoutPage() {
         <p>
           TendorAI publishes one paid tier. UltraScout AI publishes eight plans
           across two product lines: a self-serve platform and a done-for-you
-          SME AEO package. The pricing table below covers the tiers UK
+          SME AI visibility package. The pricing table below covers the tiers UK
           regulated firms are most likely to evaluate.
         </p>
 
@@ -320,7 +320,7 @@ export default function TendorAIVsUltraScoutPage() {
               </tr>
               <tr>
                 <td className="border border-slate-300 px-3 py-2 font-semibold">
-                  UltraScout SME AEO Starter
+                  UltraScout SME AI visibility Starter
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
                   £795 (after £495 intro)
@@ -331,7 +331,7 @@ export default function TendorAIVsUltraScoutPage() {
               </tr>
               <tr>
                 <td className="border border-slate-300 px-3 py-2 font-semibold">
-                  UltraScout SME AEO Growth
+                  UltraScout SME AI visibility Growth
                 </td>
                 <td className="border border-slate-300 px-3 py-2">£1,195</td>
                 <td className="border border-slate-300 px-3 py-2">
@@ -340,7 +340,7 @@ export default function TendorAIVsUltraScoutPage() {
               </tr>
               <tr>
                 <td className="border border-slate-300 px-3 py-2 font-semibold">
-                  UltraScout SME AEO Accelerate
+                  UltraScout SME AI visibility Accelerate
                 </td>
                 <td className="border border-slate-300 px-3 py-2">£1,995</td>
                 <td className="border border-slate-300 px-3 py-2">
@@ -360,7 +360,7 @@ export default function TendorAIVsUltraScoutPage() {
           </table>
           <p className="text-xs text-slate-500 mt-2">
             Sources: TendorAI pricing page; UltraScout AI public pricing page
-            and SME AEO packages page (verified May 2026).
+            and SME AI visibility packages page (verified May 2026).
           </p>
         </div>
 
@@ -475,7 +475,7 @@ export default function TendorAIVsUltraScoutPage() {
         <p>
           UltraScout AI&rsquo;s execution layer is closer to a content
           generation assistant inside a dashboard: the user reviews a gap, the
-          user clicks generate, the user publishes. The SME AEO packages add a
+          user clicks generate, the user publishes. The SME AI visibility packages add a
           done-for-you human team that ships pages monthly. The agency tier
           adds white-label reporting. Both models work — but they require
           either user time or an agency relationship that lives outside the
@@ -704,7 +704,7 @@ export default function TendorAIVsUltraScoutPage() {
           regulated professional services firms — SRA solicitors, ICAEW
           accountants, FCA mortgage advisers, and Propertymark estate agents —
           priced at £299 per month and including schema installation on the
-          firm&rsquo;s own website. UltraScout AI is a horizontal GEO/AEO
+          firm&rsquo;s own website. UltraScout AI is a horizontal GEO/AI visibility
           platform serving any industry, priced from £49 per month for
           self-serve tracking up to £1,995 per month for done-for-you agency
           packages, without regulatory register data or schema installation
@@ -716,7 +716,7 @@ export default function TendorAIVsUltraScoutPage() {
           TendorAI Pro is £299 per month, billed monthly with no setup fee.
           UltraScout AI&rsquo;s platform tier starts at £49 per month for
           limited tracking and scales to £999+ per month for agency tiers.
-          UltraScout&rsquo;s SME AEO packages are £795 to £1,995 per month
+          UltraScout&rsquo;s SME AI visibility packages are £795 to £1,995 per month
           after a £495 three-month introductory rate. TendorAI is 40 to 85 per
           cent cheaper than UltraScout&rsquo;s comparable execution-layer
           packages.

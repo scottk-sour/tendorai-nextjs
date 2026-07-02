@@ -58,7 +58,7 @@ export default function VerticalLandingPage({ config }: { config: VerticalConfig
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-[var(--purple-start)] hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
               {config.hero.ctaText}
@@ -176,7 +176,7 @@ export default function VerticalLandingPage({ config }: { config: VerticalConfig
             See exactly what ChatGPT, Claude, and Perplexity say about your business. Takes 30 seconds.
           </p>
           <Link
-            href="/aeo-report"
+            href="/ai-visibility-report"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl text-lg"
           >
             Check Your AI Visibility — Free

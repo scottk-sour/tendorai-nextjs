@@ -103,7 +103,7 @@ export default async function AeoGuidePage({
               Home
             </Link>
             <span>&rsaquo;</span>
-            <span>AEO Guides</span>
+            <span>AI visibility Guides</span>
             <span>&rsaquo;</span>
             <span className="text-gray-900">{guide.title}</span>
           </nav>
@@ -242,10 +242,10 @@ export default async function AeoGuidePage({
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center px-6 py-3 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors"
             >
-              Run Free AEO Report
+              Run Free AI Visibility Report
             </Link>
             <a
               href="/for-vendors#pricing"

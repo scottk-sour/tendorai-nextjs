@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: 'What does TendorAI actually do to improve my AI visibility?',
-    a: 'TendorAI provides an AI Visibility Score showing where you stand, monitors your mentions across AI tools, runs AI Visibility (AEO) audits on your website, tests real-time AI search results for your category, and gives specific recommendations to improve your visibility. Think of it as a dashboard for your AI presence.',
+    a: 'TendorAI provides an AI Visibility Score showing where you stand, monitors your mentions across AI tools, runs AI Visibility audits on your website, tests real-time AI search results for your category, and gives specific recommendations to improve your visibility. Think of it as a dashboard for your AI presence.',
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
@@ -64,8 +64,8 @@ const faqs = [
     a: 'Not replacing, but rapidly supplementing. Studies show 25-40% of B2B buyers now use AI tools during their research process. This percentage is growing quarter on quarter. Businesses that ignore AI visibility now will find it harder to catch up later.',
   },
   {
-    q: 'What\'s an AI Visibility (AEO) audit and why do I need one?',
-    a: 'An AI Visibility (AEO) audit checks whether your website is structured in a way that AI tools can easily understand. It looks at schema markup, meta descriptions, headings, FAQ sections, and other factors that influence how AI models interpret your content.',
+    q: 'What\'s an AI Visibility audit and why do I need one?',
+    a: 'An AI Visibility audit checks whether your website is structured in a way that AI tools can easily understand. It looks at schema markup, meta descriptions, headings, FAQ sections, and other factors that influence how AI models interpret your content.',
   },
 ];
 
@@ -98,7 +98,7 @@ function ComparisonTable() {
           <tr>
             <th className="text-left py-3 px-4 bg-gray-50 text-sm font-semibold text-gray-700 rounded-tl-lg">Factor</th>
             <th className="text-left py-3 px-4 bg-gray-50 text-sm font-semibold text-gray-700">Traditional SEO</th>
-            <th className="text-left py-3 px-4 bg-purple-50 text-sm font-semibold text-purple-700 rounded-tr-lg">AI Visibility (AEO)</th>
+            <th className="text-left py-3 px-4 bg-purple-50 text-sm font-semibold text-purple-700 rounded-tr-lg">AI Visibility</th>
           </tr>
         </thead>
         <tbody>
@@ -121,14 +121,14 @@ function PricingCards() {
       name: 'Free',
       price: '£0',
       priceLabel: '/forever',
-      features: ['Basic firm profile', 'AI Visibility Score', '1 AI Visibility (AEO) Audit', 'Category listing'],
+      features: ['Basic firm profile', 'AI Visibility Score', '1 AI Visibility Audit', 'Category listing'],
       highlighted: false,
     },
     {
       name: 'Pro',
       price: '£299',
       priceLabel: '/month',
-      features: ['AI-optimised structured data on your website', 'AI Mention Tracking', 'Weekly AI Visibility (AEO) reports', 'Verified badge', 'Unlimited products', 'Priority AI ranking', 'Priority support'],
+      features: ['AI-optimised structured data on your website', 'AI Mention Tracking', 'Weekly AI Visibility reports', 'Verified badge', 'Unlimited products', 'Priority AI ranking', 'Priority support'],
       highlighted: true,
     },
   ];
@@ -413,7 +413,7 @@ export default function AIVisibilityVsSEOPage() {
           </h2>
 
           <p className="text-gray-600 leading-relaxed mb-4">
-            AI Visibility (sometimes called Answer Engine Optimisation or AEO) is about ensuring your business appears when AI tools generate recommendations. This requires a fundamentally different approach:
+            AI Visibility is about ensuring your business appears when AI tools generate recommendations. This requires a fundamentally different approach:
           </p>
 
           <div className="grid md:grid-cols-2 gap-4 my-6">
@@ -494,7 +494,7 @@ export default function AIVisibilityVsSEOPage() {
               { title: 'AI Visibility Score', desc: 'A single score (0-100) showing how visible your business is to AI tools, with specific tips to improve.' },
               { title: 'AI Mention Tracking', desc: 'See how often AI tools mention your company when users ask about your category and location. Weekly scans across multiple AI models.' },
               { title: 'Live AI Search Test', desc: 'Run real-time queries against AI tools to see exactly what they say about your business category in your area.' },
-              { title: 'AI Visibility (AEO) Audit', desc: 'A technical audit of your website checking 10 factors that influence AI visibility, from schema markup to content structure.' },
+              { title: 'AI Visibility Audit', desc: 'A technical audit of your website checking 10 factors that influence AI visibility, from schema markup to content structure.' },
               { title: 'Competitor Analysis', desc: 'See which competitors are being mentioned by AI tools and what they\'re doing differently.' },
               { title: 'Actionable Recommendations', desc: 'Specific, prioritised steps you can take to improve your AI visibility score and mentions.' },
             ].map((item) => (
@@ -542,10 +542,10 @@ export default function AIVisibilityVsSEOPage() {
                 </svg>
               </Link>
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/30 text-white font-semibold rounded-lg hover:bg-purple-500/40 transition-colors border border-purple-400/30"
               >
-                Try Free AI Visibility (AEO) Report
+                Try Free AI Visibility Report
               </Link>
             </div>
           </div>

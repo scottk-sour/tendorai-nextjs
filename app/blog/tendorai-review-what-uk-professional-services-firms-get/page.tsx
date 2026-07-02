@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'How much does TendorAI cost?',
-    a: 'TendorAI offers a free plan and a Pro plan at \u00a3299 per month. The free plan includes a directory listing and free AEO report. Pro includes schema markup installation, weekly AI tracking, and AI-optimised content.',
+    a: 'TendorAI offers a free plan and a Pro plan at \u00a3299 per month. The free plan includes a directory listing and free AI visibility report. Pro includes schema markup installation, weekly AI tracking, and AI-optimised content.',
   },
   {
     q: 'Does TendorAI actually work?',
@@ -217,13 +217,13 @@ export default function TendorAIReviewPage() {
 
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
               <p className="text-sm text-blue-900">
-                Directory listings alone improve AI citation frequency for firms with no existing structured data. Most firms running their first AEO report discover they are not recommended anywhere &mdash; this creates a baseline for improvement.
+                Directory listings alone improve AI citation frequency for firms with no existing structured data. Most firms running their first AI visibility report discover they are not recommended anywhere &mdash; this creates a baseline for improvement.
               </p>
             </div>
 
             <p className="text-gray-600 leading-relaxed">
               The free plan includes a basic profile (firm name, services, location, regulatory status) and an{' '}
-              <Link href="/aeo-report" className="text-purple-600 hover:text-purple-700 underline">AEO report</Link>{' '}
+              <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 underline">AI visibility report</Link>{' '}
               that scans six AI platforms to show where your firm appears, if at all.
             </p>
           </section>
@@ -431,8 +431,8 @@ export default function TendorAIReviewPage() {
               See exactly what ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI say about your firm. Free report, no card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/aeo-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
-                Get Your Free AEO Report
+              <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
+                Get Your Free AI Visibility Report
               </Link>
               <Link href="/for-vendors#pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
                 See TendorAI Pro

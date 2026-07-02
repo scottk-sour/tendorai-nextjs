@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: 'How do I check if AI recommends my business?',
-    a: 'Open ChatGPT and ask for the best providers of your service in your town. Or generate a structured report at tendorai.com/aeo-report \u2014 we scan AI platforms weekly and provide a visibility score out of 100.',
+    a: 'Open ChatGPT and ask for the best providers of your service in your town. Or generate a structured report at tendorai.com/ai-visibility-report \u2014 we scan AI platforms weekly and provide a visibility score out of 100.',
   },
   {
     q: 'How long does GEO take to work?',
@@ -494,7 +494,7 @@ export default function GeoMarketingPage() {
               <h3 className="text-xl font-semibold text-gray-900 mb-3">5. Get Your Free TendorAI Report</h3>
               <p className="text-gray-600 leading-relaxed mb-4">
                 We built TendorAI to make this measurable. You can generate your free{' '}
-                <Link href="/aeo-report" className="text-purple-600 hover:text-purple-700 underline font-medium">
+                <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 underline font-medium">
                   AI Visibility Report
                 </Link>{' '}
                 right now.
@@ -564,7 +564,7 @@ export default function GeoMarketingPage() {
                 name: 'Pro',
                 price: '\u00a3299',
                 priceLabel: '/month',
-                features: ['Ranked first in AI results', 'Full structured data', 'Weekly AI Visibility (AEO) reports', 'AI mention tracking', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'],
+                features: ['Ranked first in AI results', 'Full structured data', 'Weekly AI Visibility reports', 'AI mention tracking', 'TendorAI Verified badge', 'Unlimited products', 'Priority support'],
                 highlighted: true,
               },
             ].map((plan) => (
@@ -671,10 +671,10 @@ export default function GeoMarketingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
               >
-                Run Free AI Visibility (AEO) Report
+                Run Free AI Visibility Report
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

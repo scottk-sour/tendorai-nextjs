@@ -167,7 +167,7 @@ export default function Pricing() {
 
         {/* Comparison Table */}
         <div className="max-w-3xl mx-auto">
-          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">How we compare to AI Visibility (AEO) agencies</h3>
+          <h3 className="font-serif text-2xl font-semibold text-[var(--text)] text-center mb-8">How we compare to AI Visibility agencies</h3>
           <div className="rounded-xl border border-[var(--border)] overflow-hidden bg-white">
             <table className="w-full">
               <thead>
@@ -189,7 +189,7 @@ export default function Pricing() {
             </table>
           </div>
           <p className="text-xs text-[var(--text3)] text-center mt-4">
-            Agency pricing based on UK market averages for AI Visibility (AEO) services, 2024-2025.
+            Agency pricing based on UK market averages for AI Visibility services, 2024-2025.
           </p>
           <div className="text-center mt-3">
             <Link href="/ai-visibility-platform" className="text-xs text-[var(--purple-start)] hover:underline">

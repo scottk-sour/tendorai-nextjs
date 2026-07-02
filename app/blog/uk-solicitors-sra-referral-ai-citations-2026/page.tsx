@@ -699,7 +699,7 @@ export default function SraAiCitationsPage() {
               stands across the AI engines clients are now searching on.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center bg-white text-[#1B4F72] font-semibold rounded-lg px-8 py-4 text-lg hover:bg-blue-50 transition-colors"
             >
               Get Your Free AI Visibility Report

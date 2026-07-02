@@ -342,7 +342,7 @@ export default async function MortgageAdvisorsInCityPage({ params }: PageProps) 
               <p className="text-gray-700 text-lg mb-4">
                 We&apos;re building our mortgage adviser directory in {cityName}. Check back soon or check your AI visibility score now.
               </p>
-              <Link href="/aeo-report" className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+              <Link href="/ai-visibility-report" className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
                 Check Your AI Visibility — Free
               </Link>
             </div>
@@ -373,7 +373,7 @@ export default async function MortgageAdvisorsInCityPage({ params }: PageProps) 
                 </p>
               </div>
               <div className="mt-6">
-                <Link href="/aeo-report" className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                <Link href="/ai-visibility-report" className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
                   Check Your AI Visibility — Free
                 </Link>
               </div>

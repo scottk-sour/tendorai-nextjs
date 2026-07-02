@@ -21,12 +21,18 @@ const nextConfig = {
       { source: '/signup', destination: '/vendor-login', permanent: true },
       // Pricing → for-vendors pricing section
       { source: '/pricing', destination: '/for-vendors#pricing', permanent: true },
-      // AI visibility checker → AEO report
-      { source: '/ai-visibility-checker', destination: '/aeo-report', permanent: true },
+      // AI visibility checker → AI visibility report
+      { source: '/ai-visibility-checker', destination: '/ai-visibility-report', permanent: true },
       // Old /dashboard → vendor-dashboard
       { source: '/dashboard/:path*', destination: '/vendor-dashboard/:path*', permanent: true },
-      // Old /get-quotes → /aeo-report
-      { source: '/get-quotes', destination: '/aeo-report', permanent: true },
+      // Old /get-quotes → /ai-visibility-report
+      { source: '/get-quotes', destination: '/ai-visibility-report', permanent: true },
+      // === AEO copy retirement: solicitors read "AEO" as Attachment of Earnings Orders ===
+      // Free report route rename — preserves the /results/:reportId sub-path via wildcard.
+      { source: '/aeo-report', destination: '/ai-visibility-report', permanent: true },
+      { source: '/aeo-report/:path*', destination: '/ai-visibility-report/:path*', permanent: true },
+      // Checklist tool rename.
+      { source: '/tools/aeo-checklist', destination: '/tools/ai-visibility-checklist', permanent: true },
       // Old /services/ routes → supplier directory
       { source: '/services/:path*', destination: '/suppliers', permanent: true },
       // Hyphenated admin login → actual route

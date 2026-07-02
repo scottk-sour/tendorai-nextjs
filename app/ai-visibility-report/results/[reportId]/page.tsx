@@ -70,7 +70,7 @@ export default async function AeoReportResultPage({ params }: Props) {
     if (report.category) qs.set('category', report.category);
     if (report.city) qs.set('city', report.city);
     if (report.email) qs.set('email', report.email);
-    redirect(`/aeo-report?${qs.toString()}`);
+    redirect(`/ai-visibility-report?${qs.toString()}`);
   }
 
   // Compute profile gaps if a matching vendor exists
@@ -93,7 +93,7 @@ export default async function AeoReportResultPage({ params }: Props) {
   const serialized = JSON.parse(JSON.stringify({ ...report, profileGaps }));
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend.onrender.com';
-  const pdfUrl = `${apiBaseUrl}/api/public/aeo-report/${reportId}/pdf`;
+  const pdfUrl = `${apiBaseUrl}/api/public/ai-visibility-report/${reportId}/pdf`;
 
   return <AeoReportDisplay report={serialized} pdfUrl={pdfUrl} />;
 }

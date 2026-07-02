@@ -62,7 +62,7 @@ const faqs = [
   },
   {
     q: 'Is AI visibility different from SEO?',
-    a: 'Yes. Traditional SEO optimises for keyword ranking in link-based search results. AI visibility (AEO — Answer Engine Optimisation) optimises for entity recognition in conversational AI responses. The techniques overlap but the mechanisms are different.',
+    a: 'Yes. Traditional SEO optimises for keyword ranking in link-based search results. AI visibility optimises for entity recognition in conversational AI responses. The techniques overlap but the mechanisms are different.',
   },
   {
     q: 'Will AI recommendations replace Google for legal queries?',
@@ -582,7 +582,7 @@ export default function AIVisibilityReportSolicitors() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
               >
                 Run Your Free Report

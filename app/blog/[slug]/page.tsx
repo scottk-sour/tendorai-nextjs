@@ -68,7 +68,7 @@ const categoryColors: Record<string, string> = {
   Tools: 'bg-cyan-100 text-cyan-700',
   'How-To': 'bg-emerald-100 text-emerald-700',
   Financial: 'bg-violet-100 text-violet-700',
-  'AEO Strategy': 'bg-purple-100 text-purple-700',
+  'AI Visibility Strategy': 'bg-purple-100 text-purple-700',
 };
 
 function parseMarkdown(content: string): string {
@@ -219,7 +219,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               Run a free AI visibility report and see what ChatGPT, Perplexity and Claude say about your business.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
             >
               Run Your Free Report

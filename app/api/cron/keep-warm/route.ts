@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backe
 
 /**
  * Vercel cron hits this every 10 minutes to keep the Render free-tier backend
- * warm so users don't hit 30–60s cold-start latency on the AEO form.
+ * warm so users don't hit 30–60s cold-start latency on the AI visibility form.
  */
 export async function GET() {
   const started = Date.now();

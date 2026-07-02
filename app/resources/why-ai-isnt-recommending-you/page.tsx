@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: 'What is the fastest way to improve my AI Visibility Score?',
-    a: 'The single highest-impact action is installing Schema.org markup on your website with your regulatory credentials, services, and fee ranges structured correctly. This alone typically moves a score from the 20\u201330 range to 50\u201365. The free AEO report at tendorai.com/aeo-report shows your current score and the specific gaps holding it down \u2014 it takes 30 seconds and requires no login.',
+    a: 'The single highest-impact action is installing Schema.org markup on your website with your regulatory credentials, services, and fee ranges structured correctly. This alone typically moves a score from the 20\u201330 range to 50\u201365. The free AI visibility report at tendorai.com/ai-visibility-report shows your current score and the specific gaps holding it down \u2014 it takes 30 seconds and requires no login.',
   },
 ];
 
@@ -315,7 +315,7 @@ export default function WhyAiIsntRecommendingYouPage() {
               </p>
               <div className="mt-6">
                 <Link
-                  href="/aeo-report"
+                  href="/ai-visibility-report"
                   className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors shadow-sm"
                 >
                   Check your AI Visibility Score &mdash; free, 30 seconds, no login

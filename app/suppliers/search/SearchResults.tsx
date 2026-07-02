@@ -152,7 +152,7 @@ export default function SearchResults({
                   )}
                 </div>
                 <Link
-                  href="/aeo-report"
+                  href="/ai-visibility-report"
                   className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors text-sm"
                 >
                   Check AI Visibility &rarr;
