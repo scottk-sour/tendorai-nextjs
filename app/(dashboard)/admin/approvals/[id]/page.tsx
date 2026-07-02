@@ -155,6 +155,21 @@ function extractDataGaps(approval: Approval): AdminDataGap[] {
   return [];
 }
 
+// Persisted execute output usually lives at approval.executionResult. Read
+// defensively so the Published banner survives a full page reload after the
+// local `liveUrl` state has been lost.
+function extractLiveUrl(approval: Approval): string | null {
+  const result = approval.executionResult;
+  if (typeof result === 'string' && /^https?:\/\//.test(result)) return result;
+  if (isPlainObject(result)) {
+    for (const key of ['liveUrl', 'url', 'publishedUrl', 'postUrl']) {
+      const v = result[key];
+      if (typeof v === 'string' && v.length > 0) return v;
+    }
+  }
+  return null;
+}
+
 function PayloadView({ itemType, payload }: { itemType: string; payload: unknown }) {
   if (payload === null || payload === undefined || payload === '') {
     return <p className="text-sm text-gray-500 italic">No draft payload was attached to this item.</p>;
@@ -647,6 +662,8 @@ export default function ApprovalDetailPage() {
 
   const [liveUrl, setLiveUrl] = useState<string | null>(null);
   const [indexNowOk, setIndexNowOk] = useState<boolean | null>(null);
+  const [executing, setExecuting] = useState(false);
+  const [executeError, setExecuteError] = useState('');
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -755,6 +772,50 @@ export default function ApprovalDetailPage() {
       showToast('Network error — please retry');
     } finally {
       setApproving(false);
+    }
+  };
+
+  const handleExecute = async () => {
+    if (!approval) return;
+    setExecuting(true);
+    setExecuteError('');
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/admin/approvals/${id}/execute`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 401) {
+        router.replace('/admin/login');
+        return;
+      }
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setExecuteError(errData?.error || `Publish failed (${res.status})`);
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (
+        data &&
+        typeof data.liveUrl === 'string' &&
+        data.liveUrl.length > 0
+      ) {
+        setLiveUrl(data.liveUrl);
+        setIndexNowOk(typeof data.indexNowOk === 'boolean' ? data.indexNowOk : false);
+      }
+
+      showToast('Published');
+      fetchApproval();
+    } catch {
+      setExecuteError('Network error — please retry');
+    } finally {
+      setExecuting(false);
     }
   };
 
@@ -1074,6 +1135,54 @@ export default function ApprovalDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Publish now (approved content_drafts only). Executes the approval:
+          creates the VendorPost, returns liveUrl, moves status → executed. */}
+      {approval.status === 'approved' && approval.itemType === 'content_draft' && (
+        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+          <h2 className="text-sm font-semibold text-gray-900">Publish</h2>
+          <p className="text-xs text-gray-500">
+            This draft is approved. Publish now to create the live blog post on tendorai.com.
+          </p>
+          {executeError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+              {executeError}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleExecute}
+            disabled={executing}
+            className="w-full sm:w-auto px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 transition"
+          >
+            {executing ? 'Publishing…' : 'Publish now'}
+          </button>
+        </div>
+      )}
+
+      {/* Published banner (executed content_drafts with a resolvable liveUrl).
+          Sources from local state (fresh execute response) or the persisted
+          approval.executionResult (survives page reload). */}
+      {approval.status === 'executed' && approval.itemType === 'content_draft' && (() => {
+        const url = liveUrl || extractLiveUrl(approval);
+        if (!url) return null;
+        return (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="text-sm font-semibold text-green-900">Published</h2>
+              <p className="text-xs text-green-800 mt-1 break-all">{url}</p>
+            </div>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-green-600 text-white hover:bg-green-700 transition"
+            >
+              View live post ↗
+            </a>
+          </div>
+        );
+      })()}
 
       {/* Post-approval indexing actions (content_draft only) */}
       {liveUrl && approval.itemType === 'content_draft' && (
