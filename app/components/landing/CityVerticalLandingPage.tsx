@@ -48,7 +48,7 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
     '@type': 'WebPage',
     '@id': `https://www.tendorai.com/${config.slug}/${city.slug}`,
     name: `AI Visibility for ${config.name} in ${city.name}`,
-    description: `AI visibility for ${config.name.toLowerCase()} in ${city.name}. Check your firm\u2019s AI Visibility (AEO) score for free.`,
+    description: `AI visibility for ${config.name.toLowerCase()} in ${city.name}. Check your firm\u2019s AI Visibility score for free.`,
     url: `https://www.tendorai.com/${config.slug}/${city.slug}`,
     datePublished: '2024-01-01',
     dateModified: new Date().toISOString().split('T')[0],
@@ -123,7 +123,7 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-[var(--purple-start)] hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
               Check Your {city.name} AI Visibility Score &mdash; Free
@@ -148,7 +148,7 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
             <p className="text-lg text-[var(--text2)] leading-relaxed">
               TendorAI has profiled {stats.count} {config.name.toLowerCase()} firms in the {city.name} area using {config.regulatoryBody} data.
               {stats.averageScore !== null && (
-                <> The average AI Visibility (AEO) score is {stats.averageScore} out of 100. Top-performing firms score 70+. Most score under 30 &mdash; meaning AI doesn&apos;t recommend them at all.</>
+                <> The average AI Visibility score is {stats.averageScore} out of 100. Top-performing firms score 70+. Most score under 30 &mdash; meaning AI doesn&apos;t recommend them at all.</>
               )}
             </p>
           ) : (
@@ -287,13 +287,13 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
       <section className="bg-gray-900 py-16 lg:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Run Your Free AI Visibility (AEO) Report for {city.name}
+            Run Your Free AI Visibility Report for {city.name}
           </h2>
           <p className="text-gray-400 mb-8 text-lg">
             See what AI knows about your {config.nameSingular} firm in {city.name} &mdash; and what it doesn&apos;t.
           </p>
           <Link
-            href="/aeo-report"
+            href="/ai-visibility-report"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl text-lg"
           >
             Check Your AI Visibility &mdash; Free

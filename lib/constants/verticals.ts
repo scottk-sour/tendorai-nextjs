@@ -35,7 +35,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     regulatoryBody: 'SRA',
     hero: {
       badge: '12,000+ businesses already listed',
-      h1: 'AI Visibility (AEO) for Solicitors',
+      h1: 'AI Visibility for Solicitors',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need a solicitor. If your firm isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
       ctaText: 'Run Your Free AI Visibility Report',
@@ -123,7 +123,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     regulatoryBody: 'ICAEW/ACCA',
     hero: {
       badge: '12,000+ businesses already listed',
-      h1: 'AI Visibility (AEO) for Accountants',
+      h1: 'AI Visibility for Accountants',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need an accountant. If your practice isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
       ctaText: 'Run Your Free AI Visibility Report',
@@ -211,7 +211,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     regulatoryBody: 'FCA',
     hero: {
       badge: '12,000+ businesses already listed',
-      h1: 'AI Visibility (AEO) for Mortgage Advisors',
+      h1: 'AI Visibility for Mortgage Advisors',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need a mortgage advisor. If your firm isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
       ctaText: 'Run Your Free AI Visibility Report',
@@ -296,7 +296,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     regulatoryBody: 'NAEA Propertymark',
     hero: {
       badge: '12,000+ businesses already listed',
-      h1: 'AI Visibility (AEO) for Estate Agents',
+      h1: 'AI Visibility for Estate Agents',
       subtitle:
         '200M people now ask ChatGPT instead of Google when they need an estate agent. If your agency isn\u2019t in AI\u2019s data sources, you\u2019re invisible to these potential clients.',
       ctaText: 'Run Your Free AI Visibility Report',

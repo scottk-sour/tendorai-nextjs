@@ -214,7 +214,7 @@ export default function AIVisibilityUKPage() {
               advisor — will your firm be recommended?
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center bg-white text-purple-700 font-semibold rounded-lg px-8 py-4 text-lg hover:bg-purple-50 transition-colors"
             >
               Check Your AI Visibility — Free
@@ -385,8 +385,8 @@ export default function AIVisibilityUKPage() {
                   desc: 'TendorAI tracks how often AI platforms mention your firm across real user queries. The AI Mention Tracking feature scans multiple AI platforms weekly, showing you exactly where you stand and how your visibility is changing over time.',
                 },
                 {
-                  title: 'Free AEO Report',
-                  desc: 'The starting point for any business. TendorAI\'s free AEO (Answer Engine Optimisation) report analyses your website and online presence, scoring your AI readiness across 10 key factors and providing actionable recommendations to improve.',
+                  title: 'Free AI Visibility Report',
+                  desc: 'The starting point for any business. TendorAI\'s free AI visibility report analyses your website and online presence, scoring your AI readiness across 10 key factors and providing actionable recommendations to improve.',
                 },
               ].map((item) => (
                 <div
@@ -496,7 +496,7 @@ export default function AIVisibilityUKPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center bg-white text-purple-700 font-semibold rounded-lg px-8 py-4 text-lg hover:bg-purple-50 transition-colors"
               >
                 Check Your AI Visibility — Free
@@ -542,7 +542,7 @@ export default function AIVisibilityUKPage() {
                   Blog
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  Read the latest on AI visibility, AEO, and structured data strategy.
+                  Read the latest on AI visibility, AI visibility, and structured data strategy.
                 </p>
               </Link>
               <Link
@@ -550,7 +550,7 @@ export default function AIVisibilityUKPage() {
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
-                  AEO Report UK
+                  AI Visibility Report UK
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
                   Get a free AI visibility audit for your UK business website.

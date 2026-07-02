@@ -338,7 +338,7 @@ export default async function ConveyancingInCityPage({ params }: PageProps) {
                 We&apos;re building our conveyancing directory in {cityName}. Check back soon or check your AI visibility score now.
               </p>
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Check Your AI Visibility — Free
@@ -372,12 +372,12 @@ export default async function ConveyancingInCityPage({ params }: PageProps) {
                   When people ask AI assistants like ChatGPT or Perplexity for conveyancing solicitors in {cityName}, AI recommends firms with the strongest structured data — verified profiles, clear fee information, client reviews, and CQS accreditation. TendorAI helps {cityName} firms get this data right.
                 </p>
                 <p>
-                  {cityName} conveyancing firms can check their current AI visibility score for free using our AI Visibility (AEO) report tool.
+                  {cityName} conveyancing firms can check their current AI visibility score for free using our AI Visibility report tool.
                 </p>
               </div>
               <div className="mt-6">
                 <Link
-                  href="/aeo-report"
+                  href="/ai-visibility-report"
                   className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Check Your AI Visibility — Free

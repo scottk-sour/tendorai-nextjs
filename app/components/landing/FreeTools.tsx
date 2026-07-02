@@ -20,7 +20,7 @@ interface Tool {
 
 const TOOLS: Tool[] = [
   {
-    href: '/aeo-report',
+    href: '/ai-visibility-report',
     title: 'AI Visibility Report',
     detail: 'See where your firm appears across six AI platforms.',
     cta: 'Get free report →',
@@ -39,8 +39,8 @@ const TOOLS: Tool[] = [
     cta: 'Check crawler access →',
   },
   {
-    href: '/tools/aeo-checklist',
-    title: 'AEO Checklist',
+    href: '/tools/ai-visibility-checklist',
+    title: 'AI Visibility Checklist',
     detail: '30-point checklist used by TendorAI Pro customers.',
     cta: 'Download checklist →',
   },

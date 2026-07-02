@@ -90,7 +90,7 @@ const REGULATED = ['solicitor', 'accountant', 'mortgage-advisor', 'estate-agent'
 
   // 5. AeoReport-joined: top vs bottom decile by AI visibility score
   // Match AeoReport.companyName ~ Vendor.company (most recent scan per company).
-  // This only works for firms that have been audited via /aeo-report. Sample
+  // This only works for firms that have been audited via /ai-visibility-report. Sample
   // size will be smaller than totalRegulated.
   out.scoredSample = await AeoReport.aggregate([
     { $match: { score: { $ne: null }, reportType: 'full' } },

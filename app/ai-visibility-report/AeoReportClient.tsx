@@ -153,7 +153,7 @@ export default function AeoReportClient() {
 
     const attempt = async () =>
       postWithTimeout<{ success?: boolean; reportId?: string; existing?: boolean; error?: string }>(
-        `${API_URL}/api/public/aeo-report`,
+        `${API_URL}/api/public/ai-visibility-report`,
         payload,
         REQUEST_TIMEOUT_MS,
       );
@@ -218,7 +218,7 @@ export default function AeoReportClient() {
       }
 
       // Redirect to full results page (same URL whether existing or freshly generated).
-      router.push(`/aeo-report/results/${data.reportId}`);
+      router.push(`/ai-visibility-report/results/${data.reportId}`);
     } catch {
       setError(
         "We couldn't reach the report service after two attempts. This usually clears up within a minute — please try again.",
@@ -310,7 +310,7 @@ export default function AeoReportClient() {
             systems from understanding and citing your business.
           </p>
           <p className="text-gray-500 text-sm mt-3">
-            Want a quick check first? Try our <Link href="/aeo-report" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.
+            Want a quick check first? Try our <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.
           </p>
         </div>
       </section>
@@ -481,7 +481,7 @@ export default function AeoReportClient() {
               type="submit"
               className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-6 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
             >
-              Run My Free AI Visibility (AEO) Report
+              Run My Free AI Visibility Report
             </button>
           </form>
 
@@ -514,7 +514,7 @@ export default function AeoReportClient() {
 
           {/* Context box */}
           <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="font-semibold text-gray-900 mb-2">What is AI Visibility (AEO)?</h2>
+            <h2 className="font-semibold text-gray-900 mb-2">What is AI Visibility?</h2>
             <p className="text-gray-600 text-sm leading-relaxed">
               <strong>Answer Engine Optimisation</strong> is the new SEO. As more people use AI
               assistants instead of Google, businesses that aren&apos;t in AI&apos;s training data become

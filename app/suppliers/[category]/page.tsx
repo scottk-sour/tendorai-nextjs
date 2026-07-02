@@ -401,7 +401,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 We&apos;re building our {service.name.toLowerCase()} directory. Check back soon or check your AI visibility score now.
               </p>
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Check Your AI Visibility — Free

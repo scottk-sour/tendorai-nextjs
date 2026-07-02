@@ -30,7 +30,7 @@ function getToken(): string {
 const sourceTabs = [
   { key: 'all', label: 'All' },
   { key: 'newsletter', label: 'Newsletter' },
-  { key: 'aeo', label: 'AI Visibility (AEO) Report' },
+  { key: 'aeo', label: 'AI Visibility Report' },
   { key: 'quote', label: 'Quote Request' },
   { key: 'vendor-lead', label: 'Vendor Lead' },
 ];
@@ -44,7 +44,7 @@ const sourceBadgeColors: Record<string, string> = {
 
 const sourceLabels: Record<string, string> = {
   newsletter: 'Newsletter',
-  aeo: 'AI Visibility (AEO) Report',
+  aeo: 'AI Visibility Report',
   quote: 'Quote Request',
   'vendor-lead': 'Vendor Lead',
 };
@@ -104,7 +104,7 @@ export default function AdminLeadsPage() {
       return matchesTab && matchesSearch;
     })
     .sort((a, b) => {
-      // AEO tab or AEO leads in All: sort by score ascending (lowest first)
+      // AI visibility tab or AI visibility leads in All: sort by score ascending (lowest first)
       if (a.source === 'aeo' && b.source === 'aeo') {
         return (a.score ?? 999) - (b.score ?? 999);
       }

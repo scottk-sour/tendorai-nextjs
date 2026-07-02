@@ -210,7 +210,7 @@ const CARDIFF_FAQS = [
   },
   {
     question: 'What is AI visibility and why should my Cardiff firm care?',
-    answer: 'AI visibility (also called Answer Engine Optimisation or AEO) is the practice of structuring a firm’s web presence so AI assistants understand and cite it. As clients increasingly ask AI tools for solicitor recommendations before searching Google, firms invisible to AI lose enquiries to firms that aren’t.',
+    answer: 'AI visibility is the practice of structuring a firm’s web presence so AI assistants understand and cite it. As clients increasingly ask AI tools for solicitor recommendations before searching Google, firms invisible to AI lose enquiries to firms that aren’t.',
   },
 ];
 
@@ -568,8 +568,8 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 <p>Three actions, in order of priority:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
-                    <strong>Run a free AEO report.</strong>{' '}
-                    <Link href="/aeo-report" className="text-purple-700 underline hover:text-purple-900">
+                    <strong>Run a free AI visibility report.</strong>{' '}
+                    <Link href="/ai-visibility-report" className="text-purple-700 underline hover:text-purple-900">
                       TendorAI&rsquo;s free AI Visibility Report
                     </Link>{' '}
                     shows your firm&rsquo;s current visibility score across the major AI assistants. Takes under two minutes. No card required.
@@ -700,8 +700,8 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 <p>Three actions, in order of priority:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
-                    <strong>Run a free AEO report.</strong>{' '}
-                    <Link href="/aeo-report" className="text-purple-700 underline hover:text-purple-900">
+                    <strong>Run a free AI visibility report.</strong>{' '}
+                    <Link href="/ai-visibility-report" className="text-purple-700 underline hover:text-purple-900">
                       TendorAI&rsquo;s free AI Visibility Report
                     </Link>{' '}
                     shows your firm&rsquo;s current visibility score across the major AI assistants. Takes under two minutes. No card required.
@@ -742,7 +742,7 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 We&apos;re building our solicitor directory in {cityName}. Check back soon or check your AI visibility score now.
               </p>
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Check Your AI Visibility — Free
@@ -779,12 +779,12 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                   When people ask AI assistants like ChatGPT or Perplexity for solicitors in {cityName}, AI recommends firms with the strongest structured data — verified profiles, clear fee information, client reviews, and regulatory accreditations. TendorAI helps {cityName} firms get this data right.
                 </p>
                 <p>
-                  {cityName} firms can check their current AI visibility score for free using our AI Visibility (AEO) report tool.
+                  {cityName} firms can check their current AI visibility score for free using our AI Visibility report tool.
                 </p>
               </div>
               <div className="mt-6">
                 <Link
-                  href="/aeo-report"
+                  href="/ai-visibility-report"
                   className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Check Your AI Visibility — Free

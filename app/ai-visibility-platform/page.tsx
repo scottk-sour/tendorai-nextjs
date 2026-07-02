@@ -32,7 +32,7 @@ const includedFeatures: Array<{ title: string; description: string }> = [
       'Schema-marked profile at your category and city URL, for example tendorai.com/suppliers/solicitors/cardiff. Crawlable 24/7 by every major AI engine.',
   },
   {
-    title: 'AI Visibility (AEO) Report',
+    title: 'AI Visibility Report',
     description:
       'Diagnostic across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok. Score 0–100. Statistically robust scanning that controls for AI response variance. Updated weekly.',
   },
@@ -385,7 +385,7 @@ export default function AiVisibilityPlatformPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
               >
                 Check Your AI Visibility — Free
@@ -712,7 +712,7 @@ export default function AiVisibilityPlatformPage() {
               seconds. No card required.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold bg-white text-purple-700 hover:bg-purple-50 transition-all shadow-lg text-lg"
             >
               Check Your AI Visibility — Free

@@ -90,10 +90,10 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 - Vendor login: /vendor-login
 - Vendor dashboard: /vendor-dashboard
 - Getting started: /vendor-dashboard/getting-started
-- AEO report (free tool): /aeo-report
-- AI visibility checker: DELETED — redirects to /aeo-report
+- AI visibility report (free tool): /ai-visibility-report (was /aeo-report — 301 redirect kept)
+- AI visibility checker: DELETED — redirects to /ai-visibility-report
 - Schema checker: /tools/schema-checker
-- AEO checklist: /tools/aeo-checklist
+- AI visibility checklist: /tools/ai-visibility-checklist (was /tools/aeo-checklist — 301 redirect kept)
 - Admin: /admin
 - For vendors/firms: /for-vendors
 - Pricing: /for-vendors#pricing (no separate /pricing page)
@@ -112,7 +112,7 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 
 ## Known Issues to Never Repeat
 - main is branch-protected. Never push directly to main — it will be rejected. All changes go through a feature branch (fix/[description] or feat/[description]) and a PR that Scott merges manually after reviewing the Vercel preview.
-- Do not create /ai-visibility-checker — deleted, redirects to /aeo-report
+- Do not create /ai-visibility-checker — deleted, redirects to /ai-visibility-report
 - Do not add "Pricing" as a standalone nav item — lives at /for-vendors#pricing
 - Do not add "Home" to the main Header navigation — the logo handles this. BreadcrumbList breadcrumbs MAY include "Home" as the first item per Google's structured data guidelines and SEO best practice.
 - Do not use dark purple hero backgrounds on tool pages — match the light gradient style of /vendor-login

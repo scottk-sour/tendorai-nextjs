@@ -1125,7 +1125,7 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
       <div className="card p-6">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
-          <span className="text-gray-600">Loading AI Visibility (AEO) Audit...</span>
+          <span className="text-gray-600">Loading AI Visibility Audit...</span>
         </div>
       </div>
     );
@@ -1136,7 +1136,7 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h3 className="font-semibold text-gray-900 text-lg">AI Visibility (AEO) Audit</h3>
+          <h3 className="font-semibold text-gray-900 text-lg">AI Visibility Audit</h3>
           <p className="text-sm text-gray-600 mt-1">
             Check how AI-ready your website is. AI assistants crawl your site for structured data, content, and trust signals.
           </p>
@@ -1158,7 +1158,7 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
           disabled={loading || !url.trim() || (!canRunAgain && !error)}
           className="px-6 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
         >
-          {loading ? 'Analysing...' : 'Run AI Visibility (AEO) Audit'}
+          {loading ? 'Analysing...' : 'Run AI Visibility Audit'}
         </button>
       </div>
 
@@ -1374,7 +1374,7 @@ export default function AeoAuditCard({ token, tier, vendorWebsite }: AeoAuditCar
           <svg className="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <p className="font-medium text-gray-700">No AI Visibility (AEO) audit yet</p>
+          <p className="font-medium text-gray-700">No AI Visibility audit yet</p>
           <p className="text-sm mt-1">Enter your website URL above and run your first audit.</p>
         </div>
       )}

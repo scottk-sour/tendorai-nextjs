@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     'structured data AI visibility',
     'schema markup AI',
     'does schema help ChatGPT',
-    'AEO structured data',
+    'AI visibility structured data',
     'UK professional services AI',
   ],
 };
@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: 'How do I know if my website already has structured data?',
-    a: "Go to Google\u2019s Rich Results Test \u2014 search.google.com/test/rich-results \u2014 and enter your website URL. It will show any structured data currently installed and flag errors. Alternatively, run your firm through TendorAI\u2019s free AEO report at tendorai.com/aeo-report \u2014 it shows your current AI Visibility Score and whether schema is installed and correctly configured.",
+    a: "Go to Google\u2019s Rich Results Test \u2014 search.google.com/test/rich-results \u2014 and enter your website URL. It will show any structured data currently installed and flag errors. Alternatively, run your firm through TendorAI\u2019s free AI visibility report at tendorai.com/ai-visibility-report \u2014 it shows your current AI Visibility Score and whether schema is installed and correctly configured.",
   },
   {
     q: 'Does structured data help with Google as well as AI?',
@@ -107,7 +107,7 @@ export default function StructuredDataAIVisibilityPage() {
     mainEntityOfPage: { '@type': 'WebPage', '@id': CANONICAL },
     image: { '@type': 'ImageObject', url: 'https://www.tendorai.com/logo.png', width: 873, height: 873 },
     articleSection: 'AI Visibility',
-    keywords: ['structured data', 'schema markup', 'AI visibility', 'AEO', 'UK professional services'],
+    keywords: ['structured data', 'schema markup', 'AI visibility', 'AI visibility', 'UK professional services'],
     wordCount: 2600,
     inLanguage: 'en-GB',
   };
@@ -404,8 +404,8 @@ export default function StructuredDataAIVisibilityPage() {
               Free, 30 seconds, no login required. See your AI Visibility Score and whether schema is installed correctly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/aeo-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
-                Get Your Free AEO Report
+              <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
+                Get Your Free AI Visibility Report
               </Link>
               <Link href="/for-vendors#pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
                 See TendorAI Pro

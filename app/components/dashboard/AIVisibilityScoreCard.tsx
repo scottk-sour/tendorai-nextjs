@@ -133,7 +133,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
 
       setError(null);
     } catch (err) {
-      console.error('AEO score error:', err);
+      console.error('AI visibility score error:', err);
       setError('Unable to load AI visibility score');
     } finally {
       setLoading(false);
@@ -385,7 +385,7 @@ export default function AIVisibilityScoreCard({ token, tier, compact = true }: A
       {/* View full report link + Rescan button (gated on profile completeness) */}
       <div className="mt-4 flex items-center justify-between gap-3">
         <Link
-          href={`/aeo-report/results/${data.reportId}`}
+          href={`/ai-visibility-report/results/${data.reportId}`}
           className="text-sm text-blue-600 hover:text-blue-700 font-medium"
         >
           View full report &rarr;

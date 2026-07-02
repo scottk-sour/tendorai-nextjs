@@ -230,14 +230,14 @@ export default function RobotsCheckerPage() {
                   {blockedCount} AI crawler{blockedCount === 1 ? '' : 's'} can&apos;t reach your site
                 </h3>
                 <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-                  Your free TendorAI AEO report shows exactly which blocks to remove, what schema
+                  Your free TendorAI AI visibility report shows exactly which blocks to remove, what schema
                   to add, and how your firm ranks in AI answers right now.
                 </p>
                 <Link
                   href="/vendor-signup"
                   className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
                 >
-                  Get the full AEO report
+                  Get the full AI visibility report
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

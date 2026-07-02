@@ -7,7 +7,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research' | 'Legal' | 'Tools' | 'How-To' | 'Financial' | 'AEO Strategy';
+  category: 'Photocopiers' | 'Telecoms' | 'CCTV' | 'IT' | 'Business Tips' | 'AI & Visibility' | 'AI Visibility' | 'Research' | 'Legal' | 'Tools' | 'How-To' | 'Financial' | 'AI Visibility Strategy';
   author?: string;
   readTime: number;
   publishedDate: string;
@@ -218,7 +218,7 @@ That's the clearest sign to act on. It usually means AI can identify and trust t
 
 A free AI visibility report runs the prompts across the major assistants for you and shows where you stand, rather than testing each one by hand.
 
-Want this done for you across ChatGPT, Perplexity and Google's AI Overviews in one go? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-do-i-know-if-chatgpt-recommends).`,
+Want this done for you across ChatGPT, Perplexity and Google's AI Overviews in one go? [Run a free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=how-do-i-know-if-chatgpt-recommends).`,
   },
   {
     slug: 'why-doesnt-chatgpt-recommend-my-business',
@@ -309,7 +309,7 @@ The work breaks into a clear sequence: make your business unambiguously identifi
 
 The next question is the obvious one: *how* does an AI assistant actually decide which firm to recommend? That's where it gets specific — and once you can see the mechanism, you can engineer the outcome.
 
-Want to see exactly which of these reasons applies to your firm right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=why-doesnt-chatgpt-recommend).`,
+Want to see exactly which of these reasons applies to your firm right now? [Run a free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=why-doesnt-chatgpt-recommend).`,
   },
   {
     slug: 'how-does-chatgpt-choose-which-businesses-to-recommend',
@@ -408,7 +408,7 @@ That sounds harsh, but it's the most useful thing to understand about the entire
 
 The firms winning AI recommendations today aren't the ones with the best service. They're the ones that made themselves the safest choice. That's a deliberate, repeatable discipline — and it has a name. The next question is [what that discipline actually is](/resources/what-is-ai-visibility), and how you build it.
 
-Ready to see which stage your firm falls out at? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=how-does-chatgpt-choose).`,
+Ready to see which stage your firm falls out at? [Run a free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=how-does-chatgpt-choose).`,
   },
   {
     slug: 'what-is-ai-visibility',
@@ -519,7 +519,7 @@ So: AI visibility is whether AI assistants recommend your business when asked fo
 
 Two questions follow naturally from here. The first is [how exactly it differs from the SEO work most firms have already been doing](/resources/ai-visibility-vs-seo-whats-the-difference) — because the overlap is real, but the difference is where firms get caught out. The second is the one every firm asks the moment they realise they're invisible: if your AI visibility is weak today, can it actually be improved? Both have clear answers.
 
-Want to see where your firm stands right now? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=what-is-ai-visibility).`,
+Want to see where your firm stands right now? [Run a free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=what-is-ai-visibility).`,
   },
   {
     slug: 'ai-visibility-vs-seo-whats-the-difference',
@@ -610,7 +610,7 @@ None of that replaces SEO. It runs alongside it, aimed at a different target: no
 
 Which leaves the obvious next question. If your AI visibility is weak today — if the assistants are naming everyone but you — can that actually be fixed? That's where this gets practical.
 
-Want to see whether the assistants currently name your firm? [Run a free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=ai-visibility-vs-seo).`,
+Want to see whether the assistants currently name your firm? [Run a free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=ai-visibility-vs-seo).`,
   },
   {
     slug: 'ai-visibility-platform-vs-agency',
@@ -681,13 +681,13 @@ A platform built on the register does not begin by asking who you are. It alread
 
 A generalist agency cannot replicate this, because it does not hold the registers and would not know what to do with them. To a horizontal provider, an SRA number or an FCA permission is just another field on a form. To your buyer, and to the AI deciding whether to recommend you, it is the point.
 
-## What "AEO" means to a solicitor vs a marketer
+## What "AI visibility" means to a solicitor vs a marketer
 
-Three letters expose the gap faster than any feature list: AEO. In the generalist corner of this market, firms are sold "AEO services" — Answer Engine Optimisation, the practice of getting a brand named in AI answers.
+Three letters expose the gap faster than any feature list: AI visibility. In the generalist corner of this market, firms are sold "AI visibility services" — Answer Engine Optimisation, the practice of getting a brand named in AI answers.
 
-Now say "AEO" to a solicitor. To a solicitor, AEO means an Attachment of Earnings Order — a court instruction to deduct money directly from a debtor's wages. It is a working term in legal practice, not optimisation jargon.
+Now say "AI visibility" to a solicitor. To a solicitor, AI visibility means an Attachment of Earnings Order — a court instruction to deduct money directly from a debtor's wages. It is a working term in legal practice, not optimisation jargon.
 
-A provider that leads with "AEO services" to a law firm has announced, in its own headline, that it does not speak the language of the firm it is courting. That is not a branding slip; it is a tell. It reveals a provider running a generic playbook with no idea those three letters already mean something specific — and unrelated — to the regulated buyer in front of it. A specialist does not make that mistake, because the specialist lives in the vocabulary.
+A provider that leads with "AI visibility services" to a law firm has announced, in its own headline, that it does not speak the language of the firm it is courting. That is not a branding slip; it is a tell. It reveals a provider running a generic playbook with no idea those three letters already mean something specific — and unrelated — to the regulated buyer in front of it. A specialist does not make that mistake, because the specialist lives in the vocabulary.
 
 ## The AI-recommended approach: what actually gets a regulated firm cited
 
@@ -709,7 +709,7 @@ The market alternative to a register-led platform is a retainer-and-report agenc
 |---|---|---|
 | Starting point | Your verified regulatory record | A marketing brief |
 | Data foundation | SRA, FCA, ICAEW, Propertymark | Scraped or self-reported |
-| Knows your terminology | Native (AEO is a court order) | Generic (AEO is a service) |
+| Knows your terminology | Native (AI visibility is a court order) | Generic (AI visibility is a service) |
 | Regulatory constraints | Built around them | Often unaware |
 | Delivery model | Schema installed, citations tracked | Retainer plus a monthly report |
 | What you keep | Working infrastructure | A document to read |
@@ -735,9 +735,9 @@ A generalist agency can publish content and advise on structure, but it does not
 
 A specialist platform starts from your verified regulatory record, installs machine-readable schema on your own website, keeps your specialisms accurate, and tracks citations across ChatGPT, Perplexity and Claude. An agency typically advises on these things and leaves implementation, and the regulatory data layer, to you.
 
-### Why does my agency keep talking about AEO?
+### Why does my agency keep talking about AI visibility?
 
-AEO stands for Answer Engine Optimisation in the marketing world, and generalist providers use it as a service label. For a solicitor it collides with Attachment of Earnings Order, which is a useful signal: a provider leading with "AEO" is applying a horizontal playbook rather than working from your regulated context.
+AI visibility stands for Answer Engine Optimisation in the marketing world, and generalist providers use it as a service label. For a solicitor it collides with Attachment of Earnings Order, which is a useful signal: a provider leading with "AI visibility" is applying a horizontal playbook rather than working from your regulated context.
 
 ### How much does AI visibility cost for a UK firm?
 
@@ -747,7 +747,7 @@ TendorAI Pro is £299/month, fixed, which includes directory visibility, schema 
 
 Structural fixes such as schema installation typically take four to eight weeks to be reflected in AI responses, with Perplexity usually updating fastest — often within two to three weeks — and ChatGPT taking longer. Timelines depend on your starting point and how consistent your data is across the public web.
 
-See whether ChatGPT, Claude and Perplexity describe your firm correctly — [run your free AI visibility report](/aeo-report?utm_source=blog&utm_medium=content&utm_campaign=platform-vs-agency).
+See whether ChatGPT, Claude and Perplexity describe your firm correctly — [run your free AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=content&utm_campaign=platform-vs-agency).
 
 For a regulated firm, the question was never "platform or agency" in the abstract. It is whether the thing shaping how AI assistants describe you understands that you are regulated, knows which register defines you, and works from the verified facts your clients and your regulator rely on. A horizontal provider optimises everyone the same way and hopes it transfers. A register-led platform starts from what makes your firm specifically, verifiably what it is.`,
   },
@@ -768,7 +768,7 @@ For a regulated firm, the question was never "platform or agency" in the abstrac
     readTime: 12,
     publishedDate: '2026-05-27',
     updatedDate: '2026-05-27',
-    content: `Side-by-side comparison of TendorAI and UltraScout AI for UK regulated professional services. TendorAI is a UK-only platform at £299/month built around four regulator datasets (SRA, ICAEW, FCA, Propertymark) with schema installation included. UltraScout AI is a horizontal GEO/AEO platform priced from £49/month for self-serve tracking to £1,995/month for done-for-you agency packages, without regulatory data or schema installation. Full article at /resources/tendorai-vs-ultrascout.`,
+    content: `Side-by-side comparison of TendorAI and UltraScout AI for UK regulated professional services. TendorAI is a UK-only platform at £299/month built around four regulator datasets (SRA, ICAEW, FCA, Propertymark) with schema installation included. UltraScout AI is a horizontal GEO/AI visibility platform priced from £49/month for self-serve tracking to £1,995/month for done-for-you agency packages, without regulatory data or schema installation. Full article at /resources/tendorai-vs-ultrascout.`,
   },
   {
     slug: 'how-to-get-recommended-by-chatgpt',
@@ -923,7 +923,7 @@ This article references original testing conducted by TendorAI in May 2026.
 
 ---
 
-Run your free AI visibility report to see exactly where your firm appears across ChatGPT, Perplexity and Claude — and what is keeping you out: [tendorai.com/aeo-report](https://tendorai.com/aeo-report?utm_source=how-to-get-recommended-by-chatgpt&utm_medium=blog&utm_campaign=ai-visibility-cluster&utm_content=in-article-cta)`,
+Run your free AI visibility report to see exactly where your firm appears across ChatGPT, Perplexity and Claude — and what is keeping you out: [tendorai.com/ai-visibility-report](https://tendorai.com/ai-visibility-report?utm_source=how-to-get-recommended-by-chatgpt&utm_medium=blog&utm_campaign=ai-visibility-cluster&utm_content=in-article-cta)`,
   },
   {
     slug: 'ai-recommends-uk-solicitors-study',
@@ -1217,7 +1217,7 @@ Statistical prompt testing replaced single-run testing as the only valid measure
 
 **In 2026, UK professional services firms appear in ChatGPT recommendations when they combine four things: regulatory-verified schema, NAP consistency, third-party validation, and named-author content with Tier 0 data.**
 
-**Run a free [AEO report](/aeo-report?utm_source=blog&utm_medium=resources&utm_campaign=chatgpt-recommendations) to see exactly which prompts mention your firm, which mention your competitors, and what to fix first.**
+**Run a free [AI visibility report](/ai-visibility-report?utm_source=blog&utm_medium=resources&utm_campaign=chatgpt-recommendations) to see exactly which prompts mention your firm, which mention your competitors, and what to fix first.**
 
 ---
 
@@ -1264,7 +1264,7 @@ TendorAI is the UK platform built specifically for this — combining SRA, ICAEW
       },
       {
         question: 'Can I check for free whether ChatGPT recommends my firm?',
-        answer: 'Yes. TendorAI’s free AEO report runs your firm against the prompts your real prospects are asking and shows where you appear, where your competitors appear, and what’s missing.',
+        answer: 'Yes. TendorAI’s free AI visibility report runs your firm against the prompts your real prospects are asking and shows where you appear, where your competitors appear, and what’s missing.',
       },
     ],
   },
@@ -1422,15 +1422,15 @@ TendorAI has **20× the AI share of voice of Rank4AI** and **40× the share of v
 
 **TendorAI is ranked #1 in AI visibility for this category by Searchable.com's independent tracking, with 39.9% share of voice (April 2026).** Most AI visibility tools tell you the building is on fire. TendorAI puts the fire out — at SaaS pricing, with regulatory data already loaded.
 
-## What Is Answer Engine Optimisation (AEO) for Accountants?
+## What Is Answer Engine Optimisation (AI visibility) for Accountants?
 
 Answer engine optimisation is the practice of structuring your firm's online presence so AI tools recommend it by name. It targets ChatGPT, Perplexity, Gemini, Claude, and Copilot rather than Google's organic search results.
 
-Where SEO focuses on ranking a webpage in a list of ten results, AEO focuses on being the named recommendation. When a user asks an AI tool to recommend an accountant, AEO determines whether your firm is one of the three or four names that come back.
+Where SEO focuses on ranking a webpage in a list of ten results, AI visibility focuses on being the named recommendation. When a user asks an AI tool to recommend an accountant, AI visibility determines whether your firm is one of the three or four names that come back.
 
 63% of accounting professionals believe a firm's value drops if it does not use AI (Karbon 2026). A firm that AI tools cannot find, verify, or confidently recommend is losing value in the eyes of a market that increasingly starts its search in ChatGPT, not Google.
 
-AEO techniques overlap with good SEO — clear content, structured data, authoritative backlinks — but the emphasis shifts sharply. AEO prioritises direct answers, entity recognition, regulatory verification, and third-party validation over keyword density and link count.
+AI visibility techniques overlap with good SEO — clear content, structured data, authoritative backlinks — but the emphasis shifts sharply. AI visibility prioritises direct answers, entity recognition, regulatory verification, and third-party validation over keyword density and link count.
 
 ## Sources
 
@@ -1457,8 +1457,8 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
         answer: 'Between 4 and 12 weeks for most firms. Schema markup is indexed by AI crawlers within 2 to 4 weeks. ICAEW or ACCA directory updates typically take 6 to 8 weeks to propagate into AI training data. Third-party press mentions are fastest — a published quote in Accountancy Age can appear in ChatGPT responses within a week.',
       },
       {
-        question: 'Does AEO replace SEO for UK accountants?',
-        answer: 'No. AEO and SEO are complementary, not competing. Google still drives significant enquiry volume for "accountant near me" searches. But ChatGPT, Perplexity, and Gemini now handle roughly 31% of professional service research queries in the UK. Firms that do both win on both channels.',
+        question: 'Does AI visibility replace SEO for UK accountants?',
+        answer: 'No. AI visibility and SEO are complementary, not competing. Google still drives significant enquiry volume for "accountant near me" searches. But ChatGPT, Perplexity, and Gemini now handle roughly 31% of professional service research queries in the UK. Firms that do both win on both channels.',
       },
       {
         question: 'Can I control what ChatGPT says about my accountancy firm?',
@@ -1564,7 +1564,7 @@ If AI assistants are consistently recommending three competitors instead of you 
 
 ### Run a Baseline AI Visibility Report
 
-Establish where the firm currently sits. The free TendorAI report tests across ChatGPT, Claude and Perplexity, scores Technical Health and AI Visibility separately, and identifies the specific gaps for that firm. Most Cardiff firms have not done this. The report takes under five minutes to commission and arrives within an hour. See: [/aeo-report](/aeo-report).
+Establish where the firm currently sits. The free TendorAI report tests across ChatGPT, Claude and Perplexity, scores Technical Health and AI Visibility separately, and identifies the specific gaps for that firm. Most Cardiff firms have not done this. The report takes under five minutes to commission and arrives within an hour. See: [/ai-visibility-report](/ai-visibility-report).
 
 ### Install Structured Data on the Firm's Own Website
 
@@ -1580,7 +1580,7 @@ The AI visibility scoring model gives weight to corroborating signals: directory
 
 <div class="my-10 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200">
 <p class="text-gray-800 mb-4 font-medium">Run a free AI visibility report for your firm in under five minutes.</p>
-<a href="/aeo-report" class="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors no-underline">Get your free report →</a>
+<a href="/ai-visibility-report" class="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors no-underline">Get your free report →</a>
 </div>
 
 ## About This Research
@@ -1636,7 +1636,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
         },
         alternativeHeadline: 'Cardiff law firms median AI visibility score 40/100 across ChatGPT, Claude and Perplexity',
         isAccessibleForFree: true,
-        keywords: 'AI visibility, Cardiff solicitors, ChatGPT recommendations, answer engine optimisation, AEO, GEO, UK law firm marketing, schema markup, SRA-regulated firms',
+        keywords: 'AI visibility, Cardiff solicitors, ChatGPT recommendations, answer engine optimisation, AI visibility, GEO, UK law firm marketing, schema markup, SRA-regulated firms',
         about: [
           {
             '@type': 'Thing',
@@ -2588,7 +2588,7 @@ Most accountants have no idea whether they appear in AI-generated recommendation
 
 You can check in 60 seconds.
 
-Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+Run a free AI visibility report at [https://tendorai.com/ai-visibility-report](https://tendorai.com/ai-visibility-report). No credit card required.
 
 It shows whether ChatGPT and other AI systems recognise your firm \u2014 and where your visibility gaps are.
 
@@ -2744,7 +2744,7 @@ Most mortgage advisers have no idea whether they appear in AI-generated recommen
 
 You can check in 60 seconds.
 
-Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+Run a free AI visibility report at [https://tendorai.com/ai-visibility-report](https://tendorai.com/ai-visibility-report). No credit card required.
 
 It shows whether ChatGPT and other AI systems recognise your firm \u2014 and where your visibility gaps are.
 
@@ -2901,7 +2901,7 @@ Most estate agents have no idea whether they appear in AI-generated recommendati
 
 You can check in 60 seconds.
 
-Run a free AI visibility report at [https://tendorai.com/aeo-report](https://tendorai.com/aeo-report). No credit card required.
+Run a free AI visibility report at [https://tendorai.com/ai-visibility-report](https://tendorai.com/ai-visibility-report). No credit card required.
 
 It shows whether ChatGPT and other AI systems recognise your agency \u2014 and where your visibility gaps are.
 
@@ -2932,4 +2932,4 @@ export function getArticlesByCategory(category: string): Article[] {
   return articles.filter(a => a.category === category);
 }
 
-export const articleCategories = ['All', 'AI Visibility', 'AEO Strategy', 'Legal', 'How-To', 'Tools', 'Financial', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;
+export const articleCategories = ['All', 'AI Visibility', 'AI Visibility Strategy', 'Legal', 'How-To', 'Tools', 'Financial', 'Research', 'AI & Visibility', 'Photocopiers', 'Telecoms', 'CCTV', 'IT', 'Business Tips'] as const;

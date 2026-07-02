@@ -150,7 +150,7 @@ export default function BeforeAfterProof() {
           <p className="text-base font-semibold text-[var(--text)] mb-4">
             This is what TendorAI does for your firm
           </p>
-          <Link href="/aeo-report" className="btn-primary">
+          <Link href="/ai-visibility-report" className="btn-primary">
             Run your free AI visibility report
           </Link>
         </div>

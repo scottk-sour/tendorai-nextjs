@@ -49,7 +49,7 @@ const sections: Section[] = [
     title: 'AI Visibility Signals',
     maxPoints: 25,
     items: [
-      { label: 'Firm has run an AEO report on TendorAI', points: 10 },
+      { label: 'Firm has run an AI visibility report on TendorAI', points: 10 },
       { label: 'AI tools return the firm\u2019s name when queried', points: 5 },
       { label: 'Firm appears in at least one AI-generated "find me a [profession] in [city]" result', points: 5 },
       { label: 'TendorAI Pro schema is installed and syncing', points: 5 },
@@ -84,8 +84,8 @@ function getScoreBand(score: number) {
   return {
     label: 'Excellent.',
     cta: 'Your firm is well positioned for AI visibility.',
-    ctaHref: '/aeo-report',
-    ctaLabel: 'Run an AEO Report',
+    ctaHref: '/ai-visibility-report',
+    ctaLabel: 'Run an AI Visibility Report',
     color: 'bg-green-50 border-green-200 text-green-800',
   };
 }
@@ -117,7 +117,7 @@ export default function AeoChecklistPage() {
     <main className="min-h-screen bg-gray-50 pt-16">
       <section className="bg-brand-gradient text-white py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">AEO Readiness Checklist</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">AI Visibility Readiness Checklist</h1>
           <p className="text-lg text-purple-100 max-w-2xl">
             How ready is your firm for AI search? Tick each item to see your readiness score out of 100. Built specifically for UK regulated professional services firms.
           </p>
@@ -128,7 +128,7 @@ export default function AeoChecklistPage() {
         {/* Score Bar */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8 sticky top-20 z-10 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold text-gray-900">Your AEO Readiness Score</span>
+            <span className="text-sm font-semibold text-gray-900">Your AI Visibility Readiness Score</span>
             <span className="text-2xl font-bold text-purple-600">{score}/100</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">

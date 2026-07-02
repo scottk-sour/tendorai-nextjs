@@ -11,7 +11,7 @@ const PUBLISHED = '2026-06-01';
 
 // Per-CTA UTM-tagged URL — utm_content carries the position (cta_1 … cta_6).
 const CTA_BASE =
-  '/aeo-report?utm_source=blog&utm_medium=organic&utm_campaign=manchester-100-firms&utm_content=';
+  '/ai-visibility-report?utm_source=blog&utm_medium=organic&utm_campaign=manchester-100-firms&utm_content=';
 
 export const metadata: Metadata = {
   title: `${TITLE} | TendorAI`,

@@ -441,10 +441,10 @@ export default function AnalyticsPage() {
         Fix what the audit finds, and your visibility score is what improves.
       </p>
 
-      {/* AEO Audit */}
+      {/* AI Visibility Audit */}
       <div id="audit">
         <p className="text-sm text-gray-600 mb-2">
-          <span className="font-semibold text-gray-900">AEO Audit</span> — whether your website gives AI assistants the data they need. The inputs that drive your score.
+          <span className="font-semibold text-gray-900">AI Visibility Audit</span> — whether your website gives AI assistants the data they need. The inputs that drive your score.
         </p>
         <AeoAuditCard
           token={token || ''}

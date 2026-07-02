@@ -195,7 +195,7 @@ const Header = () => {
               AI Crawler Checker
             </Link>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="btn-primary !py-2 !px-5 !text-sm"
             >
               Free AI Report

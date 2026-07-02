@@ -11,7 +11,7 @@ const PUBLISHED = '2026-05-24';
 const UPDATED = '2026-05-24';
 
 const CTA_URL =
-  '/aeo-report?utm_source=ai-visibility-for-solicitors&utm_medium=landing&utm_campaign=solicitors-cluster&utm_content=primary-cta';
+  '/ai-visibility-report?utm_source=ai-visibility-for-solicitors&utm_medium=landing&utm_campaign=solicitors-cluster&utm_content=primary-cta';
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -280,7 +280,7 @@ export default function NewportSolicitorsPage() {
           where the gaps are. Free report, no credit card required.
         </p>
         <Link
-          href="/aeo-report"
+          href="/ai-visibility-report"
           className="inline-block rounded-md bg-blue-700 px-5 py-2.5 font-medium text-white hover:bg-blue-800"
         >
           Get my free AI visibility report

@@ -61,7 +61,7 @@ export default function UpgradeBanner({ tier }: UpgradeBannerProps) {
               <span className="text-white">&#10003;</span> Featured placement in the TendorAI directory, where AI assistants source firm data
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-white">&#10003;</span> Weekly AI Visibility (AEO) reports
+              <span className="text-white">&#10003;</span> Weekly AI Visibility reports
             </li>
           </ul>
         </div>

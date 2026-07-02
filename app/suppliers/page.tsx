@@ -347,7 +347,7 @@ export default async function SuppliersIndexPage() {
                 See how AI assistants like ChatGPT and Perplexity describe your business — and
                 who they recommend instead.
               </p>
-              <Link href="/aeo-report" className="btn-primary">
+              <Link href="/ai-visibility-report" className="btn-primary">
                 Get Free AI Visibility Report
               </Link>
             </div>

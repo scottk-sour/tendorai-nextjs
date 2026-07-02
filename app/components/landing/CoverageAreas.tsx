@@ -62,7 +62,7 @@ export default function CoverageAreas() {
               Join 12,793 verified UK firms already on TendorAI. Claim your free profile and start getting recommended by AI.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center gap-2 text-purple-700 font-semibold border-2 border-purple-600 px-5 py-2.5 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
             >
               Check AI Visibility

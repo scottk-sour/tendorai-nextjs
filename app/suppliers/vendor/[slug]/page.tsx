@@ -1181,7 +1181,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                   {city ? ` in ${city}` : ''}. Get your free AI visibility report in 60 seconds.
                 </p>
                 <Link
-                  href="/aeo-report"
+                  href="/ai-visibility-report"
                   className="inline-block bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-700 transition-colors"
                 >
                   Check AI Visibility

@@ -842,7 +842,7 @@ export default function CompareView({
             <nav className="text-sm mb-4 text-purple-200">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
-              <Link href="/aeo-report" className="hover:text-white">Check AI Visibility</Link>
+              <Link href="/ai-visibility-report" className="hover:text-white">Check AI Visibility</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Compare</span>
             </nav>
@@ -859,7 +859,7 @@ export default function CompareView({
               Please select firms to compare them side-by-side.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-block px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
               Find Suppliers to Compare
@@ -878,7 +878,7 @@ export default function CompareView({
           <nav className="text-sm mb-4 text-purple-200">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/aeo-report" className="hover:text-white">Check AI Visibility</Link>
+            <Link href="/ai-visibility-report" className="hover:text-white">Check AI Visibility</Link>
             <span className="mx-2">/</span>
             <span className="text-white">Compare</span>
           </nav>
@@ -948,7 +948,7 @@ export default function CompareView({
           {/* Back link */}
           <div className="mt-8 text-center">
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="text-purple-600 hover:text-purple-700 font-medium"
             >
               ← Back to search results

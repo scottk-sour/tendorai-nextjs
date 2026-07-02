@@ -1,7 +1,7 @@
 /**
  * Display labels for the AI Visibility Report category enum.
  *
- * The form (app/aeo-report/AeoReportClient.tsx CATEGORY_GROUPS) posts a
+ * The form (app/ai-visibility-report/AeoReportClient.tsx CATEGORY_GROUPS) posts a
  * machine-friendly enum value such as `sales` or `wills-and-probate`. The
  * report page used to interpolate those raw values directly into sentences,
  * producing broken English ("asks ChatGPT for a sales right now"). This

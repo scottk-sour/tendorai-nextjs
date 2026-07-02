@@ -42,7 +42,7 @@ const differentiators = [
     description: 'Weekly visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI. Not just Google \u2014 every platform that gives business recommendations.',
   },
   {
-    title: 'AI blog writer in TendorAI AEO Format',
+    title: 'AI blog writer in TendorAI AI visibility Format',
     description: 'Built-in content generation using a structured format specifically designed to perform well in AI search results \u2014 with LinkedIn and Facebook versions generated alongside each post.',
   },
 ];
@@ -183,7 +183,7 @@ export default function PressPage() {
                 <li>&bull; Always write &ldquo;TendorAI&rdquo; as one word with a capital T and capital AI</li>
                 <li>&bull; Do not abbreviate to &ldquo;Tendor&rdquo; or &ldquo;TAI&rdquo;</li>
                 <li>&bull; The platform is &ldquo;the UK&rsquo;s AI Visibility Platform&rdquo; &mdash; not a directory, marketplace, or SEO tool</li>
-                <li>&bull; AI Visibility is the category. AEO (AI Engine Optimisation) is the practice.</li>
+                <li>&bull; AI Visibility is the category. AI visibility (AI Engine Optimisation) is the practice.</li>
               </ul>
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function PressPage() {
           Run a free AI Visibility report on any UK business &mdash; 30 seconds, no login required.
         </p>
         <Link
-          href="/aeo-report"
+          href="/ai-visibility-report"
           className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
         >
           Get a Free AI Visibility Report

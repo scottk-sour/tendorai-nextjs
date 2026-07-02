@@ -45,7 +45,7 @@ const tools = [
       'Auto-sync: dashboard update instantly updates website schema',
       'Weekly AI visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI',
       'Pre-built profiles from SRA, ICAEW, and FCA register data for 12,793+ UK firms',
-      'Free AEO report showing current AI Visibility Score and competitor data',
+      'Free AI visibility report showing current AI Visibility Score and competitor data',
       'AI blog writer generating structured content automatically',
       'TendorAI Verified badge for website and profile',
     ],
@@ -166,7 +166,7 @@ const tools = [
 ];
 
 const comparisonRows = [
-  { tool: 'TendorAI', type: 'AEO Platform', ukData: '\u2705 Yes', fixes: '\u2705 Yes', tracks: '\u2705 Yes', price: 'Free / \u00a3299/mo' },
+  { tool: 'TendorAI', type: 'AI Visibility Platform', ukData: '\u2705 Yes', fixes: '\u2705 Yes', tracks: '\u2705 Yes', price: 'Free / \u00a3299/mo' },
   { tool: 'Peec AI', type: 'Monitoring', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: '~$99/mo' },
   { tool: 'OtterlyAI', type: 'Monitoring', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: 'Lower tier' },
   { tool: 'Profound', type: 'Enterprise', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: 'Enterprise' },
@@ -194,7 +194,7 @@ const faqs = [
   },
   {
     q: 'Is AI visibility worth investing in for a small UK business?',
-    a: 'Yes \u2014 and smaller businesses in less competitive markets benefit most. In major cities, AI recommendation competition is higher. In smaller towns and regional markets, fewer businesses have structured data in place, which means a complete profile stands out more clearly. The free AEO report at tendorai.com/aeo-report shows exactly where any UK business stands right now \u2014 it takes 30 seconds and costs nothing.',
+    a: 'Yes \u2014 and smaller businesses in less competitive markets benefit most. In major cities, AI recommendation competition is higher. In smaller towns and regional markets, fewer businesses have structured data in place, which means a complete profile stands out more clearly. The free AI visibility report at tendorai.com/ai-visibility-report shows exactly where any UK business stands right now \u2014 it takes 30 seconds and costs nothing.',
   },
   {
     q: 'What should I look for when choosing an AI visibility tool?',
@@ -430,7 +430,7 @@ export default function BestAIVisibilityToolsPage() {
           </p>
           <ul className="list-disc pl-6 space-y-3 text-gray-600 mb-10">
             <li><strong>If you are a UK professional services firm</strong> &mdash; solicitor, accountant, mortgage adviser, or estate agent &mdash; TendorAI is the only platform built for your specific regulatory context. Your profile may already exist in the system from SRA, ICAEW, or FCA data. Claim it, complete it, and let the schema installation do the work.</li>
-            <li><strong>If you are a general UK SME</strong> &mdash; a retailer, a trades business, a consultant, a coach &mdash; TendorAI&rsquo;s free profile and AEO report gives you a starting point at no cost. Pro adds the schema installation and weekly tracking.</li>
+            <li><strong>If you are a general UK SME</strong> &mdash; a retailer, a trades business, a consultant, a coach &mdash; TendorAI&rsquo;s free profile and AI visibility report gives you a starting point at no cost. Pro adds the schema installation and weekly tracking.</li>
             <li><strong>If you already have a marketing team</strong> &mdash; add Peec AI or OtterlyAI&rsquo;s monitoring alongside TendorAI&rsquo;s implementation layer. Use monitoring data to track what the implementation is achieving.</li>
             <li><strong>If you are already paying for SE Ranking or Semrush</strong> &mdash; use the AI features that come with your existing subscription, but do not rely on them for implementation. They track, they do not fix.</li>
           </ul>
@@ -441,8 +441,8 @@ export default function BestAIVisibilityToolsPage() {
             <p className="text-purple-100 mb-6 max-w-lg mx-auto">
               See how visible your business is across ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI. Get your score, competitor data, and actionable recommendations in minutes.
             </p>
-            <Link href="/aeo-report" className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors text-lg">
-              Get Your Free AEO Report
+            <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors text-lg">
+              Get Your Free AI Visibility Report
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -463,7 +463,7 @@ export default function BestAIVisibilityToolsPage() {
             </p>
             <p className="text-gray-600 leading-relaxed mb-6">
               Check your current AI Visibility Score at{' '}
-              <Link href="/aeo-report" className="text-purple-600 hover:text-purple-700 underline">tendorai.com/aeo-report</Link>
+              <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 underline">tendorai.com/ai-visibility-report</Link>
               {' '}&mdash; free, 30 seconds, no login required.
             </p>
             <p className="text-sm text-gray-400 italic">

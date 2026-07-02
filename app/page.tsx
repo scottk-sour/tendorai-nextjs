@@ -31,7 +31,7 @@ const newDescription = "TendorAI is an AI visibility platform for UK solicitors,
 export const metadata: Metadata = {
   title: { absolute: "TendorAI — AI Visibility for UK Professional Services" },
   description: newDescription,
-  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, AI visibility for office equipment suppliers, AI visibility for B2B firms, structured data profiles, AI Visibility AEO audit, AI Visibility AEO report, free AI Visibility AEO score',
+  keywords: 'AI visibility platform UK, get recommended by ChatGPT, AI visibility for solicitors, AI visibility for accountants, AI visibility for mortgage advisors, AI visibility for estate agents, AI visibility for office equipment suppliers, AI visibility for B2B firms, structured data profiles, AI visibility audit, AI visibility report, free AI visibility score',
   alternates: {
     canonical: 'https://www.tendorai.com',
   },

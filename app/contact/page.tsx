@@ -32,7 +32,7 @@ export default function ContactPage() {
               <p className="text-[var(--text2)] mb-6">
                 Want to see what AI says about your business? Run a free AI visibility report.
               </p>
-              <Link href="/aeo-report" className="btn-primary">
+              <Link href="/ai-visibility-report" className="btn-primary">
                 Check AI Visibility
               </Link>
             </div>

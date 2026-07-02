@@ -221,7 +221,7 @@ export default function SchemaGeneratorCard({ token, tier, vendorId, vendorData 
   const schema = useMemo(() => generateSchemaClientSide(vendorData), [vendorData]);
   const schemaJson = useMemo(() => JSON.stringify(schema, null, 2), [schema]);
 
-  // Fetch schema health from latest AEO audit
+  // Fetch schema health from latest AI visibility audit
   useEffect(() => {
     if (!token || !['managed', 'pro', 'verified', 'gold', 'enterprise'].includes(tier)) return;
     fetch(`${API_URL}/api/aeo-audit/latest`, {

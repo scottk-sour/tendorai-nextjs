@@ -338,7 +338,7 @@ export default async function ArticlePage({ params }: PageProps) {
               See what AI says about your business. Free, instant, and takes just 30 seconds.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
               Check AI Visibility

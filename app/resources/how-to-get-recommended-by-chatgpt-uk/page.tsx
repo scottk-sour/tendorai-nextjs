@@ -9,7 +9,7 @@ const DESCRIPTION =
 const SLUG = 'how-to-get-recommended-by-chatgpt-uk';
 const PUBLISHED = '2026-04-21';
 const AUTHOR = 'Scott Davies';
-const CATEGORY = 'AI Visibility / AEO';
+const CATEGORY = 'AI Visibility / AI visibility';
 const CANONICAL = `https://www.tendorai.com/resources/${SLUG}`;
 
 export const metadata: Metadata = {
@@ -203,7 +203,7 @@ function FAQSection() {
 function RelatedArticles() {
   const related = articles
     .filter((a) => a.slug !== SLUG)
-    .filter((a) => a.category === 'AI Visibility' || a.category === 'AEO Strategy' || a.category === 'How-To')
+    .filter((a) => a.category === 'AI Visibility' || a.category === 'AI Visibility Strategy' || a.category === 'How-To')
     .slice(0, 3);
 
   if (related.length === 0) return null;
@@ -261,7 +261,7 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
     keywords: [
       'how to get recommended by ChatGPT UK',
       'AI visibility',
-      'AEO',
+      'AI visibility',
       'UK solicitors',
       'UK accountants',
       'UK mortgage advisers',
@@ -319,12 +319,12 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
                 Resources
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-white">AI Visibility / AEO</span>
+              <span className="text-white">AI Visibility / AI visibility</span>
             </nav>
 
             <div className="flex items-center gap-3 mb-4">
               <span className="px-3 py-1 text-sm font-medium rounded-full bg-teal-100 text-teal-700">
-                AI Visibility / AEO
+                AI Visibility / AI visibility
               </span>
               <span className="text-purple-200">11 min read</span>
             </div>
@@ -552,7 +552,7 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
             <p className="text-gray-800 font-medium mb-2">
               👉{' '}
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="text-purple-700 hover:text-purple-900 underline"
               >
                 See if your firm is invisible in ChatGPT right now →
@@ -606,7 +606,7 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
             <p className="text-gray-800 font-medium">
               👉{' '}
               <Link
-                href="/aeo-report"
+                href="/ai-visibility-report"
                 className="text-purple-700 hover:text-purple-900 underline"
               >
                 Check your current AI visibility score →
@@ -750,7 +750,7 @@ export default function HowToGetRecommendedByChatGPTUKPage() {
             </h3>
             <p className="text-purple-100 mb-6 max-w-lg mx-auto">See your score instantly.</p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
             >
               Check AI Visibility — Free

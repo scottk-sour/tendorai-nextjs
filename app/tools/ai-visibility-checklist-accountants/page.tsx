@@ -66,7 +66,7 @@ export default function AccountantChecklistPage() {
             <nav className="text-sm mb-6 text-purple-200">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
-              <Link href="/tools/aeo-checklist" className="hover:text-white">Tools</Link>
+              <Link href="/tools/ai-visibility-checklist" className="hover:text-white">Tools</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Accountancy Checklist</span>
             </nav>

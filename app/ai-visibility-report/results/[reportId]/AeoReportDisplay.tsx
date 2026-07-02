@@ -413,7 +413,7 @@ const SIGNAL_LABEL_OVERRIDES: Record<string, string> = {
   page_speed: 'Page Speed',
 };
 
-const SIGNAL_ACRONYMS = new Set(['AI', 'API', 'GBP', 'CMS', 'SEO', 'AEO', 'CTA', 'LLM', 'URL', 'UK']);
+const SIGNAL_ACRONYMS = new Set(['AI', 'API', 'GBP', 'CMS', 'SEO', 'AI visibility', 'CTA', 'LLM', 'URL', 'UK']);
 
 function humaniseSignalKey(key: string): string {
   const override = SIGNAL_LABEL_OVERRIDES[key];
@@ -966,7 +966,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const handleRetryPlatform = async (platform: string) => {
     setRetryingPlatforms(prev => ({ ...prev, [platform]: true }));
     try {
-      const resp = await fetch(`${API_URL}/api/public/aeo-report/${report._id}/retry-platform`, {
+      const resp = await fetch(`${API_URL}/api/public/ai-visibility-report/${report._id}/retry-platform`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ platform }),
@@ -1014,7 +1014,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               This report was scored under our previous methodology. Re-run for updated analysis using the new Technical Health + AI Visibility scoring.
             </p>
             <Link
-              href="/aeo-report"
+              href="/ai-visibility-report"
               className="flex-shrink-0 inline-flex items-center px-3 py-1.5 bg-amber-700 text-white text-xs font-semibold rounded-lg hover:bg-amber-800 transition-colors"
             >
               Re-run report for updated analysis &rarr;
@@ -1344,7 +1344,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* SEO vs AEO Education */}
+        {/* SEO vs AI visibility Education */}
         <section className="mt-8 bg-blue-50 rounded-xl border border-blue-100 p-4 sm:p-6">
           <div className="flex items-start gap-3 mb-3">
             <svg className="w-6 h-6 text-[#1B4F72] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1355,7 +1355,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
             <p>
               Your website may perform well on traditional SEO audits &mdash; but that no longer guarantees
-              visibility. SEO measures how Google indexes your site. AI Visibility (AEO) measures
+              visibility. SEO measures how Google indexes your site. AI Visibility measures
               whether AI actually recommends you.
             </p>
             <p>
@@ -1753,7 +1753,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
         {/* The Shift */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility (AEO)</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility</h2>
           <div className="mt-4 space-y-6 text-sm text-gray-600">
             <div>
               <h3 className="font-bold text-gray-900 mb-2">Buyers Are Changing How They Search</h3>
@@ -1765,23 +1765,23 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </p>
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 mb-2">What is AI Visibility (AEO)?</h3>
+              <h3 className="font-bold text-gray-900 mb-2">What is AI Visibility?</h3>
               <p>
-                AI Visibility (AEO — Answer Engine Optimisation) is the process of making your business visible to AI
+                AI Visibility (AI visibility — Answer Engine Optimisation) is the process of making your business visible to AI
                 recommendation engines like ChatGPT, Perplexity, Claude, and Google AI Overviews. Unlike
-                SEO which optimises for search engine rankings, AI Visibility (AEO) focuses on structured data, authority
+                SEO which optimises for search engine rankings, AI Visibility focuses on structured data, authority
                 signals, and verified profiles that AI tools use to make recommendations.
               </p>
             </div>
 
-            {/* SEO vs AEO table */}
+            {/* SEO vs AI visibility table */}
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm border border-gray-200 rounded-lg overflow-hidden">
                 <thead>
                   <tr className="bg-[#1B4F72] text-white">
                     <th className="p-3 font-semibold"></th>
                     <th className="p-3 font-semibold">Traditional SEO</th>
-                    <th className="p-3 font-semibold">AI Visibility (AEO)</th>
+                    <th className="p-3 font-semibold">AI Visibility</th>
                   </tr>
                 </thead>
                 <tbody>
