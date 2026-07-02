@@ -9,6 +9,7 @@ import {
   POSTCODE_AREAS,
 } from '@/lib/constants';
 import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
+import { markdownExcerpt } from '@/lib/utils/markdown';
 import AiReferralTracker from '@/app/components/tracking/AiReferralTracker';
 import ProfileViewTracker from '@/app/components/tracking/ProfileViewTracker';
 import ContactForm from '@/app/components/vendor/ContactForm';
@@ -1130,7 +1131,7 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
                           {post.title}
                         </h3>
                         <p className="text-sm text-gray-500 line-clamp-2">
-                          {post.body.slice(0, 120)}{post.body.length > 120 ? '...' : ''}
+                          {markdownExcerpt(post.body, 120)}
                         </p>
                         <span className="inline-block mt-2 text-sm text-purple-600 font-medium group-hover:translate-x-1 transition-transform">
                           Read more &rarr;
