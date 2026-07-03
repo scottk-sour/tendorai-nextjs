@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import Link from 'next/link';
 import AeoReportClient from './AeoReportClient';
 
 export const metadata: Metadata = {
@@ -106,8 +105,9 @@ export default function AeoReportPage() {
       {/* Server-rendered shell — all static content sits in the initial HTML so
           crawlers (including AI crawlers) see the H1 + overview without waiting
           for the client bundle. The client-only form + loading UX is islanded
-          inside <Suspense>. */}
-      <main className="pt-16 min-h-screen bg-gray-50">
+          inside <Suspense>. Wrapper is a <div> because the app layout already
+          renders a <main>; one <main> per page. */}
+      <div className="pt-16 min-h-screen bg-gray-50">
         {/* Hero */}
         <section className="bg-brand-gradient text-white py-16 sm:py-24 relative overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl" />
@@ -139,16 +139,6 @@ export default function AeoReportPage() {
               solicitors, accountants, mortgage advisors, and estate agents, and identifies
               gaps in your structured data that may prevent AI systems from understanding
               and citing your business.
-            </p>
-            <p className="text-gray-500 text-sm mt-3">
-              Want a quick check first? Try our{' '}
-              <Link
-                href="/ai-visibility-report"
-                className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2"
-              >
-                free AI visibility checker
-              </Link>{' '}
-              &mdash; just enter your business name, type, and location.
             </p>
           </div>
         </section>
@@ -202,7 +192,7 @@ export default function AeoReportPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }
