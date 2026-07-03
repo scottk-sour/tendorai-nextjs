@@ -722,21 +722,6 @@ function getRegulatoryBody(category: string): string {
   return 'publicly available business data';
 }
 
-const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
-  free: ['perplexity'],
-  starter: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
-  pro: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
-};
-
-// Which tier unlocks each platform (for upsell labels on locked cards)
-const PLATFORM_UNLOCK_TIER: Record<string, { tier: string; label: string; price: string }> = {
-  chatgpt: { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  claude:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  gemini:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  grok:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  meta:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-};
-
 const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   perplexity: { color: '#20B8CD', icon: '\uD83D\uDD0D' },
   chatgpt: { color: '#10A37F', icon: '\uD83D\uDCAC' },
@@ -746,39 +731,9 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, locked, onRetry, retrying, companyName }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean; companyName?: string }) {
+function PlatformCard({ result, onRetry, retrying }: { result: PlatformResult; onRetry?: () => void; retrying?: boolean }) {
   const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
   const isTimeout = result.status === 'timeout' || result.status === 'error';
-
-  if (locked) {
-    return (
-      <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
-        {/* Blurred fake content */}
-        <div className="filter blur-[6px] pointer-events-none select-none">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xl">{meta.icon}</span>
-            <span className="font-bold text-gray-900">{result.platformLabel}</span>
-          </div>
-          <p className="text-sm text-gray-500">AI platform analysis result placeholder text that is blurred out for this tier.</p>
-        </div>
-        {/* Lock overlay */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center px-4 text-center">
-          <span className="text-2xl mb-2">{meta.icon}</span>
-          <p className="text-sm font-bold text-gray-900 mb-1">
-            Is {companyName || 'your business'} recommended on {result.platformLabel}?
-          </p>
-          <p className="text-xs text-gray-500 mb-3">Unlock to find out &mdash; &pound;299/month</p>
-          <a
-            href="/for-vendors#pricing"
-            className="inline-flex items-center px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Unlock
-          </a>
-          <p className="text-[10px] text-gray-400 mt-2">Most firms recover this in a single client instruction.</p>
-        </div>
-      </div>
-    );
-  }
 
   // Timeout / error state — amber
   if (isTimeout) {
@@ -1139,27 +1094,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       })()}
 
       <div className="max-w-3xl mx-auto px-4">
-        {/* Platform Results */}
+        {/* Platform Results — only render for platforms actually returned by
+            the backend. No synthesised fill-in cards. */}
         {report.platformResults && report.platformResults.length > 0 && (() => {
-          const tier = report.tier || 'free';
-          const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
-          const unlockedResults = report.platformResults.filter(r => unlocked.includes(r.platform));
-
-          // Order results: show all 6 platforms (fill missing ones)
-          const ALL_PLATFORMS = ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'];
-          const ALL_LABELS: Record<string, string> = {
-            perplexity: 'Perplexity', chatgpt: 'ChatGPT', claude: 'Claude',
-            gemini: 'Gemini', grok: 'Grok', meta: 'Meta AI',
-          };
-          const resultMap = new Map(report.platformResults.map(r => [r.platform, r]));
-          const orderedResults = ALL_PLATFORMS.map(p => {
-            const override = platformOverrides[p];
-            if (override) return override;
-            return resultMap.get(p) || {
-              platform: p, platformLabel: ALL_LABELS[p], mentioned: false, status: 'checked' as const,
-              position: null, snippet: null, competitors: [], error: null,
-            };
-          });
+          const orderedResults = report.platformResults.map(r => platformOverrides[r.platform] ?? r);
 
           // Count only platforms that were successfully checked (exclude timeouts/errors)
           const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
@@ -1217,10 +1155,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <PlatformCard
                     key={result.platform}
                     result={result as PlatformResult}
-                    locked={!unlocked.includes(result.platform)}
-                    companyName={report.companyName}
                     onRetry={
-                      (result.status === 'timeout' || result.status === 'error') && unlocked.includes(result.platform)
+                      result.status === 'timeout' || result.status === 'error'
                         ? () => handleRetryPlatform(result.platform)
                         : undefined
                     }
@@ -1411,57 +1347,51 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         )}
 
-        {/* C3 — Competitor Comparison Table */}
-        {(() => {
-          const topCompetitor = getFirstRealCompetitor(report.competitors);
-          if (!topCompetitor) return null;
-          const estCompScore = Math.min(99, report.score + 25);
-          return (
-            <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">How You Compare</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="p-3 text-left text-gray-500 font-semibold">Metric</th>
-                      <th className="p-3 text-left font-semibold text-gray-900">{report.companyName}</th>
-                      <th className="p-3 text-left font-semibold text-gray-900">{topCompetitor.name}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-gray-100">
-                      <td className="p-3 text-gray-600">Fees visible to AI</td>
-                      <td className="p-3">{
-                        report.searchedCompany?.hasPricing === null || report.searchedCompany?.hasPricing === undefined
-                          ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
-                          : report.searchedCompany.hasPricing
-                            ? <span className="text-green-600 font-bold">&#10003;</span>
-                            : <span className="text-red-500 font-bold">&#10007;</span>
-                      }</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100 bg-gray-50">
-                      <td className="p-3 text-gray-600">Schema markup detected</td>
-                      <td className="p-3">{report.searchedCompany?.hasStructuredData ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100">
-                      <td className="p-3 text-gray-600">Appears in AI results</td>
-                      <td className="p-3">{report.aiMentioned ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100 bg-gray-50">
-                      <td className="p-3 text-gray-600">AI Visibility Score</td>
-                      <td className="p-3 font-bold" style={{ color: getScoreColor(report.score) }}>{report.score}/100</td>
-                      <td className="p-3 font-bold text-[#1B4F72]">Est. {estCompScore}+</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-xs text-gray-400 mt-3">Competitor data based on publicly observable website signals and AI query results.</p>
-            </section>
-          );
-        })()}
+        {/* Your AI-Readable Signals — measured signals for this firm only.
+            No fabricated competitor column; no estimated competitor score. */}
+        <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Your AI-Readable Signals</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-3 text-left text-gray-500 font-semibold">Signal</th>
+                  <th className="p-3 text-left font-semibold text-gray-900">{report.companyName}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t border-gray-100">
+                  <td className="p-3 text-gray-600">Fees visible to AI</td>
+                  <td className="p-3">{
+                    report.searchedCompany?.hasPricing === null || report.searchedCompany?.hasPricing === undefined
+                      ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
+                      : report.searchedCompany.hasPricing
+                        ? <span className="text-green-600 font-bold">&#10003;</span>
+                        : <span className="text-red-500 font-bold">&#10007;</span>
+                  }</td>
+                </tr>
+                <tr className="border-t border-gray-100 bg-gray-50">
+                  <td className="p-3 text-gray-600">Schema markup detected</td>
+                  <td className="p-3">{
+                    report.searchedCompany?.hasStructuredData === null || report.searchedCompany?.hasStructuredData === undefined
+                      ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
+                      : report.searchedCompany.hasStructuredData
+                        ? <span className="text-green-600 font-bold">&#10003;</span>
+                        : <span className="text-red-500 font-bold">&#10007;</span>
+                  }</td>
+                </tr>
+                <tr className="border-t border-gray-100">
+                  <td className="p-3 text-gray-600">Appears in AI results</td>
+                  <td className="p-3">{report.aiMentioned ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                </tr>
+                <tr className="border-t border-gray-100 bg-gray-50">
+                  <td className="p-3 text-gray-600">AI Visibility Score</td>
+                  <td className="p-3 font-bold" style={{ color: getScoreColor(report.score) }}>{report.score}/100</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         {/* Who AI Recommends Instead */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
@@ -1954,7 +1884,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </span>
               <p className="font-bold text-lg text-[#1B4F72]">Pro</p>
               <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
-              <p className="text-[10px] text-gray-400">3 of 50 early adopter spots taken</p>
               <p className="text-xs text-gray-500 mt-2 flex-1">
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>
