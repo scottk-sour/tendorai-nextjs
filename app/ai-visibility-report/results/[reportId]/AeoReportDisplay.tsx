@@ -36,9 +36,9 @@ interface PlatformResult {
   snippet: string | null;
   competitors: (string | PlatformCompetitor)[];
   error: string | null;
-  // Forward-compat fields the backend will start emitting. Absent on all
-  // existing reports — the renderer omits them without a fallback.
-  promptTested?: string;
+  // Forward-compat field the backend will start emitting. Absent on all
+  // existing reports; used only to bucket cards into live-web vs
+  // model-knowledge groups (see Fix 2).
   dataSource?: 'live_web' | 'training_data';
 }
 
@@ -770,12 +770,24 @@ function getFirstRealCompetitor(competitors: Competitor[]): Competitor | null {
 }
 
 function getVerticalSpecificField(category: string): string {
-  const SOLICITOR_CATS = ['conveyancing', 'family-law', 'criminal-law', 'commercial-law', 'employment-law', 'wills-and-probate', 'immigration', 'personal-injury'];
+  // Solicitor accreditations are practice-area specific — the SRA doesn't
+  // issue a single blanket accreditation, so blanketing every legal category
+  // with "CQS" was factually wrong for family-law, wills, PI, etc.
+  const SOLICITOR_ACCREDITATION: Record<string, string> = {
+    'conveyancing': 'CQS accreditation',
+    'family-law': 'Resolution membership',
+    'wills-and-probate': 'STEP/WIQS accreditation',
+    'personal-injury': 'APIL accreditation',
+  };
+  if (category in SOLICITOR_ACCREDITATION) return SOLICITOR_ACCREDITATION[category];
+
+  const OTHER_SOLICITOR_CATS = ['criminal-law', 'commercial-law', 'employment-law', 'immigration'];
+  if (OTHER_SOLICITOR_CATS.includes(category)) return 'specialist accreditations';
+
   const ACCOUNTANT_CATS = ['tax-advisory', 'audit-assurance', 'bookkeeping', 'payroll', 'corporate-finance', 'business-advisory', 'vat-services', 'financial-planning'];
   const MORTGAGE_CATS = ['residential-mortgages', 'buy-to-let', 'remortgage', 'first-time-buyer', 'equity-release', 'commercial-mortgages', 'protection-insurance'];
   const ESTATE_CATS = ['sales', 'lettings', 'property-management', 'block-management', 'auctions', 'commercial-property', 'inventory'];
 
-  if (SOLICITOR_CATS.includes(category)) return 'CQS accreditation';
   if (ACCOUNTANT_CATS.includes(category)) return 'Xero/QuickBooks certification';
   if (MORTGAGE_CATS.includes(category)) return 'whole of market status';
   if (ESTATE_CATS.includes(category)) return 'average sale time and fees';
@@ -941,12 +953,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   { label: 'Your Score', value: `${report.score}/100` },
                   { label: 'Competitors Found', value: String(report.competitors.length) },
                   { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                  // Bound to the array actually rendered under "Your Visibility Gaps"
+                  // so the tile can't diverge from the rendered list. gapsIdentified
+                  // from the backend is ignored on purpose.
+                  { label: 'Gaps Identified', value: String(report.gaps.length) },
                 ]
               : [
                   { label: 'Competitors Found', value: String(report.competitors.length) },
                   { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                  // Bound to the array actually rendered under "Your Visibility Gaps"
+                  // so the tile can't diverge from the rendered list. gapsIdentified
+                  // from the backend is ignored on purpose.
+                  { label: 'Gaps Identified', value: String(report.gaps.length) },
                 ]
             ).map((stat) => (
               <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
@@ -995,13 +1013,21 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         {report.platformResults && report.platformResults.length > 0 && (() => {
           const orderedResults = report.platformResults.map(r => platformOverrides[r.platform] ?? r);
 
-          const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
-          const mentionedCount = checkedResults.filter(r => r.mentioned).length;
-          const realCheckedCount = checkedResults.length;
-          const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
+          // Split live-web (or unlabelled — treated as live) from
+          // training-data assistants. Coverage summary counts live only;
+          // model-knowledge assistants are surfaced separately below.
+          const liveResults = orderedResults.filter(r => !r.dataSource || r.dataSource === 'live_web');
+          const modelResults = orderedResults.filter(r => r.dataSource === 'training_data');
+
+          const liveCheckedResults = liveResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
+          const mentionedCount = liveCheckedResults.filter(r => r.mentioned).length;
+          const liveCheckedCount = liveCheckedResults.length;
+          const timeoutCount = liveResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
 
           // "A, B and C" — never announce a platform that wasn't queried.
-          const platformLabels = orderedResults.map(r => r.platformLabel);
+          // List only live-web platforms; training-data assistants are
+          // introduced under their own muted subheading below.
+          const platformLabels = liveResults.map(r => r.platformLabel);
           const platformList =
             platformLabels.length === 0
               ? ''
@@ -1022,16 +1048,22 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 What AI Says About {report.companyName}
               </h2>
               {platformList && (
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="text-sm text-gray-500 mb-3">
                   We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {report.city}.
                   Here&apos;s what came back.
                 </p>
               )}
+              <p className="text-xs text-gray-500 mb-6">
+                We asked each assistant the same question: to name up to five real{' '}
+                {categoryLabel}s in or near {report.city}, with no generic advice allowed.
+              </p>
 
-              {/* Coverage summary — honest count based on realCheckedCount */}
+              {/* Coverage summary — live-web only. Model-knowledge results
+                  are surfaced separately below and do not count toward
+                  recommendation coverage. */}
               <div className="mb-6 p-4 rounded-lg bg-gray-50">
                 <p className="text-base font-semibold text-gray-900">
-                  {report.companyName} was recommended by {mentionedCount} of {realCheckedCount} AI assistant{realCheckedCount !== 1 ? 's' : ''} we tested.
+                  {report.companyName} was recommended by {mentionedCount} of {liveCheckedCount} AI assistant{liveCheckedCount !== 1 ? 's' : ''} with live web search.
                 </p>
                 {timeoutCount > 0 && (
                   <p className="text-sm text-amber-700 mt-1">
@@ -1040,9 +1072,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 )}
               </div>
 
-              {/* Evidence cards — one per real platform result */}
+              {/* Evidence cards — live-web results only. */}
               <div className="space-y-4">
-                {orderedResults.map((result) => {
+                {liveResults.map((result) => {
                   const r = result as PlatformResult;
                   const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
                   const isTimeout = r.status === 'timeout' || r.status === 'error';
@@ -1099,12 +1131,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         )}
                       </div>
 
-                      {r.promptTested && (
-                        <p className="text-xs text-gray-500 mb-3">
-                          Question asked: &ldquo;{r.promptTested}&rdquo;
-                        </p>
-                      )}
-
                       {r.snippet && (
                         <blockquote className="border-l-4 border-gray-200 pl-4 py-1 mb-3 text-sm text-gray-700 whitespace-pre-wrap break-words">
                           {r.snippet}
@@ -1154,6 +1180,81 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   );
                 })}
               </div>
+
+              {/* Model-knowledge subsection — assistants queried without live
+                  web search. Muted so they read as auxiliary, not evidence. */}
+              {modelResults.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    We also checked what AI models know about {report.companyName} from their training data.
+                  </h3>
+                  <p className="text-xs text-gray-400 mb-4">
+                    These assistants answered from memory rather than browsing the web.
+                  </p>
+                  <div className="space-y-3">
+                    {modelResults.map((result) => {
+                      const r = result as PlatformResult;
+                      const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
+                      const nothingRecalled = !r.mentioned && r.competitors.length === 0;
+                      return (
+                        <div key={r.platform} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                          <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
+                            <div className="flex items-center gap-2">
+                              <span className="text-base">{meta.icon}</span>
+                              <span className="text-sm font-semibold text-gray-700">{r.platformLabel}</span>
+                            </div>
+                            {!nothingRecalled && (
+                              r.mentioned ? (
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200 text-slate-700">
+                                  <span aria-hidden>&#10003;</span> In model knowledge
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-gray-200 text-gray-600">
+                                  Not in model knowledge
+                                </span>
+                              )
+                            )}
+                          </div>
+
+                          {nothingRecalled ? (
+                            <p className="text-xs text-gray-500 italic">
+                              This model couldn&apos;t name any {categoryLabel}s in {report.city} from memory.
+                            </p>
+                          ) : (
+                            <>
+                              {r.snippet && (
+                                <blockquote className="border-l-2 border-gray-300 pl-3 py-0.5 mb-2 text-xs text-gray-600 whitespace-pre-wrap break-words">
+                                  {r.snippet}
+                                </blockquote>
+                              )}
+                              {r.competitors.length > 0 && (
+                                <div className="mt-1">
+                                  <p className="text-[11px] font-medium text-gray-500 mb-1">
+                                    {r.mentioned ? 'Also named:' : 'Named instead:'}
+                                  </p>
+                                  <div className="flex flex-wrap gap-1">
+                                    {r.competitors.slice(0, 6).map((c, i) => {
+                                      const cName = typeof c === 'string' ? c : c.name;
+                                      return (
+                                        <span
+                                          key={`${cName}-${i}`}
+                                          className="text-[11px] bg-white text-gray-600 border border-gray-200 px-1.5 py-0.5 rounded-full"
+                                        >
+                                          {cName}
+                                        </span>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </section>
           );
         })()}
