@@ -36,9 +36,9 @@ interface PlatformResult {
   snippet: string | null;
   competitors: (string | PlatformCompetitor)[];
   error: string | null;
-  // Forward-compat fields the backend will start emitting. Absent on all
-  // existing reports — the renderer omits them without a fallback.
-  promptTested?: string;
+  // Forward-compat field the backend will start emitting. Absent on all
+  // existing reports; used only to bucket cards into live-web vs
+  // model-knowledge groups (see Fix 2).
   dataSource?: 'live_web' | 'training_data';
 }
 
@@ -1022,11 +1022,15 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 What AI Says About {report.companyName}
               </h2>
               {platformList && (
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="text-sm text-gray-500 mb-3">
                   We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {report.city}.
                   Here&apos;s what came back.
                 </p>
               )}
+              <p className="text-xs text-gray-500 mb-6">
+                We asked each assistant the same question: to name up to five real{' '}
+                {categoryLabel}s in or near {report.city}, with no generic advice allowed.
+              </p>
 
               {/* Coverage summary — honest count based on realCheckedCount */}
               <div className="mb-6 p-4 rounded-lg bg-gray-50">
@@ -1098,12 +1102,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                           </span>
                         )}
                       </div>
-
-                      {r.promptTested && (
-                        <p className="text-xs text-gray-500 mb-3">
-                          Question asked: &ldquo;{r.promptTested}&rdquo;
-                        </p>
-                      )}
 
                       {r.snippet && (
                         <blockquote className="border-l-4 border-gray-200 pl-4 py-1 mb-3 text-sm text-gray-700 whitespace-pre-wrap break-words">
