@@ -1484,15 +1484,19 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
         {/* Who AI Recommends Instead */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Who AI Recommends Instead</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
+            {isRecommended ? 'Who Else AI Recommends' : 'Who AI Recommends Instead'}
+          </h2>
           <p className="text-sm text-gray-500 mb-2">
-            {report.aiMentioned
-              ? `These companies appear alongside or ahead of you when buyers ask AI for ${
-                  report.category === 'other'
-                    ? (report.customIndustry || 'businesses')
-                    : getCategoryLabelPlural(report.category)
-                } in ${report.city}.`
-              : `These are the companies AI recommends instead of you in ${report.city}.`}
+            {(() => {
+              const categoryPlural = report.category === 'other'
+                ? (report.customIndustry || 'businesses')
+                : getCategoryLabelPlural(report.category);
+              if (isRecommended) {
+                return `These firms appeared alongside ${report.companyName} when we asked AI for ${categoryPlural} in ${report.city}.`;
+              }
+              return `These are the companies AI recommends instead of you in ${report.city}.`;
+            })()}
           </p>
 
           {report.competitors.length > 0 ? (
@@ -1502,6 +1506,16 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   const competitorLabel = report.category === 'other'
                     ? (report.customIndustry || 'business')
                     : getCategoryLabel(report.category);
+                  if (isRecommended) {
+                    return (
+                      <>
+                        AI already surfaces {report.companyName} for buyers asking for{' '}
+                        {aOrAn(competitorLabel)} {competitorLabel} in {report.city}. These
+                        firms appear in the same set of recommendations &mdash; the gaps
+                        below are what would help you move above them.
+                      </>
+                    );
+                  }
                   return (
                     <>
                       These businesses appear when someone asks AI to recommend{' '}
