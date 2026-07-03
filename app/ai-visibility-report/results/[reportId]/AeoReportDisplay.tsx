@@ -36,6 +36,10 @@ interface PlatformResult {
   snippet: string | null;
   competitors: (string | PlatformCompetitor)[];
   error: string | null;
+  // Forward-compat fields the backend will start emitting. Absent on all
+  // existing reports — the renderer omits them without a fallback.
+  promptTested?: string;
+  dataSource?: 'live_web' | 'training_data';
 }
 
 interface CheckDetail {
@@ -731,118 +735,6 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, onRetry, retrying }: { result: PlatformResult; onRetry?: () => void; retrying?: boolean }) {
-  const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
-  const isTimeout = result.status === 'timeout' || result.status === 'error';
-
-  // Timeout / error state — amber
-  if (isTimeout) {
-    return (
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{meta.icon}</span>
-            <span className="font-bold text-gray-900">{result.platformLabel}</span>
-          </div>
-          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">
-            !
-          </span>
-        </div>
-        <p className="text-sm text-amber-700 font-medium mb-2">
-          Check failed &mdash; {result.platformLabel} did not respond in time
-        </p>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            disabled={retrying}
-            className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {retrying ? (
-              <>
-                <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Retrying&hellip;
-              </>
-            ) : (
-              <>
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182" />
-                </svg>
-                Retry
-              </>
-            )}
-          </button>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{meta.icon}</span>
-          <span className="font-bold text-gray-900">{result.platformLabel}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {result.mentioned ? (
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 text-sm font-bold">
-              &#10003;
-            </span>
-          ) : (
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 text-sm font-bold">
-              &#10007;
-            </span>
-          )}
-        </div>
-      </div>
-
-      {result.mentioned ? (
-        <>
-          {result.snippet && (
-            <p className="text-sm text-gray-600 mb-2 line-clamp-3">{result.snippet}</p>
-          )}
-          {result.competitors.length > 0 && (
-            <div className="mt-2">
-              <p className="text-xs text-gray-400 mb-1">Also mentioned:</p>
-              <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => {
-                  const cName = typeof c === 'string' ? c : c.name;
-                  return (
-                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                      {cName}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          <p className="text-sm text-red-600 font-medium mb-2">Not recommended by {result.platformLabel}</p>
-          {result.competitors.length > 0 && (
-            <div className="mt-1">
-              <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
-              <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => {
-                  const cName = typeof c === 'string' ? c : c.name;
-                  return (
-                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                      {cName}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -1094,103 +986,174 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       })()}
 
       <div className="max-w-3xl mx-auto px-4">
-        {/* Platform Results — only render for platforms actually returned by
-            the backend. No synthesised fill-in cards. */}
+        {/* What AI Says About {company} — evidence only. Cards render only
+            for platforms actually returned by the backend. Snippets full,
+            no line-clamp. No pricing/unlock copy in this section. */}
         {report.platformResults && report.platformResults.length > 0 && (() => {
           const orderedResults = report.platformResults.map(r => platformOverrides[r.platform] ?? r);
 
-          // Count only platforms that were successfully checked (exclude timeouts/errors)
           const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
           const mentionedCount = checkedResults.filter(r => r.mentioned).length;
-          const checkedCount = checkedResults.length;
+          const realCheckedCount = checkedResults.length;
           const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
+
+          // "A, B and C" — never announce a platform that wasn't queried.
+          const platformLabels = orderedResults.map(r => r.platformLabel);
+          const platformList =
+            platformLabels.length === 0
+              ? ''
+              : platformLabels.length === 1
+                ? platformLabels[0]
+                : platformLabels.length === 2
+                  ? `${platformLabels[0]} and ${platformLabels[1]}`
+                  : `${platformLabels.slice(0, -1).join(', ')} and ${platformLabels[platformLabels.length - 1]}`;
+
+          const categoryLabel = report.category === 'other'
+            ? (report.customIndustry || 'business').toLowerCase()
+            : getCategoryLabel(report.category);
+          const categoryArticle = aOrAn(categoryLabel);
 
           return (
             <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">AI Platform Results</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                We asked 6 major AI platforms to recommend a business like yours in {report.city}.
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
+                What AI Says About {report.companyName}
+              </h2>
+              {platformList && (
+                <p className="text-sm text-gray-500 mb-6">
+                  We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {report.city}.
+                  Here&apos;s what came back.
+                </p>
+              )}
 
-              {/* Summary bar */}
-              <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
-                <div className="flex-1">
-                  <p className="text-lg font-bold text-gray-900">
-                    Mentioned by {mentionedCount} of {checkedCount} platform{checkedCount !== 1 ? 's' : ''} checked
-                    {timeoutCount > 0 && (
-                      <span className="text-sm font-normal text-amber-600 ml-2">
-                        ({timeoutCount} did not respond)
-                      </span>
-                    )}
+              {/* Coverage summary — honest count based on realCheckedCount */}
+              <div className="mb-6 p-4 rounded-lg bg-gray-50">
+                <p className="text-base font-semibold text-gray-900">
+                  {report.companyName} was recommended by {mentionedCount} of {realCheckedCount} AI assistant{realCheckedCount !== 1 ? 's' : ''} we tested.
+                </p>
+                {timeoutCount > 0 && (
+                  <p className="text-sm text-amber-700 mt-1">
+                    {timeoutCount} assistant{timeoutCount !== 1 ? 's' : ''} did not respond in time.
                   </p>
-                  <p className="text-sm text-gray-500">
-                    {mentionedCount === 0 && checkedCount > 0
-                      ? 'No AI platform currently recommends your business.'
-                      : mentionedCount <= 2
-                        ? 'Your AI visibility is limited. Most platforms don\'t recommend you yet.'
-                        : mentionedCount <= 4
-                          ? 'Good progress. Some platforms recommend you but there\'s room to grow.'
-                          : 'Strong AI visibility across most platforms.'}
-                  </p>
-                </div>
-                <div className="flex gap-1">
-                  {orderedResults.map((r, i) => {
-                    const isTimeout = r.status === 'timeout' || r.status === 'error';
+                )}
+              </div>
+
+              {/* Evidence cards — one per real platform result */}
+              <div className="space-y-4">
+                {orderedResults.map((result) => {
+                  const r = result as PlatformResult;
+                  const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
+                  const isTimeout = r.status === 'timeout' || r.status === 'error';
+
+                  if (isTimeout) {
                     return (
-                      <div
-                        key={i}
-                        className={`w-3 h-8 rounded-full ${
-                          isTimeout ? 'bg-amber-400' : r.mentioned ? 'bg-green-500' : 'bg-red-300'
-                        }`}
-                        title={r.platformLabel}
-                      />
+                      <div key={r.platform} className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">{meta.icon}</span>
+                            <span className="font-bold text-gray-900">{r.platformLabel}</span>
+                          </div>
+                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">!</span>
+                        </div>
+                        <p className="text-sm text-amber-700 font-medium mb-2">
+                          Check failed &mdash; {r.platformLabel} did not respond in time
+                        </p>
+                        <button
+                          onClick={() => handleRetryPlatform(r.platform)}
+                          disabled={retryingPlatforms[r.platform]}
+                          className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {retryingPlatforms[r.platform] ? 'Retrying…' : 'Retry'}
+                        </button>
+                      </div>
                     );
-                  })}
-                </div>
-              </div>
+                  }
 
-              {/* Platform cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {orderedResults.map((result) => (
-                  <PlatformCard
-                    key={result.platform}
-                    result={result as PlatformResult}
-                    onRetry={
-                      result.status === 'timeout' || result.status === 'error'
-                        ? () => handleRetryPlatform(result.platform)
-                        : undefined
-                    }
-                    retrying={retryingPlatforms[result.platform]}
-                  />
-                ))}
-              </div>
+                  return (
+                    <div key={r.platform} className="rounded-xl border border-gray-200 bg-white p-5">
+                      <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xl">{meta.icon}</span>
+                          <span className="font-bold text-gray-900">{r.platformLabel}</span>
+                          {r.dataSource === 'live_web' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700">
+                              Live web search
+                            </span>
+                          )}
+                          {r.dataSource === 'training_data' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700">
+                              Model knowledge
+                            </span>
+                          )}
+                        </div>
+                        {r.mentioned ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                            <span aria-hidden>&#10003;</span> Recommended
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                            <span aria-hidden>&#10007;</span> Not recommended
+                          </span>
+                        )}
+                      </div>
 
+                      {r.promptTested && (
+                        <p className="text-xs text-gray-500 mb-3">
+                          Question asked: &ldquo;{r.promptTested}&rdquo;
+                        </p>
+                      )}
+
+                      {r.snippet && (
+                        <blockquote className="border-l-4 border-gray-200 pl-4 py-1 mb-3 text-sm text-gray-700 whitespace-pre-wrap break-words">
+                          {r.snippet}
+                        </blockquote>
+                      )}
+
+                      {!r.mentioned && r.competitors.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-gray-500 mb-1.5">Recommended instead:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.competitors.slice(0, 6).map((c, i) => {
+                              const cName = typeof c === 'string' ? c : c.name;
+                              const cReason = typeof c === 'string' ? undefined : c.reason || undefined;
+                              return (
+                                <span
+                                  key={`${cName}-${i}`}
+                                  className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full"
+                                  title={cReason ?? undefined}
+                                >
+                                  {cName}{cReason ? ` — ${cReason}` : ''}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {r.mentioned && r.competitors.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-gray-500 mb-1.5">Also mentioned:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.competitors.slice(0, 6).map((c, i) => {
+                              const cName = typeof c === 'string' ? c : c.name;
+                              return (
+                                <span
+                                  key={`${cName}-${i}`}
+                                  className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full"
+                                >
+                                  {cName}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </section>
           );
         })()}
-
-        {/* Pro CTA — immediately after platform results (highest-value upgrade moment) */}
-        {isFree && report.category !== 'other' && (
-          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
-              You&apos;re only seeing 1 of 6 AI platforms
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
-              Grok and Meta AI right now. Pro shows you all of them, plus weekly tracking so you
-              know the moment your visibility changes.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <a
-                href="/for-vendors#pricing"
-                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Upgrade to Pro &mdash; &pound;299/month
-              </a>
-              <p className="text-xs text-gray-500">Most firms recover this in a single client instruction.</p>
-            </div>
-          </section>
-        )}
 
         {/* What AI Knows */}
         <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
