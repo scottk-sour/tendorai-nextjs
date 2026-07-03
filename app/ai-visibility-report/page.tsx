@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import Link from 'next/link';
 import AeoReportClient from './AeoReportClient';
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ const faqSchema = {
       name: 'What is AI Visibility?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'AI Visibility (AI visibility — Answer Engine Optimisation) is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility is becoming essential for business visibility.',
+        text: 'AI Visibility (also called Answer Engine Optimisation) is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility is becoming essential for business visibility.',
       },
     },
     {
@@ -101,9 +102,107 @@ export default function AeoReportPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
       />
-      <Suspense>
-        <AeoReportClient />
-      </Suspense>
+
+      {/* Server-rendered shell — all static content sits in the initial HTML so
+          crawlers (including AI crawlers) see the H1 + overview without waiting
+          for the client bundle. The client-only form + loading UX is islanded
+          inside <Suspense>. */}
+      <main className="pt-16 min-h-screen bg-gray-50">
+        {/* Hero */}
+        <section className="bg-brand-gradient text-white py-16 sm:py-24 relative overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl" />
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-block bg-white/15 backdrop-blur border border-white/30 text-white px-6 py-2 rounded-full text-sm font-semibold mb-8 shadow-lg">
+              Free AI Visibility Check
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+              Is AI Recommending{' '}
+              <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                Your Business?
+              </span>
+            </h1>
+            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
+              Get your free AI visibility score. See who AI recommends instead of you,
+              what gaps are holding you back, and how to fix it.
+            </p>
+          </div>
+        </section>
+
+        {/* Factual overview */}
+        <section className="py-8 bg-white border-b border-gray-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-gray-600 text-base leading-relaxed">
+              TendorAI&apos;s AI visibility report queries AI assistants with live web search
+              to check whether they recommend your business when potential customers ask for
+              supplier recommendations. The report covers UK professional services including
+              solicitors, accountants, mortgage advisors, and estate agents, and identifies
+              gaps in your structured data that may prevent AI systems from understanding
+              and citing your business.
+            </p>
+            <p className="text-gray-500 text-sm mt-3">
+              Want a quick check first? Try our{' '}
+              <Link
+                href="/ai-visibility-report"
+                className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2"
+              >
+                free AI visibility checker
+              </Link>{' '}
+              &mdash; just enter your business name, type, and location.
+            </p>
+          </div>
+        </section>
+
+        {/* Form + info cards */}
+        <section className="py-12 sm:py-16">
+          <div className="max-w-xl mx-auto px-4 sm:px-6">
+            {/* Client island — form + loading UX. Under Suspense because the
+                client uses useSearchParams(), which triggers Next 15's
+                BAILOUT_TO_CLIENT_SIDE_RENDERING pattern. */}
+            <Suspense>
+              <AeoReportClient />
+            </Suspense>
+
+            {/* Server-rendered content that stays visible under the form
+                during loading too. */}
+            <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="font-semibold text-gray-900 mb-3">Your report includes:</h2>
+              <ul className="space-y-2 text-gray-600 text-sm">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-0.5">1.</span>
+                  <span><strong>AI Visibility Score</strong> &mdash; 0&ndash;100 rating with 6 sub-scores</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-0.5">2.</span>
+                  <span><strong>What AI Knows</strong> &mdash; checklist of what AI can find about you</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-0.5">3.</span>
+                  <span><strong>Who AI Recommends Instead</strong> &mdash; your competitors with website links</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-0.5">4.</span>
+                  <span><strong>Your Visibility Gaps</strong> &mdash; specific reasons you&apos;re not showing up</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-0.5">5.</span>
+                  <span><strong>Downloadable PDF</strong> &mdash; share with your team or management</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="font-semibold text-gray-900 mb-2">What is AI Visibility?</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                <strong>Answer Engine Optimisation</strong> is the new SEO. As more people use AI
+                assistants instead of Google, businesses that aren&apos;t in AI&apos;s training data become
+                invisible. 200M+ people use ChatGPT monthly. 100M+ use Perplexity. Is your business
+                showing up?
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
     </>
   );
 }
