@@ -1674,7 +1674,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               : getCategoryLabelPlural(report.category);
 
             let bodyCopy: React.ReactNode;
-            if (!isLegacyScoring && aiVisibilityBand) {
+            if (isRecommended) {
+              // Firm is already surfaced by live-web AI. Do not tell them
+              // they're "rarely recommended" or "effectively invisible"
+              // regardless of band — the evidence above says otherwise.
+              bodyCopy = (
+                <>
+                  AI already surfaces {report.companyName} for some {categoryCopy} queries in{' '}
+                  {report.city} &mdash; the gaps below are what&apos;s keeping you from ranking higher
+                  and appearing consistently.
+                </>
+              );
+            } else if (!isLegacyScoring && aiVisibilityBand) {
               const scoreStr = `${aiVisibilityScore}/100`;
               switch (aiVisibilityBand) {
                 case 'Strong':
