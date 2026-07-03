@@ -805,6 +805,17 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
   const aiVisibilityScore = report.aiVisibilityScore ?? report.score;
   const aiVisibilityBand = report.aiVisibilityBand ?? null;
 
+  // Single source of truth for "did AI actually recommend this firm?". Prefer
+  // the top-level flag, then fall back to any live-web platform result
+  // explicitly marked mentioned. Model-knowledge (training_data) hits
+  // deliberately do not count — the narrative sections fork on live-web
+  // evidence, not memory.
+  const isRecommended =
+    report.aiMentioned === true ||
+    (report.platformResults ?? []).some(
+      (r) => (!r.dataSource || r.dataSource === 'live_web') && r.mentioned === true,
+    );
+
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
   const [showStickyBar, setShowStickyBar] = useState(false);
@@ -899,13 +910,24 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             const categoryArticle = aOrAn(categoryLabel);
             return (
               <div className="mb-8 text-center sm:text-left">
-                <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                  When someone in {report.city} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
-                  <span className="text-red-600">you don&apos;t appear.</span>
-                  {topCompetitor && (
-                    <> {topCompetitor.name} does. You don&apos;t.</>
-                  )}
-                </p>
+                {isRecommended ? (
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                    When someone in {report.city} asks AI for {categoryArticle} {categoryLabel},{' '}
+                    <span className="text-emerald-700">{report.companyName} already appears</span>
+                    {topCompetitor && (
+                      <> &mdash; alongside firms like {topCompetitor.name}</>
+                    )}
+                    . Here&apos;s how to move up and stay there.
+                  </p>
+                ) : (
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                    When someone in {report.city} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
+                    <span className="text-red-600">you don&apos;t appear.</span>
+                    {topCompetitor && (
+                      <> {topCompetitor.name} does. You don&apos;t.</>
+                    )}
+                  </p>
+                )}
                 <p className="text-sm text-gray-500 mt-3">
                   The average UK business scores 34. Top performers score 70+.
                 </p>
