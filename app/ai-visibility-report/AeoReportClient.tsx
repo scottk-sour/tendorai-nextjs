@@ -205,7 +205,7 @@ export default function AeoReportClient() {
           'Still working — our backend is warming up, this can take up to a minute on the first request of the day.',
         );
       } else if (elapsed >= 10_000) {
-        setLoadingMessage('Running analysis across ChatGPT, Claude, and Perplexity...');
+        setLoadingMessage('Running live AI analysis...');
       }
     }, 1000);
 
@@ -302,12 +302,12 @@ export default function AeoReportClient() {
       <section className="py-8 bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-gray-600 text-base leading-relaxed">
-            TendorAI&apos;s AI visibility report queries major AI assistants &mdash; ChatGPT,
-            Perplexity, Google AI Overviews, and Claude &mdash; to check whether they recommend
-            your business when potential customers ask for supplier recommendations. The report
-            covers UK professional services including solicitors, accountants, mortgage advisors,
-            and estate agents, and identifies gaps in your structured data that may prevent AI
-            systems from understanding and citing your business.
+            TendorAI&apos;s AI visibility report queries AI assistants with live web search
+            to check whether they recommend your business when potential customers ask for
+            supplier recommendations. The report covers UK professional services including
+            solicitors, accountants, mortgage advisors, and estate agents, and identifies
+            gaps in your structured data that may prevent AI systems from understanding
+            and citing your business.
           </p>
           <p className="text-gray-500 text-sm mt-3">
             Want a quick check first? Try our <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2">free AI visibility checker</Link> &mdash; just enter your business name, type, and location.

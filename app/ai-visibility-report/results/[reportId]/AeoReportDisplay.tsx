@@ -888,7 +888,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             return (
               <div className="mb-8 text-center sm:text-left">
                 <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                  When someone in {report.city} asks ChatGPT for {categoryArticle} {categoryLabel} right now &mdash;{' '}
+                  When someone in {report.city} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
                   <span className="text-red-600">you don&apos;t appear.</span>
                   {topCompetitor && (
                     <> {topCompetitor.name} does. You don&apos;t.</>
@@ -1530,8 +1530,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       With an AI visibility score of {scoreStr}, your business is effectively invisible to
-                      AI recommendation engines. When potential buyers use ChatGPT, Perplexity, or Claude to
-                      find {categoryCopy} in {report.city}, they are being directed to your competitors.
+                      AI recommendation engines. When potential buyers use AI assistants like ChatGPT or
+                      Perplexity to find {categoryCopy} in {report.city}, the evidence above suggests
+                      they&apos;re finding your competitors first.
                     </>
                   );
                   break;
@@ -1540,9 +1541,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               bodyCopy = (
                 <>
                   With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
-                  When potential buyers use ChatGPT, Perplexity, or Claude to find{' '}
-                  {categoryCopy} in {report.city},
-                  they are being directed to your competitors.
+                  When potential buyers use AI assistants like ChatGPT or Perplexity to find{' '}
+                  {categoryCopy} in {report.city}, the evidence above suggests they&apos;re finding your
+                  competitors first.
                 </>
               );
             }
@@ -1678,7 +1679,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <div>
               <h3 className="font-bold text-gray-900 mb-2">What is AI Visibility?</h3>
               <p>
-                AI Visibility (AI visibility — Answer Engine Optimisation) is the process of making your business visible to AI
+                AI Visibility (also called Answer Engine Optimisation) is the process of making your business visible to AI
                 recommendation engines like ChatGPT, Perplexity, Claude, and Google AI Overviews. Unlike
                 SEO which optimises for search engine rankings, AI Visibility focuses on structured data, authority
                 signals, and verified profiles that AI tools use to make recommendations.
@@ -1808,7 +1809,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
           </svg>
-          This report was generated using data from {getRegulatoryBody(report.category)} and AI analysis of your online presence across ChatGPT, Claude, Perplexity, and Google AI Overviews.
+          This report was generated using data from {getRegulatoryBody(report.category)} and live AI analysis of your online presence.
         </p>
 
         {/* CTA */}
