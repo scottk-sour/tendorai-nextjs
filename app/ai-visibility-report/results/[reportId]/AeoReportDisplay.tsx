@@ -36,6 +36,10 @@ interface PlatformResult {
   snippet: string | null;
   competitors: (string | PlatformCompetitor)[];
   error: string | null;
+  // Forward-compat fields the backend will start emitting. Absent on all
+  // existing reports — the renderer omits them without a fallback.
+  promptTested?: string;
+  dataSource?: 'live_web' | 'training_data';
 }
 
 interface CheckDetail {
@@ -722,21 +726,6 @@ function getRegulatoryBody(category: string): string {
   return 'publicly available business data';
 }
 
-const TIER_UNLOCKED_PLATFORMS: Record<string, string[]> = {
-  free: ['perplexity'],
-  starter: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
-  pro: ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'],
-};
-
-// Which tier unlocks each platform (for upsell labels on locked cards)
-const PLATFORM_UNLOCK_TIER: Record<string, { tier: string; label: string; price: string }> = {
-  chatgpt: { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  claude:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  gemini:  { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  grok:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-  meta:    { tier: 'pro', label: 'Pro', price: '\u00A3299/month' },
-};
-
 const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   perplexity: { color: '#20B8CD', icon: '\uD83D\uDD0D' },
   chatgpt: { color: '#10A37F', icon: '\uD83D\uDCAC' },
@@ -746,148 +735,6 @@ const PLATFORM_META: Record<string, { color: string; icon: string }> = {
   meta: { color: '#0668E1', icon: '\uD83E\uDD99' },
 };
 
-function PlatformCard({ result, locked, onRetry, retrying, companyName }: { result: PlatformResult; locked: boolean; onRetry?: () => void; retrying?: boolean; companyName?: string }) {
-  const meta = PLATFORM_META[result.platform] || { color: '#6B7280', icon: '\uD83E\uDD16' };
-  const isTimeout = result.status === 'timeout' || result.status === 'error';
-
-  if (locked) {
-    return (
-      <div className="relative rounded-xl border border-gray-200 bg-white p-5 overflow-hidden">
-        {/* Blurred fake content */}
-        <div className="filter blur-[6px] pointer-events-none select-none">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xl">{meta.icon}</span>
-            <span className="font-bold text-gray-900">{result.platformLabel}</span>
-          </div>
-          <p className="text-sm text-gray-500">AI platform analysis result placeholder text that is blurred out for this tier.</p>
-        </div>
-        {/* Lock overlay */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center px-4 text-center">
-          <span className="text-2xl mb-2">{meta.icon}</span>
-          <p className="text-sm font-bold text-gray-900 mb-1">
-            Is {companyName || 'your business'} recommended on {result.platformLabel}?
-          </p>
-          <p className="text-xs text-gray-500 mb-3">Unlock to find out &mdash; &pound;299/month</p>
-          <a
-            href="/for-vendors#pricing"
-            className="inline-flex items-center px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Unlock
-          </a>
-          <p className="text-[10px] text-gray-400 mt-2">Most firms recover this in a single client instruction.</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Timeout / error state — amber
-  if (isTimeout) {
-    return (
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{meta.icon}</span>
-            <span className="font-bold text-gray-900">{result.platformLabel}</span>
-          </div>
-          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">
-            !
-          </span>
-        </div>
-        <p className="text-sm text-amber-700 font-medium mb-2">
-          Check failed &mdash; {result.platformLabel} did not respond in time
-        </p>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            disabled={retrying}
-            className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {retrying ? (
-              <>
-                <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Retrying&hellip;
-              </>
-            ) : (
-              <>
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182" />
-                </svg>
-                Retry
-              </>
-            )}
-          </button>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{meta.icon}</span>
-          <span className="font-bold text-gray-900">{result.platformLabel}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {result.mentioned ? (
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 text-sm font-bold">
-              &#10003;
-            </span>
-          ) : (
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 text-sm font-bold">
-              &#10007;
-            </span>
-          )}
-        </div>
-      </div>
-
-      {result.mentioned ? (
-        <>
-          {result.snippet && (
-            <p className="text-sm text-gray-600 mb-2 line-clamp-3">{result.snippet}</p>
-          )}
-          {result.competitors.length > 0 && (
-            <div className="mt-2">
-              <p className="text-xs text-gray-400 mb-1">Also mentioned:</p>
-              <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => {
-                  const cName = typeof c === 'string' ? c : c.name;
-                  return (
-                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                      {cName}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          <p className="text-sm text-red-600 font-medium mb-2">Not recommended by {result.platformLabel}</p>
-          {result.competitors.length > 0 && (
-            <div className="mt-1">
-              <p className="text-xs text-gray-400 mb-1">Recommended instead:</p>
-              <div className="flex flex-wrap gap-1">
-                {result.competitors.slice(0, 4).map((c) => {
-                  const cName = typeof c === 'string' ? c : c.name;
-                  return (
-                    <span key={cName} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                      {cName}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -993,7 +840,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         >
           <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <p className="text-sm font-medium">
-              Unlock all 6 AI platforms + weekly tracking &mdash; &pound;299/month
+              Pro: weekly AI monitoring + done-for-you fixes &mdash; &pound;299/month
             </p>
             <a
               href="/for-vendors#pricing"
@@ -1041,7 +888,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             return (
               <div className="mb-8 text-center sm:text-left">
                 <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                  When someone in {report.city} asks ChatGPT for {categoryArticle} {categoryLabel} right now &mdash;{' '}
+                  When someone in {report.city} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
                   <span className="text-red-600">you don&apos;t appear.</span>
                   {topCompetitor && (
                     <> {topCompetitor.name} does. You don&apos;t.</>
@@ -1133,128 +980,183 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   : <> If AI sends just 3 clients a month to your competitors instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
                 }
               </p>
+              <p className="text-xs text-gray-400 mt-3">
+                Illustrative, based on average {categoryLabel} instruction values &mdash; not measured firm revenue.
+              </p>
             </div>
           </section>
         );
       })()}
 
       <div className="max-w-3xl mx-auto px-4">
-        {/* Platform Results */}
+        {/* What AI Says About {company} — evidence only. Cards render only
+            for platforms actually returned by the backend. Snippets full,
+            no line-clamp. No pricing/unlock copy in this section. */}
         {report.platformResults && report.platformResults.length > 0 && (() => {
-          const tier = report.tier || 'free';
-          const unlocked = TIER_UNLOCKED_PLATFORMS[tier] || TIER_UNLOCKED_PLATFORMS.free;
-          const unlockedResults = report.platformResults.filter(r => unlocked.includes(r.platform));
+          const orderedResults = report.platformResults.map(r => platformOverrides[r.platform] ?? r);
 
-          // Order results: show all 6 platforms (fill missing ones)
-          const ALL_PLATFORMS = ['perplexity', 'chatgpt', 'claude', 'gemini', 'grok', 'meta'];
-          const ALL_LABELS: Record<string, string> = {
-            perplexity: 'Perplexity', chatgpt: 'ChatGPT', claude: 'Claude',
-            gemini: 'Gemini', grok: 'Grok', meta: 'Meta AI',
-          };
-          const resultMap = new Map(report.platformResults.map(r => [r.platform, r]));
-          const orderedResults = ALL_PLATFORMS.map(p => {
-            const override = platformOverrides[p];
-            if (override) return override;
-            return resultMap.get(p) || {
-              platform: p, platformLabel: ALL_LABELS[p], mentioned: false, status: 'checked' as const,
-              position: null, snippet: null, competitors: [], error: null,
-            };
-          });
-
-          // Count only platforms that were successfully checked (exclude timeouts/errors)
           const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
           const mentionedCount = checkedResults.filter(r => r.mentioned).length;
-          const checkedCount = checkedResults.length;
+          const realCheckedCount = checkedResults.length;
           const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
+
+          // "A, B and C" — never announce a platform that wasn't queried.
+          const platformLabels = orderedResults.map(r => r.platformLabel);
+          const platformList =
+            platformLabels.length === 0
+              ? ''
+              : platformLabels.length === 1
+                ? platformLabels[0]
+                : platformLabels.length === 2
+                  ? `${platformLabels[0]} and ${platformLabels[1]}`
+                  : `${platformLabels.slice(0, -1).join(', ')} and ${platformLabels[platformLabels.length - 1]}`;
+
+          const categoryLabel = report.category === 'other'
+            ? (report.customIndustry || 'business').toLowerCase()
+            : getCategoryLabel(report.category);
+          const categoryArticle = aOrAn(categoryLabel);
 
           return (
             <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">AI Platform Results</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                We asked 6 major AI platforms to recommend a business like yours in {report.city}.
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
+                What AI Says About {report.companyName}
+              </h2>
+              {platformList && (
+                <p className="text-sm text-gray-500 mb-6">
+                  We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {report.city}.
+                  Here&apos;s what came back.
+                </p>
+              )}
 
-              {/* Summary bar */}
-              <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-gray-50">
-                <div className="flex-1">
-                  <p className="text-lg font-bold text-gray-900">
-                    Mentioned by {mentionedCount} of {checkedCount} platform{checkedCount !== 1 ? 's' : ''} checked
-                    {timeoutCount > 0 && (
-                      <span className="text-sm font-normal text-amber-600 ml-2">
-                        ({timeoutCount} did not respond)
-                      </span>
-                    )}
+              {/* Coverage summary — honest count based on realCheckedCount */}
+              <div className="mb-6 p-4 rounded-lg bg-gray-50">
+                <p className="text-base font-semibold text-gray-900">
+                  {report.companyName} was recommended by {mentionedCount} of {realCheckedCount} AI assistant{realCheckedCount !== 1 ? 's' : ''} we tested.
+                </p>
+                {timeoutCount > 0 && (
+                  <p className="text-sm text-amber-700 mt-1">
+                    {timeoutCount} assistant{timeoutCount !== 1 ? 's' : ''} did not respond in time.
                   </p>
-                  <p className="text-sm text-gray-500">
-                    {mentionedCount === 0 && checkedCount > 0
-                      ? 'No AI platform currently recommends your business.'
-                      : mentionedCount <= 2
-                        ? 'Your AI visibility is limited. Most platforms don\'t recommend you yet.'
-                        : mentionedCount <= 4
-                          ? 'Good progress. Some platforms recommend you but there\'s room to grow.'
-                          : 'Strong AI visibility across most platforms.'}
-                  </p>
-                </div>
-                <div className="flex gap-1">
-                  {orderedResults.map((r, i) => {
-                    const isTimeout = r.status === 'timeout' || r.status === 'error';
+                )}
+              </div>
+
+              {/* Evidence cards — one per real platform result */}
+              <div className="space-y-4">
+                {orderedResults.map((result) => {
+                  const r = result as PlatformResult;
+                  const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
+                  const isTimeout = r.status === 'timeout' || r.status === 'error';
+
+                  if (isTimeout) {
                     return (
-                      <div
-                        key={i}
-                        className={`w-3 h-8 rounded-full ${
-                          isTimeout ? 'bg-amber-400' : r.mentioned ? 'bg-green-500' : 'bg-red-300'
-                        }`}
-                        title={r.platformLabel}
-                      />
+                      <div key={r.platform} className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">{meta.icon}</span>
+                            <span className="font-bold text-gray-900">{r.platformLabel}</span>
+                          </div>
+                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-sm font-bold">!</span>
+                        </div>
+                        <p className="text-sm text-amber-700 font-medium mb-2">
+                          Check failed &mdash; {r.platformLabel} did not respond in time
+                        </p>
+                        <button
+                          onClick={() => handleRetryPlatform(r.platform)}
+                          disabled={retryingPlatforms[r.platform]}
+                          className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {retryingPlatforms[r.platform] ? 'Retrying…' : 'Retry'}
+                        </button>
+                      </div>
                     );
-                  })}
-                </div>
-              </div>
+                  }
 
-              {/* Platform cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {orderedResults.map((result) => (
-                  <PlatformCard
-                    key={result.platform}
-                    result={result as PlatformResult}
-                    locked={!unlocked.includes(result.platform)}
-                    companyName={report.companyName}
-                    onRetry={
-                      (result.status === 'timeout' || result.status === 'error') && unlocked.includes(result.platform)
-                        ? () => handleRetryPlatform(result.platform)
-                        : undefined
-                    }
-                    retrying={retryingPlatforms[result.platform]}
-                  />
-                ))}
-              </div>
+                  return (
+                    <div key={r.platform} className="rounded-xl border border-gray-200 bg-white p-5">
+                      <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xl">{meta.icon}</span>
+                          <span className="font-bold text-gray-900">{r.platformLabel}</span>
+                          {r.dataSource === 'live_web' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700">
+                              Live web search
+                            </span>
+                          )}
+                          {r.dataSource === 'training_data' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700">
+                              Model knowledge
+                            </span>
+                          )}
+                        </div>
+                        {r.mentioned ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                            <span aria-hidden>&#10003;</span> Recommended
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                            <span aria-hidden>&#10007;</span> Not recommended
+                          </span>
+                        )}
+                      </div>
 
+                      {r.promptTested && (
+                        <p className="text-xs text-gray-500 mb-3">
+                          Question asked: &ldquo;{r.promptTested}&rdquo;
+                        </p>
+                      )}
+
+                      {r.snippet && (
+                        <blockquote className="border-l-4 border-gray-200 pl-4 py-1 mb-3 text-sm text-gray-700 whitespace-pre-wrap break-words">
+                          {r.snippet}
+                        </blockquote>
+                      )}
+
+                      {!r.mentioned && r.competitors.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-gray-500 mb-1.5">Recommended instead:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.competitors.slice(0, 6).map((c, i) => {
+                              const cName = typeof c === 'string' ? c : c.name;
+                              const cReason = typeof c === 'string' ? undefined : c.reason || undefined;
+                              return (
+                                <span
+                                  key={`${cName}-${i}`}
+                                  className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full"
+                                  title={cReason ?? undefined}
+                                >
+                                  {cName}{cReason ? ` — ${cReason}` : ''}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {r.mentioned && r.competitors.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-gray-500 mb-1.5">Also mentioned:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.competitors.slice(0, 6).map((c, i) => {
+                              const cName = typeof c === 'string' ? c : c.name;
+                              return (
+                                <span
+                                  key={`${cName}-${i}`}
+                                  className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full"
+                                >
+                                  {cName}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </section>
           );
         })()}
-
-        {/* Pro CTA — immediately after platform results (highest-value upgrade moment) */}
-        {isFree && report.category !== 'other' && (
-          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-8">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
-              You&apos;re only seeing 1 of 6 AI platforms
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {report.companyName} could be mentioned &mdash; or buried &mdash; on ChatGPT, Claude, Gemini,
-              Grok and Meta AI right now. Pro shows you all of them, plus weekly tracking so you
-              know the moment your visibility changes.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <a
-                href="/for-vendors#pricing"
-                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Upgrade to Pro &mdash; &pound;299/month
-              </a>
-              <p className="text-xs text-gray-500">Most firms recover this in a single client instruction.</p>
-            </div>
-          </section>
-        )}
 
         {/* What AI Knows */}
         <section className="mt-10 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
@@ -1411,57 +1313,51 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         )}
 
-        {/* C3 — Competitor Comparison Table */}
-        {(() => {
-          const topCompetitor = getFirstRealCompetitor(report.competitors);
-          if (!topCompetitor) return null;
-          const estCompScore = Math.min(99, report.score + 25);
-          return (
-            <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">How You Compare</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="p-3 text-left text-gray-500 font-semibold">Metric</th>
-                      <th className="p-3 text-left font-semibold text-gray-900">{report.companyName}</th>
-                      <th className="p-3 text-left font-semibold text-gray-900">{topCompetitor.name}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-gray-100">
-                      <td className="p-3 text-gray-600">Fees visible to AI</td>
-                      <td className="p-3">{
-                        report.searchedCompany?.hasPricing === null || report.searchedCompany?.hasPricing === undefined
-                          ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
-                          : report.searchedCompany.hasPricing
-                            ? <span className="text-green-600 font-bold">&#10003;</span>
-                            : <span className="text-red-500 font-bold">&#10007;</span>
-                      }</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100 bg-gray-50">
-                      <td className="p-3 text-gray-600">Schema markup detected</td>
-                      <td className="p-3">{report.searchedCompany?.hasStructuredData ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100">
-                      <td className="p-3 text-gray-600">Appears in AI results</td>
-                      <td className="p-3">{report.aiMentioned ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
-                      <td className="p-3"><span className="text-green-600 font-bold">&#10003;</span></td>
-                    </tr>
-                    <tr className="border-t border-gray-100 bg-gray-50">
-                      <td className="p-3 text-gray-600">AI Visibility Score</td>
-                      <td className="p-3 font-bold" style={{ color: getScoreColor(report.score) }}>{report.score}/100</td>
-                      <td className="p-3 font-bold text-[#1B4F72]">Est. {estCompScore}+</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-xs text-gray-400 mt-3">Competitor data based on publicly observable website signals and AI query results.</p>
-            </section>
-          );
-        })()}
+        {/* Your AI-Readable Signals — measured signals for this firm only.
+            No fabricated competitor column; no estimated competitor score. */}
+        <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Your AI-Readable Signals</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-3 text-left text-gray-500 font-semibold">Signal</th>
+                  <th className="p-3 text-left font-semibold text-gray-900">{report.companyName}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t border-gray-100">
+                  <td className="p-3 text-gray-600">Fees visible to AI</td>
+                  <td className="p-3">{
+                    report.searchedCompany?.hasPricing === null || report.searchedCompany?.hasPricing === undefined
+                      ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
+                      : report.searchedCompany.hasPricing
+                        ? <span className="text-green-600 font-bold">&#10003;</span>
+                        : <span className="text-red-500 font-bold">&#10007;</span>
+                  }</td>
+                </tr>
+                <tr className="border-t border-gray-100 bg-gray-50">
+                  <td className="p-3 text-gray-600">Schema markup detected</td>
+                  <td className="p-3">{
+                    report.searchedCompany?.hasStructuredData === null || report.searchedCompany?.hasStructuredData === undefined
+                      ? <span className="text-gray-400 font-bold" title="Not checked">&mdash;</span>
+                      : report.searchedCompany.hasStructuredData
+                        ? <span className="text-green-600 font-bold">&#10003;</span>
+                        : <span className="text-red-500 font-bold">&#10007;</span>
+                  }</td>
+                </tr>
+                <tr className="border-t border-gray-100">
+                  <td className="p-3 text-gray-600">Appears in AI results</td>
+                  <td className="p-3">{report.aiMentioned ? <span className="text-green-600 font-bold">&#10003;</span> : <span className="text-red-500 font-bold">&#10007;</span>}</td>
+                </tr>
+                <tr className="border-t border-gray-100 bg-gray-50">
+                  <td className="p-3 text-gray-600">AI Visibility Score</td>
+                  <td className="p-3 font-bold" style={{ color: getScoreColor(report.score) }}>{report.score}/100</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         {/* Who AI Recommends Instead */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
@@ -1550,6 +1446,63 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           )}
         </section>
 
+        {/* Why AI Isn't Recommending You — static framing that separates the
+            evidence above from the fixable gaps below. Never presented as a
+            judgement of quality. */}
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Why AI Isn&apos;t Recommending You</h2>
+          <p className="text-sm text-gray-700 leading-relaxed mb-3">
+            This report doesn&apos;t assess the quality of your work, your client service, or your
+            reputation. AI assistants don&apos;t know which firm is best &mdash; they recommend the
+            firms they can verify and understand.
+          </p>
+          <p className="text-sm text-gray-700 leading-relaxed">
+            In many cases, firms aren&apos;t recommended not because they&apos;re less capable, but
+            because AI doesn&apos;t have enough trusted, structured information to recommend them
+            confidently. That&apos;s usually improvable &mdash; and the gaps below show exactly
+            where to start.
+          </p>
+        </section>
+
+        {/* Pro sell — single block, positioned after the "Why" framing so the
+            gaps section below still reads as evidence rather than upsell.
+            Sells the work (installation + monitoring), not the software.
+            Deliberately does NOT name Claude/Gemini/Grok/Meta anywhere. */}
+        {isFree && report.category !== 'other' && (
+          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Pro fixes what this report surfaces</h3>
+            <ul className="space-y-2.5 text-sm text-gray-700 mb-5">
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">1.</span>
+                <span>Install AI-readable structured data on your website.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">2.</span>
+                <span>Improve how your services and specialisms are understood by AI.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">3.</span>
+                <span>Strengthen authority signals AI uses to decide who to recommend.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">4.</span>
+                <span>Weekly monitoring of Perplexity and ChatGPT plus other AI assistants, with alerts when your visibility changes.</span>
+              </li>
+            </ul>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <a
+                href="/for-vendors#pricing"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Upgrade to Pro &mdash; &pound;299/month
+              </a>
+              <p className="text-xs text-gray-500 italic">
+                90-day promise &mdash; if your AI Visibility Score isn&apos;t moving in the right direction within 90 days of schema install, we&apos;ll review your account and process a full refund.
+              </p>
+            </div>
+          </section>
+        )}
+
         {/* Your Gaps */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
@@ -1619,8 +1572,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       With an AI visibility score of {scoreStr}, your business is effectively invisible to
-                      AI recommendation engines. When potential buyers use ChatGPT, Perplexity, or Claude to
-                      find {categoryCopy} in {report.city}, they are being directed to your competitors.
+                      AI recommendation engines. When potential buyers use AI assistants like ChatGPT or
+                      Perplexity to find {categoryCopy} in {report.city}, the evidence above suggests
+                      they&apos;re finding your competitors first.
                     </>
                   );
                   break;
@@ -1629,9 +1583,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               bodyCopy = (
                 <>
                   With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
-                  When potential buyers use ChatGPT, Perplexity, or Claude to find{' '}
-                  {categoryCopy} in {report.city},
-                  they are being directed to your competitors.
+                  When potential buyers use AI assistants like ChatGPT or Perplexity to find{' '}
+                  {categoryCopy} in {report.city}, the evidence above suggests they&apos;re finding your
+                  competitors first.
                 </>
               );
             }
@@ -1767,7 +1721,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <div>
               <h3 className="font-bold text-gray-900 mb-2">What is AI Visibility?</h3>
               <p>
-                AI Visibility (AI visibility — Answer Engine Optimisation) is the process of making your business visible to AI
+                AI Visibility (also called Answer Engine Optimisation) is the process of making your business visible to AI
                 recommendation engines like ChatGPT, Perplexity, Claude, and Google AI Overviews. Unlike
                 SEO which optimises for search engine rankings, AI Visibility focuses on structured data, authority
                 signals, and verified profiles that AI tools use to make recommendations.
@@ -1897,7 +1851,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
           </svg>
-          This report was generated using data from {getRegulatoryBody(report.category)} and AI analysis of your online presence across ChatGPT, Claude, Perplexity, and Google AI Overviews.
+          This report was generated using data from {getRegulatoryBody(report.category)} and live AI analysis of your online presence.
         </p>
 
         {/* CTA */}
@@ -1954,7 +1908,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </span>
               <p className="font-bold text-lg text-[#1B4F72]">Pro</p>
               <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
-              <p className="text-[10px] text-gray-400">3 of 50 early adopter spots taken</p>
               <p className="text-xs text-gray-500 mt-2 flex-1">
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
               </p>
