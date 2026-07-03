@@ -1952,7 +1952,11 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
-                          <span>Recommends {competitorName} instead</span>
+                          <span>
+                            {isRecommended
+                              ? 'You appear, but below firms with stronger structured data'
+                              : <>Recommends {competitorName} instead</>}
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
@@ -1975,7 +1979,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
-                          <span>Recommends {report.companyName} by name</span>
+                          <span>
+                            Recommends {report.companyName} {isRecommended ? 'first' : 'by name'}
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
