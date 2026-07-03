@@ -995,13 +995,21 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         {report.platformResults && report.platformResults.length > 0 && (() => {
           const orderedResults = report.platformResults.map(r => platformOverrides[r.platform] ?? r);
 
-          const checkedResults = orderedResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
-          const mentionedCount = checkedResults.filter(r => r.mentioned).length;
-          const realCheckedCount = checkedResults.length;
-          const timeoutCount = orderedResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
+          // Split live-web (or unlabelled — treated as live) from
+          // training-data assistants. Coverage summary counts live only;
+          // model-knowledge assistants are surfaced separately below.
+          const liveResults = orderedResults.filter(r => !r.dataSource || r.dataSource === 'live_web');
+          const modelResults = orderedResults.filter(r => r.dataSource === 'training_data');
+
+          const liveCheckedResults = liveResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
+          const mentionedCount = liveCheckedResults.filter(r => r.mentioned).length;
+          const liveCheckedCount = liveCheckedResults.length;
+          const timeoutCount = liveResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
 
           // "A, B and C" — never announce a platform that wasn't queried.
-          const platformLabels = orderedResults.map(r => r.platformLabel);
+          // List only live-web platforms; training-data assistants are
+          // introduced under their own muted subheading below.
+          const platformLabels = liveResults.map(r => r.platformLabel);
           const platformList =
             platformLabels.length === 0
               ? ''
@@ -1032,10 +1040,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 {categoryLabel}s in or near {report.city}, with no generic advice allowed.
               </p>
 
-              {/* Coverage summary — honest count based on realCheckedCount */}
+              {/* Coverage summary — live-web only. Model-knowledge results
+                  are surfaced separately below and do not count toward
+                  recommendation coverage. */}
               <div className="mb-6 p-4 rounded-lg bg-gray-50">
                 <p className="text-base font-semibold text-gray-900">
-                  {report.companyName} was recommended by {mentionedCount} of {realCheckedCount} AI assistant{realCheckedCount !== 1 ? 's' : ''} we tested.
+                  {report.companyName} was recommended by {mentionedCount} of {liveCheckedCount} AI assistant{liveCheckedCount !== 1 ? 's' : ''} with live web search.
                 </p>
                 {timeoutCount > 0 && (
                   <p className="text-sm text-amber-700 mt-1">
@@ -1044,9 +1054,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 )}
               </div>
 
-              {/* Evidence cards — one per real platform result */}
+              {/* Evidence cards — live-web results only. */}
               <div className="space-y-4">
-                {orderedResults.map((result) => {
+                {liveResults.map((result) => {
                   const r = result as PlatformResult;
                   const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
                   const isTimeout = r.status === 'timeout' || r.status === 'error';
@@ -1152,6 +1162,81 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   );
                 })}
               </div>
+
+              {/* Model-knowledge subsection — assistants queried without live
+                  web search. Muted so they read as auxiliary, not evidence. */}
+              {modelResults.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    We also checked what AI models know about {report.companyName} from their training data.
+                  </h3>
+                  <p className="text-xs text-gray-400 mb-4">
+                    These assistants answered from memory rather than browsing the web.
+                  </p>
+                  <div className="space-y-3">
+                    {modelResults.map((result) => {
+                      const r = result as PlatformResult;
+                      const meta = PLATFORM_META[r.platform] || { color: '#6B7280', icon: '🤖' };
+                      const nothingRecalled = !r.mentioned && r.competitors.length === 0;
+                      return (
+                        <div key={r.platform} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                          <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
+                            <div className="flex items-center gap-2">
+                              <span className="text-base">{meta.icon}</span>
+                              <span className="text-sm font-semibold text-gray-700">{r.platformLabel}</span>
+                            </div>
+                            {!nothingRecalled && (
+                              r.mentioned ? (
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200 text-slate-700">
+                                  <span aria-hidden>&#10003;</span> In model knowledge
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-gray-200 text-gray-600">
+                                  Not in model knowledge
+                                </span>
+                              )
+                            )}
+                          </div>
+
+                          {nothingRecalled ? (
+                            <p className="text-xs text-gray-500 italic">
+                              This model couldn&apos;t name any {categoryLabel}s in {report.city} from memory.
+                            </p>
+                          ) : (
+                            <>
+                              {r.snippet && (
+                                <blockquote className="border-l-2 border-gray-300 pl-3 py-0.5 mb-2 text-xs text-gray-600 whitespace-pre-wrap break-words">
+                                  {r.snippet}
+                                </blockquote>
+                              )}
+                              {r.competitors.length > 0 && (
+                                <div className="mt-1">
+                                  <p className="text-[11px] font-medium text-gray-500 mb-1">
+                                    {r.mentioned ? 'Also named:' : 'Named instead:'}
+                                  </p>
+                                  <div className="flex flex-wrap gap-1">
+                                    {r.competitors.slice(0, 6).map((c, i) => {
+                                      const cName = typeof c === 'string' ? c : c.name;
+                                      return (
+                                        <span
+                                          key={`${cName}-${i}`}
+                                          className="text-[11px] bg-white text-gray-600 border border-gray-200 px-1.5 py-0.5 rounded-full"
+                                        >
+                                          {cName}
+                                        </span>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </section>
           );
         })()}
