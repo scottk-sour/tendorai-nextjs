@@ -769,6 +769,21 @@ function getFirstRealCompetitor(competitors: Competitor[]): Competitor | null {
   return competitors.find(c => !junkPrefixes.some(p => c.name.startsWith(p))) || null;
 }
 
+// User-supplied city strings arrive lowercase from the form ("cwmbran").
+// Title-case for every display site so "Cardiff" and "cwmbran" don't
+// coexist in the same sentence. Preserves spaces, hyphens and apostrophes
+// so "milton keynes", "stoke-on-trent", "king's lynn" render sensibly.
+function titleCaseCity(city: string | null | undefined): string {
+  if (!city) return '';
+  return city
+    .split(/([\s\-'])/)
+    .map((part) => {
+      if (!part || /^[\s\-']$/.test(part)) return part;
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    })
+    .join('');
+}
+
 function getVerticalSpecificField(category: string): string {
   // Solicitor accreditations are practice-area specific — the SRA doesn't
   // issue a single blanket accreditation, so blanketing every legal category
@@ -815,6 +830,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
     (report.platformResults ?? []).some(
       (r) => (!r.dataSource || r.dataSource === 'live_web') && r.mentioned === true,
     );
+
+  // Title-cased once so every display site renders the same value ("cwmbran"
+  // typed in the form → "Cwmbran" everywhere).
+  const displayCity = titleCaseCity(report.city);
 
   const [platformOverrides, setPlatformOverrides] = useState<Record<string, PlatformResult>>({});
   const [retryingPlatforms, setRetryingPlatforms] = useState<Record<string, boolean>>({});
@@ -899,7 +918,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2 text-center">AI Visibility Report</p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 text-center">{report.companyName}</h1>
           <p className="text-gray-500 mb-8 text-center">
-            {report.category === 'other' ? (report.customIndustry || 'Other') : getCategoryLabelTitle(report.category)} &mdash; {report.city}
+            {report.category === 'other' ? (report.customIndustry || 'Other') : getCategoryLabelTitle(report.category)} &mdash; {displayCity}
           </p>
 
           {(() => {
@@ -912,7 +931,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <div className="mb-8 text-center sm:text-left">
                 {isRecommended ? (
                   <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                    When someone in {report.city} asks AI for {categoryArticle} {categoryLabel},{' '}
+                    When someone in {displayCity} asks AI for {categoryArticle} {categoryLabel},{' '}
                     <span className="text-emerald-700">{report.companyName} already appears</span>
                     {topCompetitor && (
                       <> &mdash; alongside firms like {topCompetitor.name}</>
@@ -921,7 +940,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   </p>
                 ) : (
                   <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
-                    When someone in {report.city} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
+                    When someone in {displayCity} asks an AI assistant for {categoryArticle} {categoryLabel} right now &mdash;{' '}
                     <span className="text-red-600">you don&apos;t appear.</span>
                     {topCompetitor && (
                       <> {topCompetitor.name} does. You don&apos;t.</>
@@ -1071,13 +1090,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </h2>
               {platformList && (
                 <p className="text-sm text-gray-500 mb-3">
-                  We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {report.city}.
+                  We asked {platformList} to recommend {categoryArticle} {categoryLabel} in {displayCity}.
                   Here&apos;s what came back.
                 </p>
               )}
               <p className="text-xs text-gray-500 mb-6">
                 We asked each assistant the same question: to name up to five real{' '}
-                {categoryLabel}s in or near {report.city}, with no generic advice allowed.
+                {categoryLabel}s in or near {displayCity}, with no generic advice allowed.
               </p>
 
               {/* Coverage summary — live-web only. Model-knowledge results
@@ -1240,7 +1259,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
                           {nothingRecalled ? (
                             <p className="text-xs text-gray-500 italic">
-                              This model couldn&apos;t name any {categoryLabel}s in {report.city} from memory.
+                              This model couldn&apos;t name any {categoryLabel}s in {displayCity} from memory.
                             </p>
                           ) : (
                             <>
@@ -1493,9 +1512,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 ? (report.customIndustry || 'businesses')
                 : getCategoryLabelPlural(report.category);
               if (isRecommended) {
-                return `These firms appeared alongside ${report.companyName} when we asked AI for ${categoryPlural} in ${report.city}.`;
+                return `These firms appeared alongside ${report.companyName} when we asked AI for ${categoryPlural} in ${displayCity}.`;
               }
-              return `These are the companies AI recommends instead of you in ${report.city}.`;
+              return `These are the companies AI recommends instead of you in ${displayCity}.`;
             })()}
           </p>
 
@@ -1510,7 +1529,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     return (
                       <>
                         AI already surfaces {report.companyName} for buyers asking for{' '}
-                        {aOrAn(competitorLabel)} {competitorLabel} in {report.city}. These
+                        {aOrAn(competitorLabel)} {competitorLabel} in {displayCity}. These
                         firms appear in the same set of recommendations &mdash; the gaps
                         below are what would help you move above them.
                       </>
@@ -1519,7 +1538,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   return (
                     <>
                       These businesses appear when someone asks AI to recommend{' '}
-                      {aOrAn(competitorLabel)} {competitorLabel} in {report.city}.
+                      {aOrAn(competitorLabel)} {competitorLabel} in {displayCity}.
                       Every time AI recommends them instead of you, that&apos;s a potential client you lose.
                     </>
                   );
@@ -1576,7 +1595,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-gray-600 font-medium">No direct competitors identified in your area</p>
               <p className="text-gray-400 text-sm mt-1">
                 This could mean you have a strong local position &mdash; or that AI platforms
-                don&apos;t yet have enough data about {report.city}.
+                don&apos;t yet have enough data about {displayCity}.
                 A TendorAI Pro profile helps AI platforms find and recommend you.
               </p>
             </div>
@@ -1681,7 +1700,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               bodyCopy = (
                 <>
                   AI already surfaces {report.companyName} for some {categoryCopy} queries in{' '}
-                  {report.city} &mdash; the gaps below are what&apos;s keeping you from ranking higher
+                  {displayCity} &mdash; the gaps below are what&apos;s keeping you from ranking higher
                   and appearing consistently.
                 </>
               );
@@ -1692,7 +1711,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       Your AI visibility score of {scoreStr} puts you in a strong position. AI assistants
-                      regularly recommend you when UK buyers ask for {categoryCopy} in {report.city}.
+                      regularly recommend you when UK buyers ask for {categoryCopy} in {displayCity}.
                       Focus now on maintaining momentum — review signals and structured data drift quickly.
                     </>
                   );
@@ -1701,7 +1720,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       With an AI visibility score of {scoreStr}, AI assistants mention you inconsistently.
-                      Some buyer queries for {categoryCopy} in {report.city} surface you; others go straight
+                      Some buyer queries for {categoryCopy} in {displayCity} surface you; others go straight
                       to competitors. The gaps below are the fastest way to close that distance.
                     </>
                   );
@@ -1710,7 +1729,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       Your AI visibility score of {scoreStr} means AI assistants know you exist but rarely
-                      recommend you. Most buyer queries for {categoryCopy} in {report.city} currently go to
+                      recommend you. Most buyer queries for {categoryCopy} in {displayCity} currently go to
                       competitors. The gaps below are the actionable next steps.
                     </>
                   );
@@ -1721,7 +1740,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     <>
                       With an AI visibility score of {scoreStr}, your business is effectively invisible to
                       AI recommendation engines. When potential buyers use AI assistants like ChatGPT or
-                      Perplexity to find {categoryCopy} in {report.city}, the evidence above suggests
+                      Perplexity to find {categoryCopy} in {displayCity}, the evidence above suggests
                       they&apos;re finding your competitors first.
                     </>
                   );
@@ -1732,7 +1751,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 <>
                   With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
                   When potential buyers use AI assistants like ChatGPT or Perplexity to find{' '}
-                  {categoryCopy} in {report.city}, the evidence above suggests they&apos;re finding your
+                  {categoryCopy} in {displayCity}, the evidence above suggests they&apos;re finding your
                   competitors first.
                 </>
               );
@@ -1944,7 +1963,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                       <ul className="space-y-3 text-sm">
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
-                          <span>AI searches {report.city} {categoryLabel}</span>
+                          <span>AI searches {displayCity} {categoryLabel}</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
@@ -1971,7 +1990,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                       <ul className="space-y-3 text-sm">
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
-                          <span>AI searches {report.city} {categoryLabel}</span>
+                          <span>AI searches {displayCity} {categoryLabel}</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
