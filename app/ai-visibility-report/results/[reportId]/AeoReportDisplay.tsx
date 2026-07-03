@@ -840,7 +840,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         >
           <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <p className="text-sm font-medium">
-              Unlock all 6 AI platforms + weekly tracking &mdash; &pound;299/month
+              Pro: weekly AI monitoring + done-for-you fixes &mdash; &pound;299/month
             </p>
             <a
               href="/for-vendors#pricing"
@@ -979,6 +979,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   ? <> If AI sends just 3 clients a month to <strong>{topCompetitor.name}</strong> instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
                   : <> If AI sends just 3 clients a month to your competitors instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
                 }
+              </p>
+              <p className="text-xs text-gray-400 mt-3">
+                Illustrative, based on average {categoryLabel} instruction values &mdash; not measured firm revenue.
               </p>
             </div>
           </section>
@@ -1460,6 +1463,45 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             where to start.
           </p>
         </section>
+
+        {/* Pro sell — single block, positioned after the "Why" framing so the
+            gaps section below still reads as evidence rather than upsell.
+            Sells the work (installation + monitoring), not the software.
+            Deliberately does NOT name Claude/Gemini/Grok/Meta anywhere. */}
+        {isFree && report.category !== 'other' && (
+          <section className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border-2 border-purple-200 p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Pro fixes what this report surfaces</h3>
+            <ul className="space-y-2.5 text-sm text-gray-700 mb-5">
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">1.</span>
+                <span>Install AI-readable structured data on your website.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">2.</span>
+                <span>Improve how your services and specialisms are understood by AI.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">3.</span>
+                <span>Strengthen authority signals AI uses to decide who to recommend.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">4.</span>
+                <span>Weekly monitoring of Perplexity and ChatGPT plus other AI assistants, with alerts when your visibility changes.</span>
+              </li>
+            </ul>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <a
+                href="/for-vendors#pricing"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Upgrade to Pro &mdash; &pound;299/month
+              </a>
+              <p className="text-xs text-gray-500 italic">
+                90-day promise &mdash; if your AI Visibility Score isn&apos;t moving in the right direction within 90 days of schema install, we&apos;ll review your account and process a full refund.
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* Your Gaps */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
