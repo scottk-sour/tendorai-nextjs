@@ -1443,6 +1443,24 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           )}
         </section>
 
+        {/* Why AI Isn't Recommending You — static framing that separates the
+            evidence above from the fixable gaps below. Never presented as a
+            judgement of quality. */}
+        <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Why AI Isn&apos;t Recommending You</h2>
+          <p className="text-sm text-gray-700 leading-relaxed mb-3">
+            This report doesn&apos;t assess the quality of your work, your client service, or your
+            reputation. AI assistants don&apos;t know which firm is best &mdash; they recommend the
+            firms they can verify and understand.
+          </p>
+          <p className="text-sm text-gray-700 leading-relaxed">
+            In many cases, firms aren&apos;t recommended not because they&apos;re less capable, but
+            because AI doesn&apos;t have enough trusted, structured information to recommend them
+            confidently. That&apos;s usually improvable &mdash; and the gaps below show exactly
+            where to start.
+          </p>
+        </section>
+
         {/* Your Gaps */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
