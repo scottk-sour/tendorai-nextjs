@@ -770,12 +770,24 @@ function getFirstRealCompetitor(competitors: Competitor[]): Competitor | null {
 }
 
 function getVerticalSpecificField(category: string): string {
-  const SOLICITOR_CATS = ['conveyancing', 'family-law', 'criminal-law', 'commercial-law', 'employment-law', 'wills-and-probate', 'immigration', 'personal-injury'];
+  // Solicitor accreditations are practice-area specific — the SRA doesn't
+  // issue a single blanket accreditation, so blanketing every legal category
+  // with "CQS" was factually wrong for family-law, wills, PI, etc.
+  const SOLICITOR_ACCREDITATION: Record<string, string> = {
+    'conveyancing': 'CQS accreditation',
+    'family-law': 'Resolution membership',
+    'wills-and-probate': 'STEP/WIQS accreditation',
+    'personal-injury': 'APIL accreditation',
+  };
+  if (category in SOLICITOR_ACCREDITATION) return SOLICITOR_ACCREDITATION[category];
+
+  const OTHER_SOLICITOR_CATS = ['criminal-law', 'commercial-law', 'employment-law', 'immigration'];
+  if (OTHER_SOLICITOR_CATS.includes(category)) return 'specialist accreditations';
+
   const ACCOUNTANT_CATS = ['tax-advisory', 'audit-assurance', 'bookkeeping', 'payroll', 'corporate-finance', 'business-advisory', 'vat-services', 'financial-planning'];
   const MORTGAGE_CATS = ['residential-mortgages', 'buy-to-let', 'remortgage', 'first-time-buyer', 'equity-release', 'commercial-mortgages', 'protection-insurance'];
   const ESTATE_CATS = ['sales', 'lettings', 'property-management', 'block-management', 'auctions', 'commercial-property', 'inventory'];
 
-  if (SOLICITOR_CATS.includes(category)) return 'CQS accreditation';
   if (ACCOUNTANT_CATS.includes(category)) return 'Xero/QuickBooks certification';
   if (MORTGAGE_CATS.includes(category)) return 'whole of market status';
   if (ESTATE_CATS.includes(category)) return 'average sale time and fees';
