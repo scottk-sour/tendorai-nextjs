@@ -941,12 +941,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   { label: 'Your Score', value: `${report.score}/100` },
                   { label: 'Competitors Found', value: String(report.competitors.length) },
                   { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                  // Bound to the array actually rendered under "Your Visibility Gaps"
+                  // so the tile can't diverge from the rendered list. gapsIdentified
+                  // from the backend is ignored on purpose.
+                  { label: 'Gaps Identified', value: String(report.gaps.length) },
                 ]
               : [
                   { label: 'Competitors Found', value: String(report.competitors.length) },
                   { label: 'On TendorAI', value: String(report.competitorsOnTendorAI) },
-                  { label: 'Gaps Identified', value: String(report.gapsIdentified ?? report.gaps.length) },
+                  // Bound to the array actually rendered under "Your Visibility Gaps"
+                  // so the tile can't diverge from the rendered list. gapsIdentified
+                  // from the backend is ignored on purpose.
+                  { label: 'Gaps Identified', value: String(report.gaps.length) },
                 ]
             ).map((stat) => (
               <div key={stat.label} className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
