@@ -436,7 +436,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
 
             <div className="flex items-center gap-3">
               <h1 className="text-3xl md:text-4xl font-bold">{vendor.company}</h1>
-              {unclaimedIsSolicitor && (
+              {unclaimedIsSolicitor && vendor.sraNumber?.trim() && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
                   SRA Regulated
                 </span>
@@ -926,7 +926,7 @@ export default async function VendorProfilePage({ params }: PageProps) {
                       Verified
                     </span>
                   )}
-                  {claimedIsSolicitor && (
+                  {claimedIsSolicitor && vendor.sraNumber?.trim() && (
                     <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/80 text-white">
                       SRA Regulated
                     </span>
