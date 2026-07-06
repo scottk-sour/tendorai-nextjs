@@ -8,6 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procu
 
 const STATUS_TABS = [
   { key: 'pending', label: 'Pending' },
+  { key: 'needs_review', label: 'Needs review' },
   { key: 'approved', label: 'Approved' },
   { key: 'rejected', label: 'Rejected' },
   { key: 'executed', label: 'Executed' },
@@ -49,10 +50,13 @@ const ITEM_TYPE_LABELS: Record<string, string> = {
 
 const STATUS_BADGE: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-700',
+  needs_review: 'bg-orange-100 text-orange-700',
   approved: 'bg-blue-100 text-blue-700',
   rejected: 'bg-red-100 text-red-700',
   executed: 'bg-green-100 text-green-700',
-  failed: 'bg-red-100 text-red-700',
+  firm_completed: 'bg-teal-100 text-teal-700',
+  // Slate/grey — distinct from rejected (editorial) to signal a systems failure.
+  failed: 'bg-slate-100 text-slate-700',
 };
 
 const SUITABILITY_BADGE: Record<string, { className: string; label: string }> = {
