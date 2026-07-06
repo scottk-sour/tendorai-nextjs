@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-placeholders.js",
     "build": "next build",
     "postbuild": "npm run indexnow",
     "indexnow": "tsx scripts/submit-indexnow.ts",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check-placeholders": "node scripts/check-placeholders.js"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.5.1",
