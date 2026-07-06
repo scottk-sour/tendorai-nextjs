@@ -462,16 +462,63 @@ function SuggestedCorrectionsPanel({
   );
 }
 
+function ReVerifyPanel({
+  mode,
+  onReVerify,
+  reVerifying,
+  reVerifyError,
+}: {
+  mode: 'verification-failed' | 'needs-review';
+  onReVerify: () => void;
+  reVerifying: boolean;
+  reVerifyError: string;
+}) {
+  const isFailure = mode === 'verification-failed';
+  return (
+    <div
+      className={`rounded-lg border p-6 space-y-3 ${
+        isFailure ? 'bg-slate-50 border-slate-200' : 'bg-orange-50 border-orange-200'
+      }`}
+    >
+      <div>
+        <h2 className="text-sm font-semibold text-gray-900">
+          {isFailure ? 'Legal check could not run' : 'Needs review'}
+        </h2>
+        <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+          {isFailure
+            ? 'This draft was not legally assessed — the verification step failed before checking it. The content may be fine. Re-run the check below, or edit and re-run.'
+            : 'This draft is awaiting a legal review. Re-run verification after any edits so the check reflects the current body.'}
+        </p>
+      </div>
+      {reVerifyError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+          {reVerifyError}
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={onReVerify}
+        disabled={reVerifying}
+        className="w-full sm:w-auto px-4 py-2 text-sm font-medium rounded-lg bg-slate-800 text-white hover:bg-slate-900 disabled:opacity-50 transition"
+      >
+        {reVerifying ? 'Re-running verification…' : 'Re-run verification'}
+      </button>
+    </div>
+  );
+}
+
 function EditableContentDraftPanel({
   approvalId,
   draftPayload,
   fixes,
   onSaved,
+  canSave = true,
 }: {
   approvalId: string;
   draftPayload: unknown;
   fixes: SuggestedFix[];
   onSaved: () => void;
+  canSave?: boolean;
 }) {
   const router = useRouter();
   const initialBody = extractBody(draftPayload);
@@ -590,7 +637,8 @@ function EditableContentDraftPanel({
                 <button
                   type="button"
                   onClick={handleSave}
-                  disabled={saving || !isDirty}
+                  disabled={saving || !isDirty || !canSave}
+                  title={!canSave ? 'Saving edits is disabled on a rejected draft with no re-verify path.' : undefined}
                   className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
                 >
                   {saving ? 'Saving…' : 'Save changes'}
@@ -602,8 +650,9 @@ function EditableContentDraftPanel({
                   <button
                     type="button"
                     onClick={handleSave}
-                    disabled={saving}
-                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 transition"
+                    disabled={saving || !canSave}
+                    title={!canSave ? 'Saving edits is disabled on a rejected draft with no re-verify path.' : undefined}
+                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
                   >
                     {saving ? 'Saving…' : 'Save changes'}
                   </button>
@@ -667,6 +716,8 @@ export default function ApprovalDetailPage() {
   const [indexNowOk, setIndexNowOk] = useState<boolean | null>(null);
   const [executing, setExecuting] = useState(false);
   const [executeError, setExecuteError] = useState('');
+  const [reVerifying, setReVerifying] = useState(false);
+  const [reVerifyError, setReVerifyError] = useState('');
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -727,6 +778,40 @@ export default function ApprovalDetailPage() {
   useEffect(() => {
     fetchApproval();
   }, [fetchApproval]);
+
+  const handleReVerify = async () => {
+    if (!approval) return;
+    setReVerifying(true);
+    setReVerifyError('');
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/admin/approvals/${id}/re-verify`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 401) {
+        router.replace('/admin/login');
+        return;
+      }
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setReVerifyError(errData?.error || `Re-verify failed (${res.status})`);
+        return;
+      }
+
+      showToast('Verification re-run');
+      fetchApproval();
+    } catch {
+      setReVerifyError('Network error — please retry');
+    } finally {
+      setReVerifying(false);
+    }
+  };
 
   const handleApprove = async () => {
     if (!approval) return;
@@ -986,12 +1071,52 @@ export default function ApprovalDetailPage() {
           read-only PayloadView for every other item type so JSON/directory
           submissions/etc. render unchanged. */}
       {approval.itemType === 'content_draft' ? (
-        <EditableContentDraftPanel
-          approvalId={id}
-          draftPayload={approval.draftPayload}
-          fixes={extractSuggestedFixes(approval)}
-          onSaved={fetchApproval}
-        />
+        (() => {
+          const suggestedFixes = extractSuggestedFixes(approval);
+          const decisionReason = approval.decisionReason || '';
+          // Distinguish an editorial rejection (has fixes or a real reason)
+          // from a systems failure (no fixes, no reason, or an explicit
+          // "did not complete" message from the backend).
+          const isRejectedWithoutFindings =
+            approval.status === 'rejected' &&
+            suggestedFixes.length === 0 &&
+            (!decisionReason.trim() || /did not complete/i.test(decisionReason));
+          const isNeedsReview = approval.status === 'needs_review';
+          // Save is allowed on non-terminal statuses. On rejected, allow
+          // only when the re-verify notice is showing so the admin can
+          // edit-and-re-verify; block silent PATCHes into a terminal state
+          // otherwise.
+          const canSaveEdits =
+            approval.status !== 'rejected' || isRejectedWithoutFindings;
+
+          return (
+            <>
+              {isRejectedWithoutFindings && (
+                <ReVerifyPanel
+                  mode="verification-failed"
+                  onReVerify={handleReVerify}
+                  reVerifying={reVerifying}
+                  reVerifyError={reVerifyError}
+                />
+              )}
+              {isNeedsReview && (
+                <ReVerifyPanel
+                  mode="needs-review"
+                  onReVerify={handleReVerify}
+                  reVerifying={reVerifying}
+                  reVerifyError={reVerifyError}
+                />
+              )}
+              <EditableContentDraftPanel
+                approvalId={id}
+                draftPayload={approval.draftPayload}
+                fixes={suggestedFixes}
+                onSaved={fetchApproval}
+                canSave={canSaveEdits}
+              />
+            </>
+          );
+        })()
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
           <h2 className="text-sm font-semibold text-gray-900">Draft payload</h2>
