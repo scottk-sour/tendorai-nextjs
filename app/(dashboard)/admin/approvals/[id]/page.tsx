@@ -20,9 +20,11 @@ const ITEM_TYPE_LABELS: Record<string, string> = {
 
 const STATUS_BADGE: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-700',
+  needs_review: 'bg-orange-100 text-orange-700',
   approved: 'bg-blue-100 text-blue-700',
   rejected: 'bg-red-100 text-red-700',
   executed: 'bg-green-100 text-green-700',
+  firm_completed: 'bg-teal-100 text-teal-700',
   failed: 'bg-red-100 text-red-700',
 };
 
@@ -74,6 +76,10 @@ interface Approval {
   executionResult?: unknown;
   executionError?: string | null;
   source?: string;
+  // Sequential workflow — the firm rejected the draft and routed it
+  // back to needs_review. Backend sets both fields together.
+  firmRejectionReason?: string | null;
+  firmRejectedAt?: string | null;
 }
 
 function getToken(): string {
@@ -664,6 +670,8 @@ export default function ApprovalDetailPage() {
   const [indexNowOk, setIndexNowOk] = useState<boolean | null>(null);
   const [executing, setExecuting] = useState(false);
   const [executeError, setExecuteError] = useState('');
+  const [reVerifying, setReVerifying] = useState(false);
+  const [reVerifyError, setReVerifyError] = useState('');
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -772,6 +780,40 @@ export default function ApprovalDetailPage() {
       showToast('Network error — please retry');
     } finally {
       setApproving(false);
+    }
+  };
+
+  const handleReVerify = async () => {
+    if (!approval) return;
+    setReVerifying(true);
+    setReVerifyError('');
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/admin/approvals/${id}/re-verify`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 401) {
+        router.replace('/admin/login');
+        return;
+      }
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setReVerifyError(errData?.error || `Legal check failed to run (${res.status})`);
+        return;
+      }
+
+      showToast('Legal check complete');
+      fetchApproval();
+    } catch {
+      setReVerifyError('Network error — please retry');
+    } finally {
+      setReVerifying(false);
     }
   };
 
@@ -978,6 +1020,56 @@ export default function ApprovalDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Firm-rejection callout — sequential workflow only. Rendered
+          prominently so the admin sees why the draft came back before
+          reading the body. */}
+      {approval.firmRejectionReason && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 space-y-2">
+          <div className="flex items-start justify-between gap-3 flex-wrap">
+            <h2 className="text-sm font-semibold text-amber-900">
+              Firm rejected this draft
+            </h2>
+            {approval.firmRejectedAt && (
+              <p className="text-xs text-amber-800 shrink-0">
+                {formatDateTime(approval.firmRejectedAt)}
+              </p>
+            )}
+          </div>
+          <p className="text-sm text-amber-900 whitespace-pre-wrap break-words">
+            {approval.firmRejectionReason}
+          </p>
+        </div>
+      )}
+
+      {/* Re-run Legal Check — visible on needs_review + rejected drafts.
+          POST /api/admin/approvals/:id/re-verify runs live legal
+          verification (~1–2 min). On completion the approval is refetched
+          so the new status and any fresh suggestedFixes render. */}
+      {(approval.status === 'needs_review' || approval.status === 'rejected') && (
+        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+          <div>
+            <h2 className="text-sm font-semibold text-gray-900">Legal check</h2>
+            <p className="text-xs text-gray-500 mt-1.5">
+              Runs the live legal verification pipeline against the current
+              draft body. Takes about 1&ndash;2 minutes end to end.
+            </p>
+          </div>
+          {reVerifyError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+              {reVerifyError}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleReVerify}
+            disabled={reVerifying}
+            className="w-full sm:w-auto px-4 py-2 text-sm font-medium rounded-lg bg-slate-800 text-white hover:bg-slate-900 disabled:opacity-50 transition"
+          >
+            {reVerifying ? 'Running legal check… (1–2 min)' : 'Re-run Legal Check'}
+          </button>
+        </div>
+      )}
 
       {/* Suggested corrections + editable draft payload (content_draft only);
           read-only PayloadView for every other item type so JSON/directory
