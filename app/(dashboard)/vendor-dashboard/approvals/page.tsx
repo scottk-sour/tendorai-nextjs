@@ -6,15 +6,18 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Approval, ApprovalItemType } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS } from '@/lib/loop/types';
+import { parseUniquePlaceholders } from '@/app/components/dashboard/approvals/PlaceholderEditor';
+import { markdownExcerpt } from '@/lib/utils/markdown';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
 
+// Sequential workflow default: firms first see drafts the admin has
+// already approved — those are the ones awaiting firm approval.
 const STATUS_TABS = [
-  { key: 'pending', label: 'Pending' },
-  { key: 'approved', label: 'Approved' },
+  { key: 'approved', label: 'Awaiting your approval' },
+  { key: 'executed', label: 'Published' },
   { key: 'rejected', label: 'Rejected' },
-  { key: 'executed', label: 'Executed' },
 ] as const;
 
 type StatusKey = typeof STATUS_TABS[number]['key'];
@@ -31,9 +34,12 @@ const ITEM_TYPE_OPTIONS: ApprovalItemType[] = [
 
 const STATUS_BADGE: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-700',
+  needs_review: 'bg-orange-100 text-orange-700',
   approved: 'bg-blue-100 text-blue-700',
   rejected: 'bg-red-100 text-red-700',
   executed: 'bg-green-100 text-green-700',
+  firm_completed: 'bg-teal-100 text-teal-700',
+  failed: 'bg-red-100 text-red-700',
 };
 
 const PAGE_LIMIT = 20;
@@ -63,11 +69,32 @@ function relativeTime(iso: string): string {
   return new Date(iso).toLocaleDateString('en-GB');
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function extractMarkdownBody(payload: unknown): string {
+  if (typeof payload === 'string') return payload;
+  if (!isPlainObject(payload)) return '';
+  for (const key of ['markdown', 'body', 'content', 'text']) {
+    const v = payload[key];
+    if (typeof v === 'string' && v.trim()) return v;
+  }
+  return '';
+}
+
 interface PaginationInfo {
   page: number;
   limit: number;
   total: number;
   pages: number;
+}
+
+interface RejectModalState {
+  approval: Approval;
+  reason: string;
+  submitting: boolean;
+  error: string;
 }
 
 export default function VendorApprovalsListPage() {
@@ -79,9 +106,18 @@ export default function VendorApprovalsListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<StatusKey>('pending');
+  // Sequential workflow default: 'approved' drafts are the ones the firm
+  // needs to act on. Previously hardcoded to 'pending', which under the new
+  // workflow is admin-side only and the firm never sees.
+  const [activeTab, setActiveTab] = useState<StatusKey>('approved');
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [page, setPage] = useState(1);
+
+  const [actioningId, setActioningId] = useState<string | null>(null);
+  const [publishedUrls, setPublishedUrls] = useState<Record<string, string>>({});
+  const [routedBackIds, setRoutedBackIds] = useState<Record<string, true>>({});
+  const [rowError, setRowError] = useState<Record<string, string>>({});
+  const [rejectModal, setRejectModal] = useState<RejectModalState | null>(null);
 
   const fetchApprovals = useCallback(async () => {
     const token = getCurrentToken();
@@ -142,10 +178,141 @@ export default function VendorApprovalsListPage() {
     if (pagination.page < pagination.pages) setPage(pagination.page + 1);
   };
 
+  const clearRowError = (id: string) => {
+    setRowError((prev) => {
+      if (!prev[id]) return prev;
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const handleApproveAndPublish = async (item: Approval) => {
+    const token = getCurrentToken();
+    if (!token) return;
+
+    setActioningId(item._id);
+    clearRowError(item._id);
+    setRoutedBackIds((prev) => {
+      if (!prev[item._id]) return prev;
+      const next = { ...prev };
+      delete next[item._id];
+      return next;
+    });
+    try {
+      const res = await fetch(
+        `${API_URL}/api/vendor/approvals/${item._id}/firm-approve`,
+        {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      const body = await res.json().catch(() => null);
+
+      if (res.status === 401) {
+        router.replace('/vendor-login?redirect=/vendor-dashboard/approvals');
+        return;
+      }
+
+      if (!res.ok) {
+        // Backend signals a mid-flight verification failure that routed the
+        // draft back to needs_review with `routedToReview: true`. Distinct
+        // from a plain error — the firm needs to know their approval was
+        // heard but produced a downstream review.
+        if (body?.routedToReview) {
+          setRoutedBackIds((prev) => ({ ...prev, [item._id]: true }));
+          fetchApprovals();
+          return;
+        }
+        setRowError((prev) => ({
+          ...prev,
+          [item._id]: body?.error || `Couldn't publish (${res.status})`,
+        }));
+        return;
+      }
+
+      const liveUrl = typeof body?.liveUrl === 'string' ? body.liveUrl : '';
+      if (liveUrl) {
+        setPublishedUrls((prev) => ({ ...prev, [item._id]: liveUrl }));
+      }
+      fetchApprovals();
+    } catch {
+      setRowError((prev) => ({
+        ...prev,
+        [item._id]: 'Network error — please retry.',
+      }));
+    } finally {
+      setActioningId(null);
+    }
+  };
+
+  const openRejectModal = (item: Approval) => {
+    setRejectModal({ approval: item, reason: '', submitting: false, error: '' });
+  };
+
+  const closeRejectModal = () => {
+    if (rejectModal?.submitting) return;
+    setRejectModal(null);
+  };
+
+  const submitReject = async () => {
+    if (!rejectModal) return;
+    const reason = rejectModal.reason.trim();
+    if (!reason) {
+      setRejectModal({ ...rejectModal, error: 'Please add a comment so the team knows what to change.' });
+      return;
+    }
+
+    const token = getCurrentToken();
+    if (!token) return;
+
+    setRejectModal({ ...rejectModal, submitting: true, error: '' });
+    try {
+      const res = await fetch(
+        `${API_URL}/api/vendor/approvals/${rejectModal.approval._id}/firm-reject`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reason }),
+        },
+      );
+
+      if (res.status === 401) {
+        router.replace('/vendor-login?redirect=/vendor-dashboard/approvals');
+        return;
+      }
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setRejectModal({
+          ...rejectModal,
+          submitting: false,
+          error: errData?.error || `Couldn't submit (${res.status})`,
+        });
+        return;
+      }
+
+      setRejectModal(null);
+      fetchApprovals();
+    } catch {
+      setRejectModal({
+        ...rejectModal,
+        submitting: false,
+        error: 'Network error — please retry.',
+      });
+    }
+  };
+
   const emptyMessage =
-    activeTab === 'pending'
-      ? "Nothing waiting for approval right now. We'll let you know when there's something to look at."
-      : 'No items in this status yet.';
+    activeTab === 'approved'
+      ? "Nothing waiting for your approval right now. We'll let you know when there's something to look at."
+      : activeTab === 'executed'
+        ? 'Nothing published yet.'
+        : 'No rejected drafts.';
 
   return (
     <div className="space-y-6">
@@ -210,57 +377,130 @@ export default function VendorApprovalsListPage() {
             Retry
           </button>
         </div>
+      ) : items.length === 0 ? (
+        <div className="bg-white rounded-lg border border-gray-200 px-6 py-16 text-center text-gray-500">
+          {emptyMessage}
+        </div>
       ) : (
         <>
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Title</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Type</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Agent</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Created</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {items.map((item) => (
-                    <tr key={item._id} className="hover:bg-gray-50 transition">
-                      <td className="px-4 py-3">
-                        <p className="font-medium text-gray-900 truncate max-w-[320px]">{item.title || '(untitled)'}</p>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{ITEM_TYPE_LABELS[item.itemType] || item.itemType}</td>
-                      <td className="px-4 py-3 text-gray-600">{AGENT_DISPLAY[item.agentName] || item.agentName}</td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_BADGE[item.status] || 'bg-gray-100 text-gray-700'}`}>
-                          {item.status}
+          <div className="space-y-4">
+            {items.map((item) => {
+              const draftBody = extractMarkdownBody(item.draftPayload);
+              const placeholderCount = draftBody
+                ? parseUniquePlaceholders(draftBody).length
+                : 0;
+              const preview = draftBody ? markdownExcerpt(draftBody, 260) : '';
+              const agentDisplay = AGENT_DISPLAY[item.agentName] || item.agentName;
+              const showActions =
+                activeTab === 'approved' && item.status === 'approved';
+              const liveUrl = publishedUrls[item._id];
+              const routedBack = routedBackIds[item._id];
+              const rowErrorMsg = rowError[item._id];
+              const busy = actioningId === item._id;
+
+              return (
+                <div
+                  key={item._id}
+                  className="bg-white rounded-lg border border-gray-200 p-5 sm:p-6 space-y-4"
+                >
+                  {/* Header row: title, badge, meta */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="min-w-0">
+                      <h2 className="text-base sm:text-lg font-semibold text-gray-900 break-words">
+                        {item.title || '(untitled)'}
+                      </h2>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {ITEM_TYPE_LABELS[item.itemType] || item.itemType}
+                        {' · '}
+                        drafted by <span className="font-medium">{agentDisplay}</span>
+                        {' · '}
+                        <span title={new Date(item.createdAt).toLocaleString('en-GB')}>
+                          {relativeTime(item.createdAt)}
                         </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-500 text-xs" title={new Date(item.createdAt).toLocaleString('en-GB')}>
-                        {relativeTime(item.createdAt)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <Link
-                          href={`/vendor-dashboard/approvals/${item._id}`}
-                          className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
-                        >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                  {items.length === 0 && (
-                    <tr>
-                      <td colSpan={6} className="px-4 py-12 text-center text-gray-500">
-                        {emptyMessage}
-                      </td>
-                    </tr>
+                      </p>
+                    </div>
+                    <span
+                      className={`shrink-0 inline-flex text-xs font-medium px-2.5 py-1 rounded-full ${
+                        STATUS_BADGE[item.status] || 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </div>
+
+                  {/* Body preview */}
+                  {preview && (
+                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+                      {preview}
+                    </p>
                   )}
-                </tbody>
-              </table>
-            </div>
+
+                  {/* Placeholder count — only meaningful when > 0 */}
+                  {placeholderCount > 0 && (
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                      <span aria-hidden>⚠</span>
+                      {placeholderCount} unfilled placeholder
+                      {placeholderCount === 1 ? '' : 's'}
+                    </div>
+                  )}
+
+                  {/* Row-level status feedback */}
+                  {liveUrl && (
+                    <div className="bg-green-50 border border-green-200 text-green-800 px-3 py-2 rounded-lg text-sm break-words">
+                      Published.{' '}
+                      <a
+                        href={liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold underline underline-offset-2 hover:text-green-900"
+                      >
+                        View live post ↗
+                      </a>
+                    </div>
+                  )}
+                  {routedBack && (
+                    <div className="bg-orange-50 border border-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm">
+                      This draft has been sent back for review.
+                    </div>
+                  )}
+                  {rowErrorMsg && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+                      {rowErrorMsg}
+                    </div>
+                  )}
+
+                  {/* Action row */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {showActions && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => handleApproveAndPublish(item)}
+                          disabled={busy}
+                          className="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                        >
+                          {busy ? 'Publishing…' : 'Approve & Publish'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openRejectModal(item)}
+                          disabled={busy}
+                          className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition"
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
+                    <Link
+                      href={`/vendor-dashboard/approvals/${item._id}`}
+                      className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+                    >
+                      View
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {pagination.pages > 1 && (
@@ -290,6 +530,61 @@ export default function VendorApprovalsListPage() {
             </div>
           )}
         </>
+      )}
+
+      {/* Reject modal — comment is required so the admin has something to
+          act on when the draft is routed back to needs_review. */}
+      {rejectModal && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={closeRejectModal}
+        >
+          <div
+            className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
+              <h3 className="font-semibold text-gray-900">Reject this draft</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Tell the team what needs to change. This is required — the
+                draft will be sent back for review with your comment attached.
+              </p>
+            </div>
+            <textarea
+              value={rejectModal.reason}
+              onChange={(e) =>
+                setRejectModal({ ...rejectModal, reason: e.target.value, error: '' })
+              }
+              rows={5}
+              placeholder="e.g. This mentions the wrong practice area — we don't do family law…"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none"
+              autoFocus
+            />
+            {rejectModal.error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+                {rejectModal.error}
+              </div>
+            )}
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={closeRejectModal}
+                disabled={rejectModal.submitting}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={submitReject}
+                disabled={rejectModal.submitting || !rejectModal.reason.trim()}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                {rejectModal.submitting ? 'Sending…' : 'Send back for review'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
