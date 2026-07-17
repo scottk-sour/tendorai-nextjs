@@ -92,6 +92,15 @@ export interface Approval {
   // set when the backend publishes on firm-approve. Kept as unknown so
   // the extractLiveUrl helper can read it defensively.
   executionResult?: unknown;
+  // Set by the backend when a publish attempt fails. Rendered above the
+  // firm-details section on the vendor approval detail page so the firm
+  // can update the offending values and retry approve.
+  executionError?: string | null;
+  // Sequential workflow — current saved firm-data values keyed by the
+  // placeholder key that appears inside body [FIRM_DATA: key | label]
+  // markers. Populated by the backend after each firm-data save so the
+  // detail page can pre-fill the FirmDetailsSection inputs.
+  firmData?: Record<string, string>;
 }
 
 export type LoopStatus = 'green' | 'amber' | 'red' | 'gray';

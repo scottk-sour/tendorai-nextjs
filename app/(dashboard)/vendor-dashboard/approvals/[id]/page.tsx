@@ -6,14 +6,15 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Approval, DataGap } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS, ITEM_TYPE_DESCRIPTIONS } from '@/lib/loop/types';
-import { countPlaceholders } from '@/lib/loop/placeholders';
+import {
+  countPlaceholders,
+  substituteFirmDataValues,
+} from '@/lib/loop/placeholders';
 import { sanitiseVendorDecisionReason } from '@/lib/loop/vendorDecisionReason';
 import HighlightedMarkdown from '@/app/components/dashboard/approvals/HighlightedMarkdown';
-import PlaceholderEditor, {
-  parseUniquePlaceholders,
-} from '@/app/components/dashboard/approvals/PlaceholderEditor';
+import { parseUniquePlaceholders } from '@/app/components/dashboard/approvals/PlaceholderEditor';
 import StrengthenArticleSection from '@/app/components/dashboard/approvals/StrengthenArticleSection';
-import PlainApproveBar from '@/app/components/dashboard/approvals/PlainApproveBar';
+import FirmDetailsSection from '@/app/components/dashboard/approvals/FirmDetailsSection';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
@@ -108,7 +109,19 @@ function extractDataGaps(approval: Approval): DataGap[] {
   return [];
 }
 
-function PayloadView({ itemType, payload }: { itemType: string; payload: unknown }) {
+function PayloadView({
+  itemType,
+  payload,
+  firmData,
+}: {
+  itemType: string;
+  payload: unknown;
+  // Optional saved firm-data values, keyed by placeholder key. When
+  // present, [FIRM_DATA: key | label] markers whose key has a value
+  // render inline as the value so the firm sees the finished article.
+  // Markers without a value stay as-is and get amber-highlighted.
+  firmData?: Record<string, string>;
+}) {
   if (payload === null || payload === undefined || payload === '') {
     return <p className="text-sm text-gray-500 italic">No draft content was attached to this item.</p>;
   }
@@ -116,7 +129,8 @@ function PayloadView({ itemType, payload }: { itemType: string; payload: unknown
   if (itemType === 'content_draft' || itemType === 'press_release') {
     const md = extractMarkdown(payload);
     if (md) {
-      const missing = countPlaceholders(md);
+      const rendered = substituteFirmDataValues(md, firmData);
+      const missing = countPlaceholders(rendered);
       return (
         <>
           {missing > 0 && (
@@ -126,7 +140,7 @@ function PayloadView({ itemType, payload }: { itemType: string; payload: unknown
             </div>
           )}
           <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
-            <HighlightedMarkdown>{md}</HighlightedMarkdown>
+            <HighlightedMarkdown>{rendered}</HighlightedMarkdown>
           </div>
         </>
       );
@@ -494,44 +508,46 @@ export default function VendorApprovalDetailPage() {
         <p className="text-sm text-gray-600">{typeDescription}</p>
       </div>
 
-      {/* What it says */}
+      {/* What it says + firm-details surfaces.
+       *
+       * Under the sequential workflow, admin approval flips the status
+       * to 'approved' and hands the draft to the firm to finish. The
+       * layout that follows is:
+       *
+       *   1. Top "What it says" card — always a read-only preview. If
+       *      the body has [FIRM_DATA: key | label] markers, saved
+       *      values from approval.firmData are substituted so the firm
+       *      sees the finished article; markers without a saved value
+       *      stay as-is and get amber-highlighted.
+       *   2. Qualitative-mode dataGaps case — StrengthenArticleSection
+       *      still owns the top-side approve/reject when the Writer
+       *      produced structured dataGaps (a different data shape from
+       *      body-embedded [FIRM_DATA:] markers).
+       *   3. Publish failure banner — when status === 'failed' with an
+       *      executionError, shown between the preview and the
+       *      firm-details section so the firm sees why the last publish
+       *      attempt failed before they edit.
+       *   4. Bottom FirmDetailsSection — persistent while status is
+       *      'approved' or 'failed', for every content_draft (except
+       *      those in the dataGaps case). Lists every placeholder key
+       *      with its current saved value pre-filled, per-field save,
+       *      Approve & Publish gated on all keys having values, plus a
+       *      reject-with-required-comment control.
+       */}
       {(() => {
-        // Under the sequential workflow the firm acts on status 'approved',
-        // not 'pending' — admin approval flips the status to 'approved'
-        // and hands the draft to the firm to finish (fill placeholders,
-        // approve to publish, or reject with a comment). Backend firm-*
-        // endpoints accept 'approved' as the source status.
-        //
-        // Three approve surfaces fork off the same approved content_draft:
-        //   1. Legacy [FIRM_DATA: key | label] markers in body → PlaceholderEditor
-        //      (parses markers, renders inputs inline with live preview).
-        //   2. Qualitative-mode dataGaps metadata array → StrengthenArticleSection
-        //      (clean body via PayloadView + capture surface beneath).
-        //   3. Neither → PayloadView + PlainApproveBar (read-only body + approve).
-        // The reject-with-required-comment control appears alongside all three.
-        // Non-content_draft items and already-decided drafts stay read-only.
         const draftMarkdown =
           approval.itemType === 'content_draft'
             ? extractMarkdown(approval.draftPayload)
             : null;
-        const placeholders =
-          draftMarkdown !== null ? parseUniquePlaceholders(draftMarkdown) : [];
         const dataGaps: DataGap[] = extractDataGaps(approval);
 
         const isFirmActionable =
-          approval.status === 'approved' && approval.itemType === 'content_draft';
-        const showPlaceholderEditor =
-          isFirmActionable &&
-          draftMarkdown !== null &&
-          placeholders.length > 0;
+          (approval.status === 'approved' || approval.status === 'failed') &&
+          approval.itemType === 'content_draft';
         const showStrengthenSection =
-          isFirmActionable &&
-          !showPlaceholderEditor &&
-          dataGaps.length > 0;
-        const showPlainApprove =
-          isFirmActionable &&
-          !showPlaceholderEditor &&
-          !showStrengthenSection;
+          isFirmActionable && dataGaps.length > 0;
+        const showFirmDetailsSection =
+          isFirmActionable && !showStrengthenSection && draftMarkdown !== null;
 
         // Firm-approve success moves the draft to 'executed' (published)
         // under the sequential workflow — the earlier 'firm_completed'
@@ -561,41 +577,65 @@ export default function VendorApprovalDetailPage() {
           );
 
         return (
-          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
-            <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
+          <>
+            {/* 1. Read-only preview with value substitution */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+              <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
+              <PayloadView
+                itemType={approval.itemType}
+                payload={approval.draftPayload}
+                firmData={approval.firmData}
+              />
 
-            {showPlaceholderEditor ? (
-              <>
-                <PlaceholderEditor
-                  approval={approval}
-                  initialDraftText={draftMarkdown as string}
-                  initialPlaceholders={placeholders}
-                  onApproved={onApproved}
-                />
-                <RejectBar approval={approval} onRejected={onRejected} />
-              </>
-            ) : (
-              <>
-                <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
-                {showStrengthenSection && (
-                  <>
-                    <StrengthenArticleSection
-                      approval={approval}
-                      initialGaps={dataGaps}
-                      onApproved={onApproved}
-                    />
-                    <RejectBar approval={approval} onRejected={onRejected} />
-                  </>
-                )}
-                {showPlainApprove && (
-                  <>
-                    <PlainApproveBar approval={approval} onApproved={onApproved} />
-                    <RejectBar approval={approval} onRejected={onRejected} />
-                  </>
-                )}
-              </>
+              {/* 2. dataGaps case still uses its own top-side approve surface */}
+              {showStrengthenSection && (
+                <>
+                  <StrengthenArticleSection
+                    approval={approval}
+                    initialGaps={dataGaps}
+                    onApproved={onApproved}
+                  />
+                  <RejectBar approval={approval} onRejected={onRejected} />
+                </>
+              )}
+            </div>
+
+            {/* 3. Publish-failure banner, above the firm-details section */}
+            {approval.status === 'failed' && approval.executionError && (
+              <div className="bg-red-50 border border-red-200 text-red-900 rounded-lg p-5 flex items-start gap-3">
+                <svg
+                  className="w-5 h-5 mt-0.5 text-red-600 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M4.93 19h14.14a2 2 0 001.75-3l-7.07-12a2 2 0 00-3.5 0l-7.07 12A2 2 0 004.93 19z" />
+                </svg>
+                <div className="space-y-1">
+                  <p className="font-semibold">Publish failed</p>
+                  <p className="text-sm whitespace-pre-wrap break-words">
+                    {approval.executionError}
+                  </p>
+                  <p className="text-sm font-medium mt-2">
+                    Update your details below and try again.
+                  </p>
+                </div>
+              </div>
             )}
-          </div>
+
+            {/* 4. Persistent firm-details section — always rendered while
+                actionable and body-based (non-dataGaps). Handles
+                per-key edit, save, approve, and reject. */}
+            {showFirmDetailsSection && (
+              <FirmDetailsSection
+                approval={approval}
+                bodyText={draftMarkdown as string}
+                onApproved={onApproved}
+                onRejected={onRejected}
+              />
+            )}
+          </>
         );
       })()}
 

@@ -72,3 +72,30 @@ export function isPlaceholderMark(text: string): boolean {
 export function extractPlaceholderLabel(text: string): string {
   return text.slice(1, -1);
 }
+
+// Legacy body-embedded firm-data markers: [FIRM_DATA: key | label].
+// Narrower than PLACEHOLDER_RE — only these can be substituted with a
+// saved value because only these carry a stable key that maps onto
+// approval.firmData.
+const FIRM_DATA_RE = /\[FIRM_DATA:\s*([^|\]]+?)\s*\|\s*[^\]]+?\s*\]/g;
+
+/**
+ * Replace `[FIRM_DATA: key | label]` markers in body text with their
+ * saved values from `values` (keyed by the placeholder key). Markers
+ * whose key has no non-empty value are left in place so the amber
+ * highlight still renders for them via HighlightedMarkdown. Everything
+ * that isn't a FIRM_DATA marker passes through unchanged — including
+ * any broader `[CAPS_TOKEN: text]` placeholders, which don't have a
+ * saved-value analogue and always render as amber "needed" pills.
+ */
+export function substituteFirmDataValues(
+  text: string,
+  values: Record<string, string> | null | undefined,
+): string {
+  if (!text) return text;
+  if (!values) return text;
+  return text.replace(FIRM_DATA_RE, (match, key) => {
+    const v = values[String(key).trim()];
+    return typeof v === 'string' && v.trim() ? v : match;
+  });
+}
