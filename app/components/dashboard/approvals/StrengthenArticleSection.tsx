@@ -13,7 +13,9 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 interface Props {
   approval: Approval;
   initialGaps: DataGap[];
-  onApproved: () => void;
+  // Widened so callers can pick up the liveUrl returned by firm-approve
+  // under the sequential workflow.
+  onApproved: (result?: { liveUrl?: string }) => void;
 }
 
 export default function StrengthenArticleSection({
@@ -112,18 +114,15 @@ export default function StrengthenArticleSection({
           headers: { Authorization: `Bearer ${token}` },
         },
       );
+      const body = await res.json().catch(() => null);
       if (!res.ok) {
         let msg = `Couldn't submit (${res.status})`;
-        try {
-          const body = await res.json();
-          if (body?.error) msg = String(body.error);
-        } catch {
-          /* keep default */
-        }
+        if (body?.error) msg = String(body.error);
         setSubmitError(msg);
         return;
       }
-      onApproved();
+      const liveUrl = typeof body?.liveUrl === 'string' ? body.liveUrl : undefined;
+      onApproved(liveUrl ? { liveUrl } : undefined);
     } catch {
       setSubmitError('Network error — please retry.');
     } finally {

@@ -82,7 +82,9 @@ interface Props {
   approval: Approval;
   initialDraftText: string;
   initialPlaceholders: ParsedPlaceholder[];
-  onApproved: () => void;
+  // Widened so callers can pick up the liveUrl returned by firm-approve
+  // under the sequential workflow.
+  onApproved: (result?: { liveUrl?: string }) => void;
 }
 
 export default function PlaceholderEditor({
@@ -192,18 +194,15 @@ export default function PlaceholderEditor({
           headers: { Authorization: `Bearer ${token}` },
         },
       );
+      const body = await res.json().catch(() => null);
       if (!res.ok) {
         let msg = `Couldn't submit (${res.status})`;
-        try {
-          const body = await res.json();
-          if (body?.error) msg = String(body.error);
-        } catch {
-          /* keep default */
-        }
+        if (body?.error) msg = String(body.error);
         setSubmitError(msg);
         return;
       }
-      onApproved();
+      const liveUrl = typeof body?.liveUrl === 'string' ? body.liveUrl : undefined;
+      onApproved(liveUrl ? { liveUrl } : undefined);
     } catch {
       setSubmitError('Network error — please retry.');
     } finally {
@@ -320,7 +319,7 @@ export default function PlaceholderEditor({
               ? 'Submitting…'
               : remaining === 0
                 ? 'Approve and submit'
-                : `Approve (${remaining} detail${remaining === 1 ? '' : 's'} remaining)`}
+                : `Fill ${remaining} remaining detail${remaining === 1 ? '' : 's'} to publish`}
           </button>
           {submitError && (
             <p className="text-sm text-red-600 font-medium">{submitError}</p>

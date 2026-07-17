@@ -84,6 +84,14 @@ export interface Approval {
   decisionReason?: string;
   executedAt?: string;
   source?: string;
+  // Sequential workflow — set together when the firm rejects a draft
+  // sent to them via firm-reject. Optional on all older records.
+  firmRejectionReason?: string | null;
+  firmRejectedAt?: string | null;
+  // Persisted execution output — typically an object with a `liveUrl`,
+  // set when the backend publishes on firm-approve. Kept as unknown so
+  // the extractLiveUrl helper can read it defensively.
+  executionResult?: unknown;
 }
 
 export type LoopStatus = 'green' | 'amber' | 'red' | 'gray';

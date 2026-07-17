@@ -10,7 +10,10 @@ const API_URL =
 
 interface Props {
   approval: Approval;
-  onApproved: () => void;
+  // Widened so callers can pick up the liveUrl the sequential workflow
+  // returns from firm-approve — the detail page uses it to render a
+  // "Published" section without a round-trip refetch.
+  onApproved: (result?: { liveUrl?: string }) => void;
 }
 
 /**
@@ -40,18 +43,16 @@ export default function PlainApproveBar({ approval, onApproved }: Props) {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
+      const body = await res.json().catch(() => null);
+
       if (!res.ok) {
         let msg = `Couldn't submit (${res.status})`;
-        try {
-          const body = await res.json();
-          if (body?.error) msg = String(body.error);
-        } catch {
-          /* keep default */
-        }
+        if (body?.error) msg = String(body.error);
         setError(msg);
         return;
       }
-      onApproved();
+      const liveUrl = typeof body?.liveUrl === 'string' ? body.liveUrl : undefined;
+      onApproved(liveUrl ? { liveUrl } : undefined);
     } catch {
       setError('Network error — please retry.');
     } finally {

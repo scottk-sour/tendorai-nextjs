@@ -68,6 +68,21 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+// Persisted execute output typically lives at approval.executionResult.
+// Reading defensively means the Published banner survives a full page
+// reload after the local liveUrl state has been lost.
+function extractLiveUrl(approval: Approval): string | null {
+  const result = approval.executionResult;
+  if (typeof result === 'string' && /^https?:\/\//.test(result)) return result;
+  if (isPlainObject(result)) {
+    for (const key of ['liveUrl', 'url', 'publishedUrl', 'postUrl']) {
+      const v = result[key];
+      if (typeof v === 'string' && v.length > 0) return v;
+    }
+  }
+  return null;
+}
+
 // Qualitative-mode dataGaps are persisted by the Writer at draftPayload.dataGaps
 // (canonical) and mirrored at metadata.dataGaps. We previously read
 // approval.dataGaps (top-level) which was always undefined — so the
@@ -149,6 +164,91 @@ function PayloadView({ itemType, payload }: { itemType: string; payload: unknown
   );
 }
 
+// Inline reject bar. Mirrors the list page's modal-based flow but sits
+// as a static card on the detail page — required-reason textarea plus a
+// Reject button that hits firm-reject with the reason. The parent
+// updates local state on success via onRejected so the surface can
+// swap to a read-only view without a refetch.
+interface RejectBarProps {
+  approval: Approval;
+  onRejected: (reason: string) => void;
+}
+
+function RejectBar({ approval, onRejected }: RejectBarProps) {
+  const { getCurrentToken } = useAuth();
+  const [reason, setReason] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleReject = useCallback(async () => {
+    const trimmed = reason.trim();
+    if (!trimmed) {
+      setError('Please add a comment so the team knows what to change.');
+      return;
+    }
+    const token = getCurrentToken();
+    if (!token) {
+      setError('Not authenticated.');
+      return;
+    }
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch(
+        `${API_URL}/api/vendor/approvals/${approval._id}/firm-reject`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reason: trimmed }),
+        },
+      );
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        let msg = `Couldn't submit (${res.status})`;
+        if (body?.error) msg = String(body.error);
+        setError(msg);
+        return;
+      }
+      onRejected(trimmed);
+    } catch {
+      setError('Network error — please retry.');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [approval._id, getCurrentToken, onRejected, reason]);
+
+  return (
+    <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-5 space-y-3">
+      <h3 className="text-sm font-semibold text-gray-900">Reject this draft</h3>
+      <p className="text-xs text-gray-500">
+        A comment is required so the team knows what needs to change.
+      </p>
+      <textarea
+        value={reason}
+        onChange={(e) => {
+          setReason(e.target.value);
+          if (error) setError('');
+        }}
+        rows={3}
+        placeholder="What needs to change?"
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"
+      />
+      {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
+      <button
+        type="button"
+        onClick={handleReject}
+        disabled={submitting || !reason.trim()}
+        className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+      >
+        {submitting ? 'Submitting…' : 'Reject with comment'}
+      </button>
+    </div>
+  );
+}
+
 export default function VendorApprovalDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -161,6 +261,10 @@ export default function VendorApprovalDetailPage() {
   const [error, setError] = useState('');
   const [toastMessage, setToastMessage] = useState('');
   const [copied, setCopied] = useState<string | null>(null);
+  // The liveUrl returned by firm-approve is captured locally so the
+  // Published section renders immediately. On subsequent visits the URL
+  // is read from approval.executionResult via extractLiveUrl.
+  const [localLiveUrl, setLocalLiveUrl] = useState<string | null>(null);
 
   const copyToClipboard = useCallback(async (text: string, label: string) => {
     if (!text) return;
@@ -303,7 +407,49 @@ export default function VendorApprovalDetailPage() {
         </Link>
       </div>
 
-      {/* firm_completed success banner */}
+      {/* Published banner — new sequential-workflow outcome. Reads liveUrl
+          from local state (fresh firm-approve response) or the persisted
+          approval.executionResult (survives page reload). */}
+      {approval.status === 'executed' && (() => {
+        const liveUrl = localLiveUrl || extractLiveUrl(approval);
+        return (
+          <div className="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg flex items-start gap-3">
+            <svg
+              className="w-5 h-5 mt-0.5 text-green-600 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <div>
+              <p className="font-semibold">Published.</p>
+              {liveUrl ? (
+                <p className="text-sm mt-1">
+                  Your approval has published this post to your firm profile.{' '}
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold underline underline-offset-2 hover:text-green-900"
+                  >
+                    View live post ↗
+                  </a>
+                </p>
+              ) : (
+                <p className="text-sm mt-1">
+                  Your approval has published this post to your firm profile.
+                </p>
+              )}
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Legacy firm_completed banner — kept for approvals still in the
+          old intermediate state on the backend. New records go straight
+          from 'approved' → 'executed' when the firm approves. */}
       {approval.status === 'firm_completed' && (
         <div className="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg flex items-start gap-3">
           <svg
@@ -350,14 +496,20 @@ export default function VendorApprovalDetailPage() {
 
       {/* What it says */}
       {(() => {
-        // Three surfaces fork off the same pending content_draft:
+        // Under the sequential workflow the firm acts on status 'approved',
+        // not 'pending' — admin approval flips the status to 'approved'
+        // and hands the draft to the firm to finish (fill placeholders,
+        // approve to publish, or reject with a comment). Backend firm-*
+        // endpoints accept 'approved' as the source status.
+        //
+        // Three approve surfaces fork off the same approved content_draft:
         //   1. Legacy [FIRM_DATA: key | label] markers in body → PlaceholderEditor
         //      (parses markers, renders inputs inline with live preview).
         //   2. Qualitative-mode dataGaps metadata array → StrengthenArticleSection
         //      (clean body via PayloadView + capture surface beneath).
         //   3. Neither → PayloadView + PlainApproveBar (read-only body + approve).
-        // Anything else (non-content_draft items, already-decided drafts) keeps
-        // the read-only PayloadView with no action surface.
+        // The reject-with-required-comment control appears alongside all three.
+        // Non-content_draft items and already-decided drafts stay read-only.
         const draftMarkdown =
           approval.itemType === 'content_draft'
             ? extractMarkdown(approval.draftPayload)
@@ -366,24 +518,46 @@ export default function VendorApprovalDetailPage() {
           draftMarkdown !== null ? parseUniquePlaceholders(draftMarkdown) : [];
         const dataGaps: DataGap[] = extractDataGaps(approval);
 
-        const isPendingContentDraft =
-          approval.status === 'pending' && approval.itemType === 'content_draft';
+        const isFirmActionable =
+          approval.status === 'approved' && approval.itemType === 'content_draft';
         const showPlaceholderEditor =
-          isPendingContentDraft &&
+          isFirmActionable &&
           draftMarkdown !== null &&
           placeholders.length > 0;
         const showStrengthenSection =
-          isPendingContentDraft &&
+          isFirmActionable &&
           !showPlaceholderEditor &&
           dataGaps.length > 0;
         const showPlainApprove =
-          isPendingContentDraft &&
+          isFirmActionable &&
           !showPlaceholderEditor &&
           !showStrengthenSection;
 
-        const onApproved = () =>
+        // Firm-approve success moves the draft to 'executed' (published)
+        // under the sequential workflow — the earlier 'firm_completed'
+        // optimistic value was stale. If the backend returned a liveUrl
+        // in the response body it's captured here so the Published
+        // section renders without a round-trip refetch.
+        const onApproved = (result?: { liveUrl?: string }) => {
+          if (result?.liveUrl) setLocalLiveUrl(result.liveUrl);
           setApproval((prev) =>
-            prev ? { ...prev, status: 'firm_completed' } : prev,
+            prev ? { ...prev, status: 'executed' } : prev,
+          );
+        };
+
+        // Firm-reject moves the draft to 'rejected' with a stored
+        // firmRejectionReason. Local state is patched so the surface
+        // switches to read-only immediately.
+        const onRejected = (reason: string) =>
+          setApproval((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  status: 'rejected',
+                  firmRejectionReason: reason,
+                  firmRejectedAt: new Date().toISOString(),
+                }
+              : prev,
           );
 
         return (
@@ -391,24 +565,33 @@ export default function VendorApprovalDetailPage() {
             <h2 className="text-sm font-semibold text-gray-900">What it says</h2>
 
             {showPlaceholderEditor ? (
-              <PlaceholderEditor
-                approval={approval}
-                initialDraftText={draftMarkdown as string}
-                initialPlaceholders={placeholders}
-                onApproved={onApproved}
-              />
+              <>
+                <PlaceholderEditor
+                  approval={approval}
+                  initialDraftText={draftMarkdown as string}
+                  initialPlaceholders={placeholders}
+                  onApproved={onApproved}
+                />
+                <RejectBar approval={approval} onRejected={onRejected} />
+              </>
             ) : (
               <>
                 <PayloadView itemType={approval.itemType} payload={approval.draftPayload} />
                 {showStrengthenSection && (
-                  <StrengthenArticleSection
-                    approval={approval}
-                    initialGaps={dataGaps}
-                    onApproved={onApproved}
-                  />
+                  <>
+                    <StrengthenArticleSection
+                      approval={approval}
+                      initialGaps={dataGaps}
+                      onApproved={onApproved}
+                    />
+                    <RejectBar approval={approval} onRejected={onRejected} />
+                  </>
                 )}
                 {showPlainApprove && (
-                  <PlainApproveBar approval={approval} onApproved={onApproved} />
+                  <>
+                    <PlainApproveBar approval={approval} onApproved={onApproved} />
+                    <RejectBar approval={approval} onRejected={onRejected} />
+                  </>
                 )}
               </>
             )}
