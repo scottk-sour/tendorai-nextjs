@@ -3,10 +3,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Approval, DataGap } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS, ITEM_TYPE_DESCRIPTIONS } from '@/lib/loop/types';
+import { countPlaceholders } from '@/lib/loop/placeholders';
+import { sanitiseVendorDecisionReason } from '@/lib/loop/vendorDecisionReason';
+import HighlightedMarkdown from '@/app/components/dashboard/approvals/HighlightedMarkdown';
 import PlaceholderEditor, {
   parseUniquePlaceholders,
 } from '@/app/components/dashboard/approvals/PlaceholderEditor';
@@ -99,10 +101,19 @@ function PayloadView({ itemType, payload }: { itemType: string; payload: unknown
   if (itemType === 'content_draft' || itemType === 'press_release') {
     const md = extractMarkdown(payload);
     if (md) {
+      const missing = countPlaceholders(md);
       return (
-        <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
-          <ReactMarkdown>{md}</ReactMarkdown>
-        </div>
+        <>
+          {missing > 0 && (
+            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-50 text-amber-900 border border-amber-200">
+              <span aria-hidden>⚠</span>
+              {missing} detail{missing === 1 ? '' : 's'} still needed from the firm
+            </div>
+          )}
+          <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
+            <HighlightedMarkdown>{md}</HighlightedMarkdown>
+          </div>
+        </>
       );
     }
   }
@@ -508,12 +519,18 @@ export default function VendorApprovalDetailPage() {
               <span className="text-gray-900">{formatDateTime(approval.decidedAt)}</span>
             </li>
           )}
-          {approval.decisionReason && (
-            <li className="flex flex-col sm:flex-row sm:items-baseline gap-2">
-              <span className="font-medium text-gray-700 sm:w-32">Reason</span>
-              <span className="text-gray-900 whitespace-pre-wrap break-words">{approval.decisionReason}</span>
-            </li>
-          )}
+          {(() => {
+            // Filter admin-diagnostic legal-review-failure strings out of the
+            // vendor-facing timeline. See lib/loop/vendorDecisionReason.ts.
+            const vendorReason = sanitiseVendorDecisionReason(approval);
+            if (!vendorReason) return null;
+            return (
+              <li className="flex flex-col sm:flex-row sm:items-baseline gap-2">
+                <span className="font-medium text-gray-700 sm:w-32">Reason</span>
+                <span className="text-gray-900 whitespace-pre-wrap break-words">{vendorReason}</span>
+              </li>
+            );
+          })()}
           {approval.status === 'executed' && approval.executedAt && (
             <li className="flex flex-col sm:flex-row sm:items-baseline gap-2">
               <span className="font-medium text-gray-700 sm:w-32">Executed</span>

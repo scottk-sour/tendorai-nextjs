@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Approval, ApprovalItemType } from '@/lib/loop/types';
 import { ITEM_TYPE_LABELS } from '@/lib/loop/types';
-import { parseUniquePlaceholders } from '@/app/components/dashboard/approvals/PlaceholderEditor';
+import { countPlaceholders } from '@/lib/loop/placeholders';
 import { markdownExcerpt } from '@/lib/utils/markdown';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
@@ -386,9 +386,7 @@ export default function VendorApprovalsListPage() {
           <div className="space-y-4">
             {items.map((item) => {
               const draftBody = extractMarkdownBody(item.draftPayload);
-              const placeholderCount = draftBody
-                ? parseUniquePlaceholders(draftBody).length
-                : 0;
+              const placeholderCount = countPlaceholders(draftBody);
               const preview = draftBody ? markdownExcerpt(draftBody, 260) : '';
               const agentDisplay = AGENT_DISPLAY[item.agentName] || item.agentName;
               const showActions =
@@ -476,10 +474,17 @@ export default function VendorApprovalsListPage() {
                         <button
                           type="button"
                           onClick={() => handleApproveAndPublish(item)}
-                          disabled={busy}
+                          // Block publish while any unresolved placeholder
+                          // remains in the body — the live post shouldn't
+                          // ship with `[FIRM_DATA: ...]` visible.
+                          disabled={busy || placeholderCount > 0}
                           className="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
                         >
-                          {busy ? 'Publishing…' : 'Approve & Publish'}
+                          {busy
+                            ? 'Publishing…'
+                            : placeholderCount > 0
+                              ? `Fill ${placeholderCount} remaining detail${placeholderCount === 1 ? '' : 's'} to publish`
+                              : 'Approve & Publish'}
                         </button>
                         <button
                           type="button"

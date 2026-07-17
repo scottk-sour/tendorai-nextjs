@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import IndexingActionPanel from '@/components/admin/IndexingActionPanel';
+import HighlightedMarkdown from '@/app/components/dashboard/approvals/HighlightedMarkdown';
+import { countPlaceholders } from '@/lib/loop/placeholders';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || 'https://ai-procurement-backend-q35u.onrender.com';
 
@@ -184,10 +186,19 @@ function PayloadView({ itemType, payload }: { itemType: string; payload: unknown
   if (itemType === 'content_draft') {
     const md = extractMarkdown(payload);
     if (md) {
+      const missing = countPlaceholders(md);
       return (
-        <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
-          <ReactMarkdown>{md}</ReactMarkdown>
-        </div>
+        <>
+          {missing > 0 && (
+            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-50 text-amber-900 border border-amber-200">
+              <span aria-hidden>⚠</span>
+              {missing} detail{missing === 1 ? '' : 's'} still needed from the firm
+            </div>
+          )}
+          <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
+            <HighlightedMarkdown>{md}</HighlightedMarkdown>
+          </div>
+        </>
       );
     }
   }
@@ -632,7 +643,7 @@ function EditableContentDraftPanel({
           />
         ) : body.trim() ? (
           <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900">
-            <ReactMarkdown>{body}</ReactMarkdown>
+            <HighlightedMarkdown>{body}</HighlightedMarkdown>
           </div>
         ) : (
           <p className="text-sm text-gray-500 italic">
@@ -1228,27 +1239,18 @@ export default function ApprovalDetailPage() {
         </div>
       )}
 
-      {/* Publish now (approved content_drafts only). Executes the approval:
-          creates the VendorPost, returns liveUrl, moves status → executed. */}
+      {/* Publish gating for approved content_drafts.
+          Under the sequential workflow, publishing a content_draft happens
+          when the FIRM approves — an admin clicking "Publish now" would
+          skip the firm's review. The button is removed for content_drafts
+          in favour of an info card; handleExecute is still available for
+          non-content_draft approval types via other code paths. */}
       {approval.status === 'approved' && approval.itemType === 'content_draft' && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
-          <h2 className="text-sm font-semibold text-gray-900">Publish</h2>
-          <p className="text-xs text-gray-500">
-            This draft is approved. Publish now to create the live blog post on tendorai.com.
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 space-y-2">
+          <h2 className="text-sm font-semibold text-blue-900">Awaiting firm review</h2>
+          <p className="text-sm text-blue-800">
+            Awaiting firm review &mdash; the firm&apos;s approval will publish this post.
           </p>
-          {executeError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
-              {executeError}
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={handleExecute}
-            disabled={executing}
-            className="w-full sm:w-auto px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 transition"
-          >
-            {executing ? 'Publishing…' : 'Publish now'}
-          </button>
         </div>
       )}
 
