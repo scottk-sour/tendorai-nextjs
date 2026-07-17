@@ -14,18 +14,36 @@ const API_URL =
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
+export type RepublishResult =
+  | { ok: true; liveUrl?: string }
+  | { ok: false; error: string };
+
 interface Props {
   approval: Approval;
   // Raw draft body text — used to parse the [FIRM_DATA: key | label]
   // markers and to gate approve on all keys having values.
   bodyText: string;
+  // 'approve' — pre-publish flow used while status is 'approved' or
+  // 'failed'. POSTs firm-approve, exposes the reject-with-comment
+  // control. Default.
+  // 'republish' — post-publish edit flow used while status is
+  // 'executed'. POSTs firm-republish, hides reject (the post is
+  // already live), and hands both success and failure back to the
+  // parent so the "Live post updated" banner or the returned reason
+  // can render above this section rather than inside it.
+  mode?: 'approve' | 'republish';
   // Fires when firm-approve succeeds. Widened to carry the liveUrl the
   // sequential workflow returns so the parent can render a Published
-  // banner without a refetch.
-  onApproved: (result?: { liveUrl?: string }) => void;
+  // banner without a refetch. Required for 'approve' mode.
+  onApproved?: (result?: { liveUrl?: string }) => void;
   // Fires when firm-reject succeeds. The reason is passed through so
   // the parent can patch local state to show the rejection immediately.
-  onRejected: (reason: string) => void;
+  // Required for 'approve' mode.
+  onRejected?: (reason: string) => void;
+  // Fires for both success and failure of firm-republish. Required for
+  // 'republish' mode. The parent shows the resulting banner above this
+  // section.
+  onRepublished?: (result: RepublishResult) => void;
 }
 
 /**
@@ -43,10 +61,13 @@ interface Props {
 export default function FirmDetailsSection({
   approval,
   bodyText,
+  mode = 'approve',
   onApproved,
   onRejected,
+  onRepublished,
 }: Props) {
   const { getCurrentToken } = useAuth();
+  const isRepublish = mode === 'republish';
 
   // Placeholders parsed from the body — order matches first-appearance
   // in the body, so the section reads left-to-right the same way the
@@ -163,21 +184,33 @@ export default function FirmDetailsSection({
     if (!allFilled) return;
     setApproving(true);
     setApproveError('');
+    // The reject-with-comment control fires firm-approve's sibling
+    // endpoint; both use the same handler so failures are routed to
+    // approveError (approve mode) or up through onRepublished (republish
+    // mode) in one place.
+    const reportError = (msg: string) => {
+      if (isRepublish) {
+        onRepublished?.({ ok: false, error: msg });
+      } else {
+        setApproveError(msg);
+      }
+    };
     try {
-      // Save any pending edits before firing firm-approve so the
-      // published post reflects the latest values.
+      // Save any pending edits before firing firm-approve/firm-republish
+      // so the published post reflects the latest values.
       const ok = await saveAllPending();
       if (!ok) {
-        setApproveError('Some details failed to save. Fix the errors above and retry.');
+        reportError('Some details failed to save. Fix the errors above and retry.');
         return;
       }
       const token = getCurrentToken();
       if (!token) {
-        setApproveError('Not authenticated.');
+        reportError('Not authenticated.');
         return;
       }
+      const endpoint = isRepublish ? 'firm-republish' : 'firm-approve';
       const res = await fetch(
-        `${API_URL}/api/vendor/approvals/${approval._id}/firm-approve`,
+        `${API_URL}/api/vendor/approvals/${approval._id}/${endpoint}`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
@@ -187,13 +220,17 @@ export default function FirmDetailsSection({
       if (!res.ok) {
         let msg = `Couldn't submit (${res.status})`;
         if (body?.error) msg = String(body.error);
-        setApproveError(msg);
+        reportError(msg);
         return;
       }
       const liveUrl = typeof body?.liveUrl === 'string' ? body.liveUrl : undefined;
-      onApproved(liveUrl ? { liveUrl } : undefined);
+      if (isRepublish) {
+        onRepublished?.({ ok: true, liveUrl });
+      } else {
+        onApproved?.(liveUrl ? { liveUrl } : undefined);
+      }
     } catch {
-      setApproveError('Network error — please retry.');
+      reportError('Network error — please retry.');
     } finally {
       setApproving(false);
     }
@@ -201,7 +238,9 @@ export default function FirmDetailsSection({
     allFilled,
     approval._id,
     getCurrentToken,
+    isRepublish,
     onApproved,
+    onRepublished,
     saveAllPending,
   ]);
 
@@ -237,7 +276,7 @@ export default function FirmDetailsSection({
         setRejectError(msg);
         return;
       }
-      onRejected(trimmed);
+      onRejected?.(trimmed);
     } catch {
       setRejectError('Network error — please retry.');
     } finally {
@@ -250,8 +289,9 @@ export default function FirmDetailsSection({
       <div>
         <h2 className="text-base font-semibold text-gray-900">Your details</h2>
         <p className="text-sm text-gray-600 mt-1">
-          Fill in the details below and click Approve &amp; Publish. Each field
-          saves automatically when you tab away, or use Save all.
+          {isRepublish
+            ? 'Change any value and click Update & republish to update the live post. Each field saves automatically when you tab away, or use Save all.'
+            : 'Fill in the details below and click Approve & Publish. Each field saves automatically when you tab away, or use Save all.'}
         </p>
       </div>
 
@@ -279,8 +319,9 @@ export default function FirmDetailsSection({
       {/* Empty state — no placeholders in body */}
       {totalFields === 0 && (
         <p className="text-sm text-gray-600">
-          This draft doesn&apos;t need any firm-specific details. Click
-          Approve &amp; Publish to send it live.
+          {isRepublish
+            ? "This draft doesn't have any firm-specific details to update."
+            : "This draft doesn't need any firm-specific details. Click Approve & Publish to send it live."}
         </p>
       )}
 
@@ -342,7 +383,7 @@ export default function FirmDetailsSection({
         </div>
       )}
 
-      {/* Approve */}
+      {/* Approve / Republish */}
       <div className="pt-4 border-t border-gray-200 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <button
@@ -352,10 +393,14 @@ export default function FirmDetailsSection({
             className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             {approving
-              ? 'Publishing…'
+              ? isRepublish
+                ? 'Republishing…'
+                : 'Publishing…'
               : totalFields > 0 && !allFilled
-                ? `Fill ${remaining} remaining detail${remaining === 1 ? '' : 's'} to publish`
-                : 'Approve & Publish'}
+                ? `Fill ${remaining} remaining detail${remaining === 1 ? '' : 's'} to ${isRepublish ? 'republish' : 'publish'}`
+                : isRepublish
+                  ? 'Update & republish'
+                  : 'Approve & Publish'}
           </button>
           {totalFields > 0 && (
             <button
@@ -368,43 +413,50 @@ export default function FirmDetailsSection({
             </button>
           )}
         </div>
-        {approveError && (
+        {/* Approve-mode errors render inline. Republish-mode errors are
+            reported to the parent (onRepublished) and shown in the
+            banner above this section per the workflow spec. */}
+        {!isRepublish && approveError && (
           <p className="text-sm text-red-600 font-medium">{approveError}</p>
         )}
       </div>
 
-      {/* Reject with required comment */}
-      <div className="pt-4 border-t border-gray-200 space-y-3">
-        <div>
-          <h3 className="text-sm font-semibold text-gray-900">
-            Or reject this draft
-          </h3>
-          <p className="text-xs text-gray-500 mt-1">
-            A comment is required so the team knows what needs to change.
-          </p>
+      {/* Reject with required comment — approve mode only. A published
+          post can't be un-published from here; edits go through
+          Update & republish instead. */}
+      {!isRepublish && (
+        <div className="pt-4 border-t border-gray-200 space-y-3">
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900">
+              Or reject this draft
+            </h3>
+            <p className="text-xs text-gray-500 mt-1">
+              A comment is required so the team knows what needs to change.
+            </p>
+          </div>
+          <textarea
+            value={rejectReason}
+            onChange={(e) => {
+              setRejectReason(e.target.value);
+              if (rejectError) setRejectError('');
+            }}
+            rows={3}
+            placeholder="What needs to change?"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"
+          />
+          {rejectError && (
+            <p className="text-sm text-red-600 font-medium">{rejectError}</p>
+          )}
+          <button
+            type="button"
+            onClick={handleReject}
+            disabled={rejecting || approving || !rejectReason.trim()}
+            className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            {rejecting ? 'Submitting…' : 'Reject with comment'}
+          </button>
         </div>
-        <textarea
-          value={rejectReason}
-          onChange={(e) => {
-            setRejectReason(e.target.value);
-            if (rejectError) setRejectError('');
-          }}
-          rows={3}
-          placeholder="What needs to change?"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none resize-none"
-        />
-        {rejectError && (
-          <p className="text-sm text-red-600 font-medium">{rejectError}</p>
-        )}
-        <button
-          type="button"
-          onClick={handleReject}
-          disabled={rejecting || approving || !rejectReason.trim()}
-          className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-        >
-          {rejecting ? 'Submitting…' : 'Reject with comment'}
-        </button>
-      </div>
+      )}
     </div>
   );
 }

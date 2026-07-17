@@ -14,7 +14,9 @@ import { sanitiseVendorDecisionReason } from '@/lib/loop/vendorDecisionReason';
 import HighlightedMarkdown from '@/app/components/dashboard/approvals/HighlightedMarkdown';
 import { parseUniquePlaceholders } from '@/app/components/dashboard/approvals/PlaceholderEditor';
 import StrengthenArticleSection from '@/app/components/dashboard/approvals/StrengthenArticleSection';
-import FirmDetailsSection from '@/app/components/dashboard/approvals/FirmDetailsSection';
+import FirmDetailsSection, {
+  type RepublishResult,
+} from '@/app/components/dashboard/approvals/FirmDetailsSection';
 
 const API_URL = process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL ||
                 'https://ai-procurement-backend-q35u.onrender.com';
@@ -279,6 +281,12 @@ export default function VendorApprovalDetailPage() {
   // Published section renders immediately. On subsequent visits the URL
   // is read from approval.executionResult via extractLiveUrl.
   const [localLiveUrl, setLocalLiveUrl] = useState<string | null>(null);
+  // Firm-republish outcome — success shows a "Live post updated" banner
+  // above the FirmDetailsSection, failure shows the returned reason in
+  // the same slot. Cleared automatically when the firm edits a field
+  // and retries; simple boolean/message pair is enough here.
+  const [republishSuccess, setRepublishSuccess] = useState(false);
+  const [republishError, setRepublishError] = useState('');
 
   const copyToClipboard = useCallback(async (text: string, label: string) => {
     if (!text) return;
@@ -533,6 +541,12 @@ export default function VendorApprovalDetailPage() {
        *      with its current saved value pre-filled, per-field save,
        *      Approve & Publish gated on all keys having values, plus a
        *      reject-with-required-comment control.
+       *   5. Bottom FirmDetailsSection (republish mode) — persistent
+       *      while status is 'executed'. Same section, but the primary
+       *      action becomes Update & republish (POSTs firm-republish)
+       *      and reject is hidden. Success shows a "Live post updated"
+       *      banner above the section; failure shows the returned
+       *      reason in the same slot.
        */}
       {(() => {
         const draftMarkdown =
@@ -548,6 +562,11 @@ export default function VendorApprovalDetailPage() {
           isFirmActionable && dataGaps.length > 0;
         const showFirmDetailsSection =
           isFirmActionable && !showStrengthenSection && draftMarkdown !== null;
+        const showRepublishSection =
+          approval.status === 'executed' &&
+          approval.itemType === 'content_draft' &&
+          draftMarkdown !== null;
+        const currentLiveUrl = localLiveUrl || extractLiveUrl(approval);
 
         // Firm-approve success moves the draft to 'executed' (published)
         // under the sequential workflow — the earlier 'firm_completed'
@@ -575,6 +594,21 @@ export default function VendorApprovalDetailPage() {
                 }
               : prev,
           );
+
+        // Firm-republish outcome is captured here rather than mutating
+        // status (the draft stays 'executed'). Success bumps the local
+        // liveUrl if the backend returned a fresh one, so the "View
+        // live post" links keep pointing at the current URL.
+        const onRepublished = (result: RepublishResult) => {
+          if (result.ok) {
+            if (result.liveUrl) setLocalLiveUrl(result.liveUrl);
+            setRepublishSuccess(true);
+            setRepublishError('');
+          } else {
+            setRepublishError(result.error);
+            setRepublishSuccess(false);
+          }
+        };
 
         return (
           <>
@@ -634,6 +668,70 @@ export default function VendorApprovalDetailPage() {
                 onApproved={onApproved}
                 onRejected={onRejected}
               />
+            )}
+
+            {/* 5. Persistent firm-details section (republish mode) for
+                already-published posts. Banners above the section
+                render the firm-republish outcome per the spec. */}
+            {showRepublishSection && (
+              <>
+                {republishError && (
+                  <div className="bg-red-50 border border-red-200 text-red-900 rounded-lg p-5 flex items-start gap-3">
+                    <svg
+                      className="w-5 h-5 mt-0.5 text-red-600 shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M4.93 19h14.14a2 2 0 001.75-3l-7.07-12a2 2 0 00-3.5 0l-7.07 12A2 2 0 004.93 19z" />
+                    </svg>
+                    <div className="space-y-1">
+                      <p className="font-semibold">Republish failed</p>
+                      <p className="text-sm whitespace-pre-wrap break-words">
+                        {republishError}
+                      </p>
+                      <p className="text-sm font-medium mt-2">
+                        Update your details below and try again.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {republishSuccess && (
+                  <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-5 flex items-start gap-3">
+                    <svg
+                      className="w-5 h-5 mt-0.5 text-green-600 shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <div>
+                      <p className="font-semibold">Live post updated.</p>
+                      {currentLiveUrl && (
+                        <p className="text-sm mt-1">
+                          <a
+                            href={currentLiveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold underline underline-offset-2 hover:text-green-900"
+                          >
+                            View live post ↗
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <FirmDetailsSection
+                  approval={approval}
+                  bodyText={draftMarkdown as string}
+                  mode="republish"
+                  onRepublished={onRepublished}
+                />
+              </>
             )}
           </>
         );
