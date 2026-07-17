@@ -1324,6 +1324,67 @@ export default function ApprovalDetailPage() {
         </dl>
       </div>
 
+      {/* Persistent action bar (bottom) — the top Approve/Reject block above
+          is gated on status === 'pending', but the backend accepts approval
+          from 'pending', 'needs_review' and 'firm_completed'. This bar
+          exposes the same handlers for all three, and stays visible at the
+          bottom of the page so it's reachable after scrolling through long
+          draft payloads. Wires to the same approveReason / rejectReason
+          state as the top block, so edits sync in either direction. */}
+      {(approval.status === 'pending' ||
+        approval.status === 'needs_review' ||
+        approval.status === 'firm_completed') && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+            <h2 className="text-sm font-semibold text-gray-900">Approve</h2>
+            <p className="text-xs text-gray-500">
+              {approval.status === 'needs_review'
+                ? 'Approving sends this draft to the firm for their review.'
+                : approval.status === 'firm_completed'
+                ? 'The firm has completed their part. Approving queues this for execution.'
+                : 'Reason is optional. The item will be marked approved and queued for execution.'}
+            </p>
+            <textarea
+              value={approveReason}
+              onChange={(e) => setApproveReason(e.target.value)}
+              rows={3}
+              placeholder="Optional context…"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none"
+            />
+            <button
+              type="button"
+              onClick={handleApprove}
+              disabled={approving || rejecting}
+              className="w-full px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 transition"
+            >
+              {approving ? 'Working…' : 'Approve item'}
+            </button>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+            <h2 className="text-sm font-semibold text-gray-900">Reject</h2>
+            <p className="text-xs text-gray-500">
+              Reason is required. It will be saved on the audit trail and visible to the drafting agent.
+            </p>
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              rows={3}
+              placeholder="Why is this being rejected?"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none"
+            />
+            <button
+              type="button"
+              onClick={handleReject}
+              disabled={rejecting || approving || !rejectReason.trim()}
+              className="w-full px-4 py-2 text-sm font-medium rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition"
+            >
+              {rejecting ? 'Working…' : 'Reject item'}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Toast */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 bg-gray-900 text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium z-50">
