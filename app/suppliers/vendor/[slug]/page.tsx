@@ -9,6 +9,10 @@ import {
   POSTCODE_AREAS,
 } from '@/lib/constants';
 import { buildVendorFaqs, buildFaqPageJsonLd } from '@/lib/utils/vendorFaqSchema';
+import {
+  buildExp001LegalServiceJsonLd,
+  isExp001Treatment,
+} from '@/lib/experiments/exp001';
 import { markdownExcerpt } from '@/lib/utils/markdown';
 import AiReferralTracker from '@/app/components/tracking/AiReferralTracker';
 import ProfileViewTracker from '@/app/components/tracking/ProfileViewTracker';
@@ -699,6 +703,24 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
   const vendorFaqs = buildVendorFaqs(vendor);
   const faqJsonLd = vendorFaqs.length > 0 ? buildFaqPageJsonLd(vendorFaqs) : null;
 
+  // EXP-001 (study_2026_07_exp001) — inject an additional LegalService
+  // JSON-LD block ONLY for solicitor firms whose slug is in the
+  // treatment half of data/exp001-assignment.json. Control firms and
+  // non-solicitor vendors get no change; existing schema output above
+  // is untouched, so control pages are byte-identical to today.
+  const exp001JsonLd =
+    vendor.vendorType === 'solicitor' && isExp001Treatment(slug)
+      ? buildExp001LegalServiceJsonLd({
+          slug,
+          company: vendor.company,
+          sraNumber: vendor.sraNumber,
+          website: vendor.contactInfo?.website,
+          location: vendor.location,
+          courtCoverageAreas: vendor.courtCoverageAreas,
+          practiceAreas: vendor.practiceAreas,
+        })
+      : null;
+
   return (
     <>
       <script
@@ -713,6 +735,13 @@ export default async function VendorPublicProfilePage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      {exp001JsonLd && (
+        <script
+          type="application/ld+json"
+          data-experiment="study_2026_07_exp001"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(exp001JsonLd) }}
         />
       )}
 

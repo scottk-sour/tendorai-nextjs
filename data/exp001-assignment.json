@@ -1,0 +1,5 @@
+{
+  "_readme": "EXP-001 firm assignment (study_2026_07_exp001). This file is the source of truth for which solicitor profile pages receive the EXP-001 LegalService JSON-LD block. It MUST be byte-identical to the committed backend file at scottk-sour/tendorai-backend:data/exp001-assignment.json. If a firm slug is absent from `firms`, no schema is injected — the loader fails closed to control. Do not hand-edit; overwrite the whole file with the backend copy.",
+  "study": "study_2026_07_exp001",
+  "firms": []
+}
