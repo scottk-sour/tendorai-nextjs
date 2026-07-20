@@ -14,7 +14,7 @@ const STATIC_BLOG_DIRS = new Set([
   'does-structured-data-help-ai-visibility',
   'tendorai-review-what-uk-professional-services-firms-get',
   'how-much-conveyancing-cost-cardiff-2026',
-  'ai-visibility-report-uk-solicitors-2025',
+  'ai-visibility-report-uk-solicitors-2026',
   'best-ai-visibility-tools-uk-professional-services',
   'how-to-check-if-business-appears-in-ai-recommendations',
 ]);
