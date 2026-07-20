@@ -108,9 +108,11 @@ const nextConfig = {
       { source: '/blog/will-ai-make-seo-obsolete-what-uk-professional-services-firms-need-to-know', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
       { source: '/blog/geo-for-uk-solicitors', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
       { source: '/blog/ai-visibility-vs-seo-agencies', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
-      // Cluster 10: AI Visibility Report UK Solicitors — keeper /blog/ai-visibility-report-uk-solicitors-2025
-      { source: '/blog/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
-      { source: '/blog/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      // Cluster 10: AI Visibility Report UK Solicitors — keeper /blog/ai-visibility-report-uk-solicitors-2026
+      { source: '/blog/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2026', permanent: true },
+      { source: '/blog/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2026', permanent: true },
+      // Slug year-rename: 2025 → 2026 (post title always said 2026; slug was stale).
+      { source: '/blog/ai-visibility-report-uk-solicitors-2025', destination: '/blog/ai-visibility-report-uk-solicitors-2026', permanent: true },
       // Cluster 11: 216 UK Solicitors study — keeper /blog/ai-recommends-uk-solicitors-study
       { source: '/blog/ai-recommends-solicitors-uk-cities', destination: '/blog/ai-recommends-uk-solicitors-study', permanent: true },
       // Cluster 12: Why AI visibility is critical for UK solicitors — keeper /blog/ai-visibility-crucial-solicitors-uk
@@ -136,8 +138,8 @@ const nextConfig = {
       { source: '/resources/ai-visibility-for-solicitors-uk', destination: '/blog/how-to-get-your-solicitor-firm-recommended-by-chatgpt', permanent: true },
       { source: '/resources/geo-for-uk-solicitors', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
       { source: '/resources/ai-visibility-vs-seo-agencies', destination: '/blog/geo-marketing-uk-businesses', permanent: true },
-      { source: '/resources/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
-      { source: '/resources/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2025', permanent: true },
+      { source: '/resources/8600-solicitors-analysed', destination: '/blog/ai-visibility-report-uk-solicitors-2026', permanent: true },
+      { source: '/resources/why-ai-isnt-recommending-you', destination: '/blog/ai-visibility-report-uk-solicitors-2026', permanent: true },
       { source: '/resources/ai-recommends-solicitors-uk-cities', destination: '/blog/ai-recommends-uk-solicitors-study', permanent: true },
       { source: '/resources/tendorai-is-not-a-monitoring-tool', destination: '/blog/tendorai-review-what-uk-professional-services-firms-get', permanent: true },
       { source: '/resources/photocopier-costs-uk-2026', destination: '/blog', permanent: true },

@@ -5,7 +5,7 @@ const TITLE = 'AI Visibility Report: UK Solicitors 2026';
 const DESCRIPTION =
   '1,458 SRA-registered law firms have no website. Every single one is invisible to ChatGPT, Gemini, and Perplexity. TendorAI\'s data on 8,625 solicitors reveals the AI visibility gap — and what it means for every firm in the UK.';
 const CANONICAL =
-  'https://www.tendorai.com/blog/ai-visibility-report-uk-solicitors-2025';
+  'https://www.tendorai.com/blog/ai-visibility-report-uk-solicitors-2026';
 const PUBLISHED = '2026-03-21';
 
 export const metadata: Metadata = {
