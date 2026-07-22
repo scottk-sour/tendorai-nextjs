@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articles, getArticleBySlug, type Article } from '@/lib/content/articles';
+import { renderArticleBodyWithCharts } from '@/lib/content/renderWithCharts';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -79,6 +80,9 @@ function parseMarkdown(content: string): string {
   let html = content
     // Horizontal rules
     .replace(/^---$/gm, '<hr class="my-8 border-gray-200" />')
+    // Blockquotes — one line each, styled as a purple-accent callout so
+    // report posts can drop a headline stat inside `> **...**`.
+    .replace(/^> (.*$)/gm, '<blockquote class="border-l-4 border-purple-500 pl-4 py-2 my-6 text-gray-700 bg-purple-50/40 rounded-r">$1</blockquote>')
     // Headers
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">$1</h2>')
@@ -179,7 +183,15 @@ export default async function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const contentHtml = parseMarkdown(article.content);
+  // Rendered below via renderArticleBodyWithCharts so `<!--CHART:N-->`
+  // markers can be swapped for client-side chart components (used only
+  // by report posts; every other article renders one dangerouslySetInnerHTML
+  // block, identical to before).
+  const articleBody = renderArticleBodyWithCharts(
+    article.content,
+    parseMarkdown,
+    'prose prose-lg max-w-none',
+  );
 
   // Schema.org Article markup
   const articleJsonLd = {
@@ -302,10 +314,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
         {/* Article Content */}
         <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-          <div
-            className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: contentHtml }}
-          />
+          {articleBody}
 
           {/* FAQ section (only renders when the article ships structured FAQs) */}
           {article.faqs && article.faqs.length > 0 && (
