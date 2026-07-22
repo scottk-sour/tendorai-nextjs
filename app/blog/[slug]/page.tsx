@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articles, getArticleBySlug, type Article } from '@/lib/content/articles';
+import { renderArticleBodyWithCharts } from '@/lib/content/renderWithCharts';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -74,6 +75,7 @@ const categoryColors: Record<string, string> = {
 function parseMarkdown(content: string): string {
   return content
     .replace(/^---$/gm, '<hr class="my-8 border-gray-200" />')
+    .replace(/^> (.*$)/gm, '<blockquote class="border-l-4 border-purple-500 pl-4 py-2 my-6 text-gray-700 bg-purple-50/40 rounded-r">$1</blockquote>')
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">$1</h2>')
     // Bold runs before italic so `**x**` is consumed as <strong>, not as
@@ -131,7 +133,13 @@ export default async function BlogArticlePage({ params }: PageProps) {
   if (!article) notFound();
 
   const hasContent = article.content && article.content.trim().length > 0;
-  const contentHtml = hasContent ? parseMarkdown(article.content) : '';
+  // Rendered below via renderArticleBodyWithCharts so `<!--CHART:N-->`
+  // markers can be swapped for client-side chart components. Bodies
+  // without markers render as one dangerouslySetInnerHTML block, same
+  // as before.
+  const articleBody = hasContent
+    ? renderArticleBodyWithCharts(article.content, parseMarkdown, 'prose prose-gray max-w-none')
+    : null;
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -201,10 +209,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
         {/* Article content */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
           {hasContent ? (
-            <div
-              className="prose prose-gray max-w-none"
-              dangerouslySetInnerHTML={{ __html: contentHtml }}
-            />
+            articleBody
           ) : (
             <div className="text-center py-12">
               <p className="text-lg text-gray-600 mb-4">{article.excerpt}</p>

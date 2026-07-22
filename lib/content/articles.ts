@@ -37,6 +37,121 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    // The UK AI Visibility Report for Solicitors — July 2026. Inline
+    // content with no `href` so the article renders at both
+    // /resources/{slug} and /blog/{slug}. Three chart markers
+    // (<!--CHART:1|2|3-->) are swapped for the client-side
+    // SolicitorsJuly2026Charts component by renderArticleBodyWithCharts.
+    slug: 'ai-visibility-report-solicitors-july-2026',
+    title: 'The UK AI Visibility Report for Solicitors — July 2026',
+    excerpt: 'US research says AI answers about lawyers are dominated by legal directories. We measured 12,279 citations across UK solicitor searches. The UK looks very different — and, for individual firms, harder to win.',
+    category: 'Research',
+    author: 'TendorAI',
+    readTime: 8,
+    publishedDate: '2026-07-22',
+    updatedDate: '2026-07-22',
+    metaDescription: 'TendorAI measured 12,279 AI citations across UK solicitor searches in July 2026. 74% went to firm websites, ChatGPT never cited a legal directory, and Reddit was Perplexity’s second most-cited source.',
+    featured: true,
+    content: `**US research says AI answers about lawyers are dominated by legal directories. We measured 12,279 citations across UK solicitor searches. The UK looks very different — and, for individual firms, harder to win.**
+
+When a prospective client opens ChatGPT or Perplexity and asks "best conveyancing solicitor in Cardiff" — or Leeds, or Bristol — whose websites does the AI actually read to build its answer?
+
+In July 2026 we stopped guessing and measured it. We ran a fixed panel of 68 prompts across 17 UK cities, covering 7 practice areas (personal injury, criminal law, litigation, conveyancing, immigration, family law, and wills & probate), against both Perplexity and ChatGPT — 1,360 answer runs, tracking over 1,200 SRA-regulated firms in the measured cities. We recorded every source each answer cited — 12,279 citations in total — and classified each one.
+
+The prompt panel was fixed before any testing began and contained no firm names, so results could not be biased towards any individual practice. Every run returned citations — 0 of 1,360 answers were built from nothing.
+
+> **74% of AI citations went to individual law firm websites — scattered across 596 different firms. The typical firm appeared in roughly 3% of the answers it could have appeared in.**
+
+## Finding 1: The UK is not a "directory wall"
+
+A widely shared US study this month reported that 48% of AI citations for "best lawyer" searches went to legal directories, with directories the top source in most queries.
+
+Our UK data says otherwise:
+
+| Source type | Share of 12,279 citations |
+|---|---|
+| Individual firm websites | 74.1% |
+| Legal directories & review platforms | 17.2% |
+| Forums & social media | 4.6% |
+| Search (google.com) | 4.1% |
+| Media & reference | 0.02% |
+
+<!--CHART:2-->
+
+Three out of four citations went to law firms' own websites. The US finding and ours aren't directly comparable — different countries, engines and query panels, and our sample is roughly forty times larger — but the headline conclusion doesn't transfer: in the UK, AI systems are reading firm websites, not routing around them.
+
+That last row deserves a second look, too. Newspapers, the Law Society, the SRA and gov.uk received 3 citations between them — out of 12,279. Whatever gets a firm cited by AI, it isn't press coverage.
+
+## Finding 2: The visibility exists — but almost nobody owns it
+
+If firm websites get 74% of citations, why doesn't it feel that way to any individual firm?
+
+Because it's shattered across 596 different firm websites. The single most-cited firm appeared in just 26 of our 68 prompts. The typical SRA-regulated firm in our tracked set appeared in roughly 3% of the answers where it plausibly could have.
+
+That is the honest picture. AI isn't recommending your competitors instead of you — for most firms, it's recommending almost nobody consistently. The opportunity isn't locked behind an unbreakable directory wall; it's lying on the table, thinly spread, waiting for firms that give AI systems something solid to cite.
+
+## Finding 3: ChatGPT and Perplexity are different worlds
+
+The two engines don't just differ at the margins — they cite from almost entirely different webs.
+
+<!--CHART:3-->
+
+Perplexity runs a mixed economy: mostly firm websites (68.3%), with a substantial directory layer (25.0%) — reviewsolicitors.co.uk was its single most-cited domain (682 citations, 8.1%) — plus forums and social (6.6%).
+
+ChatGPT cited a legal directory **zero** times in 3,812 citations. And forums zero times. Its answer diet was firm websites (86.8%) plus google.com (13.2%) — it resolves the question through search, then reads firms' own pages directly.
+
+<!--CHART:1-->
+
+The practical implication: there is no single tactic that covers both. A firm can be visible on one engine and absent from the other, because the two systems trust different parts of the web.
+
+## Finding 4: Reddit is the UK's second-biggest source for solicitor recommendations on Perplexity
+
+Anonymous forum threads — real people asking "can anyone recommend a solicitor in [city]?" — were Perplexity's second most-cited source (359 citations), ahead of every directory except reviewsolicitors.co.uk and ahead of every law firm in the country. What past clients say in public threads is shaping AI answers more than most firms' marketing is.
+
+## Finding 5: One two-office firm out-cited every large practice in the country
+
+The most-cited individual firm in our entire dataset — 258 citations, appearing in 26 of 68 prompts, on both engines — is not a national brand. It's a two-office SRA-regulated firm based in Staffordshire and West Yorkshire.
+
+How? We can't prove causation from a snapshot, but the pattern is visible on their website: they've built individual location pages for cities across the UK, each structured around the services someone in that city would ask about. When an AI system looks for a page that directly answers "solicitor in [city]", they have one and most firms don't.
+
+Whatever else is true, this settles one question: the fragmentation in Finding 2 is not a law of nature. A small firm with the right structure can be cited more than firms fifty times its size.
+
+## Why AI behaves like this
+
+The two engines embody two retrieval philosophies. Perplexity leans partly on aggregators — sites that compare many firms and carry reviews are easy for it to validate and quote. ChatGPT resolves the question the way a person would: search, then read the firms' own pages. In both cases the winning pages share a trait: they directly, specifically answer the question asked — a named service, in a named place, with concrete detail an AI can lift and attribute.
+
+## What surprised us
+
+- We expected the US "directory wall" narrative to hold. It didn't — directories took 17% of UK citations, not 48%.
+- We did not expect ChatGPT to cite legal directories literally zero times in 3,812 citations. It did.
+- We did not expect Reddit to be the second most-cited source for UK solicitor recommendations on Perplexity. It was.
+- We expected media coverage to matter. Three citations out of 12,279 says it doesn't.
+
+## What this is and isn't
+
+A note on method, because solicitors are sceptical professionals and rightly so:
+
+- This is a **measured snapshot**, not a causal study. It tells you who AI cites today, not what makes AI cite anyone.
+- It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, 7 practice areas, one time window (July 2026).
+- Every figure above is a counted share of our sample, not an estimate or a statistic borrowed from elsewhere. Domain classification (firm vs directory vs forum vs media vs search) was reviewed by hand for every high-volume domain.
+
+We're not going to claim this proves any particular tactic delivers "3x more enquiries". It doesn't. What it proves is where the attention actually goes.
+
+This research was conducted by TendorAI, a UK platform that measures how visible regulated firms are to AI assistants. We'll re-run this same panel quarterly and publish the changes — including when the data says a popular tactic doesn't work.
+
+## What a firm can sensibly do with this
+
+Three things follow directly from the data, none of them a quick hack:
+
+1. **Your own website is the main asset — if it's structured to be cited.** Three-quarters of citations go to firm websites, but overwhelmingly to pages that answer a specific question in a specific place. Generic brochure pages don't get cited; specific service-and-location pages do.
+2. **Your review footprint decides your Perplexity visibility.** reviewsolicitors.co.uk is the single most-cited domain in UK solicitor answers, and Reddit threads outrank every directory bar one. What clients say about you in public carries further than what you say about yourself.
+3. **Measure both engines, because they disagree completely.** ChatGPT and Perplexity cite from different webs. A firm checking only one has half a picture — possibly the wrong half.
+
+---
+
+*TendorAI measures how visible UK regulated firms are to AI assistants, identifies why they're not being recommended, and tracks whether it improves. See where your firm stands: [/ai-visibility-report](/ai-visibility-report)*`,
+  },
+  {
     // Full body lives at app/blog/why-ai-checks-icaew-registration/page.tsx.
     // Second entry in the regulator-AI sector library (sibling of the SRA
     // post immediately below). Same publishedDate so the listing pairs them
