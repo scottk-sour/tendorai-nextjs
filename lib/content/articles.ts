@@ -145,7 +145,7 @@ The two engines embody two retrieval philosophies. Perplexity leans partly on ag
 A note on method, because solicitors are sceptical professionals and rightly so:
 
 - This is a **measured snapshot**, not a causal study. It tells you who AI cites today, not what makes AI cite anyone.
-- It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, 7 practice areas, one time window (July 2026).
+- It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, four prompt types per city, 7 practice areas among the specialism prompts, one time window (July 2026).
 - Every figure above is a counted share of our sample, not an estimate or a statistic borrowed from elsewhere. Domain classification (firm vs directory vs forum vs media vs search) was reviewed by hand for every high-volume domain.
 
 We're not going to claim this proves any particular tactic delivers "3x more enquiries". It doesn't. What it proves is where the attention actually goes.
