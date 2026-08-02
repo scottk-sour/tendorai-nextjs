@@ -123,7 +123,7 @@ Anonymous forum threads — real people asking "can anyone recommend a solicitor
 
 ## Finding 5: One two-office firm out-cited every large practice in the country
 
-The most-cited individual firm in our entire dataset — 258 citations, appearing in 26 of 68 prompts, on both engines — is not a national brand. It's a two-office SRA-regulated firm based in Staffordshire and West Yorkshire.
+The most-cited individual firm in our entire dataset — 258 citations, appearing in 26 of 68 prompts, on both engines — is not a national brand. It's Gardner Champion, a two-office SRA-regulated firm based in Staffordshire and West Yorkshire.
 
 How? We can't prove causation from a snapshot, but the pattern is visible on their website: they've built individual location pages for cities across the UK, each structured around the services someone in that city would ask about. When an AI system looks for a page that directly answers "solicitor in [city]", they have one and most firms don't.
 
