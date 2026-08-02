@@ -33,6 +33,16 @@ export interface Article {
   // Featured articles are listed first; remaining articles are sorted by
   // publishedDate desc.
   featured?: boolean;
+  // Optional research identifier (e.g. 'TAI-R-2026-001'). When set, the
+  // /resources and /blog byline appends "· Report {id}" and the auto-
+  // emitted Article JSON-LD carries it as `identifier`. Ignored on
+  // every article that doesn't set it.
+  reportId?: string;
+  // Optional override for the auto-Article JSON-LD `author` shape.
+  // Defaults to Person (the existing behaviour for every article with
+  // an `author` string). Set to 'Organization' on this-was-authored-by-
+  // the-org research posts where a byline person isn't accurate.
+  authorType?: 'Person' | 'Organization';
 }
 
 export const articles: Article[] = [
@@ -47,6 +57,14 @@ export const articles: Article[] = [
     excerpt: 'US research says AI answers about lawyers are dominated by legal directories. We measured 12,279 citations across UK solicitor searches. The UK looks very different — and, for individual firms, harder to win.',
     category: 'Research',
     author: 'TendorAI',
+    // The report is a TendorAI-institutional output, not the work of a
+    // single named individual, so the JSON-LD author is Organization.
+    authorType: 'Organization',
+    // Research identifier — renders in the byline alongside the
+    // published date and is emitted in the Article JSON-LD as
+    // `identifier`. Matched by the additional `identifier` in extraJsonLd
+    // so both blocks agree.
+    reportId: 'TAI-R-2026-001',
     readTime: 8,
     publishedDate: '2026-07-22',
     updatedDate: '2026-07-22',
@@ -147,6 +165,8 @@ A note on method, because solicitors are sceptical professionals and rightly so:
 - This is a **measured snapshot**, not a causal study. It tells you who AI cites today, not what makes AI cite anyone.
 - It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, four prompt types per city, 7 practice areas among the specialism prompts, one time window (July 2026).
 - Every figure above is a counted share of our sample, not an estimate or a statistic borrowed from elsewhere. Domain classification (firm vs directory vs forum vs media vs search) was reviewed by hand for every high-volume domain.
+- **We counted ourselves.** tendorai.com publishes profile pages for UK regulated firms, so it was classified as a directory rather than excluded. Its citations are included in the 17.2% directory share.
+- **practice_area in the published prompt file is derived** from the prompt text and template type, not a recorded field. Prompts are reproduced exactly as issued, including a grammatical error in the immigration prompts.
 
 We're not going to claim this proves any particular tactic delivers "3x more enquiries". It doesn't. What it proves is where the attention actually goes.
 
@@ -164,9 +184,116 @@ Three things follow directly from the data, none of them a quick hack:
 
 *Correction, 02/08/2026: an earlier version of this report described the panel as "68 prompts across 17 UK cities, covering 7 practice areas". The 7 practice areas apply to the specialism prompts (17 of the 68), not to the full panel. The panel size, run count and all citation figures are unchanged.*
 
+## Limitations
+
+- Two engines. ChatGPT and Perplexity only. Google AI Overviews reaches more UK users than either and is not represented here. These findings should not be generalised to AI search as a whole.
+- One snapshot. A single collection date. AI citation behaviour changes; this is a point-in-time measurement, not a trend.
+- One jurisdiction, one profession. SRA-regulated solicitors in England and Wales. Whether the same pattern holds for accountants, mortgage advisers or estate agents is untested.
+- Constructed prompts. These are plausible client queries, not observed ones. We do not have access to what UK consumers actually type into AI assistants.
+- Classification is imperfect. Distinguishing a small firm's website from a small directory is a judgement call at the margins. The most-cited domains were reviewed by hand; the long tail was not.
+
+## Data availability
+
+Everything needed to check this study is published alongside it:
+
+- [The deviations log](/research/solicitors-july-2026/deviations) — every departure from the pre-registered plan, including corrections to our own errors
+- [The full 68-prompt panel](/research/solicitors-july-2026/prompts.csv) (CSV)
+- [The city and firm-count panel](/research/solicitors-july-2026/panel.csv) (CSV)
+- [The domain classification list](/research/solicitors-july-2026/domain-classification.csv) (CSV)
+
+Raw AI responses and the full set of cited URLs from all 1,360 runs are retained and can be interrogated for audit purposes. They are not published in full, as they contain a large volume of third-party firm data collected without those firms' involvement.
+
+## How to cite this report
+
+<!--CITATIONS-->
+
+## Reproduction
+
+This report is published ungated, with no registration required. Reproduction is permitted with attribution to TendorAI and a link to this page. Figures, findings and charts may be quoted in full.
+
+Free distribution is deliberate. Gated research cannot be cited.
+
+## Does TendorAI have a commercial interest in this result?
+
+Yes, and it is worth stating plainly. TendorAI sells AI visibility software to UK regulated firms. The central finding here — that firm websites, not directories, dominate the citations we measured — was not the result we expected when we designed the study, and it cuts against a widely repeated narrative. It is published because it is what the data showed. Readers should weigh it accordingly, and the published prompt panel and classification list exist so that they can.
+
 ---
 
 *TendorAI measures how visible UK regulated firms are to AI assistants, identifies why they're not being recommended, and tracks whether it improves. See where your firm stands: [/ai-visibility-report](/ai-visibility-report)*`,
+    // Augmentation blocks. The renderer emits each as an additional
+    // `<script type="application/ld+json">` after the auto-Article.
+    //
+    // [0] Article augmentation — mainEntityOfPage.@id matches the auto-
+    //     Article's, so search engines merge them into a single Article
+    //     node with identifier and license attached.
+    // [1] Dataset node — describes the three CSVs published under
+    //     public/research/solicitors-july-2026/. `isPartOf` points back
+    //     at the study article so tools that surface datasets can link
+    //     to the parent report.
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026',
+        },
+        identifier: 'TAI-R-2026-001',
+        license:
+          'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026#reproduction',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        '@id':
+          'https://www.tendorai.com/research/solicitors-july-2026/#dataset',
+        name: 'UK AI Visibility Report for Solicitors — July 2026: study data',
+        description:
+          'The prompt panel, city-and-firm-count panel, and domain classification list used to produce study TAI-R-2026-001 (The UK AI Visibility Report for Solicitors — July 2026).',
+        identifier: 'TAI-R-2026-001',
+        isPartOf: {
+          '@type': 'CreativeWork',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026',
+        },
+        creator: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        temporalCoverage: '2026-07-19',
+        license:
+          'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026#reproduction',
+        inLanguage: 'en-GB',
+        distribution: [
+          {
+            '@type': 'DataDownload',
+            name: 'Prompt panel — 68 prompts across 17 UK cities',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/prompts.csv',
+          },
+          {
+            '@type': 'DataDownload',
+            name: 'City and firm-count panel — 17 cities, 1,214 SRA-regulated firms',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/panel.csv',
+          },
+          {
+            '@type': 'DataDownload',
+            name: 'Domain classification list',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/domain-classification.csv',
+          },
+        ],
+      },
+    ],
   },
   {
     // Full body lives at app/blog/why-ai-checks-icaew-registration/page.tsx.
