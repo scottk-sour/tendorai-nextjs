@@ -98,9 +98,22 @@ The two engines don't just differ at the margins — they cite from almost entir
 
 Perplexity runs a mixed economy: mostly firm websites (68.3%), with a substantial directory layer (25.0%) — reviewsolicitors.co.uk was its single most-cited domain (682 citations, 8.1%) — plus forums and social (6.6%).
 
-ChatGPT cited a legal directory **zero** times in 3,812 citations. And forums zero times. Its answer diet was firm websites (86.8%) plus google.com (13.2%) — it resolves the question through search, then reads firms' own pages directly.
+| Domain | Perplexity citations |
+|---|---|
+| reviewsolicitors.co.uk | 682 |
+| reddit.com | 359 |
+| solicitors.com | 226 |
+| duncanlewis.co.uk | 194 |
+| gardnerchampion.co.uk | 178 |
+| solicitorsup.co.uk | 168 |
+| solicitor.info | 149 |
+| lawyersolicitor.co.uk | 124 |
+| legalrank.uk | 113 |
+| samconveyancing.co.uk | 101 |
 
 <!--CHART:1-->
+
+ChatGPT cited a legal directory **zero** times in 3,812 citations. And forums zero times. Its answer diet was firm websites (86.8%) plus google.com (13.2%) — it resolves the question through search, then reads firms' own pages directly.
 
 The practical implication: there is no single tactic that covers both. A firm can be visible on one engine and absent from the other, because the two systems trust different parts of the web.
 
@@ -110,7 +123,7 @@ Anonymous forum threads — real people asking "can anyone recommend a solicitor
 
 ## Finding 5: One two-office firm out-cited every large practice in the country
 
-The most-cited individual firm in our entire dataset — 258 citations, appearing in 26 of 68 prompts, on both engines — is not a national brand. It's a two-office SRA-regulated firm based in Staffordshire and West Yorkshire.
+The most-cited individual firm in our entire dataset — 258 citations, appearing in 26 of 68 prompts, on both engines — is not a national brand. It's Gardner Champion, a two-office SRA-regulated firm based in Staffordshire and West Yorkshire.
 
 How? We can't prove causation from a snapshot, but the pattern is visible on their website: they've built individual location pages for cities across the UK, each structured around the services someone in that city would ask about. When an AI system looks for a page that directly answers "solicitor in [city]", they have one and most firms don't.
 
