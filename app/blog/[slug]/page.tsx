@@ -147,7 +147,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
     headline: article.title,
     description: article.excerpt,
     author: article.author
-      ? { '@type': 'Person', name: article.author }
+      ? article.authorType === 'Organization'
+        ? { '@type': 'Organization', name: article.author, url: 'https://www.tendorai.com' }
+        : { '@type': 'Person', name: article.author }
       : { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     publisher: {
       '@type': 'Organization',
@@ -159,6 +161,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
     dateModified: article.publishedDate,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.tendorai.com/blog/${slug}` },
     articleSection: article.category,
+    ...(article.reportId ? { identifier: article.reportId } : {}),
   };
 
   const publishedDate = new Date(article.publishedDate).toLocaleDateString('en-GB', {
@@ -202,6 +205,12 @@ export default async function BlogArticlePage({ params }: PageProps) {
               <span>By {article.author || 'TendorAI'}</span>
               <span>&middot;</span>
               <span>Published {publishedDate}</span>
+              {article.reportId && (
+                <>
+                  <span>&middot;</span>
+                  <span>Report {article.reportId}</span>
+                </>
+              )}
             </div>
           </div>
         </section>

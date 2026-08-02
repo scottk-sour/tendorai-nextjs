@@ -200,7 +200,9 @@ export default async function ArticlePage({ params }: PageProps) {
     headline: article.title,
     description: article.excerpt,
     author: article.author
-      ? { '@type': 'Person', name: article.author }
+      ? article.authorType === 'Organization'
+        ? { '@type': 'Organization', name: article.author, url: 'https://www.tendorai.com' }
+        : { '@type': 'Person', name: article.author }
       : { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     publisher: {
       '@type': 'Organization',
@@ -221,6 +223,7 @@ export default async function ArticlePage({ params }: PageProps) {
     },
     articleSection: article.category,
     wordCount: article.content.split(/\s+/).length,
+    ...(article.reportId ? { identifier: article.reportId } : {}),
   };
 
   const breadcrumbJsonLd = {
@@ -307,6 +310,12 @@ export default async function ArticlePage({ params }: PageProps) {
                 <>Updated {new Date(article.updatedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</>
               ) : (
                 <>Published {new Date(article.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</>
+              )}
+              {article.reportId && (
+                <>
+                  <span className="mx-2">&middot;</span>
+                  <span>Report {article.reportId}</span>
+                </>
               )}
             </div>
           </div>
