@@ -56,7 +56,7 @@ export const articles: Article[] = [
 
 When a prospective client opens ChatGPT or Perplexity and asks "best conveyancing solicitor in Cardiff" — or Leeds, or Bristol — whose websites does the AI actually read to build its answer?
 
-In July 2026 we stopped guessing and measured it. We ran a fixed panel of 68 prompts across 17 UK cities, covering 7 practice areas (personal injury, criminal law, litigation, conveyancing, immigration, family law, and wills & probate), against both Perplexity and ChatGPT — 1,360 answer runs, tracking over 1,200 SRA-regulated firms in the measured cities. We recorded every source each answer cited — 12,279 citations in total — and classified each one.
+In July 2026 we stopped guessing and measured it. We ran a fixed panel of 68 prompts across 17 UK cities — four prompt types per city (best-in-city, purchase intent, reputation, and a practice-area specialism), with the specialism prompts spanning 7 practice areas (personal injury, criminal law, litigation, conveyancing, immigration, family law, and wills & probate) — against both Perplexity and ChatGPT — 1,360 answer runs, tracking over 1,200 SRA-regulated firms in the measured cities. We recorded every source each answer cited — 12,279 citations in total — and classified each one.
 
 The prompt panel was fixed before any testing began and contained no firm names, so results could not be biased towards any individual practice. Every run returned citations — 0 of 1,360 answers were built from nothing.
 
@@ -145,7 +145,7 @@ The two engines embody two retrieval philosophies. Perplexity leans partly on ag
 A note on method, because solicitors are sceptical professionals and rightly so:
 
 - This is a **measured snapshot**, not a causal study. It tells you who AI cites today, not what makes AI cite anyone.
-- It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, 7 practice areas, one time window (July 2026).
+- It covers two engines (Perplexity and ChatGPT), one profession (SRA-regulated solicitors), 17 cities, four prompt types per city, 7 practice areas among the specialism prompts, one time window (July 2026).
 - Every figure above is a counted share of our sample, not an estimate or a statistic borrowed from elsewhere. Domain classification (firm vs directory vs forum vs media vs search) was reviewed by hand for every high-volume domain.
 
 We're not going to claim this proves any particular tactic delivers "3x more enquiries". It doesn't. What it proves is where the attention actually goes.
@@ -159,6 +159,10 @@ Three things follow directly from the data, none of them a quick hack:
 1. **Your own website is the main asset — if it's structured to be cited.** Three-quarters of citations go to firm websites, but overwhelmingly to pages that answer a specific question in a specific place. Generic brochure pages don't get cited; specific service-and-location pages do.
 2. **Your review footprint decides your Perplexity visibility.** reviewsolicitors.co.uk is the single most-cited domain in UK solicitor answers, and Reddit threads outrank every directory bar one. What clients say about you in public carries further than what you say about yourself.
 3. **Measure both engines, because they disagree completely.** ChatGPT and Perplexity cite from different webs. A firm checking only one has half a picture — possibly the wrong half.
+
+---
+
+*Correction, 02/08/2026: an earlier version of this report described the panel as "68 prompts across 17 UK cities, covering 7 practice areas". The 7 practice areas apply to the specialism prompts (17 of the 68), not to the full panel. The panel size, run count and all citation figures are unchanged.*
 
 ---
 
