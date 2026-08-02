@@ -197,6 +197,9 @@ Three things follow directly from the data, none of them a quick hack:
 Everything needed to check this study is published alongside it:
 
 - [The deviations log](/research/solicitors-july-2026/deviations) — every departure from the pre-registered plan, including corrections to our own errors
+- [The full 68-prompt panel](/research/solicitors-july-2026/prompts.csv) (CSV)
+- [The city and firm-count panel](/research/solicitors-july-2026/panel.csv) (CSV)
+- [The domain classification list](/research/solicitors-july-2026/domain-classification.csv) (CSV)
 
 Raw AI responses and the full set of cited URLs from all 1,360 runs are retained and can be interrogated for audit purposes. They are not published in full, as they contain a large volume of third-party firm data collected without those firms' involvement.
 
@@ -217,13 +220,16 @@ Yes, and it is worth stating plainly. TendorAI sells AI visibility software to U
 ---
 
 *TendorAI measures how visible UK regulated firms are to AI assistants, identifies why they're not being recommended, and tracks whether it improves. See where your firm stands: [/ai-visibility-report](/ai-visibility-report)*`,
-    // Augmentation block. The renderer emits it as an additional
+    // Augmentation blocks. The renderer emits each as an additional
     // `<script type="application/ld+json">` after the auto-Article.
-    // `mainEntityOfPage.@id` matches the auto-Article's, so search
-    // engines merge them into a single Article node with `identifier`
-    // and `license` attached. The Dataset node covering the three
-    // downloadable CSVs will be added in a follow-up commit alongside
-    // the CSV files themselves.
+    //
+    // [0] Article augmentation — mainEntityOfPage.@id matches the auto-
+    //     Article's, so search engines merge them into a single Article
+    //     node with identifier and license attached.
+    // [1] Dataset node — describes the three CSVs published under
+    //     public/research/solicitors-july-2026/. `isPartOf` points back
+    //     at the study article so tools that surface datasets can link
+    //     to the parent report.
     extraJsonLd: [
       {
         '@context': 'https://schema.org',
@@ -235,6 +241,57 @@ Yes, and it is worth stating plainly. TendorAI sells AI visibility software to U
         identifier: 'TAI-R-2026-001',
         license:
           'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026#reproduction',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        '@id':
+          'https://www.tendorai.com/research/solicitors-july-2026/#dataset',
+        name: 'UK AI Visibility Report for Solicitors — July 2026: study data',
+        description:
+          'The prompt panel, city-and-firm-count panel, and domain classification list used to produce study TAI-R-2026-001 (The UK AI Visibility Report for Solicitors — July 2026).',
+        identifier: 'TAI-R-2026-001',
+        isPartOf: {
+          '@type': 'CreativeWork',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026',
+        },
+        creator: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        temporalCoverage: '2026-07-19',
+        license:
+          'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026#reproduction',
+        inLanguage: 'en-GB',
+        distribution: [
+          {
+            '@type': 'DataDownload',
+            name: 'Prompt panel — 68 prompts across 17 UK cities',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/prompts.csv',
+          },
+          {
+            '@type': 'DataDownload',
+            name: 'City and firm-count panel — 17 cities, 1,214 SRA-regulated firms',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/panel.csv',
+          },
+          {
+            '@type': 'DataDownload',
+            name: 'Domain classification list',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/domain-classification.csv',
+          },
+        ],
       },
     ],
   },
