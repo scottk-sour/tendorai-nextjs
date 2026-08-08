@@ -281,6 +281,14 @@ export default function CityVerticalLandingPage({ config, city, stats }: Props) 
           )}
         </div>
         <Pricing />
+        <div className="text-center pb-16 -mt-8">
+          <Link
+            href="/pricing"
+            className="inline-flex items-center text-sm font-semibold text-[var(--purple-start)] hover:underline"
+          >
+            Full pricing details &rarr;
+          </Link>
+        </div>
       </div>
 
       {/* Final CTA */}

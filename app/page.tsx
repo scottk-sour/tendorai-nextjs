@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import Hero from './components/landing/Hero';
 import ProblemSection from './components/landing/ProblemSection';
 import CategoryDifferentiator from './components/landing/CategoryDifferentiator';
@@ -154,6 +155,14 @@ export default async function HomePage() {
         <Suspense fallback={<div className="py-8" />}>
           <Pricing />
         </Suspense>
+        <div className="text-center pb-16 -mt-8 bg-[var(--surface)]">
+          <Link
+            href="/pricing"
+            className="inline-flex items-center text-sm font-semibold text-[var(--purple-start)] hover:underline"
+          >
+            Full pricing details &rarr;
+          </Link>
+        </div>
 
         {/* Final CTA */}
         <Suspense fallback={<div className="py-8" />}>

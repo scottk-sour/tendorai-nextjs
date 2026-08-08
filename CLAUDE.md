@@ -96,7 +96,7 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 - AI visibility checklist: /tools/ai-visibility-checklist (was /tools/aeo-checklist — 301 redirect kept)
 - Admin: /admin
 - For vendors/firms: /for-vendors
-- Pricing: /for-vendors#pricing (no separate /pricing page)
+- Pricing: /pricing (canonical). /for-vendors#pricing still anchors to a short summary block on the For Firms page that links out to /pricing.
 
 ## API Routes
 - Vendor profile: GET /api/vendors/profile — lives in Express backend (vendorUploadRoutes.js), NOT a Next.js route
@@ -113,7 +113,7 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 ## Known Issues to Never Repeat
 - main is branch-protected. Never push directly to main — it will be rejected. All changes go through a feature branch (fix/[description] or feat/[description]) and a PR that Scott merges manually after reviewing the Vercel preview.
 - Do not create /ai-visibility-checker — deleted, redirects to /ai-visibility-report
-- Do not add "Pricing" as a standalone nav item — lives at /for-vendors#pricing
+- "Pricing" is a top-level nav item pointing at the canonical /pricing page (see app/pricing/page.tsx). /for-vendors keeps its id="pricing" anchor so historical inbound links land in the right place, but the full pricing content lives at /pricing.
 - Do not add "Home" to the main Header navigation — the logo handles this. BreadcrumbList breadcrumbs MAY include "Home" as the first item per Google's structured data guidelines and SEO best practice.
 - Do not use dark purple hero backgrounds on tool pages — match the light gradient style of /vendor-login
 - Do not create duplicate pages for the same content at different URLs

@@ -19,8 +19,9 @@ const nextConfig = {
       // Auth routes → vendor login
       { source: '/login', destination: '/vendor-login', permanent: true },
       { source: '/signup', destination: '/vendor-login', permanent: true },
-      // Pricing → for-vendors pricing section
-      { source: '/pricing', destination: '/for-vendors#pricing', permanent: true },
+      // (Historic redirect /pricing → /for-vendors#pricing removed —
+      // /pricing is now a canonical route in its own right; see
+      // app/pricing/page.tsx.)
       // AI visibility checker → AI visibility report
       { source: '/ai-visibility-checker', destination: '/ai-visibility-report', permanent: true },
       // Old /dashboard → vendor-dashboard
