@@ -26,6 +26,8 @@ import {
   YAxis,
 } from 'recharts';
 
+import ChartFrame from './ChartFrame';
+
 const BRAND_PRIMARY = '#667eea';
 const BRAND_SECONDARY = '#764ba2';
 const NEUTRAL_1 = '#94a3b8';
@@ -177,27 +179,6 @@ function Chart3() {
         </BarChart>
       </ResponsiveContainer>
     </ChartFrame>
-  );
-}
-
-// ─── Wrapper for consistent framing across all three charts ───────
-function ChartFrame({
-  title,
-  subtitle,
-  children,
-}: {
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <figure className="my-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
-      <figcaption className="mb-4">
-        <div className="text-base font-semibold text-gray-900">{title}</div>
-        <div className="text-xs text-gray-500 mt-1">{subtitle}</div>
-      </figcaption>
-      {children}
-    </figure>
   );
 }
 

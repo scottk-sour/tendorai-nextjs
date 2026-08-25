@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { Deviation, Row } from '@/app/components/reports/DeviationEntry';
+
 const STUDY_URL = 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-july-2026';
 const CANONICAL = 'https://www.tendorai.com/research/solicitors-july-2026/deviations';
 const TITLE = 'Deviations log — UK AI Visibility Report for Solicitors, July 2026';
@@ -61,36 +63,6 @@ const breadcrumbJsonLd = {
     { '@type': 'ListItem', position: 3, name: 'Deviations log', item: CANONICAL },
   ],
 };
-
-// A single deviation entry — bold-labelled paragraphs plus optional
-// extras. Keeps the four log entries structurally uniform.
-function Deviation({
-  date,
-  title,
-  children,
-}: {
-  date: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="mb-10">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">
-        <span className="text-gray-500">{date} — </span>
-        {title}
-      </h2>
-      {children}
-    </section>
-  );
-}
-
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <p className="mb-3 leading-relaxed">
-      <strong>{label}</strong> {children}
-    </p>
-  );
-}
 
 export default function DeviationsPage() {
   return (

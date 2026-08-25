@@ -89,8 +89,14 @@ function parseMarkdown(content: string): string {
     .replace(/(<li.*<\/li>\n?)+/g, '<ul class="list-disc pl-4 my-4 space-y-2">$&</ul>')
     .replace(/^\d+\. (.*$)/gm, '<li class="ml-4 text-gray-600">$1</li>')
     .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">$1</code>')
-    .replace(/^(?!<[a-z])(.*$)/gm, (match) => {
-      if (match.trim() === '' || match.startsWith('<')) return match;
+    // Paragraphs. The lookahead skips lines that are already block-level
+    // HTML, but `<strong>`/`<em>` are inline: a paragraph opening with bold
+    // or italic text has been converted by the rules above and would
+    // otherwise be left unwrapped, losing its paragraph spacing. Both are
+    // admitted here so those paragraphs are wrapped like any other.
+    .replace(/^(?!<(?!strong>|em>)[a-z])(.*$)/gm, (match) => {
+      if (match.trim() === '') return match;
+      if (match.startsWith('<') && !/^<(strong|em)>/.test(match)) return match;
       return `<p class="text-gray-600 leading-relaxed mb-4">${match}</p>`;
     });
 }
@@ -226,19 +232,35 @@ export default async function BlogArticlePage({ params }: PageProps) {
             </div>
           )}
 
-          {/* CTA */}
-          <div className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center mt-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Check your AI visibility</h2>
-            <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              Run a free AI visibility report and see what ChatGPT, Perplexity and Claude say about your business.
-            </p>
-            <Link
-              href="/ai-visibility-report"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
-            >
-              Run Your Free Report
-            </Link>
-          </div>
+          {/* CTA. Research reports (anything carrying a reportId) get a plain
+              link instead of the promotional panel — same rule as the
+              /resources renderer, so the report reads the same at both URLs. */}
+          {article.reportId ? (
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <Link
+                href="/ai-visibility-report"
+                className="inline-flex items-center text-purple-600 font-medium hover:text-purple-700"
+              >
+                Check your firm&rsquo;s AI visibility
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center mt-12">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">Check your AI visibility</h2>
+              <p className="text-blue-100 mb-8 max-w-xl mx-auto">
+                Run a free AI visibility report and see what ChatGPT, Perplexity and Claude say about your business.
+              </p>
+              <Link
+                href="/ai-visibility-report"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg"
+              >
+                Run Your Free Report
+              </Link>
+            </div>
+          )}
 
           {/* Related */}
           <RelatedArticles currentSlug={slug} category={article.category} />
