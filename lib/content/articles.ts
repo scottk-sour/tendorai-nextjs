@@ -357,7 +357,7 @@ In this measurement, visibility behaved more like a threshold than a smooth rank
 
 <!--CHART-AUG:1-->
 
-## Finding 2: ChatGPT and Perplexity name different firms, and ChatGPT names fewer
+## Finding 2: ChatGPT and Perplexity name different firms
 
 In wave 1, ChatGPT named 120 distinct tracked firms; Perplexity named 258. Mention rate was 2.50% and 3.70% respectively.
 
@@ -365,8 +365,6 @@ In wave 1, ChatGPT named 120 distinct tracked firms; Perplexity named 258. Menti
 |---|---|---|
 | Mention rate | 2.50% | 3.70% |
 | Distinct firms named | 120 | 258 |
-
-If your firm is not among its 120, you are invisible on the engine with the largest user base.
 
 The two engines also read different webs. ChatGPT's most-cited sources were law firms' own websites and google.com. Perplexity's were directories and review platforms — reviewsolicitors.co.uk, solicitors.com — and Reddit.
 
