@@ -349,22 +349,24 @@ Because each firm was only tested against its own city's prompts, this is a meas
 | Firm-answer observations | 48,560 |
 | Never named once | 1,003 (82.6%) |
 | Named in all 40 answers | 3 |
-| Overall mention rate | 4.7% |
+| Overall mention rate | 2,279 of 48,560 (4.69%) |
 
 **This is a threshold, not a ranking.** There is no gentle slope from position 40 to position 20. There is a small set of firms AI names, and a large majority it does not name at all.
+
+In this measurement, visibility behaved more like a threshold than a smooth ranking. Whether that holds beyond this panel is untested.
 
 <!--CHART-AUG:1-->
 
 ## Finding 2: ChatGPT and Perplexity name different firms, and ChatGPT names fewer
 
-Running the same panel against both engines in wave 1:
+In wave 1, ChatGPT named 120 distinct tracked firms; Perplexity named 258. Mention rate was 2.50% and 3.70% respectively.
 
 | | ChatGPT | Perplexity |
 |---|---|---|
 | Mention rate | 2.50% | 3.70% |
 | Distinct firms named | 120 | 258 |
 
-ChatGPT names roughly half as many firms as Perplexity, less often. If your firm is not among its 120, you are invisible on the engine with the largest user base.
+If your firm is not among its 120, you are invisible on the engine with the largest user base.
 
 The two engines also read different webs. ChatGPT's most-cited sources were law firms' own websites and google.com. Perplexity's were directories and review platforms — reviewsolicitors.co.uk, solicitors.com — and Reddit.
 
@@ -421,7 +423,7 @@ Anyone telling you they know which website change makes AI recommend you is ahea
 
 TendorAI sells AI visibility services to UK regulated firms. The commercially convenient finding would have been that a specific, purchasable action moves the number.
 
-We tested one of our own: whether a firm having a profile page on tendorai.com made AI more likely to recommend it. Treatment firms improved 1.39 points between waves; control firms improved 0.60. The difference — 0.79 points — is small, and across 48,240 observations **Perplexity never cited a tendorai.com profile page once.** Whatever produced that difference, it was not the mechanism we hypothesised.
+We tested one of our own: whether a firm having a profile page on tendorai.com made AI more likely to recommend it. Treatment firms improved 1.39 points between waves; control firms improved 0.60. The difference — 0.79 points — is small, and across 48,240 treatment-arm observations spanning both waves **Perplexity never cited a tendorai.com profile page once.** Whatever produced that difference, it was not the mechanism we hypothesised.
 
 We are publishing it because a research programme that only reports its successes is marketing.
 
@@ -442,11 +444,13 @@ We are publishing it because a research programme that only reports its successe
 
 ## Method
 
-Fixed panel of 68 prompts across 17 UK cities: four prompt types per city (best-in-city, purchase intent, reputation, practice-area specialism). Prompts were fixed before any collection began and contain no firm names. Ten repeats per prompt per engine per wave.
+Fixed panel of 68 prompts across 17 UK cities: four prompt types per city (best-in-city, purchase intent, reputation, practice-area specialism). Firms were drawn from the SRA's public register of regulated firms. Prompts were fixed before any collection began and contain no firm names. Ten repeats per prompt per engine per wave.
 
 Wave 1 opened 18 July 2026 and covered Perplexity and ChatGPT. Wave 2 completed 24 August 2026, Perplexity only.
 
 Each of the 1,214 firms was assessed against the four prompts for its own city, ten repeats each — 40 eligible answers per firm. Firms were assigned to treatment and control groups before wave 1. Every answer was recorded in full, with all cited URLs.
+
+Treatment group: 603 firms. Control group: 611 firms. Each assessed against 40 eligible answers per wave.
 
 The measurement instrument — classifier, collection script and prompt configuration — was verified byte-identical between waves by file hash.
 

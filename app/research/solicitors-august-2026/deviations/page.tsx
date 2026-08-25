@@ -3,18 +3,12 @@
  *
  * Structure mirrors the July log at /research/solicitors-july-2026/deviations
  * and reuses its Deviation / Row components.
- *
- * TODO(scott): the wave-2 deviation entries are not yet supplied. Add them
- * inside the marked section below — one <Deviation> per entry, each with
- * "What happened." / "What we did." / "Effect on published figures." Rows —
- * and delete the pending notice. This page is linked from the report's Data
- * availability section, so it must not ship empty.
  */
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { Deviation, Row } from '@/app/components/reports/DeviationEntry';
+import { Deviation } from '@/app/components/reports/DeviationEntry';
 
 const STUDY_URL = 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026';
 const CANONICAL = 'https://www.tendorai.com/research/solicitors-august-2026/deviations';
@@ -129,21 +123,55 @@ export default function DeviationsPage() {
 
           <hr className="my-10 border-gray-200" />
 
-          {/* ── Deviation entries ────────────────────────────────────────────
-              TODO(scott): wave-2 entries go here, e.g.
+          <Deviation date="19/08/2026" title="Wave 2 first launch abandoned">
+            <p className="mb-3 leading-relaxed">
+              Wave 2 was launched on 19 August 2026 and terminated after 240 of an expected
+              1,360 runs, Perplexity only. No runs errored; the process was stopped by a
+              database storage limit. The 240 completed runs were discarded rather than
+              topped up: resuming would have produced a wave collected across two windows six
+              days apart, spanning possible model and index changes. Wave 1 was verified
+              intact at 1,360 runs before deletion.
+            </p>
+          </Deviation>
 
-                <Deviation date="dd/mm/2026" title="…">
-                  <Row label="What happened.">…</Row>
-                  <Row label="What we did.">…</Row>
-                  <Row label="Effect on published figures.">…</Row>
-                </Deviation>
-                <hr className="my-10 border-gray-200" />
+          <hr className="my-10 border-gray-200" />
 
-              Delete the pending notice below once they are in. The Deviation
-              and Row imports are already wired up.
-          ─────────────────────────────────────────────────────────────────── */}
+          <Deviation date="24/08/2026" title="Wave 2 relaunched clean">
+            <p className="mb-3 leading-relaxed">
+              Wave 2 was relaunched on 24 August 2026 with the same prompt panel, platforms
+              and configuration, and completed 680 Perplexity runs.
+            </p>
+          </Deviation>
+
+          <hr className="my-10 border-gray-200" />
+
+          <Deviation date="25/08/2026" title="ChatGPT arm could not be collected">
+            <p className="mb-3 leading-relaxed">
+              Every ChatGPT attempt in wave 2 failed: 2,040 attempts across 68 prompts. OpenAI
+              had retired gpt-4o-mini-search-preview, the model wave 1&rsquo;s ChatGPT arm was
+              collected on. The wave 1 ChatGPT measurement cannot be reproduced on the same
+              instrument. We did not substitute a different model, because a replacement model
+              is a different instrument and the two figures would not be comparable. The
+              ChatGPT series ends at wave 1; any future ChatGPT collection begins a new
+              series.
+            </p>
+          </Deviation>
+
+          <hr className="my-10 border-gray-200" />
+
+          <Deviation date="24/08/2026" title="Instrument verified unchanged">
+            <p className="mb-3 leading-relaxed">
+              The classifier, collection script and prompt configuration were verified
+              byte-identical between waves by MD5 hash, with no commits touching those files
+              between the two collection dates.
+            </p>
+          </Deviation>
+
+          <hr className="my-10 border-gray-200" />
+
           <p className="mb-4 leading-relaxed">
-            The entries for study TAI-R-2026-002 are not yet published on this page.
+            Wave 2 findings are therefore Perplexity-only. This is stated in the report body
+            and in its limitations section.
           </p>
         </article>
       </div>

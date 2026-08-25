@@ -112,7 +112,10 @@ function parseMarkdown(content: string): string {
     // Wrap tables — `\s*` (not `\n?`) lets us span the blank line left
     // behind by the removed separator row, so the whole table is one
     // <table> instead of splitting into two (header + body).
-    .replace(/(<tr>.*?<\/tr>\s*)+/g, '<table class="w-full border-collapse my-6 text-sm">$&</table>')
+    // The trailing newline matters: `\s*` above consumes the line breaks
+    // after the final row, so without it `</table>` and whatever follows end
+    // up on one line and the paragraph rule below cannot see the start of it.
+    .replace(/(<tr>.*?<\/tr>\s*)+/g, '<table class="w-full border-collapse my-6 text-sm">$&</table>\n')
     // Lists — bullets and numbered items get a `data-list` marker so the
     // wrap rules below can distinguish them; otherwise numbered items
     // would be stranded as bare <li> (no surrounding <ol>).
@@ -124,10 +127,15 @@ function parseMarkdown(content: string): string {
     .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto my-4 text-sm"><code>$1</code></pre>')
     // Inline code
     .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">$1</code>')
-    // Paragraphs
-    .replace(/^(?!<[a-z])(.*$)/gm, (match) => {
+    // Paragraphs. The lookahead skips lines that are already block-level
+    // HTML, but `<strong>`/`<em>` are inline: a paragraph opening with bold
+    // or italic text has been converted by the rules above and would
+    // otherwise be left unwrapped, losing its paragraph spacing. Both are
+    // admitted here so those paragraphs are wrapped like any other. By this
+    // point list items are already <li>, so nothing else can start inline.
+    .replace(/^(?!<(?!strong>|em>)[a-z])(.*$)/gm, (match) => {
       if (match.trim() === '') return '';
-      if (match.startsWith('<')) return match;
+      if (match.startsWith('<') && !/^<(strong|em)>/.test(match)) return match;
       return `<p class="text-gray-600 leading-relaxed mb-4">${match}</p>`;
     });
 

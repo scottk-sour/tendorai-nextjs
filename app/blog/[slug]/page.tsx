@@ -89,8 +89,14 @@ function parseMarkdown(content: string): string {
     .replace(/(<li.*<\/li>\n?)+/g, '<ul class="list-disc pl-4 my-4 space-y-2">$&</ul>')
     .replace(/^\d+\. (.*$)/gm, '<li class="ml-4 text-gray-600">$1</li>')
     .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">$1</code>')
-    .replace(/^(?!<[a-z])(.*$)/gm, (match) => {
-      if (match.trim() === '' || match.startsWith('<')) return match;
+    // Paragraphs. The lookahead skips lines that are already block-level
+    // HTML, but `<strong>`/`<em>` are inline: a paragraph opening with bold
+    // or italic text has been converted by the rules above and would
+    // otherwise be left unwrapped, losing its paragraph spacing. Both are
+    // admitted here so those paragraphs are wrapped like any other.
+    .replace(/^(?!<(?!strong>|em>)[a-z])(.*$)/gm, (match) => {
+      if (match.trim() === '') return match;
+      if (match.startsWith('<') && !/^<(strong|em)>/.test(match)) return match;
       return `<p class="text-gray-600 leading-relaxed mb-4">${match}</p>`;
     });
 }
