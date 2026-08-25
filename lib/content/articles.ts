@@ -72,6 +72,8 @@ export const articles: Article[] = [
     featured: true,
     content: `**US research says AI answers about lawyers are dominated by legal directories. We measured 12,279 citations across UK solicitor searches. The UK looks very different — and, for individual firms, harder to win.**
 
+*Update, 25 August 2026: the follow-up study — [Most UK Solicitors Are Never Recommended by AI](/resources/ai-visibility-report-solicitors-august-2026), Report TAI-R-2026-002 — is now published.*
+
 When a prospective client opens ChatGPT or Perplexity and asks "best conveyancing solicitor in Cardiff" — or Leeds, or Bristol — whose websites does the AI actually read to build its answer?
 
 In July 2026 we stopped guessing and measured it. We ran a fixed panel of 68 prompts across 17 UK cities — four prompt types per city (best-in-city, purchase intent, reputation, and a practice-area specialism), with the specialism prompts spanning 7 practice areas (personal injury, criminal law, litigation, conveyancing, immigration, family law, and wills & probate) — against both Perplexity and ChatGPT — 1,360 answer runs, tracking over 1,200 SRA-regulated firms in the measured cities. We recorded every source each answer cited — 12,279 citations in total — and classified each one.
@@ -290,6 +292,241 @@ Yes, and it is worth stating plainly. TendorAI sells AI visibility software to U
             encodingFormat: 'text/csv',
             contentUrl:
               'https://www.tendorai.com/research/solicitors-july-2026/domain-classification.csv',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    // Most UK Solicitors Are Never Recommended by AI — August 2026, the
+    // follow-up to TAI-R-2026-001. Inline content with no `href` so it
+    // renders at both /resources/{slug} and /blog/{slug}.
+    //
+    // Deliberately placed immediately after the July report: RelatedArticles
+    // picks the first two same-category articles in array order, so the two
+    // reports cross-link to each other automatically in both directions.
+    //
+    // Three chart markers (<!--CHART-AUG:1|2|3-->) are swapped for the
+    // server-rendered SolicitorsAugust2026Charts by renderArticleBodyWithCharts.
+    // Unlike the July charts these are inline SVG, so every figure in them is
+    // present in the HTML source without JavaScript.
+    slug: 'ai-visibility-report-solicitors-august-2026',
+    title: 'Most UK Solicitors Are Never Recommended by AI. We Measured How Many.',
+    excerpt: 'We tracked 1,214 SRA-regulated firms across 17 UK cities. 1,003 of them — 83% — were never named once. A handful were named in every single answer. AI visibility for solicitors is a threshold, not a ranking.',
+    category: 'Research',
+    author: 'TendorAI',
+    // Institutional output, not a named individual — same as TAI-R-2026-001.
+    authorType: 'Organization',
+    reportId: 'TAI-R-2026-002',
+    readTime: 6,
+    publishedDate: '2026-08-25',
+    updatedDate: '2026-08-25',
+    featured: true,
+    content: `**We tracked 1,214 SRA-regulated firms across 17 UK cities. 1,003 of them — 83% — were never named once. A handful were named in every single answer. AI visibility for solicitors is a threshold, not a ranking.**
+
+*Follows [The UK AI Visibility Report for Solicitors — July 2026](/resources/ai-visibility-report-solicitors-july-2026), Report TAI-R-2026-001.*
+
+In July we measured **who AI cites** when someone asks for a solicitor. This month we measured something harder: **who AI actually names.**
+
+Between 18 July and 24 August 2026 we ran the same fixed panel of 68 prompts across 17 UK cities against Perplexity, ten repeats per prompt, and recorded — for every one of 1,214 SRA-regulated firms in those cities — whether that firm was named in the answer.
+
+Each firm was assessed against the four prompts for its own city, ten repeats each: 40 eligible answers per firm, 48,560 firm-answer observations in total.
+
+The result is stark enough that it changes how a firm should think about the problem.
+
+## Finding 1: 83% of firms were never named once
+
+Of 1,214 tracked firms, **1,003 were never named in any of their 40 eligible answers.**
+
+Not rarely named. Never.
+
+At the other end, three firms — Taylor Walton, Wake Smith and Ware & Kay — were named in all 40. Rothera Bray reached 39 of 40. Hay & Kilner 38 of 40.
+
+Because each firm was only tested against its own city's prompts, this is a measure of local visibility. A firm at 100% is winning its own local market outright. A firm at zero is invisible in the town it practises in.
+
+| | |
+|---|---|
+| Firms tracked | 1,214 |
+| Eligible answers per firm | 40 |
+| Firm-answer observations | 48,560 |
+| Never named once | 1,003 (82.6%) |
+| Named in all 40 answers | 3 |
+| Overall mention rate | 4.7% |
+
+**This is a threshold, not a ranking.** There is no gentle slope from position 40 to position 20. There is a small set of firms AI names, and a large majority it does not name at all.
+
+<!--CHART-AUG:1-->
+
+## Finding 2: ChatGPT and Perplexity name different firms, and ChatGPT names fewer
+
+Running the same panel against both engines in wave 1:
+
+| | ChatGPT | Perplexity |
+|---|---|---|
+| Mention rate | 2.50% | 3.70% |
+| Distinct firms named | 120 | 258 |
+
+ChatGPT names roughly half as many firms as Perplexity, less often. If your firm is not among its 120, you are invisible on the engine with the largest user base.
+
+The two engines also read different webs. ChatGPT's most-cited sources were law firms' own websites and google.com. Perplexity's were directories and review platforms — reviewsolicitors.co.uk, solicitors.com — and Reddit.
+
+This replicates our July finding on a second, independent collection: **a firm can be visible on one engine and absent from the other.**
+
+<!--CHART-AUG:2-->
+
+## Finding 3: which source AI cites does not predict which firm it names
+
+This is the finding we least expected.
+
+reviewsolicitors.co.uk appeared in 89.6% of Perplexity's answers — by far the most-read source in UK solicitor recommendations. So we asked the obvious question: when Perplexity reads a given directory, does it name our tracked firms more often?
+
+It does not.
+
+| Source cited | Firm named (source cited) | Firm named (source not cited) |
+|---|---|---|
+| reviewsolicitors.co.uk | 4.78% | 4.00% |
+| solicitors.com | 5.45% | 4.09% |
+| reallymoving.com | 4.29% | 4.95% |
+| samconveyancing.co.uk | 4.24% | 5.01% |
+| thesolicitordirectory.co.uk | 4.33% | 5.01% |
+| reddit.com | 4.27% | 4.96% |
+| comparemymove.com | 4.32% | 4.80% |
+| legal500.com | 3.94% | 4.85% |
+| yell.com | 4.44% | 4.72% |
+| vouchedfor.co.uk | 4.45% | 4.74% |
+
+Every figure sits between 3.9% and 5.5%, against a 4.7% baseline. Half are slightly higher when the source is cited; half are slightly lower. Legal 500 goes the wrong way.
+
+We measured which sources were cited, not whether each firm was listed on them — those are different questions, and only the first is answered here. But the simple version of the story that circulates in AI-visibility marketing — *get listed on the big directories and AI will recommend you* — finds no support in this data.
+
+<!--CHART-AUG:3-->
+
+## Finding 4: things move on their own
+
+We ran a control group of firms with no intervention of any kind between waves. Their mention rate rose from 3.59% to 4.19% over five weeks — **up 0.60 percentage points, for no reason we caused.**
+
+This matters more than it sounds. Any firm measuring its own AI visibility across two dates will see movement. Most of that movement is not attributable to anything the firm did. Without a control, a 0.6-point rise looks like a result.
+
+It also sets a floor: an intervention has to beat baseline drift before it means anything.
+
+## What we cannot tell you
+
+**We do not know why some firms cross the threshold.**
+
+We examined the websites of three of the most-cited firms. All three share deep, nested service page structures, a questions-and-answers page under every practice area, and CQS and Lexcel accreditation. Two of the three publish question-shaped content — pages titled the way a person would actually ask.
+
+But all three are also established multi-office regional practices. We cannot separate "structures its website this way" from "is a well-known firm", and we did not check how many of the 1,003 invisible firms share the same traits. Three visible firms having something in common is a hypothesis, not a finding.
+
+Anyone telling you they know which website change makes AI recommend you is ahead of the evidence — including us.
+
+## Why we are publishing a result that doesn't help us sell
+
+TendorAI sells AI visibility services to UK regulated firms. The commercially convenient finding would have been that a specific, purchasable action moves the number.
+
+We tested one of our own: whether a firm having a profile page on tendorai.com made AI more likely to recommend it. Treatment firms improved 1.39 points between waves; control firms improved 0.60. The difference — 0.79 points — is small, and across 48,240 observations **Perplexity never cited a tendorai.com profile page once.** Whatever produced that difference, it was not the mechanism we hypothesised.
+
+We are publishing it because a research programme that only reports its successes is marketing.
+
+## What a firm can sensibly do with this
+
+1. **Check whether you are in the 83%.** Most firms have never looked. The answer is usually not what they expect.
+2. **Check both engines separately.** They name different firms. One measurement is half a picture.
+3. **Distrust single-point measurements.** Your number will move on its own. Anything measured once, or compared across two dates without a control, is not evidence.
+4. **Be sceptical of anyone selling a mechanism.** Including us. Ask what they measured, how many times, and against what control.
+
+## What this is and isn't
+
+- **One engine for the headline finding.** The 83% figure is Perplexity only. Our ChatGPT arm could not be re-run: OpenAI retired the model our earlier measurement used, mid-study. We report this rather than substituting a different model and pretending the series continued.
+- **One profession, one jurisdiction, one window.** SRA-regulated solicitors in England and Wales, 17 cities, July–August 2026.
+- **Constructed prompts.** Plausible client queries, fixed before testing, containing no firm names. Not observed consumer behaviour.
+- **Mention detection is automated.** Firm names are matched against answer text by a classifier. It is imperfect at the margins, particularly for firms with common surnames in their name.
+- **Two collection dates.** Wave 1 opened 18 July 2026; wave 2 completed 24 August 2026. Two points are not a trend.
+
+## Method
+
+Fixed panel of 68 prompts across 17 UK cities: four prompt types per city (best-in-city, purchase intent, reputation, practice-area specialism). Prompts were fixed before any collection began and contain no firm names. Ten repeats per prompt per engine per wave.
+
+Wave 1 opened 18 July 2026 and covered Perplexity and ChatGPT. Wave 2 completed 24 August 2026, Perplexity only.
+
+Each of the 1,214 firms was assessed against the four prompts for its own city, ten repeats each — 40 eligible answers per firm. Firms were assigned to treatment and control groups before wave 1. Every answer was recorded in full, with all cited URLs.
+
+The measurement instrument — classifier, collection script and prompt configuration — was verified byte-identical between waves by file hash.
+
+## Data availability
+
+- [The full 68-prompt panel](/research/solicitors-july-2026/prompts.csv) (CSV)
+- [The city and firm-count panel](/research/solicitors-july-2026/panel.csv) (CSV)
+- [The deviations log](/research/solicitors-august-2026/deviations), including corrections to our own errors
+
+The panel is unchanged between waves, so the first two files are the ones published with the July report.
+
+Raw AI responses and cited URLs from all runs are retained and available for audit. They are not published in full, as they contain a large volume of third-party firm data collected without those firms' involvement.
+
+## How to cite this report
+
+TendorAI. (2026). *Most UK Solicitors Are Never Recommended by AI: August 2026 Measurement.* Report TAI-R-2026-002. https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026
+
+Published ungated. Reproduction permitted with attribution and a link. Figures and findings may be quoted in full.
+
+Gated research cannot be cited.`,
+    // [0] Article augmentation — mainEntityOfPage.@id matches the auto-
+    //     Article's so search engines merge the two nodes.
+    // [1] Dataset node. The prompt panel and city/firm-count panel were
+    //     verified byte-identical between waves, so the distributions point
+    //     at the files already published with the July report rather than
+    //     duplicating them under an August path.
+    extraJsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026',
+        },
+        identifier: 'TAI-R-2026-002',
+        license:
+          'https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        '@id': 'https://www.tendorai.com/research/solicitors-august-2026/#dataset',
+        name: 'Most UK Solicitors Are Never Recommended by AI — August 2026: study data',
+        description:
+          'The prompt panel and city-and-firm-count panel used to produce study TAI-R-2026-002. The panel is unchanged between waves, so these are the files published with study TAI-R-2026-001.',
+        identifier: 'TAI-R-2026-002',
+        isPartOf: {
+          '@type': 'CreativeWork',
+          '@id': 'https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026',
+        },
+        creator: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'TendorAI',
+          url: 'https://www.tendorai.com',
+        },
+        temporalCoverage: '2026-07-18/2026-08-24',
+        license:
+          'https://www.tendorai.com/resources/ai-visibility-report-solicitors-august-2026',
+        inLanguage: 'en-GB',
+        distribution: [
+          {
+            '@type': 'DataDownload',
+            name: 'Prompt panel — 68 prompts across 17 UK cities',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/prompts.csv',
+          },
+          {
+            '@type': 'DataDownload',
+            name: 'City and firm-count panel — 17 cities, 1,214 SRA-regulated firms',
+            encodingFormat: 'text/csv',
+            contentUrl:
+              'https://www.tendorai.com/research/solicitors-july-2026/panel.csv',
           },
         ],
       },
