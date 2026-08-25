@@ -322,9 +322,7 @@ Yes, and it is worth stating plainly. TendorAI sells AI visibility software to U
     publishedDate: '2026-08-25',
     updatedDate: '2026-08-25',
     featured: true,
-    content: `**We tracked 1,214 SRA-regulated firms across 17 UK cities. 1,003 of them — 83% — were never named once. A handful were named in every single answer. AI visibility for solicitors is a threshold, not a ranking.**
-
-*Follows [The UK AI Visibility Report for Solicitors — July 2026](/resources/ai-visibility-report-solicitors-july-2026), Report TAI-R-2026-001.*
+    content: `*Follows [The UK AI Visibility Report for Solicitors — July 2026](/resources/ai-visibility-report-solicitors-july-2026), Report TAI-R-2026-001.*
 
 In July we measured **who AI cites** when someone asks for a solicitor. This month we measured something harder: **who AI actually names.**
 

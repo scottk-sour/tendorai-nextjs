@@ -347,24 +347,41 @@ export default async function ArticlePage({ params }: PageProps) {
             </section>
           )}
 
-          {/* CTA */}
-          <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Need help choosing the right solution?
-            </h3>
-            <p className="text-gray-600 mb-4">
-              See what AI says about your business. Free, instant, and takes just 30 seconds.
-            </p>
-            <Link
-              href="/ai-visibility-report"
-              className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
-            >
-              Check AI Visibility
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
+          {/* CTA. Research reports (anything carrying a reportId) get a plain
+              link instead of the promotional panel: a marketing block with a
+              turnaround promise reads badly directly beneath a methodology and
+              reproduction statement, and the report itself is the argument. */}
+          {article.reportId ? (
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <Link
+                href="/ai-visibility-report"
+                className="inline-flex items-center text-purple-600 font-medium hover:text-purple-700"
+              >
+                Check your firm&rsquo;s AI visibility
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Need help choosing the right solution?
+              </h3>
+              <p className="text-gray-600 mb-4">
+                See what AI says about your business. Free, instant, and takes just 30 seconds.
+              </p>
+              <Link
+                href="/ai-visibility-report"
+                className="inline-flex items-center px-5 py-2.5 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Check AI Visibility
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          )}
 
           {/* Related Articles */}
           <RelatedArticles currentSlug={slug} category={article.category} />

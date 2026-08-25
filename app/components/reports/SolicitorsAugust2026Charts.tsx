@@ -76,7 +76,7 @@ function Chart2() {
         <desc id="c2desc">ChatGPT mention rate 2.50 percent across 120 distinct firms. Perplexity mention rate 3.70 percent across 258 distinct firms. Same 68-prompt panel, same collection window.</desc>
         <rect width="700" height="400" fill="#ffffff" />
         <text x="0" y="24" fontSize="19" fontWeight="bold" fill="#1a1a1a">Two engines, two different shortlists</text>
-        <text x="0" y="46" fontSize="13" fill="#555555">Same 68 prompts, same firms, same window. Wave 1, July–August 2026.</text>
+        <text x="0" y="46" fontSize="13" fill="#555555">Same 68 prompts, same firms, same window. Wave 1, July 2026.</text>
         <text x="0" y="86" fontSize="13" fontWeight="bold" fill="#1a1a1a">Mention rate</text>
         <text x="0" y="104" fontSize="11" fill="#777777">share of firm-answer pairs where the firm was named</text>
         <text x="0" y="134" fontSize="12" fill="#1a1a1a">ChatGPT</text>
