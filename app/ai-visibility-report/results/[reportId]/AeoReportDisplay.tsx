@@ -973,7 +973,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   title="AI Visibility"
                   score={report.aiVisibilityScore ?? 0}
                   band={report.aiVisibilityBand ?? null}
-                  description="AI-era signals that decide whether AI assistants recommend you — Google Business Profile, reviews, directory and platform presence."
+                  description="Signals AI assistants can read about your firm — Google Business Profile, reviews, directory and platform presence."
                 />
               </div>
               <p className="mt-4 text-sm text-gray-600 text-center md:text-left">
@@ -1016,8 +1016,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       {(() => {
         const topCompetitor = getFirstRealCompetitor(report.competitors);
         const instrData = INSTRUCTION_VALUES[report.category] || { label: '£2,000', value: 2000 };
-        const lowEst = `£${(Math.round(instrData.value * 2.5)).toLocaleString()}`;
-        const highEst = `£${(Math.round(instrData.value * 4)).toLocaleString()}`;
         const categoryLabel = report.category === 'other'
           ? (report.customIndustry || 'your industry').toLowerCase()
           : getCategoryLabel(report.category);
@@ -1431,7 +1429,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-1">AI Visibility Signals</h3>
               <p className="text-xs text-gray-500 mb-4">
-                Signals that decide whether AI assistants actually recommend you.
+                Signals AI assistants can read about your firm.
               </p>
               {report.aiVisibilityBreakdown ? (
                 <SignalBreakdownList breakdown={report.aiVisibilityBreakdown} weights={aiSignalWeightsFor(report.category)} />
@@ -1707,20 +1705,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 case 'Moderate':
                   bodyCopy = (
                     <>
-                      With an AI visibility score of {scoreStr}, AI assistants mention you inconsistently.
-                      Some buyer queries for {categoryCopy} in {displayCity} surface you; others go straight
-                      to competitors. The gaps below are the signals AI assistants can currently
-                      read about you.
+                      With an AI visibility score of {scoreStr}, AI assistants named you in some of
+                      this check&apos;s answers but not others. The gaps below are the signals AI
+                      assistants can currently read about you.
                     </>
                   );
                   break;
                 case 'Early Stage':
                   bodyCopy = (
                     <>
-                      Your AI visibility score of {scoreStr} means AI assistants know you exist but rarely
-                      recommend you. Most buyer queries for {categoryCopy} in {displayCity} currently go to
-                      competitors. The gaps below are the signals AI assistants can currently
-                      read about you.
+                      With an AI visibility score of {scoreStr}, AI assistants did not name you in this
+                      check when we asked for {categoryCopy} in {displayCity}. The gaps below are the
+                      signals AI assistants can currently read about you.
                     </>
                   );
                   break;
