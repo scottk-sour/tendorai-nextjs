@@ -70,7 +70,7 @@ const STORAGE_KEY = 'tendorai-accountant-checklist';
 
 function getScoreBand(count: number) {
   if (count <= 8) return { label: 'Critical \u2014 your practice is almost certainly invisible to AI tools', color: 'text-red-600', bg: 'bg-red-50 border-red-200', cta: { label: 'Claim Your Free Profile', href: '/vendor-signup' } };
-  if (count <= 16) return { label: 'Developing \u2014 some signals present but significant gaps remain', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', cta: { label: 'See TendorAI Pro', href: '/for-vendors' } };
+  if (count <= 16) return { label: 'Developing \u2014 some signals present but significant gaps remain', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', cta: { label: 'See TendorAI Pro', href: '/ai-visibility-platform' } };
   if (count <= 20) return { label: 'Strong \u2014 well-positioned for AI recommendations', color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200', cta: { label: 'Run Your AI Visibility Report', href: '/ai-visibility-report' } };
   return { label: 'Excellent \u2014 your practice is optimised for AI discovery', color: 'text-green-600', bg: 'bg-green-50 border-green-200', cta: { label: 'Check Your AI Visibility', href: '/ai-visibility-report' } };
 }

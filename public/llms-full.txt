@@ -233,8 +233,7 @@ Example queries TendorAI can help with:
 - Homepage: https://www.tendorai.com/
 - Supplier Directory: https://www.tendorai.com/suppliers
 - Free AI Visibility Report: https://www.tendorai.com/ai-visibility-report
-- For Vendors: https://www.tendorai.com/for-vendors
-- Pricing: https://www.tendorai.com/for-vendors#pricing
+- Pricing: https://www.tendorai.com/pricing
 - Sitemap: https://www.tendorai.com/sitemap.xml
 
 ## Contact

@@ -192,7 +192,7 @@ const internalLinks: Array<{ title: string; href: string; description: string }>
   },
   {
     title: 'Pricing',
-    href: '/for-vendors',
+    href: '/pricing',
     description: 'Flat £299/month. Free tier available. No setup fees, no tiers, no annual lock-in.',
   },
 ];
@@ -427,7 +427,7 @@ export default function HowItWorksPage() {
               firm wanting to claim a basic listing and run an AI Visibility Report.
             </p>
             <Link
-              href="/for-vendors"
+              href="/pricing"
               className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-colors"
             >
               See pricing in detail

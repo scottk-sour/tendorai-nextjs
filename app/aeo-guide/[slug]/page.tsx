@@ -168,7 +168,7 @@ export default async function AeoGuidePage({
                 needed.
               </p>
               <a
-                href="/for-vendors#pricing"
+                href="/pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Upgrade to Pro — £299/month
@@ -203,7 +203,7 @@ export default async function AeoGuidePage({
                 This is fixed automatically on Pro.
               </p>
               <a
-                href="/for-vendors#pricing"
+                href="/pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Upgrade to Pro — £299/month
@@ -248,7 +248,7 @@ export default async function AeoGuidePage({
               Run Free AI Visibility Report
             </Link>
             <a
-              href="/for-vendors#pricing"
+              href="/pricing"
               className="inline-flex items-center px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
             >
               Upgrade to Pro — £299/month

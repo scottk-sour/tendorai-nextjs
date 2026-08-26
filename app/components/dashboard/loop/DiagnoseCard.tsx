@@ -119,7 +119,7 @@ export default function DiagnoseCard({
             Run free AI visibility audit
           </Link>
           <Link
-            href="/for-vendors#pricing"
+            href="/pricing"
             className="text-xs font-medium text-purple-700 hover:underline mt-auto"
             onClick={(e) => e.stopPropagation()}
           >

@@ -70,7 +70,7 @@ function getScoreBand(score: number) {
   if (score <= 70) return {
     label: 'You have some foundations in place.',
     cta: 'TendorAI Pro will accelerate your visibility.',
-    ctaHref: '/for-vendors#pricing',
+    ctaHref: '/pricing',
     ctaLabel: 'See TendorAI Pro',
     color: 'bg-amber-50 border-amber-200 text-amber-800',
   };

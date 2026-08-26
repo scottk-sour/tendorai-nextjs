@@ -372,7 +372,7 @@ export default function AeoReportUkPage() {
             </p>
             <div className="grid sm:grid-cols-3 gap-4">
               <Link
-                href="/for-vendors"
+                href="/ai-visibility-platform"
                 className="group p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100"
               >
                 <h3 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-1">

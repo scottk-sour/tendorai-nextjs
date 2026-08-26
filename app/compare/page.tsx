@@ -329,7 +329,7 @@ export default function ComparePage() {
             You want AI to recommend your UK solicitor, accountant or mortgage
             adviser firm &rarr;{' '}
             <Link
-              href="/for-vendors"
+              href="/ai-visibility-platform"
               className="text-blue-700 font-semibold hover:underline"
             >
               TendorAI

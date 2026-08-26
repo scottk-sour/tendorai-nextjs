@@ -407,7 +407,7 @@ export default function StructuredDataAIVisibilityPage() {
               <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
                 Get Your Free AI Visibility Report
               </Link>
-              <Link href="/for-vendors#pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
+              <Link href="/pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
                 See TendorAI Pro
               </Link>
             </div>

@@ -28,7 +28,6 @@ Allow: /suppliers/inventory/
 Allow: /suppliers/profile/
 Allow: /posts/
 Allow: /ai-visibility-report/
-Allow: /for-vendors/
 Disallow: /_next/data/
 Disallow: /vendor-dashboard/
 Disallow: /vendor-login

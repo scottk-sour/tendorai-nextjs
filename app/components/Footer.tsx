@@ -8,7 +8,7 @@ const footerNavigation = {
     { name: 'Browse Services', href: '/services' },
     { name: 'AI Visibility Report', href: '/ai-visibility-report' },
     { name: 'AI Visibility Platform', href: '/ai-visibility-platform' },
-    { name: 'For Firms', href: '/for-vendors' },
+    { name: 'For Firms', href: '/ai-visibility-platform' },
     { name: 'Resources', href: '/resources' },
     { name: 'Schema Checker', href: '/tools/schema-checker' },
     { name: 'AI Crawler Checker', href: '/tools/robots-checker' },

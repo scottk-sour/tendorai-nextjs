@@ -292,7 +292,7 @@ export default function RobotsCheckerPage() {
             tracks your AI visibility weekly &mdash; no developer required.
           </p>
           <Link
-            href="/for-vendors"
+            href="/ai-visibility-platform"
             className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
           >
             See how TendorAI Pro works
