@@ -882,7 +882,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         >
           <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <p className="text-sm font-medium">
-              Pro: weekly AI monitoring + done-for-you fixes &mdash; &pound;299/month
+              Pro: weekly AI monitoring and done-for-you fixes
             </p>
             <a
               href="/for-vendors#pricing"
@@ -932,11 +932,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 {isRecommended ? (
                   <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
                     When someone in {displayCity} asks AI for {categoryArticle} {categoryLabel},{' '}
-                    <span className="text-emerald-700">{report.companyName} already appears</span>
-                    {topCompetitor && (
-                      <> &mdash; alongside firms like {topCompetitor.name}</>
-                    )}
-                    . Here&apos;s how to move up and stay there.
+                    <span className="text-emerald-700">{report.companyName} was named in this check.</span>
+                    {' '}AI assistants can give different answers to the same question, so treat this as a
+                    snapshot rather than a fixed position.
                   </p>
                 ) : (
                   <p className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
@@ -947,9 +945,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     )}
                   </p>
                 )}
-                <p className="text-sm text-gray-500 mt-3">
-                  The average UK business scores 34. Top performers score 70+.
-                </p>
               </div>
             );
           })()}
@@ -978,7 +973,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   title="AI Visibility"
                   score={report.aiVisibilityScore ?? 0}
                   band={report.aiVisibilityBand ?? null}
-                  description="AI-era signals that decide whether AI assistants recommend you — Google Business Profile, reviews, directory and platform presence."
+                  description="Signals AI assistants can read about your firm — Google Business Profile, reviews, directory and platform presence."
                 />
               </div>
               <p className="mt-4 text-sm text-gray-600 text-center md:text-left">
@@ -1021,8 +1016,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
       {(() => {
         const topCompetitor = getFirstRealCompetitor(report.competitors);
         const instrData = INSTRUCTION_VALUES[report.category] || { label: '£2,000', value: 2000 };
-        const lowEst = `£${(Math.round(instrData.value * 2.5)).toLocaleString()}`;
-        const highEst = `£${(Math.round(instrData.value * 4)).toLocaleString()}`;
         const categoryLabel = report.category === 'other'
           ? (report.customIndustry || 'your industry').toLowerCase()
           : getCategoryLabel(report.category);
@@ -1030,14 +1023,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <section className="max-w-3xl mx-auto px-4 mt-8">
             <div className="bg-gray-900 text-white rounded-xl p-6">
               <p className="text-sm leading-relaxed">
-                Every month AI doesn&apos;t recommend you, potential clients go elsewhere.
-              </p>
-              <p className="text-sm leading-relaxed mt-3">
                 The average {categoryLabel} instruction is worth <strong>{instrData.label}</strong>.
-                {topCompetitor
-                  ? <> If AI sends just 3 clients a month to <strong>{topCompetitor.name}</strong> instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
-                  : <> If AI sends just 3 clients a month to your competitors instead of you, that&apos;s <strong>{lowEst}&ndash;{highEst}</strong> in fees you&apos;ll never know you lost.</>
-                }
               </p>
               <p className="text-xs text-gray-400 mt-3">
                 Illustrative, based on average {categoryLabel} instruction values &mdash; not measured firm revenue.
@@ -1061,8 +1047,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           const modelResults = orderedResults.filter(r => r.dataSource === 'training_data');
 
           const liveCheckedResults = liveResults.filter(r => r.status === 'checked' || (!r.status && !r.error));
-          const mentionedCount = liveCheckedResults.filter(r => r.mentioned).length;
-          const liveCheckedCount = liveCheckedResults.length;
           const timeoutCount = liveResults.filter(r => r.status === 'timeout' || r.status === 'error').length;
 
           // "A, B and C" — never announce a platform that wasn't queried.
@@ -1104,7 +1088,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   recommendation coverage. */}
               <div className="mb-6 p-4 rounded-lg bg-gray-50">
                 <p className="text-base font-semibold text-gray-900">
-                  {report.companyName} was recommended by {mentionedCount} of {liveCheckedCount} AI assistant{liveCheckedCount !== 1 ? 's' : ''} with live web search.
+                  Here is what each assistant returned when we asked, once, on{' '}
+                  {new Date(report.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.
                 </p>
                 {timeoutCount > 0 && (
                   <p className="text-sm text-amber-700 mt-1">
@@ -1444,7 +1429,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-1">AI Visibility Signals</h3>
               <p className="text-xs text-gray-500 mb-4">
-                Signals that decide whether AI assistants actually recommend you.
+                Signals AI assistants can read about your firm.
               </p>
               {report.aiVisibilityBreakdown ? (
                 <SignalBreakdownList breakdown={report.aiVisibilityBreakdown} weights={aiSignalWeightsFor(report.category)} />
@@ -1501,10 +1486,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* Who AI Recommends Instead */}
+        {/* Other Firms Named in This Check */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
-            {isRecommended ? 'Who Else AI Recommends' : 'Who AI Recommends Instead'}
+            Other Firms Named in This Check
           </h2>
           <p className="text-sm text-gray-500 mb-2">
             {(() => {
@@ -1514,7 +1499,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               if (isRecommended) {
                 return `These firms appeared alongside ${report.companyName} when we asked AI for ${categoryPlural} in ${displayCity}.`;
               }
-              return `These are the companies AI recommends instead of you in ${displayCity}.`;
+              return `These firms were also named when we asked about ${displayCity}.`;
             })()}
           </p>
 
@@ -1528,10 +1513,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   if (isRecommended) {
                     return (
                       <>
-                        AI already surfaces {report.companyName} for buyers asking for{' '}
+                        AI named {report.companyName} for buyers asking for{' '}
                         {aOrAn(competitorLabel)} {competitorLabel} in {displayCity}. These
-                        firms appear in the same set of recommendations &mdash; the gaps
-                        below are what would help you move above them.
+                        firms appear in the same set of recommendations &mdash; the gaps below
+                        are the signals AI assistants can currently read about you.
                       </>
                     );
                   }
@@ -1539,7 +1524,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     <>
                       These businesses appear when someone asks AI to recommend{' '}
                       {aOrAn(competitorLabel)} {competitorLabel} in {displayCity}.
-                      Every time AI recommends them instead of you, that&apos;s a potential client you lose.
                     </>
                   );
                 })()}
@@ -1592,11 +1576,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             </>
           ) : (
             <div className="p-6 text-center bg-gray-50 rounded-xl border border-gray-200">
-              <p className="text-gray-600 font-medium">No direct competitors identified in your area</p>
+              <p className="text-gray-600 font-medium">
+                No competing firms were named alongside you in this check.
+              </p>
               <p className="text-gray-400 text-sm mt-1">
-                This could mean you have a strong local position &mdash; or that AI platforms
-                don&apos;t yet have enough data about {displayCity}.
-                A TendorAI Pro profile helps AI platforms find and recommend you.
+                That may mean AI has little data about firms in {displayCity}, or that this
+                particular question surfaced few names.
               </p>
             </div>
           )}
@@ -1638,7 +1623,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">3.</span>
-                <span>Strengthen authority signals AI uses to decide who to recommend.</span>
+                <span>Strengthen the authority signals AI assistants can read.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">4.</span>
@@ -1650,10 +1635,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 href="/for-vendors#pricing"
                 className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
-                Upgrade to Pro &mdash; &pound;299/month
+                Talk to us about Pro
               </a>
               <p className="text-xs text-gray-500 italic">
-                90-day promise &mdash; if your AI Visibility Score isn&apos;t moving in the right direction within 90 days of schema install, we&apos;ll review your account and process a full refund.
+                We promise accurate, verifiable work &mdash; not an AI outcome. Nobody can guarantee what an AI assistant will say.
               </p>
             </div>
           </section>
@@ -1663,7 +1648,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
           <p className="text-sm text-gray-500 mb-6">
-            These are the specific reasons AI tools are not recommending your business.
+            These are the signals AI assistants can currently read about your firm, and the ones
+            they can&apos;t.
           </p>
 
           <div className="space-y-4">
@@ -1699,9 +1685,9 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               // regardless of band — the evidence above says otherwise.
               bodyCopy = (
                 <>
-                  AI already surfaces {report.companyName} for some {categoryCopy} queries in{' '}
-                  {displayCity} &mdash; the gaps below are what&apos;s keeping you from ranking higher
-                  and appearing consistently.
+                  AI named {report.companyName} for some {categoryCopy} queries in{' '}
+                  {displayCity} &mdash; the gaps below are the signals AI assistants can currently
+                  read about you, and the ones they can&apos;t.
                 </>
               );
             } else if (!isLegacyScoring && aiVisibilityBand) {
@@ -1711,7 +1697,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       Your AI visibility score of {scoreStr} puts you in a strong position. AI assistants
-                      regularly recommend you when UK buyers ask for {categoryCopy} in {displayCity}.
+                      named you in this check when we asked for {categoryCopy} in {displayCity}.
                       Focus now on maintaining momentum — review signals and structured data drift quickly.
                     </>
                   );
@@ -1719,18 +1705,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 case 'Moderate':
                   bodyCopy = (
                     <>
-                      With an AI visibility score of {scoreStr}, AI assistants mention you inconsistently.
-                      Some buyer queries for {categoryCopy} in {displayCity} surface you; others go straight
-                      to competitors. The gaps below are the fastest way to close that distance.
+                      With an AI visibility score of {scoreStr}, AI assistants named you in some of
+                      this check&apos;s answers but not others. The gaps below are the signals AI
+                      assistants can currently read about you.
                     </>
                   );
                   break;
                 case 'Early Stage':
                   bodyCopy = (
                     <>
-                      Your AI visibility score of {scoreStr} means AI assistants know you exist but rarely
-                      recommend you. Most buyer queries for {categoryCopy} in {displayCity} currently go to
-                      competitors. The gaps below are the actionable next steps.
+                      With an AI visibility score of {scoreStr}, AI assistants did not name you in this
+                      check when we asked for {categoryCopy} in {displayCity}. The gaps below are the
+                      signals AI assistants can currently read about you.
                     </>
                   );
                   break;
@@ -1738,10 +1724,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 default:
                   bodyCopy = (
                     <>
-                      With an AI visibility score of {scoreStr}, your business is effectively invisible to
-                      AI recommendation engines. When potential buyers use AI assistants like ChatGPT or
-                      Perplexity to find {categoryCopy} in {displayCity}, the evidence above suggests
-                      they&apos;re finding your competitors first.
+                      AI assistants named other firms in this check and did not name you. The gaps
+                      below are the signals they can currently read about you.
                     </>
                   );
                   break;
@@ -1749,10 +1733,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             } else {
               bodyCopy = (
                 <>
-                  With a score of {report.score}/100, your business is largely invisible to AI recommendation engines.
-                  When potential buyers use AI assistants like ChatGPT or Perplexity to find{' '}
-                  {categoryCopy} in {displayCity}, the evidence above suggests they&apos;re finding your
-                  competitors first.
+                  With a score of {report.score}/100, AI assistants named other firms in this check
+                  and did not name you. The gaps below are the signals they can currently read about you.
                 </>
               );
             }
@@ -1782,13 +1764,13 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <section className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-4 sm:p-6">
                 <div className="flex items-start justify-between gap-4 mb-1">
-                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">Profile Gaps &mdash; Why AI Can&apos;t Fully Recommend You</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">Profile Gaps</h2>
                   <span className="flex-shrink-0 text-sm font-semibold text-gray-500">
                     {pg.completeFields}/{pg.totalFields} fields complete
                   </span>
                 </div>
                 <p className="text-sm text-gray-500 mb-5">
-                  Your TendorAI profile is missing {pg.totalGaps} field{pg.totalGaps !== 1 ? 's' : ''} that AI uses to recommend {verticalLabel} firms.
+                  Your TendorAI profile is missing {pg.totalGaps} field{pg.totalGaps !== 1 ? 's' : ''}.
                 </p>
 
                 {/* Progress bar */}
@@ -1836,7 +1818,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <>
                     <p className="text-sm text-gray-700 mb-4">
                       Claim your free profile to fix {freeGapCount} free gap{freeGapCount !== 1 ? 's' : ''} now.
-                      Upgrade to Pro and we install everything on your website within 48 hours.
+                      Upgrade to Pro and we install everything on your website.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Link
@@ -1849,7 +1831,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         href="/for-vendors#pricing"
                         className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                       >
-                        Upgrade to Pro &mdash; &pound;299/month
+                        Talk to us about Pro
                       </a>
                     </div>
                   </>
@@ -1857,7 +1839,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <>
                     <p className="text-sm text-gray-700 mb-4">
                       You&apos;ve completed {pg.completeFields} of {pg.totalFields} fields.
-                      Fix the remaining {pg.totalGaps} to maximise your AI recommendations.
+                      Fix the remaining {pg.totalGaps}.
                     </p>
                     <Link
                       href="/vendor-dashboard/settings"
@@ -1877,12 +1859,17 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">The Shift: SEO &rarr; AI Visibility</h2>
           <div className="mt-4 space-y-6 text-sm text-gray-600">
             <div>
-              <h3 className="font-bold text-gray-900 mb-2">Buyers Are Changing How They Search</h3>
+              <h3 className="font-bold text-gray-900 mb-2">Most Firms Are Never Named</h3>
               <p>
-                According to Gartner, by 2026, traditional search engine volume will drop 25% as consumers
-                shift to AI assistants. Forrester reports that 60% of B2B buyers now use AI tools to research
-                suppliers before making contact. If your business isn&apos;t visible to AI, you&apos;re losing
-                leads you&apos;ll never know about.
+                We{' '}
+                <Link
+                  href="/resources/ai-visibility-report-solicitors-august-2026"
+                  className="text-[#1B4F72] underline hover:text-[#163d5a]"
+                >
+                  measured 1,214 UK solicitors
+                </Link>
+                {' '}across 17 UK cities in August 2026. 83% were never named once across 40 AI answers
+                each. Most firms have never checked which side of that line they&apos;re on.
               </p>
             </div>
             <div>
@@ -1971,15 +1958,11 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
-                          <span>
-                            {isRecommended
-                              ? 'You appear, but below firms with stronger structured data'
-                              : <>Recommends {competitorName} instead</>}
-                          </span>
+                          <span>Your structured data is not installed</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-red-500 font-bold flex-shrink-0">&#10007;</span>
-                          <span>You lose the instruction</span>
+                          <span>No weekly tracking of your AI mentions</span>
                         </li>
                       </ul>
                     </div>
@@ -1998,20 +1981,18 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
-                          <span>
-                            Recommends {report.companyName} {isRecommended ? 'first' : 'by name'}
-                          </span>
+                          <span>We install AI-readable structured data on your website</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-600 font-bold flex-shrink-0">&#10003;</span>
-                          <span>Client contacts you directly</span>
+                          <span>We track your AI mentions weekly and alert you when they change</span>
                         </li>
                       </ul>
                     </div>
                   </div>
 
                   <p className="mt-4 text-sm text-gray-600 text-center">
-                    TendorAI installs this data on your website within 48 hours. Agencies charge &pound;1,500&ndash;&pound;8,000/month for this manually. You pay &pound;299.
+                    TendorAI installs this data on your website.
                   </p>
                 </>
               );
@@ -2031,8 +2012,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         <section className="mt-8 bg-[#1B4F72] rounded-xl shadow-sm p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-3">Fix Your AI Visibility</h2>
           <p className="text-blue-100 mb-6 max-w-lg mx-auto">
-            TendorAI is the UK&apos;s first AI-optimised supplier directory. Claim your free profile and
-            start appearing in AI recommendations.
+            Claim your free TendorAI profile and start appearing in AI recommendations.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -2080,12 +2060,11 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 Most Popular
               </span>
               <p className="font-bold text-lg text-[#1B4F72]">Pro</p>
-              <p className="text-2xl font-bold my-1 text-[#1B4F72]">&pound;299<span className="text-sm font-normal text-gray-400">/month</span></p>
+              <p className="text-2xl font-bold my-1 text-[#1B4F72]">Pricing on request</p>
               <p className="text-xs text-gray-500 mt-2 flex-1">
-                We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge. Agencies charge &pound;1,500+/month for this.
+                We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge.
               </p>
-              <p className="text-xs text-gray-500 mt-1">Most firms recover this in a single client instruction.</p>
-              <p className="text-[10px] text-gray-400 mt-1 italic">90-day promise &mdash; if your AI Visibility Score isn&apos;t moving in the right direction within 90 days of schema install, we&apos;ll review your account and process a full refund.</p>
+              <p className="text-[10px] text-gray-400 mt-1 italic">We promise accurate, verifiable work &mdash; not an AI outcome. Nobody can guarantee what an AI assistant will say.</p>
               <a
                 href="/vendor-signup?plan=pro"
                 className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"
