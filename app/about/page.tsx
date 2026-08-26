@@ -171,8 +171,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-xl p-6 border border-[var(--border)]">
               <h3 className="font-serif font-semibold text-[var(--text)] mb-2">Self-Serve, Not Agency</h3>
               <p className="text-[var(--text2)]">
-                No 12-month contracts. No £5,000/month retainers. TendorAI is a self-serve
-                platform starting at £299/month (3 of 50 early adopter spots taken). Your profile goes live in 24 hours, not 3-6 months.
+                No 12-month contracts. No £5,000/month retainers. Your profile goes live in 24 hours, not 3-6 months.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 border border-[var(--border)]">

@@ -198,7 +198,6 @@ All vendor profiles include Schema.org JSON-LD markup:
 | Tier | Price | Features |
 |------|-------|----------|
 | Free | £0/forever | Basic directory listing, public register data, visible to AI crawlers |
-| Pro  | £299/month (early adopter price, rising to £599 at 50 customers) | AI-optimised schema installed on your website, weekly AI scans across 6 platforms, AI blog writer, social publishing, competitor tracking, 90-day guarantee |
 
 ## AI Visibility Reports
 

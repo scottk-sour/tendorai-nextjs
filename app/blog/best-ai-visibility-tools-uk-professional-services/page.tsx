@@ -49,7 +49,7 @@ const tools = [
       'AI blog writer generating structured content automatically',
       'TendorAI Verified badge for website and profile',
     ],
-    pricing: 'Free / Pro \u00a3299/month (early adopter rate \u2014 rises to \u00a3599 after 50 clients)',
+    pricing: 'Free / Pro',
     ukFocus: 'Built specifically for UK regulated professional services. Regulatory data integration is unique to this platform.',
     verdict: 'The only UK-native AI visibility platform with done-for-you implementation. If you want AI to recommend your business without managing it yourself, this is the starting point.',
     bestFor: 'UK professional services firms and SMEs that want done-for-you AI visibility with regulatory data built in',
