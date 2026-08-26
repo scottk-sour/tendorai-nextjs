@@ -496,7 +496,7 @@ export default function SolicitorFirmChatGPTRecommendationPage() {
               where your firm stands &mdash; and what to fix first.
             </p>
             <Link
-              href="/for-vendors"
+              href="/ai-visibility-report"
               className="inline-flex items-center justify-center bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-lg px-8 py-4 text-lg hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg"
             >
               Check Your AI Visibility

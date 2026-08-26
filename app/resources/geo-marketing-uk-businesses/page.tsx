@@ -680,7 +680,7 @@ export default function GeoMarketingPage() {
                 </svg>
               </Link>
               <Link
-                href="/for-vendors"
+                href="/vendor-signup"
                 className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/30 text-white font-semibold rounded-lg hover:bg-purple-500/40 transition-colors border border-purple-400/30"
               >
                 Claim Your Profile

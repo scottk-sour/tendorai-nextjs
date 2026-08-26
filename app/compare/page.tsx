@@ -385,7 +385,7 @@ export default function ComparePage() {
             ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI.
           </p>
           <Link
-            href="/for-vendors"
+            href="/vendor-signup"
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Claim your free profile

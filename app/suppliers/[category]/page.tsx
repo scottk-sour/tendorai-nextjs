@@ -544,7 +544,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   List your business on TendorAI for free and start appearing in AI-powered buyer searches.
                 </p>
                 <Link
-                  href="/for-vendors"
+                  href="/vendor-signup"
                   className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   List Your Business — Free
