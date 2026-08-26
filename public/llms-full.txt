@@ -16,7 +16,6 @@ like ChatGPT, Claude, Perplexity, and Google AI. We provide:
 - Structured data profiles with Schema.org markup optimised for AI crawlers
 - Free AI Visibility reports scoring 0-100
 - AI Visibility audits checking website readiness for AI discovery
-- Self-service alternative to AI Visibility agencies (£299/month vs £1,500-8,000/month)
 - Directory listings that AI platforms can read and recommend from
 
 ## Business Verticals
@@ -198,7 +197,8 @@ All vendor profiles include Schema.org JSON-LD markup:
 | Tier | Price | Features |
 |------|-------|----------|
 | Free | £0/forever | Basic directory listing, public register data, visible to AI crawlers |
-| Pro  | £299/month (early adopter price, rising to £599 at 50 customers) | AI-optimised schema installed on your website, weekly AI scans across 6 platforms, AI blog writer, social publishing, competitor tracking, 90-day guarantee |
+
+AI Visibility Growth Programme — £999/month, initial three-month term, UK solicitors only. Booked through a call.
 
 ## AI Visibility Reports
 

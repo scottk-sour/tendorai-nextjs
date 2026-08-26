@@ -585,11 +585,7 @@ export default function GeoMarketingPage() {
                 <div className="mt-2 mb-4">
                   <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
                   <span className="text-sm text-gray-500 ml-1">{plan.priceLabel}</span>
-                  {plan.highlighted && <span className="ml-2 text-xs font-semibold text-purple-600">3 of 50 spots taken</span>}
                 </div>
-                {plan.highlighted && (
-                  <p className="text-[10px] text-gray-400 italic mb-4">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
-                )}
                 <ul className="space-y-2">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-sm text-gray-600">

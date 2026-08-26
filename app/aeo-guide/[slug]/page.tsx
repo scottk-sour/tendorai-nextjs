@@ -171,9 +171,8 @@ export default async function AeoGuidePage({
                 href="/pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Upgrade to Pro — £299/month
+                Talk to us about the programme
               </a>
-              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
             </div>
           )}
 
@@ -206,9 +205,8 @@ export default async function AeoGuidePage({
                 href="/pricing"
                 className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Upgrade to Pro — £299/month
+                Talk to us about the programme
               </a>
-              <p className="text-xs text-blue-700 italic mt-2">The first 50 firms lock in at &pound;299/month forever. 3 spots taken &mdash; 47 remaining.</p>
             </div>
           )}
 
@@ -251,7 +249,7 @@ export default async function AeoGuidePage({
               href="/pricing"
               className="inline-flex items-center px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
             >
-              Upgrade to Pro — £299/month
+              Talk to us about the programme
             </a>
           </div>
         </section>
