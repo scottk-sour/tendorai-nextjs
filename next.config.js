@@ -16,10 +16,16 @@ const nextConfig = {
   // Redirects for old URLs and removed pages
   async redirects() {
     return [
+      // /for-vendors retired — it sold the discontinued £299 self-serve tier.
+      // permanent: true emits a 308, which preserves the request method and
+      // lets the browser carry any #pricing fragment onto /pricing, where the
+      // <Pricing /> component still renders section id="pricing".
+      { source: '/for-vendors', destination: '/pricing', permanent: true },
+
       // Auth routes → vendor login
       { source: '/login', destination: '/vendor-login', permanent: true },
       { source: '/signup', destination: '/vendor-login', permanent: true },
-      // (Historic redirect /pricing → /for-vendors#pricing removed —
+      // (Historic redirect /pricing → /pricing removed —
       // /pricing is now a canonical route in its own right; see
       // app/pricing/page.tsx.)
       // AI visibility checker → AI visibility report

@@ -71,7 +71,7 @@ function getScoreBand(score: number) {
     label: 'You have some foundations in place. TendorAI Pro will accelerate your visibility.',
     color: 'text-amber-600',
     bg: 'bg-amber-50 border-amber-200',
-    cta: { label: 'See TendorAI Pro', href: '/for-vendors' },
+    cta: { label: 'See TendorAI Pro', href: '/ai-visibility-platform' },
   };
   if (score <= 90) return {
     label: 'Good foundations. Focus on content and citation building.',

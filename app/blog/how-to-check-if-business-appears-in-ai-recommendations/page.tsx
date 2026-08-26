@@ -501,7 +501,7 @@ export default function HowToCheckAIRecommendationsPage() {
 
           <p className="text-gray-600 leading-relaxed mb-6">
             For{' '}
-            <Link href="/for-vendors" className="text-purple-600 underline hover:text-purple-800">
+            <Link href="/pricing" className="text-purple-600 underline hover:text-purple-800">
               businesses that want ongoing monitoring
             </Link>
             , TendorAI&apos;s paid plans include weekly automated scans so you can
@@ -622,7 +622,7 @@ export default function HowToCheckAIRecommendationsPage() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/for-vendors"
+                  href="/pricing"
                   className="text-purple-600 hover:text-purple-800 underline"
                 >
                   TendorAI for Businesses &mdash; Plans and Features

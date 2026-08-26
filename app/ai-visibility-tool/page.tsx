@@ -308,7 +308,7 @@ export default function AiVisibilityToolPage() {
               </div>
               <div className="mt-8 text-center">
                 <Link
-                  href="/for-vendors#pricing"
+                  href="/pricing"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-all shadow-md"
                 >
                   View Plans

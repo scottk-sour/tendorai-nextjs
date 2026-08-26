@@ -129,7 +129,7 @@ export default function SchemaCheckerClient() {
               <strong>TendorAI Pro</strong> installs the correct schema for your firm type via a single script tag. It auto-syncs whenever your profile is updated &mdash; no developer needed, no manual updates.
             </p>
             <a
-              href="/for-vendors"
+              href="/ai-visibility-platform"
               className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg"
             >
               See how TendorAI Pro works

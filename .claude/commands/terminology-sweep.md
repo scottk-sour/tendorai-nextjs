@@ -15,7 +15,7 @@ Search the entire repo (excluding `node_modules`, `.next`, `dist`, `.git`). Do n
 
 ### Routes & nav
 8. Any `href` or link to `/ai-visibility-checker` — should redirect to `/aeo-report`.
-9. Any `href` or link to `/pricing` as a standalone route — pricing lives at `/for-vendors#pricing`.
+9. Any `href` or link to `/for-vendors` — that route is deleted; pricing lives at `/pricing`.
 10. Any nav item literally labelled "Home" — the logo handles home.
 11. Any nav item literally labelled "Pricing" as a standalone link.
 

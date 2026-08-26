@@ -25,7 +25,6 @@ const STATIC_PAGES: Array<{
   { path: '', changefreq: 'weekly', priority: 1.0 },
   { path: '/suppliers', changefreq: 'daily', priority: 0.9 },
   { path: '/ai-visibility-report', changefreq: 'monthly', priority: 0.9 },
-  { path: '/for-vendors', changefreq: 'monthly', priority: 0.8 },
   { path: '/pricing', changefreq: 'monthly', priority: 0.8 },
   { path: '/ai-visibility-platform', changefreq: 'monthly', priority: 0.9 },
   { path: '/best-ai-visibility-tools-uk-solicitors', changefreq: 'monthly', priority: 0.8 },

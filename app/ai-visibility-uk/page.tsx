@@ -524,7 +524,7 @@ export default function AIVisibilityUKPage() {
             </h2>
             <div className="grid sm:grid-cols-3 gap-4">
               <Link
-                href="/for-vendors"
+                href="/ai-visibility-platform"
                 className="group p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <h3 className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">

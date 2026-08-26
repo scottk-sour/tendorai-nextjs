@@ -4,11 +4,11 @@ Audit the navigation against the rules in CLAUDE.md.
 2. List every nav item with: label, href, desktop / mobile / both.
 3. For each item, verify:
    - The `href` points to a route that exists in the `app/` directory.
-   - Anchor links (e.g. `/for-vendors#pricing`) point to an actual `id` on the target page.
+   - Anchor links point to an actual `id` on the target page.
    - External links open with `target="_blank"` and `rel="noopener noreferrer"`.
 4. Flag every violation of these rules from CLAUDE.md:
    - No nav item labelled "Home" — the logo handles home.
-   - No standalone "Pricing" item — pricing lives at `/for-vendors#pricing`.
+   - A "Pricing" nav item pointing at `/pricing` is expected.
    - The firm login link is labelled "Firm Login", not "Vendor Login".
    - No link to `/ai-visibility-checker` (deleted route).
    - No duplicate items pointing to the same route.

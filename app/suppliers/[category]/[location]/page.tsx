@@ -609,7 +609,7 @@ export default async function CategoryLocationPage({ params }: PageProps) {
                 : `Join ${totalCount > 0 ? `${totalCount}+ ` : ''}other ${service.name.toLowerCase()} suppliers on TendorAI.`}
             </p>
             <Link
-              href={isProfessional ? '/vendor-signup' : '/for-vendors'}
+              href="/vendor-signup"
               className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
             >
               {isProfessional ? 'Claim Your Profile — Free' : 'List Your Business — Free'}
