@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
-    a: 'A typical SEO agency charges £500-£2,000/month. TendorAI focuses specifically on AI visibility, which most SEO agencies don\'t address at all.',
+    a: 'The AI Visibility Growth Programme is £999 per month on an initial three-month term. SEO agency pricing varies and we don\'t have a sourced figure for it, so we won\'t quote one.',
   },
   {
     q: 'Is AI search actually replacing Google?',

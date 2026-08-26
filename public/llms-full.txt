@@ -16,7 +16,6 @@ like ChatGPT, Claude, Perplexity, and Google AI. We provide:
 - Structured data profiles with Schema.org markup optimised for AI crawlers
 - Free AI Visibility reports scoring 0-100
 - AI Visibility audits checking website readiness for AI discovery
-- Self-service alternative to AI Visibility agencies (£299/month vs £1,500-8,000/month)
 - Directory listings that AI platforms can read and recommend from
 
 ## Business Verticals
