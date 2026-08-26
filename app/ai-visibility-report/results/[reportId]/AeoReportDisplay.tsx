@@ -1025,9 +1025,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           <section className="max-w-3xl mx-auto px-4 mt-8">
             <div className="bg-gray-900 text-white rounded-xl p-6">
               <p className="text-sm leading-relaxed">
-                Every month AI doesn&apos;t recommend you, potential clients go elsewhere.
-              </p>
-              <p className="text-sm leading-relaxed mt-3">
                 The average {categoryLabel} instruction is worth <strong>{instrData.label}</strong>.
               </p>
               <p className="text-xs text-gray-400 mt-3">
@@ -1491,10 +1488,10 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
           </div>
         </section>
 
-        {/* Who AI Recommends Instead */}
+        {/* Other Firms Named in This Check */}
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
-            {isRecommended ? 'Who Else AI Recommends' : 'Who AI Recommends Instead'}
+            Other Firms Named in This Check
           </h2>
           <p className="text-sm text-gray-500 mb-2">
             {(() => {
@@ -1504,7 +1501,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               if (isRecommended) {
                 return `These firms appeared alongside ${report.companyName} when we asked AI for ${categoryPlural} in ${displayCity}.`;
               }
-              return `These are the companies AI recommends instead of you in ${displayCity}.`;
+              return `These firms were also named when we asked about ${displayCity}.`;
             })()}
           </p>
 
@@ -1529,7 +1526,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                     <>
                       These businesses appear when someone asks AI to recommend{' '}
                       {aOrAn(competitorLabel)} {competitorLabel} in {displayCity}.
-                      Every time AI recommends them instead of you, that&apos;s a potential client you lose.
                     </>
                   );
                 })()}
@@ -1629,7 +1625,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">3.</span>
-                <span>Strengthen authority signals AI uses to decide who to recommend.</span>
+                <span>Strengthen the authority signals AI assistants can read.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">4.</span>
@@ -1654,7 +1650,8 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
         <section className="mt-8 bg-white rounded-xl shadow-sm border p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Your Visibility Gaps</h2>
           <p className="text-sm text-gray-500 mb-6">
-            These are the specific reasons AI tools are not recommending your business.
+            These are the signals AI assistants can currently read about your firm, and the ones
+            they can&apos;t.
           </p>
 
           <div className="space-y-4">
@@ -1702,7 +1699,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   bodyCopy = (
                     <>
                       Your AI visibility score of {scoreStr} puts you in a strong position. AI assistants
-                      regularly recommend you when UK buyers ask for {categoryCopy} in {displayCity}.
+                      named you in this check when we asked for {categoryCopy} in {displayCity}.
                       Focus now on maintaining momentum — review signals and structured data drift quickly.
                     </>
                   );
@@ -1846,7 +1843,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <>
                     <p className="text-sm text-gray-700 mb-4">
                       You&apos;ve completed {pg.completeFields} of {pg.totalFields} fields.
-                      Fix the remaining {pg.totalGaps} to maximise your AI recommendations.
+                      Fix the remaining {pg.totalGaps}.
                     </p>
                     <Link
                       href="/vendor-dashboard/settings"
@@ -2071,7 +2068,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               <p className="text-xs text-gray-500 mt-2 flex-1">
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge.
               </p>
-              <p className="text-xs text-gray-500 mt-1">Most firms recover this in a single client instruction.</p>
               <p className="text-[10px] text-gray-400 mt-1 italic">We promise accurate, verifiable work &mdash; not an AI outcome. Nobody can guarantee what an AI assistant will say.</p>
               <a
                 href="/vendor-signup?plan=pro"
