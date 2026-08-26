@@ -49,7 +49,7 @@ const tools = [
       'AI blog writer generating structured content automatically',
       'TendorAI Verified badge for website and profile',
     ],
-    pricing: 'Free / Pro',
+    pricing: 'Free / Managed programme',
     ukFocus: 'Built specifically for UK regulated professional services. Regulatory data integration is unique to this platform.',
     verdict: 'The only UK-native AI visibility platform with done-for-you implementation. If you want AI to recommend your business without managing it yourself, this is the starting point.',
     bestFor: 'UK professional services firms and SMEs that want done-for-you AI visibility with regulatory data built in',
