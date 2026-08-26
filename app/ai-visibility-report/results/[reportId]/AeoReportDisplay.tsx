@@ -884,22 +884,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
             <p className="text-sm font-medium">
               Pro: weekly AI monitoring and done-for-you fixes
             </p>
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <a
-                href="https://cal.com/tendorai/15min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-1.5 border border-white/60 text-white text-sm font-semibold rounded-lg hover:bg-white/10 transition-colors"
-              >
-                Book a 15-minute call
-              </a>
-              <a
-                href="/vendor-signup?plan=pro"
-                className="inline-flex items-center px-4 py-1.5 bg-white text-purple-700 text-sm font-bold rounded-lg hover:bg-purple-50 transition-colors"
-              >
-                Upgrade to Pro
-              </a>
-            </div>
+            <Link
+              href="/contact"
+              className="flex-shrink-0 inline-flex items-center px-4 py-1.5 bg-white text-purple-700 text-sm font-bold rounded-lg hover:bg-purple-50 transition-colors"
+            >
+              Book a 15-minute call
+            </Link>
           </div>
         </div>
       )}
@@ -1641,20 +1631,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
-              <a
-                href="/vendor-signup?plan=pro"
+              <Link
+                href="/contact"
                 className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
-                Talk to us about Pro
-              </a>
-              <a
-                href="https://cal.com/tendorai/15min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 border-2 border-purple-600 text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
-              >
                 Book a 15-minute call
-              </a>
+              </Link>
               <p className="text-xs text-gray-500 italic">
                 We promise accurate, verifiable work &mdash; not an AI outcome. Nobody can guarantee what an AI assistant will say.
               </p>
@@ -1845,12 +1827,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                       >
                         Claim Your Profile &mdash; Free
                       </Link>
-                      <a
-                        href="/vendor-signup?plan=pro"
+                      <Link
+                        href="/contact"
                         className="inline-flex items-center justify-center px-5 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition-colors"
                       >
-                        Talk to us about Pro
-                      </a>
+                        Book a 15-minute call
+                      </Link>
                     </div>
                   </>
                 ) : (
@@ -2035,7 +2017,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
             <Link
-              href="/vendor-signup"
+              href="/contact"
               className="inline-flex items-center px-6 py-3 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors"
             >
               {report.category === 'other' ? 'Join the Waitlist' : 'Claim Your Free Profile'}
@@ -2046,14 +2028,6 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
               className="inline-flex items-center px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
             >
               Download PDF Report
-            </a>
-            <a
-              href="https://cal.com/tendorai/15min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 border-2 border-white/60 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-            >
-              Book a 15-minute call
             </a>
           </div>
 
@@ -2091,12 +2065,12 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                 We install AI-optimised data on your website, track your AI mentions weekly, and give you a Verified badge.
               </p>
               <p className="text-[10px] text-gray-400 mt-1 italic">We promise accurate, verifiable work &mdash; not an AI outcome. Nobody can guarantee what an AI assistant will say.</p>
-              <a
-                href="/vendor-signup?plan=pro"
+              <Link
+                href="/contact"
                 className="mt-4 block text-center px-4 py-2 rounded-lg bg-[#1B4F72] text-white text-sm font-semibold hover:bg-[#163d5a] transition-colors"
               >
-                Start Pro
-              </a>
+                Book a 15-minute call
+              </Link>
             </div>
           </div>
         </section>

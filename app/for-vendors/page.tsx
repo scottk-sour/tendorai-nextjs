@@ -223,12 +223,12 @@ export default function ForVendorsPage() {
       <section id="pricing" className="py-24 bg-[var(--surface)]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-[var(--text)] mb-4">
-            Simple, transparent pricing
+            Pricing
           </h2>
           <p className="text-[var(--text2)] text-lg mb-8">
-            Free profile forever, or Pro at <strong>&pound;299/month</strong> for weekly AI
-            visibility monitoring and done-for-you fixes across ChatGPT, Perplexity, Claude,
-            Gemini and Google AI Overviews. Month-to-month, cancel anytime.
+            The AI Visibility Growth Programme is <strong>&pound;999 per month</strong>, on an
+            initial three-month term, currently for solicitors only. TendorAI is not currently
+            VAT-registered, so no VAT is added. The AI visibility report is permanently free.
           </p>
           <Link
             href="/pricing"
