@@ -86,7 +86,7 @@ function ComparisonTable() {
     { factor: 'Traffic source', seo: 'Google/Bing organic clicks', aeo: 'AI-generated answers with citations' },
     { factor: 'Key ranking factors', seo: 'Backlinks, keywords, site speed', aeo: 'Structured data, reviews, mentions, schema' },
     { factor: 'Time to results', seo: '3-6 months', aeo: '4-8 weeks for initial mentions' },
-    { factor: 'Typical agency cost', seo: '£500-£2,000/month', aeo: '£0-£299/month with TendorAI (47 spots remaining)' },
+    { factor: 'Cost', seo: 'Varies by agency', aeo: 'Free report at £0. Growth Programme £999/month.' },
     { factor: 'Measurability', seo: 'Google Search Console, rankings', aeo: 'AI mention tracking, visibility scores' },
     { factor: 'Competition awareness', seo: 'Keyword difficulty scores', aeo: 'Most businesses aren\'t doing this yet' },
   ];
