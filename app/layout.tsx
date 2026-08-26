@@ -155,28 +155,11 @@ const softwareAppJsonLd = {
   operatingSystem: 'Web',
   description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AI Visibility audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Free',
-      price: '0',
-      priceCurrency: 'GBP',
-      description: 'Free AI Visibility report and basic directory listing',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Pro',
-      price: '299',
-      priceCurrency: 'GBP',
-      description: 'Priority ranking in AI responses with full structured data and weekly AI Visibility reports',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: '299',
-        priceCurrency: 'GBP',
-        billingDuration: 'P1M',
-      },
-    },
-  ],
+  // No `offers` here on purpose. A site-wide node asserting an offer on
+  // every page — including articles and research reports — duplicates the
+  // Product schema on /pricing and drifts out of date the moment pricing
+  // changes. /pricing is the single machine-readable source for what
+  // TendorAI sells and what it costs.
 };
 
 const serviceJsonLd = {

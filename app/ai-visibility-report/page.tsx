@@ -41,7 +41,7 @@ const faqSchema = {
       name: 'What is AI Visibility?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'AI Visibility (also called Answer Engine Optimisation) is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility is becoming essential for business visibility.',
+        text: 'AI Visibility is the process of optimising your business to appear in AI-generated answers from tools like ChatGPT, Perplexity, and Claude. As more people use AI instead of Google to find suppliers, AI Visibility is becoming essential for business visibility.',
       },
     },
     {
@@ -184,7 +184,7 @@ export default function AeoReportPage() {
             <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="font-semibold text-gray-900 mb-2">What is AI Visibility?</h2>
               <p className="text-gray-600 text-sm leading-relaxed">
-                <strong>Answer Engine Optimisation</strong> is the new SEO. As more people use AI
+                <strong>AI visibility</strong> is the new SEO. As more people use AI
                 assistants instead of Google, businesses that aren&apos;t in AI&apos;s training data become
                 invisible. 200M+ people use ChatGPT monthly. 100M+ use Perplexity. Is your business
                 showing up?

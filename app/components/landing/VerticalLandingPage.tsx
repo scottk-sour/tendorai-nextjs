@@ -165,6 +165,14 @@ export default function VerticalLandingPage({ config }: { config: VerticalConfig
 
       {/* Pricing Component */}
       <Pricing />
+      <div className="text-center pb-16 -mt-8 bg-[var(--surface)]">
+        <Link
+          href="/pricing"
+          className="inline-flex items-center text-sm font-semibold text-[var(--purple-start)] hover:underline"
+        >
+          Full pricing details &rarr;
+        </Link>
+      </div>
 
       {/* Final CTA */}
       <section className="bg-gray-900 py-16 lg:py-20">
