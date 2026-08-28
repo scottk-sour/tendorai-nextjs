@@ -90,11 +90,11 @@ const softwareApplicationSchema = {
   url: 'https://www.tendorai.com',
   offers: {
     '@type': 'Offer',
-    price: '299',
+    price: '999',
     priceCurrency: 'GBP',
     priceSpecification: {
       '@type': 'UnitPriceSpecification',
-      price: '299',
+      price: '999',
       priceCurrency: 'GBP',
       billingDuration: 'P1M',
     },

@@ -97,7 +97,7 @@ export default function ComparePage() {
     '@type': 'Product',
     name: 'TendorAI',
     description:
-      'AI visibility platform for UK regulated professional services firms. Get recommended by ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI.',
+      'AI visibility platform for UK regulated professional services firms. Get recommended by ChatGPT, Google AI Overviews and Perplexity.',
     brand: { '@type': 'Brand', name: 'TendorAI' },
     offers: [
       {
@@ -107,20 +107,6 @@ export default function ComparePage() {
         priceCurrency: 'GBP',
         description:
           'Basic profile built from regulatory register data, listed in directory, visible to AI crawlers.',
-      },
-      {
-        '@type': 'Offer',
-        name: 'Pro',
-        price: '299',
-        priceCurrency: 'GBP',
-        priceSpecification: {
-          '@type': 'UnitPriceSpecification',
-          price: '299',
-          priceCurrency: 'GBP',
-          billingDuration: 'P1M',
-        },
-        description:
-          'Schema installation, AI mention tracking, weekly reports, AI content writer, Verified badge, priority ranking.',
       },
     ],
   };
