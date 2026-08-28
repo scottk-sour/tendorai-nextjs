@@ -35,15 +35,15 @@ const faqs = [
   },
   {
     q: 'How is TendorAI different from SEO tools like Ahrefs or SE Ranking?',
-    a: 'SEO tools optimise for Google search rankings. TendorAI optimises for AI recommendation engines \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI. The mechanisms are different: AI models rely on structured schema, regulatory verification and entity consistency, not keyword rankings or backlink profiles.',
+    a: 'SEO tools optimise for Google search rankings. TendorAI optimises for AI recommendation engines \u2014 ChatGPT, Google AI Overviews and Perplexity. The mechanisms are different: AI models rely on structured schema, regulatory verification and entity consistency, not keyword rankings or backlink profiles.',
   },
   {
     q: 'Does TendorAI replace my SEO agency?',
-    a: 'No. TendorAI handles AI visibility \u2014 a separate channel from Google SEO. Most firms benefit from both. TendorAI Pro at \u00a3299 per month covers schema installation, regulatory data structuring, AI content, and weekly tracking across six AI platforms. Your SEO agency continues to handle Google rankings.',
+    a: 'No. TendorAI handles AI visibility \u2014 a separate channel from Google SEO. Most firms benefit from both. The AI Visibility Growth Programme is \u00a3999 per month on an initial three-month term, and covers monthly measurement across ChatGPT, Google AI Overviews and Perplexity, diagnosis, implementation, and re-measurement. Your SEO agency continues to handle Google rankings.',
   },
   {
     q: 'Which AI visibility tool is best for UK solicitors?',
-    a: 'TendorAI is the only tool that pulls SRA register data, installs LegalService schema on your website, and tracks your visibility across ChatGPT, Perplexity and four other AI platforms. For monitoring-only, AireStream also targets UK legal firms but does not install schema or integrate regulatory data.',
+    a: 'TendorAI is the only tool that pulls SRA register data, installs LegalService schema on your website, and tracks your visibility across ChatGPT, Google AI Overviews and Perplexity. For monitoring-only, AireStream also targets UK legal firms but does not install schema or integrate regulatory data.',
   },
 ];
 
@@ -209,10 +209,10 @@ export default function ComparePage() {
             ],
             [
               'Schema installation on your website',
-              'Yes \u2014 within 48 hours',
+              'Yes',
               'No',
             ],
-            ['Multi-platform AI tracking', '6 platforms', '10+ platforms'],
+            ['Multi-platform AI tracking', '3 platforms', '10+ platforms'],
             ['Firm-level reporting', 'Yes', 'Yes'],
             [
               'AI content writer',
@@ -226,7 +226,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free / \u00a3299 Pro',
+              'Free report / \u00a3999 per month',
               'Custom pricing',
             ],
           ]}
@@ -263,7 +263,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free / \u00a3299 Pro',
+              'Free report / \u00a3999 per month',
               'From $29/month',
             ],
           ]}
@@ -290,7 +290,7 @@ export default function ComparePage() {
               'Partial',
             ],
             ['Schema installation', 'Yes', 'No'],
-            ['AI tracking', '6 platforms weekly', 'Yes'],
+            ['AI tracking', '3 platforms monthly', 'Yes'],
             ['Lead automation', 'Via enquiry form', 'Yes'],
             ['Content writer', 'Yes', 'No'],
             [
@@ -300,7 +300,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free / \u00a3299 Pro',
+              'Free report / \u00a3999 per month',
               'Custom pricing',
             ],
           ]}
@@ -367,8 +367,8 @@ export default function ComparePage() {
           </h2>
           <p className="text-white/80 max-w-xl mx-auto mb-6 leading-relaxed">
             TendorAI pulls your regulatory data, installs schema on your
-            website, and tracks your visibility across six AI platforms &mdash;
-            ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI.
+            website, and tracks your visibility across three AI platforms &mdash;
+            ChatGPT, Google AI Overviews and Perplexity.
           </p>
           <Link
             href="/vendor-signup"
