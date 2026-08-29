@@ -39,7 +39,7 @@ const loopStages = [
     number: '05',
     title: 'Track',
     oneLiner:
-      'Weekly reporting and ongoing monitoring.',
+      'Monthly reporting and ongoing monitoring.',
     proof: 'Monthly Report — score, citations, activity, competitor moves',
   },
 ];
@@ -168,7 +168,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                 &bull;
               </span>
               <p className="text-[var(--text2)] leading-relaxed">
-                <strong className="text-[var(--text)]">We report what changed</strong> — A weekly report showing where your firm appeared, who was recommended, and what to do next.
+                <strong className="text-[var(--text)]">We report what changed</strong> — A monthly report showing where your firm appeared, who was recommended, and what to do next.
               </p>
             </li>
           </ul>
