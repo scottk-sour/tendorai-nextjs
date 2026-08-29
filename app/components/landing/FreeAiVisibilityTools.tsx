@@ -32,7 +32,7 @@ const tools: Tool[] = [
   {
     name: 'AI Visibility Checklist',
     description:
-      'The 30-point AI visibility checklist used by every TendorAI Pro customer. Free PDF.',
+      'The 30-point AI visibility checklist used by every TendorAI customer. Free PDF.',
     href: '/tools/ai-visibility-checklist',
     cta: 'Download Checklist',
   },
