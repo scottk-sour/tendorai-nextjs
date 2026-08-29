@@ -153,7 +153,7 @@ const softwareAppJsonLd = {
   name: 'TendorAI AI Visibility Report',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'Free AI visibility reports for UK businesses. Check if ChatGPT, Claude, and Perplexity recommend your business. Structured data profiles, AI Visibility audits, and AI mention tracking.',
+  description: 'Free AI visibility reports for UK businesses. Check whether AI assistants recommend your business. Structured data profiles, AI Visibility audits, and AI mention tracking.',
   url: 'https://www.tendorai.com/',
   // No `offers` here on purpose. A site-wide node asserting an offer on
   // every page — including articles and research reports — duplicates the
@@ -166,7 +166,7 @@ const serviceJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'AI Visibility Platform for UK Professional Services',
-  description: 'TendorAI installs schema markup on professional services websites, tracks brand mentions across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews weekly, and publishes AI-optimised content automatically. Built for UK solicitors, accountants, mortgage advisers, and estate agents.',
+  description: 'TendorAI installs schema markup on professional services websites, tracks brand mentions across ChatGPT, Google AI Overviews and Perplexity monthly, and implements page and content changes. Built for UK solicitors, accountants, mortgage advisers, and estate agents.',
   serviceType: 'AI Visibility Platform',
   provider: { '@type': 'Organization', name: 'TendorAI' },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -188,7 +188,7 @@ const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'TendorAI',
-  description: "AI visibility platform for UK professional services. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Perplexity, Gemini, and Claude.",
+  description: "AI visibility platform for UK professional services. TendorAI helps solicitors, accountants, mortgage advisers, and estate agents get recommended by ChatGPT, Google AI Overviews and Perplexity.",
   url: 'https://www.tendorai.com',
   logo: 'https://www.tendorai.com/logo.png',
   foundingDate: '2024-01-01',
