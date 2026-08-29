@@ -40,7 +40,7 @@ const loopStages = [
     title: 'Track',
     oneLiner:
       'Weekly reporting and ongoing monitoring.',
-    proof: 'Weekly Pro Report — score, citations, activity, competitor moves',
+    proof: 'Monthly Report — score, citations, activity, competitor moves',
   },
 ];
 
@@ -80,7 +80,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 5,
       name: 'Track',
-      text: 'Weekly reporting and ongoing monitoring — the Weekly Pro Report covers visibility score, citations, activity, and competitor moves.',
+      text: 'Monthly reporting and ongoing monitoring — the Monthly Report covers visibility score, citations, activity, and competitor moves.',
     },
   ],
 };
@@ -173,7 +173,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             </li>
           </ul>
           <p className="text-sm text-[var(--text2)] text-center mt-6 leading-relaxed">
-            Everything runs continuously through TendorAI&apos;s AI visibility system. Available from <span className="text-purple-600 font-semibold">£299/month</span>. No contract.
+            Everything runs continuously through TendorAI&apos;s AI visibility system. Available from <span className="text-purple-600 font-semibold">£999 per month</span>, on an initial three-month term.
           </p>
         </div>
 
