@@ -105,7 +105,11 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 ## Terminology — Critical
 - Always use "firms" not "vendors" in user-facing copy
 - Always use "Firm Login" not "Vendor Login" in UI
-- Pro tier is £299/month — never display any other price without being explicitly told
+- Pricing — the current proposition, established by `app/pricing/page.tsx` and `app/components/landing/Pricing.tsx`:
+  - AI Visibility Growth Programme: £999/month, initial three-month term
+  - Free AI visibility report: £0
+  - There is no Pro tier
+  - Never display a price not established by /pricing
 - The product is called "TendorAI" — one word, capital T and AI
 - Content production follows the **TendorAI Content OS** at `docs/content-os/tendorai-content-os.md` — the canonical format and process definition. Never reference legacy framework names (v6, v7, v8, v9, v9.1, "AEO Format", "Yadav format") in code, copy, or documentation.
 
