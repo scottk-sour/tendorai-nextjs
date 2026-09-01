@@ -1,7 +1,7 @@
 # TendorAI — Claude Code Context
 
 ## Project Overview
-TendorAI is a UK AI Visibility Platform for regulated professional services firms — solicitors (SRA), accountants (ICAEW), mortgage advisers (FCA), and estate agents. Firms are pre-loaded from regulatory registers. They claim a free profile or upgrade to Pro at £299/month.
+TendorAI is a UK AI Visibility Platform for regulated professional services firms — solicitors (SRA), accountants (ICAEW), mortgage advisers (FCA), and estate agents. Firms are pre-loaded from regulatory registers. They claim a free profile, or engage the paid programme. `/pricing` is the source of truth for what TendorAI sells and what it costs — do not restate a price here.
 
 ## Repo Structure
 This is the Next.js frontend. The Express/Node.js backend is a separate repo. Never create Next.js API routes that duplicate backend functionality — check the backend first.
@@ -141,7 +141,7 @@ Run these with /command-name in Claude Code:
 - /cold-call-brief — cold call scripts
 - /industry-blog — blog post in TendorAI AEO Format
 - /schema-generator — JSON-LD schema for any page type
-- /weekly-report — weekly AI visibility report for Pro clients
+- /weekly-report — monthly AI visibility report for programme clients
 
 **Content-ops loop (Sat → Sun → Mon)**
 - /db-query-blog — Saturday: Prisma query against the firms dataset, outputs Monday's data brief
@@ -161,3 +161,44 @@ Run these with /command-name in Claude Code:
 3. Verify you are on a feature branch (fix/[description] or feat/[description]), never main
 4. Write a descriptive commit message
 5. Push the feature branch to origin and open a PR — Scott merges manually after reviewing the Vercel preview
+
+## Working Rules
+
+### Verify, don't infer
+
+Current repository state is authoritative — over prompts, previous audits, PR descriptions, commit messages, and earlier findings, all of which may be stale. Where the code contradicts what Scott has said, the code wins. Report the contradiction and say which record needs correcting.
+
+If a fact cannot be verified from the repository, say what is missing, what evidence would settle it, and stop that line of inquiry. Never fill gaps with plausible answers or invent identifiers, claims, figures, dates, prices, filenames, fields, or schema properties.
+
+### Audit before implementing
+
+For anything beyond a trivial change, the first response is read-only: audit the current code, report findings and intended changes, then stop. Do not modify files, create branches, commit, open PRs, or deploy until explicitly authorised.
+
+### Scope is a boundary
+
+Do not expand scope because an adjacent problem is visible. Report it and leave it alone. A finding is not permission to fix it.
+
+### Context-aware replacement
+
+Never use blind find-and-replace. The same string may appear in different contexts, including competitor claims, examples, exclusions, metadata, and structured data. Anchor replacements to their surrounding context and report relevant occurrences that were intentionally left unchanged.
+
+### Contradicted vs absent
+
+Distinguish between:
+
+- CONTRADICTED — the repository contains authoritative evidence that the current claim conflicts with the current proposition. Correct it using that evidence.
+- ABSENT — the repository does not establish the claim. Do not invent a replacement; remove the unsupported claim where appropriate.
+
+### Final verification
+
+Before reporting completion, verify the actual diff and current repository state, not intended changes. Confirm scope, changed files, tests/checks, and runtime behaviour where relevant.
+
+### Failing checks
+
+If a test, build, or lint check fails, reproduce it against the unmodified base commit before calling it pre-existing. Never weaken, rewrite, or remove a test to obtain a pass.
+
+### Deploys
+
+Frontend (Vercel) auto-deploys on merge — keep PRs open for Scott's review and do not merge unless explicitly authorised.
+
+Detailed rules for structured data, git discipline, runtime verification levels, and full completion checklists: docs/working-rules.md.
