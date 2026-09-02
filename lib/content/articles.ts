@@ -483,7 +483,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
 
 - Two identical prompts can produce two different firm shortlists because the model samples from its own probability distribution at each turn, and small variations in temperature settings change what surfaces.
 - Bigger, slower shifts happen when the underlying model is updated or when the browsing or retrieval configuration is changed. Neither event is publicly announced with enough detail to schedule against.
-- Firms that appear consistently in responses tend to have a broader set of independent sources the assistant can reach, which reduces the odds that any single sampling produces an entirely different list.
+- Why some firms appear consistently and others never do is not something we can explain. Our own August 2026 measurement examined the question and reported that it could not identify the cause.
 
 ## What we actually know
 
@@ -615,7 +615,7 @@ Prompt phrasing that looks identical to a human may be tokenised differently by 
 
 ## What you can influence
 
-Depth and breadth of independent sources. The more places the assistant can reach that agree on your firm's name, address and services, the harder it becomes for a single sampling to leave you out.
+Depth and breadth of independent sources. Whether that is actually what determines which firms get named consistently remains unresolved; our own published measurement looked for the cause and could not isolate a single one.
 
 Consistency of your name, address and regulator number across those sources. Every discrepancy widens the range of possible outputs.
 
@@ -1112,11 +1112,11 @@ A modest supply of recent third-party mentions — a trade press quote every few
     publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Directories still matter for AI recommendations in 2026 — as disambiguation sources rather than ranking drivers. Here is what has changed since 2023.',
-    content: `Yes, mainly as disambiguation sources. Directories no longer drive AI recommendations the way they influenced traditional search rankings, but they remain the most efficient way for an assistant to confirm a firm's name, address and specialism when the primary sources are ambiguous or missing.
+    content: `Yes, but far less than the SEO-era advice assumes. Across the 12,279 citations we counted for UK solicitor queries, directories and review platforms took 17.2%, against 74.1% for firms' own websites. A listing is worth keeping accurate; it is not a lever you can pull.
 
-- Assistants cite directory URLs in responses roughly as often as they cite firm websites, and more often than they cite social profiles.
+- Being cited is not being recommended: across ten directory domains, citation did not raise how often a tracked firm was named.
 - The value of a directory listing has shifted from search-engine link building to source-agreement for AI assistants; the same listing that is worth little for Google now has clear utility for ChatGPT.
-- Not all directories carry the same weight. Regulator directories and sector-specific directories are cited disproportionately more than generic business listings.
+- Directories differ from one another, and no regulator directory appeared at all among the sources our own measurement counted.
 
 ## What we actually know
 
@@ -1226,7 +1226,7 @@ The question is not straightforward, because the Law Society directory sits in a
 
 ## What we actually know
 
-Law Society directory URLs do appear in ChatGPT citations for solicitor queries, though less consistently than SRA register URLs and less often than the firm's own website.
+In our own count of 3,812 ChatGPT citations for UK solicitor queries in July 2026, no legal directory appeared at all — the Law Society directory included.
 
 No public research has isolated the effect of the Law Society entry from other sources. Firms with complete Law Society entries tend to have complete SRA and Google presences too.
 
