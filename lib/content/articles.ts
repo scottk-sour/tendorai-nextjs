@@ -131,7 +131,7 @@ The second thing to watch is source disclosure. Perplexity got there first and d
 
 However the review-platform picture develops, three signals shift slowly enough to justify the investment.
 
-Correct regulator data, meaning your SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. Every assistant we tested treats the register as a base source, and changes there propagate slowly.
+Correct regulator data, meaning your SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. The register is where your firm's identity and permissions are authoritatively recorded, and it seldom changes.
 
 A trading name and contact details that agree wherever they appear: your own site, your Google Business Profile, and any regulator or sector directory. Where they disagree, the usual result is a hedged answer ("this firm may operate under different names") rather than the firm being left out altogether.
 
@@ -235,7 +235,7 @@ The other likely change is in how assistants disclose their sources. Perplexity 
 
 Regardless of how the review-platform picture evolves, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses ("this firm may operate under different names") more often than they show up as outright omissions.
 
@@ -342,7 +342,7 @@ The second thing worth watching is how assistants treat firms with genuinely spa
 
 Whatever happens to crawler and hosting policy, three signals move slowly enough to deserve the investment.
 
-Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the appropriate register. Each assistant tested falls back on the register as a base source, and amendments there filter through slowly.
+Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the appropriate register. A register entry is the authoritative statement of who your firm is and what it is permitted to do.
 
 Trading name and contact details that match across every surface, including the firm's own website, its Google Business Profile, and any regulator or sector directory. Mismatches more often produce a hedged answer than they produce a firm being dropped entirely.
 
@@ -446,7 +446,7 @@ The other change to watch is how assistants handle firms with genuinely thin web
 
 Regardless of how crawler and hosting choices evolve, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
 
@@ -553,7 +553,7 @@ Either would make measurement easier, and neither has a published timeline. Stru
 
 However the volatility picture develops, three signals move slowly enough to warrant investment.
 
-Regulator data that is correct: your SRA number, FCA reference number, ICAEW firm number or Propertymark number as recorded on the relevant register. Every assistant tested leans on the register as a base source, and revisions there work through slowly.
+Regulator data that is correct: your SRA number, FCA reference number, ICAEW firm number or Propertymark number as recorded on the relevant register. That entry is the definitive record of your firm's identity and of what it is authorised to do.
 
 Trading name and contact details in agreement across each surface, meaning the firm's website, its Google Business Profile, and any regulator or sector directory. Where those conflict, a hedged answer is the more common outcome, rather than the firm disappearing from the response.
 
@@ -657,7 +657,7 @@ Both changes would make measurement easier. Neither has an announced timeline. S
 
 Regardless of how the volatility picture evolves, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
 
@@ -764,7 +764,7 @@ The FCA has issued a general artificial intelligence strategy without addressing
 
 However portal and register interaction develops, three signals move slowly enough to be worth the investment.
 
-Accurate regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number carried on the appropriate register. Every assistant tested returns to the register as a base source, and updates there take time to propagate.
+Accurate regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number carried on the appropriate register. The register carries the authoritative account of your firm's identity and of the permissions attached to it.
 
 A trading name and contact details that agree everywhere they are published, across the firm's website, its Google Business Profile, and any regulator or sector directory. Inconsistency tends to produce a hedged response rather than removing the firm from the answer.
 
@@ -868,7 +868,7 @@ The FCA has published a general strategy on artificial intelligence but has not 
 
 Regardless of how portal or register interaction evolves, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
 
@@ -975,7 +975,7 @@ LinkedIn restricts access more tightly than most public platforms do, and it sho
 
 However the profile picture develops, three signals move slowly enough to justify the investment.
 
-Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. Every assistant tested uses the register as a base source, and changes there take time to work through.
+Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. It is the register that authoritatively records who your firm is and what it holds permission to do.
 
 A trading name and contact details consistent everywhere they appear: the firm's own site, its Google Business Profile, and any regulator or sector directory. Where those disagree, the usual consequence is a hedged answer rather than the firm being omitted.
 
@@ -1079,7 +1079,7 @@ LinkedIn has been more restrictive on access than most public platforms and show
 
 Regardless of how the profile picture evolves, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
 
@@ -1188,7 +1188,7 @@ General business directories are the least stable of the three. Most have been c
 
 However the directory picture develops, three signals move slowly enough to merit investment.
 
-Correct regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the relevant register. Every assistant tested draws on the register as a base source, and amendments there spread slowly.
+Correct regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the relevant register. The register states authoritatively who your firm is and what it is permitted to do.
 
 Trading name and contact details that agree wherever they are published, across the firm's website, its Google Business Profile, and any regulator or sector directory. Discrepancies more often yield a hedged answer than they cause the firm to be left out.
 
@@ -1294,7 +1294,7 @@ Generic business directories are the least stable of all. Most have declined in 
 
 Regardless of how the directory picture evolves, three signals appear to move slowly enough to be worth investing in.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. It is the authoritative record of your firm's identity and permissions, and it changes slowly.
 
 Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
 
