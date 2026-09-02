@@ -440,6 +440,8 @@ We are publishing it because a research programme that only reports its successe
 - **Mention detection is automated.** Firm names are matched against answer text by a classifier. It is imperfect at the margins, particularly for firms with common surnames in their name.
 - **Two collection dates.** Wave 1 opened 18 July 2026; wave 2 completed 24 August 2026. Two points are not a trend.
 
+*Added 2 September 2026.* **The prompt set is weighted towards property work.** Four prompts per city across 17 cities: "Best conveyancing solicitors in [city]", "Recommend a solicitor in [city] for buying a house", "Which solicitors in [city] have good reputations?", and one local specialism prompt. Two of the four templates are conveyancing, so 34 of the 68 prompts are property queries by construction; the published panel tags 35 of 68 (51.5%) as conveyancing, because one city's specialism prompt — Cardiff's — is conveyancing as well. Every firm was assessed against the four prompts for its own city, so a firm doing no property work was measured largely on prompts outside its practice. These figures describe visibility for property-related queries more closely than visibility for solicitors' work in general.
+
 ## Method
 
 Fixed panel of 68 prompts across 17 UK cities: four prompt types per city (best-in-city, purchase intent, reputation, practice-area specialism). Firms were drawn from the SRA's public register of regulated firms. Prompts were fixed before any collection began and contain no firm names. Ten repeats per prompt per engine per wave.
