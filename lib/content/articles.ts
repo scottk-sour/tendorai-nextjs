@@ -1112,11 +1112,11 @@ A modest supply of recent third-party mentions — a trade press quote every few
     publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Directories still matter for AI recommendations in 2026 — as disambiguation sources rather than ranking drivers. Here is what has changed since 2023.',
-    content: `Yes, but far less than the SEO-era advice assumes. Across the 12,279 citations we counted for UK solicitor queries, directories and review platforms took 17.2%, against 74.1% for firms' own websites. A listing is worth keeping accurate; it is not a lever you can pull.
+    content: `Yes, but far less than the SEO-era advice assumes. In our measurement of UK solicitor queries, directories and review platforms took 17.2% of 12,279 citations against 74.1% for firms' own websites, and ChatGPT cited a legal directory not once in 3,812 citations.
 
-- Being cited is not being recommended: across ten directory domains, citation did not raise how often a tracked firm was named.
-- The value of a directory listing has shifted from search-engine link building to source-agreement for AI assistants; the same listing that is worth little for Google now has clear utility for ChatGPT.
-- Directories differ from one another, and no regulator directory appeared at all among the sources our own measurement counted.
+- Across ten directory domains in our solicitor panel, being cited did not raise how often a tracked firm was named in the answer.
+- The role of a directory listing has shifted from link building towards source agreement, but the value differs by engine: on our solicitor panel Perplexity read directories heavily and ChatGPT not at all.
+- Directories differ from one another, and no regulator directory appeared at all among the sources our solicitor measurement counted.
 
 ## What we actually know
 
