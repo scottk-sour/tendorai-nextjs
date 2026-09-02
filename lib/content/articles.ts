@@ -54,7 +54,7 @@ export const articles: Article[] = [
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'ReviewSolicitors profiles appear in some AI citations, but a direct effect on recommendations is unproven. Here is what is actually known and what is uncertain.',
     content: `There is no verified public evidence that ChatGPT, Perplexity, Claude or Gemini use ReviewSolicitors ratings as a direct input to firm recommendations. The likely effect is indirect: reviews reinforce third-party mentions of the firm, which the assistants already sample when they need to disambiguate a name.
@@ -107,35 +107,35 @@ Sponsored placements on any review site as a shortcut. Assistants can and do cit
 
 ## How this differs from a traditional Google ranking
 
-A Google review or ReviewSolicitors profile fed into a search ranking in a fairly direct way: the algorithm counted stars, aggregated them, and used them as one of many ranking factors. The signal was crude but stable, and the SEO literature that grew up around it has been remarkably consistent since about 2018.
+With Google, a review profile on Google itself or on ReviewSolicitors fed the ranking through a fairly short chain: stars were counted, aggregated into a score, and that score sat among the many factors the algorithm weighed. Crude, but dependable, and the body of SEO advice built on top of it has held together since roughly 2018.
 
-AI assistants do not work like that. Even when they cite a review platform, the assistant is not counting the stars in the response — it is either quoting reviewer text or naming the platform as one of several corroborating sources. There is no aggregate "review score" component in a language model's response the way there is in a Google local pack.
+Assistants operate on a different principle. When one of them cites a review platform, it is not tallying stars anywhere in the response; it is either lifting phrasing from a reviewer or listing the platform among the sources that corroborate what it says. Nothing in a language model's answer plays the role that an aggregate review score plays in a Google local pack.
 
-This matters because a lot of firm marketing energy is still spent on tactics that were designed for the old signal — bulk review solicitation, review-request automation, star-count optimisation. Those tactics still have marketing value on their own terms, but the transfer to AI recommendation is not one-for-one, and firms should decide how much of the current budget rests on which assumption.
+That distinction has budget consequences. Plenty of firms still pour effort into methods built for the older signal: soliciting reviews in bulk, automating the request, chasing the star count. Each may earn its keep as marketing in its own right, but it does not carry across to AI recommendation one for one, and it is worth knowing which assumption your current spending rests on.
 
 ## How to test the picture for your own firm
 
-Run the same query in ChatGPT, Perplexity and Gemini once a week for four weeks. Vary the phrasing slightly — "solicitor in [city]", "law firm in [area]", "personal injury solicitor near [postcode]". Log the firms named, the URLs cited and whether the review source you care about appears.
+Put the same question to ChatGPT, Perplexity and Gemini weekly across four weeks. Shift the wording a little each time: "solicitor in [city]", "law firm in [area]", "personal injury solicitor near [postcode]". Keep a record of which firms get named, which URLs are cited, and whether the review source you care about turns up at all.
 
-If the review profile shows up in the citation list but your firm is not named in the response, that is a signal the profile is reachable but not decisive on its own. If neither appears, look at whether the SRA register, Google Business Profile and firm website carry consistent contact details — usually a mismatch is the first thing to fix.
+A review profile that appears among the citations while your firm goes unnamed tells you the profile is reachable but is not carrying the decision by itself. If neither shows up, check that your contact details match across the SRA register, your Google Business Profile and your own site; a mismatch there is usually the first thing worth fixing.
 
-A four-week window is enough to filter out day-to-day sampling variance and see whether structural changes at the assistant level have shifted your visibility. Longer is better if you can commit to it, but four weeks is the shortest useful sample.
+Four weeks is enough to average out day-to-day sampling variance and to notice whether something structural at the assistant end has moved your visibility. Run it longer if you can, but four weeks is the shortest sample that tells you anything.
 
 ## Where this is likely to change next
 
-Review platforms are actively negotiating with AI assistants for direct data feeds. If those arrangements go public, the current picture could change quickly — a platform with a data-sharing deal would presumably see its profiles cited more consistently than one without. None of these arrangements is known to be in place as of mid-2026.
+Negotiations between review platforms and assistant providers over direct data feeds are under way. Should any of them be announced, this picture could shift quickly: a platform with a sharing agreement would presumably find its profiles cited more reliably than one without. As of mid-2026 no such arrangement is known to have been concluded.
 
-The other likely change is in how assistants disclose their sources. Perplexity has moved earliest on this and shows citations by default; ChatGPT and Gemini surface them more variably. If disclosure improves across the board, it will become easier to tell whether a specific review platform is genuinely influencing the recommendation or just being cited alongside it.
+The second thing to watch is source disclosure. Perplexity got there first and displays citations as standard, while ChatGPT and Gemini surface them less consistently. Better disclosure across all three would make it far easier to distinguish a review platform that genuinely shapes the recommendation from one that merely appears beside it.
 
 ## Signals that tend to hold their value
 
-Regardless of how the review-platform picture evolves, three signals appear to move slowly enough to be worth investing in.
+However the review-platform picture develops, three signals shift slowly enough to justify the investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Correct regulator data, meaning your SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. Every assistant we tested treats the register as a base source, and changes there propagate slowly.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses ("this firm may operate under different names") more often than they show up as outright omissions.
+A trading name and contact details that agree wherever they appear: your own site, your Google Business Profile, and any regulator or sector directory. Where they disagree, the usual result is a hedged answer ("this firm may operate under different names") rather than the firm being left out altogether.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. None of these need be paid placements; what matters is that they are recent and independent.
+A steady trickle of recent independent mentions: a trade press quote a few times a year, a local publication write-up, a case study hosted by a partner. None need be paid placements; recency and independence are what count.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -160,7 +160,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'How Google reviews interact with ChatGPT recommendations for UK regulated firms: what is known, what is uncertain, and what a firm can act on in 2026.',
     content: `Every regulated firm we work with wants a simple answer to this question. Google reviews are the most visible reputation signal a firm has, and they are the signal firms are asked about most often — both by prospective clients and now by AI assistants like ChatGPT.
@@ -265,7 +265,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Yes, ChatGPT can recommend a firm with no website — but only when third-party sources make the firm unambiguous. Here is what has to be in place.',
     content: `Yes, but rarely, and usually only when strong third-party sources make the firm unambiguous. ChatGPT can recommend a firm with no website when the regulator directory, a Google Business Profile and independent mentions together give the assistant enough to name the firm confidently.
@@ -318,35 +318,35 @@ Consider a single one-page site as a low-cost tiebreaker; a static page with you
 
 ## How this differs from a traditional Google presence
 
-A firm's Google presence used to be almost entirely determined by whether Googlebot could reach and index the site. If it could not, the firm was effectively invisible in search. That is where the intuition behind the crawler-blocking and no-website questions comes from — no crawler, no data, no visibility.
+Whether a firm showed up in Google came down almost entirely to one thing: could Googlebot fetch and index the site. If it could not, the firm was to all intents absent from search. That is the origin of the instinct behind both the crawler-blocking and the no-website question. No crawler, no data, no visibility.
 
-AI assistants have looser dependence on any single crawler. Even when GPTBot is blocked or the firm has no site at all, the assistant can assemble a usable picture from regulator records, Google Business Profile, sector directories and third-party mentions.
+Assistants are far less tied to any one crawler. With GPTBot blocked, or with no site in existence, an assistant can still assemble a workable picture from regulator records, a Google Business Profile, sector directories and mentions elsewhere.
 
-This matters because a lot of the crawler and no-website advice circulating in mid-2026 is still framed in Googlebot-era terms. The recommendation "you must let the crawler in or you disappear" is largely true for Google search and largely not true for AI recommendation. Firms should separate the two questions before making a decision that costs money or opens legal risk.
+The distinction matters because most crawler and no-website guidance circulating in mid-2026 is written in Googlebot-era language. "Let the crawler in or vanish" holds up well for Google search and largely does not for AI recommendation. Treat them as two questions before making a decision that costs money or creates legal exposure.
 
 ## How to test the picture for your own firm
 
-Run the same query in ChatGPT, Perplexity and Gemini for a firm-type-and-location that matches your practice — "conveyancing solicitor in Nottingham", "residential mortgage adviser in Southampton", "letting agent in Sheffield". Do this once a week for four weeks, varying phrasing slightly, and log the firms named and the URLs cited.
+Ask ChatGPT, Perplexity and Gemini about a firm type and location matching your own practice: "conveyancing solicitor in Nottingham", "residential mortgage adviser in Southampton", "letting agent in Sheffield". Repeat weekly for a month, nudging the phrasing each time, and record the firms named and the URLs cited.
 
-Then repeat the same queries specifically for firms you know have limited or no web presence — a local sole practitioner, a firm without a website, a firm that has recently blocked AI crawlers. Compare the citations.
+Then run the same queries against firms you know to be thin on the web. A local sole practitioner, one with no site, one that has lately blocked AI crawlers. Set the two sets of citations side by side and compare them.
 
-The point of the test is not to prove your own visibility is where it should be; it is to see how the assistants treat the source-poor case. Four weeks is long enough to filter out normal sampling variance and see the pattern.
+You are not testing whether your own visibility is where you would like it to be. You are watching how the assistants behave when sources are scarce. A month filters out ordinary sampling variance and lets the pattern show.
 
 ## Where this is likely to change next
 
-Crawler policy, hosting choices and consent frameworks are all moving. If the industry converges on a standard opt-out signal — something more granular than robots.txt — the current picture of what is and is not readable will change. There is no consensus on what that standard would look like as of mid-2026.
+Crawler policy, hosting arrangements and consent frameworks are all in flux. If the industry settles on a common opt-out signal, something finer-grained than robots.txt, what counts as readable will be redrawn. As of mid-2026 there is no agreement on what such a standard would even look like.
 
-The other change to watch is how assistants handle firms with genuinely thin web presence. Every current assistant tends to hedge or omit when sources disagree; if any of them start filling gaps from proprietary data, the "you need a website" question will look quite different.
+The second thing worth watching is how assistants treat firms with genuinely sparse web presence. Every one of them currently hedges or omits when its sources conflict; were any to begin filling those gaps from proprietary data, the question of whether you need a website would look rather different.
 
 ## Signals that tend to hold their value
 
-Regardless of how crawler and hosting choices evolve, three signals appear to move slowly enough to be worth investing in.
+Whatever happens to crawler and hosting policy, three signals move slowly enough to deserve the investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the appropriate register. Each assistant tested falls back on the register as a base source, and amendments there filter through slowly.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
+Trading name and contact details that match across every surface, including the firm's own website, its Google Business Profile, and any regulator or sector directory. Mismatches more often produce a hedged answer than they produce a firm being dropped entirely.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. What matters is that they are recent and independent.
+A modest, continuing stream of independent third-party mentions: an occasional quote in the trade press, a write-up locally, a case study on a partner's site. Recency and independence are the qualities that matter.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -371,7 +371,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'What blocking GPTBot in robots.txt actually does, what it does not do, and whether it is worth reconsidering the block for a UK regulated firm in 2026.',
     content: `Since OpenAI published documentation for GPTBot in August 2023, UK firms have been asking a variation of the same question: if we block that crawler in robots.txt, do we disappear from ChatGPT? The framing feels intuitive — no crawler, no data, no recommendation.
@@ -476,7 +476,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'How often ChatGPT firm recommendations change, why the shortlist moves, and which parts of the volatility a UK firm can and cannot influence.',
     content: `They change frequently — often within the same session, sometimes between two identical queries fired a minute apart. Volatility is a design feature of how large language models select and phrase answers, not a bug. There is no fixed refresh cadence you can point to and plan around.
@@ -527,37 +527,37 @@ The timing of the next major model or retrieval update. OpenAI does not announce
 
 ## How this differs from a traditional Google ranking
 
-A Google search result changed slowly and predictably. Rankings shifted with the periodic core update, but between updates the results for a stable query were the same day after day. Firms could measure position and treat it as a real number.
+Google results moved slowly and in ways you could anticipate. Positions shuffled when a core update landed, but in the intervals between them a stable query returned the same thing one day to the next. Position was a number a firm could measure and treat as real.
 
-AI assistant recommendations do not behave like that. Two identical prompts in the same day can return different firms. The number that used to matter — position — is not the right unit of measurement any more, because there is no stable position to measure.
+Assistant recommendations do not behave that way. Ask the identical question twice within a single day and different firms may come back. Position, the metric everyone grew up on, is no longer the right unit, because there is no settled position there to be measured.
 
-The unit that does mean something is appearance rate: how often does your firm show up in a sample of runs of the same query. This is a probability rather than a rank, and it needs a larger sample to estimate. It also does not update the way a search ranking used to — firms who invest in a fix should expect to see the effect appear as an increase in appearance rate over weeks, not as a jump in position on a single day.
+What does carry meaning is appearance rate: the proportion of runs of a given query in which your firm is named. That is a probability rather than a rank, and pinning it down takes a larger sample. It also does not refresh the way a ranking once did. A firm that invests in a fix should expect to watch its appearance rate climb over a period of weeks, rather than to see a position jump on one particular morning.
 
 ## How to test the picture for your own firm
 
-Pick five queries a client of yours might reasonably ask and run each one five times, over the course of a single day, in ChatGPT. Vary nothing about the phrasing. Log the firms named and the position they appear in.
+Choose five questions a client of yours might plausibly ask, and put each to ChatGPT five times across a single day. Hold the wording completely constant. Record which firms come back and where in the answer they sit.
 
-You will almost certainly see variation. Note whether your firm appears in any of the twenty-five runs, and whether the same competitors appear repeatedly. Then repeat the exercise a month later.
+Variation is close to guaranteed. Note whether your own firm surfaces in any of the twenty-five runs, and whether particular competitors keep reappearing. Then do the whole thing again a month later. Twenty-five runs is a small sample, but it is large enough to show you the shape of the variation.
 
-The point of the test is to build a sense of the sampling noise floor. If your firm appears three times out of twenty-five in month one and four out of twenty-five in month two, that is not a meaningful improvement — it is within the noise. If your firm goes from three to twelve, that is a signal.
+The purpose is to establish where your noise floor sits. A firm appearing three times in twenty-five one month and four times the next has not improved; that gap is noise. Going from three to twelve is something else entirely.
 
-Working out what is signal and what is noise is the single most useful discipline for anyone measuring AI visibility. Without it, everything looks like it might be working.
+Separating signal from noise is the most useful habit anyone measuring AI visibility can build. Skip it and every intervention looks as though it might be working.
 
 ## Where this is likely to change next
 
-OpenAI and its competitors are all working on reducing session-level volatility, because it undermines user trust. If the temperature settings tighten, the shortlist for a given query will become more stable. If retrieval becomes more consistently used, the sources cited will become more predictable.
+Volatility within a session erodes user trust, so OpenAI and its rivals are all working to reduce it. Tighter temperature settings would steady the shortlist a query returns; more consistent use of retrieval would make the cited sources more predictable.
 
-Both changes would make measurement easier. Neither has an announced timeline. Structural changes — the ones that reshape the whole distribution — are unlikely to slow down; if anything, retrieval architectures are changing more rapidly than they were eighteen months ago.
+Either would make measurement easier, and neither has a published timeline. Structural change looks unlikely to slow down. Retrieval architectures are, if anything, moving faster now than they were eighteen months ago, and those are the changes that reshape the whole distribution.
 
 ## Signals that tend to hold their value
 
-Regardless of how the volatility picture evolves, three signals appear to move slowly enough to be worth investing in.
+However the volatility picture develops, three signals move slowly enough to warrant investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Regulator data that is correct: your SRA number, FCA reference number, ICAEW firm number or Propertymark number as recorded on the relevant register. Every assistant tested leans on the register as a base source, and revisions there work through slowly.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
+Trading name and contact details in agreement across each surface, meaning the firm's website, its Google Business Profile, and any regulator or sector directory. Where those conflict, a hedged answer is the more common outcome, rather than the firm disappearing from the response.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. What matters is that they are recent and independent.
+A modest and continuing supply of third-party mentions: a trade press quote now and then, something in a local title, a case study on a partner's site. Recency and independence give them weight.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -582,7 +582,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Why ChatGPT firm recommendations move between identical queries, and which parts of the volatility a UK firm can and cannot influence.',
     content: `A common frustration for UK firms trying to understand their standing with AI assistants is the moving target. You ask ChatGPT for a solicitor in Manchester, get one list; you ask again five minutes later, get a partially different one.
@@ -687,7 +687,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Rightmove and Zoopla listings appear in AI citations for estate-agent queries, but the causal link to the recommendation itself is unproven. Here is what is known.',
     content: `There is no verified public evidence that ChatGPT, Perplexity, Claude or Gemini read Rightmove and Zoopla listings as a direct input to estate-agent recommendations. Both portals appear as cited sources in some responses, most often when the query includes a specific area or property type, but the causal link is unproven.
@@ -740,35 +740,35 @@ Whether portal-hosted "premium" or "featured" placements change the frequency wi
 
 ## How this differs from a traditional Google-and-portal picture
 
-Property portals and regulator directories fed into Google search in a fairly direct way: they provided backlinks, they anchored local pack results, and Google treated their pages as high-authority sources. If a firm was on Rightmove or in the FCA register, Google reflected it clearly and quickly.
+Portals and regulator directories fed Google along a short, visible path: they supplied backlinks, they anchored the local pack, and Google read their pages as high-authority. A firm on Rightmove, or in the FCA register, saw that reflected in search quickly and unambiguously.
 
-AI assistants use the same sources but differently. The portal listing or register entry is a source the assistant may cite, not a ranking anchor. Being on Rightmove no more guarantees a mention in a ChatGPT response than being on Companies House guarantees a mention in a general query about a business.
+Assistants draw on the same sources to different effect. A portal listing or a register entry is something the assistant may cite; it is not an anchor for any ranking. Appearing on Rightmove guarantees a mention in a ChatGPT answer no more than appearing on Companies House guarantees one in a general question about a business.
 
-This matters because a lot of the advice about portal placement and regulator visibility circulating in mid-2026 is still framed in Google terms. The recommendation "get listed and you'll be found" was largely true for Google search and is only partially true for AI recommendation. Firms should test the specific question before assuming the transfer holds.
+This matters because guidance on portal placement and regulator visibility circulating in mid-2026 is still written in Google's terms. "Get yourself listed and you will be found" held up well for search and holds only in part for AI recommendation. Test the specific question rather than assuming it carries over.
 
 ## How to test the picture for your own firm
 
-Run five queries a prospective client might reasonably use, in ChatGPT and Perplexity, once a week for four weeks. For estate agents that means area-plus-service queries ("letting agent in Croydon"); for mortgage advisers that means need-plus-location queries ("remortgage broker in Bristol"). Log the firms named and the URLs cited.
+Take five questions a prospective client might realistically ask and run them weekly for a month in ChatGPT and Perplexity. Estate agents should use area-and-service phrasing ("letting agent in Croydon"); mortgage advisers, need-and-location ("remortgage broker in Bristol"). Note the firms named and the URLs cited.
 
-Look specifically for whether the property portal listing or FCA register entry appears in the citation list — separate from whether your firm is named. That distinction matters. A portal or register that appears often but does not correlate with your firm being named suggests the source is being cited alongside a firm the assistant has chosen from elsewhere.
+Watch particularly for the portal listing or FCA register entry in the citation list, as a separate question from whether your firm gets named. That separation is the point. A source cited frequently without your firm named alongside it suggests the assistant picked the firm somewhere else and cited the portal in passing.
 
-Four weeks is long enough to filter out day-to-day sampling variance. Longer is better if you can commit to it.
+A month is enough to smooth out the day-to-day sampling variance and leave a usable pattern behind it. Longer is better if you can sustain it.
 
 ## Where this is likely to change next
 
-Rightmove, Zoopla and OnTheMarket have all made public statements about AI access at various points; none of them has published a stable, documented data-sharing arrangement with the frontier assistants as of mid-2026. If one does, portal presence for estate agents could become materially more important than it is today.
+Rightmove, Zoopla and OnTheMarket have each said something publicly about AI access at one point or another, but as of mid-2026 none has documented a settled data-sharing arrangement with the frontier assistants. If one were to, portal presence would become considerably more important for estate agents than it is today.
 
-The FCA has published a general strategy on artificial intelligence but has not addressed how its register interacts with third-party assistants. Any FCA action there would take months to work through, so brokers should not expect abrupt changes to the way the register is read.
+The FCA has issued a general artificial intelligence strategy without addressing how its register is consumed by third-party assistants. Anything it did there would take months to filter through, so brokers should not anticipate sudden change in how the register is read.
 
 ## Signals that tend to hold their value
 
-Regardless of how portal or register interaction evolves, three signals appear to move slowly enough to be worth investing in.
+However portal and register interaction develops, three signals move slowly enough to be worth the investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Accurate regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number carried on the appropriate register. Every assistant tested returns to the register as a base source, and updates there take time to propagate.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
+A trading name and contact details that agree everywhere they are published, across the firm's website, its Google Business Profile, and any regulator or sector directory. Inconsistency tends to produce a hedged response rather than removing the firm from the answer.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. What matters is that they are recent and independent.
+A modest, steady flow of independent third-party mentions: an occasional trade press quote, a local publication piece, a case study on a partner's website. What gives them value is being recent and not self-generated.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -793,7 +793,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'What is publicly known about how AI assistants relate to the FCA register when recommending UK mortgage advisers in 2026, and what remains open.',
     content: `The FCA register is the definitive UK record of firms authorised to provide regulated financial services, including mortgage advice. It is a source that a well-designed AI assistant would in principle want to consult before recommending a firm to a consumer — the register carries firm reference numbers, permissions, historical status changes and, in many cases, adviser-level detail.
@@ -898,7 +898,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Gemini appears to weight Google Business Profile heavily for local firm queries. Here is what is observable, what is inferred, and what to do about it.',
     content: `Almost certainly yes for local queries, because Gemini shares Google's broader business-listing infrastructure and is more likely than other assistants to surface Google Business Profile data directly. Google has not published a documented list of exactly which fields feed which model, so the strength of the effect is inferred, not measured.
@@ -951,35 +951,35 @@ Trying to influence which fields Gemini quotes. The choice of quotation is not s
 
 ## How this differs from a traditional Google-and-social picture
 
-Google historically pulled a firm's Google Business Profile into local search results in an obvious way — knowledge panel, map pack, reviews snippet. LinkedIn signals filtered into Google's understanding of a firm too, but more diffusely. Both were readable, direct, and stable enough to plan around.
+Google has long drawn a firm's Business Profile into local results in plain sight, through the knowledge panel, the map pack and the reviews snippet. LinkedIn signals reached Google's picture of a firm too, though by a more diffuse route. Both were legible, direct and steady enough to plan around.
 
-AI assistants use both surfaces but far less predictably. Google Business Profile is read heavily by Gemini and less heavily by ChatGPT and Perplexity; LinkedIn is read occasionally by all three, mostly for individual biographies rather than firm-level detail.
+Assistants read both surfaces, far less predictably. Gemini leans heavily on Google Business Profile while ChatGPT and Perplexity lean on it less; all three consult LinkedIn occasionally, and mostly for individual biographies rather than anything at firm level.
 
-This matters because a lot of the advice about profile-completeness circulating in mid-2026 assumes a Google-style direct pipeline. The recommendation "fill the profile and Google will surface it" was largely true for Google search and is more variable for AI recommendation. Firms should test which assistants pick up which profile fields before committing to a large content-refresh programme on either surface.
+That matters because profile-completeness advice circulating in mid-2026 presumes a Google-style direct pipeline. "Complete the profile and Google will surface it" was broadly right for search and is a good deal more variable for AI recommendation. Establish which assistants pick up which fields before committing to a large content refresh on either surface.
 
 ## How to test the picture for your own firm
 
-Run the same query in each of ChatGPT, Perplexity and Gemini once a week for four weeks. Log the firms named and the URLs cited — in particular note whether the specific profile source you care about (Google Business Profile or LinkedIn) appears in the citation list.
+Put the same question to ChatGPT, Perplexity and Gemini once a week over four weeks. Record the firms named and the URLs cited, paying attention to whether the particular profile source you care about, Google Business Profile or LinkedIn, shows up among them.
 
-Then temporarily edit one distinctive field in the profile — a service description, the About section, a post — and run the same queries a week later. If the assistant surfaces the change, you have direct evidence the profile is being read for that query type. If not, the profile is present in the assistant's picture only as a passive reference, and the marginal value of editing it further is likely low.
+Next, change one distinctive field in that profile for a while: a service description, the About text, a post. Re-run the same queries a week afterwards. An assistant that reflects the change has given you direct evidence the profile is being read for that kind of query. If nothing shifts, the profile is working as a passive reference and further editing is unlikely to repay much effort.
 
-The test only works if you use a distinctive phrase that would not appear in your other sources. Even then, a null result is informative — it tells you where not to spend the next quarter's effort.
+The test only works if the phrase you choose is distinctive enough that it would not appear in any of your other sources. Even so, a null result is worth having: it tells you where not to put next quarter's effort.
 
 ## Where this is likely to change next
 
-Google is expanding what Gemini can pull directly from its own products, and Google Business Profile is one of the surfaces getting more attention. If that trajectory holds, Gemini's dependency on the profile is likely to grow rather than shrink.
+Google keeps widening what Gemini can take directly from its own products, and Business Profile is among the surfaces receiving more attention. Should that continue, Gemini's reliance on the profile will grow rather than diminish.
 
-LinkedIn has been more restrictive on access than most public platforms and shows little sign of loosening. If Microsoft opens more of the platform to its own Copilot assistant, the picture for LinkedIn-heavy queries could change; there is no external signal of that as of mid-2026.
+LinkedIn restricts access more tightly than most public platforms do, and it shows little inclination to relax that position. If Microsoft were to open more of it to Copilot, the picture for LinkedIn-heavy queries could change; as of mid-2026 there is no outward sign that this is about to happen.
 
 ## Signals that tend to hold their value
 
-Regardless of how the profile picture evolves, three signals appear to move slowly enough to be worth investing in.
+However the profile picture develops, three signals move slowly enough to justify the investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Regulator data that is accurate: the SRA number, FCA reference number, ICAEW firm number or Propertymark number as held on the relevant register. Every assistant tested uses the register as a base source, and changes there take time to work through.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
+A trading name and contact details consistent everywhere they appear: the firm's own site, its Google Business Profile, and any regulator or sector directory. Where those disagree, the usual consequence is a hedged answer rather than the firm being omitted.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. What matters is that they are recent and independent.
+A modest but continuing supply of third-party mentions: a trade press quote every few months, a piece in a local title, a case study on a partner's site. Their value rests on recency and independence.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -1004,7 +1004,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'How LinkedIn interacts with AI assistants for UK regulated firms in 2026: what is observable, what is uncertain, and how much energy the company page is worth.',
     content: `LinkedIn sits in an unusual position in the AI-recommendation conversation. It is the dominant professional network in the UK, it carries firm and individual-level data at scale, and it has one of the tightest access-control regimes on the public web.
@@ -1109,7 +1109,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'Directories still matter for AI recommendations in 2026 — as disambiguation sources rather than ranking drivers. Here is what has changed since 2023.',
     content: `Yes, mainly as disambiguation sources. Directories no longer drive AI recommendations the way they influenced traditional search rankings, but they remain the most efficient way for an assistant to confirm a firm's name, address and specialism when the primary sources are ambiguous or missing.
@@ -1162,37 +1162,37 @@ Managing large numbers of secondary directories manually. Effort is better spent
 
 ## How this differs from a traditional Google-and-directory picture
 
-Directories used to be an SEO play. The theory ran that a listing on a high-authority directory (Yell, the Law Society, ICAEW, a well-known sector site) gave your site a backlink, which improved Google rankings, which increased traffic. That model held from roughly 2005 to 2015 and was progressively weakened by Google's link-quality updates through 2020.
+Directories were once an SEO manoeuvre. The reasoning went that a listing somewhere authoritative, whether Yell, the Law Society, ICAEW or an established sector site, earned a backlink, the backlink lifted your Google rankings, and the rankings brought traffic. That held from roughly 2005 to 2015 and was steadily undermined by Google's link-quality updates over the years to 2020.
 
-AI assistants use directories differently. The directory is a source the assistant reads, not a link factor. A regulator directory entry does more work for AI visibility than for Google search, because the assistant reaches the directory directly rather than following a link from it.
+Assistants treat directories another way entirely. The directory is a source to be read, not a link to be counted. An entry in a regulator directory accomplishes more for AI visibility than it does for Google search, precisely because the assistant goes to the directory itself rather than following a link out of it.
 
-This matters because a lot of the advice about directory strategy circulating in mid-2026 is still framed in SEO terms. The recommendation "get listed everywhere for the links" was largely true for Google search a decade ago and is not particularly true for AI recommendation. Firms should shift the directory budget from breadth to accuracy — fewer, better-completed entries in the sources assistants are actually reading.
+This matters because directory advice circulating in mid-2026 is still couched in SEO terms. "List everywhere for the links" was broadly right for search a decade ago and is not especially right for AI recommendation. Move the budget from breadth to accuracy: fewer entries, more completely filled in, on the sources assistants genuinely read.
 
 ## How to test the picture for your own firm
 
-Run five queries a prospective client might use, in ChatGPT and Perplexity, once a week for four weeks. Log the firms named and the URLs cited. Note specifically which directories appear in the citation list — the SRA register, the Law Society directory, ReviewSolicitors, sector-specific directories, general business listings.
+Run five questions a prospective client might ask through ChatGPT and Perplexity, once a week for a month. Record the firms named and the URLs cited, noting which directories turn up: the SRA register, the Law Society directory, ReviewSolicitors, sector-specific sites, general business listings.
 
-Look at the pattern rather than the individual runs. If a directory appears repeatedly across weeks, it is a source the assistant reliably reaches for that query type. If it appears once and never again, it was probably a sampling artefact.
+Read the pattern rather than any single run. A directory recurring week after week is one the assistant reliably reaches for that kind of question. One that shows up once and never again was probably a sampling artefact.
 
-Four weeks is long enough to filter out day-to-day variance and to see whether a directory is genuinely part of the assistant's source set for your service. Longer helps but is not required.
+Four weeks is enough to smooth out the day-to-day variance and to show whether a given directory really belongs to the assistant's source set for the service you offer. Running longer helps, but is not necessary.
 
 ## Where this is likely to change next
 
-Regulator directories are the least likely to change. The SRA, FCA, ICAEW and Propertymark all publish their registers on stable URLs that assistants are unlikely to lose access to.
+Regulator directories are the least likely to move. The SRA, FCA, ICAEW and Propertymark all host their registers at stable addresses that assistants are unlikely to lose access to.
 
-Sector-specific directories are more variable. Consolidations, business model changes and access policies can shift which platforms the assistants read. A directory that is cited regularly today may not be cited a year from now if the site changes structure or restricts access.
+Sector-specific directories are less dependable. Mergers, changes of business model and shifting access policies can all alter which platforms the assistants read. One cited regularly now may not be in a year's time if the site is restructured or access is closed off.
 
-Generic business directories are the least stable of all. Most have declined in AI-citation frequency since 2023 and there is no reason to expect that trend to reverse.
+General business directories are the least stable of the three. Most have been cited less often since 2023, and nothing suggests that direction is about to reverse.
 
 ## Signals that tend to hold their value
 
-Regardless of how the directory picture evolves, three signals appear to move slowly enough to be worth investing in.
+However the directory picture develops, three signals move slowly enough to merit investment.
 
-Accurate regulator data — the SRA number, FCA reference number, ICAEW firm number or Propertymark number on the relevant regulator's register. Every assistant tested uses the register as a base source and updates cascade slowly.
+Correct regulator data: the SRA number, FCA reference number, ICAEW firm number or Propertymark number recorded on the relevant register. Every assistant tested draws on the register as a base source, and amendments there spread slowly.
 
-Consistent trading name and contact details across your website, Google Business Profile and any regulator or sector directory. Discrepancies show up as hedged responses more often than they show up as outright omissions.
+Trading name and contact details that agree wherever they are published, across the firm's website, its Google Business Profile, and any regulator or sector directory. Discrepancies more often yield a hedged answer than they cause the firm to be left out.
 
-A modest supply of recent third-party mentions — a trade press quote every few months, a mention in a local publication, a case study on a partner site. What matters is that they are recent and independent.
+A modest and sustained supply of third-party mentions: the occasional trade press quote, a mention in a local publication, a case study on a partner's site. Being recent and independent is what makes them count.
 
 **[Get your free AI Visibility Report →](/ai-visibility-report)**`,
     faqs: [
@@ -1217,7 +1217,7 @@ A modest supply of recent third-party mentions — a trade press quote every few
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 6,
-    publishedDate: '2026-08-03',
+    publishedDate: '2026-09-03',
     updatedDate: '2026-08-03',
     metaDescription: 'How ChatGPT treats the Law Society Find a Solicitor directory in 2026, how it compares with the SRA register, and how complete an entry is worth making.',
     content: `The Law Society's Find a Solicitor directory is the professional body's public register of solicitors, complementary to the SRA's regulatory register. It is a recognised source for consumers researching a solicitor in England or Wales, and it appears in the results of AI assistants often enough that firms have started asking whether their entry there is doing any work.
