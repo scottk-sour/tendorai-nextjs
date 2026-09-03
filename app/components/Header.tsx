@@ -77,9 +77,9 @@ const Header = () => {
   const navLinks = [
     { href: '/suppliers', label: 'Find Suppliers' },
     { href: '/ai-visibility-platform', label: 'How It Works' },
-    { href: '/ai-visibility-platform', label: 'For Firms' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/resources', label: 'Resources' },
+    { href: '/research', label: 'Research' },
   ];
 
   const isActive = (path: string) => {
@@ -109,7 +109,7 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
@@ -227,7 +227,7 @@ const Header = () => {
             <nav className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className={`text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
                     isActive(link.href)

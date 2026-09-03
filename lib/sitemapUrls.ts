@@ -31,6 +31,8 @@ const STATIC_PAGES: Array<{
   { path: '/ai-visibility-tool', changefreq: 'monthly', priority: 0.7 },
   { path: '/ai-visibility-uk', changefreq: 'monthly', priority: 0.7 },
   { path: '/resources', changefreq: 'daily', priority: 0.8 },
+  { path: '/research', changefreq: 'weekly', priority: 0.8 },
+  { path: '/blog', changefreq: 'daily', priority: 0.8 },
   { path: '/posts', changefreq: 'weekly', priority: 0.6 },
   { path: '/how-it-works', changefreq: 'monthly', priority: 0.6 },
   { path: '/about', changefreq: 'monthly', priority: 0.5 },
