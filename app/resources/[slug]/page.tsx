@@ -8,6 +8,12 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Only articles with inline content live here. Articles carrying an `href`
+// are homed elsewhere and hold `content: ''`, so serving them here produced
+// 46 thin, self-canonical 200s with wordCount: 1. dynamicParams = false
+// stops that; next.config.js 301s those slugs to their real homes.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return articles
     .filter((article) => !article.href)

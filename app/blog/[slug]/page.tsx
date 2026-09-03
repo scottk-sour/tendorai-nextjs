@@ -8,8 +8,11 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Only generate pages for articles with href pointing to /blog/
-// that don't already have a static directory
+// Only generate pages for articles genuinely homed at /blog/ that don't
+// already have a static directory. Articles with no `href` render at
+// /resources/<slug> and must NOT also be served here — doing so produced 21
+// full duplicate pages, each self-canonicalising against the other.
+// dynamicParams = false stops Next serving any other slug on demand.
 const STATIC_BLOG_DIRS = new Set([
   'how-to-get-your-solicitor-firm-recommended-by-chatgpt',
   'does-structured-data-help-ai-visibility',
@@ -20,10 +23,12 @@ const STATIC_BLOG_DIRS = new Set([
   'how-to-check-if-business-appears-in-ai-recommendations',
 ]);
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return articles
     .filter((a) => !STATIC_BLOG_DIRS.has(a.slug))
-    .filter((a) => !a.href || a.href.startsWith('/blog/'))
+    .filter((a) => a.href?.startsWith('/blog/'))
     .map((a) => ({ slug: a.slug }));
 }
 
