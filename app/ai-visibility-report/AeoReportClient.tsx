@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const API_URL =
@@ -113,6 +114,7 @@ export default function AeoReportClient() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState('');
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState('Checking your AI visibility...');
@@ -176,6 +178,10 @@ export default function AeoReportClient() {
     e.preventDefault();
     setError('');
 
+    if (!consent) {
+      setError('Please confirm you have read the Privacy Policy.');
+      return;
+    }
     if (category === 'other' && !customIndustry.trim()) {
       setError('Please describe your industry.');
       return;
@@ -436,9 +442,28 @@ export default function AeoReportClient() {
               </div>
             )}
 
+            <div className="flex items-start gap-3">
+              <input
+                id="consent"
+                type="checkbox"
+                required
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-purple-600 focus:ring-2 focus:ring-purple-500"
+              />
+              <label htmlFor="consent" className="text-sm text-gray-700">
+                I have read and understood the{' '}
+                <Link href="/privacy" className="text-purple-600 underline hover:text-purple-700">
+                  Privacy Policy
+                </Link>
+                .
+              </label>
+            </div>
+
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-6 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg"
+          disabled={!consent}
+          className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold py-4 px-6 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/40 transition-all text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
         >
           Run My Free AI Visibility Report
         </button>
