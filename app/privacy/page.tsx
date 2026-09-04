@@ -15,7 +15,7 @@ import type { Metadata } from 'next';
 const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
 const ICO_REGISTRATION = '[FILL: ICO reference, e.g. ZA123456]';
 const CONTACT_EMAIL = 'scott.davies@tendorai.com';
-const LAST_UPDATED = '30 June 2026';
+const LAST_UPDATED = '4 September 2026';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | TendorAI',
@@ -183,7 +183,7 @@ export default function PrivacyPage() {
         </li>
         <li>
           <strong>Automatically</strong> — through cookies and similar technologies when you use the
-          website (see Section 9).
+          website (see Section 10).
         </li>
       </UL>
 
@@ -265,7 +265,29 @@ export default function PrivacyPage() {
         undue delay.
       </P>
 
-      <H2 id="sharing">7. Who we share data with</H2>
+      <H2 id="ai-visibility-reports">7. AI visibility reports</H2>
+      <P>
+        When you request a free AI visibility report, we collect your company name, website address,
+        city, business category and email address, and your name if you choose to give it.
+      </P>
+      <P>
+        We use these details to generate your report and to send it to you. We may also contact you
+        afterwards about our services. Our lawful basis for both is legitimate interests: you have
+        asked us to produce something for you, and we have an interest in offering related services
+        to firms who have used the tool. You can object to marketing contact at any time by replying
+        to any email or writing to <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>, and we
+        will stop.
+      </P>
+      <P>
+        We keep report submissions for 24 months from your last contact with us, after which they
+        are deleted.
+      </P>
+      <P>
+        Reports are hosted at a private URL that search engines do not index. Anyone with the link
+        can view the report, so treat it as you would any unlisted page.
+      </P>
+
+      <H2 id="sharing">8. Who we share data with</H2>
       <P>
         We do not sell your personal data. We share it only with the service providers (processors)
         that help us run the platform, each under a data-processing agreement:
@@ -300,7 +322,7 @@ export default function PrivacyPage() {
         rights, property or safety.
       </P>
 
-      <H2 id="transfers">8. International transfers</H2>
+      <H2 id="transfers">9. International transfers</H2>
       <P>
         Some of our providers (including Stripe, Google and certain AI service providers) process data
         outside the UK, including in the United States. Where personal data is transferred outside the
@@ -310,7 +332,7 @@ export default function PrivacyPage() {
         protection. You can ask us for details of the safeguards that apply.
       </P>
 
-      <H2 id="cookies">9. Cookies</H2>
+      <H2 id="cookies">10. Cookies</H2>
       <UL>
         <li>
           <strong>Essential cookies</strong> — required for the site to work (for example session
@@ -325,7 +347,7 @@ export default function PrivacyPage() {
       </UL>
       <P>You can also control cookies through your browser settings.</P>
 
-      <H2 id="retention">10. How long we keep data</H2>
+      <H2 id="retention">11. How long we keep data</H2>
       <UL>
         <li>
           <strong>Firm register data:</strong> as described in Section 6.
@@ -348,7 +370,7 @@ export default function PrivacyPage() {
         </li>
       </UL>
 
-      <H2 id="rights">11. Your rights</H2>
+      <H2 id="rights">12. Your rights</H2>
       <P>Under the UK GDPR you have the right to:</P>
       <UL>
         <li>
@@ -380,7 +402,7 @@ export default function PrivacyPage() {
         will not normally have to pay a fee.
       </P>
 
-      <H2 id="complaints">12. Complaints</H2>
+      <H2 id="complaints">13. Complaints</H2>
       <P>
         If you are unhappy with how we have handled your data, please contact us first at{' '}
         <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A>. We will acknowledge your complaint
@@ -392,14 +414,14 @@ export default function PrivacyPage() {
         {ICO_REGISTRATION}. You can contact the ICO at <A href="https://ico.org.uk">ico.org.uk</A>.
       </P>
 
-      <H2 id="changes">13. Changes to this policy</H2>
+      <H2 id="changes">14. Changes to this policy</H2>
       <P>
         We may update this Privacy Policy from time to time. We will post any significant changes on
         this page and update the &quot;last updated&quot; date above. Your continued use of our
         services after changes are posted constitutes acceptance of the updated policy.
       </P>
 
-      <H2 id="contact">14. Contact us</H2>
+      <H2 id="contact">15. Contact us</H2>
       <P>
         TendorAI Ltd
         <br />

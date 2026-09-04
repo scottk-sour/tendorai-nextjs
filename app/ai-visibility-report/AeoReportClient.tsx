@@ -179,7 +179,7 @@ export default function AeoReportClient() {
     setError('');
 
     if (!consent) {
-      setError('Please confirm you agree to your details being processed to produce this report.');
+      setError('Please confirm you have read the Privacy Policy.');
       return;
     }
     if (category === 'other' && !customIndustry.trim()) {
@@ -452,8 +452,7 @@ export default function AeoReportClient() {
                 className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-purple-600 focus:ring-2 focus:ring-purple-500"
               />
               <label htmlFor="consent" className="text-sm text-gray-700">
-                I agree to TendorAI processing my details to produce this report, as described in
-                the{' '}
+                I have read and understood the{' '}
                 <Link href="/privacy" className="text-purple-600 underline hover:text-purple-700">
                   Privacy Policy
                 </Link>
