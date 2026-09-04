@@ -1,19 +1,17 @@
 // app/privacy/page.tsx
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// BEFORE YOU MERGE — fill these two placeholders (search "FILL:"):
+// BEFORE YOU MERGE — fill this placeholder (search "FILL:"):
 //   1. REGISTERED_OFFICE  – your TendorAI Ltd registered office address (Wales)
-//   2. ICO_REGISTRATION   – your ICO reference (ZA……) AFTER you've registered
-//                            and paid the £52 fee at ico.org.uk. Until then,
-//                            replace the §10 line with "ICO registration in
-//                            progress" rather than claiming a reference you
-//                            don't hold.
+//
+// The ICO reference is no longer held here: the Complaints section states that
+// registration is in progress. When the ZA…… reference is issued, replace that
+// sentence rather than reinstating a constant.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next';
 
 const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
-const ICO_REGISTRATION = '[FILL: ICO reference, e.g. ZA123456]';
 const CONTACT_EMAIL = 'scott.davies@tendorai.com';
 const LAST_UPDATED = '4 September 2026';
 
@@ -410,8 +408,8 @@ export default function PrivacyPage() {
       </P>
       <P>
         You also have the right to complain to the Information Commissioner&apos;s Office (ICO) at any
-        time. TendorAI Ltd is registered with the ICO as a data controller under reference{' '}
-        {ICO_REGISTRATION}. You can contact the ICO at <A href="https://ico.org.uk">ico.org.uk</A>.
+        time. TendorAI Ltd&apos;s ICO registration as a data controller is in progress. You can
+        contact the ICO at <A href="https://ico.org.uk">ico.org.uk</A>.
       </P>
 
       <H2 id="changes">14. Changes to this policy</H2>
