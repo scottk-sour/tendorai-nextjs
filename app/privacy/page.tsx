@@ -252,10 +252,10 @@ export default function PrivacyPage() {
         <li>
           <strong>How long we keep it:</strong> for as long as we operate the platform and the firm
           remains on the relevant public register, reviewed periodically, and removed promptly on a
-          valid objection or erasure request (see Section 7).
+          valid objection or erasure request (see Section 12).
         </li>
         <li>
-          <strong>Your rights:</strong> you have the rights set out in Section 10, including the right
+          <strong>Your rights:</strong> you have the rights set out in Section 12, including the right
           to object to this processing and to ask us to remove your firm&apos;s profile.
         </li>
       </UL>
