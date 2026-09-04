@@ -1,17 +1,14 @@
 // app/privacy/page.tsx
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// BEFORE YOU MERGE — fill this placeholder (search "FILL:"):
-//   1. REGISTERED_OFFICE  – your TendorAI Ltd registered office address (Wales)
-//
-// The ICO reference is no longer held here: the Complaints section states that
-// registration is in progress. When the ZA…… reference is issued, replace that
-// sentence rather than reinstating a constant.
+// The ICO reference is deliberately not held here: the Complaints section
+// states that registration is in progress. When the ZA…… reference is issued,
+// replace that sentence rather than reinstating a constant.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next';
 
-const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
+const REGISTERED_OFFICE = '155 Oaksford, Coed Eva, Cwmbran, Wales, NP44 6UN';
 const CONTACT_EMAIL = 'scott.davies@tendorai.com';
 const LAST_UPDATED = '4 September 2026';
 
