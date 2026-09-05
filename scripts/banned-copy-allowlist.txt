@@ -54,6 +54,6 @@ lib/db/models/AeoReport.ts|grok|1|code identifier / data contract, not copy
 # ---------------------------------------------------------------------------
 # DEFERRED — open items. Remove the line when the copy is fixed.
 # ---------------------------------------------------------------------------
-app/components/dashboard/AIMentionsCard.tsx|grok|5|2 identifier + 3 deferred tiles — split when tiles are fixed
+app/components/dashboard/AIMentionsCard.tsx|grok|5|3 identifier + 2 deferred tiles — split when tiles are fixed
 app/components/dashboard/AIMentionsCard.tsx|meta ai|2|DEFERRED - open item, remove from allowlist when fixed
 app/components/landing/CustomerTestimonial.tsx|grok|1|DEFERRED - open item, remove from allowlist when fixed
