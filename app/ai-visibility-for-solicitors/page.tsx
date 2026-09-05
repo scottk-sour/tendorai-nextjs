@@ -5,10 +5,10 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Solicitors';
 const DESCRIPTION =
-  'How SRA-registered solicitors get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals, worked £ example.';
+  'How SRA-registered solicitors get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-solicitors';
 const PUBLISHED = '2026-05-24';
-const UPDATED = '2026-05-24';
+const UPDATED = '2026-09-05';
 
 const CTA_URL =
   '/ai-visibility-report?utm_source=ai-visibility-for-solicitors&utm_medium=landing&utm_campaign=solicitors-cluster&utm_content=primary-cta';
@@ -187,12 +187,6 @@ export default function SolicitorsAiVisibilityPage() {
               Firms outside those two or three slots are not lower-ranked — they are absent from the
               answer, with no second page to scroll to.
             </p>
-            <p>
-              A four-partner SRA-registered firm that converts two AI-driven enquiries per month at an
-              illustrative £1,200 average conveyancing matter would add roughly £28,800 in fee income over
-              twelve months — against £17,988 for a year of the TendorAI programme. The figures are illustrative, not
-              a guarantee; the worked example with assumptions sits below.
-            </p>
           </div>
         </section>
 
@@ -359,45 +353,6 @@ export default function SolicitorsAiVisibilityPage() {
               AI engine responses shift between runs and over time. The figures above are a snapshot, not
               a fixed property of any firm; results depend on platform behaviour and the firm&rsquo;s
               existing data quality.
-            </p>
-          </div>
-        </section>
-
-        {/* H2-5 Worked £ example */}
-        <section className="py-10 md:py-14 bg-gray-50">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
-            <h2
-              className="text-2xl md:text-3xl font-bold text-gray-900"
-              style={{ fontFamily: 'var(--font-serif)' }}
-            >
-              What this looks like for a four-partner SRA-registered firm
-            </h2>
-            <p>
-              A four-partner SRA-registered conveyancing firm in South Wales running the TendorAI AI
-              Visibility Growth Programme at £1,499 per month — £17,988 per year, or £999 per month
-              (£11,988 per year) at the founding rate for the first 3 solicitor firms — that converts
-              two additional AI-driven enquiries per
-              month at an illustrative £1,200 average matter value would add approximately £28,800 in fee
-              income over twelve months.
-            </p>
-            <p>
-              The figures above are illustrative, not a guarantee. Actual outcomes depend on the
-              firm&rsquo;s fee structure, conversion rate from enquiry to instructed matter, complexity
-              mix, and the AI platforms used by the firm&rsquo;s target buyers. Many factors decide
-              whether an enquiry becomes a matter.
-            </p>
-            <p>
-              The shape of the example matters more than the exact figures. Two additional matters per
-              month at £1,200 is the conservative end of the conveyancing fee scale; wills and probate
-              and family law matters generally carry higher average values and would change the worked
-              total upward. Personal injury and dispute resolution carry different fee structures still.
-              The cost anchor — £17,988 per year — is fixed regardless of practice area.
-            </p>
-            <p>
-              Against that £17,988 annual cost, the break-even point in this example is approximately
-              fifteen additional matters per year. Anything above that is contribution, not cost. The point
-              of the example is the order of magnitude: the cost of being absent from AI answers is
-              measured in lost matters, not in software fees.
             </p>
           </div>
         </section>

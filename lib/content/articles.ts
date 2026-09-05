@@ -1215,16 +1215,6 @@ The market alternative to a register-led platform is a retainer-and-report agenc
 | What you keep | Working infrastructure | A document to read |
 | UK price point | £1,499/month, fixed | Variable retainer |
 
-## What this looks like for a 4-partner firm
-
-For a worked example, take an SRA-regulated firm of 4 partners in Cardiff turning over roughly £2m — the figures below are illustrative assumptions, and you should replace them with your own actuals.
-
-A firm of that size might win around 10 new private-client matters a month through direct enquiry. Assume AI visibility surfaces the firm for two additional enquiries a month that would otherwise have gone to a competitor, and assume an average matter value of £1,500 — a defensible mid-range figure for private-client work, which you should adjust to your fee scales.
-
-That is 2 × £1,500 × 12 = £36,000 in additional annual fee income on these assumptions. Against the TendorAI AI Visibility Growth Programme at £1,499/month — £17,988 a year — that is roughly a twofold return at the lower bound of the assumptions. The point is not the exact figure; it is that one additional matter a month covers the cost, and the firm keeps the infrastructure regardless.
-
-This is also where the difference from an agency retainer is sharpest: the same two enquiries justify the spend, but with a platform the schema stays installed on your site whether or not you renew, whereas a retainer stops delivering the day it ends.
-
 ## Frequently asked questions
 
 ### Can a marketing agency improve my firm's AI visibility?
@@ -1402,14 +1392,6 @@ It typically takes four to eight weeks to start appearing in AI recommendations 
 | Compounding authority | 6+ months | Citations reinforce each other; the effect builds on itself |
 
 The timeline depends on the starting point. A firm with a clean regulator listing and a crawlable website moves faster than one fixing inconsistent details across several platforms first.
-
-## What this looks like for a four-partner South Wales firm
-
-Consider a four-partner SRA-registered solicitor firm in South Wales, the kind of firm that made up the 92.6% absent from AI recommendations in the May 2026 test. A firm this size might take on a few new conveyancing matters a month through direct enquiry.
-
-If becoming AI-visible brings in two additional enquiries a month at an average matter value of around £1,200, that is roughly £28,800 in additional fee income over a year. Against the cost of a structured visibility programme, the return sits comfortably in multiples, not fractions — and the firm is capturing enquiries that were previously going to the 7.4% who already appeared.
-
-This is an illustrative example only, not a guarantee of results. Actual outcomes depend on each firm’s fee structure, conversion rate and market, and many factors affect whether an enquiry becomes a matter. The point is the shape, not the precise figure: the cost of being invisible to AI is measured in lost matters, not in software fees.
 
 ## Methodology
 
@@ -2052,18 +2034,6 @@ The change is mechanical. Search engines index pages and rank URLs. AI assistant
 A search engine can read a well-structured Cardiff law firm website and rank it for "Cardiff conveyancing solicitors" based on backlinks, on-page content, and crawl depth. An AI assistant asked the same question by a client weighs different signals: how often the firm appears across trusted directories, whether reviews exist on Google Business Profile, whether the firm's name has been mentioned on third-party platforms (legal directories, BBC, the Law Society, local publications), whether structured data on the firm's site explicitly identifies it as a LegalService entity in Cardiff.
 
 When those signals are weak or absent, the AI assistant defaults to firms with stronger corroboration. In Cardiff in May 2026, that means a small named set of firms gets recommended repeatedly while the majority of SRA-regulated firms are invisible.
-
-## What This Costs in Lost Matters
-
-**A Cardiff law firm appearing in AI responses for one specialism could expect £2,200 to £4,400 in additional monthly revenue.** The inverse cost — being invisible — is harder to see but identical in scale.
-
-A worked example illustrates the maths. Consider a 4-partner Cardiff firm with mixed conveyancing and family work, generating around £1.5 million annual revenue. They acquire 8 to 12 new clients per month through existing channels: referral, returning clients, paid search.
-
-If AI visibility drives 3 additional client enquiries per month at an average matter value of £1,200, with a 60% conversion rate from enquiry to instruction, that is 1.8 additional matters per month. Annual revenue impact: £25,920. The TendorAI AI Visibility Growth Programme is £17,988 per year. Payback period: just over eight months.
-
-These figures are illustrative. Actual results depend on specialism, conversion process, and the firm's existing AI visibility baseline. The point is the order of magnitude. AI visibility is not a brand metric. It is a revenue metric.
-
-If AI assistants are consistently recommending three competitors instead of you for one practice area, the lost opportunity may represent £8,750 to £14,000 in monthly fees going elsewhere for a single practice area. The firm will never see those enquiries in analytics.
 
 ## What Cardiff Firms Should Do This Quarter
 

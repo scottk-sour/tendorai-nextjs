@@ -5,10 +5,10 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Accountants';
 const DESCRIPTION =
-  'How ICAEW chartered and ACCA chartered certified accountants get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals, worked £ example.';
+  'How ICAEW chartered and ACCA chartered certified accountants get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-accountants';
 const PUBLISHED = '2026-05-24';
-const UPDATED = '2026-05-24';
+const UPDATED = '2026-09-05';
 
 const CTA_URL =
   '/ai-visibility-report?utm_source=ai-visibility-for-accountants&utm_medium=landing&utm_campaign=accountants-cluster&utm_content=primary-cta';
@@ -155,9 +155,6 @@ export default function AccountantsAiVisibilityPage() {
             <p>
               For a UK accountancy practice, the buyer-side consequence is direct. A prospective client asking an AI for a &ldquo;chartered accountant in Bristol for self-assessment&rdquo; or a &ldquo;corporation tax accountant in Manchester for a limited company&rdquo; is returned two or three named firms. Firms outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
             </p>
-            <p>
-              A two-partner ICAEW chartered firm that converts one additional AI-driven small-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add roughly £28,800 in fee income over twelve months — against £17,988 for a year of the TendorAI programme. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
-            </p>
           </div>
         </section>
 
@@ -259,27 +256,6 @@ export default function AccountantsAiVisibilityPage() {
             </div>
             <p>
               AI engine responses shift between runs and over time. The figures above are a snapshot, not a fixed property of any firm; results depend on platform behaviour and the firm&rsquo;s existing data quality.
-            </p>
-          </div>
-        </section>
-
-        {/* H2-5 Worked £ example */}
-        <section className="py-10 md:py-14 bg-gray-50">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
-              What this looks like for a two-partner ICAEW chartered firm
-            </h2>
-            <p>
-              A two-partner ICAEW chartered firm in the Midlands running the TendorAI AI Visibility Growth Programme at £1,499 per month — £17,988 per year — that converts one additional AI-driven limited-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add approximately £28,800 in fee income over twelve months.
-            </p>
-            <p>
-              The figures above are illustrative, not a guarantee. Actual outcomes depend on the firm&rsquo;s service mix, client size, conversion rate from enquiry to engagement and the AI platforms used by the firm&rsquo;s target buyers. Sole-trader self-assessment-only clients carry lower annual fees; firms serving larger SME clients carry higher ones. Many factors decide whether an enquiry becomes a client.
-            </p>
-            <p>
-              The shape of the example matters more than the exact figures. Accountancy fees are recurring — a client converted in year one is, in normal circumstances, a client retained into year two. The cost anchor — £17,988 per year — is fixed regardless of service mix.
-            </p>
-            <p>
-              Against that £17,988 annual cost, the break-even point in this example is approximately eight additional clients per year at the £2,400 level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost clients, not in software fees.
             </p>
           </div>
         </section>
