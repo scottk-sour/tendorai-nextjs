@@ -52,7 +52,7 @@ const sections: Section[] = [
       { label: 'Firm has run an AI visibility report on TendorAI', points: 10 },
       { label: 'AI tools return the firm\u2019s name when queried', points: 5 },
       { label: 'Firm appears in at least one AI-generated "find me a [profession] in [city]" result', points: 5 },
-      { label: 'TendorAI Pro schema is installed and syncing', points: 5 },
+      { label: 'The TendorAI programme schema is installed and syncing', points: 5 },
     ],
   },
 ];
@@ -69,9 +69,9 @@ function getScoreBand(score: number) {
   };
   if (score <= 70) return {
     label: 'You have some foundations in place.',
-    cta: 'TendorAI Pro will accelerate your visibility.',
+    cta: 'The TendorAI programme will accelerate your visibility.',
     ctaHref: '/pricing',
-    ctaLabel: 'See TendorAI Pro',
+    ctaLabel: 'See the TendorAI programme',
     color: 'bg-amber-50 border-amber-200 text-amber-800',
   };
   if (score <= 90) return {

@@ -233,7 +233,7 @@ const BRISTOL_FAQS = [
   },
   {
     question: 'How much does it cost to be listed on TendorAI?',
-    answer: 'Free profiles are available to every SRA-registered firm in Bristol. The free profile includes verified SRA data and a basic public listing. The Pro tier is £299 per month and includes schema installation on the firm’s website, weekly AI visibility tracking across ChatGPT, Perplexity, Google AI, and Claude, and monthly reporting.',
+    answer: 'Free profiles are available to every SRA-registered firm in Bristol. The free profile includes verified SRA data and a basic public listing. The AI Visibility Growth Programme is £1,499 per month — £999 per month as a founding rate for the first 3 solicitor firms, held for 12 months — on an initial three-month term, and includes schema installation on the firm’s website, monthly AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity, and monthly reporting.',
   },
   {
     question: 'What are the most common solicitor specialisms in Bristol?',
@@ -487,17 +487,14 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 </p>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
-                  Worked example — what AI visibility is worth in Cardiff
+                  What the Cardiff audit found
                 </h3>
                 <div className="bg-gray-50 border-l-4 border-purple-600 p-6 rounded my-8">
                   <p className="mb-3">
                     Cardiff has {totalCount} SRA-registered solicitors. Around 89% — roughly 72 firms — do not appear when ChatGPT, Perplexity, or Google AI is asked to recommend a firm. That leaves a small group of 9 firms taking the entire share of voice on AI platforms in Cardiff.
                   </p>
-                  <p className="mb-3">
-                    At an average conveyancing matter value of £1,100 in the Cardiff area, and a conservative conversion rate of 2% on AI-driven enquiries, a Cardiff firm appearing in AI responses for a single specialism could expect 2&ndash;4 additional matters per month. That is £2,200&ndash;£4,400 in additional monthly revenue from one specialism alone. TendorAI Pro is £299 per month — payback period under one matter.
-                  </p>
                   <p className="text-sm text-gray-600 italic">
-                    These figures are illustrative. Actual results depend on firm size, specialism mix, and conversion process. Source: TendorAI April 2026 AI visibility audit, {totalCount} Cardiff SRA-registered firms.
+                    Source: TendorAI April 2026 AI visibility audit, {totalCount} Cardiff SRA-registered firms.
                   </p>
                 </div>
 
@@ -578,7 +575,7 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                     <strong>Claim your TendorAI profile.</strong> Every Cardiff firm on the SRA register is already pre-listed below. Claiming is free and adds your firm to the structured data pool AI assistants read.
                   </li>
                   <li>
-                    <strong>Get schema markup installed on your own website.</strong> This is what TendorAI Pro does for £299/month — we install the markup on the firm&rsquo;s own site, track citations weekly across ChatGPT, Perplexity, and Google AI, and report what&rsquo;s working.
+                    <strong>Get schema markup installed on your own website.</strong> This is what the TendorAI AI Visibility Growth Programme does for £1,499/month — we install the markup on the firm&rsquo;s own site, measure citations monthly across ChatGPT, Google AI Overviews and Perplexity, and report what&rsquo;s working.
                   </li>
                 </ul>
 
@@ -629,17 +626,14 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                 </p>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
-                  Worked example — what AI visibility is worth in Bristol
+                  What the Bristol audit found
                 </h3>
                 <div className="bg-gray-50 border-l-4 border-purple-600 p-6 rounded my-8">
                   <p className="mb-3">
                     Bristol has 85 SRA-registered solicitors. Around 91% — roughly 77 firms — do not appear when ChatGPT, Perplexity, or Google AI is asked to recommend a firm. That leaves a small group of 7&ndash;9 firms taking the entire share of voice on AI platforms in Bristol.
                   </p>
-                  <p className="mb-3">
-                    At an average conveyancing matter value of £1,400 in the Bristol area, and a conservative conversion rate of 2% on AI-driven enquiries, a Bristol firm appearing in AI responses for a single specialism could expect 2&ndash;4 additional matters per month. That is £2,800&ndash;£5,600 in additional monthly revenue from one specialism alone. TendorAI Pro is £299 per month — payback period under one matter.
-                  </p>
                   <p className="text-sm text-gray-600 italic">
-                    These figures are illustrative. Actual results depend on firm size, specialism mix, and conversion process. Source: TendorAI April 2026 AI visibility audit, 85 Bristol SRA-registered firms.
+                    Source: TendorAI April 2026 AI visibility audit, 85 Bristol SRA-registered firms.
                   </p>
                 </div>
 
@@ -691,7 +685,7 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                   </li>
                 </ol>
                 <p>
-                  TendorAI provides this data layer for SRA-registered Bristol firms. Free profiles start with verified SRA register data and basic specialism tags. The Pro tier — £299 per month — installs LegalService schema directly on the firm&rsquo;s own website, tracks weekly AI visibility across ChatGPT, Perplexity, Google AI, and Claude, and reports which prompts the firm appears for. Firms typically see citation lift within 4&ndash;6 weeks of schema installation.
+                  TendorAI provides this data layer for SRA-registered Bristol firms. Free profiles start with verified SRA register data and basic specialism tags. The AI Visibility Growth Programme — £1,499 per month — installs LegalService schema directly on the firm&rsquo;s own website, measures AI visibility monthly across ChatGPT, Google AI Overviews and Perplexity, and reports which prompts the firm appears for. Firms typically see citation lift within 4&ndash;6 weeks of schema installation.
                 </p>
 
                 <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">
@@ -710,7 +704,7 @@ export default async function SolicitorsInCityPage({ params }: PageProps) {
                     <strong>Claim your TendorAI profile.</strong> Every Bristol firm on the SRA register is already pre-listed below. Claiming is free and adds your firm to the structured data pool AI assistants read.
                   </li>
                   <li>
-                    <strong>Get schema markup installed on your own website.</strong> This is what TendorAI Pro does for £299/month — we install the markup on the firm&rsquo;s own site, track citations weekly across ChatGPT, Perplexity, Google AI, and Claude, and report what&rsquo;s working.
+                    <strong>Get schema markup installed on your own website.</strong> This is what the TendorAI AI Visibility Growth Programme does for £1,499/month — we install the markup on the firm&rsquo;s own site, measure citations monthly across ChatGPT, Google AI Overviews and Perplexity, and report what&rsquo;s working.
                   </li>
                 </ul>
 

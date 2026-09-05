@@ -126,13 +126,13 @@ export default function SchemaCheckerClient() {
           {/* Inline CTA */}
           <div className="bg-gray-50 rounded-xl border border-gray-200 p-6 mt-6">
             <p className="text-gray-700 mb-4">
-              <strong>TendorAI Pro</strong> installs the correct schema for your firm type via a single script tag. It auto-syncs whenever your profile is updated &mdash; no developer needed, no manual updates.
+              <strong>The TendorAI programme</strong> installs the correct schema for your firm type via a single script tag. It auto-syncs whenever your profile is updated &mdash; no developer needed, no manual updates.
             </p>
             <a
               href="/ai-visibility-platform"
               className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg"
             >
-              See how TendorAI Pro works
+              See how the TendorAI programme works
             </a>
           </div>
         </div>

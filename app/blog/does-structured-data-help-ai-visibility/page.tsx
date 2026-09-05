@@ -408,14 +408,14 @@ export default function StructuredDataAIVisibilityPage() {
                 Get Your Free AI Visibility Report
               </Link>
               <Link href="/pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
-                See TendorAI Pro
+                See the TendorAI programme
               </Link>
             </div>
           </section>
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Sources: TendorAI analysis of 12,793 SRA, ICAEW, and FCA-registered firms, March 2026. Citation frequency data from TendorAI weekly AI visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI.
+            Sources: TendorAI analysis of 12,793 SRA, ICAEW, and FCA-registered firms, March 2026. Citation frequency data from TendorAI AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity.
           </div>
 
           {/* Author / date */}

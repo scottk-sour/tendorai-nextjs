@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'AI Visibility for UK Solicitors | TendorAI';
 const DESCRIPTION =
-  'A three-month measured programme for UK solicitors. We measure whether ChatGPT, Google AI Overviews and Perplexity name your firm, make your firm easier for them to read and verify, then measure again. £999 per month.';
+  'A three-month measured programme for UK solicitors. We measure whether ChatGPT, Google AI Overviews and Perplexity name your firm, make your firm easier for them to read and verify, then measure again. £1,499 per month.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-platform';
 
 const AUGUST_REPORT = '/resources/ai-visibility-report-solicitors-august-2026';
@@ -94,7 +94,7 @@ const programmeSteps: Array<{ title: string; body: string }> = [
 const faqs: Array<{ q: string; a: string }> = [
   {
     q: 'What does it cost?',
-    a: '£999 per month for an initial three-month programme — £2,997 in total. TendorAI is not VAT-registered, so no VAT is added. Booked through a short call so we can establish whether your firm is a sensible fit before you commit.',
+    a: '£1,499 per month for an initial three-month programme — £4,497 in total. A founding rate of £999 per month is available to the first 3 solicitor firms, held for 12 months from the firm’s start date. TendorAI is not VAT-registered, so no VAT is added. Booked through a short call so we can establish whether your firm is a sensible fit before you commit.',
   },
   {
     q: 'Why three months?',
@@ -191,7 +191,7 @@ export default function AiVisibilityPlatformPage() {
               your firm, what we’ve changed, and whether your visibility moved.
             </p>
             <p className="text-base font-semibold text-white mb-8">
-              &pound;999 per month &middot; 3-month initial programme &middot; no VAT
+              &pound;1,499 per month &middot; 3-month initial programme &middot; no VAT
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

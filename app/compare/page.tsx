@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: 'Does TendorAI replace my SEO agency?',
-    a: 'No. TendorAI handles AI visibility \u2014 a separate channel from Google SEO. Most firms benefit from both. The AI Visibility Growth Programme is \u00a3999 per month on an initial three-month term, and covers monthly measurement across ChatGPT, Google AI Overviews and Perplexity, diagnosis, implementation, and re-measurement. Your SEO agency continues to handle Google rankings.',
+    a: 'No. TendorAI handles AI visibility \u2014 a separate channel from Google SEO. Most firms benefit from both. The AI Visibility Growth Programme is \u00a31,499 per month on an initial three-month term, and covers monthly measurement across ChatGPT, Google AI Overviews and Perplexity, diagnosis, implementation, and re-measurement. Your SEO agency continues to handle Google rankings.',
   },
   {
     q: 'Which AI visibility tool is best for UK solicitors?',
@@ -226,7 +226,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free report / \u00a3999 per month',
+              'Free report / \u00a31,499 per month',
               'Custom pricing',
             ],
           ]}
@@ -263,7 +263,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free report / \u00a3999 per month',
+              'Free report / \u00a31,499 per month',
               'From $29/month',
             ],
           ]}
@@ -300,7 +300,7 @@ export default function ComparePage() {
             ],
             [
               'Price',
-              'Free report / \u00a3999 per month',
+              'Free report / \u00a31,499 per month',
               'Custom pricing',
             ],
           ]}

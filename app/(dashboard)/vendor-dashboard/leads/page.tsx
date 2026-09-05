@@ -192,7 +192,7 @@ export default function LeadsPage() {
 
                   {!isPro && (
                     <p className="text-xs text-purple-600 mt-2 font-medium">
-                      Upgrade to Pro to see full contact details
+                      Full contact details are available on the managed programme
                     </p>
                   )}
                 </div>

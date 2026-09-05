@@ -5,10 +5,10 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Mortgage Advisers';
 const DESCRIPTION =
-  'How FCA-regulated mortgage advisers — directly authorised firms and appointed representatives — get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews. Structured data, citation signals, worked £ example.';
+  'How FCA-regulated mortgage advisers — directly authorised firms and appointed representatives — get cited by ChatGPT, Google AI Overviews and Perplexity. Structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-mortgage-advisors';
 const PUBLISHED = '2026-05-24';
-const UPDATED = '2026-05-24';
+const UPDATED = '2026-09-05';
 
 const CTA_URL =
   '/ai-visibility-report?utm_source=ai-visibility-for-mortgage-advisors&utm_medium=landing&utm_campaign=mortgage-advisers-cluster&utm_content=primary-cta';
@@ -117,7 +117,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
     '@type': 'FinancialService',
     name: 'AI Visibility Coverage for UK Mortgage Advisers',
     description:
-      'AI visibility platform for FCA-regulated UK mortgage advisers — directly authorised firms and appointed representatives. Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+      'AI visibility platform for FCA-regulated UK mortgage advisers — directly authorised firms and appointed representatives. Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Google AI Overviews and Perplexity.',
     provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     serviceType: 'AI visibility for FCA-regulated mortgage advisers',
     areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -138,7 +138,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               {TITLE}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
-              Get your directly authorised firm or appointed representative cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews when prospective clients ask for a mortgage adviser — by name, by specialism, by city.
+              Get your directly authorised firm or appointed representative cited by ChatGPT, Google AI Overviews and Perplexity when prospective clients ask for a mortgage adviser — by name, by specialism, by city.
             </p>
           </div>
         </section>
@@ -147,16 +147,13 @@ export default function MortgageAdvisersAiVisibilityPage() {
         <section className="py-12 md:py-16">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              AI visibility for UK mortgage advisers is the process of making an FCA-regulated firm&rsquo;s permission data, services and citations structured and verifiable so AI assistants — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — name the firm when a prospective client asks for a mortgage adviser. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
+              AI visibility for UK mortgage advisers is the process of making an FCA-regulated firm&rsquo;s permission data, services and citations structured and verifiable so AI assistants — ChatGPT, Google AI Overviews and Perplexity — name the firm when a prospective client asks for a mortgage adviser. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
             </p>
             <p>
               As of 23 May 2026, TendorAI&rsquo;s independently tracked AI visibility score reached 61.1%, up from 22.2% four days earlier (Searchable.com). The signal that moved the score was the same signal AI assistants use to decide which mortgage adviser firms to name: structured, dated, verifiable content cross-referenced against the FCA Register and Companies House.
             </p>
             <p>
               For a UK mortgage adviser firm — whether directly authorised (DA) or an appointed representative (AR) of a principal firm — the buyer-side consequence is direct. A prospective client asking an AI for a &ldquo;mortgage adviser in Bristol for a first-time buyer&rdquo; or a &ldquo;buy-to-let mortgage adviser in Cardiff&rdquo; is returned two or three named firms. Firms outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
-            </p>
-            <p>
-              A directly authorised mortgage adviser firm that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add roughly £19,200 in income over twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
         </section>
@@ -174,7 +171,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               FCA-regulated mortgage adviser firms operate in two distinct forms. A directly authorised (DA) firm holds its own FCA permission to advise on regulated mortgages. An appointed representative (AR) operates under the FCA permission of a principal firm — the principal is responsible for the AR&rsquo;s regulated activities. Misdeclaring the structure on a website, or hiding which it is, reduces the engine&rsquo;s confidence in the firm&rsquo;s identity. Both forms are equally able to be cited; both forms need to be declared accurately.
             </p>
             <p>
-              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Perplexity, Claude, Gemini, Grok or Google AI Overviews for a &ldquo;remortgage adviser in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
+              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Google AI Overviews or Perplexity for a &ldquo;remortgage adviser in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
             </p>
             <p>
               Residential, buy-to-let, first-time buyer, remortgage, protection and specialist (adverse credit, self-employed, expat) are the highest-volume recommendation queries in the mortgage adviser vertical. Firms that match the structured-data, consistency and citation signals on those queries are the firms AI assistants are confident enough to name. SEO and AI visibility share some inputs but reward different outcomes — SEO improves the order of links, AI visibility decides whether your firm is named at all.
@@ -216,7 +213,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               TendorAI&rsquo;s six-agent fleet runs daily on every Pro account with a single outcome metric: AI citation frequency. The platform is not a source of mortgage advice; it is a visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — for the firm&rsquo;s specialism-and-city queries every day and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the firm&rsquo;s specialism-and-city queries monthly and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
             </p>
             <p>
               Writer drafts three professionally-written articles per week under the firm&rsquo;s byline. Each article is structured for passage-level retrieval: every H2 opens with a direct answer, claims are dated, and references — FCA Register entries, MCOB rules, Mortgage Strategy and Money Marketing reporting — are linked. Articles publish to the firm&rsquo;s TendorAI profile and are formatted to deploy on the firm&rsquo;s own website. Any article that references a regulated product carries the required risk disclosure.
@@ -263,21 +260,9 @@ export default function MortgageAdvisersAiVisibilityPage() {
           </div>
         </section>
 
-        {/* H2-5 Worked £ example */}
+        {/* FCA risk warning */}
         <section className="py-10 md:py-14 bg-gray-50">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-serif)' }}>
-              What this looks like for a directly authorised mortgage adviser firm
-            </h2>
-            <p>
-              A directly authorised mortgage adviser firm running TendorAI Pro at £299 per month — £3,588 per year — that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add approximately £19,200 in procuration income over twelve months. Firms that also charge a client fee on top of the procuration fee would see a higher worked total.
-            </p>
-            <p>
-              The figures above are illustrative, not a guarantee. Actual outcomes depend on the firm&rsquo;s case mix (residential vs buy-to-let vs specialist), the procuration fee scale agreed with each lender, conversion rate from enquiry to completion, and the AI platforms used by the firm&rsquo;s target buyers. Many factors decide whether an enquiry becomes a completed case.
-            </p>
-            <p>
-              The shape of the example matters more than the exact figures. The cost anchor — £3,588 per year — is fixed regardless of case type. Against that cost, the break-even point in this example is approximately five additional completions per year at the £800 procuration level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost cases, not in software fees.
-            </p>
             <p className="text-sm italic text-gray-500 border-l-4 border-gray-200 pl-4">
               Risk warning: Your home may be repossessed if you do not keep up repayments on your mortgage. This page describes AI visibility services for mortgage adviser firms and is not personal advice on any mortgage product.
             </p>
@@ -298,7 +283,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
         <section className="py-12 md:py-16 bg-brand-gradient text-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <p className="text-lg md:text-xl text-white/95">
-              See where your firm appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — the report runs in 60 seconds.
+              See where your firm appears across ChatGPT, Google AI Overviews and Perplexity — the report runs in 60 seconds.
             </p>
             <Link href={CTA_URL} className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-purple-700 font-semibold hover:bg-gray-100 transition-colors">
               Run your free AI visibility report

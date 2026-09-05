@@ -40,10 +40,10 @@ const tools: Tool[] = [
     name: 'TendorAI',
     positioning: 'UK AI visibility platform for regulated professional services firms.',
     whatItDoes:
-      'TendorAI indexes 63,406 UK firms from the SRA Solicitors Register, ICAEW Chartered Accountant directory, FCA Financial Services Register, Propertymark, and Companies House. The platform installs AI-readable structured data on a firm’s own website, publishes three professionally-written articles per week, audits the UK directories AI assistants cross-reference and flags where the firm’s details don’t match, and monitors six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews — through an autonomous six-agent fleet.',
+      'TendorAI indexes 63,406 UK firms from the SRA Solicitors Register, ICAEW Chartered Accountant directory, FCA Financial Services Register, Propertymark, and Companies House. The platform installs AI-readable structured data on a firm’s own website, publishes AI-optimised articles written for the firm, audits the UK directories AI assistants cross-reference and flags where the firm’s details don’t match, and measures ChatGPT, Google AI Overviews and Perplexity monthly through an autonomous six-agent fleet.',
     bestForLimitation:
-      'Built and operated in South Wales. Direct contact with the founding team — no agency layer, no account managers, no offshored support. The £299/month price reflects the actual delivery cost rather than loss-leader pricing.',
-    pricing: '£299/month, all in. Free tier available.',
+      'Built and operated in South Wales. Direct contact with the founding team — no agency layer, no account managers, no offshored support. The £1,499/month price reflects the actual delivery cost rather than loss-leader pricing.',
+    pricing: '£1,499/month, or £999/month founding rate for the first 3 solicitor firms. Initial three-month term. Free tier available.',
     bestFor:
       'SRA-regulated solicitors, ICAEW accountants, FCA mortgage advisers, and Propertymark estate agents who want schema installation and content production included, not added on.',
   },
@@ -101,14 +101,10 @@ const comparisonRows: ComparisonRow[] = [
   { feature: 'Built for', values: ['UK regulated firms', 'Solicitors (US-built)', 'UK law firms', 'Global brands', 'UK + global'] },
   { feature: 'SRA register integration', values: ['Yes', 'No', 'Manual', 'No', 'No'] },
   { feature: 'Schema installation included', values: ['Yes', 'No', 'Yes (manual)', 'No', 'No'] },
-  { feature: 'Content production included', values: ['Yes (3/week)', 'No', 'Add-on', 'No', 'No'] },
-  { feature: 'AI platforms tracked', values: ['6', 'Varies', 'Varies', 'Major platforms', 'Major platforms'] },
-  {
-    feature: 'Six-platform coverage (incl. Google AI Overviews + Grok)',
-    values: ['Yes', 'Partial', 'Partial', 'Partial', 'Partial'],
-  },
-  { feature: 'Monthly price', values: ['£299', 'Tier-based', '£1,500–£8,000', 'Tier-based', 'Tier-based'] },
-  { feature: 'Contract length', values: ['Month-to-month', 'Varies', 'Typically 12-month', 'Varies', 'Varies'] },
+  { feature: 'Content production included', values: ['Included', 'No', 'Add-on', 'No', 'No'] },
+  { feature: 'AI platforms tracked', values: ['3', 'Varies', 'Varies', 'Major platforms', 'Major platforms'] },
+  { feature: 'Monthly price', values: ['£1,499', 'Tier-based', '£1,500–£8,000', 'Tier-based', 'Tier-based'] },
+  { feature: 'Contract length', values: ['Three-month initial term', 'Varies', 'Typically 12-month', 'Varies', 'Varies'] },
   {
     feature: 'UK-specific data sources',
     values: ['Yes — SRA, ICAEW, FCA, Propertymark, Companies House', 'No', 'Yes (manual)', 'No', 'Partial'],
@@ -134,7 +130,7 @@ const faqs: Array<{ q: string; a: string }> = [
   },
   {
     q: 'What’s the cheapest way to start?',
-    a: 'Run a free AI visibility report to see where your firm currently appears across the six major AI platforms. TendorAI, Rank4AI, and Searchable all offer free entry-level diagnostics. After the diagnostic, the cheapest fix-inclusive option is TendorAI Pro at £299/month, which bundles schema installation, content production, listings, and tracking. Monitor-only tools are cheaper but do not change what AI assistants say about your firm.',
+    a: 'Run a free AI visibility report to see where your firm currently appears across ChatGPT, Google AI Overviews and Perplexity. TendorAI, Rank4AI, and Searchable all offer free entry-level diagnostics. After the diagnostic, the cheapest fix-inclusive option is the TendorAI AI Visibility Growth Programme at £1,499/month, which bundles schema installation, content production, listings, and tracking. Monitor-only tools are cheaper but do not change what AI assistants say about your firm.',
   },
 ];
 
@@ -144,9 +140,9 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
     '@type': 'Article',
     headline: 'The Best AI Visibility Tools for UK Solicitors in 2026',
     description:
-      'Honest comparison of TendorAI, Rank4AI, MLT Digital, Peec AI, and Searchable for UK solicitors. SRA-specific features, six-platform coverage, and UK pricing.',
+      'Honest comparison of TendorAI, Rank4AI, MLT Digital, Peec AI, and Searchable for UK solicitors. SRA-specific features, AI platform coverage, and UK pricing.',
     datePublished: '2026-05-18',
-    dateModified: '2026-05-18',
+    dateModified: '2026-09-05',
     author: { '@type': 'Organization', name: 'TendorAI Ltd', url: 'https://www.tendorai.com' },
     publisher: {
       '@type': 'Organization',
@@ -193,15 +189,18 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
             <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
               The Best AI Visibility Tools for UK Solicitors in 2026
             </h1>
+            <p className="text-sm text-purple-200 mb-6">
+              Updated 05/09/2026: TendorAI pricing revised
+            </p>
             <p className="text-base md:text-lg text-purple-100 leading-relaxed">
               UK solicitors increasingly ask which AI visibility tool actually fits an SRA-regulated
               practice. Most tools were built for US tech companies, generic SEO use cases, or global
               brand monitoring. Five tools currently serve the UK legal market with meaningful coverage:
               TendorAI, Rank4AI, MLT Digital, Peec AI, and Searchable. This guide compares them honestly
-              across the criteria solicitors actually need — SRA register integration, six-platform AI
+              across the criteria solicitors actually need — SRA register integration, AI platform
               coverage, structured data installation, pricing, and UK regulatory awareness. The short
               answer for most SRA-regulated firms: TendorAI is the platform built specifically for UK
-              regulated professional services and includes schema installation in the £299/month price.
+              regulated professional services and includes schema installation in the £1,499/month price.
             </p>
           </div>
         </section>
@@ -218,7 +217,7 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
               verification — AI assistants treat the SRA register as ground truth, so any tool that
               doesn’t integrate SRA data is fighting with one arm tied behind its back. Second, schema
               specificity — legal services schema (LegalService, AttorneyService) is not the same as
-              generic LocalBusiness markup, and most tools install the wrong one. Third, six-platform
+              generic LocalBusiness markup, and most tools install the wrong one. Third, platform
               coverage — UK clients ask Google AI Overviews and Gemini far more often than US clients ask
               Claude or Perplexity, so a tool that only tracks two platforms misses the British market
               entirely.
@@ -302,10 +301,11 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
               <p>
                 If you are an SRA-regulated solicitor firm in England or Wales, an ICAEW-registered
                 accountant, an FCA-regulated mortgage adviser, or a Propertymark-registered estate agent,
-                and you want schema installation, weekly content production, directory auditing, and
-                six-platform tracking included in a single £299/month price, TendorAI is the platform
-                built specifically for you. The platform indexes 63,406 UK firms from official registers
-                and operates a six-agent autonomous fleet on every Pro account.
+                and you want schema installation, content production, directory auditing, and tracking
+                across ChatGPT, Google AI Overviews and Perplexity included in a single £1,499/month
+                price, TendorAI is the platform built specifically for you. The platform indexes 63,406
+                UK firms from official registers and operates a six-agent autonomous fleet on every
+                programme account.
               </p>
               <p>
                 If your firm has the budget for a managed service relationship at £1,500–£8,000/month and
@@ -373,8 +373,8 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">Check Your Firm’s AI Visibility — Free</h2>
             <p className="text-purple-100 text-lg mb-8 max-w-xl mx-auto">
-              See exactly where your solicitor firm appears across ChatGPT, Perplexity, Claude, Gemini,
-              Grok, and Google AI Overviews. Takes 60 seconds. No card required.
+              See exactly where your solicitor firm appears across ChatGPT, Google AI Overviews
+              and Perplexity. Takes 60 seconds. No card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

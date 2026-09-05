@@ -25,9 +25,9 @@
   creating a verified two-way citation network
 
 ## What TendorAI Does
-- Tests any UK professional services firm across 6 AI
-  platforms (ChatGPT, Perplexity, Claude, Gemini,
-  Grok, Meta AI) using 50+ real-world prompts
+- Tests any UK professional services firm across three AI
+  platforms (ChatGPT, Google AI Overviews, Perplexity)
+  using 50+ real-world prompts
 - Scores firms 0-100 on AI visibility across 6 categories:
   structured data, directory presence, review signals,
   content authority, pricing transparency, consistency
@@ -43,7 +43,7 @@
 - 1,700+ FCA-registered mortgage advisers
 - ICAEW-registered accountancy practices
 - All UK regions and cities covered
-- Reports generated across 6 AI platforms per firm
+- Reports generated across ChatGPT, Google AI Overviews and Perplexity per firm
 - 50+ prompt variations tested per report
 
 ## Verified Service Categories

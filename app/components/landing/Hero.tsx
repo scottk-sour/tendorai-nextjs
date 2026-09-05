@@ -11,8 +11,8 @@ const loopStages = [
     number: '01',
     title: 'Measure',
     oneLiner:
-      'Scans six AI platforms daily and scores your visibility.',
-    proof: 'ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, Grok',
+      'Measures three AI platforms monthly and scores your visibility.',
+    proof: 'ChatGPT, Google AI Overviews, Perplexity',
   },
   {
     number: '02',
@@ -49,14 +49,14 @@ const howToSchema = {
   '@type': 'HowTo',
   name: 'How the TendorAI Platform Works',
   description:
-    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
+    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Google AI Overviews and Perplexity.',
   totalTime: 'P90D',
   step: [
     {
       '@type': 'HowToStep',
       position: 1,
       name: 'Measure',
-      text: 'Scans six AI platforms daily — ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok — and scores your visibility.',
+      text: 'Measures three AI platforms monthly — ChatGPT, Google AI Overviews and Perplexity — and scores your visibility.',
     },
     {
       '@type': 'HowToStep',
@@ -160,7 +160,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                 &bull;
               </span>
               <p className="text-[var(--text2)] leading-relaxed">
-                <strong className="text-[var(--text)]">We monitor the market</strong> — Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.
+                <strong className="text-[var(--text)]">We monitor the market</strong> — Monthly measurement across ChatGPT, Google AI Overviews and Perplexity.
               </p>
             </li>
             <li className="flex gap-3">
@@ -173,7 +173,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
             </li>
           </ul>
           <p className="text-sm text-[var(--text2)] text-center mt-6 leading-relaxed">
-            Everything runs continuously through TendorAI&apos;s AI visibility system. Available from <span className="text-purple-600 font-semibold">£999 per month</span>, on an initial three-month term.
+            Everything runs continuously through TendorAI&apos;s AI visibility system. Available at <span className="text-purple-600 font-semibold">£1,499 per month</span>, on an initial three-month term. Founding rate of £999 per month for the first 3 solicitor firms.
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'TendorAI Review: What UK Professional Services Firms Actually Get';
 const DESCRIPTION =
-  "An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day promise. Here's exactly what UK professional services firms receive.";
+  "An honest review of TendorAI — schema installation, AI blog writer, and monthly measurement across ChatGPT, Google AI Overviews and Perplexity. Here's exactly what UK professional services firms receive.";
 const CANONICAL =
   'https://www.tendorai.com/blog/tendorai-review-what-uk-professional-services-firms-get';
 const PUBLISHED = '2026-03-29';
@@ -46,11 +46,11 @@ const faqs = [
   },
   {
     q: 'How much does TendorAI cost?',
-    a: 'TendorAI offers a free plan and a Pro plan at \u00a3299 per month. The free plan includes a directory listing and free AI visibility report. Pro includes schema markup installation, weekly AI tracking, and AI-optimised content.',
+    a: 'TendorAI offers a free plan and the AI Visibility Growth Programme at \u00a31,499 per month, or \u00a3999 per month as a founding rate for the first 3 solicitor firms, held for 12 months, on an initial three-month term. The free plan includes a directory listing and free AI visibility report. The programme includes schema markup installation, monthly AI measurement, and AI-optimised content.',
   },
   {
     q: 'Does TendorAI actually work?',
-    a: "According to TendorAI\u2019s data, firms with properly implemented schema markup are cited in AI responses 3.2 times more often than those without. TendorAI installs schema markup within 48 hours and tracks visibility weekly across six AI platforms.",
+    a: "According to TendorAI\u2019s data, firms with properly implemented schema markup are cited in AI responses 3.2 times more often than those without. TendorAI installs schema markup within 48 hours and measures visibility monthly across ChatGPT, Google AI Overviews and Perplexity.",
   },
   {
     q: 'How is TendorAI different from OtterlyAI or Peec AI?',
@@ -58,7 +58,7 @@ const faqs = [
   },
   {
     q: 'Is TendorAI good for solicitors and accountants?',
-    a: "Yes. TendorAI is built from SRA and ICAEW register data. According to TendorAI\u2019s analysis of 8,625 UK solicitors, the average AI visibility score is 28 out of 100. TendorAI Pro installs schema markup within 48 hours and tracks weekly visibility across ChatGPT, Perplexity, Claude, Gemini, Copilot and Meta AI.",
+    a: "Yes. TendorAI is built from SRA and ICAEW register data. According to TendorAI\u2019s analysis of 8,625 UK solicitors, the average AI visibility score is 28 out of 100. The TendorAI programme installs schema markup within 48 hours and measures visibility monthly across ChatGPT, Google AI Overviews and Perplexity.",
   },
 ];
 
@@ -137,6 +137,7 @@ export default function TendorAIReviewPage() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">{TITLE}</h1>
+            <p className="text-sm text-white/70 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
             <p className="text-lg text-blue-100 leading-relaxed max-w-3xl">{DESCRIPTION}</p>
 
@@ -200,7 +201,7 @@ export default function TendorAIReviewPage() {
               AI assistants rely on three core signals before recommending professional services firms: structured schema markup, verified regulatory data, and consistent citations across trusted sources.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              TendorAI installs schema markup directly on your website. It connects your regulatory data from the SRA, FCA, and ICAEW. It then tracks your visibility weekly across six AI platforms. This approach focuses on fixing visibility, not just measuring it.
+              TendorAI installs schema markup directly on your website. It connects your regulatory data from the SRA, FCA, and ICAEW. It then measures your visibility monthly across ChatGPT, Google AI Overviews and Perplexity. This approach focuses on fixing visibility, not just measuring it.
             </p>
           </section>
 
@@ -224,16 +225,16 @@ export default function TendorAIReviewPage() {
             <p className="text-gray-600 leading-relaxed">
               The free plan includes a basic profile (firm name, services, location, regulatory status) and an{' '}
               <Link href="/ai-visibility-report" className="text-purple-600 hover:text-purple-700 underline">AI visibility report</Link>{' '}
-              that scans six AI platforms to show where your firm appears, if at all.
+              that covers ChatGPT, Google AI Overviews and Perplexity to show where your firm appears, if at all.
             </p>
           </section>
 
           {/* Pro Plan */}
           <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on TendorAI Pro</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on the TendorAI programme</h2>
 
             <p className="text-gray-600 leading-relaxed mb-4">
-              Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, weekly tracking, and a 90-day promise. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;299.
+              Everything you need to go from invisible to recommended by AI &mdash; schema installation, content creation, social publishing, and monthly measurement. Agencies charge &pound;1,500&ndash;&pound;3,900/month for this manually. You pay &pound;1,499, or &pound;999 as a founding rate if you are one of the first 3 solicitor firms.
             </p>
 
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
@@ -284,9 +285,9 @@ export default function TendorAIReviewPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking &amp; Visibility</h3>
             <ul className="space-y-2 mb-8">
               {[
-                'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
-                'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
-                'Weekly AI Visibility Score with trend tracking',
+                'Monthly AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity',
+                'Email alert when any AI platform recommends you \u2014 ChatGPT, Google AI Overviews or Perplexity',
+                'Monthly AI Visibility Score with trend tracking',
                 'Competitor comparison \u2014 see who AI recommends instead',
                 'Profile gaps report \u2014 exact fields missing and why they matter',
               ].map((item, i) => (
@@ -322,11 +323,10 @@ export default function TendorAIReviewPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">Reports &amp; Support</h3>
             <ul className="space-y-2 mb-6">
               {[
-                'Weekly AI Visibility Report emailed every Monday',
+                'Monthly AI Visibility Report emailed to the firm',
                 '10-point Website AI Audit with fix guides',
                 'Google Business Profile optimisation checklist',
                 'Priority support',
-                "90-day promise \u2014 score reviewed and refunded if it isn't moving",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                   <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -357,7 +357,7 @@ export default function TendorAIReviewPage() {
 
             <div className="bg-gray-900 text-white rounded-xl p-6">
               <p className="text-sm leading-relaxed text-gray-200">
-                TendorAI&apos;s weekly scans across ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI provide the largest dataset of UK professional services AI visibility data available. The findings are consistent: <strong className="text-white">structured data, regulatory verification, and consistent citations are the strongest signals.</strong>
+                TendorAI&apos;s measurement across ChatGPT, Google AI Overviews and Perplexity provides the largest dataset of UK professional services AI visibility data available. The findings are consistent: <strong className="text-white">structured data, regulatory verification, and consistent citations are the strongest signals.</strong>
               </p>
             </div>
           </section>
@@ -382,7 +382,7 @@ export default function TendorAIReviewPage() {
                   <li>&bull; Installs structured data on your website</li>
                   <li>&bull; Connects SRA, FCA, ICAEW register data</li>
                   <li>&bull; Publishes AI-optimised content</li>
-                  <li>&bull; Tracks visibility across 6 AI platforms weekly</li>
+                  <li>&bull; Measures visibility monthly across ChatGPT, Google AI Overviews and Perplexity</li>
                 </ul>
               </div>
             </div>
@@ -428,14 +428,14 @@ export default function TendorAIReviewPage() {
           <section className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-3">Run Your Free AI Visibility Report</h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              See exactly what ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI say about your firm. Free report, no card required.
+              See exactly what ChatGPT, Google AI Overviews and Perplexity say about your firm. Free report, no card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">
                 Get Your Free AI Visibility Report
               </Link>
               <Link href="/pricing" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">
-                See TendorAI Pro
+                See the TendorAI programme
               </Link>
             </div>
           </section>

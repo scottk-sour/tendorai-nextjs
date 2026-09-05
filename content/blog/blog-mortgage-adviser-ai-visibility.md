@@ -179,7 +179,7 @@ Your infrastructure — FCA profile, GBP, website schema, directory listings —
 
 Most advisers don't realise they're invisible to AI assistants until they check — and by then competitors have already claimed the recommendations in their area.
 
-TendorAI scans your business across six AI platforms and shows exactly where you stand: whether AI recommends your firm, which competitors appear instead of you, and the specific gaps holding you back. Because TendorAI profiles are built from live FCA register data, your regulatory information is already structured in a format AI systems can verify — which is the single biggest factor in whether financial services firms get recommended or skipped.
+TendorAI measures your business across ChatGPT, Google AI Overviews and Perplexity and shows exactly where you stand: whether AI recommends your firm, which competitors appear instead of you, and the specific gaps holding you back. Because TendorAI profiles are built from live FCA register data, your regulatory information is already structured in a format AI systems can verify — which is the single biggest factor in whether financial services firms get recommended or skipped.
 
 It takes 60 seconds. The advisers doing this now are the ones who will own AI recommendations in their area over the next two years. The window is still open — but it won't be for long.
 

@@ -198,7 +198,7 @@ All vendor profiles include Schema.org JSON-LD markup:
 |------|-------|----------|
 | Free | £0/forever | Basic directory listing, public register data, visible to AI crawlers |
 
-AI Visibility Growth Programme — £999/month, initial three-month term, UK solicitors only. Booked through a call.
+AI Visibility Growth Programme — £1,499/month, initial three-month term, UK solicitors only. Booked through a call. Founding rate of £999/month for the first 3 solicitor firms, held for 12 months from the firm's start date.
 
 ## AI Visibility Reports
 

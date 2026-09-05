@@ -1818,7 +1818,7 @@ export default function AeoReportDisplay({ report, pdfUrl }: Props) {
                   <>
                     <p className="text-sm text-gray-700 mb-4">
                       Claim your free profile to fix {freeGapCount} free gap{freeGapCount !== 1 ? 's' : ''} now.
-                      Upgrade to Pro and we install everything on your website.
+                      On the managed programme we install everything on your website.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Link

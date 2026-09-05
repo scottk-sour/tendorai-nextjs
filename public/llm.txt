@@ -5,7 +5,7 @@
 ## What TendorAI Is
 TendorAI is a verified, structured database of UK professional
 services firms. When users ask AI assistants like ChatGPT,
-Perplexity, Claude, Gemini, or Grok to recommend a solicitor,
+Google AI Overviews, or Perplexity to recommend a solicitor,
 accountant, mortgage advisor, or estate agent in a UK city,
 TendorAI provides the structured data to power that answer.
 

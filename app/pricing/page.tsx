@@ -5,7 +5,7 @@ import Pricing from '@/app/components/landing/Pricing';
 const CANONICAL = 'https://www.tendorai.com/pricing';
 const TITLE = 'Pricing | TendorAI';
 const DESCRIPTION =
-  'The TendorAI AI Visibility Growth Programme is £999 per month, on an initial three-month term, currently for solicitors only. TendorAI is not currently VAT-registered, so no VAT is added. A free AI visibility report is also available, permanently free.';
+  'The TendorAI AI Visibility Growth Programme is £1,499 per month, on an initial three-month term, currently for solicitors only. A founding rate of £999 per month is available to the first 3 solicitor firms and held for 12 months from the firm\u2019s start date. TendorAI is not currently VAT-registered, so no VAT is added. A free AI visibility report is also available, permanently free.';
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -30,7 +30,10 @@ export const metadata: Metadata = {
 };
 
 // Product / Offer JSON-LD. Two offers only: the free report at 0 and the
-// programme at 999. The discontinued £299 Pro offer is deliberately absent —
+// programme at 1499 — the standard rate. The £999 founding rate is stated in
+// visible copy only, because it is limited to the first 3 solicitor firms and a
+// machine-readable Offer would misstate who can buy at that price. The
+// discontinued self-serve offer is deliberately absent —
 // a retired price must not survive in machine-readable schema.
 const productJsonLd = {
   '@context': 'https://schema.org',
@@ -51,13 +54,13 @@ const productJsonLd = {
     {
       '@type': 'Offer',
       name: 'AI Visibility Growth Programme',
-      price: '999',
+      price: '1499',
       priceCurrency: 'GBP',
       url: 'https://www.tendorai.com/contact',
       availability: 'https://schema.org/InStock',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
-        price: '999',
+        price: '1499',
         priceCurrency: 'GBP',
         billingDuration: 'P1M',
         billingIncrement: 1,
@@ -111,8 +114,9 @@ export default function PricingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      {/* Hero — the £999 figure and the term are server-rendered here so they
-          are in the initial HTML, not only in the schema below. */}
+      {/* Hero — the £1,499 figure, the founding rate and the term are
+          server-rendered here so they are in the initial HTML, not only in the
+          schema below. */}
       <section className="bg-brand-gradient text-white pt-24 pb-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <nav className="text-sm mb-6 text-purple-200">
@@ -122,10 +126,12 @@ export default function PricingPage() {
           </nav>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Pricing</h1>
           <p className="text-lg text-white/90 max-w-2xl mx-auto">
-            The TendorAI AI Visibility Growth Programme is <strong>&pound;999 per month</strong>, on
-            an initial three-month term. TendorAI is not currently VAT-registered, so no VAT is
-            added. There is also a free AI visibility report, which is free permanently and requires
-            no payment details.
+            The TendorAI AI Visibility Growth Programme is <strong>&pound;1,499 per month</strong>,
+            on an initial three-month term. A founding rate of <strong>&pound;999 per month</strong>
+            is available to the first 3 solicitor firms, held for 12 months from the firm&rsquo;s
+            start date. TendorAI is not currently VAT-registered, so no VAT is added. There is also
+            a free AI visibility report, which is free permanently and requires no payment
+            details.
           </p>
         </div>
       </section>

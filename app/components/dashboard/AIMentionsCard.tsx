@@ -168,7 +168,7 @@ export default function AIMentionsCard({ vendorId, token, tier }: AIMentionsCard
         {aiMentions === 0 && (
           <div className="text-center py-2">
             <p className="text-white/80 text-sm">
-              No AI mentions tracked yet. TendorAI scans ChatGPT, Perplexity, Claude, Gemini, Grok and Meta AI weekly for mentions of your firm.
+              No AI mentions recorded for this period.
             </p>
             <p className="text-white/50 text-xs mt-2">
               Your first automated scan runs within 7 days of completing your profile.

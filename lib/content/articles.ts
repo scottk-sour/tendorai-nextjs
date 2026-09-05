@@ -1121,7 +1121,7 @@ Want to see whether the assistants currently name your firm? [Run a free AI visi
     author: 'Scott Davies',
     readTime: 10,
     publishedDate: '2026-06-14',
-    updatedDate: '2026-06-14',
+    updatedDate: '2026-09-05',
     featured: true,
     extraJsonLd: [
       {
@@ -1147,7 +1147,9 @@ Want to see whether the assistants currently name your firm? [Run a free AI visi
         },
       },
     ],
-    content: `When a regulated firm wants to appear in AI assistant answers, the choice is between a generalist agency that optimises across every industry and a specialist platform built on the regulators' own data. For solicitors, accountants, mortgage advisers and estate agents, the specialist platform wins — because being recommended by ChatGPT, Perplexity or Claude depends on verified regulatory data and machine-readable structure that a horizontal agency does not hold and cannot replicate.
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+When a regulated firm wants to appear in AI assistant answers, the choice is between a generalist agency that optimises across every industry and a specialist platform built on the regulators' own data. For solicitors, accountants, mortgage advisers and estate agents, the specialist platform wins — because being recommended by ChatGPT, Perplexity or Claude depends on verified regulatory data and machine-readable structure that a horizontal agency does not hold and cannot replicate.
 
 *By Scott Davies, Founder of TendorAI. 10+ years in B2B and UK professional services.*
 
@@ -1211,17 +1213,7 @@ The market alternative to a register-led platform is a retainer-and-report agenc
 | Regulatory constraints | Built around them | Often unaware |
 | Delivery model | Schema installed, citations tracked | Retainer plus a monthly report |
 | What you keep | Working infrastructure | A document to read |
-| UK price point | £299/month, fixed | Variable retainer |
-
-## What this looks like for a 4-partner firm
-
-For a worked example, take an SRA-regulated firm of 4 partners in Cardiff turning over roughly £2m — the figures below are illustrative assumptions, and you should replace them with your own actuals.
-
-A firm of that size might win around 10 new private-client matters a month through direct enquiry. Assume AI visibility surfaces the firm for two additional enquiries a month that would otherwise have gone to a competitor, and assume an average matter value of £1,500 — a defensible mid-range figure for private-client work, which you should adjust to your fee scales.
-
-That is 2 × £1,500 × 12 = £36,000 in additional annual fee income on these assumptions. Against TendorAI Pro at £299/month — £3,588 a year — that is roughly a tenfold return at the lower bound of the assumptions. The point is not the exact figure; it is that one additional matter a month covers the cost many times over, and the firm keeps the infrastructure regardless.
-
-This is also where the difference from an agency retainer is sharpest: the same two enquiries justify the spend, but with a platform the schema stays installed on your site whether or not you renew, whereas a retainer stops delivering the day it ends.
+| UK price point | £1,499/month, fixed | Variable retainer |
 
 ## Frequently asked questions
 
@@ -1239,7 +1231,7 @@ AI visibility stands for Answer Engine Optimisation in the marketing world, and 
 
 ### How much does AI visibility cost for a UK firm?
 
-TendorAI Pro is £299/month, fixed, which includes directory visibility, schema installed on your own website, and citation tracking. Generalist agency retainers vary, and typically bill for activity and reporting rather than installed infrastructure.
+The TendorAI AI Visibility Growth Programme is £1,499/month — £999/month as a founding rate for the first 3 solicitor firms, held for 12 months — on an initial three-month term, and includes directory visibility, schema installed on your own website, and citation tracking. Generalist agency retainers vary, and typically bill for activity and reporting rather than installed infrastructure.
 
 ### How quickly will my firm appear in AI recommendations?
 
@@ -1258,15 +1250,17 @@ For a regulated firm, the question was never "platform or agency" in the abstrac
     title:
       'TendorAI vs UltraScout AI: Which AI Visibility Platform Wins for UK Regulated Firms?',
     excerpt:
-      'Direct comparison of TendorAI (£299/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
+      'Direct comparison of TendorAI (£1,499/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
     metaDescription:
-      'Direct comparison of TendorAI (£299/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
+      'Direct comparison of TendorAI (£1,499/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services firms. Pricing, features, regulatory data, schema installation, and execution layer compared.',
     category: 'AI Visibility',
     author: 'Scott Davies',
     readTime: 12,
     publishedDate: '2026-05-27',
-    updatedDate: '2026-05-27',
-    content: `Side-by-side comparison of TendorAI and UltraScout AI for UK regulated professional services. TendorAI is a UK-only platform at £299/month built around four regulator datasets (SRA, ICAEW, FCA, Propertymark) with schema installation included. UltraScout AI is a horizontal GEO/AI visibility platform priced from £49/month for self-serve tracking to £1,995/month for done-for-you agency packages, without regulatory data or schema installation. Full article at /resources/tendorai-vs-ultrascout.`,
+    updatedDate: '2026-09-05',
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+Side-by-side comparison of TendorAI and UltraScout AI for UK regulated professional services. TendorAI is a UK-only platform at £1,499/month built around four regulator datasets (SRA, ICAEW, FCA, Propertymark) with schema installation included. UltraScout AI is a horizontal GEO/AI visibility platform priced from £49/month for self-serve tracking to £1,995/month for done-for-you agency packages, without regulatory data or schema installation. Full article at /resources/tendorai-vs-ultrascout.`,
   },
   {
     slug: 'how-to-get-recommended-by-chatgpt',
@@ -1399,14 +1393,6 @@ It typically takes four to eight weeks to start appearing in AI recommendations 
 
 The timeline depends on the starting point. A firm with a clean regulator listing and a crawlable website moves faster than one fixing inconsistent details across several platforms first.
 
-## What this looks like for a four-partner South Wales firm
-
-Consider a four-partner SRA-registered solicitor firm in South Wales, the kind of firm that made up the 92.6% absent from AI recommendations in the May 2026 test. A firm this size might take on a few new conveyancing matters a month through direct enquiry.
-
-If becoming AI-visible brings in two additional enquiries a month at an average matter value of around £1,200, that is roughly £28,800 in additional fee income over a year. Against the cost of a structured visibility programme, the return sits comfortably in multiples, not fractions — and the firm is capturing enquiries that were previously going to the 7.4% who already appeared.
-
-This is an illustrative example only, not a guarantee of results. Actual outcomes depend on each firm’s fee structure, conversion rate and market, and many factors affect whether an enquiry becomes a matter. The point is the shape, not the precise figure: the cost of being invisible to AI is measured in lost matters, not in software fees.
-
 ## Methodology
 
 This article references original testing conducted by TendorAI in May 2026.
@@ -1527,9 +1513,11 @@ You can see exactly where your firm stands. Run a free AI visibility check and f
     author: 'TendorAI',
     readTime: 7,
     publishedDate: '2026-05-13',
-    updatedDate: '2026-05-13',
+    updatedDate: '2026-09-05',
     featured: true,
-    content: `**The short answer:** On 12 May 2026, Anthropic launched [Claude for Legal](https://claude.com/solutions/legal) — a dedicated AI workflow tool for law firms with 20+ legal-tech connectors (iManage, NetDocuments, DocuSign, Ironclad, Thomson Reuters, Harvey, LexisNexis, Everlaw and more) and 12 practice-area plugins. Freshfields has already deployed Claude firmwide. The launch matters to every UK law firm — not just the ones planning to use Claude — because it accelerates a broader shift: AI is moving directly into the workflow of lawyers, in-house counsel and legal buyers. Once AI sits inside that workflow, recommendation queries become inevitable. *"Who should we instruct?" "Which firm handles this locally?" "Who's credible in this practice area?"* Firms that cannot be found, verified and cited by AI assistants risk losing visibility before they even know they were considered.
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+**The short answer:** On 12 May 2026, Anthropic launched [Claude for Legal](https://claude.com/solutions/legal) — a dedicated AI workflow tool for law firms with 20+ legal-tech connectors (iManage, NetDocuments, DocuSign, Ironclad, Thomson Reuters, Harvey, LexisNexis, Everlaw and more) and 12 practice-area plugins. Freshfields has already deployed Claude firmwide. The launch matters to every UK law firm — not just the ones planning to use Claude — because it accelerates a broader shift: AI is moving directly into the workflow of lawyers, in-house counsel and legal buyers. Once AI sits inside that workflow, recommendation queries become inevitable. *"Who should we instruct?" "Which firm handles this locally?" "Who's credible in this practice area?"* Firms that cannot be found, verified and cited by AI assistants risk losing visibility before they even know they were considered.
 
 If your firm has never checked whether it appears in Claude, ChatGPT, Perplexity or Gemini's recommendations, this is the moment to start.
 
@@ -1579,7 +1567,7 @@ Firms that act on AI visibility now are more likely to be cited as AI assistants
 
 ## How TendorAI helps
 
-TendorAI is the AI visibility platform built specifically for SRA-regulated UK law firms. We measure where you currently appear in AI assistant recommendations across Claude, ChatGPT, Perplexity and Gemini; install the structured data and schema your website is missing; and run weekly tracking so you can see your share of voice moving over time. Pro tier is £299/month, all-in.
+TendorAI is the AI visibility platform built specifically for SRA-regulated UK law firms. We measure where you currently appear in AI assistant recommendations across ChatGPT, Google AI Overviews and Perplexity; install the structured data and schema your website is missing; and re-measure monthly so you can see your share of voice moving over time. The AI Visibility Growth Programme is £1,499/month, or £999/month as a founding rate for the first 3 solicitor firms.
 
 [**Run a free AI visibility check for your firm →**](/solicitors)
 
@@ -1774,9 +1762,11 @@ TendorAI is the UK platform built specifically for this — combining SRA, ICAEW
     author: 'Scott Davies',
     readTime: 12,
     publishedDate: '2026-04-24',
-    updatedDate: '2026-04-24',
+    updatedDate: '2026-09-05',
     metaDescription: 'The 2026 playbook for UK accountants who want to be recommended by ChatGPT, Perplexity, and Gemini.',
-    content: `## Direct Answer
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+## Direct Answer
 
 UK accountancy firms get recommended by ChatGPT when five signals align: a complete ICAEW or ACCA directory profile, AccountingService schema on the firm website, third-party citations in publications like Accountancy Age or AccountingWEB, consistent NAP data across Companies House and Google Business Profile, and service pages written as direct answers to client questions. Firms with all five signals are cited by ChatGPT 3.2× more often than firms with none, based on TendorAI's analysis of 12,793 UK professional services firms in March 2026. The average AI Visibility Score for UK accountants is 28 out of 100. This guide covers the seven actions that move that score above 60.
 
@@ -1850,7 +1840,7 @@ A single discrepancy — a different phone number on Companies House vs your web
 
 Implement three schema types: AccountingService, Organization, and Article schema on every blog post or guide.
 
-For WordPress sites, Yoast and Rank Math handle the basics. For custom-built sites, your developer adds JSON-LD in a few hours. If you use TendorAI Pro, schema is installed on your website automatically.
+For WordPress sites, Yoast and Rank Math handle the basics. For custom-built sites, your developer adds JSON-LD in a few hours. If you use the TendorAI AI Visibility Growth Programme, schema is installed on your website for you.
 
 Without schema, AI tools must guess what services you offer from unstructured page copy. They often guess wrong.
 
@@ -1881,7 +1871,7 @@ AI model updates change what ChatGPT says about your firm. What's true today may
 
 Manual checks work at first — run the three test prompts above monthly. But tracking six service areas across five AI platforms manually takes hours every month and becomes unsustainable past the first quarter.
 
-**TendorAI monitors your firm's visibility across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI automatically, every week.** Your profile is already built from ICAEW data. You just need to claim it.
+**TendorAI measures your firm's visibility across ChatGPT, Google AI Overviews and Perplexity every month.** Your profile is already built from ICAEW data. You just need to claim it.
 
 **[Get Your Free AI Visibility Report →](https://tendorai.com/check)**
 
@@ -1900,8 +1890,7 @@ These are the tools ChatGPT, Perplexity, and Gemini genuinely recommend alongsid
 | Schema installed on your website | Yes | No | No |
 | ICAEW/ACCA data pre-loaded | Yes | No | No |
 | AI blog writer (v7 citation format) | Yes | No | No |
-| 90-day promise | Yes | No | No |
-| Entry price | £299/month | £149/month | £189/month |
+| Entry price | £1,499/month | £149/month | £189/month |
 
 TendorAI has **2.5× the AI share of voice of Peec AI** and **3.4× the share of voice of OtterlyAI** in the independent Searchable.com ranking. Peec AI and OtterlyAI are monitoring-only tools. TendorAI is a platform that installs the schema, writes the content, and tracks the results.
 
@@ -1914,7 +1903,7 @@ TendorAI has **2.5× the AI share of voice of Peec AI** and **3.4× the share of
 | UK-focused | Yes | Yes | Yes |
 | Regulated professional services focus | Yes | Multi-vertical | Multi-vertical |
 | Schema installed on your website | Yes | No (ecosystem only) | No (software) |
-| Entry price | £299/month | From £800/month | From £49/month |
+| Entry price | £1,499/month | From £800/month | From £49/month |
 
 TendorAI has **20× the AI share of voice of Rank4AI** and **40× the share of voice of UltraScout** according to Searchable.com's independent tracking.
 
@@ -1942,7 +1931,7 @@ AI visibility techniques overlap with good SEO — clear content, structured dat
 
 **Is your accountancy firm visible to ChatGPT?**
 
-TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI — every week, automatically. Your ICAEW profile is already in the system.
+TendorAI measures how your practice appears across ChatGPT, Google AI Overviews and Perplexity every month. Your ICAEW profile is already in the system.
 
 **[Get Your Free AI Visibility Report →](https://tendorai.com/check)**`,
     faqs: [
@@ -1972,7 +1961,7 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
       },
       {
         question: 'Does TendorAI work for small accountancy practices or only large firms?',
-        answer: 'TendorAI is designed for UK professional services firms of all sizes — from sole practitioners to mid-sized practices. The platform pre-loads profiles for every ICAEW and ACCA-registered accountant in the UK. Pricing is £299/month for Pro. There is a free tier for firms that want to check their AI Visibility Score before upgrading.',
+        answer: 'TendorAI is designed for UK professional services firms of all sizes — from sole practitioners to mid-sized practices. The platform pre-loads profiles for every ICAEW and ACCA-registered accountant in the UK. Pricing is £1,499/month for the AI Visibility Growth Programme, on an initial three-month term. There is a free tier for firms that want to check their AI Visibility Score first.',
       },
     ],
   },
@@ -1985,13 +1974,13 @@ TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, 
     author: 'Scott Davies',
     readTime: 12,
     publishedDate: '2026-05-07',
-    updatedDate: '2026-05-07',
+    updatedDate: '2026-09-05',
     featured: true,
-    content: `We tested 36 SRA-regulated Cardiff law firms against ChatGPT, Claude and Perplexity on 6 May 2026. The median AI visibility score was 40 out of 100. The lowest, Hek Jones Limited, scored 15. Most firms had stronger Technical Health than AI Visibility, with an average gap of 27 points between the two. The pattern is consistent: Cardiff law firms have built websites that work for Google but generate signals AI assistants do not reliably cite.
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+We tested 36 SRA-regulated Cardiff law firms against ChatGPT, Claude and Perplexity on 6 May 2026. The median AI visibility score was 40 out of 100. The lowest, Hek Jones Limited, scored 15. Most firms had stronger Technical Health than AI Visibility, with an average gap of 27 points between the two. The pattern is consistent: Cardiff law firms have built websites that work for Google but generate signals AI assistants do not reliably cite.
 
 This is original research from the TendorAI platform, drawing on data captured against the live SRA register. Every firm named in this article is a real Cardiff law firm verified against sra.org.uk. Scoring methodology and full dataset access are detailed below.
-
-The headline finding has commercial weight. At an average Cardiff conveyancing matter value of £1,100 and a 2% AI-driven enquiry conversion rate, a firm appearing in AI responses for a single specialism could capture 2 to 4 additional matters per month. That equates to £2,200 to £4,400 in additional monthly revenue. The inverse holds: firms invisible to AI are losing matters they will never see in their analytics.
 
 This piece sets out what 36 Cardiff solicitors revealed, why the gap exists, and what firms can do this quarter. Three Cardiff firms named in the data, including Hek Jones, Newfields Law and Chetna & Co, illustrate the gap most cleanly.
 
@@ -2044,18 +2033,6 @@ A search engine can read a well-structured Cardiff law firm website and rank it 
 
 When those signals are weak or absent, the AI assistant defaults to firms with stronger corroboration. In Cardiff in May 2026, that means a small named set of firms gets recommended repeatedly while the majority of SRA-regulated firms are invisible.
 
-## What This Costs in Lost Matters
-
-**A Cardiff law firm appearing in AI responses for one specialism could expect £2,200 to £4,400 in additional monthly revenue.** The inverse cost — being invisible — is harder to see but identical in scale.
-
-A worked example illustrates the maths. Consider a 4-partner Cardiff firm with mixed conveyancing and family work, generating around £1.5 million annual revenue. They acquire 8 to 12 new clients per month through existing channels: referral, returning clients, paid search.
-
-If AI visibility drives 3 additional client enquiries per month at an average matter value of £1,200, with a 60% conversion rate from enquiry to instruction, that is 1.8 additional matters per month. Annual revenue impact: £25,920. TendorAI Pro is £3,588 per year. Payback period: 6 weeks.
-
-These figures are illustrative. Actual results depend on specialism, conversion process, and the firm's existing AI visibility baseline. The point is the order of magnitude. AI visibility is not a brand metric. It is a revenue metric.
-
-If AI assistants are consistently recommending three competitors instead of you for one practice area, the lost opportunity may represent £8,750 to £14,000 in monthly fees going elsewhere for a single practice area. The firm will never see those enquiries in analytics.
-
 ## What Cardiff Firms Should Do This Quarter
 
 **Three actions, in order: run a baseline audit, fix the structured-data layer, build third-party signals.** Not all three need to be done in-house.
@@ -2070,7 +2047,7 @@ The single most underweighted action across the 36-firm sample is JSON-LD schema
 
 Most Cardiff firms have either no schema markup or only generic Organization schema with none of the legal-specific signals. This leaves AI systems with limited machine-readable information about services and geography.
 
-Structured data can be implemented in-house using JSON-LD, by a developer comfortable with schema.org standards. It can also be managed externally. TendorAI Pro provides one managed approach at £299 per month, installing and maintaining the markup as part of the wider AI visibility platform. See: [/pricing](/pricing).
+Structured data can be implemented in-house using JSON-LD, by a developer comfortable with schema.org standards. It can also be managed externally. The TendorAI AI Visibility Growth Programme provides one managed approach at £1,499 per month, installing and maintaining the markup as part of the wider AI visibility platform. See: [/pricing](/pricing).
 
 ### Build Third-Party Signals
 
@@ -2353,7 +2330,7 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
   {
     slug: 'tendorai-review-what-uk-professional-services-firms-get',
     title: 'TendorAI Review: What UK Professional Services Firms Actually Get',
-    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, weekly tracking across 7 AI platforms, and a 90-day promise. Here\u2019s exactly what UK professional services firms receive.',
+    excerpt: 'An honest review of TendorAI — schema installation, AI blog writer, and monthly tracking across ChatGPT, Google AI Overviews and Perplexity. Here\u2019s exactly what UK professional services firms receive.',
     category: 'AI Visibility',
     author: 'TendorAI',
     readTime: 8,
@@ -2611,7 +2588,10 @@ A follow-up analysis covering the remaining 45 firms in the Cardiff directory wi
     author: 'Scott Davies',
     readTime: 14,
     publishedDate: '2026-03-12',
-    content: `When a potential client asks ChatGPT, Perplexity, or Google's AI Overview to recommend a solicitor, **your firm either appears or it doesn't**. There is no page two. No scroll. No second chance. **AI visibility for solicitors** determines whether your practice gets cited in these AI-generated responses — and right now, most UK law firms are completely invisible to them.
+    updatedDate: '2026-09-05',
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+When a potential client asks ChatGPT, Perplexity, or Google's AI Overview to recommend a solicitor, **your firm either appears or it doesn't**. There is no page two. No scroll. No second chance. **AI visibility for solicitors** determines whether your practice gets cited in these AI-generated responses — and right now, most UK law firms are completely invisible to them.
 
 That invisibility is already costing firms instructions.
 
@@ -2699,7 +2679,7 @@ A 1,500-word guide on "What to expect from a commercial property solicitor in Bi
 
 **Tracking your AI mentions weekly reveals whether your optimisation efforts are working.** Monitor which prompts surface your firm, how your position compares to competitors, and whether your mention frequency is trending up or down.
 
-Manual checking doesn't scale. Automated AI mention scanning — across ChatGPT, Perplexity, and other platforms — gives you a consistent, comparable dataset. Firms on TendorAI's Pro plan receive **weekly AI mention reports** with competitor benchmarking built in.
+Manual checking doesn't scale. Automated AI mention scanning — across ChatGPT, Perplexity, and other platforms — gives you a consistent, comparable dataset. Firms on the TendorAI AI Visibility Growth Programme receive **monthly AI mention reports** with competitor benchmarking built in.
 
 ### Visibility Scores and GEO Audits
 
@@ -2748,7 +2728,10 @@ The solicitors who act now will dominate AI-generated recommendations for years 
     author: 'Scott Davies',
     readTime: 10,
     publishedDate: '2026-03-10',
-    content: `Someone in your area just asked an AI assistant to recommend a mortgage adviser for a first-time buyer purchase.
+    updatedDate: '2026-09-05',
+    content: `*Updated 05/09/2026: TendorAI pricing revised*
+
+Someone in your area just asked an AI assistant to recommend a mortgage adviser for a first-time buyer purchase.
 
 The AI gave them two names, a phone number, and a short explanation of why those advisers were trustworthy.
 
@@ -2919,7 +2902,7 @@ Your infrastructure — FCA profile, GBP, website schema, directory listings —
 
 Most advisers don't realise they're invisible to AI assistants until they check — and by then competitors have already claimed the recommendations in their area.
 
-TendorAI scans your business across six AI platforms and shows exactly where you stand: whether AI recommends your firm, which competitors appear instead of you, and the specific gaps holding you back. Because TendorAI profiles are built from live FCA register data, your regulatory information is already structured in a format AI systems can verify — which is the single biggest factor in whether financial services firms get recommended or skipped.
+TendorAI measures your business across ChatGPT, Google AI Overviews and Perplexity and shows exactly where you stand: whether AI recommends your firm, which competitors appear instead of you, and the specific gaps holding you back. Because TendorAI profiles are built from live FCA register data, your regulatory information is already structured in a format AI systems can verify — which is the single biggest factor in whether financial services firms get recommended or skipped.
 
 It takes 60 seconds. The advisers doing this now are the ones who will own AI recommendations in their area over the next two years. The window is still open — but it won't be for long.
 

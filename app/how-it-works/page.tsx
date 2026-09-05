@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'How TendorAI Works — The 5-Stage AI Visibility Loop | TendorAI';
 const DESCRIPTION =
-  'How TendorAI gets UK professional services firms recommended by ChatGPT, Perplexity, Claude, Gemini and Grok. The 5-stage loop, explained.';
+  'How TendorAI gets UK professional services firms recommended by ChatGPT, Google AI Overviews and Perplexity. The 5-stage loop, explained.';
 const CANONICAL = 'https://www.tendorai.com/how-it-works';
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ const loopStages: Array<{
     agent: 'Reconnaissance Agent',
     cadence: 'Daily',
     body:
-      'Every morning before you start work, the Reconnaissance Agent runs the same questions a prospective client would ask — across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok. It records whether your firm was named, where in the answer it appeared, what was said about you, and which competitors were cited alongside you. That becomes your AI Visibility Score for the day, the week, and the rolling quarter.',
+      'The Reconnaissance Agent runs the same questions a prospective client would ask — across ChatGPT, Google AI Overviews and Perplexity. It records whether your firm was named, where in the answer it appeared, what was said about you, and which competitors were cited alongside you. That becomes your AI Visibility Score.',
   },
   {
     number: '02',
@@ -144,7 +144,7 @@ const youDont: Array<{ title: string; description: string }> = [
 const faqs: Array<{ q: string; a: string }> = [
   {
     q: 'What exactly do the six agents do?',
-    a: 'Reconnaissance scans six AI platforms for your firm daily. Detective diagnoses citation gaps with recommended fixes. Writer drafts three articles a week. Listings audits UK directories and flags where you’re missing. Reporter aggregates the Weekly Pro Report. Reviews drafts monthly review-request batches. You approve content and outgoing reviews — roughly 30 minutes a week.',
+    a: 'Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for your firm. Detective diagnoses citation gaps with recommended fixes. Writer drafts three articles a week. Listings audits UK directories and flags where you’re missing. Reporter aggregates the Weekly Pro Report. Reviews drafts monthly review-request batches. You approve content and outgoing reviews — roughly 30 minutes a week.',
   },
   {
     q: 'How much of my time does it take?',
@@ -152,15 +152,15 @@ const faqs: Array<{ q: string; a: string }> = [
   },
   {
     q: 'When do I see the first results?',
-    a: 'Schema is live and the first three articles publish within the first week. AI engines typically begin reindexing the new content within 3–6 weeks. By month 4, Pro tier customers usually see consistent citations across multiple AI platforms.',
+    a: 'Schema is live and the first three articles publish within the first week. AI engines typically begin reindexing the new content within 3–6 weeks. By month 4, programme customers usually see consistent citations across multiple AI platforms.',
   },
   {
     q: 'Who runs TendorAI?',
     a: 'TendorAI is built and operated by a team based in South Wales. The platform, the six-agent fleet, and onboarding are all run in-house — no offshored support, no agency layer between you and the people building the product.',
   },
   {
-    q: 'What does Pro cost?',
-    a: '£299 per month, all in. No setup fees. No tiers. No add-ons. No annual contract. Cancel anytime. A free tier is available for any UK firm wanting to claim a basic listing and run an AI Visibility Report.',
+    q: 'What does the programme cost?',
+    a: '£1,499 per month, or £999 per month as a founding rate for the first 3 solicitor firms, held for 12 months. Initial three-month term. TendorAI is not currently VAT-registered, so no VAT is added. A free tier is available for any UK firm wanting to claim a basic listing and run an AI Visibility Report.',
   },
 ];
 
@@ -168,7 +168,7 @@ const internalLinks: Array<{ title: string; href: string; description: string }>
   {
     title: 'AI Visibility Platform — full feature list',
     href: '/ai-visibility-platform',
-    description: 'The spec sheet: every feature in the £299/month Pro tier, the six-agent fleet table, comparison vs alternatives.',
+    description: 'The spec sheet: every feature in the managed programme, the six-agent fleet table, comparison vs alternatives.',
   },
   {
     title: 'AI Visibility for Solicitors',
@@ -193,7 +193,7 @@ const internalLinks: Array<{ title: string; href: string; description: string }>
   {
     title: 'Pricing',
     href: '/pricing',
-    description: 'Flat £299/month. Free tier available. No setup fees, no tiers, no annual lock-in.',
+    description: '£1,499/month, or £999/month founding rate for the first 3 solicitor firms. Free tier available.',
   },
 ];
 
@@ -272,7 +272,7 @@ export default function HowItWorksPage() {
 
             <p className="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed mb-10">
               A five-stage AI visibility loop, driven by a six-agent autonomous fleet. The agents do the
-              scanning, drafting, schema, listings, and reporting. You approve. £299 per month, all in.
+              scanning, drafting, schema, listings, and reporting. You approve.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -419,10 +419,10 @@ export default function HowItWorksPage() {
         <section className="py-16 md:py-20 bg-gray-50">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              £299 per month. All in.
+              £1,499 per month. £999 founding rate.
             </h2>
             <p className="text-gray-700 text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-              No setup fees. No tiers. No add-ons. No annual contract. Cancel anytime. The price reflects the actual
+              No setup fees. No add-ons. The founding rate covers the first 3 solicitor firms and is held for 12 months. Initial three-month term. The price reflects the actual
               delivery cost — not loss-leader pricing that jumps in twelve months. A free tier is available for any UK
               firm wanting to claim a basic listing and run an AI Visibility Report.
             </p>
@@ -473,8 +473,8 @@ export default function HowItWorksPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">Check Your AI Visibility</h2>
             <p className="text-purple-100 text-lg mb-8 max-w-xl mx-auto">
-              Run a free AI visibility report. See where you appear across ChatGPT, Claude, Perplexity, Gemini, Grok,
-              and Google AI Overviews. Takes 60 seconds. No card required.
+              Run a free AI visibility report. See where you appear across ChatGPT, Google AI Overviews
+              and Perplexity. Takes 60 seconds. No card required.
             </p>
             <Link
               href="/ai-visibility-report"

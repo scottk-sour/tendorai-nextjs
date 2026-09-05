@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: 'How do I get a free AI visibility report for my UK business?',
-    a: 'Go to tendorai.com/ai-visibility-report, enter your company name, business category (e.g. solicitor, accountant, mortgage advisor), city, and email address. TendorAI queries six major AI platforms in real time and delivers your full AI visibility report in approximately 60 seconds. No signup or payment is required for the free report.',
+    a: 'Go to tendorai.com/ai-visibility-report, enter your company name, business category (e.g. solicitor, accountant, mortgage advisor), city, and email address. TendorAI queries ChatGPT, Google AI Overviews and Perplexity in real time and delivers your full AI visibility report in approximately 60 seconds. No signup or payment is required for the free report.',
   },
   {
     q: 'What does an AI visibility report measure?',
@@ -172,9 +172,9 @@ export default function AeoReportUkPage() {
               <div className="bg-purple-50 rounded-xl p-6 border border-purple-100">
                 <h3 className="font-semibold text-purple-900 mb-2">AI Platform Mentions</h3>
                 <p className="text-sm text-purple-700">
-                  We check whether ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI
-                  mention your business by name when users ask for recommendations in your
-                  category and location. This is the most fundamental measure of AI visibility.
+                  We check whether ChatGPT, Google AI Overviews and Perplexity mention your
+                  business by name when users ask for recommendations in your category and
+                  location. This is the most fundamental measure of AI visibility.
                 </p>
               </div>
               <div className="bg-purple-50 rounded-xl p-6 border border-purple-100">
@@ -292,7 +292,7 @@ export default function AeoReportUkPage() {
                   },
                   {
                     title: 'Which AI Platforms Mention You',
-                    desc: 'See exactly which of the six AI platforms (ChatGPT, Claude, Perplexity, Gemini, Copilot, Meta AI) name your business in recommendations.',
+                    desc: 'See exactly which of ChatGPT, Google AI Overviews and Perplexity name your business in recommendations.',
                   },
                   {
                     title: 'Who AI Recommends Instead',
@@ -307,8 +307,8 @@ export default function AeoReportUkPage() {
                     desc: 'Take your results offline. Share them with your team or marketing agency to align your AI visibility strategy.',
                   },
                   {
-                    title: 'Results From 6 AI Platforms',
-                    desc: 'We query ChatGPT, Claude, Perplexity, Gemini, Copilot, and Meta AI in real time — not cached or estimated results.',
+                    title: 'Results From Three AI Platforms',
+                    desc: 'We query ChatGPT, Google AI Overviews and Perplexity in real time — not cached or estimated results.',
                   },
                 ].map((item) => (
                   <li key={item.title} className="flex items-start gap-4">

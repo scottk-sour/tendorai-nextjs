@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'What is the fastest way for a mortgage adviser to become AI-visible?',
-    a: "Three steps: structured schema markup on your website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform or regulatory listing). TendorAI\u2019s Pro plan delivers all three.",
+    a: "Three steps: structured schema markup on your website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform or regulatory listing). The TendorAI AI Visibility Growth Programme delivers all three.",
   },
   {
     q: 'Is AI visibility different from SEO for mortgage advisers?',

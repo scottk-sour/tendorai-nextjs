@@ -53,7 +53,7 @@ const sections: Section[] = [
       { id: 'ai-aeo', label: 'Firm has run an AI visibility report on TendorAI', points: 10 },
       { id: 'ai-named', label: 'AI tools return the firm\u2019s name when queried', points: 5 },
       { id: 'ai-local', label: 'Firm appears in at least one AI-generated local result', points: 5 },
-      { id: 'ai-pro', label: 'TendorAI Pro schema is installed and syncing', points: 5 },
+      { id: 'ai-pro', label: 'The TendorAI programme schema is installed and syncing', points: 5 },
     ],
   },
 ];
@@ -68,10 +68,10 @@ function getScoreBand(score: number) {
     cta: { label: 'Claim Your Free Profile', href: '/vendor-signup' },
   };
   if (score <= 70) return {
-    label: 'You have some foundations in place. TendorAI Pro will accelerate your visibility.',
+    label: 'You have some foundations in place. The TendorAI programme will accelerate your visibility.',
     color: 'text-amber-600',
     bg: 'bg-amber-50 border-amber-200',
-    cta: { label: 'See TendorAI Pro', href: '/ai-visibility-platform' },
+    cta: { label: 'See the TendorAI programme', href: '/ai-visibility-platform' },
   };
   if (score <= 90) return {
     label: 'Good foundations. Focus on content and citation building.',

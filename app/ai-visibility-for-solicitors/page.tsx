@@ -5,10 +5,10 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Solicitors';
 const DESCRIPTION =
-  'How SRA-registered solicitors get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals, worked £ example.';
+  'How SRA-registered solicitors get cited by ChatGPT, Google AI Overviews and Perplexity — structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-solicitors';
 const PUBLISHED = '2026-05-24';
-const UPDATED = '2026-05-24';
+const UPDATED = '2026-09-05';
 
 const CTA_URL =
   '/ai-visibility-report?utm_source=ai-visibility-for-solicitors&utm_medium=landing&utm_campaign=solicitors-cluster&utm_content=primary-cta';
@@ -133,7 +133,7 @@ export default function SolicitorsAiVisibilityPage() {
     '@type': 'LegalService',
     name: 'AI Visibility Coverage for UK Solicitors',
     description:
-      'AI visibility platform for UK SRA-registered solicitors — Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+      'AI visibility platform for UK SRA-registered solicitors — Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Google AI Overviews and Perplexity.',
     provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     serviceType: 'AI visibility for SRA-registered solicitors',
     areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -157,8 +157,7 @@ export default function SolicitorsAiVisibilityPage() {
               {TITLE}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
-              Get your SRA-registered firm cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI
-              Overviews when prospective clients ask for a solicitor — by name, by practice area, by city.
+              Get your SRA-registered firm cited by ChatGPT, Google AI Overviews and Perplexity when prospective clients ask for a solicitor — by name, by practice area, by city.
             </p>
           </div>
         </section>
@@ -168,8 +167,7 @@ export default function SolicitorsAiVisibilityPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
               AI visibility for SRA-registered solicitors is the process of making a firm’s regulatory data,
-              services and citations structured and verifiable so AI assistants — ChatGPT, Perplexity,
-              Claude, Gemini, Grok and Google AI Overviews — name the firm when a prospective client asks
+              services and citations structured and verifiable so AI assistants — ChatGPT, Google AI Overviews and Perplexity — name the firm when a prospective client asks
               for a solicitor recommendation. It is a separate discipline from Google SEO. Search rankings
               decide which links appear on a results page; AI visibility decides which firm names an AI
               assistant says out loud in the answer it gives.
@@ -186,12 +184,6 @@ export default function SolicitorsAiVisibilityPage() {
               &ldquo;wills and probate solicitor in Bristol&rdquo; is returned two or three named firms.
               Firms outside those two or three slots are not lower-ranked — they are absent from the
               answer, with no second page to scroll to.
-            </p>
-            <p>
-              A four-partner SRA-registered firm that converts two AI-driven enquiries per month at an
-              illustrative £1,200 average conveyancing matter would add roughly £28,800 in fee income over
-              twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not
-              a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
         </section>
@@ -215,8 +207,7 @@ export default function SolicitorsAiVisibilityPage() {
             </p>
             <p>
               AI assistants do not return ranked link lists. They return short, confident answers naming
-              one to three firms by name, then move on. When a user asks ChatGPT, Perplexity, Claude,
-              Gemini, Grok or Google AI Overviews for a &ldquo;conveyancing solicitor in Cardiff&rdquo;,
+              one to three firms by name, then move on. When a user asks ChatGPT, Google AI Overviews or Perplexity for a &ldquo;conveyancing solicitor in Cardiff&rdquo;,
               the engine retrieves what it can verify and chooses which names to put in front of the user.
             </p>
             <p>
@@ -294,8 +285,8 @@ export default function SolicitorsAiVisibilityPage() {
               visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and
-              Google AI Overviews — for the firm&rsquo;s practice-area-and-city queries every day and
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the
+              firm&rsquo;s practice-area-and-city queries monthly and
               records citation frequency. Detective diagnoses why the firm is missed, per platform, per
               prompt, with a specific recommended fix.
             </p>
@@ -363,43 +354,6 @@ export default function SolicitorsAiVisibilityPage() {
           </div>
         </section>
 
-        {/* H2-5 Worked £ example */}
-        <section className="py-10 md:py-14 bg-gray-50">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-gray-700 leading-relaxed">
-            <h2
-              className="text-2xl md:text-3xl font-bold text-gray-900"
-              style={{ fontFamily: 'var(--font-serif)' }}
-            >
-              What this looks like for a four-partner SRA-registered firm
-            </h2>
-            <p>
-              A four-partner SRA-registered conveyancing firm in South Wales running TendorAI Pro at
-              £299 per month — £3,588 per year — that converts two additional AI-driven enquiries per
-              month at an illustrative £1,200 average matter value would add approximately £28,800 in fee
-              income over twelve months.
-            </p>
-            <p>
-              The figures above are illustrative, not a guarantee. Actual outcomes depend on the
-              firm&rsquo;s fee structure, conversion rate from enquiry to instructed matter, complexity
-              mix, and the AI platforms used by the firm&rsquo;s target buyers. Many factors decide
-              whether an enquiry becomes a matter.
-            </p>
-            <p>
-              The shape of the example matters more than the exact figures. Two additional matters per
-              month at £1,200 is the conservative end of the conveyancing fee scale; wills and probate
-              and family law matters generally carry higher average values and would change the worked
-              total upward. Personal injury and dispute resolution carry different fee structures still.
-              The cost anchor — £3,588 per year — is fixed regardless of practice area.
-            </p>
-            <p>
-              Against that £3,588 annual cost, the break-even point in this example is approximately
-              three additional matters per year. Anything above that is contribution, not cost. The point
-              of the example is the order of magnitude: the cost of being absent from AI answers is
-              measured in lost matters, not in software fees.
-            </p>
-          </div>
-        </section>
-
         {/* H2-6 FAQ */}
         <section className="py-10 md:py-14">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -417,8 +371,7 @@ export default function SolicitorsAiVisibilityPage() {
         <section className="py-12 md:py-16 bg-brand-gradient text-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <p className="text-lg md:text-xl text-white/95">
-              See where your firm appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI
-              Overviews — the report runs in 60 seconds.
+              See where your firm appears across ChatGPT, Google AI Overviews and Perplexity — the report runs in 60 seconds.
             </p>
             <Link
               href={CTA_URL}

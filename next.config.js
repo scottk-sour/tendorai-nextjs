@@ -63,7 +63,7 @@ const nextConfig = {
   // Redirects for old URLs and removed pages
   async redirects() {
     const handWritten = [
-      // /for-vendors retired — it sold the discontinued £299 self-serve tier.
+      // /for-vendors retired — it sold the discontinued self-serve tier.
       // permanent: true emits a 308, which preserves the request method and
       // lets the browser carry any #pricing fragment onto /pricing, where the
       // <Pricing /> component still renders section id="pricing".

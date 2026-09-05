@@ -5,8 +5,10 @@ import Link from 'next/link';
  * homepage, the vertical and city landing pages, and /pricing.
  *
  * TendorAI sells one paid product: the AI Visibility Growth Programme at
- * £999/month on an initial three-month term, sold through a booking call
- * rather than a checkout. TendorAI is not VAT-registered, so no VAT is added.
+ * £1,499/month on an initial three-month term, sold through a booking call
+ * rather than a checkout. A £999/month founding rate is available to the first
+ * 3 solicitor firms and held for 12 months from the firm's start date.
+ * TendorAI is not VAT-registered, so no VAT is added.
  *
  * Nothing here may promise an AI outcome, a placement, a refund or a
  * delivery deadline. We promise the correctness of the work, not what an
@@ -47,10 +49,10 @@ const plans: Plan[] = [
   },
   {
     name: 'AI Visibility Growth Programme',
-    price: '£999',
+    price: '£1,499',
     period: '/month',
     description:
-      'Initial three-month term. Currently solicitors only. A managed programme, not software you log into and run yourself.',
+      'Initial three-month term. Currently solicitors only. Founding rate of £999/month for the first 3 solicitor firms, held for 12 months from the firm’s start date. A managed programme, not software you log into and run yourself.',
     popular: true,
     highlight: true,
     itemsLabel: 'Each month:',
@@ -74,8 +76,10 @@ export default function Pricing() {
         <div className="section-header">
           <h2>Pricing</h2>
           <p>
-            The AI Visibility Growth Programme is &pound;999 per month, on an initial three-month
-            term. TendorAI is not currently VAT-registered, so no VAT is added.
+            The AI Visibility Growth Programme is &pound;1,499 per month, on an initial three-month
+            term. A founding rate of &pound;999 per month is available to the first 3 solicitor
+            firms, held for 12 months from the firm&rsquo;s start date. TendorAI is not currently
+            VAT-registered, so no VAT is added.
           </p>
         </div>
 

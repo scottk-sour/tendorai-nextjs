@@ -284,7 +284,7 @@ But a small number are starting to show up consistently, and they're the ones ge
 
 We've already created a profile for ${record.firmName} using public regulator data — it just hasn't been claimed or optimised yet.
 
-TendorAI Pro (£299/month) handles that by:
+The TendorAI AI Visibility Growth Programme (£1,499/month, or £999/month founding rate for the first 3 solicitor firms) handles that by:
 - Structuring your firm so AI can properly understand it
 - Installing schema on your website (no dev work needed)
 - Tracking where you appear across ChatGPT, Perplexity, etc.

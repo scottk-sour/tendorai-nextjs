@@ -1116,8 +1116,8 @@ export default function ProductsPage() {
                   <p className="font-medium text-blue-800">{productsRemaining} {vendorType === 'office-equipment' ? 'product' : 'service'} slot{productsRemaining !== 1 ? 's' : ''} remaining</p>
                   <p className="text-sm text-blue-600">
                     {!hasTierAccess(tier, 'starter')
-                      ? 'Upgrade to Pro for unlimited products/services and AI visibility insights.'
-                      : 'Upgrade to Pro for unlimited products/services and maximum AI ranking.'}
+                      ? 'Book a call for unlimited products/services and AI visibility insights.'
+                      : 'Book a call for unlimited products/services and maximum AI ranking.'}
                   </p>
                 </>
               )}

@@ -448,16 +448,16 @@ export default function PostsPage() {
                   Posts help AI recommend you with context
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Share news, guides, and offers. AI tools use your posts to give richer recommendations. Available on the Pro plan.
+                  Share news, guides, and offers. AI tools use your posts to give richer recommendations. Available on the managed programme.
                 </p>
               </div>
-              <a href="/vendor-dashboard/settings?tab=subscription" className="btn-primary px-3 py-1.5 text-sm ml-4 whitespace-nowrap">
-                Upgrade
+              <a href="/contact" className="btn-primary px-3 py-1.5 text-sm ml-4 whitespace-nowrap">
+                Book a call
               </a>
             </div>
           ) : tierInfo.limit === Infinity ? (
             <p className="text-sm text-green-700">
-              Pro plan &mdash; unlimited posts per month &bull; AI blog writer included
+              Managed programme &mdash; unlimited posts per month &bull; AI blog writer included
             </p>
           ) : (
             <div className="flex items-center justify-between">
@@ -465,8 +465,8 @@ export default function PostsPage() {
                 <span className="font-medium">{tierInfo.postsThisMonth} of {tierInfo.limit}</span> posts used this month
                 {!canPost && <span className="text-red-600 ml-2">&mdash; limit reached</span>}
               </p>
-              <a href="/vendor-dashboard/settings?tab=subscription" className="text-sm text-purple-600 hover:text-purple-700 font-medium">
-                Upgrade to Pro for unlimited posts
+              <a href="/contact" className="text-sm text-purple-600 hover:text-purple-700 font-medium">
+                Book a call for unlimited posts
               </a>
             </div>
           )}

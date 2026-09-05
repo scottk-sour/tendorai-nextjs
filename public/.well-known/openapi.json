@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "TendorAI — UK AI Visibility Platform for Regulated Professional Services",
-    "description": "TendorAI is the UK's AI visibility platform for regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents. The API exposes structured firm profiles built from public regulatory registers and weekly AI-mention tracking across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI.",
+    "description": "TendorAI is the UK's AI visibility platform for regulated professional services firms — SRA-registered solicitors, ICAEW-registered accountants, FCA-authorised mortgage advisers, and Propertymark/TPO estate agents. The API exposes structured firm profiles built from public regulatory registers and monthly AI-mention measurement across ChatGPT, Google AI Overviews and Perplexity.",
     "version": "1.0.0",
     "contact": {
       "name": "TendorAI Support",

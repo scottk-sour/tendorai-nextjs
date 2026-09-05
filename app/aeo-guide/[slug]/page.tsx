@@ -164,7 +164,7 @@ export default async function AeoGuidePage({
           {guide.difficulty === 'TendorAI fixes this' && (
             <div className="mb-6 p-5 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-sm font-semibold text-blue-900 mb-2">
-                TendorAI Pro fixes this automatically — no technical knowledge
+                The TendorAI programme fixes this automatically — no technical knowledge
                 needed.
               </p>
               <a

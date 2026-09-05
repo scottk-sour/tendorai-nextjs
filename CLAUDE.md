@@ -36,7 +36,7 @@ Before producing any content task:
 1. Read the relevant sections of /docs/content-os/tendorai-content-os.md.
 2. Read /docs/content-os/brief-template.md and fill it out as the first deliverable. No approved brief, no draft (Content OS Section 4).
 3. Cite which OS sections govern the work being produced.
-4. Apply the Content OS rules — passage discipline (Section 5), single-CTA discipline (Section 16), worked £ example on pillar / comparison / pricing pages (Section 17), timeframe table on pillar and how-to pages (Section 22), H2 Formula Bank (Section 18), vertical playbook (Section 34), and all 46 core rules (Section 40).
+4. Apply the Content OS rules — passage discipline (Section 5), single-CTA discipline (Section 16), the cost example rule (Section 17), timeframe table on pillar and how-to pages (Section 22), H2 Formula Bank (Section 18), vertical playbook (Section 34), and all 46 core rules (Section 40).
 5. Run the pre-publish checklist at /docs/content-os/pre-publish-checklist.md before any commit that ships content.
 
 ### Highest-frequency sections to cite
@@ -48,7 +48,7 @@ When briefing or producing content, the most-referenced sections are:
 - Section 7 — Pre-publish verification checklist
 - Section 11 — Content refresh protocol
 - Section 16 — Conversion layer (single-CTA rule)
-- Section 17 — Worked £ example rule
+- Section 17 — Cost example rule: cost examples (price × term) are allowed. Do not publish income, matter-count or payback projections; TendorAI does not promise AI outcomes (decision 26/08/2026).
 - Section 18 — H2 Formula Bank
 - Section 19 — Tier 0 / Tier 0+ data hierarchy
 - Section 21 — Revenue attribution with UTMs
@@ -77,7 +77,8 @@ Claude Code does not:
 - Skip the brief stage, the draft gate, or the pre-publish gate
 - Reference v6, v7, v8, v9, or v9.1 — those are archived
 - Use the deprecated terminology from before the brand fix (no "office equipment", "copiers", "telecoms", "CCTV" framing of TendorAI's product)
-- Ship content with multiple CTAs, missing worked £ examples on pillar pages, missing timeframe tables on pillar / how-to pages, or missing vertical playbook compliance
+- Ship content with multiple CTAs, missing timeframe tables on pillar / how-to pages, or missing vertical playbook compliance
+- Publish income, matter-count or payback projections. Cost examples (price × term) are allowed; TendorAI does not promise AI outcomes (decision 26/08/2026)
 - Produce content that fails the standalone passage extraction test (Section 5.9)
 
 ### Format definition
@@ -106,7 +107,8 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 - Always use "firms" not "vendors" in user-facing copy
 - Always use "Firm Login" not "Vendor Login" in UI
 - Pricing — the current proposition, established by `app/pricing/page.tsx` and `app/components/landing/Pricing.tsx`:
-  - AI Visibility Growth Programme: £999/month, initial three-month term
+  - AI Visibility Growth Programme: £1,499/month, initial three-month term
+  - Founding rate: £999/month, first 3 solicitor firms only, held for 12 months from the firm's start date
   - Free AI visibility report: £0
   - There is no Pro tier
   - Never display a price not established by /pricing

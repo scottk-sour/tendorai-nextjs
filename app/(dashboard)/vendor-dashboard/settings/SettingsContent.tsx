@@ -1029,7 +1029,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
               {/* Fixed Fees */}
               <div className="card p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Fixed Fees</h2>
-                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services (e.g. &quot;Conveyancing from &pound;999+VAT&quot;)</p>
+                <p className="text-sm text-gray-500 mb-3">Add starting prices for your services (e.g. &quot;Conveyancing from &pound;1,250 + VAT&quot;)</p>
                 {profile.fixedFees.map((fee, i) => (
                   <div key={i} className="flex gap-2 mb-2">
                     <input
@@ -1043,7 +1043,7 @@ export default function SettingsContent({ initialTab }: { initialTab?: string })
                       type="text"
                       value={fee.fee}
                       onChange={(e) => updateFixedFee(i, 'fee', e.target.value)}
-                      placeholder="Fee (e.g. from &pound;999+VAT)"
+                      placeholder="Fee (e.g. from &pound;1,250 + VAT)"
                       className="input w-48"
                     />
                     <button type="button" onClick={() => removeFixedFee(i)} className="text-red-500 hover:text-red-700 px-2">&times;</button>

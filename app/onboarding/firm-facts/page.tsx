@@ -100,7 +100,7 @@ function OnboardingBody({ fromStripe }: { fromStripe: boolean }) {
     <div className="space-y-8">
       {fromStripe && (
         <div className="rounded-md border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
-          Welcome to TendorAI Pro! Let&apos;s get your firm set up.
+          Welcome to the TendorAI programme! Let&apos;s get your firm set up.
         </div>
       )}
 

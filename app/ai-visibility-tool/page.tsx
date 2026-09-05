@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Which AI platforms does TendorAI track?',
-    a: 'We track six major AI platforms: ChatGPT (OpenAI), Claude (Anthropic), Perplexity, Google Gemini, Microsoft Copilot, and Meta AI. These are the platforms your customers are using instead of Google to find suppliers.',
+    a: 'We measure ChatGPT, Google AI Overviews and Perplexity. These are the platforms your customers are using instead of Google to find suppliers.',
   },
   {
     q: 'How can I improve my AI visibility score?',

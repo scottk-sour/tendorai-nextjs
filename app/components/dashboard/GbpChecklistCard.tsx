@@ -207,7 +207,7 @@ export default function GbpChecklistCard({
         currentTier={tier}
         requiredTier="pro"
         featureName="GBP Checklist"
-        featureDescription="Get a personalised Google Business Profile checklist based on your firm data. Pro tier only."
+        featureDescription="Get a personalised Google Business Profile checklist based on your firm data. Available on the managed programme."
       >
         <div className="space-y-5">
           {/* Progress ring */}

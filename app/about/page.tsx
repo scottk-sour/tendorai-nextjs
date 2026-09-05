@@ -119,7 +119,7 @@ export default function AboutPage() {
             </p>
             <p className="text-[var(--text2)] mb-6">
               Paid plans give you everything needed to close those gaps: AI-readable structured data,
-              a verified profile badge for your website, monthly tracking across six AI platforms, and
+              a verified profile badge for your website, monthly tracking across ChatGPT, Google AI Overviews and Perplexity, and
               a clear, prioritised action plan. No jargon. No agencies. No long contracts.
             </p>
             <p className="text-[var(--text2)]">

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title:
     "TendorAI vs UltraScout AI: Which AI Visibility Platform Wins for UK Regulated Firms? (2026)",
   description:
-    "Side-by-side comparison of TendorAI (£299/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services. Pricing, features, regulatory data, schema installation, and which platform suits SRA solicitors, ICAEW accountants, FCA mortgage advisers, and Propertymark estate agents.",
+    "Side-by-side comparison of TendorAI (£1,499/mo) and UltraScout AI (from £49/mo, agency packages from £795/mo) for UK regulated professional services. Pricing, features, regulatory data, schema installation, and which platform suits SRA solicitors, ICAEW accountants, FCA mortgage advisers, and Propertymark estate agents.",
   alternates: {
     canonical: "https://www.tendorai.com/resources/tendorai-vs-ultrascout",
   },
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title:
       "TendorAI vs UltraScout AI: Which AI Visibility Platform Wins for UK Regulated Firms?",
     description:
-      "Direct comparison: TendorAI (£299/mo, UK regulatory data, schema installation) vs UltraScout AI (from £49/mo platform, £795+/mo agency). Built for UK solicitors, accountants, mortgage advisers, and estate agents.",
+      "Direct comparison: TendorAI (£1,499/mo, UK regulatory data, schema installation) vs UltraScout AI (from £49/mo platform, £795+/mo agency). Built for UK solicitors, accountants, mortgage advisers, and estate agents.",
     type: "article",
     url: "https://www.tendorai.com/resources/tendorai-vs-ultrascout",
     siteName: "TendorAI",
@@ -24,12 +24,12 @@ export const metadata: Metadata = {
     title:
       "TendorAI vs UltraScout AI: Which Wins for UK Regulated Firms? (2026)",
     description:
-      "£299/mo vs £49–£1,995/mo. Regulatory data, schema installation, and execution layer compared.",
+      "£1,499/mo vs £49–£1,995/mo. Regulatory data, schema installation, and execution layer compared.",
   },
 };
 
 const PUBLISHED = "2026-05-27";
-const UPDATED = "2026-05-27";
+const UPDATED = "2026-09-05";
 
 export default function TendorAIVsUltraScoutPage() {
   return (
@@ -105,7 +105,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "What is the difference between TendorAI and UltraScout AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "TendorAI is a UK-only AI visibility platform built specifically for regulated professional services firms (SRA solicitors, ICAEW accountants, FCA mortgage advisers, Propertymark estate agents), priced at £299/month and including schema installation on the firm's own website. UltraScout AI is a horizontal GEO/AI visibility platform serving any industry, priced from £49/month for self-serve tracking up to £1,995/month for done-for-you agency packages, without regulatory register data or schema installation included.",
+                  text: "TendorAI is a UK-only AI visibility platform built specifically for regulated professional services firms (SRA solicitors, ICAEW accountants, FCA mortgage advisers, Propertymark estate agents), priced at £1,499/month and including schema installation on the firm's own website. UltraScout AI is a horizontal GEO/AI visibility platform serving any industry, priced from £49/month for self-serve tracking up to £1,995/month for done-for-you agency packages, without regulatory register data or schema installation included.",
                 },
               },
               {
@@ -113,7 +113,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "How much does TendorAI cost compared to UltraScout AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "TendorAI Pro is £299 per month, billed monthly with no setup fee. UltraScout AI's platform tier starts at £49 per month for limited tracking and scales to £999+/month for agency tiers. UltraScout's SME AI visibility packages are £795 to £1,995 per month after a £495 three-month introductory rate. TendorAI is 40 to 85 percent cheaper than UltraScout's comparable execution-layer packages.",
+                  text: "The TendorAI programme is £1,499 per month on an initial three-month term, with a £999 per month founding rate for the first 3 solicitor firms held for 12 months. There is no setup fee. UltraScout AI's platform tier starts at £49 per month for limited tracking and scales to £999+/month for agency tiers. UltraScout's SME AI visibility packages are £795 to £1,995 per month after a £495 three-month introductory rate. TendorAI sits at the upper end of that range and is the only one of the two that installs schema on the firm's own domain.",
                 },
               },
               {
@@ -129,7 +129,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "Which AI platforms do TendorAI and UltraScout track?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "TendorAI tracks ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews. UltraScout AI tracks ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot, and DeepSeek, with Grok and Qwen as paid add-ons. Both platforms cover the assistants UK regulated firms are most often recommended by.",
+                  text: "TendorAI measures ChatGPT, Google AI Overviews and Perplexity. UltraScout AI tracks ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot, and DeepSeek, with Grok and Qwen as paid add-ons. Both platforms cover the assistants UK regulated firms are most often recommended by.",
                 },
               },
               {
@@ -137,7 +137,7 @@ export default function TendorAIVsUltraScoutPage() {
                 name: "Does TendorAI install schema markup for me?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes. TendorAI Pro (£299/month) includes installation of LegalService, AccountingService, FinancialService, RealEstateAgent, Organization, Person, and FAQPage schema on the firm's own website, typically within 48 hours of onboarding. UltraScout AI does not install schema on client sites; it identifies gaps and generates content recommendations.",
+                  text: "Yes. The TendorAI programme (£1,499/month) includes installation of LegalService, AccountingService, FinancialService, RealEstateAgent, Organization, Person, and FAQPage schema on the firm's own website, typically within 48 hours of onboarding. UltraScout AI does not install schema on client sites; it identifies gaps and generates content recommendations.",
                 },
               },
               {
@@ -216,6 +216,7 @@ export default function TendorAIVsUltraScoutPage() {
           TendorAI vs UltraScout AI: Which AI Visibility Platform Wins for UK
           Regulated Firms?
         </h1>
+        <p className="text-sm text-gray-500 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
         <p className="text-sm text-slate-500 mt-2">
           By{" "}
@@ -232,9 +233,9 @@ export default function TendorAIVsUltraScoutPage() {
           <p className="mt-2 text-slate-800">
             TendorAI is the better fit for UK regulated professional services
             firms — SRA solicitors, ICAEW accountants, FCA mortgage advisers,
-            and Propertymark estate agents — because it costs £299 per month,
-            holds register data on 63,406 UK firms, and installs schema on the
-            firm&rsquo;s own website. UltraScout AI is the better fit for
+            and Propertymark estate agents — because it holds register data on
+            63,406 UK firms and installs schema on the firm&rsquo;s own website,
+            at £1,499 per month. UltraScout AI is the better fit for
             horizontal UK B2B brands that need cross-industry citation tracking
             from £49 per month and don&rsquo;t need regulatory-specific
             execution.
@@ -248,7 +249,7 @@ export default function TendorAIVsUltraScoutPage() {
           measure how often a brand is recommended by ChatGPT, Perplexity,
           Claude, Gemini, and Google AI Overviews. The shipping product is
           where they diverge. TendorAI is a vertical platform with a fixed
-          £299/month price, built around four UK regulator-issued datasets and
+          £1,499/month price, built around four UK regulator-issued datasets and
           a six-agent fleet that diagnoses gaps and installs the fix on the
           firm&rsquo;s own domain. UltraScout AI is a horizontal platform with
           eight pricing tiers from £49 to £1,995 per month, marketing itself to
@@ -299,14 +300,15 @@ export default function TendorAIVsUltraScoutPage() {
               </tr>
               <tr className="bg-blue-50">
                 <td className="border border-slate-300 px-3 py-2 font-semibold">
-                  TendorAI Pro
+                  The TendorAI programme
                 </td>
                 <td className="border border-slate-300 px-3 py-2 font-semibold">
-                  £299
+                  £1,499
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
-                  Schema installation, 3 blogs/week, weekly tracking, 6 AI
-                  engines, regulator-verified directory entry
+                  Schema installation, AI-optimised articles, monthly
+                  measurement across ChatGPT, Google AI Overviews and
+                  Perplexity, regulator-verified directory entry
                 </td>
               </tr>
               <tr>
@@ -368,9 +370,11 @@ export default function TendorAIVsUltraScoutPage() {
           <strong>The headline:</strong> a UK solicitor or accountant choosing
           the &ldquo;done-for-you&rdquo; route pays UltraScout at least £795
           per month and gets monthly content plus monthly tracking. The same
-          firm pays TendorAI £299 per month and gets three blog posts a week,
-          weekly tracking, and schema installed on its own domain.
-          That&rsquo;s a 62% price difference for a deeper execution layer.
+          firm pays TendorAI £1,499 per month and gets AI-optimised articles,
+          monthly measurement, and schema installed on its own domain. TendorAI
+          costs more than UltraScout&rsquo;s £795 Starter; what the higher price
+          buys is the regulator data layer and installation on the firm&rsquo;s
+          own site rather than recommendations to hand to a developer.
         </p>
 
         <p>
@@ -435,12 +439,12 @@ export default function TendorAIVsUltraScoutPage() {
 
         <p>
           <strong>
-            TendorAI Pro installs schema on the firm&rsquo;s own domain within
+            The TendorAI programme installs schema on the firm&rsquo;s own domain within
             48 hours of onboarding.
           </strong>{" "}
           The schema is installed either via a script tag the firm&rsquo;s
           developer drops in, or directly into the site&rsquo;s CMS if the
-          firm grants access. Installation is included in the £299 price — not
+          firm grants access. Installation is included in the £1,499 price — not
           an add-on, not a professional services fee.
         </p>
 
@@ -462,14 +466,14 @@ export default function TendorAIVsUltraScoutPage() {
         </p>
 
         <p>
-          TendorAI runs a <strong>six-agent fleet</strong> on every Pro
-          account, executing on a fixed schedule: a Recon Agent scans AI
-          assistants weekly, a Detective Agent diagnoses visibility gaps, a
-          Writer Agent generates compliant content three times per week
-          (Monday, Wednesday, Friday at 05:00 GMT), a Listings Agent updates
-          third-party directories, a Reporter Agent publishes a Weekly Pro
-          Report, and a Reviews Agent monitors review citations. The fleet
-          runs whether the firm logs in or not.
+          TendorAI runs a <strong>six-agent fleet</strong> on every programme
+          account, executing on a fixed schedule: a Recon Agent measures
+          ChatGPT, Google AI Overviews and Perplexity, a Detective Agent
+          diagnoses visibility gaps, a Writer Agent generates compliant
+          content, a Listings Agent updates third-party directories, a
+          Reporter Agent publishes a monthly report, and a Reviews Agent
+          monitors review citations. The fleet runs whether the firm logs in
+          or not.
         </p>
 
         <p>
@@ -485,9 +489,9 @@ export default function TendorAIVsUltraScoutPage() {
         <p>
           For a UK firm that wants the work to happen without partner
           involvement, the relevant metric is &ldquo;how many pages ship per
-          month with no login required&rdquo;. On TendorAI Pro at £299, that
-          number is twelve to thirteen blog posts per month plus schema
-          updates. On UltraScout&rsquo;s £795 Starter, it&rsquo;s monthly
+          month with no login required&rdquo;. On the TendorAI programme at
+          £1,499, the articles and the schema updates are written and installed
+          for the firm. On UltraScout&rsquo;s £795 Starter, it&rsquo;s monthly
           content across ten pages. On UltraScout&rsquo;s £49 platform tier,
           it&rsquo;s whatever the firm writes itself.
         </p>
@@ -504,7 +508,7 @@ export default function TendorAIVsUltraScoutPage() {
                   Capability
                 </th>
                 <th className="border border-slate-700 px-3 py-2 text-left">
-                  TendorAI Pro (£299)
+                  The TendorAI programme (£1,499)
                 </th>
                 <th className="border border-slate-700 px-3 py-2 text-left">
                   UltraScout AI (£49 to £1,995)
@@ -535,8 +539,7 @@ export default function TendorAIVsUltraScoutPage() {
                   Tracked AI engines
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
-                  ChatGPT, Perplexity, Claude, Gemini, Grok, Google AI
-                  Overviews
+                  ChatGPT, Google AI Overviews, Perplexity
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
                   ChatGPT, Gemini, Claude, Perplexity, Copilot, DeepSeek
@@ -641,9 +644,9 @@ export default function TendorAIVsUltraScoutPage() {
           that regulator&rsquo;s rules. That includes any SRA-regulated law
           firm, any ICAEW or ACCA accountancy practice, any FCA-authorised
           mortgage adviser, any Propertymark or ARLA estate agency, and the
-          office equipment vertical TendorAI also serves. The £299 price is
-          built for solo and small-team firms that won&rsquo;t hire a £40,000
-          marketing manager but will pay a fixed monthly fee for done work.
+          office equipment vertical TendorAI also serves. The £1,499 price is
+          built for firms that won&rsquo;t hire a £40,000 marketing manager but
+          will pay a fixed monthly fee for done work.
         </p>
 
         <p>
@@ -703,7 +706,7 @@ export default function TendorAIVsUltraScoutPage() {
           TendorAI is a UK-only AI visibility platform built specifically for
           regulated professional services firms — SRA solicitors, ICAEW
           accountants, FCA mortgage advisers, and Propertymark estate agents —
-          priced at £299 per month and including schema installation on the
+          priced at £1,499 per month and including schema installation on the
           firm&rsquo;s own website. UltraScout AI is a horizontal GEO/AI visibility
           platform serving any industry, priced from £49 per month for
           self-serve tracking up to £1,995 per month for done-for-you agency
@@ -713,13 +716,15 @@ export default function TendorAIVsUltraScoutPage() {
 
         <h3>How much does TendorAI cost compared to UltraScout AI?</h3>
         <p>
-          TendorAI Pro is £299 per month, billed monthly with no setup fee.
+          The TendorAI programme is £1,499 per month on an initial three-month
+          term, with a £999 per month founding rate for the first 3 solicitor
+          firms, held for 12 months. There is no setup fee.
           UltraScout AI&rsquo;s platform tier starts at £49 per month for
           limited tracking and scales to £999+ per month for agency tiers.
           UltraScout&rsquo;s SME AI visibility packages are £795 to £1,995 per month
-          after a £495 three-month introductory rate. TendorAI is 40 to 85 per
-          cent cheaper than UltraScout&rsquo;s comparable execution-layer
-          packages.
+          after a £495 three-month introductory rate. TendorAI sits at the upper
+          end of that range and is the only one of the two that installs schema
+          on the firm&rsquo;s own domain.
         </p>
 
         <h3>Does UltraScout AI work for UK solicitors?</h3>
@@ -736,8 +741,8 @@ export default function TendorAIVsUltraScoutPage() {
 
         <h3>Which AI platforms do TendorAI and UltraScout track?</h3>
         <p>
-          TendorAI tracks ChatGPT, Perplexity, Claude, Gemini, Grok, and
-          Google AI Overviews. UltraScout AI tracks ChatGPT, Gemini, Claude,
+          TendorAI measures ChatGPT, Google AI Overviews and Perplexity.
+          UltraScout AI tracks ChatGPT, Gemini, Claude,
           Perplexity, Microsoft Copilot, and DeepSeek, with Grok and Qwen as
           paid add-ons. Both platforms cover the assistants UK regulated firms
           are most often recommended by.
@@ -745,7 +750,7 @@ export default function TendorAIVsUltraScoutPage() {
 
         <h3>Does TendorAI install schema markup for me?</h3>
         <p>
-          Yes. TendorAI Pro (£299/month) includes installation of
+          Yes. The TendorAI programme (£1,499/month) includes installation of
           LegalService, AccountingService, FinancialService, RealEstateAgent,
           Organization, Person, and FAQPage schema on the firm&rsquo;s own
           website, typically within 48 hours of onboarding. UltraScout AI does
@@ -799,7 +804,7 @@ export default function TendorAIVsUltraScoutPage() {
           </li>
           <li>
             <Link href="/pricing" className="underline">
-              TendorAI Pro pricing — £299/month, no setup fee
+              The TendorAI programme pricing — £1,499/month, no setup fee
             </Link>
           </li>
           <li>

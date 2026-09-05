@@ -288,14 +288,14 @@ export default function RobotsCheckerPage() {
         <div className="mt-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
           <h3 className="text-xl md:text-2xl font-bold mb-3">Get cited by AI &mdash; automatically</h3>
           <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-            TendorAI Pro installs the correct Schema.org markup, clears AI crawler access, and
+            The TendorAI programme installs the correct Schema.org markup, clears AI crawler access, and
             tracks your AI visibility weekly &mdash; no developer required.
           </p>
           <Link
             href="/ai-visibility-platform"
             className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors"
           >
-            See how TendorAI Pro works
+            See how the TendorAI programme works
             <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
