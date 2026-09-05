@@ -119,11 +119,11 @@ export default function DiagnoseCard({
             Run free AI visibility audit
           </Link>
           <Link
-            href="/pricing"
+            href="/contact"
             className="text-xs font-medium text-purple-700 hover:underline mt-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            Upgrade to Pro for weekly diagnosis →
+            Book a call about monthly diagnosis →
           </Link>
         </div>
       ) : !detectiveRun ? (

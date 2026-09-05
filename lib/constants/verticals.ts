@@ -104,15 +104,15 @@ export const VERTICALS: Record<string, VerticalConfig> = {
           'Legal directories build reputation rankings. TendorAI makes AI recommend you directly when someone asks for a solicitor \u2014 not when a researcher is compiling a directory. Different mechanism, different outcome.',
       },
       {
-        question: 'Can I cancel at any time?',
+        question: 'Is there a minimum term?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time.',
+          'The managed programme runs on an initial three-month term. After that it continues until you tell us to stop.',
       },
     ],
     meta: {
       title: 'AI Visibility for Solicitors \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find solicitors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free SRA-verified profile. Plans from \u00A3299/month.',
+        'AI is how people find solicitors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free SRA-verified profile. The managed programme is \u00A31,499 per month.',
     },
   },
 
@@ -192,15 +192,15 @@ export const VERTICALS: Record<string, VerticalConfig> = {
           'Directories list you. TendorAI makes AI recommend you directly when a business owner asks for an accountant \u2014 with your specific specialisms matched to their specific query. Different mechanism, more precise outcome.',
       },
       {
-        question: 'Can I cancel at any time?',
+        question: 'Is there a minimum term?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts.',
+          'The managed programme runs on an initial three-month term, then continues until you tell us to stop.',
       },
     ],
     meta: {
       title: 'AI Visibility for Accountants \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find accountants now. TendorAI structures your practice\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3299/month.',
+        'AI is how people find accountants now. TendorAI structures your practice\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. The managed programme is \u00A31,499 per month.',
     },
   },
 
@@ -277,15 +277,15 @@ export const VERTICALS: Record<string, VerticalConfig> = {
           'TendorAI is built for FCA-authorised mortgage advisors and appointed representatives in the UK. Your FCA registration is used to verify your profile and give AI platforms confidence in recommending you.',
       },
       {
-        question: 'Can I cancel at any time?',
+        question: 'Is there a minimum term?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts. Cancel from your dashboard at any time and keep access until the end of your billing period.',
+          'The managed programme runs on an initial three-month term. After that it continues until you tell us to stop.',
       },
     ],
     meta: {
       title: 'AI Visibility for Mortgage Advisors \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find mortgage advisors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free FCA-verified profile. Plans from \u00A3299/month.',
+        'AI is how people find mortgage advisors now. TendorAI structures your firm\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free FCA-verified profile. The managed programme is \u00A31,499 per month.',
     },
   },
 
@@ -365,15 +365,15 @@ export const VERTICALS: Record<string, VerticalConfig> = {
           'Rightmove and Zoopla list your properties. TendorAI makes AI recommend your agency directly when someone asks for an estate agent \u2014 before they\u2019ve even started browsing listings. Different stage of the buyer journey, different outcome.',
       },
       {
-        question: 'Can I cancel at any time?',
+        question: 'Is there a minimum term?',
         answer:
-          'Yes. All paid plans are month-to-month with no contracts.',
+          'The managed programme runs on an initial three-month term, then continues until you tell us to stop.',
       },
     ],
     meta: {
       title: 'AI Visibility for Estate Agents \u2014 Get Recommended by ChatGPT',
       description:
-        'AI is how people find estate agents now. TendorAI structures your agency\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. Plans from \u00A3299/month.',
+        'AI is how people find estate agents now. TendorAI structures your agency\u2019s data so ChatGPT, Claude, and Perplexity recommend you by name. Free verified profile. The managed programme is \u00A31,499 per month.',
     },
   },
 };

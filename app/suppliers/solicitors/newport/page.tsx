@@ -227,9 +227,10 @@ export default function NewportSolicitorsPage() {
         regulator data, then lets the firm enrich it with practice areas, fees, accreditations, and
         client reviews. We install schema markup on the firm&apos;s own website, monitor citations across
         the major AI platforms, and report monthly on which queries the firm is winning and losing.
-        The free tier covers profile listing and citation tracking. The Pro tier (£299 per month)
-        adds schema installation on the firm&apos;s site, monthly tracking reports, and named-citation
-        monitoring across ChatGPT, Perplexity, Claude, Google AI, and Microsoft Copilot.
+        The free tier covers profile listing and citation tracking. The AI Visibility Growth
+        Programme (£1,499 per month, or £999 per month as a founding rate for the first 3 solicitor
+        firms) adds schema installation on the firm&apos;s site, monthly tracking reports, and
+        named-citation monitoring across ChatGPT, Google AI Overviews and Perplexity.
       </p>
 
       <h2 className="mb-3 mt-10 text-2xl font-semibold">Newport solicitor practice areas covered on TendorAI</h2>

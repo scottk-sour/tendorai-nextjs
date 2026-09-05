@@ -311,10 +311,10 @@ export default function AISearchTest({
           <p className="text-gray-700 font-medium mb-2">You&apos;ve used all your free tests</p>
           <p className="text-sm text-gray-500 mb-3">Upgrade to get 10 monthly tests and track how AI recommends your business.</p>
           <a
-            href="/vendor-dashboard/settings?tab=subscription"
+            href="/contact"
             className="inline-block px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
           >
-            Upgrade to Pro &mdash; &pound;299/mo
+            Book a call
           </a>
         </div>
       )}
@@ -363,10 +363,10 @@ export default function AISearchTest({
           <p className="text-amber-800 font-medium mb-2">{result.message}</p>
           {!result.isPaid && (
             <a
-              href="/vendor-dashboard/settings?tab=subscription"
+              href="/contact"
               className="inline-block mt-2 px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700"
             >
-              Upgrade to Pro &mdash; &pound;299/mo
+              Book a call
             </a>
           )}
         </div>

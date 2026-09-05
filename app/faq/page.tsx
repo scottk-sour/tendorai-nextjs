@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/faq' },
 };
 
-const FIRM_COUNT = '[FILL: firm count]';
+const FIRM_COUNT = '62,026';
 
 const faqs: { q: string; a: string }[] = [
   {
@@ -24,7 +24,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: 'How much does it cost?',
-    a: 'Being listed is free. Pro costs £299 per month, billed monthly with no lock-in contract. You can cancel at any time and keep Pro access until the end of your paid month.',
+    a: 'Being listed is free. The AI Visibility Growth Programme is £1,499 per month, or £999 per month as a founding rate for the first 3 solicitor firms, held for 12 months. Initial three-month term. TendorAI is not currently VAT-registered, so no VAT is added.',
   },
   {
     q: 'Do I need to give you my website login details?',
@@ -64,7 +64,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: 'How is this different from a specialist AI or GEO agency?',
-    a: 'Specialist agencies typically charge four figures a month on annual contracts. TendorAI Pro is £299 per month with no lock-in, and your data stays in sync with your profile automatically rather than needing manual updates.',
+    a: 'Specialist agencies typically charge four figures a month on annual contracts. The TendorAI programme is £1,499 per month — £999 founding rate for the first 3 solicitor firms — and your data stays in sync with your profile automatically rather than needing manual updates.',
   },
   {
     q: 'What happens if I cancel Pro?',

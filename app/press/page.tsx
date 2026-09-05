@@ -38,8 +38,8 @@ const differentiators = [
     description: 'When a firm installs the TendorAI schema script, AI sees verified data on both their website and their TendorAI profile \u2014 creating a bidirectional citation loop that increases recommendation confidence.',
   },
   {
-    title: 'All six major AI platforms',
-    description: 'Weekly visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI. Not just Google \u2014 every platform that gives business recommendations.',
+    title: 'The AI platforms that give business recommendations',
+    description: 'Monthly visibility measurement across ChatGPT, Google AI Overviews and Perplexity. Not just Google.',
   },
   {
     title: 'AI blog writer in TendorAI AI visibility Format',

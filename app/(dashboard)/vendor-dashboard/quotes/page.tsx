@@ -1313,11 +1313,11 @@ export default function QuotesPage() {
                 You have {counts.pending} new lead{counts.pending !== 1 ? 's' : ''} waiting
               </h3>
               <p className="text-purple-100 text-sm mt-0.5">
-                Upgrade to Pro (£299/month) to see who they are and respond.
+                Book a call to talk about seeing who they are and responding.
               </p>
             </div>
             <Link
-              href="/vendor-dashboard/settings?tab=subscription"
+              href="/contact"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors text-sm shrink-0"
             >
               Upgrade Now

@@ -47,11 +47,11 @@ const faqs = [
   },
   {
     q: 'How often should I check my AI visibility?',
-    a: "At least monthly. AI platforms update their knowledge continuously. TendorAI paid plans include weekly automated monitoring.",
+    a: "At least monthly. AI platforms update their knowledge continuously. The TendorAI programme includes monthly automated measurement.",
   },
   {
     q: 'Is there a free tool to check AI recommendations?',
-    a: 'Yes. TendorAI offers a free AI visibility report that scans 6 AI platforms and shows whether each recommends your business, your position, and who ranks above you.',
+    a: 'Yes. TendorAI offers a free AI visibility report that covers ChatGPT, Google AI Overviews and Perplexity and shows whether each recommends your business, your position, and who ranks above you.',
   },
 ];
 
@@ -181,6 +181,7 @@ export default function HowToCheckAIRecommendationsPage() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               {TITLE}
             </h1>
+            <p className="text-sm text-white/70 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
             <p className="text-lg text-purple-100 leading-relaxed max-w-3xl">
               {DESCRIPTION}
@@ -210,7 +211,7 @@ export default function HowToCheckAIRecommendationsPage() {
             <Link href="/ai-visibility-report" className="text-purple-600 underline hover:text-purple-800">
               TendorAI&apos;s free AI visibility report
             </Link>{' '}
-            to scan 6 AI platforms simultaneously and deliver your results in about
+            to cover ChatGPT, Google AI Overviews and Perplexity simultaneously and deliver your results in about
             60 seconds. This guide covers both approaches step by step.
           </p>
 
@@ -425,8 +426,8 @@ export default function HowToCheckAIRecommendationsPage() {
             <Link href="/ai-visibility-report" className="text-purple-600 underline hover:text-purple-800">
               TendorAI&apos;s free AI visibility report
             </Link>{' '}
-            automates this across 50+ prompt variations and 6 AI platforms
-            simultaneously. Here is what it does:
+            automates this across 50+ prompt variations and ChatGPT, Google AI
+            Overviews and Perplexity simultaneously. Here is what it does:
           </p>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-6">
@@ -436,9 +437,8 @@ export default function HowToCheckAIRecommendationsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="text-gray-700">
-                  <strong>Queries 6 AI platforms simultaneously</strong> &mdash;
-                  ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI, all in
-                  one scan.
+                  <strong>Queries ChatGPT, Google AI Overviews and Perplexity
+                  simultaneously</strong> &mdash; all in one scan.
                 </span>
               </li>
               <li className="flex items-start gap-3">

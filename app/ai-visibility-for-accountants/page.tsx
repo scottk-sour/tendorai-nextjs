@@ -156,7 +156,7 @@ export default function AccountantsAiVisibilityPage() {
               For a UK accountancy practice, the buyer-side consequence is direct. A prospective client asking an AI for a &ldquo;chartered accountant in Bristol for self-assessment&rdquo; or a &ldquo;corporation tax accountant in Manchester for a limited company&rdquo; is returned two or three named firms. Firms outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
             </p>
             <p>
-              A two-partner ICAEW chartered firm that converts one additional AI-driven small-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add roughly £28,800 in fee income over twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
+              A two-partner ICAEW chartered firm that converts one additional AI-driven small-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add roughly £28,800 in fee income over twelve months — against £17,988 for a year of the TendorAI programme. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
         </section>
@@ -216,7 +216,7 @@ export default function AccountantsAiVisibilityPage() {
               TendorAI&rsquo;s six-agent fleet runs daily on every Pro account with a single outcome metric: AI citation frequency. The platform is not a source of tax or accounting advice; it is a visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — for the firm&rsquo;s service-and-city queries every day and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the firm&rsquo;s service-and-city queries monthly and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
             </p>
             <p>
               Writer drafts three professionally-written articles per week under the firm&rsquo;s byline. Each article is structured for passage-level retrieval: every H2 opens with a direct answer, claims are dated, and references — HMRC guidance, ICAEW or ACCA technical releases, Companies House — are linked. Articles publish to the firm&rsquo;s TendorAI profile and are formatted to deploy on the firm&rsquo;s own website.
@@ -270,16 +270,16 @@ export default function AccountantsAiVisibilityPage() {
               What this looks like for a two-partner ICAEW chartered firm
             </h2>
             <p>
-              A two-partner ICAEW chartered firm in the Midlands running TendorAI Pro at £299 per month — £3,588 per year — that converts one additional AI-driven limited-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add approximately £28,800 in fee income over twelve months.
+              A two-partner ICAEW chartered firm in the Midlands running the TendorAI AI Visibility Growth Programme at £1,499 per month — £17,988 per year — that converts one additional AI-driven limited-company client per month at an illustrative £2,400 average annual fee (year-end accounts, corporation tax and self-assessment) would add approximately £28,800 in fee income over twelve months.
             </p>
             <p>
               The figures above are illustrative, not a guarantee. Actual outcomes depend on the firm&rsquo;s service mix, client size, conversion rate from enquiry to engagement and the AI platforms used by the firm&rsquo;s target buyers. Sole-trader self-assessment-only clients carry lower annual fees; firms serving larger SME clients carry higher ones. Many factors decide whether an enquiry becomes a client.
             </p>
             <p>
-              The shape of the example matters more than the exact figures. Accountancy fees are recurring — a client converted in year one is, in normal circumstances, a client retained into year two. The cost anchor — £3,588 per year — is fixed regardless of service mix.
+              The shape of the example matters more than the exact figures. Accountancy fees are recurring — a client converted in year one is, in normal circumstances, a client retained into year two. The cost anchor — £17,988 per year — is fixed regardless of service mix.
             </p>
             <p>
-              Against that £3,588 annual cost, the break-even point in this example is approximately two additional clients per year at the £2,400 level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost clients, not in software fees.
+              Against that £17,988 annual cost, the break-even point in this example is approximately eight additional clients per year at the £2,400 level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost clients, not in software fees.
             </p>
           </div>
         </section>

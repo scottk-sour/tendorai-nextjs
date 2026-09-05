@@ -69,12 +69,6 @@ export function hasTierAccess(currentTier: string, requiredTier: 'starter' | 'pr
   return tierHierarchy[normalized] >= tierHierarchy[requiredNormalized];
 }
 
-// Pricing for upgrade CTAs
-const tierPricing: Record<string, string> = {
-  starter: '£299/mo',
-  pro: '£299/mo',
-};
-
 export default function TierGate({
   currentTier,
   requiredTier,
@@ -135,19 +129,19 @@ export default function TierGate({
           <p className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 mb-3`}>
             Available on{' '}
             <span className="font-medium text-purple-600">
-              Pro
+              the managed programme
             </span>{' '}
-            — £299/mo
+            — £1,499/mo, or £999/mo founding rate for the first 3 solicitor firms
           </p>
 
           {/* CTA Button */}
           <Link
-            href="/vendor-dashboard/settings?tab=subscription"
+            href="/contact"
             className={`inline-flex items-center justify-center ${
               compact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
             } bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-sm`}
           >
-            Upgrade — From {tierPricing[requiredTier]}
+            Book a call
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

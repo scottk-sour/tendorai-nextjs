@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'Which schema types do UK professional services firms need?',
-    a: 'The most important types are: LegalService (for solicitors), AccountingService (for accountants), FinancialService (for mortgage advisers), and LocalBusiness (for all firms). Supporting types include FAQPage, BreadcrumbList, and Organization. TendorAI Pro installs and maintains all of these automatically.',
+    a: 'The most important types are: LegalService (for solicitors), AccountingService (for accountants), FinancialService (for mortgage advisers), and LocalBusiness (for all firms). Supporting types include FAQPage, BreadcrumbList, and Organization. The TendorAI programme installs and maintains all of these automatically.',
   },
   {
     q: 'What does it mean if my site has no schema?',
@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'How do I fix missing schema on my website?',
-    a: 'You can add schema manually by inserting JSON-LD code into your website\u2019s header \u2014 or use TendorAI Pro, which installs and auto-syncs the correct schema for your firm type automatically. No developer needed.',
+    a: 'You can add schema manually by inserting JSON-LD code into your website\u2019s header \u2014 or use the TendorAI programme, which installs and auto-syncs the correct schema for your firm type automatically. No developer needed.',
   },
 ];
 
@@ -164,10 +164,10 @@ export default function SchemaCheckerPage() {
             <div className="bg-purple-50 rounded-xl border border-purple-100 p-6 text-center">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Want schema automatically installed on your site?</h3>
               <p className="text-sm text-gray-600 mb-4">
-                TendorAI Pro installs AI-optimised Schema.org markup on your website within 48 hours. Auto-syncs when you update your dashboard.
+                The TendorAI programme installs AI-optimised Schema.org markup on your website within 48 hours. Auto-syncs when you update your dashboard.
               </p>
               <Link href="/pricing" className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
-                Upgrade to TendorAI Pro
+                Book a call about the TendorAI programme
               </Link>
             </div>
           </div>
@@ -197,10 +197,10 @@ export default function SchemaCheckerPage() {
         <div className="mt-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
           <h3 className="text-xl md:text-2xl font-bold mb-3">Get schema installed automatically</h3>
           <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-            TendorAI Pro installs the correct Schema.org markup for your firm type and keeps it in sync with your profile &mdash; no developer required.
+            The TendorAI programme installs the correct Schema.org markup for your firm type and keeps it in sync with your profile &mdash; no developer required.
           </p>
           <Link href="/ai-visibility-platform" className="inline-flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors">
-            See how TendorAI Pro works
+            See how the TendorAI programme works
             <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>

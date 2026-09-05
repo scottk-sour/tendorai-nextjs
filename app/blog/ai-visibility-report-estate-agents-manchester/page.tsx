@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: 'What is the fastest way to become AI-visible as an estate agent?',
-    a: 'Three steps: structured schema markup on your own website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform, Propertymark membership listing, or client money protection register). TendorAI\'s Pro plan delivers all three.',
+    a: 'Three steps: structured schema markup on your own website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform, Propertymark membership listing, or client money protection register). The TendorAI AI Visibility Growth Programme delivers all three.',
   },
   {
     q: 'Is AI visibility different from SEO for estate agents?',

@@ -22,7 +22,7 @@ const TOOLS: Tool[] = [
   {
     href: '/ai-visibility-report',
     title: 'AI Visibility Report',
-    detail: 'See where your firm appears across six AI platforms.',
+    detail: 'See where your firm appears across ChatGPT, Google AI Overviews and Perplexity.',
     cta: 'Get free report →',
     featured: true,
   },
@@ -41,7 +41,7 @@ const TOOLS: Tool[] = [
   {
     href: '/tools/ai-visibility-checklist',
     title: 'AI Visibility Checklist',
-    detail: '30-point checklist used by TendorAI Pro customers.',
+    detail: '30-point checklist used by TendorAI programme customers.',
     cta: 'Download checklist →',
   },
 ];

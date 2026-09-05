@@ -114,11 +114,11 @@ export default function MeasureCard({
             Run your free scan
           </Link>
           <Link
-            href="/pricing"
+            href="/contact"
             className="text-xs font-medium text-purple-700 hover:underline mt-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            Upgrade to Pro for weekly automated measurement →
+            Book a call about monthly automated measurement →
           </Link>
         </div>
       ) : !reconRun ? (

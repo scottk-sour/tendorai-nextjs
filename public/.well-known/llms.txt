@@ -43,7 +43,7 @@
 - 1,700+ FCA-registered mortgage advisers
 - ICAEW-registered accountancy practices
 - All UK regions and cities covered
-- Reports generated across 6 AI platforms per firm
+- Reports generated across ChatGPT, Google AI Overviews and Perplexity per firm
 - 50+ prompt variations tested per report
 
 ## Verified Service Categories

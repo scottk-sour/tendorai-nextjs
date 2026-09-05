@@ -139,7 +139,7 @@ export default function PrivacyPage() {
 
       <H3>(c) Billing data</H3>
       <P>
-        If you subscribe to our Pro plan (£299/month), payment is processed securely by Stripe. We do
+        If you subscribe to the AI Visibility Growth Programme, payment is processed securely by Stripe. We do
         not store full card details on our own systems. We retain transaction records (such as
         invoices and the subscription status) as required for accounting and tax purposes.
       </P>

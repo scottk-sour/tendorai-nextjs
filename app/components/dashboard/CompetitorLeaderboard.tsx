@@ -265,10 +265,10 @@ export default function CompetitorLeaderboard({ token, tier, vendorName, vendorT
       <div className="mt-4 pt-4 border-t text-center">
         <p className="text-sm text-gray-600 mb-3">See who&apos;s outranking you in AI search</p>
         <Link
-          href="/vendor-dashboard/settings?tab=subscription"
+          href="/contact"
           className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
         >
-          Upgrade to Pro &mdash; &pound;299/month
+          Book a call
           <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

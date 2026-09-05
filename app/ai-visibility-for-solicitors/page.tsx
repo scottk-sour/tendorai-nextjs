@@ -190,7 +190,7 @@ export default function SolicitorsAiVisibilityPage() {
             <p>
               A four-partner SRA-registered firm that converts two AI-driven enquiries per month at an
               illustrative £1,200 average conveyancing matter would add roughly £28,800 in fee income over
-              twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not
+              twelve months — against £17,988 for a year of the TendorAI programme. The figures are illustrative, not
               a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
@@ -294,8 +294,8 @@ export default function SolicitorsAiVisibilityPage() {
               visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and
-              Google AI Overviews — for the firm&rsquo;s practice-area-and-city queries every day and
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the
+              firm&rsquo;s practice-area-and-city queries monthly and
               records citation frequency. Detective diagnoses why the firm is missed, per platform, per
               prompt, with a specific recommended fix.
             </p>
@@ -373,8 +373,10 @@ export default function SolicitorsAiVisibilityPage() {
               What this looks like for a four-partner SRA-registered firm
             </h2>
             <p>
-              A four-partner SRA-registered conveyancing firm in South Wales running TendorAI Pro at
-              £299 per month — £3,588 per year — that converts two additional AI-driven enquiries per
+              A four-partner SRA-registered conveyancing firm in South Wales running the TendorAI AI
+              Visibility Growth Programme at £1,499 per month — £17,988 per year, or £999 per month
+              (£11,988 per year) at the founding rate for the first 3 solicitor firms — that converts
+              two additional AI-driven enquiries per
               month at an illustrative £1,200 average matter value would add approximately £28,800 in fee
               income over twelve months.
             </p>
@@ -389,11 +391,11 @@ export default function SolicitorsAiVisibilityPage() {
               month at £1,200 is the conservative end of the conveyancing fee scale; wills and probate
               and family law matters generally carry higher average values and would change the worked
               total upward. Personal injury and dispute resolution carry different fee structures still.
-              The cost anchor — £3,588 per year — is fixed regardless of practice area.
+              The cost anchor — £17,988 per year — is fixed regardless of practice area.
             </p>
             <p>
-              Against that £3,588 annual cost, the break-even point in this example is approximately
-              three additional matters per year. Anything above that is contribution, not cost. The point
+              Against that £17,988 annual cost, the break-even point in this example is approximately
+              fifteen additional matters per year. Anything above that is contribution, not cost. The point
               of the example is the order of magnitude: the cost of being absent from AI answers is
               measured in lost matters, not in software fees.
             </p>

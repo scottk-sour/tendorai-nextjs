@@ -332,7 +332,7 @@ export default function VendorDashboardOverview() {
             ) : (
               <div className="col-span-2 flex items-center">
                 <p className="text-sm text-gray-500">
-                  <Link href="/pricing" className="text-purple-600 font-medium hover:underline">Upgrade to Pro</Link> to see where your views come from.
+                  <Link href="/contact" className="text-purple-600 font-medium hover:underline">Book a call</Link> to see where your views come from.
                 </p>
               </div>
             )}

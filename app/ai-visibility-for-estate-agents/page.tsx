@@ -156,7 +156,7 @@ export default function EstateAgentsAiVisibilityPage() {
               For a UK independent agency, the buyer-side consequence is direct. A prospective vendor asking an AI for an &ldquo;estate agent in Cardiff to value my house&rdquo; or a tenant asking for a &ldquo;letting agent in Bristol for a two-bed flat&rdquo; is returned two or three named agencies. Agencies outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
             </p>
             <p>
-              An independent sales agency that wins one additional AI-driven instruction per month — and converts it to a completed sale — at an illustrative £4,500 average commission (1.2% on a £375,000 sale) would add roughly £54,000 in commission income over twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
+              An independent sales agency that wins one additional AI-driven instruction per month — and converts it to a completed sale — at an illustrative £4,500 average commission (1.2% on a £375,000 sale) would add roughly £54,000 in commission income over twelve months — against £17,988 for a year of the TendorAI programme. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
         </section>
@@ -216,7 +216,7 @@ export default function EstateAgentsAiVisibilityPage() {
               TendorAI&rsquo;s six-agent fleet runs daily on every Pro account with a single outcome metric: AI citation frequency. The platform is not a source of property advice; it is a visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — for the agency&rsquo;s service-and-postcode queries every day and records citation frequency. Detective diagnoses why the agency is missed, per platform, per prompt, with a specific recommended fix.
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the agency&rsquo;s service-and-postcode queries monthly and records citation frequency. Detective diagnoses why the agency is missed, per platform, per prompt, with a specific recommended fix.
             </p>
             <p>
               Writer drafts three professionally-written articles per week under the agency&rsquo;s byline. Each article is structured for passage-level retrieval: every H2 opens with a direct answer, claims are dated, and references — Propertymark, TPO/PRS, Estate Agent Today, Property Industry Eye, Companies House — are linked. Articles publish to the agency&rsquo;s TendorAI profile and are formatted to deploy on the agency&rsquo;s own website.
@@ -270,16 +270,16 @@ export default function EstateAgentsAiVisibilityPage() {
               What this looks like for an independent UK sales agency
             </h2>
             <p>
-              An independent UK estate agency running TendorAI Pro at £299 per month — £3,588 per year — that wins one additional AI-driven instruction per month and converts it to a completed sale, at an illustrative £4,500 average commission (1.2% on a £375,000 sale), would add approximately £54,000 in commission income over twelve months.
+              An independent UK estate agency running the TendorAI AI Visibility Growth Programme at £1,499 per month — £17,988 per year — that wins one additional AI-driven instruction per month and converts it to a completed sale, at an illustrative £4,500 average commission (1.2% on a £375,000 sale), would add approximately £54,000 in commission income over twelve months.
             </p>
             <p>
               The figures above are illustrative, not a guarantee. Actual outcomes depend on the agency&rsquo;s commission structure, instruction-to-completion conversion rate, average sale price in the local market, and the AI platforms used by the agency&rsquo;s target vendors. Many factors decide whether an instruction reaches completion.
             </p>
             <p>
-              The shape of the example matters more than the exact figures. Higher-value markets — central London, prime regional towns — would change the worked total upward. Lower-value markets would change it downward. The cost anchor — £3,588 per year — is fixed regardless of average sale price.
+              The shape of the example matters more than the exact figures. Higher-value markets — central London, prime regional towns — would change the worked total upward. Lower-value markets would change it downward. The cost anchor — £17,988 per year — is fixed regardless of average sale price.
             </p>
             <p>
-              Against that £3,588 annual cost, the break-even point in this example is approximately one additional completion per year at the £4,500 commission level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost instructions, not in software fees.
+              Against that £17,988 annual cost, the break-even point in this example is approximately four additional completions per year at the £4,500 commission level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost instructions, not in software fees.
             </p>
           </div>
         </section>

@@ -106,7 +106,8 @@ The canonical TendorAI content format is defined by the Content OS. Earlier shor
 - Always use "firms" not "vendors" in user-facing copy
 - Always use "Firm Login" not "Vendor Login" in UI
 - Pricing — the current proposition, established by `app/pricing/page.tsx` and `app/components/landing/Pricing.tsx`:
-  - AI Visibility Growth Programme: £999/month, initial three-month term
+  - AI Visibility Growth Programme: £1,499/month, initial three-month term
+  - Founding rate: £999/month, first 3 solicitor firms only, held for 12 months from the firm's start date
   - Free AI visibility report: £0
   - There is no Pro tier
   - Never display a price not established by /pricing

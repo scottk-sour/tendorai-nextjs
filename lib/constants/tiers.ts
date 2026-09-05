@@ -1,5 +1,5 @@
 export const TIER_PRIORITY: Record<string, number> = {
-  // Pro tiers (highest priority) - £299/mo
+  // Highest-priority tiers. Pricing lives in lib/constants/plans.ts, not here.
   enterprise: 100,
   managed: 100,
   verified: 100,

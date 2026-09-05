@@ -11,8 +11,8 @@ interface StatItem {
 
 const stats: StatItem[] = [
   { number: 12793, suffix: '', label: 'Verified UK Firms' },
-  { number: 6, suffix: '', label: 'AI Platforms Tracked' },
-  { displayText: 'From £299/mo', label: '3 of 50 early adopter spots taken' },
+  { number: 3, suffix: '', label: 'AI Platforms Tracked' },
+  { displayText: '£1,499/mo', label: 'Managed programme \u00b7 £999 founding rate' },
   { displayText: 'Self-Serve', label: 'No Agency' },
 ];
 

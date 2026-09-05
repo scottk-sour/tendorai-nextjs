@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: 'How do I get a free AI visibility report for my UK business?',
-    a: 'Go to tendorai.com/ai-visibility-report, enter your company name, business category (e.g. solicitor, accountant, mortgage advisor), city, and email address. TendorAI queries six major AI platforms in real time and delivers your full AI visibility report in approximately 60 seconds. No signup or payment is required for the free report.',
+    a: 'Go to tendorai.com/ai-visibility-report, enter your company name, business category (e.g. solicitor, accountant, mortgage advisor), city, and email address. TendorAI queries ChatGPT, Google AI Overviews and Perplexity in real time and delivers your full AI visibility report in approximately 60 seconds. No signup or payment is required for the free report.',
   },
   {
     q: 'What does an AI visibility report measure?',
@@ -292,7 +292,7 @@ export default function AeoReportUkPage() {
                   },
                   {
                     title: 'Which AI Platforms Mention You',
-                    desc: 'See exactly which of the six AI platforms (ChatGPT, Claude, Perplexity, Gemini, Copilot, Meta AI) name your business in recommendations.',
+                    desc: 'See exactly which of ChatGPT, Google AI Overviews and Perplexity name your business in recommendations.',
                   },
                   {
                     title: 'Who AI Recommends Instead',

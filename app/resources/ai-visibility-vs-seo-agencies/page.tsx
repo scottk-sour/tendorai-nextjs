@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'How much does it cost compared to hiring an SEO agency?',
-    a: 'The AI Visibility Growth Programme is £999 per month on an initial three-month term. SEO agency pricing varies and we don\'t have a sourced figure for it, so we won\'t quote one.',
+    a: 'The AI Visibility Growth Programme is £1,499 per month on an initial three-month term, with a £999 per month founding rate for the first 3 solicitor firms. SEO agency pricing varies and we don\'t have a sourced figure for it, so we won\'t quote one.',
   },
   {
     q: 'Is AI search actually replacing Google?',
@@ -86,7 +86,7 @@ function ComparisonTable() {
     { factor: 'Traffic source', seo: 'Google/Bing organic clicks', aeo: 'AI-generated answers with citations' },
     { factor: 'Key ranking factors', seo: 'Backlinks, keywords, site speed', aeo: 'Structured data, reviews, mentions, schema' },
     { factor: 'Time to results', seo: '3-6 months', aeo: '4-8 weeks for initial mentions' },
-    { factor: 'Cost', seo: 'Varies by agency', aeo: 'Free report at £0. Growth Programme £999/month.' },
+    { factor: 'Cost', seo: 'Varies by agency', aeo: 'Free report at £0. Growth Programme £1,499/month.' },
     { factor: 'Measurability', seo: 'Google Search Console, rankings', aeo: 'AI mention tracking, visibility scores' },
     { factor: 'Competition awareness', seo: 'Keyword difficulty scores', aeo: 'Most businesses aren\'t doing this yet' },
   ];
@@ -125,10 +125,10 @@ function PricingCards() {
       highlighted: false,
     },
     {
-      name: 'Pro',
-      price: '£299',
+      name: 'AI Visibility Growth Programme',
+      price: '£1,499',
       priceLabel: '/month',
-      features: ['AI-optimised structured data on your website', 'AI Mention Tracking', 'Weekly AI Visibility reports', 'Verified badge', 'Unlimited products', 'Priority AI ranking', 'Priority support'],
+      features: ['AI-optimised structured data on your website', 'AI Mention Tracking', 'Monthly AI Visibility reports', 'Verified badge', 'Unlimited products', 'Priority AI ranking', 'Priority support'],
       highlighted: true,
     },
   ];
@@ -325,6 +325,7 @@ export default function AIVisibilityVsSEOPage() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               {TITLE}
             </h1>
+            <p className="text-sm text-white/70 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
             <p className="text-lg text-purple-100 leading-relaxed">
               {DESCRIPTION}

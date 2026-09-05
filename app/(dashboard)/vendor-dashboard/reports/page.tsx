@@ -154,14 +154,14 @@ export default function ReportsListPage() {
           ) : (
             <div className="max-w-md mx-auto">
               <p className="text-[var(--text2)] mb-4">
-                AI Visibility Intelligence Reports are generated weekly on Pro. Upgrade to get
-                yours every Monday.
+                AI Visibility Intelligence Reports are generated monthly on the managed programme.
+                Book a call to get yours.
               </p>
               <Link
-                href="/vendor-dashboard/settings?tab=subscription"
+                href="/contact"
                 className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700"
               >
-                Upgrade to Pro
+                Book a call
               </Link>
             </div>
           )}

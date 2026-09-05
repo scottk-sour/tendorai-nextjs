@@ -2,17 +2,16 @@
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // BEFORE YOU MERGE:
-//   1. Fill REGISTERED_OFFICE (search "FILL:").
-//   2. Three business decisions are baked in below — change the wording in
+//   1. Three business decisions are baked in below — change the wording in
 //      §4 (refunds/cancellation) or §11 (liability cap) if you want different:
 //        • Refunds:      no refunds for part-periods
-//        • Cancellation: cancel anytime, access to end of paid month
+//        • Cancellation: after the initial three-month term, access to end of paid month
 //        • Liability cap: greater of fees-paid-in-12-months or £100
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next';
 
-const REGISTERED_OFFICE = '[FILL: registered office address, Wales]';
+const REGISTERED_OFFICE = '155 Oaksford, Coed Eva, Cwmbran, Wales, NP44 6UN';
 const CONTACT_EMAIL = 'scott.davies@tendorai.com';
 const LAST_UPDATED = '30 June 2026';
 
@@ -125,7 +124,9 @@ export default function TermsPage() {
           withdraw free features at any time.
         </li>
         <li>
-          <strong>Pro subscription:</strong> the Pro plan costs £299 per month. Prices are inclusive
+          <strong>Programme subscription:</strong> the AI Visibility Growth Programme costs £1,499 per
+          month, or £999 per month as a founding rate for the first 3 solicitor firms, held for 12
+          months, on an initial three-month term. Prices are inclusive
           of any applicable taxes; we are not currently VAT-registered, and if that changes we will
           give you notice before VAT is added.
         </li>
@@ -134,9 +135,9 @@ export default function TermsPage() {
           subscription renews automatically each month until cancelled.
         </li>
         <li>
-          <strong>Cancellation:</strong> you may cancel at any time. Cancellation takes effect at the
-          end of your current paid month; you keep Pro access until then and are not billed again
-          afterwards.
+          <strong>Cancellation:</strong> you may cancel at the end of the initial three-month term,
+          or at any point after it. Cancellation takes effect at the end of your current paid month;
+          you keep access until then and are not billed again afterwards.
         </li>
         <li>
           <strong>Refunds:</strong> fees already paid are non-refundable, including for partial

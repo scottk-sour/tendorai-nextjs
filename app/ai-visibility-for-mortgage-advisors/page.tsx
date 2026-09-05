@@ -156,7 +156,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               For a UK mortgage adviser firm — whether directly authorised (DA) or an appointed representative (AR) of a principal firm — the buyer-side consequence is direct. A prospective client asking an AI for a &ldquo;mortgage adviser in Bristol for a first-time buyer&rdquo; or a &ldquo;buy-to-let mortgage adviser in Cardiff&rdquo; is returned two or three named firms. Firms outside those two or three slots are not lower-ranked — they are absent from the answer, with no second page to scroll to.
             </p>
             <p>
-              A directly authorised mortgage adviser firm that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add roughly £19,200 in income over twelve months — against £3,588 for a year of TendorAI Pro. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
+              A directly authorised mortgage adviser firm that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add roughly £19,200 in income over twelve months — against £17,988 for a year of the TendorAI AI Visibility Growth Programme. The figures are illustrative, not a guarantee; the worked example with assumptions sits below.
             </p>
           </div>
         </section>
@@ -216,7 +216,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               TendorAI&rsquo;s six-agent fleet runs daily on every Pro account with a single outcome metric: AI citation frequency. The platform is not a source of mortgage advice; it is a visibility platform built around the citation signals AI engines actually use.
             </p>
             <p>
-              Reconnaissance scans six AI platforms — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — for the firm&rsquo;s specialism-and-city queries every day and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
+              Reconnaissance measures ChatGPT, Google AI Overviews and Perplexity for the firm&rsquo;s specialism-and-city queries monthly and records citation frequency. Detective diagnoses why the firm is missed, per platform, per prompt, with a specific recommended fix.
             </p>
             <p>
               Writer drafts three professionally-written articles per week under the firm&rsquo;s byline. Each article is structured for passage-level retrieval: every H2 opens with a direct answer, claims are dated, and references — FCA Register entries, MCOB rules, Mortgage Strategy and Money Marketing reporting — are linked. Articles publish to the firm&rsquo;s TendorAI profile and are formatted to deploy on the firm&rsquo;s own website. Any article that references a regulated product carries the required risk disclosure.
@@ -270,13 +270,13 @@ export default function MortgageAdvisersAiVisibilityPage() {
               What this looks like for a directly authorised mortgage adviser firm
             </h2>
             <p>
-              A directly authorised mortgage adviser firm running TendorAI Pro at £299 per month — £3,588 per year — that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add approximately £19,200 in procuration income over twelve months. Firms that also charge a client fee on top of the procuration fee would see a higher worked total.
+              A directly authorised mortgage adviser firm running the TendorAI AI Visibility Growth Programme at £1,499 per month — £17,988 per year — that completes two additional AI-driven cases per month at an illustrative £800 average procuration fee per completion would add approximately £19,200 in procuration income over twelve months. Firms that also charge a client fee on top of the procuration fee would see a higher worked total.
             </p>
             <p>
               The figures above are illustrative, not a guarantee. Actual outcomes depend on the firm&rsquo;s case mix (residential vs buy-to-let vs specialist), the procuration fee scale agreed with each lender, conversion rate from enquiry to completion, and the AI platforms used by the firm&rsquo;s target buyers. Many factors decide whether an enquiry becomes a completed case.
             </p>
             <p>
-              The shape of the example matters more than the exact figures. The cost anchor — £3,588 per year — is fixed regardless of case type. Against that cost, the break-even point in this example is approximately five additional completions per year at the £800 procuration level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost cases, not in software fees.
+              The shape of the example matters more than the exact figures. The cost anchor — £17,988 per year — is fixed regardless of case type. Against that cost, the break-even point in this example is approximately five additional completions per year at the £800 procuration level. Anything above that is contribution, not cost. The point of the example is the order of magnitude: the cost of being absent from AI answers is measured in lost cases, not in software fees.
             </p>
             <p className="text-sm italic text-gray-500 border-l-4 border-gray-200 pl-4">
               Risk warning: Your home may be repossessed if you do not keep up repayments on your mortgage. This page describes AI visibility services for mortgage adviser firms and is not personal advice on any mortgage product.

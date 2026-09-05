@@ -623,7 +623,7 @@ export default function AnalyticsPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">Recent AI Queries</h3>
             {!hasVerifiedAccess && hasVisibleAccess && (
-              <span className="text-xs text-gray-500">Query details require Pro tier</span>
+              <span className="text-xs text-gray-500">Query details are available on the managed programme</span>
             )}
           </div>
           <TierGate
@@ -745,10 +745,10 @@ export default function AnalyticsPage() {
               Upgrade to see personalised improvement recommendations based on your profile
             </p>
             <Link
-              href="/vendor-dashboard/settings?tab=subscription"
+              href="/contact"
               className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Upgrade to Pro — £299/mo
+              Book a call
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

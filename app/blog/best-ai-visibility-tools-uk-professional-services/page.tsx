@@ -6,7 +6,7 @@ const DESCRIPTION =
   'Compare the best AI visibility tools for UK businesses in 2026. TendorAI, Peec AI, OtterlyAI, Profound, SE Ranking, Semrush, and manual schema — ranked by UK relevance and whether they fix or just monitor.';
 const CANONICAL = 'https://www.tendorai.com/blog/best-ai-visibility-tools-uk-professional-services';
 const PUBLISHED = '2026-03-01';
-const UPDATED = '2026-03-30';
+const UPDATED = '2026-09-05';
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -37,7 +37,7 @@ const tools = [
     rank: 1,
     name: 'TendorAI',
     summary:
-      'TendorAI is the only AI visibility platform built from UK regulatory register data \u2014 SRA, ICAEW, and FCA. For professional services firms, profiles are pre-built before sign-up. For general UK businesses, the platform installs AI-optimised schema markup on their website and tracks visibility across all six major AI platforms weekly.',
+      'TendorAI is the only AI visibility platform built from UK regulatory register data \u2014 SRA, ICAEW, and FCA. For professional services firms, profiles are pre-built before sign-up. For general UK businesses, the platform installs AI-optimised schema markup on their website and measures visibility monthly across ChatGPT, Google AI Overviews and Perplexity.',
     differentiator:
       'The key differentiator is implementation. Every other tool on this list monitors AI visibility and tells you what is wrong. TendorAI installs the fix \u2014 schema markup on the website within 48 hours, auto-syncing every time the dashboard is updated, no developer required.',
     features: [
@@ -166,7 +166,7 @@ const tools = [
 ];
 
 const comparisonRows = [
-  { tool: 'TendorAI', type: 'AI Visibility Platform', ukData: '\u2705 Yes', fixes: '\u2705 Yes', tracks: '\u2705 Yes', price: 'Free / \u00a3299/mo' },
+  { tool: 'TendorAI', type: 'AI Visibility Platform', ukData: '\u2705 Yes', fixes: '\u2705 Yes', tracks: '\u2705 Yes', price: 'Free / \u00a31,499/mo' },
   { tool: 'Peec AI', type: 'Monitoring', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: '~$99/mo' },
   { tool: 'OtterlyAI', type: 'Monitoring', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: 'Lower tier' },
   { tool: 'Profound', type: 'Enterprise', ukData: '\u274c No', fixes: '\u274c No', tracks: '\u2705 Yes', price: 'Enterprise' },
@@ -198,7 +198,7 @@ const faqs = [
   },
   {
     q: 'What should I look for when choosing an AI visibility tool?',
-    a: 'Four things: whether it installs structured data or only monitors it, whether it has UK-specific regulatory data, whether it tracks all major AI platforms (not just Google), and whether the price reflects what a UK SME can justify. A tool that costs $500/month and only tracks mentions is harder to justify than one that installs the fix and charges \u00a3299/month with a 90-day promise.',
+    a: 'Four things: whether it installs structured data or only monitors it, whether it has UK-specific regulatory data, whether it tracks all major AI platforms (not just Google), and whether the price reflects what a UK SME can justify. A tool that costs $500/month and only tracks mentions is harder to justify than one that installs the fix.',
   },
 ];
 
@@ -336,6 +336,7 @@ export default function BestAIVisibilityToolsPage() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">{TITLE}</h1>
+            <p className="text-sm text-white/70 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
             <p className="text-lg text-purple-100 leading-relaxed max-w-3xl">
               When someone asks ChatGPT to find a business in the UK, AI picks two or three names and recommends them. Everyone else gets nothing. These are the tools that determine which side of that line you&rsquo;re on.

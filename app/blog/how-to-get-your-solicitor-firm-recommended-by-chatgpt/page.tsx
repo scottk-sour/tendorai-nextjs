@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: 'What is the fastest way to get my solicitor firm into AI search results?',
-    a: 'Claim your free TendorAI profile, which pulls your SRA data automatically and creates a machine-readable firm profile. Upgrade to Pro to get schema installed on your own website within 48 hours.',
+    a: 'Claim your free TendorAI profile, which pulls your SRA data automatically and creates a machine-readable firm profile. Join the AI Visibility Growth Programme to get schema installed on your own website within 48 hours.',
   },
 ];
 
@@ -217,6 +217,7 @@ export default function SolicitorFirmChatGPTRecommendationPage() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               {TITLE}
             </h1>
+            <p className="text-sm text-white/70 mb-6">Updated 05/09/2026: TendorAI pricing revised</p>
 
             <p className="text-lg text-purple-100 leading-relaxed max-w-3xl">
               {DESCRIPTION}
@@ -448,7 +449,7 @@ export default function SolicitorFirmChatGPTRecommendationPage() {
                   </td>
                   <td className="p-4 text-gray-600">N/A</td>
                   <td className="p-4 text-gray-600">
-                    48 hours with TendorAI Pro
+                    48 hours with the TendorAI programme
                   </td>
                 </tr>
               </tbody>

@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: 'What is the fastest way to become AI-visible?',
-    a: "Three steps: structured schema markup on your website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform or regulatory listing). TendorAI\u2019s Pro plan delivers all three.",
+    a: "Three steps: structured schema markup on your website, a verified profile in an AI-indexed directory, and at least one authoritative third-party citation (review platform or regulatory listing). The TendorAI AI Visibility Growth Programme delivers all three.",
   },
   {
     q: 'Is AI visibility different from SEO?',
@@ -512,7 +512,7 @@ export default function AIVisibilityReportPrestonSolicitors() {
                 href="/pricing"
                 className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
               >
-                See TendorAI Pro
+                See the TendorAI programme
               </Link>
             </div>
           </section>

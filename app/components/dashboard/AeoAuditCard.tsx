@@ -632,13 +632,13 @@ function FaqFixWizard({
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
           <p className="text-xs font-semibold text-purple-900 mb-1">Recommended: let TendorAI handle it</p>
           <p className="text-xs text-purple-800">
-            TendorAI Pro installs FAQPage schema on your site automatically &mdash; no developer needed.
+            The TendorAI programme installs FAQPage schema on your site automatically &mdash; no developer needed.
           </p>
           <a
-            href="/vendor-dashboard/settings?tab=subscription"
+            href="/contact"
             className="inline-flex items-center mt-2 text-xs font-semibold text-purple-600 hover:text-purple-700"
           >
-            Upgrade to Pro
+            Book a call
             <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -757,13 +757,13 @@ function FaqFixWizard({
           {/* Pro upsell */}
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
             <p className="text-xs text-purple-800">
-              <strong>Want the full 10/10?</strong> TendorAI Pro automatically adds FAQPage schema to your site &mdash; upgrade to get full marks.
+              <strong>Want the full 10/10?</strong> The TendorAI programme adds FAQPage schema to your site for you.
             </p>
             <a
-              href="/vendor-dashboard/settings?tab=subscription"
+              href="/contact"
               className="inline-flex items-center mt-1.5 text-xs font-semibold text-purple-600 hover:text-purple-700"
             >
-              Upgrade to Pro
+              Book a call
               <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

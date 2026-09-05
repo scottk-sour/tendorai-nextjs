@@ -29,9 +29,9 @@ export const AEO_GUIDES: AeoGuide[] = [
     timeToFix: 'Automatic on Pro — live within 48 hours',
     howToFix: [
       {
-        platform: 'TendorAI Pro (recommended)',
+        platform: 'The TendorAI programme (recommended)',
         steps: [
-          'Upgrade to TendorAI Pro',
+          'Book a call about the TendorAI programme',
           'Complete your profile in the dashboard — add your services, fees, and accreditations',
           'TendorAI automatically installs the correct schema markup on your website within 48 hours',
           'Every time you update your profile, your website schema updates automatically',
@@ -60,7 +60,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: true,
-    tendoraiHowItHelps: 'TendorAI Pro automatically generates and installs the correct Schema.org markup for your vertical — LegalService for solicitors, AccountingService for accountants, FinancialService for mortgage advisers. It updates automatically every time you change your profile. No developer needed.',
+    tendoraiHowItHelps: 'The TendorAI programme automatically generates and installs the correct Schema.org markup for your vertical — LegalService for solicitors, AccountingService for accountants, FinancialService for mortgage advisers. It updates automatically every time you change your profile. No developer needed.',
   },
   {
     slug: 'meta-titles',
@@ -108,7 +108,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro installs schema markup that reinforces your meta title signals. When both work together, AI has two sources confirming what your business does.',
+    tendoraiHowItHelps: 'The TendorAI programme installs schema markup that reinforces your meta title signals. When both work together, AI has two sources confirming what your business does.',
   },
   {
     slug: 'h1-heading',
@@ -144,7 +144,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro schema markup reinforces your H1 by providing structured data that confirms your service and location to AI independently of your page text.',
+    tendoraiHowItHelps: 'The TendorAI programme schema markup reinforces your H1 by providing structured data that confirms your service and location to AI independently of your page text.',
   },
   {
     slug: 'mobile-viewport',
@@ -272,7 +272,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro publishes your blog posts to LinkedIn and Facebook automatically, keeping your social profiles active and giving AI fresh content to cite. Your LinkedIn URL is stored in your TendorAI profile and included in your schema markup.',
+    tendoraiHowItHelps: 'The TendorAI programme publishes your blog posts to LinkedIn and Facebook automatically, keeping your social profiles active and giving AI fresh content to cite. Your LinkedIn URL is stored in your TendorAI profile and included in your schema markup.',
   },
   {
     slug: 'contact-information',
@@ -320,7 +320,7 @@ export const AEO_GUIDES: AeoGuide[] = [
           'For accountants: How much do you charge? Do you use Xero? Are you MTD compliant? What industries do you specialise in?',
           'Answer each question in 2-4 sentences — be specific with numbers and timescales',
           'Add FAQPage schema markup to the page — this tells AI the content is a FAQ and increases citation likelihood significantly',
-          'TendorAI Pro blog writer automatically creates FAQ content for your profile',
+          'The TendorAI programme blog writer automatically creates FAQ content for your profile',
         ],
       },
       {
@@ -334,7 +334,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro includes an AI blog writer that automatically generates FAQ-rich content for your TendorAI profile twice a week. This content is indexed by AI platforms and improves your citation frequency. Our done-for-you setup service writes and installs a FAQ section on your own website as part of the £395 package.',
+    tendoraiHowItHelps: 'The TendorAI programme includes an AI blog writer that automatically generates FAQ-rich content for your TendorAI profile twice a week. This content is indexed by AI platforms and improves your citation frequency. Our done-for-you setup service writes and installs a FAQ section on your own website as part of the £395 package.',
   },
   {
     slug: 'content-length',
@@ -360,7 +360,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro blog writer generates 600-800 word AI-optimised articles about your services twice a week, automatically published to your TendorAI profile. Our done-for-you setup service writes and installs expanded content on your key service pages as part of the £395 package.',
+    tendoraiHowItHelps: 'The TendorAI programme blog writer generates 600-800 word AI-optimised articles about your services twice a week, automatically published to your TendorAI profile. Our done-for-you setup service writes and installs expanded content on your key service pages as part of the £395 package.',
   },
   {
     slug: 'google-reviews',
@@ -406,7 +406,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro tracks your Google review count and average rating in the weekly visibility report, so you can see whether your review cadence is translating into AI citation improvements. We do not send reviews on your behalf — Google prohibits third-party review solicitation — but we flag when review signal gaps are hurting your AI visibility score and recommend specific next steps.',
+    tendoraiHowItHelps: 'The TendorAI programme tracks your Google review count and average rating in the weekly visibility report, so you can see whether your review cadence is translating into AI citation improvements. We do not send reviews on your behalf — Google prohibits third-party review solicitation — but we flag when review signal gaps are hurting your AI visibility score and recommend specific next steps.',
   },
   {
     slug: 'pricing-information',
@@ -451,7 +451,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro generates AI-optimised pricing content using safe range-based language tailored to your regulatory framework. Our done-for-you setup service writes and installs a compliant pricing page on your website as part of the £395 package.',
+    tendoraiHowItHelps: 'The TendorAI programme generates AI-optimised pricing content using safe range-based language tailored to your regulatory framework. Our done-for-you setup service writes and installs a compliant pricing page on your website as part of the £395 package.',
   },
   {
     slug: 'service-pages',
@@ -495,7 +495,7 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro generates 600-800 word AI-optimised service-page content twice a week, automatically published to your TendorAI profile and indexed by AI platforms. Our done-for-you setup service expands your website thin service pages to the depth AI needs as part of the £395 package.',
+    tendoraiHowItHelps: 'The TendorAI programme generates 600-800 word AI-optimised service-page content twice a week, automatically published to your TendorAI profile and indexed by AI platforms. Our done-for-you setup service expands your website thin service pages to the depth AI needs as part of the £395 package.',
   },
   {
     slug: 'google-business-profile',
@@ -535,6 +535,6 @@ export const AEO_GUIDES: AeoGuide[] = [
       },
     ],
     tendoraiFixesThis: false,
-    tendoraiHowItHelps: 'TendorAI Pro tracks your GBP completeness as part of the weekly visibility report. If opening hours, photos, or the business description drift below threshold, we flag it in your dashboard. Google requires the business owner to claim and verify the profile, so we do not do that on your behalf — but we guide you through setup as part of the £395 done-for-you setup service.',
+    tendoraiHowItHelps: 'The TendorAI programme tracks your GBP completeness as part of the weekly visibility report. If opening hours, photos, or the business description drift below threshold, we flag it in your dashboard. Google requires the business owner to claim and verify the profile, so we do not do that on your behalf — but we guide you through setup as part of the £395 done-for-you setup service.',
   },
 ]

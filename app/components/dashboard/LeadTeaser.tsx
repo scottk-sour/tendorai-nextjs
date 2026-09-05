@@ -76,10 +76,10 @@ export default function LeadTeaser({ token }: LeadTeaserProps) {
             <span>Upgrade to receive lead notifications</span>
           </div>
           <Link
-            href="/vendor-dashboard/settings?tab=subscription"
+            href="/contact"
             className="inline-flex items-center mt-3 px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 transition-colors"
           >
-            Upgrade to Pro &mdash; &pound;299/mo
+            Book a call
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
