@@ -92,7 +92,10 @@ const BANNED_PHRASES = [
   '90-day promise',
   'from £999',
   'spots taken',
-  'early adopter',
+  'early adopter spots',
+  'early adopter pricing',
+  'early adopter rate',
+  'early adopter offer',
   // Platform-coverage claims beyond the three /pricing establishes
   'six ai platforms',
   '6 ai platforms',

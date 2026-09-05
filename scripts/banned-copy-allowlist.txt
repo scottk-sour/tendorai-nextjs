@@ -35,23 +35,25 @@ app/resources/tendorai-vs-ultrascout/page.tsx|£299|1|Competitor price - UltraSc
 app/resources/tendorai-vs-ultrascout/page.tsx|299 per month|1|Competitor price - UltraScout platform tier range £49 to £299
 
 # ---------------------------------------------------------------------------
-# Historical / rule text
-# ---------------------------------------------------------------------------
-CLAUDE.md|pro tier|1|Historical - the line is the rule itself, "There is no Pro tier"
-LEAD-INFRASTRUCTURE-AUDIT.md|upgrade to pro|1|Historical - audit record quoting the old copy
-LEAD-INFRASTRUCTURE-AUDIT.md|grok|1|Historical - audit record quoting the old copy
-
-# ---------------------------------------------------------------------------
 # Not defects — backend contracts and code comments
 # ---------------------------------------------------------------------------
 app/(dashboard)/admin/vendors/[id]/page.tsx|pro tier|1|Not a defect - admin label for the backend not_pro_tier reason code
 app/(dashboard)/vendor-dashboard/layout.tsx|pro tier|1|Not a defect - comment naming actual tier enum values
 app/how-it-works/page.tsx|90-day|1|Not a defect - comment labelling the delivery timeline, not the withdrawn refund promise
-app/ai-visibility-report/results/[reportId]/AeoReportDisplay.tsx|grok|1|Not a defect - guardrail comment stating the block deliberately does not name Grok
+
+# ---------------------------------------------------------------------------
+# Code identifiers and data contracts - object keys, referrer-detection domain
+# lists and a Mongoose enum. Changing these breaks AI-referral tracking or
+# database validation. They are not customer-facing claims.
+# ---------------------------------------------------------------------------
+app/ai-visibility-report/results/[reportId]/AeoReportDisplay.tsx|grok|2|code identifier / data contract, not copy
+app/components/tracking/AiReferralTracker.tsx|grok|2|code identifier / data contract, not copy
+app/components/tracking/ProfileViewTracker.tsx|grok|1|code identifier / data contract, not copy
+lib/db/models/AeoReport.ts|grok|1|code identifier / data contract, not copy
 
 # ---------------------------------------------------------------------------
 # DEFERRED — open items. Remove the line when the copy is fixed.
 # ---------------------------------------------------------------------------
-app/components/dashboard/AIMentionsCard.tsx|grok|2|DEFERRED - open item, remove from allowlist when fixed
+app/components/dashboard/AIMentionsCard.tsx|grok|5|2 identifier + 3 deferred tiles — split when tiles are fixed
 app/components/dashboard/AIMentionsCard.tsx|meta ai|2|DEFERRED - open item, remove from allowlist when fixed
 app/components/landing/CustomerTestimonial.tsx|grok|1|DEFERRED - open item, remove from allowlist when fixed
