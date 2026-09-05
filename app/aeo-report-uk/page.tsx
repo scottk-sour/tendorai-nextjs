@@ -137,8 +137,8 @@ export default function AeoReportUkPage() {
               Traditional SEO focused on getting your website to rank on Google&apos;s search
               results pages. That still matters, but the landscape has shifted dramatically. In
               2026, millions of UK consumers and business buyers are bypassing Google entirely.
-              Instead, they ask AI assistants like ChatGPT, Google AI Overviews and Perplexity
-              direct questions:
+              Instead, they ask AI assistants like ChatGPT, Perplexity, Google Gemini, Claude,
+              Microsoft Copilot, and Meta AI direct questions:
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-6">
               <p className="text-gray-700 italic mb-3">&quot;Who are the best solicitors in Manchester?&quot;</p>
