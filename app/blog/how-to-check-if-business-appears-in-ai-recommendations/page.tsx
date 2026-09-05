@@ -588,7 +588,7 @@ export default function HowToCheckAIRecommendationsPage() {
               Check Your AI Visibility &mdash; Free
             </h3>
             <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-              Find out if ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI
+              Find out if ChatGPT, Google AI Overviews and Perplexity
               recommend your business. Get your AI Visibility score, see your
               competitors, and get actionable recommendations &mdash; all in
               60 seconds.

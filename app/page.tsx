@@ -8,7 +8,6 @@ import FreeAiVisibilityTools from './components/landing/FreeAiVisibilityTools';
 import TrustBar from './components/landing/TrustBar';
 import SectorBenefits from './components/landing/SectorBenefits';
 import ConversationDemo from './components/landing/ConversationDemo';
-import AiTestimonials from './components/landing/AiTestimonials';
 import CustomerTestimonial from './components/landing/CustomerTestimonial';
 import Pricing from './components/landing/Pricing';
 import FinalCTA from './components/landing/FinalCTA';
@@ -147,9 +146,6 @@ export default async function HomePage() {
 
         {/* Customer Testimonial — verified Google review from Nathan / Ascari Office Ltd */}
         <CustomerTestimonial />
-
-        {/* What AI Platforms Say */}
-        <AiTestimonials />
 
         {/* Pricing */}
         <Suspense fallback={<div className="py-8" />}>

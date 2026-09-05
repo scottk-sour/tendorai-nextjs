@@ -137,8 +137,8 @@ export default function AeoReportUkPage() {
               Traditional SEO focused on getting your website to rank on Google&apos;s search
               results pages. That still matters, but the landscape has shifted dramatically. In
               2026, millions of UK consumers and business buyers are bypassing Google entirely.
-              Instead, they ask AI assistants like ChatGPT, Perplexity, Google Gemini, Claude,
-              Microsoft Copilot, and Meta AI direct questions:
+              Instead, they ask AI assistants like ChatGPT, Google AI Overviews and Perplexity
+              direct questions:
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-6">
               <p className="text-gray-700 italic mb-3">&quot;Who are the best solicitors in Manchester?&quot;</p>
@@ -172,9 +172,9 @@ export default function AeoReportUkPage() {
               <div className="bg-purple-50 rounded-xl p-6 border border-purple-100">
                 <h3 className="font-semibold text-purple-900 mb-2">AI Platform Mentions</h3>
                 <p className="text-sm text-purple-700">
-                  We check whether ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI
-                  mention your business by name when users ask for recommendations in your
-                  category and location. This is the most fundamental measure of AI visibility.
+                  We check whether ChatGPT, Google AI Overviews and Perplexity mention your
+                  business by name when users ask for recommendations in your category and
+                  location. This is the most fundamental measure of AI visibility.
                 </p>
               </div>
               <div className="bg-purple-50 rounded-xl p-6 border border-purple-100">
@@ -307,8 +307,8 @@ export default function AeoReportUkPage() {
                     desc: 'Take your results offline. Share them with your team or marketing agency to align your AI visibility strategy.',
                   },
                   {
-                    title: 'Results From 6 AI Platforms',
-                    desc: 'We query ChatGPT, Claude, Perplexity, Gemini, Copilot, and Meta AI in real time — not cached or estimated results.',
+                    title: 'Results From Three AI Platforms',
+                    desc: 'We query ChatGPT, Google AI Overviews and Perplexity in real time — not cached or estimated results.',
                   },
                 ].map((item) => (
                   <li key={item.title} className="flex items-start gap-4">

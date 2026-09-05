@@ -440,7 +440,7 @@ export default function BestAIVisibilityToolsPage() {
           <div className="my-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white text-center">
             <h3 className="text-2xl md:text-3xl font-bold mb-3">Check Your AI Visibility &mdash; Free</h3>
             <p className="text-purple-100 mb-6 max-w-lg mx-auto">
-              See how visible your business is across ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI. Get your score, competitor data, and actionable recommendations in minutes.
+              See how visible your business is across ChatGPT, Google AI Overviews and Perplexity. Get your score, competitor data, and actionable recommendations in minutes.
             </p>
             <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-purple-700 font-semibold rounded-lg hover:bg-purple-50 transition-colors text-lg">
               Get Your Free AI Visibility Report

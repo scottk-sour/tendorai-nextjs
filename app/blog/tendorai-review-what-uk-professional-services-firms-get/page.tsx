@@ -357,7 +357,7 @@ export default function TendorAIReviewPage() {
 
             <div className="bg-gray-900 text-white rounded-xl p-6">
               <p className="text-sm leading-relaxed text-gray-200">
-                TendorAI&apos;s weekly scans across ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI provide the largest dataset of UK professional services AI visibility data available. The findings are consistent: <strong className="text-white">structured data, regulatory verification, and consistent citations are the strongest signals.</strong>
+                TendorAI&apos;s measurement across ChatGPT, Google AI Overviews and Perplexity provides the largest dataset of UK professional services AI visibility data available. The findings are consistent: <strong className="text-white">structured data, regulatory verification, and consistent citations are the strongest signals.</strong>
               </p>
             </div>
           </section>
@@ -428,7 +428,7 @@ export default function TendorAIReviewPage() {
           <section className="bg-gradient-to-br from-[#1B4F72] to-[#2d1b4e] text-white rounded-2xl p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-3">Run Your Free AI Visibility Report</h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              See exactly what ChatGPT, Perplexity, Claude, Gemini, Copilot, and Meta AI say about your firm. Free report, no card required.
+              See exactly what ChatGPT, Google AI Overviews and Perplexity say about your firm. Free report, no card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/ai-visibility-report" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B4F72] font-bold rounded-lg hover:bg-blue-50 transition-colors text-lg">

@@ -101,7 +101,7 @@ const comparisonRows: ComparisonRow[] = [
   { feature: 'Built for', values: ['UK regulated firms', 'Solicitors (US-built)', 'UK law firms', 'Global brands', 'UK + global'] },
   { feature: 'SRA register integration', values: ['Yes', 'No', 'Manual', 'No', 'No'] },
   { feature: 'Schema installation included', values: ['Yes', 'No', 'Yes (manual)', 'No', 'No'] },
-  { feature: 'Content production included', values: ['Yes (3/week)', 'No', 'Add-on', 'No', 'No'] },
+  { feature: 'Content production included', values: ['Included', 'No', 'Add-on', 'No', 'No'] },
   { feature: 'AI platforms tracked', values: ['3', 'Varies', 'Varies', 'Major platforms', 'Major platforms'] },
   { feature: 'Monthly price', values: ['£1,499', 'Tier-based', '£1,500–£8,000', 'Tier-based', 'Tier-based'] },
   { feature: 'Contract length', values: ['Three-month initial term', 'Varies', 'Typically 12-month', 'Varies', 'Varies'] },
@@ -114,7 +114,7 @@ const comparisonRows: ComparisonRow[] = [
 const faqs: Array<{ q: string; a: string }> = [
   {
     q: 'What is AI visibility for UK solicitors?',
-    a: 'AI visibility is whether your law firm appears when someone asks an AI assistant — ChatGPT, Google AI Overviews or Perplexity — to recommend a solicitor. It’s the difference between being named in an AI-generated answer and being skipped entirely. UK clients increasingly ask AI assistants for solicitor recommendations rather than browsing Google results, so a firm that isn’t visible in AI answers loses enquiries to firms that are. AI visibility depends on structured data, regulatory verification, and consistent listings across trusted UK sources.',
+    a: 'AI visibility is whether your law firm appears when someone asks an AI assistant — ChatGPT, Perplexity, Claude, Gemini, Grok, or Google AI Overviews — to recommend a solicitor. It’s the difference between being named in an AI-generated answer and being skipped entirely. UK clients increasingly ask AI assistants for solicitor recommendations rather than browsing Google results, so a firm that isn’t visible in AI answers loses enquiries to firms that are. AI visibility depends on structured data, regulatory verification, and consistent listings across trusted UK sources.',
   },
   {
     q: 'Why does SRA register integration matter?',
