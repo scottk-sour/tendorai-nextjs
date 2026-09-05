@@ -229,7 +229,6 @@ export default function TendorAIReviewPage() {
             </p>
           </section>
 
-          {/* Pro Plan */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">What Firms Receive on the TendorAI programme</h2>
 
