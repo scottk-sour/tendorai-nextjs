@@ -539,8 +539,7 @@ export default function TendorAIVsUltraScoutPage() {
                   Tracked AI engines
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
-                  ChatGPT, Perplexity, Claude, Gemini, Grok, Google AI
-                  Overviews
+                  ChatGPT, Google AI Overviews, Perplexity
                 </td>
                 <td className="border border-slate-300 px-3 py-2">
                   ChatGPT, Gemini, Claude, Perplexity, Copilot, DeepSeek

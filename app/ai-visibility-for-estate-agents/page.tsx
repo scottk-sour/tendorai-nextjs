@@ -5,7 +5,7 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Estate Agents';
 const DESCRIPTION =
-  'How UK estate agents and letting agents get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — TPO/PRS/Propertymark data, structured signals.';
+  'How UK estate agents and letting agents get cited by ChatGPT, Google AI Overviews and Perplexity — TPO/PRS/Propertymark data, structured signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-estate-agents';
 const PUBLISHED = '2026-05-24';
 const UPDATED = '2026-09-05';
@@ -117,7 +117,7 @@ export default function EstateAgentsAiVisibilityPage() {
     '@type': 'RealEstateAgent',
     name: 'AI Visibility Coverage for UK Estate Agents',
     description:
-      'AI visibility platform for UK estate agents and letting agents — Schema.org JSON-LD on the agency’s website, structured content drafted under the agency’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+      'AI visibility platform for UK estate agents and letting agents — Schema.org JSON-LD on the agency’s website, structured content drafted under the agency’s byline, directory and citation auditing, and tracking across ChatGPT, Google AI Overviews and Perplexity.',
     provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     serviceType: 'AI visibility for UK estate agents and letting agents',
     areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -138,7 +138,7 @@ export default function EstateAgentsAiVisibilityPage() {
               {TITLE}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
-              Get your sales or letting agency cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews when prospective vendors, purchasers, landlords and tenants ask for an agent — by name, by service, by city.
+              Get your sales or letting agency cited by ChatGPT, Google AI Overviews and Perplexity when prospective vendors, purchasers, landlords and tenants ask for an agent — by name, by service, by city.
             </p>
           </div>
         </section>
@@ -147,7 +147,7 @@ export default function EstateAgentsAiVisibilityPage() {
         <section className="py-12 md:py-16">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              AI visibility for UK estate agents is the process of making an agency&rsquo;s redress-scheme, professional-body and trading data structured and verifiable so AI assistants — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — name the agency when a prospective vendor, purchaser, landlord or tenant asks for an estate agent or letting agent. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which agency names an AI assistant says out loud in the answer it gives.
+              AI visibility for UK estate agents is the process of making an agency&rsquo;s redress-scheme, professional-body and trading data structured and verifiable so AI assistants — ChatGPT, Google AI Overviews and Perplexity — name the agency when a prospective vendor, purchaser, landlord or tenant asks for an estate agent or letting agent. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which agency names an AI assistant says out loud in the answer it gives.
             </p>
             <p>
               As of 23 May 2026, TendorAI&rsquo;s independently tracked AI visibility score reached 61.1%, up from 22.2% four days earlier (Searchable.com). The signal that moved the score was the same signal AI assistants use to decide which agencies to name: structured, dated, verifiable content cross-referenced against Propertymark, TPO, PRS, Companies House and HMRC anti-money-laundering (AML) registrations.
@@ -171,7 +171,7 @@ export default function EstateAgentsAiVisibilityPage() {
               UK estate-agency regulation is fragmented across several bodies. Every agent must belong to a government-backed redress scheme — The Property Ombudsman (TPO) or the Property Redress Scheme (PRS). Most reputable firms are also members of Propertymark — through NAEA Propertymark for sales agents or ARLA Propertymark for letting agents. Firms handling client money must hold Client Money Protection. Estate-agency businesses must register with HMRC for anti-money-laundering supervision. National Trading Standards Estate and Letting Agency Team (NTSELAT) provides national guidance. AI engines that find consistent data across these sources have something to verify; agencies that don&rsquo;t are skipped.
             </p>
             <p>
-              AI assistants do not return ranked link lists. They return short, confident answers naming one to three agencies by name, then move on. When a user asks ChatGPT, Perplexity, Claude, Gemini, Grok or Google AI Overviews for an &ldquo;estate agent in Newport to sell my flat&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
+              AI assistants do not return ranked link lists. They return short, confident answers naming one to three agencies by name, then move on. When a user asks ChatGPT, Google AI Overviews or Perplexity for an &ldquo;estate agent in Newport to sell my flat&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
             </p>
             <p>
               Residential sales, lettings, property management, block management, commercial and new homes are the highest-volume recommendation categories in this vertical. Agencies that match the structured-data, consistency and citation signals on those queries are the agencies AI assistants are confident enough to name. SEO and AI visibility share some inputs but reward different outcomes — SEO improves the order of links, AI visibility decides whether your agency is named at all.
@@ -274,7 +274,7 @@ export default function EstateAgentsAiVisibilityPage() {
         <section className="py-12 md:py-16 bg-brand-gradient text-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <p className="text-lg md:text-xl text-white/95">
-              See where your agency appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — the report runs in 60 seconds.
+              See where your agency appears across ChatGPT, Google AI Overviews and Perplexity — the report runs in 60 seconds.
             </p>
             <Link href={CTA_URL} className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-purple-700 font-semibold hover:bg-gray-100 transition-colors">
               Run your free AI visibility report

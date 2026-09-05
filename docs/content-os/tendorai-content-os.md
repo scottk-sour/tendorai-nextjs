@@ -558,34 +558,11 @@ A reader who is pitched in paragraph 3 bounces. No exceptions.
 
 ---
 
-## 17. Worked example rule
+## 17. Cost example rule
 
-The most citable single asset on any B2B page is a worked example with £ figures.
+*Amended 05/09/2026: projections withdrawn per 26/08/2026 decision.*
 
-### 17.1 The rule
-Every pillar page, comparison page, and pricing page must include a worked example with £ figures tied to a specific firm profile. How-to pages and awareness blogs should include one where relevant but not mandatory. City pages use localised variants.
-
-### 17.2 Format
-
-The worked example follows this five-element structure:
-
-1. **Firm profile** — specific, concrete (e.g., "A 4-partner SRA-registered firm in Cardiff generating £2m revenue")
-2. **Industry context** — current state numbers (e.g., "typically acquires 8-12 new clients per year via direct enquiry")
-3. **Intervention impact** — specific, measurable (e.g., "if AI visibility drives 2 additional enquiries per month at £1,200 average matter value")
-4. **Annualised return** — the headline £ figure (e.g., "that's £28,800 in additional fee income per year")
-5. **Cost comparison** — what the intervention costs versus the return (e.g., "TendorAI Pro at £299/month is £3,588/year — an 8x return at the lower bound")
-
-### 17.3 Localised variants
-- For city pages — use a firm profile based in that city, with locally relevant fee structures
-- For vertical pages — use a firm profile from that vertical with vertical-appropriate revenue and fee scales
-- For comparison pages — use the same firm profile across both sides of the comparison so the difference is clean
-
-### 17.4 Worked example rules
-- Every pillar, comparison, and pricing page has one
-- The firm profile is specific enough to feel real, not specific enough to identify a real firm without consent
-- £ figures are defensible — based on industry data, not invented
-- The worked example sits in its own section with its own H2 ("What this looks like for a [firm type]")
-- The example feeds the FAQ — at least one FAQ question references the example
+Cost examples (price × term) are allowed. Do not publish income, matter-count or payback projections; TendorAI does not promise AI outcomes (decision 26/08/2026).
 
 ---
 

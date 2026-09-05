@@ -5,7 +5,7 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Accountants';
 const DESCRIPTION =
-  'How ICAEW chartered and ACCA chartered certified accountants get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — structured data, citation signals.';
+  'How ICAEW chartered and ACCA chartered certified accountants get cited by ChatGPT, Google AI Overviews and Perplexity — structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-accountants';
 const PUBLISHED = '2026-05-24';
 const UPDATED = '2026-09-05';
@@ -117,7 +117,7 @@ export default function AccountantsAiVisibilityPage() {
     '@type': 'AccountingService',
     name: 'AI Visibility Coverage for UK Accountants',
     description:
-      'AI visibility platform for UK ICAEW chartered and ACCA chartered certified accountants — Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+      'AI visibility platform for UK ICAEW chartered and ACCA chartered certified accountants — Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Google AI Overviews and Perplexity.',
     provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     serviceType: 'AI visibility for ICAEW and ACCA accountants',
     areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -138,7 +138,7 @@ export default function AccountantsAiVisibilityPage() {
               {TITLE}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
-              Get your chartered or chartered certified firm cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews when prospective clients ask for an accountant — by name, by service, by city.
+              Get your chartered or chartered certified firm cited by ChatGPT, Google AI Overviews and Perplexity when prospective clients ask for an accountant — by name, by service, by city.
             </p>
           </div>
         </section>
@@ -147,7 +147,7 @@ export default function AccountantsAiVisibilityPage() {
         <section className="py-12 md:py-16">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              AI visibility for UK accountants is the process of making an ICAEW chartered or ACCA chartered certified firm&rsquo;s regulatory data, services and citations structured and verifiable so AI assistants — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — name the firm when a prospective client asks for an accountant. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
+              AI visibility for UK accountants is the process of making an ICAEW chartered or ACCA chartered certified firm&rsquo;s regulatory data, services and citations structured and verifiable so AI assistants — ChatGPT, Google AI Overviews and Perplexity — name the firm when a prospective client asks for an accountant. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
             </p>
             <p>
               As of 23 May 2026, TendorAI&rsquo;s independently tracked AI visibility score reached 61.1%, up from 22.2% four days earlier (Searchable.com). The signal that moved the score was the same signal AI assistants use to decide which accounting firms to name: structured, dated, verifiable content cross-referenced against the ICAEW and ACCA registers and Companies House.
@@ -168,7 +168,7 @@ export default function AccountantsAiVisibilityPage() {
               AI visibility for accountants is the discipline of making an ICAEW chartered or ACCA chartered certified firm&rsquo;s professional identity, services and credible citations machine-readable, so AI assistants name the firm in answers to recommendation queries. The firms cited consistently in 2026 share the same three signals: Schema.org JSON-LD on the firm&rsquo;s own website, identity consistency across the ICAEW or ACCA register and Companies House, and citations from sources AI engines treat as authoritative for UK accounting information.
             </p>
             <p>
-              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Perplexity, Claude, Gemini, Grok or Google AI Overviews for a &ldquo;corporation tax accountant in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
+              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Google AI Overviews or Perplexity for a &ldquo;corporation tax accountant in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
             </p>
             <p>
               ICAEW (chartered accountants, designation ACA) and ACCA (chartered certified accountants, designation ACCA) are separate professional bodies with separate registers — never conflate them. A firm should declare whichever applies on its own website and link to the correct register entry. AI engines that read mixed or unclear designations reduce the firm&rsquo;s identity score and tend to name a competitor with cleaner signals instead.
@@ -274,7 +274,7 @@ export default function AccountantsAiVisibilityPage() {
         <section className="py-12 md:py-16 bg-brand-gradient text-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <p className="text-lg md:text-xl text-white/95">
-              See where your firm appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — the report runs in 60 seconds.
+              See where your firm appears across ChatGPT, Google AI Overviews and Perplexity — the report runs in 60 seconds.
             </p>
             <Link href={CTA_URL} className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-purple-700 font-semibold hover:bg-gray-100 transition-colors">
               Run your free AI visibility report

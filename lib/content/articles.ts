@@ -1871,7 +1871,7 @@ AI model updates change what ChatGPT says about your firm. What's true today may
 
 Manual checks work at first — run the three test prompts above monthly. But tracking six service areas across five AI platforms manually takes hours every month and becomes unsustainable past the first quarter.
 
-**TendorAI monitors your firm's visibility across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI automatically, every week.** Your profile is already built from ICAEW data. You just need to claim it.
+**TendorAI measures your firm's visibility across ChatGPT, Google AI Overviews and Perplexity every month.** Your profile is already built from ICAEW data. You just need to claim it.
 
 **[Get Your Free AI Visibility Report →](https://tendorai.com/check)**
 
@@ -1931,7 +1931,7 @@ AI visibility techniques overlap with good SEO — clear content, structured dat
 
 **Is your accountancy firm visible to ChatGPT?**
 
-TendorAI monitors how your practice appears across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI — every week, automatically. Your ICAEW profile is already in the system.
+TendorAI measures how your practice appears across ChatGPT, Google AI Overviews and Perplexity every month. Your ICAEW profile is already in the system.
 
 **[Get Your Free AI Visibility Report →](https://tendorai.com/check)**`,
     faqs: [

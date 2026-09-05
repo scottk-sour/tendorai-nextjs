@@ -70,7 +70,7 @@ const softwareApplicationSchema = {
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'AI Visibility Tool',
   description:
-    'Free AI visibility checker — see whether ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews recommend your UK business.',
+    'Free AI visibility checker — see whether ChatGPT, Google AI Overviews and Perplexity recommend your UK business.',
   operatingSystem: 'Web',
   url: 'https://www.tendorai.com/ai-visibility-report',
   offers: {

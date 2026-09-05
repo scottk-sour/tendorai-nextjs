@@ -49,7 +49,7 @@ const howToSchema = {
   '@type': 'HowTo',
   name: 'How the TendorAI Platform Works',
   description:
-    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok.',
+    'The TendorAI platform runs a continuous five-stage loop — Measure, Diagnose, Fix, Deploy, Track — to get UK regulated professional services firms recommended across ChatGPT, Google AI Overviews and Perplexity.',
   totalTime: 'P90D',
   step: [
     {
@@ -160,7 +160,7 @@ export default function Hero({ totalVendors = 12793 }: HeroProps) {
                 &bull;
               </span>
               <p className="text-[var(--text2)] leading-relaxed">
-                <strong className="text-[var(--text)]">We monitor the market</strong> — Daily tracking across ChatGPT, Claude, Gemini, Perplexity, Grok and Google AI Overviews.
+                <strong className="text-[var(--text)]">We monitor the market</strong> — Monthly measurement across ChatGPT, Google AI Overviews and Perplexity.
               </p>
             </li>
             <li className="flex gap-3">

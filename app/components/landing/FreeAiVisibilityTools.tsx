@@ -11,7 +11,7 @@ const tools: Tool[] = [
   {
     name: 'AI Visibility Report',
     description:
-      'See exactly how ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews respond when asked about your firm. 60-second diagnostic, 0–100 score.',
+      'See exactly how ChatGPT, Google AI Overviews and Perplexity respond when asked about your firm. 60-second diagnostic, 0–100 score.',
     href: '/ai-visibility-report',
     cta: 'Run Free Report',
   },

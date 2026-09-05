@@ -43,7 +43,7 @@ const tools = [
     features: [
       'Schema installation on any website within 48 hours \u2014 done for you',
       'Auto-sync: dashboard update instantly updates website schema',
-      'Weekly AI visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI',
+      'Monthly AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity',
       'Pre-built profiles from SRA, ICAEW, and FCA register data for 12,793+ UK firms',
       'Free AI visibility report showing current AI Visibility Score and competitor data',
       'AI blog writer generating structured content automatically',

@@ -415,7 +415,7 @@ export default function StructuredDataAIVisibilityPage() {
 
           {/* Source note */}
           <div className="mt-8 text-xs text-gray-400 italic">
-            Sources: TendorAI analysis of 12,793 SRA, ICAEW, and FCA-registered firms, March 2026. Citation frequency data from TendorAI weekly AI visibility scans across ChatGPT, Perplexity, Gemini, Claude, Grok, and Meta AI.
+            Sources: TendorAI analysis of 12,793 SRA, ICAEW, and FCA-registered firms, March 2026. Citation frequency data from TendorAI AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity.
           </div>
 
           {/* Author / date */}

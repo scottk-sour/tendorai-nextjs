@@ -5,7 +5,7 @@ import { CITIES } from '@/lib/constants/cities';
 // ─── Page constants ───────────────────────────────────────────────────
 const TITLE = 'AI Visibility for UK Mortgage Advisers';
 const DESCRIPTION =
-  'How FCA-regulated mortgage advisers — directly authorised firms and appointed representatives — get cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews. Structured data, citation signals.';
+  'How FCA-regulated mortgage advisers — directly authorised firms and appointed representatives — get cited by ChatGPT, Google AI Overviews and Perplexity. Structured data, citation signals.';
 const CANONICAL = 'https://www.tendorai.com/ai-visibility-for-mortgage-advisors';
 const PUBLISHED = '2026-05-24';
 const UPDATED = '2026-09-05';
@@ -117,7 +117,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
     '@type': 'FinancialService',
     name: 'AI Visibility Coverage for UK Mortgage Advisers',
     description:
-      'AI visibility platform for FCA-regulated UK mortgage advisers — directly authorised firms and appointed representatives. Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews.',
+      'AI visibility platform for FCA-regulated UK mortgage advisers — directly authorised firms and appointed representatives. Schema.org JSON-LD on the firm’s website, structured content drafted under the firm’s byline, directory and citation auditing, and tracking across ChatGPT, Google AI Overviews and Perplexity.',
     provider: { '@type': 'Organization', name: 'TendorAI', url: 'https://www.tendorai.com' },
     serviceType: 'AI visibility for FCA-regulated mortgage advisers',
     areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -138,7 +138,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               {TITLE}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
-              Get your directly authorised firm or appointed representative cited by ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews when prospective clients ask for a mortgage adviser — by name, by specialism, by city.
+              Get your directly authorised firm or appointed representative cited by ChatGPT, Google AI Overviews and Perplexity when prospective clients ask for a mortgage adviser — by name, by specialism, by city.
             </p>
           </div>
         </section>
@@ -171,7 +171,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
               FCA-regulated mortgage adviser firms operate in two distinct forms. A directly authorised (DA) firm holds its own FCA permission to advise on regulated mortgages. An appointed representative (AR) operates under the FCA permission of a principal firm — the principal is responsible for the AR&rsquo;s regulated activities. Misdeclaring the structure on a website, or hiding which it is, reduces the engine&rsquo;s confidence in the firm&rsquo;s identity. Both forms are equally able to be cited; both forms need to be declared accurately.
             </p>
             <p>
-              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Perplexity, Claude, Gemini, Grok or Google AI Overviews for a &ldquo;remortgage adviser in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
+              AI assistants do not return ranked link lists. They return short, confident answers naming one to three firms by name, then move on. When a user asks ChatGPT, Google AI Overviews or Perplexity for a &ldquo;remortgage adviser in Cardiff&rdquo;, the engine retrieves what it can verify and chooses which names to put in front of the user.
             </p>
             <p>
               Residential, buy-to-let, first-time buyer, remortgage, protection and specialist (adverse credit, self-employed, expat) are the highest-volume recommendation queries in the mortgage adviser vertical. Firms that match the structured-data, consistency and citation signals on those queries are the firms AI assistants are confident enough to name. SEO and AI visibility share some inputs but reward different outcomes — SEO improves the order of links, AI visibility decides whether your firm is named at all.
@@ -283,7 +283,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
         <section className="py-12 md:py-16 bg-brand-gradient text-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <p className="text-lg md:text-xl text-white/95">
-              See where your firm appears across ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — the report runs in 60 seconds.
+              See where your firm appears across ChatGPT, Google AI Overviews and Perplexity — the report runs in 60 seconds.
             </p>
             <Link href={CTA_URL} className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-purple-700 font-semibold hover:bg-gray-100 transition-colors">
               Run your free AI visibility report

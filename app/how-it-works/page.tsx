@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const TITLE = 'How TendorAI Works — The 5-Stage AI Visibility Loop | TendorAI';
 const DESCRIPTION =
-  'How TendorAI gets UK professional services firms recommended by ChatGPT, Perplexity, Claude, Gemini and Grok. The 5-stage loop, explained.';
+  'How TendorAI gets UK professional services firms recommended by ChatGPT, Google AI Overviews and Perplexity. The 5-stage loop, explained.';
 const CANONICAL = 'https://www.tendorai.com/how-it-works';
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ const loopStages: Array<{
     agent: 'Reconnaissance Agent',
     cadence: 'Daily',
     body:
-      'Every morning before you start work, the Reconnaissance Agent runs the same questions a prospective client would ask — across ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews, and Grok. It records whether your firm was named, where in the answer it appeared, what was said about you, and which competitors were cited alongside you. That becomes your AI Visibility Score for the day, the week, and the rolling quarter.',
+      'The Reconnaissance Agent runs the same questions a prospective client would ask — across ChatGPT, Google AI Overviews and Perplexity. It records whether your firm was named, where in the answer it appeared, what was said about you, and which competitors were cited alongside you. That becomes your AI Visibility Score.',
   },
   {
     number: '02',
@@ -473,8 +473,8 @@ export default function HowItWorksPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">Check Your AI Visibility</h2>
             <p className="text-purple-100 text-lg mb-8 max-w-xl mx-auto">
-              Run a free AI visibility report. See where you appear across ChatGPT, Claude, Perplexity, Gemini, Grok,
-              and Google AI Overviews. Takes 60 seconds. No card required.
+              Run a free AI visibility report. See where you appear across ChatGPT, Google AI Overviews
+              and Perplexity. Takes 60 seconds. No card required.
             </p>
             <Link
               href="/ai-visibility-report"

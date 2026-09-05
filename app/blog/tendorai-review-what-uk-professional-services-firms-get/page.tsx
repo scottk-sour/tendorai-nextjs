@@ -285,9 +285,9 @@ export default function TendorAIReviewPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking &amp; Visibility</h3>
             <ul className="space-y-2 mb-8">
               {[
-                'Weekly AI visibility scans across ChatGPT, Perplexity, Claude, Gemini, Grok, and Meta AI',
-                'Email alert when any AI platform recommends you \u2014 ChatGPT, Perplexity, Claude, Gemini, Grok, or Meta AI',
-                'Weekly AI Visibility Score with trend tracking',
+                'Monthly AI visibility measurement across ChatGPT, Google AI Overviews and Perplexity',
+                'Email alert when any AI platform recommends you \u2014 ChatGPT, Google AI Overviews or Perplexity',
+                'Monthly AI Visibility Score with trend tracking',
                 'Competitor comparison \u2014 see who AI recommends instead',
                 'Profile gaps report \u2014 exact fields missing and why they matter',
               ].map((item, i) => (

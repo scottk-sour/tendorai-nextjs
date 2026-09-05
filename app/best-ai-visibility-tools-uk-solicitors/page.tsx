@@ -102,13 +102,9 @@ const comparisonRows: ComparisonRow[] = [
   { feature: 'SRA register integration', values: ['Yes', 'No', 'Manual', 'No', 'No'] },
   { feature: 'Schema installation included', values: ['Yes', 'No', 'Yes (manual)', 'No', 'No'] },
   { feature: 'Content production included', values: ['Yes (3/week)', 'No', 'Add-on', 'No', 'No'] },
-  { feature: 'AI platforms tracked', values: ['6', 'Varies', 'Varies', 'Major platforms', 'Major platforms'] },
-  {
-    feature: 'Six-platform coverage (incl. Google AI Overviews + Grok)',
-    values: ['Yes', 'Partial', 'Partial', 'Partial', 'Partial'],
-  },
+  { feature: 'AI platforms tracked', values: ['3', 'Varies', 'Varies', 'Major platforms', 'Major platforms'] },
   { feature: 'Monthly price', values: ['£1,499', 'Tier-based', '£1,500–£8,000', 'Tier-based', 'Tier-based'] },
-  { feature: 'Contract length', values: ['Month-to-month', 'Varies', 'Typically 12-month', 'Varies', 'Varies'] },
+  { feature: 'Contract length', values: ['Three-month initial term', 'Varies', 'Typically 12-month', 'Varies', 'Varies'] },
   {
     feature: 'UK-specific data sources',
     values: ['Yes — SRA, ICAEW, FCA, Propertymark, Companies House', 'No', 'Yes (manual)', 'No', 'Partial'],
@@ -118,7 +114,7 @@ const comparisonRows: ComparisonRow[] = [
 const faqs: Array<{ q: string; a: string }> = [
   {
     q: 'What is AI visibility for UK solicitors?',
-    a: 'AI visibility is whether your law firm appears when someone asks an AI assistant — ChatGPT, Perplexity, Claude, Gemini, Grok, or Google AI Overviews — to recommend a solicitor. It’s the difference between being named in an AI-generated answer and being skipped entirely. UK clients increasingly ask AI assistants for solicitor recommendations rather than browsing Google results, so a firm that isn’t visible in AI answers loses enquiries to firms that are. AI visibility depends on structured data, regulatory verification, and consistent listings across trusted UK sources.',
+    a: 'AI visibility is whether your law firm appears when someone asks an AI assistant — ChatGPT, Google AI Overviews or Perplexity — to recommend a solicitor. It’s the difference between being named in an AI-generated answer and being skipped entirely. UK clients increasingly ask AI assistants for solicitor recommendations rather than browsing Google results, so a firm that isn’t visible in AI answers loses enquiries to firms that are. AI visibility depends on structured data, regulatory verification, and consistent listings across trusted UK sources.',
   },
   {
     q: 'Why does SRA register integration matter?',
@@ -377,8 +373,8 @@ export default function BestAiVisibilityToolsUkSolicitorsPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">Check Your Firm’s AI Visibility — Free</h2>
             <p className="text-purple-100 text-lg mb-8 max-w-xl mx-auto">
-              See exactly where your solicitor firm appears across ChatGPT, Perplexity, Claude, Gemini,
-              Grok, and Google AI Overviews. Takes 60 seconds. No card required.
+              See exactly where your solicitor firm appears across ChatGPT, Google AI Overviews
+              and Perplexity. Takes 60 seconds. No card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

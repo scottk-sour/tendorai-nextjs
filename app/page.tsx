@@ -85,7 +85,7 @@ const softwareApplicationSchema = {
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'AI Visibility Platform',
   description:
-    'UK AI visibility platform for regulated professional services firms. Six-agent fleet measures, diagnoses, and fixes AI visibility across ChatGPT, Perplexity, Claude, Gemini, Grok, and Google AI Overviews.',
+    'UK AI visibility platform for regulated professional services firms. Measures, diagnoses, and fixes AI visibility across ChatGPT, Google AI Overviews and Perplexity.',
   operatingSystem: 'Web',
   url: 'https://www.tendorai.com',
   offers: {
