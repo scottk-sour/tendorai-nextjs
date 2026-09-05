@@ -147,7 +147,7 @@ export default function MortgageAdvisersAiVisibilityPage() {
         <section className="py-12 md:py-16">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              AI visibility for UK mortgage advisers is the process of making an FCA-regulated firm&rsquo;s permission data, services and citations structured and verifiable so AI assistants — ChatGPT, Perplexity, Claude, Gemini, Grok and Google AI Overviews — name the firm when a prospective client asks for a mortgage adviser. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
+              AI visibility for UK mortgage advisers is the process of making an FCA-regulated firm&rsquo;s permission data, services and citations structured and verifiable so AI assistants — ChatGPT, Google AI Overviews and Perplexity — name the firm when a prospective client asks for a mortgage adviser. It is a separate discipline from Google SEO. Search rankings decide which links appear on a results page; AI visibility decides which firm names an AI assistant says out loud in the answer it gives.
             </p>
             <p>
               As of 23 May 2026, TendorAI&rsquo;s independently tracked AI visibility score reached 61.1%, up from 22.2% four days earlier (Searchable.com). The signal that moved the score was the same signal AI assistants use to decide which mortgage adviser firms to name: structured, dated, verifiable content cross-referenced against the FCA Register and Companies House.

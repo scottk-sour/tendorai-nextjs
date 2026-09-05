@@ -1982,8 +1982,6 @@ We tested 36 SRA-regulated Cardiff law firms against ChatGPT, Claude and Perplex
 
 This is original research from the TendorAI platform, drawing on data captured against the live SRA register. Every firm named in this article is a real Cardiff law firm verified against sra.org.uk. Scoring methodology and full dataset access are detailed below.
 
-The headline finding has commercial weight. At an average Cardiff conveyancing matter value of £1,100 and a 2% AI-driven enquiry conversion rate, a firm appearing in AI responses for a single specialism could capture 2 to 4 additional matters per month. That equates to £2,200 to £4,400 in additional monthly revenue. The inverse holds: firms invisible to AI are losing matters they will never see in their analytics.
-
 This piece sets out what 36 Cardiff solicitors revealed, why the gap exists, and what firms can do this quarter. Three Cardiff firms named in the data, including Hek Jones, Newfields Law and Chetna & Co, illustrate the gap most cleanly.
 
 ## What the 36-Firm Cardiff Sample Shows
