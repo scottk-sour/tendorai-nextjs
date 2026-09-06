@@ -14,6 +14,12 @@
  *   2. any redirect points at a retired /blog/<slug> that no longer renders
  *   3. any redirect is a self-loop, or a chain that does not terminate
  *
+ * SCOPE. Check 2 compares destinations against the retired no-href slug set
+ * only. It does NOT resolve destinations against app/ or generateStaticParams,
+ * so it cannot prove that every terminal destination is a live route — a
+ * redirect to a slug that never existed still passes. Full route resolution is
+ * a separate change.
+ *
  * Node built-ins only — runs before `next build`, with no install step.
  *
  * Usage:  node scripts/check-legacy-redirects.mjs [--print]
@@ -27,7 +33,7 @@ import path from 'node:path';
 const require = createRequire(import.meta.url);
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const nextConfig = require(path.join(repoRoot, 'next.config.js'));
-const { noHrefSlugs } = nextConfig.__redirectInternals;
+const { noHrefSlugs } = require(path.join(repoRoot, 'lib', 'redirects', 'articleRedirects.cjs'));
 
 const redirects = await nextConfig.redirects();
 const retired = noHrefSlugs();
@@ -96,4 +102,11 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Legacy-redirect guard passed: ${legacy.length} legacy /blog/ redirects, ${redirects.length} redirects total, no dead destinations, no loops.`);
+console.log(
+  `Legacy-redirect guard passed: ${legacy.length} legacy /blog/ redirects, ` +
+    `${redirects.length} redirects total, no destination is a retired /blog/ page, no loops.`,
+);
+console.log(
+  'Scope: this guard does NOT resolve destinations against the filesystem, so it ' +
+    'does not prove every terminal destination is a live route.',
+);
