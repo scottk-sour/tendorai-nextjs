@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run check:copy && next build",
+    "build": "npm run check:copy && npm run check:redirects && next build",
     "postbuild": "npm run indexnow",
     "indexnow": "tsx scripts/submit-indexnow.ts",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "check:copy": "node scripts/check-banned-copy.mjs"
+    "check:copy": "node scripts/check-banned-copy.mjs",
+    "check:redirects": "node scripts/check-legacy-redirects.mjs"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.5.1",

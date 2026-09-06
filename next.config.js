@@ -11,7 +11,16 @@
  * content. Parsed textually because next.config.js is CommonJS and cannot
  * import the TypeScript module.
  */
-function hrefArticleRedirects(alreadyDeclared) {
+/**
+ * Single textual parse of lib/content/articles.ts, shared by every redirect
+ * generator below so they cannot disagree about which articles carry an href.
+ * Parsed textually because next.config.js is CommonJS and cannot import the
+ * TypeScript module. First occurrence of a slug wins, as before.
+ *
+ * Returns [{ slug, href }] with href === null for articles homed at
+ * /resources/<slug>.
+ */
+function parseArticles() {
   const fs = require('fs');
   const path = require('path');
   const src = fs.readFileSync(
@@ -28,12 +37,34 @@ function hrefArticleRedirects(alreadyDeclared) {
 
     const slug = /slug: '([^']+)'/.exec(obj);
     const href = /^\s*href: '([^']+)'/m.exec(obj);
-    if (!slug || !href || seen.has(slug[1])) continue;
+    if (!slug || seen.has(slug[1])) continue;
     seen.add(slug[1]);
+    out.push({ slug: slug[1], href: href ? href[1] : null });
+  }
 
-    const source = `/resources/${slug[1]}`;
+  if (out.length === 0) {
+    throw new Error(
+      'next.config.js: parsed zero articles from lib/content/articles.ts. ' +
+        'The file shape changed — fix the parser rather than shipping without the redirects.',
+    );
+  }
+
+  return out;
+}
+
+/** Slugs of articles with no href — the ones homed at /resources/<slug>. */
+function noHrefSlugs() {
+  return new Set(parseArticles().filter((a) => a.href === null).map((a) => a.slug));
+}
+
+function hrefArticleRedirects(alreadyDeclared) {
+  const out = [];
+
+  for (const article of parseArticles()) {
+    if (!article.href) continue;
+    const source = `/resources/${article.slug}`;
     if (alreadyDeclared.has(source)) continue;
-    out.push({ source, destination: href[1], permanent: true });
+    out.push({ source, destination: article.href, permanent: true });
   }
 
   if (out.length === 0) {
@@ -44,6 +75,54 @@ function hrefArticleRedirects(alreadyDeclared) {
   }
 
   return out;
+}
+
+/**
+ * Legacy /blog/<slug> URLs for articles that are now homed at
+ * /resources/<slug>. app/blog/[slug]/page.tsx generates pages only for
+ * href-bearing articles (dynamicParams = false), so these paths 404 — they
+ * were live before the duplicate-page fix and are still cited by AI
+ * assistants and stale indexes. 308s send them to the canonical page instead
+ * of discarding the citation. The pages are NOT recreated: that is what
+ * produced the duplicates in the first place.
+ *
+ * Generated from the article configuration, so a future no-href article gets
+ * its legacy redirect automatically. scripts/check-legacy-redirects.mjs fails
+ * the build if that ever stops being true.
+ */
+function legacyBlogRedirects(alreadyDeclared) {
+  const out = [];
+
+  for (const slug of noHrefSlugs()) {
+    const source = `/blog/${slug}`;
+    if (alreadyDeclared.has(source)) continue;
+    out.push({ source, destination: `/resources/${slug}`, permanent: true });
+  }
+
+  if (out.length === 0) {
+    throw new Error(
+      'next.config.js: parsed zero no-href articles from lib/content/articles.ts. ' +
+        'The file shape changed — fix the parser rather than shipping without the redirects.',
+    );
+  }
+
+  return out;
+}
+
+/**
+ * Repoint any hand-written redirect whose destination is a /blog/<slug> that
+ * no longer renders (the slug belongs to a no-href article). Without this the
+ * entry would 308 to a 404, or — once legacyBlogRedirects lands — cost the
+ * visitor a needless second hop. Destinations that are genuinely live /blog/
+ * articles are left exactly as written.
+ */
+function repointRetiredBlogDestinations(redirects) {
+  const retired = noHrefSlugs();
+  return redirects.map((redirect) => {
+    const match = /^\/blog\/([^/:*?]+)$/.exec(redirect.destination);
+    if (!match || !retired.has(match[1])) return redirect;
+    return { ...redirect, destination: `/resources/${match[1]}` };
+  });
 }
 
 const nextConfig = {
@@ -204,9 +283,17 @@ const nextConfig = {
       { source: '/resources/switching-office-equipment-suppliers', destination: '/blog', permanent: true },
     ];
 
+    // Hand-written entries pointing at a retired /blog/ page are sent straight
+    // to that page's canonical /resources/ home — no two-hop chains.
+    const resolved = repointRetiredBlogDestinations(handWritten);
+
     // Generated 301s must not shadow a hand-written entry for the same source.
-    const declared = new Set(handWritten.map((r) => r.source));
-    return [...handWritten, ...hrefArticleRedirects(declared)];
+    const declared = new Set(resolved.map((r) => r.source));
+    return [
+      ...resolved,
+      ...hrefArticleRedirects(declared),
+      ...legacyBlogRedirects(declared),
+    ];
   },
 
   // Rewrites for gradual migration - forward some API routes to Express backend
@@ -292,3 +379,11 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+// Exported for scripts/check-legacy-redirects.mjs — the build-time guard.
+module.exports.__redirectInternals = {
+  parseArticles,
+  noHrefSlugs,
+  legacyBlogRedirects,
+  repointRetiredBlogDestinations,
+};
