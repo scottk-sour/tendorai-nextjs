@@ -1,50 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-/**
- * Articles carrying an `href` are homed at /blog/<slug> or a dedicated route,
- * but /resources/[slug] used to serve them too — as thin 200s with an empty
- * body and a self-canonical. dynamicParams = false on that route now 404s
- * them; these 301s send the URLs to the article's real home instead, so any
- * inbound link or stale index entry is preserved rather than discarded.
- *
- * Generated from lib/content/articles.ts so the list cannot drift from the
- * content. Parsed textually because next.config.js is CommonJS and cannot
- * import the TypeScript module.
- */
-function hrefArticleRedirects(alreadyDeclared) {
-  const fs = require('fs');
-  const path = require('path');
-  const src = fs.readFileSync(
-    path.join(__dirname, 'lib', 'content', 'articles.ts'),
-    'utf8',
-  );
-
-  const seen = new Set();
-  const out = [];
-
-  for (const block of src.split('\n  {\n').slice(1)) {
-    const end = block.indexOf('\n  },\n');
-    const obj = end === -1 ? block : block.slice(0, end);
-
-    const slug = /slug: '([^']+)'/.exec(obj);
-    const href = /^\s*href: '([^']+)'/m.exec(obj);
-    if (!slug || !href || seen.has(slug[1])) continue;
-    seen.add(slug[1]);
-
-    const source = `/resources/${slug[1]}`;
-    if (alreadyDeclared.has(source)) continue;
-    out.push({ source, destination: href[1], permanent: true });
-  }
-
-  if (out.length === 0) {
-    throw new Error(
-      'next.config.js: parsed zero href-bearing articles from lib/content/articles.ts. ' +
-        'The file shape changed — fix the parser rather than shipping without the redirects.',
-    );
-  }
-
-  return out;
-}
+const {
+  hrefArticleRedirects,
+  legacyBlogRedirects,
+  repointRetiredBlogDestinations,
+} = require('./lib/redirects/articleRedirects.cjs');
 
 const nextConfig = {
   // Enable React strict mode for better development experience
@@ -204,9 +164,17 @@ const nextConfig = {
       { source: '/resources/switching-office-equipment-suppliers', destination: '/blog', permanent: true },
     ];
 
+    // Hand-written entries pointing at a retired /blog/ page are sent straight
+    // to that page's canonical /resources/ home — no two-hop chains.
+    const resolved = repointRetiredBlogDestinations(handWritten);
+
     // Generated 301s must not shadow a hand-written entry for the same source.
-    const declared = new Set(handWritten.map((r) => r.source));
-    return [...handWritten, ...hrefArticleRedirects(declared)];
+    const declared = new Set(resolved.map((r) => r.source));
+    return [
+      ...resolved,
+      ...hrefArticleRedirects(declared),
+      ...legacyBlogRedirects(declared),
+    ];
   },
 
   // Rewrites for gradual migration - forward some API routes to Express backend
